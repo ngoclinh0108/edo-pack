@@ -1,4 +1,4 @@
---Millennium Hieroglyphs
+--Millennium Hieroglyph
 local root,id=GetID()
 
 function root.RegisterGlobalEffect(c,eff,filter,param1,param2,param3,param4,param5)
