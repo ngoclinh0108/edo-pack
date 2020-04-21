@@ -63,8 +63,9 @@ function root.initial_effect(c)
 	--summon as face-up defense position
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD)
-	e2:SetProperty(EFFECT_FLAG_IGNORE_RANGE+EFFECT_FLAG_PLAYER_TARGET)
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetCode(EFFECT_DEVINE_LIGHT)
+	e2:SetRange(0x5f)
 	e2:SetTargetRange(1,0)
 	c:RegisterEffect(e2)
 
