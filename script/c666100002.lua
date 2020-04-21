@@ -125,4 +125,81 @@ function root.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetValue(RACE_DRAGON+RACE_THUNDER)
 	c:RegisterEffect(e1)
+
+	--atk/def
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_UNCOPYABLE)
+	e2:SetCode(EFFECT_SET_BASE_ATTACK)
+	e2:SetRange(LOCATION_MZONE)
+	e2:SetValue(root.e2val)
+	c:RegisterEffect(e2)
+	local e2b=e2:Clone()
+	e2b:SetCode(EFFECT_SET_BASE_DEFENSE)
+	c:RegisterEffect(e2b)
+
+	--atk/def down
+	local e3=Effect.CreateEffect(c)
+	e3:SetDescription(aux.Stringid(id,0))
+	e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e3:SetCode(EVENT_SUMMON_SUCCESS)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetCondition(root.e3con)
+	e3:SetTarget(root.e3tg)
+	e3:SetOperation(root.e3op)
+	c:RegisterEffect(e3)
+	local e3b=e3:Clone()
+	e3b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+	c:RegisterEffect(e3b)
+	local e3c=e3:Clone()
+	e3c:SetCode(EVENT_SPSUMMON_SUCCESS)
+	c:RegisterEffect(e3c)
+end
+
+function root.e2val(e,c)
+	return Duel.GetFieldGroupCount(c:GetControler(),LOCATION_HAND,0)*1000
+end
+
+function root.e3filter(c,e,tp)
+	return c:IsControler(tp) and c:IsPosition(POS_FACEUP) and (not e or c:IsRelateToEffect(e))
+end
+
+function root.e3con(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(root.e3filter,1,nil,nil,1-tp)
+end
+
+function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsRelateToEffect(e) end
+	Duel.SetTargetCard(eg)
+end
+
+function root.e3op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local g=eg:Filter(root.e3filter,nil,e,1-tp)
+	local dg=Group.CreateGroup()
+	
+	for tc in aux.Next(g) do
+		if tc:IsPosition(POS_FACEUP_ATTACK) then
+			local preatk=tc:GetAttack()
+			local ec1=Effect.CreateEffect(c)
+			ec1:SetType(EFFECT_TYPE_SINGLE)
+			ec1:SetCode(EFFECT_UPDATE_ATTACK)
+			ec1:SetValue(-2000)
+			ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
+			tc:RegisterEffect(ec1)
+			if preatk~=0 and tc:GetAttack()==0 then dg:AddCard(tc) end
+		elseif tc:IsPosition(POS_FACEUP_DEFENSE) then
+			local predef=tc:GetDefense()
+			local ec1=Effect.CreateEffect(c)
+			ec1:SetType(EFFECT_TYPE_SINGLE)
+			ec1:SetCode(EFFECT_UPDATE_DEFENSE)
+			ec1:SetValue(-2000)
+			ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
+			tc:RegisterEffect(ec1)
+			if predef~=0 and tc:GetDefense()==0 then dg:AddCard(tc) end
+		end
+	end
+
+	Duel.Destroy(dg,REASON_EFFECT)
 end

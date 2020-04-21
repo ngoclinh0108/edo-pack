@@ -123,6 +123,6 @@ function root.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetCode(EFFECT_ADD_RACE)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(RACE_WINDBEAST+RACE_PYRO)
+	e1:SetValue(RACE_WINGEDBEAST+RACE_PYRO)
 	c:RegisterEffect(e1)
 end
