@@ -125,4 +125,278 @@ function root.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetValue(RACE_WINGEDBEAST+RACE_PYRO)
 	c:RegisterEffect(e1)
+
+	--atk/def
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetCode(EFFECT_MATERIAL_CHECK)
+	e2:SetValue(root.e2val)
+	c:RegisterEffect(e2)
+	local e2sum=Effect.CreateEffect(c)
+	e2sum:SetType(EFFECT_TYPE_SINGLE)
+	e2sum:SetCode(EFFECT_SUMMON_COST)
+	e2sum:SetLabelObject(e2)
+	e2sum:SetOperation(function(e,tp,eg,ep,ev,re,r,rp) e:GetLabelObject():SetLabel(1) end)
+	c:RegisterEffect(e2sum)
+
+	--unstoppable attack
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e3:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetCondition(function(e) return e:GetHandler():IsSummonType(SUMMON_TYPE_SPECIAL) end)
+	c:RegisterEffect(e3)
+
+	--send grave
+	local e4=Effect.CreateEffect(c)
+	e4:SetDescription(504)
+	e4:SetCategory(CATEGORY_TOGRAVE)
+	e4:SetType(EFFECT_TYPE_IGNITION)
+	e4:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetCost(root.e4cost)
+	e4:SetTarget(root.e4tg)
+	e4:SetOperation(root.e4op)
+	c:RegisterEffect(e4)
+
+	--summon from gy
+	local e5=Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+	e5:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e5:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE) end)
+	e5:SetOperation(root.e5op)
+	c:RegisterEffect(e5)
+
+	--indes, no battle damage, attack all
+	local e6=Effect.CreateEffect(c)
+	e6:SetType(EFFECT_TYPE_SINGLE)
+	e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e6:SetCode(EFFECT_INDESTRUCTABLE)
+	e6:SetRange(LOCATION_MZONE)
+	e6:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():GetFlagEffect(id)>0 end)
+	e6:SetValue(1)
+	c:RegisterEffect(e6)
+	local e6b=e6:Clone()
+	e6b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+	e6b:SetValue(1)
+	c:RegisterEffect(e6b)
+	local e6c=e6:Clone()
+	e6c:SetCode(EFFECT_ATTACK_ALL)
+	c:RegisterEffect(e6c)
+
+	--pay for atk/def
+	local e7=Effect.CreateEffect(c)
+	e7:SetDescription(aux.Stringid(id,0))
+	e7:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+	e7:SetType(EFFECT_TYPE_IGNITION)
+	e7:SetRange(LOCATION_MZONE)
+	e7:SetCountLimit(1)
+	e7:SetCost(root.e7cost)
+	e7:SetTarget(root.e7tg)
+	e7:SetOperation(root.e7op)
+	c:RegisterEffect(e7)
+
+	--tribute for atk/def
+	local e8=Effect.CreateEffect(c)
+	e8:SetDescription(aux.Stringid(id,1))
+	e8:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+	e8:SetType(EFFECT_TYPE_QUICK_O)
+	e8:SetCode(EVENT_FREE_CHAIN)
+	e8:SetRange(LOCATION_MZONE)
+	e8:SetLabelObject(Effect.CreateEffect(c))
+	e8:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():GetFlagEffect(id)>0 end)
+	e8:SetCost(root.e8cost)
+	e8:SetOperation(root.e8op)
+	c:RegisterEffect(e8)
+
+	--tribute for LP
+	local e9=Effect.CreateEffect(c)
+	e9:SetDescription(aux.Stringid(id,2))
+	e9:SetCategory(CATEGORY_RECOVER)
+	e9:SetType(EFFECT_TYPE_QUICK_O)
+	e9:SetCode(EVENT_FREE_CHAIN)
+	e9:SetRange(LOCATION_MZONE)
+	e9:SetLabelObject(Effect.CreateEffect(c))
+	e9:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():GetFlagEffect(id)>0 end)
+	e9:SetCost(root.e9cost)
+	e9:SetTarget(root.e9tg)
+	e9:SetOperation(root.e9op)
+	c:RegisterEffect(e9)
+end
+
+function root.e2val(e,c)
+	local atk=0
+	local def=0
+	local mg=c:GetMaterial()
+	for tc in aux.Next(mg) do
+		local catk=tc:GetAttack()
+		local cdef=tc:GetDefense()
+		atk=atk+(catk>=0 and catk or 0)
+		def=def+(cdef>=0 and cdef or 0)
+	end
+
+	if e:GetLabel()==1 then
+		e:SetLabel(0)
+		local ec1=Effect.CreateEffect(c)
+		ec1:SetType(EFFECT_TYPE_SINGLE)
+		ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+		ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+		ec1:SetRange(LOCATION_MZONE)
+		ec1:SetValue(atk)
+		ec1:SetReset(RESET_EVENT+0xff0000)
+		c:RegisterEffect(ec1)
+		local ec2=ec1:Clone()
+		ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
+		ec2:SetValue(def)
+		c:RegisterEffect(ec2)
+	end
+end
+
+function root.e4cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.CheckLPCost(tp,1000) end
+	Duel.PayLPCost(tp,1000)
+end
+
+function root.e4tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToGrave,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,c) end
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,PLAYER_ALL,LOCATION_ONFIELD)
+end
+
+function root.e4op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+	local g=Duel.SelectMatchingCard(tp,Card.IsAbleToGrave,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,c)
+	if #g>0 then
+		Duel.HintSelection(g)
+		Duel.SendtoGrave(g,REASON_EFFECT)
+	end
+end
+
+function root.e5op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if c:IsFacedown() then return end
+	c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1)
+end
+
+function root.e7cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetLP(tp)>100 end
+
+	local lp=Duel.GetLP(tp)
+	e:SetLabel(lp-100)
+	Duel.PayLPCost(tp,lp-100)
+end
+
+function root.e7tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetChainLimit(aux.FALSE)
+end
+
+function root.e7op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+
+	local ec1=Effect.CreateEffect(c)
+	ec1:SetType(EFFECT_TYPE_SINGLE)
+	ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+	ec1:SetValue(c:GetBaseAttack()+e:GetLabel())
+	ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
+	c:RegisterEffect(ec1)
+
+	local ec2=ec1:Clone()
+	ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
+	ec2:SetValue(c:GetBaseDefense()+e:GetLabel())
+	c:RegisterEffect(ec2)
+
+	local ec3=Effect.CreateEffect(c)
+	ec3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	ec3:SetCode(EVENT_RECOVER)
+	ec3:SetRange(LOCATION_MZONE)
+	ec3:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return ep==tp end)
+	ec3:SetOperation(root.e7recoverop)
+	ec3:SetReset(RESET_EVENT+RESETS_STANDARD)
+	c:RegisterEffect(ec3)
+end
+
+function root.e7recoverop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	
+	if c:IsFacedown() then return end
+
+	local ec1=Effect.CreateEffect(c)
+	ec1:SetType(EFFECT_TYPE_SINGLE)
+	ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+	ec1:SetValue(c:GetBaseAttack()+ev)
+	ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
+	c:RegisterEffect(ec1)
+
+	local ec2=ec1:Clone()
+	ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
+	ec2:SetValue(c:GetBaseDefense()+ev)
+	c:RegisterEffect(ec2)
+
+	Duel.SetLP(tp,100,REASON_EFFECT)
+end
+
+function root.e8cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,Card.IsFaceup,1,false,nil,c) end
+
+	local atk=0
+	local def=0
+	local g=Duel.SelectReleaseGroupCost(tp,Card.IsFaceup,1,99,false,nil,c)
+	for tc in aux.Next(g) do
+		local catk=tc:GetAttack()
+		local cdef=tc:GetDefense()
+		atk=atk+(catk>=0 and catk or 0)
+		def=def+(cdef>=0 and cdef or 0)
+	end
+	
+	e:SetLabel(atk)
+	e:GetLabelObject():SetLabel(def)
+	Duel.Release(g,REASON_COST)
+end
+
+function root.e8op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+	
+	local ec1=Effect.CreateEffect(c)
+	ec1:SetType(EFFECT_TYPE_SINGLE)
+	ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+	ec1:SetValue(c:GetBaseAttack()+e:GetLabel())
+	ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
+	c:RegisterEffect(ec1)
+
+	local ec2=ec1:Clone()
+	ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
+	ec2:SetValue(c:GetBaseDefense()+e:GetLabelObject():GetLabel())
+	c:RegisterEffect(ec2)
+end
+
+function root.e9costfilter(c)
+	return c:IsType(TYPE_SPELL) and c:IsDiscardable()
+end
+
+function root.e9cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e9costfilter,tp,LOCATION_HAND,0,1,e:GetHandler()) end
+	Duel.DiscardHand(tp,root.e9costfilter,1,1,REASON_COST+REASON_DISCARD)
+end
+
+function root.e9tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return c:IsReleasable() end
+	
+	local hp=c:GetAttack()
+	Duel.Release(c,REASON_COST)
+
+	Duel.SetTargetPlayer(tp)
+	Duel.SetTargetParam(hp)
+	Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,hp)
+end
+
+function root.e9op(e,tp,eg,ep,ev,re,r,rp)
+	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
+	Duel.Recover(p,d,REASON_EFFECT)
 end
