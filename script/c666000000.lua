@@ -60,44 +60,38 @@ function root.initial_effect(c)
 	e1:SetOperation(root.e1op)
 	c:RegisterEffect(e1)
 
-	--summon as face-up defense position
+	--set dice result
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD)
-	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e2:SetCode(EFFECT_DEVINE_LIGHT)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_TOSS_DICE_NEGATE)
 	e2:SetRange(0x5f)
-	e2:SetTargetRange(1,0)
+	e2:SetCondition(root.e2con)
+	e2:SetOperation(root.e2op)
 	c:RegisterEffect(e2)
 
-	local e2b=Effect.CreateEffect(c)
-    e2b:SetType(EFFECT_TYPE_FIELD)
-    e2b:SetRange(0x5f)
-    e2b:SetCode(EFFECT_CANNOT_MSET)
-    e2b:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2b:SetTargetRange(1,0)
-    c:RegisterEffect(e2b)
-
-	--set dice result
+	--set coin result
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e3:SetCode(EVENT_TOSS_DICE_NEGATE)
+	e3:SetCode(EVENT_TOSS_COIN_NEGATE)
 	e3:SetRange(0x5f)
 	e3:SetCondition(root.e3con)
 	e3:SetOperation(root.e3op)
 	c:RegisterEffect(e3)
 
-	--set coin result
+	--time skip
 	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e4:SetCode(EVENT_TOSS_COIN_NEGATE)
+	e4:SetDescription(aux.Stringid(id,1))
+	e4:SetType(EFFECT_TYPE_QUICK_O)
+	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetRange(0x5f)
 	e4:SetCondition(root.e4con)
+	e4:SetTarget(root.e4tg)
 	e4:SetOperation(root.e4op)
 	c:RegisterEffect(e4)
 
-	--time skip
+	--create card
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(id,1))
+	e5:SetDescription(aux.Stringid(id,2))
 	e5:SetType(EFFECT_TYPE_QUICK_O)
 	e5:SetCode(EVENT_FREE_CHAIN)
 	e5:SetRange(0x5f)
@@ -106,9 +100,9 @@ function root.initial_effect(c)
 	e5:SetOperation(root.e5op)
 	c:RegisterEffect(e5)
 
-	--create card
+	--protect card
 	local e6=Effect.CreateEffect(c)
-	e6:SetDescription(aux.Stringid(id,2))
+	e6:SetDescription(aux.Stringid(id,3))
 	e6:SetType(EFFECT_TYPE_QUICK_O)
 	e6:SetCode(EVENT_FREE_CHAIN)
 	e6:SetRange(0x5f)
@@ -117,9 +111,9 @@ function root.initial_effect(c)
 	e6:SetOperation(root.e6op)
 	c:RegisterEffect(e6)
 
-	--protect card
+	--reset game
 	local e7=Effect.CreateEffect(c)
-	e7:SetDescription(aux.Stringid(id,3))
+	e7:SetDescription(aux.Stringid(id,4))
 	e7:SetType(EFFECT_TYPE_QUICK_O)
 	e7:SetCode(EVENT_FREE_CHAIN)
 	e7:SetRange(0x5f)
@@ -128,9 +122,9 @@ function root.initial_effect(c)
 	e7:SetOperation(root.e7op)
 	c:RegisterEffect(e7)
 
-	--reset game
+	--add card to your hand
 	local e8=Effect.CreateEffect(c)
-	e8:SetDescription(aux.Stringid(id,4))
+	e8:SetDescription(506)
 	e8:SetType(EFFECT_TYPE_QUICK_O)
 	e8:SetCode(EVENT_FREE_CHAIN)
 	e8:SetRange(0x5f)
@@ -139,9 +133,9 @@ function root.initial_effect(c)
 	e8:SetOperation(root.e8op)
 	c:RegisterEffect(e8)
 
-	--add card to your hand
+	--send card to your graveyard
 	local e9=Effect.CreateEffect(c)
-	e9:SetDescription(506)
+	e9:SetDescription(504)
 	e9:SetType(EFFECT_TYPE_QUICK_O)
 	e9:SetCode(EVENT_FREE_CHAIN)
 	e9:SetRange(0x5f)
@@ -149,17 +143,6 @@ function root.initial_effect(c)
 	e9:SetTarget(root.e9tg)
 	e9:SetOperation(root.e9op)
 	c:RegisterEffect(e9)
-
-	--add card to your graveyard
-	local e10=Effect.CreateEffect(c)
-	e10:SetDescription(504)
-	e10:SetType(EFFECT_TYPE_QUICK_O)
-	e10:SetCode(EVENT_FREE_CHAIN)
-	e10:SetRange(0x5f)
-	e10:SetCondition(root.e10con)
-	e10:SetTarget(root.e10tg)
-	e10:SetOperation(root.e10op)
-	c:RegisterEffect(e10)
 end
 
 function root.actop(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -217,11 +200,11 @@ function root.e1op(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-function root.e3con(e,tp,eg,ep,ev,re,r,rp)
+function root.e2con(e,tp,eg,ep,ev,re,r,rp)
 	return rp==tp
 end
 
-function root.e3op(e,tp,eg,ep,ev,re,r,rp)
+function root.e2op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local cc=Duel.GetCurrentChain()
 	local cid=Duel.GetChainInfo(cc,CHAININFO_CHAIN_ID)
@@ -242,11 +225,11 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-function root.e4con(e,tp,eg,ep,ev,re,r,rp)
+function root.e3con(e,tp,eg,ep,ev,re,r,rp)
 	return rp==tp
 end
 
-function root.e4op(e,tp,eg,ep,ev,re,r,rp)
+function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local cc=Duel.GetCurrentChain()
 	local cid=Duel.GetChainInfo(cc,CHAININFO_CHAIN_ID)
@@ -266,18 +249,18 @@ function root.e4op(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-function root.e5con(e,tp,eg,ep,ev,re,r,rp)
+function root.e4con(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local ph=Duel.GetCurrentPhase()
 	return Duel.GetTurnPlayer()==tp and Duel.GetCurrentChain()<=0
 end
 
-function root.e5tg(e,tp,eg,ep,ev,re,r,rp,chk)
+function root.e4tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	Duel.SetChainLimit(aux.FALSE)
 end
 
-function root.e5op(e,tp,eg,ep,ev,re,r,rp)
+function root.e4op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local ph=Duel.GetCurrentPhase()
 	
@@ -307,11 +290,11 @@ function root.e5op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SkipPhase(tp,PHASE_DRAW,RESET_PHASE+PHASE_END,2)
 end
 
-function root.e6con(e,tp,eg,ep,ev,re,r,rp)
+function root.e5con(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentChain()<=0
 end
 
-function root.e6tg(e,tp,eg,ep,ev,re,r,rp,chk)
+function root.e5tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return true end
 
@@ -322,29 +305,29 @@ function root.e6tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_ANNOUNCE,nil,0,tp,0)
 end
 
-function root.e6op(e,tp,eg,ep,ev,re,r,rp)
+function root.e5op(e,tp,eg,ep,ev,re,r,rp)
 	local code=Duel.GetChainInfo(0,CHAININFO_TARGET_PARAM)
 
 	local card=Duel.CreateToken(tp,code)
 	Duel.SendtoDeck(card,nil,2,REASON_RULE)
 end
 
-function root.e7filter(c)
+function root.e6filter(c)
 	return c:IsFaceup() and c:GetFlagEffect(id)==0
 end
 
-function root.e7con(e,tp,eg,ep,ev,re,r,rp)
+function root.e6con(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentChain()<=0
 end
 
-function root.e7tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return Duel.IsExistingTarget(root.e7filter,tp,LOCATION_ONFIELD,0,1,nil) end
+function root.e6tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chk==0 then return Duel.IsExistingTarget(root.e6filter,tp,LOCATION_ONFIELD,0,1,nil) end
 
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	Duel.SelectTarget(tp,root.e7filter,tp,LOCATION_ONFIELD,0,1,1,nil)
+	Duel.SelectTarget(tp,root.e6filter,tp,LOCATION_ONFIELD,0,1,1,nil)
 end
 
-function root.e7op(e,tp,eg,ep,ev,re,r,rp)
+function root.e6op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local tc=Duel.GetFirstTarget()
 	if tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
@@ -398,16 +381,16 @@ function root.e7op(e,tp,eg,ep,ev,re,r,rp)
 	tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,0))
 end
 
-function root.e8con(e,tp,eg,ep,ev,re,r,rp)
+function root.e7con(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentChain()<=0
 end
 
-function root.e8tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function root.e7tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED
 	if chk==0 then return Duel.IsExistingMatchingCard(nil,tp,loc,loc,1,nil) end
 end
 
-function root.e8op(e,tp,eg,ep,ev,re,r,rp)
+function root.e7op(e,tp,eg,ep,ev,re,r,rp)
 	local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED
 	local g=Duel.GetMatchingGroup(nil,tp,loc,loc,nil)
 	if g:GetCount()==0 then return end
@@ -423,8 +406,32 @@ function root.e8op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SetLP(1-tp,8000)
 end
 
-function root.e9filter(c)
+function root.e8filter(c)
 	if c:IsLocation(LOCATION_EXTRA) and not c:IsAbleToHand() then return false end
+	return not c:IsCode(id)
+end
+
+function root.e8con(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetCurrentChain()<=0
+end
+
+function root.e8tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local loc=LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e8filter,tp,loc,0,1,nil) end
+end
+
+function root.e8op(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
+
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+	local g=Duel.SelectMatchingCard(tp,root.e8filter,tp,loc,0,1,10,nil)
+	if g:GetCount()==0 then return end
+		
+	Duel.SendtoHand(g,nil,REASON_RULE)
+	Duel.ConfirmCards(1-tp,g)
+end
+
+function root.e9filter(c)
 	return not c:IsCode(id)
 end
 
@@ -433,39 +440,15 @@ function root.e9con(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function root.e9tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local loc=LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
+	local loc=LOCATION_HAND+LOCATION_DECK+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
 	if chk==0 then return Duel.IsExistingMatchingCard(root.e9filter,tp,loc,0,1,nil) end
 end
 
 function root.e9op(e,tp,eg,ep,ev,re,r,rp)
-	local loc=LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
-
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,root.e9filter,tp,loc,0,1,10,nil)
-	if g:GetCount()==0 then return end
-		
-	Duel.SendtoHand(g,nil,REASON_RULE)
-	Duel.ConfirmCards(1-tp,g)
-end
-
-function root.e10filter(c)
-	return not c:IsCode(id)
-end
-
-function root.e10con(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentChain()<=0
-end
-
-function root.e10tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local loc=LOCATION_HAND+LOCATION_DECK+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e10filter,tp,loc,0,1,nil) end
-end
-
-function root.e10op(e,tp,eg,ep,ev,re,r,rp)
 	local loc=LOCATION_HAND+LOCATION_DECK+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
 
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,root.e10filter,tp,loc,0,1,10,nil)
+	local g=Duel.SelectMatchingCard(tp,root.e9filter,tp,loc,0,1,10,nil)
 	if g:GetCount()==0 then return end
 		
 	Duel.SendtoGrave(g,REASON_RULE)
