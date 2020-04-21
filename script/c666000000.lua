@@ -69,6 +69,14 @@ function root.initial_effect(c)
 	e2:SetTargetRange(1,0)
 	c:RegisterEffect(e2)
 
+	local e2b=Effect.CreateEffect(c)
+    e2b:SetType(EFFECT_TYPE_FIELD)
+    e2b:SetRange(0x5f)
+    e2b:SetCode(EFFECT_CANNOT_MSET)
+    e2b:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2b:SetTargetRange(1,0)
+    c:RegisterEffect(e2b)
+
 	--set dice result
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
