@@ -193,7 +193,7 @@ end
 
 function root.e1op(e,tp,eg,ep,ev,re,r,rp)
 	local tg=eg:Filter(root.e1filter,nil,tp)
-	if tg:GetCount()==0 then return end
+	if #tg==0 then return end
 
 	for tc in aux.Next(tg) do
 		tc:CompleteProcedure()
@@ -393,7 +393,7 @@ end
 function root.e7op(e,tp,eg,ep,ev,re,r,rp)
 	local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED
 	local g=Duel.GetMatchingGroup(nil,tp,loc,loc,nil)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 	local tpdraw=Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)
 	local opdraw=Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)
 
@@ -425,7 +425,7 @@ function root.e8op(e,tp,eg,ep,ev,re,r,rp)
 
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,root.e8filter,tp,loc,0,1,10,nil)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 		
 	Duel.SendtoHand(g,nil,REASON_RULE)
 	Duel.ConfirmCards(1-tp,g)
@@ -449,7 +449,7 @@ function root.e9op(e,tp,eg,ep,ev,re,r,rp)
 
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
 	local g=Duel.SelectMatchingCard(tp,root.e9filter,tp,loc,0,1,10,nil)
-	if g:GetCount()==0 then return end
+	if #g==0 then return end
 		
 	Duel.SendtoGrave(g,REASON_RULE)
 end
