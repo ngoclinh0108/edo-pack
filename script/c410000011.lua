@@ -1,4 +1,4 @@
---Nameless King of Divine Beasts
+--Egyptian God Slime III
 local root,id=GetID()
 
 function root.initial_effect(c)
