@@ -127,18 +127,31 @@ end
 
 function root.skillop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_CARD,tp,id)
-	local b3=root.e3con(e,tp,eg,ep,ev,re,r,rp)
 
-	if b3 then
-		p=Duel.SelectOption(tp,aux.Stringid(id,1),aux.Stringid(id,2),aux.Stringid(id,3))+1
-	else
-		p=Duel.SelectOption(tp,aux.Stringid(id,1),aux.Stringid(id,2))+1
+	local all={
+		{ desc=aux.Stringid(id,1), op=root.e1op, check=true },
+		{ desc=aux.Stringid(id,2), op=root.e2op, check=true},
+		{ desc=aux.Stringid(id,3), op=root.e3op, check=root.e3con(e,tp,eg,ep,ev,re,r,rp) },
+		{ desc=aux.Stringid(id,4), op=root.e4op, check=root.e4con(e,tp,eg,ep,ev,re,r,rp) },
+		{ desc=aux.Stringid(id,5), op=root.e5op, check=root.e5con(e,tp,eg,ep,ev,re,r,rp) },
+		{ desc=aux.Stringid(id,6), op=root.e6op, check=root.e6con(e,tp,eg,ep,ev,re,r,rp) },
+		{ desc=aux.Stringid(id,7), op=root.e7op, check=root.e7con(e,tp,eg,ep,ev,re,r,rp) },
+		{ desc=aux.Stringid(id,8), op=root.e8op, check=root.e8con(e,tp,eg,ep,ev,re,r,rp) },
+		{ desc=aux.Stringid(id,9), op=root.e9op, check=root.e9con(e,tp,eg,ep,ev,re,r,rp) },
+	}
+
+	local t={}
+	local desc={}
+	for i,item in ipairs(all) do
+		if (item.check) then
+			table.insert(t, { index=i, desc=item.desc })
+			table.insert(desc, item.desc)
+		end
 	end
 
-	if p==1 then root.e1op(e,tp,eg,ep,ev,re,r,rp)
-	elseif p==2 then root.e2op(e,tp,eg,ep,ev,re,r,rp)
-	elseif p==3 then root.e3op(e,tp,eg,ep,ev,re,r,rp)
-	end
+	local index=Duel.SelectOption(tp,table.unpack(desc))+1
+	index = t[index].index
+	all[index].op(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function root.e1op(e,tp,eg,ep,ev,re,r,rp)
@@ -245,108 +258,111 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,0))
 end
 
---  --reset game
---  local e7=Effect.CreateEffect(c)
---  e7:SetDescription(aux.Stringid(id,4))
---  e7:SetType(EFFECT_TYPE_QUICK_O)
---  e7:SetCode(EVENT_FREE_CHAIN)
---  e7:SetRange(0x5f)
---  e7:SetCondition(root.e7con)
---  e7:SetTarget(root.e7tg)
---  e7:SetOperation(root.e7op)
---  c:RegisterEffect(e7)
+function root.e4con(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,LOCATION_MZONE,0,1,nil)
+		and Duel.GetLocationCount(tp,LOCATION_MZONE,tp,LOCATION_REASON_CONTROL)>0
+end
 
---  --add card to your hand
---  local e8=Effect.CreateEffect(c)
---  e8:SetDescription(506)
---  e8:SetType(EFFECT_TYPE_QUICK_O)
---  e8:SetCode(EVENT_FREE_CHAIN)
---  e8:SetRange(0x5f)
---  e8:SetCondition(root.e8con)
---  e8:SetTarget(root.e8tg)
---  e8:SetOperation(root.e8op)
---  c:RegisterEffect(e8)
+function root.e4op(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.SelectMatchingCard(tp,Card.IsFaceup,tp,LOCATION_MZONE,0,1,1,nil):GetFirst()
+	if not tc or Duel.GetLocationCount(tp,LOCATION_MZONE)<1 then return end
 
---  --send card to your graveyard
---  local e9=Effect.CreateEffect(c)
---  e9:SetDescription(504)
---  e9:SetType(EFFECT_TYPE_QUICK_O)
---  e9:SetCode(EVENT_FREE_CHAIN)
---  e9:SetRange(0x5f)
---  e9:SetCondition(root.e9con)
---  e9:SetTarget(root.e9tg)
---  e9:SetOperation(root.e9op)
---  c:RegisterEffect(e9)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOZONE)
+	local zone=math.log(Duel.SelectDisableField(tp,1,LOCATION_MZONE,0,0),2)
+	Duel.MoveSequence(tc,zone)
+end
 
--- function root.e7con(e,tp,eg,ep,ev,re,r,rp)
---  return Duel.GetCurrentChain()<=0
--- end
+function root.e5con(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED
+	return Duel.IsExistingMatchingCard(nil,tp,loc,loc,1,nil)
+end
 
--- function root.e7tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
---  local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED
---  if chk==0 then return Duel.IsExistingMatchingCard(nil,tp,loc,loc,1,nil) end
--- end
+function root.e5op(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED
+	local g=Duel.GetMatchingGroup(nil,tp,loc,loc,nil)
+	if #g==0 then return end
 
--- function root.e7op(e,tp,eg,ep,ev,re,r,rp)
---  local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED
---  local g=Duel.GetMatchingGroup(nil,tp,loc,loc,nil)
---  if #g==0 then return end
---  local tpdraw=Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)
---  local opdraw=Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)
+	local tpdraw=Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)
+	local opdraw=Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)
 
---  Duel.SendtoDeck(g,nil,2,REASON_RULE)
---  Duel.ShuffleDeck(tp)
---  Duel.ShuffleDeck(1-tp)
---  Duel.Draw(tp,tpdraw,REASON_RULE)
---  Duel.Draw(1-tp,opdraw,REASON_RULE)
---  Duel.SetLP(tp,8000)
---  Duel.SetLP(1-tp,8000)
--- end
+	Duel.SendtoDeck(g,nil,2,REASON_RULE)
+	Duel.ShuffleDeck(tp)
+	Duel.ShuffleDeck(1-tp)
+	Duel.Draw(tp,tpdraw,REASON_RULE)
+	Duel.Draw(1-tp,opdraw,REASON_RULE)
+	Duel.SetLP(tp,8000)
+	Duel.SetLP(1-tp,8000)
+end
 
--- function root.e8filter(c)
---  if c:IsLocation(LOCATION_EXTRA) and not c:IsAbleToHand() then return false end
---  return not c:IsCode(id)
--- end
+function root.e6filter(c)
+	return not c:IsLocation(LOCATION_EXTRA) or c:IsFaceup()
+end
 
--- function root.e8con(e,tp,eg,ep,ev,re,r,rp)
---  return Duel.GetCurrentChain()<=0
--- end
+function root.e6con(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
+	return Duel.IsExistingMatchingCard(root.e6filter,tp,loc,0,1,nil)
+end
 
--- function root.e8tg(e,tp,eg,ep,ev,re,r,rp,chk)
---  local loc=LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
---  if chk==0 then return Duel.IsExistingMatchingCard(root.e8filter,tp,loc,0,1,nil) end
--- end
+function root.e6op(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
 
--- function root.e8op(e,tp,eg,ep,ev,re,r,rp)
---  local loc=LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
-
---  Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
---  local g=Duel.SelectMatchingCard(tp,root.e8filter,tp,loc,0,1,10,nil)
---  if #g==0 then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+	local g=Duel.SelectMatchingCard(tp,root.e6filter,tp,loc,0,1,10,nil)
+	if #g==0 then return end
 		
---  Duel.SendtoHand(g,nil,REASON_RULE)
---  Duel.ConfirmCards(1-tp,g)
--- end
+	Duel.SendtoHand(g,nil,REASON_RULE)
+	Duel.ConfirmCards(1-tp,g)
+end
 
--- function root.e9filter(c)
---  return not c:IsCode(id)
--- end
+function root.e7con(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_HAND+LOCATION_DECK+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
+	return Duel.IsExistingMatchingCard(aux.TRUE,tp,loc,0,1,nil)
+end
 
--- function root.e9con(e,tp,eg,ep,ev,re,r,rp)
---  return Duel.GetCurrentChain()<=0
--- end
+function root.e7op(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_HAND+LOCATION_DECK+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
 
--- function root.e9tg(e,tp,eg,ep,ev,re,r,rp,chk)
---  local loc=LOCATION_HAND+LOCATION_DECK+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
---  if chk==0 then return Duel.IsExistingMatchingCard(root.e9filter,tp,loc,0,1,nil) end
--- end
-
--- function root.e9op(e,tp,eg,ep,ev,re,r,rp)
---  local loc=LOCATION_HAND+LOCATION_DECK+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
-
---  Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
---  local g=Duel.SelectMatchingCard(tp,root.e9filter,tp,loc,0,1,10,nil)
---  if #g==0 then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
+	local g=Duel.SelectMatchingCard(tp,aux.TRUE,tp,loc,0,1,10,nil)
+	if #g==0 then return end
 		
---  Duel.SendtoGrave(g,REASON_RULE)
--- end
+	Duel.SendtoGrave(g,REASON_RULE)
+end
+
+function root.e8filter(c)
+	return not c:IsLocation(LOCATION_EXTRA) or c:IsFaceup()
+end
+
+function root.e8con(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
+	return Duel.IsExistingMatchingCard(root.e8filter,tp,loc,0,1,nil)
+end
+
+function root.e8op(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_HAND+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_EXTRA+LOCATION_ONFIELD
+
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+	local g=Duel.SelectMatchingCard(tp,root.e8filter,tp,loc,0,1,10,nil)
+	if #g==0 then return end
+		
+	Duel.SendtoDeck(g,nil,2,REASON_RULE)
+end
+
+function root.e9filter(c)
+	return c:IsType(TYPE_PENDULUM)
+end
+
+function root.e9con(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_ONFIELD
+	return Duel.IsExistingMatchingCard(root.e9filter,tp,loc,0,1,nil)
+end
+
+function root.e9op(e,tp,eg,ep,ev,re,r,rp)
+	local loc=LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE+LOCATION_REMOVED+LOCATION_ONFIELD
+
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(id,8))
+	local g=Duel.SelectMatchingCard(tp,root.e9filter,tp,loc,0,1,10,nil)
+	if #g==0 then return end
+
+	Duel.SendtoExtraP(g,tp,REASON_RULE)
+end
