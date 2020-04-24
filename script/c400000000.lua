@@ -59,6 +59,14 @@ function root.startup(e,tp,eg,ep,ev,re,r,rp)
 	coin:SetCode(EVENT_TOSS_COIN_NEGATE)
 	coin:SetOperation(root.coinop)
 	Duel.RegisterEffect(coin,tp)
+	
+	--normal summon in defense
+	local sumdef=Effect.CreateEffect(c)
+	sumdef:SetType(EFFECT_TYPE_FIELD)
+	sumdef:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	sumdef:SetCode(EFFECT_LIGHT_OF_INTERVENTION)
+	sumdef:SetTargetRange(1,0)
+	Duel.RegisterEffect(sumdef,tp)
 
 	--activate skill
 	local skill=Effect.CreateEffect(c)
