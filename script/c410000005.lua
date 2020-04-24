@@ -1,6 +1,8 @@
 --Tri-Divine Advent
 local root,id=GetID()
 
+root.listed_names={39913299}
+
 function root.initial_effect(c)
 	--activate
 	local act=Effect.CreateEffect(c)
@@ -167,18 +169,14 @@ function root.e5op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SortDecktop(tp,tp,5)
 end
 
-function root.e6costfilter(c)
-	return c:IsCode(39913299) and c:IsDiscardable()
-end
-
 function root.e6filter(c,e,tp)
 	if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
 	return c:IsAttribute(ATTRIBUTE_DIVINE) and (c:IsAbleToHand() or c:IsCanBeSpecialSummoned(e,0,tp,false,false))
 end
 
 function root.e6cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e6costfilter,tp,LOCATION_HAND,0,1,e:GetHandler()) end
-	Duel.DiscardHand(tp,root.e6costfilter,1,1,REASON_COST+REASON_DISCARD)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,e:GetHandler()) end
+	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
 
 function root.e6tg(e,tp,eg,ep,ev,re,r,rp,chk)
