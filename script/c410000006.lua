@@ -31,9 +31,9 @@ function root.e2tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 
 function root.e2op(e,tp,eg,ep,ev,re,r,rp,chk)
-	local tc=Duel.GetFirstMatchingCard(root.thfilter,tp,LOCATION_DECK,0,nil)
+	local tc=Duel.GetFirstMatchingCard(root.e2filter,tp,LOCATION_DECK,0,nil)
 	if tc then
-		Duel.SendtoHand(tg,nil,REASON_EFFECT)
+		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,tc)
 	end
 end
