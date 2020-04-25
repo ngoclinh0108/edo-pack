@@ -262,6 +262,18 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	ec11:SetCode(EFFECT_CANNOT_DISABLE)
 	ec11:SetValue(1)
 	tc:RegisterEffect(ec11)
+	local e12=Effect.CreateEffect(c)
+	e12:SetType(EFFECT_TYPE_FIELD)
+	e12:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e12:SetCode(EFFECT_LPCOST_CHANGE)
+	e12:SetRange(LOCATION_ONFIELD)
+	e12:SetTargetRange(1,0)
+	e12:SetLabelObject(tc)
+	e12:SetValue(function(e,re,rp,val)
+		if re and re:GetHandler()==e:GetLabelObject() then return 0
+		else return val end
+	end)
+	tc:RegisterEffect(ec12)
 
 	tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,0))
 end
