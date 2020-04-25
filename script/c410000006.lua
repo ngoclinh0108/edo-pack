@@ -78,20 +78,20 @@ function root.e2op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(g,REASON_EFFECT)
 end
 
-function root.e3filter(c)
+function root.e3filter(c,tp)
 	local code1,code2=c:GetOriginalCodeRule()
 	return c:IsFaceup() and (code1==10000000 or code2==10000000)
 		and Duel.CheckReleaseGroupCost(tp,nil,2,false,nil,c)
 end
 
 function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e3filter,tp,LOCATION_MZONE,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e3filter,tp,LOCATION_MZONE,0,1,nil,tp) end
 end
 
 function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local sc=Duel.SelectMatchingCard(tp,root.e3filter,tp,LOCATION_MZONE,0,1,1,nil)
+	local sc=Duel.SelectMatchingCard(tp,root.e3filter,tp,LOCATION_MZONE,0,1,1,nil,tp)
 	if not sc then return end
 
 	local g=Duel.SelectReleaseGroupCost(tp,nil,2,2,false,nil,c)
