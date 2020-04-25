@@ -94,7 +94,7 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	local sc=Duel.SelectMatchingCard(tp,root.e3filter,tp,LOCATION_MZONE,0,1,1,nil,tp)
 	if not sc then return end
 
-	local g=Duel.SelectReleaseGroupCost(tp,nil,2,2,false,nil,c)
+	local g=Duel.SelectReleaseGroupCost(tp,nil,2,2,false,nil,sc)
 	if Duel.Release(g,REASON_COST)==0 then return end
 
 	local ec1=Effect.CreateEffect(c)
@@ -104,7 +104,7 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	ec1:SetRange(LOCATION_MZONE)
 	ec1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 	ec1:SetValue(root.e3val)
-	c:RegisterEffect(ec1)
+	sc:RegisterEffect(ec1)
 end
 
 function root.e3val(e,c)
