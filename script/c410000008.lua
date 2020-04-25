@@ -38,6 +38,16 @@ function root.initial_effect(c)
 	e3:SetTarget(root.e3tg)
 	e3:SetOperation(root.e3op)
 	c:RegisterEffect(e3)
+
+	--no lp cost
+	local e4=Effect.CreateEffect(c)
+	e4:SetDescription(aux.Stringid(id,4))
+	e4:SetType(EFFECT_TYPE_ACTIVATE)
+	e4:SetCode(EVENT_FREE_CHAIN)
+	e4:SetCountLimit(1,id)
+	e4:SetCondition(root.e4con)
+	e4:SetOperation(root.e4op)
+	c:RegisterEffect(e4)
 end
 
 function root.e1filter(c)
@@ -171,4 +181,24 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	local ec2=ec1:Clone()
 	ec2:SetCode(EFFECT_NO_EFFECT_DAMAGE)
 	Duel.RegisterEffect(ec2,tp)
+end
+
+function root.e4con(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(function(c)
+		local code1,code2=c:GetOriginalCodeRule()
+		return c:IsFaceup() and (code1==CARD_RA or code2==CARD_RA)
+	end,tp,LOCATION_MZONE,0,1,nil)
+end
+
+function root.e4op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	
+	local ec1=Effect.CreateEffect(c)
+	ec1:SetType(EFFECT_TYPE_FIELD)
+	ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	ec1:SetCode(EFFECT_LPCOST_CHANGE)
+	ec1:SetTargetRange(1,0)
+	ec1:SetValue(0)
+	ec1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(ec1,tp)
 end
