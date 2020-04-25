@@ -142,7 +142,7 @@ function root.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
-	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e3:SetCode(EVENT_SUMMON_SUCCESS)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCondition(root.e3con)
@@ -168,6 +168,13 @@ end
 function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsRelateToEffect(e) end
 	Duel.SetTargetCard(eg)
+	Duel.SetChainLimit(root.e3actlimit(eg))
+end
+
+function root.e3actlimit(g)
+	return function(e,lp,tp)
+		return not g:IsContains(e:GetHandler())
+	end
 end
 
 function root.e3op(e,tp,eg,ep,ev,re,r,rp)
@@ -184,16 +191,16 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 			ec1:SetValue(-2000)
 			ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(ec1)
-			if preatk~=0 and tc:GetAttack()==0 then dg:AddCard(tc) end
+			if preatk>0 and tc:GetAttack()==0 then dg:AddCard(tc) end
 		elseif tc:IsPosition(POS_FACEUP_DEFENSE) then
 			local predef=tc:GetDefense()
-			local ec1=Effect.CreateEffect(c)
-			ec1:SetType(EFFECT_TYPE_SINGLE)
-			ec1:SetCode(EFFECT_UPDATE_DEFENSE)
-			ec1:SetValue(-2000)
-			ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
-			tc:RegisterEffect(ec1)
-			if predef~=0 and tc:GetDefense()==0 then dg:AddCard(tc) end
+			local ec2=Effect.CreateEffect(c)
+			ec2:SetType(EFFECT_TYPE_SINGLE)
+			ec2:SetCode(EFFECT_UPDATE_DEFENSE)
+			ec2:SetValue(-2000)
+			ec2:SetReset(RESET_EVENT+RESETS_STANDARD)
+			tc:RegisterEffect(ec2)
+			if predef>0 and tc:GetDefense()==0 then dg:AddCard(tc) end
 		end
 	end
 
