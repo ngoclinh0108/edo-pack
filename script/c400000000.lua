@@ -221,6 +221,7 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	ec1:SetProperty(EFFECT_FLAG_IGNORE_RANGE+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_IGNORE_IMMUNE)
 	ec1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
 	ec1:SetValue(aux.tgoval)
+	ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
 	tc:RegisterEffect(ec1)
 	local ec2=ec1:Clone()
 	ec2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
@@ -273,6 +274,7 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 		if re and re:GetHandler()==e:GetLabelObject() then return 0
 		else return val end
 	end)
+	e12:SetReset(RESET_EVENT+RESETS_STANDARD)
 	tc:RegisterEffect(ec12)
 
 	tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,0))
