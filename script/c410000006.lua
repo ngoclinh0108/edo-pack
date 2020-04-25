@@ -91,7 +91,7 @@ end
 function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local sc=Duel.SelectMatchingCard(tp,root.e3filter,tp,LOCATION_MZONE,0,1,1,nil,tp)
+	local sc=Duel.SelectMatchingCard(tp,root.e3filter,tp,LOCATION_MZONE,0,1,1,nil,tp):GetFirst()
 	if not sc then return end
 
 	local g=Duel.SelectReleaseGroupCost(tp,nil,2,2,false,nil,sc)
