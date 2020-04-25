@@ -274,7 +274,7 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 		if re and re:GetHandler()==e:GetLabelObject() then return 0
 		else return val end
 	end)
-	e12:SetReset(RESET_EVENT+RESETS_STANDARD)
+	ec12:SetReset(RESET_EVENT+RESETS_STANDARD)
 	tc:RegisterEffect(ec12)
 
 	tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,0))
