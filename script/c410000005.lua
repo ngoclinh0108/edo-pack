@@ -169,18 +169,22 @@ function root.e5op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SortDecktop(tp,tp,5)
 end
 
-function root.e6filter(c,e,tp)
+function root.e6filter1(c)
+	return c:IsCode(39913299) and c:IsDiscardable()
+end
+
+function root.e6filter2(c,e,tp)
 	if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
 	return c:IsAttribute(ATTRIBUTE_DIVINE) and (c:IsAbleToHand() or c:IsCanBeSpecialSummoned(e,0,tp,false,false))
 end
 
 function root.e6cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,e:GetHandler()) end
-	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e6filter1,tp,LOCATION_HAND,0,1,e:GetHandler()) end
+	Duel.DiscardHand(tp,root.e6filter1,1,1,REASON_COST+REASON_DISCARD)
 end
 
 function root.e6tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e6filter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e6filter2,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 end
 
 function root.e6op(e,tp,eg,ep,ev,re,r,rp)
@@ -188,7 +192,7 @@ function root.e6op(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SELECT)
-	local tc=Duel.SelectMatchingCard(tp,root.e6filter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()   
+	local tc=Duel.SelectMatchingCard(tp,root.e6filter2,tp,LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()   
 	local b1=tc:IsAbleToHand()
 	local b2=tc:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 	local op=0
