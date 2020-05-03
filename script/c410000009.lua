@@ -1,7 +1,7 @@
 --Nameless King of Divine Beasts
 local root,id=GetID()
 
-root.listed_names={10000000,10000010,10000020,410000006,410000007,410000008}
+root.listed_names={10000000,10000010,10000020,10000080,10000090,410000006,410000007,410000008}
 
 function root.initial_effect(c)
 	--search
@@ -18,7 +18,8 @@ function root.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetCountLimit(1,id)
-	e2:SetCondition(root.e2con)
+	e2:SetCondition(aux.exccon)
+	e2:SetCost(root.e2cost)
 	e2:SetTarget(root.e2tg)
 	e2:SetOperation(root.e2op)
 	c:RegisterEffect(e2)
@@ -52,7 +53,9 @@ function root.e1op(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		g:Merge(Duel.SelectMatchingCard(tp,root.e1tgfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,410000007))
 	end
-	if Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000010,410000008) then
+	if Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000010,410000008)
+		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000080,410000008) 
+		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000090,410000008) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		g:Merge(Duel.SelectMatchingCard(tp,root.e1tgfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,410000008))
 	end
@@ -63,17 +66,17 @@ function root.e1op(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-function root.e2filter(c,code)
-	local code1,code2=c:GetOriginalCodeRule()
-	return c:IsFaceup() and (code1==code or code2==code)
+function root.e2filter(c)
+	return c:IsAttribute(ATTRIBUTE_DIVINE) and not c:IsPublic()
 end
 
-function root.e2con(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	return (Duel.GetTurnCount()~=c:GetTurnID() or c:IsReason(REASON_RETURN))
-		and Duel.IsExistingMatchingCard(root.e2filter,tp,LOCATION_ONFIELD,0,1,nil,10000000)
-		and Duel.IsExistingMatchingCard(root.e2filter,tp,LOCATION_ONFIELD,0,1,nil,10000010)
-		and Duel.IsExistingMatchingCard(root.e2filter,tp,LOCATION_ONFIELD,0,1,nil,10000020)
+function root.e2cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e2filter,tp,LOCATION_HAND,0,1,nil) end
+
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
+	local g=Duel.SelectMatchingCard(tp,root.e2filter,tp,LOCATION_HAND,0,1,1,nil)
+	Duel.ConfirmCards(1-tp,g)
+	Duel.ShuffleHand(tp)
 end
 
 function root.e2tg(e,tp,eg,ep,ev,re,r,rp,chk)

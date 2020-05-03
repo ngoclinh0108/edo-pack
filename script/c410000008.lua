@@ -55,12 +55,12 @@ function root.e1filter(c)
 end
 
 function root.e1tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e1filter,tp,LOCATION_DECK,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e1filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK+LOCATION_GRAVE)
 end
 
 function root.e1op(e,tp,eg,ep,ev,re,r,rp,chk)
-	local tc=Duel.SelectMatchingCard(tp,root.e1filter,tp,LOCATION_DECK,0,1,1,nil)
+	local tc=Duel.SelectMatchingCard(tp,root.e1filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil)
 	if tc then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,tc)
@@ -185,8 +185,11 @@ end
 
 function root.e4con(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(function(c)
+		if c:IsFacedown() then return false end
 		local code1,code2=c:GetOriginalCodeRule()
-		return c:IsFaceup() and (code1==CARD_RA or code2==CARD_RA)
+		return (code1==CARD_RA or code2==CARD_RA)
+			or (code1==10000080 or code2==10000080)
+			or (code1==10000090 or code2==10000090)
 	end,tp,LOCATION_MZONE,0,1,nil)
 end
 

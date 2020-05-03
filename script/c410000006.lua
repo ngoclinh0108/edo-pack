@@ -45,12 +45,12 @@ function root.e1filter(c)
 end
 
 function root.e1tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e1filter,tp,LOCATION_DECK,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e1filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK+LOCATION_GRAVE)
 end
 
 function root.e1op(e,tp,eg,ep,ev,re,r,rp,chk)
-	local tc=Duel.GetFirstMatchingCard(root.e1filter,tp,LOCATION_DECK,0,nil)
+	local tc=Duel.GetFirstMatchingCard(root.e1filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,nil)
 	if tc then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,tc)
@@ -109,10 +109,10 @@ end
 
 function root.e3val(e,c)
 	local g=Duel.GetMatchingGroup(nil,0,LOCATION_MZONE,LOCATION_MZONE,e:GetHandler())
-	if #g==0 then return 9999999
+	if #g==0 then return 999999999
 	else
 		local tg,val=g:GetMaxGroup(Card.GetAttack)
-		if val<=9999999 then return 9999999
+		if val<=999999999 then return 999999999
 		else return val end
 	end
 end
