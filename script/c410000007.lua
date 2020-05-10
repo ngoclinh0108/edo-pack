@@ -52,7 +52,7 @@ function root.e1tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 
 function root.e1op(e,tp,eg,ep,ev,re,r,rp,chk)
-	local tc=Duel.GetFirstMatchingCard(root.e1filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,nil)
+	local tc=Duel.SelectMatchingCard(tp,root.e1filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil)
 	if tc then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,tc)
