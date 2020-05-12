@@ -74,7 +74,7 @@ end
 
 function root.e2op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(aux.disfilter1,tp,0,LOCATION_MZONE+LOCATION_GRAVE,nil)
+	local g=Duel.GetMatchingGroup(nil,tp,0,LOCATION_MZONE+LOCATION_GRAVE,nil)
 	
 	for tc in aux.Next(g) do
 		local ec1=Effect.CreateEffect(c)
