@@ -11,7 +11,6 @@ function root.initial_effect(c)
 
 	--opponent tribute
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id,0))
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_MZONE)
@@ -21,17 +20,14 @@ function root.initial_effect(c)
 	e2:SetOperation(root.e2op)
 	c:RegisterEffect(e2)
 
-	--instant
+	--negate
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,1))
-	e3:SetCategory(CATEGORY_SUMMON)
-	e3:SetType(EFFECT_TYPE_QUICK_O)
-	e3:SetCode(EVENT_FREE_CHAIN)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetHintTiming(0,TIMINGS_CHECK_MONSTER+TIMING_MAIN_END+TIMING_BATTLE_START+TIMING_BATTLE_END)
+	e3:SetCategory(CATEGORY_DISABLE)
+	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY+EFFECT_FLAG_PLAYER_TARGET)
+	e3:SetCode(EVENT_RELEASE)
 	e3:SetCountLimit(1,id+2000000)
 	e3:SetCondition(root.e3con)
-	e3:SetTarget(root.e3tg)
 	e3:SetOperation(root.e3op)
 	c:RegisterEffect(e3)
 end
@@ -61,32 +57,26 @@ function root.e2op(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function root.e3filter(c)
-	return c:IsAttribute(ATTRIBUTE_DIVINE) and (c:IsSummonable(true,nil,1) or c:IsMSetable(true,nil,1))
+	return c:IsFaceup() and not c:IsDisabled()
 end
 
 function root.e3con(e,tp,eg,ep,ev,re,r,rp)
-	local tn=Duel.GetTurnPlayer()
-	local ph=Duel.GetCurrentPhase()
-	return tn~=tp and (ph==PHASE_MAIN1 or ph==PHASE_MAIN2 or (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE))
-end
-
-function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e3filter,tp,LOCATION_HAND,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_SUMMON,nil,1,0,0)
+	return e:GetHandler():IsReason(REASON_SUMMON)
 end
 
 function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SUMMON)
-	local tc=Duel.SelectMatchingCard(tp,root.e3filter,tp,LOCATION_HAND,0,1,1,nil):GetFirst()
-	if not tc then return end
-
-	local s1=tc:IsSummonable(true,nil,1)
-	local s2=tc:IsMSetable(true,nil,1)
-	if (s1 and s2 and Duel.SelectPosition(tp,tc,POS_FACEUP_ATTACK+POS_FACEDOWN_DEFENSE)==POS_FACEUP_ATTACK) or not s2 then
-		Duel.Summon(tp,tc,true,nil,1)
-	else
-		Duel.MSet(tp,tc,true,nil,1)
+	local g=Duel.GetMatchingGroup(root.e3filter,tp,0,LOCATION_ONFIELD,c)
+	for tc in aux.Next(g) do
+		local ec1=Effect.CreateEffect(c)
+		ec1:SetType(EFFECT_TYPE_SINGLE)
+		ec1:SetCode(EFFECT_DISABLE)
+		ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
+		tc:RegisterEffect(ec1)
+		local ec2=Effect.CreateEffect(c)
+		ec2:SetType(EFFECT_TYPE_SINGLE)
+		ec2:SetCode(EFFECT_DISABLE_EFFECT)
+		ec2:SetReset(RESET_EVENT+RESETS_STANDARD)
+		tc:RegisterEffect(ec2)
 	end
 end
