@@ -1,95 +1,79 @@
---Nameless King of Divine Beasts
+--Divine Lightning Of Sky Dragon
 local root,id=GetID()
 
-root.listed_names={10000000,10000010,10000020,10000080,10000090,410000006,410000007,410000008}
+root.listed_names={10000020}
 
 function root.initial_effect(c)
 	--search
 	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(id,0))
 	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetCountLimit(1,id)
 	e1:SetTarget(root.e1tg)
 	e1:SetOperation(root.e1op)
 	c:RegisterEffect(e1)
 
-	--salvage
+	--draw & destroy
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetRange(LOCATION_GRAVE)
+	e2:SetDescription(aux.Stringid(id,1))
+	e2:SetCategory(CATEGORY_DRAW+CATEGORY_DESTROY)
+	e2:SetType(EFFECT_TYPE_ACTIVATE)
+	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
+	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetCountLimit(1,id)
-	e2:SetCondition(aux.exccon)
-	e2:SetCost(root.e2cost)
 	e2:SetTarget(root.e2tg)
 	e2:SetOperation(root.e2op)
 	c:RegisterEffect(e2)
 end
 
-function root.e1checkfilter(c,tp,mcode,scode)
+function root.e1filter(c)
+	return c:IsCode(10000020) and c:IsAbleToHand()
+end
+
+function root.e1tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e1filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK+LOCATION_GRAVE)
+end
+
+function root.e1op(e,tp,eg,ep,ev,re,r,rp,chk)
+	local tc=Duel.SelectMatchingCard(tp,root.e1filter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil)
+	if tc then
+		Duel.SendtoHand(tc,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,tc)
+	end
+end
+
+function root.e2filter1(c)
 	local code1,code2=c:GetOriginalCodeRule()
-	return c:IsFaceup() and (code1==mcode or code2==mcode)
-		and Duel.IsExistingMatchingCard(root.e1tgfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil,scode)
+	return c:IsFaceup() and (code1==10000020 or code2==10000020)
 end
 
-function root.e1tgfilter(c,code)
-	return c:IsCode(code) and c:IsAbleToHand()
+function root.e2filter2(c,sc)
+	return c:GetAttack()<sc:GetAttack() or c:GetDefense()<sc:GetAttack()
 end
 
-function root.e1tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000000,410000006)
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000020,410000007)
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000010,410000008)
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000080,410000008)
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000090,410000008) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
-end
-
-function root.e1op(e,tp,eg,ep,ev,re,r,rp)
-	local g=Group.CreateGroup()
-
-	if Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000000,410000006) then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		g:Merge(Duel.SelectMatchingCard(tp,root.e1tgfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,410000006))
-	end
-	if Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000020,410000007) then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		g:Merge(Duel.SelectMatchingCard(tp,root.e1tgfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,410000007))
-	end
-	if Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000010,410000008)
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000080,410000008) 
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000090,410000008) then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-		g:Merge(Duel.SelectMatchingCard(tp,root.e1tgfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,410000008))
-	end
-
-	if #g>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
-	end
-end
-
-function root.e2filter(c)
-	return c:IsAttribute(ATTRIBUTE_DIVINE) and not c:IsPublic()
-end
-
-function root.e2cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e2filter,tp,LOCATION_HAND,0,1,nil) end
-
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
-	local g=Duel.SelectMatchingCard(tp,root.e2filter,tp,LOCATION_HAND,0,1,1,nil)
-	Duel.ConfirmCards(1-tp,g)
-	Duel.ShuffleHand(tp)
-end
-
-function root.e2tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToHand() end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,e:GetHandler(),1,0,0)
+function root.e2tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e2filter1,tp,LOCATION_MZONE,0,1,nil) end
+	
+	local ht=Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)
+	Duel.SetTargetPlayer(tp)
+	Duel.SetTargetParam(5-ht)
+	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,5-ht)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,0,0,0)
 end
 
 function root.e2op(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local sc=Duel.SelectMatchingCard(tp,root.e2filter1,tp,LOCATION_MZONE,0,1,1,nil):GetFirst()
+	if not sc then return end
 
-	Duel.SendtoHand(c,nil,REASON_EFFECT)
+	local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
+	local ht=Duel.GetFieldGroupCount(p,LOCATION_HAND,0)
+	if ht<5 then Duel.Draw(p,5-ht,REASON_EFFECT) end
+
+	local dg=Duel.GetMatchingGroup(root.e2filter2,tp,0,LOCATION_MZONE,nil,sc)
+	Duel.Destroy(dg,REASON_EFFECT)
 end
