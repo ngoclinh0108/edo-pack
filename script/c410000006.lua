@@ -29,6 +29,7 @@ function root.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY+EFFECT_FLAG_PLAYER_TARGET)
 	e3:SetCode(EVENT_RELEASE)
+	e3:SetCondition(root.e3con)
 	e3:SetTarget(root.e3tg)
 	e3:SetOperation(root.e3op)
 	c:RegisterEffect(e3)
@@ -77,6 +78,10 @@ function root.e2op(e,tp,eg,ep,ev,re,r,rp)
 	local ec2=ec1:Clone()
 	ec2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	Duel.RegisterEffect(ec2,tp)
+end
+
+function root.e3con(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():IsReason(REASON_SUMMON)
 end
 
 function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
