@@ -107,6 +107,7 @@ function root.e2op(e,tp,eg,ep,ev,re,r,rp)
 	if tc and Duel.SpecialSummonStep(tc,0,tp,tp,true,false,POS_FACEUP) then
 		local ec1=Effect.CreateEffect(c)
 		ec1:SetType(EFFECT_TYPE_SINGLE)
+		ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 		ec1:SetCode(EFFECT_SET_BASE_ATTACK)
 		ec1:SetValue(4000)
 		ec1:SetReset(RESET_EVENT+RESETS_STANDARD)

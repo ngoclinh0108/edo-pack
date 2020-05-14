@@ -94,10 +94,10 @@ function root.initial_effect(c)
 		local owner=false
 		local effs={c:GetCardEffect()}
 		for _,eff in ipairs(effs) do
-			owner=(eff:GetOwner()~=c and not eff:GetOwner():IsCode(0,10000080,10000090,410000010)
+			owner=(eff:GetOwner()~=c and not eff:GetOwner():IsCode(0,10000080,10000090)
 				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
-				and (eff:GetOwner()~=c and not eff:GetOwner():IsCode(0,10000080,10000090,410000010)
+				and (eff:GetOwner()~=c and not eff:GetOwner():IsCode(0,10000080,10000090)
 				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
 				or owner
