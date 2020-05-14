@@ -99,12 +99,13 @@ function root.e2tg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 
 function root.e2op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tc=Duel.SelectMatchingCard(tp,root.e2filter2,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()
 	if tc and Duel.SpecialSummonStep(tc,0,tp,tp,true,false,POS_FACEUP) then
-		local ec1=Effect.CreateEffect(tc)
+		local ec1=Effect.CreateEffect(c)
 		ec1:SetType(EFFECT_TYPE_SINGLE)
 		ec1:SetCode(EFFECT_SET_BASE_ATTACK)
 		ec1:SetValue(4000)
