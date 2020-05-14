@@ -108,7 +108,7 @@ function root.initial_effect(c)
 		local c=e:GetHandler()
 		local effs={c:GetCardEffect()}
 		for _,eff in ipairs(effs) do
-			if eff:GetOwner()~=c and not eff:GetOwner():IsCode(0)
+			if eff:GetOwner()~=c and not eff:GetOwner():IsCode(0,10000080,10000090)
 				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)) then
 				eff:Reset()
