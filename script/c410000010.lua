@@ -1,7 +1,7 @@
 --Divine Flames Of Sun Phoenix
 local root,id=GetID()
 
-root.listed_names={10000010,10000080,10000090,83764718}
+root.listed_names={10000010,83764718}
 
 function root.initial_effect(c)
 	--search
@@ -24,7 +24,6 @@ function root.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetCountLimit(1,id)
-	e2:SetCost(root.e2cost)
 	e2:SetTarget(root.e2tg)
 	e2:SetOperation(root.e2op)
 	c:RegisterEffect(e2)
@@ -56,7 +55,7 @@ function root.initial_effect(c)
 end
 
 function root.e1filter(c)
-	return c:IsCode(10000010,10000080,10000090) and c:IsAbleToHand()
+	return c:IsCode(10000010) and c:IsAbleToHand()
 end
 
 function root.e1tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -72,30 +71,14 @@ function root.e1op(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 
-function root.e2filter1(c,ft,tp)
-	local code1,code2=c:GetOriginalCodeRule()
-	return (ft>0 or (c:IsControler(tp) and c:GetSequence()<5)) and (c:IsControler(tp) or c:IsFaceup())
-		and (code1==10000080 or code2==10000080)
-end
-
-function root.e2filter2(c,e,tp)
+function root.e2filter(c,e,tp)
 	return c:IsCode(10000010) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
 end
 
-function root.e2cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if chk==0 then return ft>-1 and Duel.CheckReleaseGroupCost(tp,root.e2filter1,1,false,nil,nil,ft,tp) end
-	local g=Duel.SelectReleaseGroupCost(tp,root.e2filter1,1,1,false,nil,nil,ft,tp)
-	Duel.Release(g,REASON_COST)
-end
-
 function root.e2tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if c:GetSequence()<5 then ft=ft+1 end
-
-	if chk==0 then return ft>0 and Duel.IsExistingMatchingCard(root.e2filter2,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
+	if chk==0 then return ft>0 and Duel.IsExistingMatchingCard(root.e2filter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_GRAVE)
 end
 
 function root.e2op(e,tp,eg,ep,ev,re,r,rp)
@@ -103,20 +86,10 @@ function root.e2op(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tc=Duel.SelectMatchingCard(tp,root.e2filter2,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()
-	if tc and Duel.SpecialSummonStep(tc,0,tp,tp,true,false,POS_FACEUP) then
-		local ec1=Effect.CreateEffect(c)
-		ec1:SetType(EFFECT_TYPE_SINGLE)
-		ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-		ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-		ec1:SetValue(4000)
-		ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterEffect(ec1)
-		local ec2=ec1:Clone()
-		ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
-		tc:RegisterEffect(ec2)
+	local g=Duel.SelectMatchingCard(tp,root.e2filter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
+	if g:GetCount()>0 then
+		Duel.SpecialSummon(g,0,tp,tp,true,false,POS_FACEUP)
 	end
-	Duel.SpecialSummonComplete()
 end
 
 function root.e3filter(c)

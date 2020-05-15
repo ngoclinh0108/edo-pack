@@ -1,16 +1,13 @@
 --Tri-Divine Advent
 local root,id=GetID()
 
-root.listed_names={39913299,10000090}
+root.listed_names={39913299}
 
 function root.initial_effect(c)
 	--activate
 	local act=Effect.CreateEffect(c)
 	act:SetType(EFFECT_TYPE_ACTIVATE)
-	act:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
 	act:SetCode(EVENT_FREE_CHAIN)
-	act:SetTarget(root.acttg)
-	act:SetOperation(root.actop)
 	c:RegisterEffect(act)
 
 	--search
@@ -53,70 +50,38 @@ function root.initial_effect(c)
 	e3b:SetValue(1)
 	c:RegisterEffect(e3b)
 
-	--ra - immortal phoenix
-	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_FIELD)
-	e4:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-	e4:SetCode(EFFECT_CANNOT_TO_HAND)
-	e4:SetRange(LOCATION_FZONE)
-	e4:SetTargetRange(LOCATION_GRAVE,0)
-	e4:SetTarget(function(e,tc) return tc:IsCode(10000090) end)
-	c:RegisterEffect(e4)
-	local e4b=e4:Clone()
-	e4b:SetCode(EFFECT_CANNOT_TO_DECK)
-	c:RegisterEffect(e4b)
-
 	--extra summon
+	local e4=Effect.CreateEffect(c)
+	e4:SetDescription(aux.Stringid(id,0))
+	e4:SetType(EFFECT_TYPE_FIELD)
+	e4:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+	e4:SetRange(LOCATION_FZONE)
+	e4:SetTargetRange(LOCATION_HAND+LOCATION_MZONE,0)
+	e4:SetTarget(function(e,tc) return tc:IsAttribute(ATTRIBUTE_DIVINE) end)
+	c:RegisterEffect(e4)
+
+	--change future
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(id,0))
-	e5:SetType(EFFECT_TYPE_FIELD)
-	e5:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+	e5:SetDescription(aux.Stringid(id,1))
+	e5:SetType(EFFECT_TYPE_IGNITION)
 	e5:SetRange(LOCATION_FZONE)
-	e5:SetTargetRange(LOCATION_HAND+LOCATION_MZONE,0)
-	e5:SetTarget(function(e,tc) return tc:IsAttribute(ATTRIBUTE_DIVINE) end)
+	e5:SetCountLimit(1,id)
+	e5:SetCost(root.e5cost)
+	e5:SetTarget(root.e5tg)
+	e5:SetOperation(root.e5op)
 	c:RegisterEffect(e5)
 
-	--look at deck
+	--divine reincarnation
 	local e6=Effect.CreateEffect(c)
-	e6:SetDescription(aux.Stringid(id,1))
+	e6:SetDescription(aux.Stringid(id,2))
+	e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e6:SetType(EFFECT_TYPE_IGNITION)
 	e6:SetRange(LOCATION_FZONE)
-	e6:SetCountLimit(1,id+10000)
+	e6:SetCountLimit(1,id)
+	e6:SetCost(root.e6cost)
 	e6:SetTarget(root.e6tg)
 	e6:SetOperation(root.e6op)
 	c:RegisterEffect(e6)
-
-	--reborn
-	local e7=Effect.CreateEffect(c)
-	e7:SetDescription(aux.Stringid(id,2))
-	e7:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e7:SetType(EFFECT_TYPE_IGNITION)
-	e7:SetRange(LOCATION_FZONE)
-	e7:SetCountLimit(1,id+20000)
-	e7:SetCost(root.e7cost)
-	e7:SetTarget(root.e7tg)
-	e7:SetOperation(root.e7op)
-	c:RegisterEffect(e7)
-end
-
-function root.actfilter(c)
-	return c:IsAttribute(ATTRIBUTE_DIVINE) and c:IsAbleToGrave()
-end
-
-function root.acttg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.actfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
-end
-
-function root.actop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
-
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(root.actfilter),tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil)
-	if #g>0 then
-		Duel.SendtoGrave(g,REASON_EFFECT)
-	end
 end
 
 function root.e1filter(c)
@@ -171,11 +136,24 @@ function root.e2val(e,re,val,r,rp,rc)
 	else return val end
 end
 
-function root.e6tg(e,tp,eg,ep,ev,re,r,rp,chk)
+function root.e5filter(c)
+	return c:IsAttribute(ATTRIBUTE_DIVINE) and not c:IsPublic()
+end
+
+function root.e5cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e5filter,tp,LOCATION_HAND,0,1,nil) end
+
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
+	local g=Duel.SelectMatchingCard(tp,root.e5filter,tp,LOCATION_HAND,0,1,1,nil)
+	Duel.ConfirmCards(1-tp,g)
+	Duel.ShuffleHand(tp)
+end
+
+function root.e5tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)>=5 end
 end
 
-function root.e6op(e,tp,eg,ep,ev,re,r,rp)
+function root.e5op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	if Duel.GetFieldGroupCount(tp,LOCATION_DECK,0)<5 then return end
@@ -183,30 +161,30 @@ function root.e6op(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SortDecktop(tp,tp,5)
 end
 
-function root.e7filter1(c)
+function root.e6filter1(c)
 	return c:IsCode(39913299) and c:IsDiscardable()
 end
 
-function root.e7filter2(c,e,tp)
+function root.e6filter2(c,e,tp)
 	if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
 	return c:IsAttribute(ATTRIBUTE_DIVINE) and (c:IsAbleToHand() or c:IsCanBeSpecialSummoned(e,0,tp,false,false))
 end
 
-function root.e7cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e7filter1,tp,LOCATION_HAND,0,1,e:GetHandler()) end
-	Duel.DiscardHand(tp,root.e7filter1,1,1,REASON_COST+REASON_DISCARD)
+function root.e6cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e6filter1,tp,LOCATION_HAND,0,1,e:GetHandler()) end
+	Duel.DiscardHand(tp,root.e6filter1,1,1,REASON_COST+REASON_DISCARD)
 end
 
-function root.e7tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e7filter2,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
+function root.e6tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e6filter2,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
 end
 
-function root.e7op(e,tp,eg,ep,ev,re,r,rp)
+function root.e6op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SELECT)
-	local tc=Duel.SelectMatchingCard(tp,root.e7filter2,tp,LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()   
+	local tc=Duel.SelectMatchingCard(tp,root.e6filter2,tp,LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()   
 	local b1=tc:IsAbleToHand()
 	local b2=tc:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 	local op=0
@@ -221,7 +199,7 @@ function root.e7op(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-function root.e7returncon(e,tp,eg,ep,ev,re,r,rp)
+function root.e6returncon(e,tp,eg,ep,ev,re,r,rp)
 	local tc=e:GetLabelObject()
 	if tc:GetFlagEffectLabel(id)~=e:GetLabel() then
 		e:Reset()
@@ -229,6 +207,6 @@ function root.e7returncon(e,tp,eg,ep,ev,re,r,rp)
 	else return true end
 end
 
-function root.e7returnop(e,tp,eg,ep,ev,re,r,rp)
+function root.e6returnop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.SendtoDeck(e:GetLabelObject(),nil,2,REASON_RULE)
 end

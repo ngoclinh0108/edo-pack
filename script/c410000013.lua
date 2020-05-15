@@ -32,13 +32,15 @@ function root.initial_effect(c)
 	e2:SetValue(1)
 	c:RegisterEffect(e2)
 
-	--battle target
+	--to grave
 	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_FIELD)
-	e3:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetTargetRange(0,LOCATION_MZONE)
-	e3:SetValue(function(e,c) return c~=e:GetHandler() end)
+	e3:SetDescription(aux.Stringid(id,0))
+	e3:SetCategory(CATEGORY_TOGRAVE)
+	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e3:SetCode(EVENT_DAMAGE_STEP_END)
+	e3:SetCondition(root.e3con)
+	e3:SetTarget(root.e3tg)
+	e3:SetOperation(root.e3op)
 	c:RegisterEffect(e3)
 end
 
@@ -59,4 +61,22 @@ end
 function root.sprop(e,tp,eg,ep,ev,re,r,rp,c)
 	local g=Duel.SelectReleaseGroup(tp,root.sprfilter,1,1,nil,tp,c)
 	Duel.Release(g,g,REASON_COST+REASON_MATERIAL)
+end
+
+function root.e3con(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local bc=c:GetBattleTarget()
+	e:SetLabelObject(bc)
+	return c==Duel.GetAttacker() and bc and c:IsStatus(STATUS_OPPO_BATTLE) and bc:IsOnField() and bc:IsRelateToBattle()
+end
+
+function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetLabelObject():IsAbleToGrave() end
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,e:GetLabelObject(),1,0,0)
+end
+
+function root.e3op(e,tp,eg,ep,ev,re,r,rp)
+	local bc=e:GetLabelObject()
+	if not bc:IsRelateToBattle() then return end
+	Duel.SendtoGrave(bc,REASON_EFFECT)
 end

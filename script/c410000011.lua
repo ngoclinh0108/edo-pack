@@ -1,7 +1,7 @@
 --Nameless King of Divine Beasts
 local root,id=GetID()
 
-root.listed_names={10000000,10000010,10000020,10000080,10000090,410000008,410000009,410000010}
+root.listed_names={10000000,10000010,10000020,410000008,410000009,410000010}
 
 function root.initial_effect(c)
 	--search
@@ -39,9 +39,7 @@ end
 function root.e1tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000000,410000008)
 		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000020,410000009)
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000010,410000010)
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000080,410000010)
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000090,410000010) end
+		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000010,410000010) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 
@@ -56,9 +54,7 @@ function root.e1op(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		g:Merge(Duel.SelectMatchingCard(tp,root.e1tgfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,410000009))
 	end
-	if Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000010,410000010)
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000080,410000010) 
-		or Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000090,410000010) then
+	if Duel.IsExistingMatchingCard(root.e1checkfilter,tp,LOCATION_ONFIELD,0,1,nil,tp,10000010,410000010) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		g:Merge(Duel.SelectMatchingCard(tp,root.e1tgfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,410000010))
 	end
