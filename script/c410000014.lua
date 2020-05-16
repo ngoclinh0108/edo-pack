@@ -77,22 +77,12 @@ function root.initial_effect(c)
 	untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
 	untarget:SetValue(aux.tgoval)
 	c:RegisterEffect(untarget)
-	local noleave=noswitch:Clone()
-	noleave:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	noleave:SetCode(EFFECT_SEND_REPLACE)
-	noleave:SetTarget(function(e,tp,eg,ep,ev,re,r,rp,chk)
-		if chk==0 then return e:GetHandler():IsReason(REASON_EFFECT) and r&REASON_EFFECT~=0 and re and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) end
-		return true
-	end)
-	noleave:SetValue(function(e) return false end)
-	c:RegisterEffect(noleave)
 	local immunity=noswitch:Clone()
 	immunity:SetCode(EFFECT_IMMUNE_EFFECT)
 	immunity:SetValue(function(e,te)
 		local c=e:GetOwner()
 		local tc=te:GetOwner()
-		return tc~=c and te:IsActiveType(TYPE_MONSTER)
-			and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
+		return tc~=c and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
 	end)
 	c:RegisterEffect(immunity)
 	local reset=noswitch:Clone()
@@ -112,7 +102,7 @@ function root.initial_effect(c)
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
 				or owner
 		end
-		return owner or c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE)
+		return owner
 	end)
 	reset:SetOperation(function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
@@ -124,7 +114,6 @@ function root.initial_effect(c)
 				eff:Reset()
 			end
 		end
-		if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) then Duel.SendtoGrave(c,REASON_EFFECT) end
 	end)
 	c:RegisterEffect(reset)
 
@@ -150,7 +139,7 @@ function root.initial_effect(c)
 	end)
 	c:RegisterEffect(e2)
 
-	--hand infinite
+	--infinite hand
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD)
 	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -160,10 +149,10 @@ function root.initial_effect(c)
 	e3:SetValue(999)
 	c:RegisterEffect(e3)
 
-	--lightning force
+	--destroy
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,0))
-	e4:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+	e4:SetCategory(CATEGORY_DESTROY)
 	e4:SetType(EFFECT_TYPE_QUICK_O)
 	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetRange(LOCATION_MZONE)
@@ -171,32 +160,70 @@ function root.initial_effect(c)
 	e4:SetTarget(root.e4tg)
 	e4:SetOperation(root.e4op)
 	c:RegisterEffect(e4)
-end
 
-function root.e4filter(c)
-	return c:GetFlagEffect(id)==0
+	--lightning force
+	local e5=Effect.CreateEffect(c)
+	e5:SetDescription(aux.Stringid(id,1))
+	e5:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+	e5:SetType(EFFECT_TYPE_QUICK_O)
+	e5:SetCode(EVENT_FREE_CHAIN)
+	e5:SetRange(LOCATION_MZONE)
+	e5:SetCost(root.e5cost)
+	e5:SetTarget(root.e5tg)
+	e5:SetOperation(root.e5op)
+	c:RegisterEffect(e5)
 end
 
 function root.e4cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
+	local c=e:GetHandler()
+	if chk==0 then return c:GetFlagEffect(id)==0 and Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
 	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
+	c:RegisterFlagEffect(id,RESET_CHAIN,0,1)
 end
 
 function root.e4tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local g=Duel.GetMatchingGroup(root.e4filter,tp,0,LOCATION_MZONE,nil)
+	local c=e:GetHandler()
+	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,c)
 	if chk==0 then return #g>0 end
-	Duel.SetChainLimit(root.e4actlimit(g))
+
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
 
-function root.e4actlimit(g)
+function root.e4op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+	local g=Duel.SelectMatchingCard(tp,Card.IsFaceup,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,c)
+	if #g>0 then
+		Duel.HintSelection(g)
+		Duel.Destroy(g,REASON_EFFECT)
+	end
+end
+
+function root.e5filter(c)
+	return c:GetFlagEffect(id)==0
+end
+
+function root.e5cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return c:GetFlagEffect(id)==0 end
+	c:RegisterFlagEffect(id,RESET_CHAIN,0,1)
+end
+
+function root.e5tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local g=Duel.GetMatchingGroup(root.e5filter,tp,0,LOCATION_MZONE,nil)
+	if chk==0 then return #g>0 end
+	Duel.SetChainLimit(root.e5actlimit(g))
+end
+
+function root.e5actlimit(g)
 	return function(e,lp,tp)
 		return not g:IsContains(e:GetHandler())
 	end
 end
 
-function root.e4op(e,tp,eg,ep,ev,re,r,rp)
+function root.e5op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(root.e4filter,tp,0,LOCATION_MZONE,nil)
+	local g=Duel.GetMatchingGroup(root.e5filter,tp,0,LOCATION_MZONE,nil)
 	local dg=Group.CreateGroup()
 	
 	for tc in aux.Next(g) do
@@ -219,8 +246,7 @@ function root.e4op(e,tp,eg,ep,ev,re,r,rp)
 			tc:RegisterEffect(ec2)
 			if predef>0 and tc:GetDefense()==0 then dg:AddCard(tc) end
 		end
-		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,1))
+		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,2))
 	end
-
 	Duel.Destroy(dg,REASON_EFFECT)
 end

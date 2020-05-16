@@ -56,12 +56,11 @@ function root.e2filter2(c,sc)
 end
 
 function root.e2tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e2filter1,tp,LOCATION_MZONE,0,1,nil) end
+	if chk==0 then return Duel.IsPlayerCanDraw(tp,5) and Duel.IsExistingMatchingCard(root.e2filter1,tp,LOCATION_MZONE,0,1,nil) end
 	
-	local ht=Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)
 	Duel.SetTargetPlayer(tp)
-	Duel.SetTargetParam(5-ht)
-	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,5-ht)
+	Duel.SetTargetParam(5)
+	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,5)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,0,0,0)
 end
 
@@ -70,9 +69,8 @@ function root.e2op(e,tp,eg,ep,ev,re,r,rp)
 	local sc=Duel.SelectMatchingCard(tp,root.e2filter1,tp,LOCATION_MZONE,0,1,1,nil):GetFirst()
 	if not sc then return end
 
-	local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
-	local ht=Duel.GetFieldGroupCount(p,LOCATION_HAND,0)
-	if ht<5 then Duel.Draw(p,5-ht,REASON_EFFECT) end
+	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
+	Duel.Draw(p,d,REASON_EFFECT)
 
 	local dg=Duel.GetMatchingGroup(root.e2filter2,tp,0,LOCATION_MZONE,nil,sc)
 	Duel.Destroy(dg,REASON_EFFECT)

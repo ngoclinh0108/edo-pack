@@ -102,7 +102,7 @@ function root.initial_effect(c)
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
 				or owner
 		end
-		return owner or c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE)
+		return owner or (c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE))
 	end)
 	reset:SetOperation(function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
@@ -196,7 +196,7 @@ end
 function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 
-	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)	
+	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil) 
 	if Duel.Destroy(g,REASON_EFFECT)~=0 then
 		Duel.BreakEffect()
 		Duel.Damage(1-tp,c:GetAttack(),REASON_EFFECT)

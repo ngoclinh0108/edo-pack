@@ -166,8 +166,19 @@ function root.e6filter1(c)
 end
 
 function root.e6filter2(c,e,tp)
-	if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
-	return c:IsAttribute(ATTRIBUTE_DIVINE) and (c:IsAbleToHand() or c:IsCanBeSpecialSummoned(e,0,tp,false,false))
+	return c:IsAttribute(ATTRIBUTE_DIVINE)
+		and (c:IsAbleToHand() or root.e6summoncheck(c,e,tp))
+end
+
+function root.e6summoncheck(c,e,tp)
+	if c:IsLocation(LOCATION_EXTRA+LOCATION_REMOVED) and c:IsFacedown() then return false end
+	if not c:IsCanBeSpecialSummoned(e,0,tp,false,false) then return false end
+	if (c:IsType(TYPE_LINK) or (c:IsType(TYPE_PENDULUM) and c:IsFaceup()))
+		and c:IsLocation(LOCATION_EXTRA) then
+		return Duel.GetLocationCountFromEx(tp,tp,nil,c)>0
+	else
+		return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	end
 end
 
 function root.e6cost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -176,7 +187,7 @@ function root.e6cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 
 function root.e6tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(root.e6filter2,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e6filter2,tp,LOCATION_GRAVE+LOCATION_EXTRA+LOCATION_REMOVED,0,1,nil,e,tp) end
 end
 
 function root.e6op(e,tp,eg,ep,ev,re,r,rp)
@@ -184,9 +195,9 @@ function root.e6op(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SELECT)
-	local tc=Duel.SelectMatchingCard(tp,root.e6filter2,tp,LOCATION_GRAVE,0,1,1,nil,e,tp):GetFirst()   
+	local tc=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(root.e6filter2),tp,LOCATION_GRAVE+LOCATION_EXTRA+LOCATION_REMOVED,0,1,1,nil,e,tp):GetFirst()   
 	local b1=tc:IsAbleToHand()
-	local b2=tc:IsCanBeSpecialSummoned(e,0,tp,false,false) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	local b2=root.e6summoncheck(tc,e,tp)
 	local op=0
 	if b1 and b2 then op=Duel.SelectOption(tp,1105,2)
 	elseif b1 then op=Duel.SelectOption(tp,1105)

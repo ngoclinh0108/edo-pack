@@ -2,7 +2,7 @@
 local root,id=GetID()
 
 root.divine_hierarchy=3
-root.listed_names={410000012,10000010}
+root.listed_names={410000012,10000010,10000080}
 root.divine_evolution=10000010
 
 function root.initial_effect(c)
@@ -77,22 +77,12 @@ function root.initial_effect(c)
 	untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
 	untarget:SetValue(aux.tgoval)
 	c:RegisterEffect(untarget)
-	local noleave=noswitch:Clone()
-	noleave:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	noleave:SetCode(EFFECT_SEND_REPLACE)
-	noleave:SetTarget(function(e,tp,eg,ep,ev,re,r,rp,chk)
-		if chk==0 then return e:GetHandler():IsReason(REASON_EFFECT) and r&REASON_EFFECT~=0 and re and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) end
-		return true
-	end)
-	noleave:SetValue(function(e) return false end)
-	c:RegisterEffect(noleave)
 	local immunity=noswitch:Clone()
 	immunity:SetCode(EFFECT_IMMUNE_EFFECT)
 	immunity:SetValue(function(e,te)
 		local c=e:GetOwner()
 		local tc=te:GetOwner()
-		return tc~=c and te:IsActiveType(TYPE_MONSTER)
-			and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
+		return tc~=c and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
 	end)
 	c:RegisterEffect(immunity)
 	local reset=noswitch:Clone()
@@ -112,7 +102,7 @@ function root.initial_effect(c)
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
 				or owner
 		end
-		return owner or c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE)
+		return owner
 	end)
 	reset:SetOperation(function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
@@ -124,7 +114,6 @@ function root.initial_effect(c)
 				eff:Reset()
 			end
 		end
-		if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) then Duel.SendtoGrave(c,REASON_EFFECT) end
 	end)
 	c:RegisterEffect(reset)
 
@@ -150,16 +139,16 @@ function root.initial_effect(c)
 	end)
 	c:RegisterEffect(e2)
 
-	--unstoppable attack
+	--not return the hand or deck
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e3:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-	e3:SetRange(LOCATION_MZONE)
+	e3:SetCode(EFFECT_CANNOT_TO_HAND)
+	e3:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
 	e3:SetValue(1)
 	c:RegisterEffect(e3)
 	local e3b=e3:Clone()
-	e3b:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+	e3b:SetCode(EFFECT_CANNOT_TO_DECK)
 	c:RegisterEffect(e3b)
 
 	--attack all
@@ -196,7 +185,7 @@ function root.initial_effect(c)
 	e6:SetOperation(root.e6op)
 	c:RegisterEffect(e6)
 
-	--summon ra
+	--reborn
 	local e7=Effect.CreateEffect(c)
 	e7:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e7:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
@@ -208,6 +197,18 @@ function root.initial_effect(c)
 	e7:SetOperation(root.e7op)
 	e7:SetValue(root.e7val)
 	c:RegisterEffect(e7)
+
+	--sphere mode
+	local e8=Effect.CreateEffect(c)
+	e8:SetDescription(aux.Stringid(id,4))
+	e8:SetCategory(CATEGORY_TOGRAVE+CATEGORY_SPECIAL_SUMMON)
+	e8:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+	e8:SetCode(EVENT_PHASE+PHASE_END)
+	e8:SetRange(LOCATION_MZONE)
+	e8:SetCountLimit(1)
+	e8:SetTarget(root.e8tg)
+	e8:SetOperation(root.e8op)
+	c:RegisterEffect(e8)
 end
 
 function root.e5cost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -218,7 +219,7 @@ end
 
 function root.e5tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local c=e:GetHandler()
-	if chk==0 then return c:GetAttack()>=1000 and Duel.IsExistingMatchingCard(Card.IsAbleToGrave,tp,LOCATION_MZONE,LOCATION_MZONE,1,c) end
+	if chk==0 then return c:GetAttack()>=1000 and Duel.IsExistingMatchingCard(Card.IsAbleToGrave,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,c) end
 	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,nil,1,0,0)
 end
 
@@ -235,7 +236,7 @@ function root.e5op(e,tp,eg,ep,ev,re,r,rp)
 	c:RegisterEffect(ec1)
 
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local tc=Duel.SelectMatchingCard(tp,Card.IsAbleToGrave,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,c):GetFirst()
+	local tc=Duel.SelectMatchingCard(tp,Card.IsAbleToGrave,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,c):GetFirst()
 	if tc and not c:IsHasEffect(EFFECT_REVERSE_UPDATE) then
 		Duel.SendtoGrave(tc,REASON_EFFECT)
 	end
@@ -297,11 +298,40 @@ end
 
 function root.e7op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) and Duel.SpecialSummon(c,0,tp,tp,true,true,POS_FACEUP)~=0 then
+	if not c:IsRelateToEffect(e) then return end
+
+	if Duel.SpecialSummon(c,0,tp,tp,true,true,POS_FACEUP)~=0 then
 		c:CompleteProcedure()
 	end
 end
 
 function root.e7val(e)
 	Duel.SetChainLimit(aux.FALSE)
+end
+
+function root.e8filter(c,e,tp)
+	if (c:IsType(TYPE_LINK) or (c:IsType(TYPE_PENDULUM) and c:IsFaceup()))
+		and c:IsLocation(LOCATION_EXTRA)
+		and Duel.GetLocationCountFromEx(tp,tp,nil,c)==0 then return false end
+	return c:IsCode(10000080) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
+end
+
+function root.e8tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,e:GetHandler(),1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_EXTRA+LOCATION_GRAVE+LOCATION_PZONE)
+end
+
+function root.e8op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) or Duel.SendtoGrave(c,REASON_EFFECT)==0 or not c:IsLocation(LOCATION_GRAVE) then return end
+
+	local loc=LOCATION_EXTRA
+	if Duel.GetLocationCount(tp,LOCATION_MZONE)>0 then loc=loc+LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE+LOCATION_PZONE end
+
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(root.e8filter),tp,loc,0,1,1,nil,e,tp)
+	if #g>0 then
+		Duel.SpecialSummon(g,0,tp,tp,true,false,POS_FACEUP)
+	end
 end

@@ -1,4 +1,4 @@
---Egyptian God Slime II
+--Egyptian God Slime III
 local root,id=GetID()
 
 function root.initial_effect(c)
@@ -23,23 +23,24 @@ function root.initial_effect(c)
 	e1:SetValue(1)
 	c:RegisterEffect(e1)
 
-	--limit attack
+	--indes
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD)
-	e2:SetCode(EFFECT_CANNOT_ATTACK)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetTargetRange(0,LOCATION_MZONE)
-	e2:SetTarget(root.e2tg)
+	e2:SetValue(1)
 	c:RegisterEffect(e2)
 
-	--cannot activate
+	--to grave
 	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_FIELD)
-	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e3:SetCode(EFFECT_CANNOT_ACTIVATE)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetTargetRange(0,1)
-	e3:SetValue(root.e3val)
+	e3:SetDescription(aux.Stringid(id,0))
+	e3:SetCategory(CATEGORY_TOGRAVE)
+	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e3:SetCode(EVENT_DAMAGE_STEP_END)
+	e3:SetCondition(root.e3con)
+	e3:SetTarget(root.e3tg)
+	e3:SetOperation(root.e3op)
 	c:RegisterEffect(e3)
 end
 
@@ -62,11 +63,20 @@ function root.sprop(e,tp,eg,ep,ev,re,r,rp,c)
 	Duel.Release(g,g,REASON_COST+REASON_MATERIAL)
 end
 
-function root.e2tg(e,c)
-	return c:GetAttack()<e:GetHandler():GetAttack()
+function root.e3con(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local bc=c:GetBattleTarget()
+	e:SetLabelObject(bc)
+	return c==Duel.GetAttacker() and bc and c:IsStatus(STATUS_OPPO_BATTLE) and bc:IsOnField() and bc:IsRelateToBattle()
 end
 
-function root.e3val(e,re,tp)
-	local loc=re:GetActivateLocation()
-	return loc==LOCATION_MZONE and re:IsActiveType(TYPE_MONSTER) and re:GetHandler():GetAttack()<e:GetHandler():GetAttack()
+function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetLabelObject():IsAbleToGrave() end
+	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,e:GetLabelObject(),1,0,0)
+end
+
+function root.e3op(e,tp,eg,ep,ev,re,r,rp)
+	local bc=e:GetLabelObject()
+	if not bc:IsRelateToBattle() then return end
+	Duel.SendtoGrave(bc,REASON_EFFECT)
 end

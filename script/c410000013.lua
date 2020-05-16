@@ -77,22 +77,12 @@ function root.initial_effect(c)
 	untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
 	untarget:SetValue(aux.tgoval)
 	c:RegisterEffect(untarget)
-	local noleave=noswitch:Clone()
-	noleave:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	noleave:SetCode(EFFECT_SEND_REPLACE)
-	noleave:SetTarget(function(e,tp,eg,ep,ev,re,r,rp,chk)
-		if chk==0 then return e:GetHandler():IsReason(REASON_EFFECT) and r&REASON_EFFECT~=0 and re and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) end
-		return true
-	end)
-	noleave:SetValue(function(e) return false end)
-	c:RegisterEffect(noleave)
 	local immunity=noswitch:Clone()
 	immunity:SetCode(EFFECT_IMMUNE_EFFECT)
 	immunity:SetValue(function(e,te)
 		local c=e:GetOwner()
 		local tc=te:GetOwner()
-		return tc~=c and te:IsActiveType(TYPE_MONSTER)
-			and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
+		return tc~=c and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
 	end)
 	c:RegisterEffect(immunity)
 	local reset=noswitch:Clone()
@@ -112,7 +102,7 @@ function root.initial_effect(c)
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
 				or owner
 		end
-		return owner or c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE)
+		return owner
 	end)
 	reset:SetOperation(function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
@@ -124,7 +114,6 @@ function root.initial_effect(c)
 				eff:Reset()
 			end
 		end
-		if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) then Duel.SendtoGrave(c,REASON_EFFECT) end
 	end)
 	c:RegisterEffect(reset)
 
@@ -137,103 +126,66 @@ function root.initial_effect(c)
 	e1:SetValue(RACE_WARRIOR+RACE_ROCK)
 	c:RegisterEffect(e1)
 
-	--battle indes & no damage
+	--indes
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1)
-	e2:SetValue(root.e2con)
+	e2:SetValue(root.e2val)
 	c:RegisterEffect(e2)
-	local e2b=Effect.CreateEffect(c)
-	e2b:SetType(EFFECT_TYPE_SINGLE)
-	e2b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-	e2b:SetValue(root.e2val)
-	c:RegisterEffect(e2b)
 
-	--destroy
+	--must attack
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,0))
-	e3:SetCategory(CATEGORY_DESTROY)
-	e3:SetType(EFFECT_TYPE_IGNITION)
+	e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_POSITION)
+	e3:SetType(EFFECT_TYPE_QUICK_O)
+	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_MZONE)
+	e3:SetHintTiming(0,TIMING_BATTLE_START+TIMING_BATTLE_END)
+	e3:SetCountLimit(1)
+	e3:SetCondition(root.e3con)
 	e3:SetCost(root.e3cost)
 	e3:SetTarget(root.e3tg)
 	e3:SetOperation(root.e3op)
 	c:RegisterEffect(e3)
 
-	--must attack
+	--destroy monster
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,1))
-	e4:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_POSITION)
-	e4:SetType(EFFECT_TYPE_QUICK_O)
-	e4:SetCode(EVENT_FREE_CHAIN)
+	e4:SetCategory(CATEGORY_DESTROY)
+	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetHintTiming(0,TIMING_BATTLE_START+TIMING_BATTLE_END)
-	e4:SetCountLimit(1)
-	e4:SetCondition(root.e4con)
-	e4:SetCost(root.e4cost)
+	e4:SetCost(root.effcost)
 	e4:SetTarget(root.e4tg)
 	e4:SetOperation(root.e4op)
 	c:RegisterEffect(e4)
+
+	--destroy spell/trap
+	local e5=Effect.CreateEffect(c)
+	e5:SetDescription(aux.Stringid(id,2))
+	e5:SetCategory(CATEGORY_DESTROY)
+	e5:SetType(EFFECT_TYPE_IGNITION)
+	e5:SetRange(LOCATION_MZONE)
+	e5:SetCost(root.effcost)
+	e5:SetTarget(root.e5tg)
+	e5:SetOperation(root.e5op)
+	c:RegisterEffect(e5)
 end
 
-function root.e2con(e,re,r,rp)
-	if r&REASON_BATTLE~=0 then
-		e:GetHandler():RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
-		return true
-	else return false end
+function root.e2val(e,re,r,rp)
+	if (r&REASON_BATTLE+REASON_EFFECT)~=0 then
+		return 1
+	else return 0 end
 end
 
-function root.e2val(e,c)
-	if e:GetHandler():GetFlagEffect(id)==0 then return true
-	else return false end
-end
-
-function root.e3cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,nil,c) end
-
-	local g=Duel.SelectReleaseGroupCost(tp,nil,1,1,false,nil,c)
-	Duel.Release(g,REASON_COST)
-end
-
-function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(aux.TRUE,tp,0,LOCATION_MZONE,1,nil) end
-
-	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
-end
-
-function root.e3op(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-
-	local ng=Duel.GetMatchingGroup(function(tc) return tc:IsFaceup() and not tc:IsDisabled() end,tp,0,LOCATION_MZONE,nil)
-	for tc in aux.Next(ng) do
-		local ec1=Effect.CreateEffect(c)
-		ec1:SetType(EFFECT_TYPE_SINGLE)
-		ec1:SetCode(EFFECT_DISABLE)
-		ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterEffect(ec1)
-		local ec2=Effect.CreateEffect(c)
-		ec2:SetType(EFFECT_TYPE_SINGLE)
-		ec2:SetCode(EFFECT_DISABLE_EFFECT)
-		ec2:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterEffect(ec2)
-	end
-	Duel.BreakEffect()
-
-	local dg=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil) 
-	Duel.Destroy(dg,REASON_EFFECT)
-end
-
-function root.e4con(e,tp,eg,ep,ev,re,r,rp)
+function root.e3con(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
 	return Duel.GetTurnPlayer()~=tp and (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE)
 end
 
-function root.e4cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function root.e3cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,2,false,nil,c) end
 
@@ -244,13 +196,13 @@ function root.e4cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Release(g,REASON_COST)
 end
 
-function root.e4tg(e,tp,eg,ep,ev,re,r,rp,chk)
+function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
 	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
 	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,#g,0,0)
 end
 
-function root.e4op(e,tp,eg,ep,ev,re,r,rp)
+function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
@@ -274,13 +226,83 @@ function root.e4op(e,tp,eg,ep,ev,re,r,rp)
 			
 			local ec2=ec1:Clone()
 			ec2:SetCode(EFFECT_MUST_ATTACK_MONSTER)
-			ec2:SetValue(root.e4atklimit)
+			ec2:SetValue(root.e3atklimit)
 			ec2:SetLabel(fid)
 			tc:RegisterEffect(ec2)
 		end
 	end
 end
 
-function root.e4atklimit(e,c)
+function root.e3atklimit(e,c)
 	return c:GetRealFieldID()==e:GetLabel()
+end
+
+function root.effcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,nil,c) end
+
+	local g=Duel.SelectReleaseGroupCost(tp,nil,1,1,false,nil,c)
+	Duel.Release(g,REASON_COST)
+end
+
+function root.e4tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(aux.TRUE,tp,0,LOCATION_MZONE,1,nil) end
+
+	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
+end
+
+function root.e4op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+
+	local ng=Duel.GetMatchingGroup(function(tc) return tc:IsFaceup() and not tc:IsDisabled() end,tp,0,LOCATION_MZONE,nil)
+	for tc in aux.Next(ng) do
+		local ec1=Effect.CreateEffect(c)
+		ec1:SetType(EFFECT_TYPE_SINGLE)
+		ec1:SetCode(EFFECT_DISABLE)
+		ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
+		tc:RegisterEffect(ec1)
+		local ec2=Effect.CreateEffect(c)
+		ec2:SetType(EFFECT_TYPE_SINGLE)
+		ec2:SetCode(EFFECT_DISABLE_EFFECT)
+		ec2:SetReset(RESET_EVENT+RESETS_STANDARD)
+		tc:RegisterEffect(ec2)
+	end
+	Duel.BreakEffect()
+
+	local dg=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil) 
+	Duel.Destroy(dg,REASON_EFFECT)
+end
+
+function root.e5filter(c)
+	return c:IsType(TYPE_SPELL+TYPE_TRAP)
+end
+
+function root.e5tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e5filter,tp,0,LOCATION_ONFIELD,1,nil) end
+
+	local g=Duel.GetMatchingGroup(root.e5filter,tp,0,LOCATION_ONFIELD,nil)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
+end
+
+function root.e5op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+
+	local ng=Duel.GetMatchingGroup(function(tc) return root.e5filter(tc) and tc:IsFaceup() and not tc:IsDisabled() end,tp,0,LOCATION_ONFIELD,nil)
+	for tc in aux.Next(ng) do
+		local ec1=Effect.CreateEffect(c)
+		ec1:SetType(EFFECT_TYPE_SINGLE)
+		ec1:SetCode(EFFECT_DISABLE)
+		ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
+		tc:RegisterEffect(ec1)
+		local ec2=Effect.CreateEffect(c)
+		ec2:SetType(EFFECT_TYPE_SINGLE)
+		ec2:SetCode(EFFECT_DISABLE_EFFECT)
+		ec2:SetReset(RESET_EVENT+RESETS_STANDARD)
+		tc:RegisterEffect(ec2)
+	end
+	Duel.BreakEffect()
+
+	local dg=Duel.GetMatchingGroup(root.e5filter,tp,0,LOCATION_ONFIELD,nil) 
+	Duel.Destroy(dg,REASON_EFFECT)
 end
