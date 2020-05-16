@@ -112,7 +112,7 @@ function root.e1op(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function root.e4filter(c)
-	return c:IsAttribute(ATTRIBUTE_DIVINE) and not c:IsPublic()
+	return c:IsCode(39913299) and not c:IsPublic()
 end
 
 function root.e4cost(e,tp,eg,ep,ev,re,r,rp,chk)
