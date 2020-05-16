@@ -7,7 +7,6 @@ root.divine_evolution=10000000
 
 function root.initial_effect(c)
 	c:EnableReviveLimit()
-	c:SetUniqueOnField(1,0,id)
 
 	--special summon condition
 	local spc=Effect.CreateEffect(c)
