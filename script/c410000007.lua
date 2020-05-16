@@ -6,8 +6,11 @@ root.listed_names={39913299}
 function root.initial_effect(c)
 	--activate
 	local act=Effect.CreateEffect(c)
+	act:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	act:SetType(EFFECT_TYPE_ACTIVATE)
 	act:SetCode(EVENT_FREE_CHAIN)
+	act:SetCountLimit(1,id,EFFECT_COUNT_CODE_OATH)
+	act:SetOperation(root.actop)
 	c:RegisterEffect(act)
 
 	--search
@@ -38,7 +41,7 @@ function root.initial_effect(c)
 
 	--extra summon
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,0))
+	e3:SetDescription(aux.Stringid(id,1))
 	e3:SetType(EFFECT_TYPE_FIELD)
 	e3:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
 	e3:SetRange(LOCATION_FZONE)
@@ -48,7 +51,7 @@ function root.initial_effect(c)
 
 	--change future
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(id,1))
+	e4:SetDescription(aux.Stringid(id,2))
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_FZONE)
 	e4:SetCountLimit(1,id)
@@ -59,7 +62,7 @@ function root.initial_effect(c)
 
 	--divine reincarnation
 	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(id,2))
+	e5:SetDescription(aux.Stringid(id,3))
 	e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e5:SetType(EFFECT_TYPE_IGNITION)
 	e5:SetRange(LOCATION_FZONE)
@@ -68,6 +71,22 @@ function root.initial_effect(c)
 	e5:SetTarget(root.e5tg)
 	e5:SetOperation(root.e5op)
 	c:RegisterEffect(e5)
+end
+
+function root.actfilter(c)
+	return c:IsCode(39913299) and c:IsAbleToHand()
+end
+
+function root.actop(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) then return end
+	local g=Duel.GetMatchingGroup(root.actfilter,tp,LOCATION_DECK,0,nil)
+	if #g>0 and Duel.SelectYesNo(tp,aux.Stringid(id,0)) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+		local sg=g:Select(tp,1,1,nil)
+		Duel.SendtoHand(sg,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,sg)
+	end
 end
 
 function root.e1filter(c)
