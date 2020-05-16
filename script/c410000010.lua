@@ -1,7 +1,7 @@
 --Divine Flames Of Sun Phoenix
 local root,id=GetID()
 
-root.listed_names={10000010,83764718}
+root.listed_names={10000010,10000080,83764718}
 
 function root.initial_effect(c)
 	--search
@@ -55,7 +55,7 @@ function root.initial_effect(c)
 end
 
 function root.e1filter(c)
-	return c:IsCode(10000010) and c:IsAbleToHand()
+	return c:IsCode(10000010,10000080) and c:IsAbleToHand()
 end
 
 function root.e1tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

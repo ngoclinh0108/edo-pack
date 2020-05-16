@@ -29,9 +29,6 @@ function root.initial_effect(c)
 	control:SetCode(EVENT_SUMMON_SUCCESS)
 	control:SetOperation(root.controlreg)
 	c:RegisterEffect(control)
-	local controlb=control:Clone()
-	controlb:SetCode(EVENT_SPSUMMON_SUCCESS)
-	c:RegisterEffect(controlb)
 
 	 --special summon condition
 	local spc=Effect.CreateEffect(c)
@@ -105,6 +102,23 @@ function root.initial_effect(c)
 	end)
 	noleave:SetValue(function(e) return false end)
 	c:RegisterEffect(noleave)
+	local untarget=noflip:Clone()
+	untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+	untarget:SetValue(function(e,re,rp)
+		local c=e:GetOwner()
+		local tc=te:GetOwner()
+		if tc==c or (tc.divine_hierarchy and tc.divine_hierarchy>=c.divine_hierarchy) then return false end
+		return rp~=e:GetHandlerPlayer()
+	end)
+	c:RegisterEffect(untarget)
+	local unbattle=noflip:Clone()
+	unbattle:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
+	unbattle:SetValue(function(e,tc)
+		local c=e:GetOwner()
+		return not tc:IsImmuneToEffect(e) and tc:GetControler()~=e:GetHandlerPlayer()
+			and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
+	end)
+	c:RegisterEffect(unbattle)
 	local immunity=noflip:Clone()
 	immunity:SetCode(EFFECT_IMMUNE_EFFECT)
 	immunity:SetValue(function(e,te)
@@ -155,6 +169,30 @@ function root.initial_effect(c)
 	pe1:SetValue(function(e,te) return te:GetHandlerPlayer()~=e:GetHandlerPlayer() end)
 	c:RegisterEffect(pe1)
 
+	--no damage
+	local pe2=Effect.CreateEffect(c)
+	pe2:SetType(EFFECT_TYPE_FIELD)
+	pe2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	pe2:SetCode(EFFECT_CHANGE_DAMAGE)
+	pe2:SetRange(LOCATION_FZONE)
+	pe2:SetTargetRange(1,0)
+	pe2:SetCondition(root.pe2con)
+	pe2:SetValue(root.pe2val)
+	c:RegisterEffect(pe2)
+	local pe2b=pe2:Clone()
+	pe2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+	c:RegisterEffect(pe2b)
+
+	--special summon
+	local pe3=Effect.CreateEffect(c)
+	pe3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	pe3:SetType(EFFECT_TYPE_IGNITION)
+	pe3:SetRange(LOCATION_PZONE)
+	pe3:SetCost(root.pe3cost)
+	pe3:SetTarget(root.pe3tg)
+	pe3:SetOperation(root.pe3op)
+	c:RegisterEffect(pe3)
+
 	--atk/def
 	local me1=Effect.CreateEffect(c)
 	me1:SetType(EFFECT_TYPE_SINGLE)
@@ -173,29 +211,15 @@ function root.initial_effect(c)
 	me2:SetType(EFFECT_TYPE_SINGLE)
 	me2:SetCode(EFFECT_CANNOT_ATTACK)
 	c:RegisterEffect(me2)
-
-	--cannot be target
-	local me3=Effect.CreateEffect(c)
-	me3:SetType(EFFECT_TYPE_SINGLE)
-	me3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	me3:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
-	me3:SetRange(LOCATION_MZONE)
-	me3:SetValue(aux.imval2)
-	c:RegisterEffect(me3)
-	local me3b=me3:Clone()
-	me3b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-	me3b:SetValue(aux.tgoval)
-	c:RegisterEffect(me3b)
-
+	
 	--summon ra
-	local me4dump=Effect.CreateEffect(c)
 	local me4=Effect.CreateEffect(c)
 	me4:SetDescription(aux.Stringid(id,2))
 	me4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	me4:SetType(EFFECT_TYPE_IGNITION)
+	me4:SetType(EFFECT_TYPE_QUICK_O)
+	me4:SetCode(EVENT_FREE_CHAIN)
 	me4:SetRange(LOCATION_MZONE)
-	me4:SetLabelObject(me4dump)
-	me4:SetCost(root.me4cost)
+	me4:SetCountLimit(1)
 	me4:SetTarget(root.me4tg)
 	me4:SetOperation(root.me4op)
 	c:RegisterEffect(me4)
@@ -278,6 +302,37 @@ function root.controlop(e,tp,eg,ep,ev,re,r,rp)
 	c:RegisterEffect(ec1)
 end
 
+function root.pe2con(e)
+	return Duel.IsExistingMatchingCard(function(c)
+		return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_DIVINE)
+	end,e:GetHandlerPlayer(),LOCATION_ONFIELD,0,1,nil)
+end
+
+function root.pe2val(e,re,val,r,rp,rc)
+	if (r&REASON_EFFECT)~=0 then return 0
+	else return val end
+end
+
+function root.pe3cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,3,false,nil,c) end
+	local g=Duel.SelectReleaseGroupCost(tp,nil,3,3,false,nil,c)
+	Duel.Release(g,REASON_COST)
+end
+
+function root.pe3tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and c:IsCanBeSpecialSummoned(e,0,tp,true,false) end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
+end
+
+function root.pe3op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsRelateToEffect(e) then return end
+	Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)
+end
+
 function root.me1val(e,c)
 	local atk=0
 	local def=0
@@ -310,32 +365,26 @@ function root.me4filter(c,e,tp)
 	return c:IsCode(10000010) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
 end
 
-function root.me4cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return true end
-
-	local atk=c:GetBaseAttack()
-	if atk<4000 then atk=4000 end
-	local def=c:GetBaseDefense()
-	if def<4000 then def=4000 end
-	e:SetLabel(atk)
-	e:GetLabelObject():SetLabel(def)
-
-	Duel.Release(c,REASON_COST)
-end
-
 function root.me4tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if c:GetSequence()<5 then ft=ft+1 end
-	if chk==0 then return ft>0 and Duel.IsExistingMatchingCard(root.me4filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
+	if chk==0 then return (Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1))
+		and ft>0 and Duel.IsExistingMatchingCard(root.me4filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
 end
 
 function root.me4op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
+	if not Duel.CheckLocation(tp,LOCATION_PZONE,0) and not Duel.CheckLocation(tp,LOCATION_PZONE,1) then return false end
+	if not c:IsRelateToEffect(e) then return end
 
+	local atk=c:GetBaseAttack()
+	if atk<4000 then atk=4000 end
+	local def=c:GetBaseDefense()
+	if def<4000 then def=4000 end
+	if not Duel.MoveToField(c,tp,tp,LOCATION_PZONE,POS_FACEUP,true) then return end
+	
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 	local tc=Duel.SelectMatchingCard(tp,root.me4filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp):GetFirst()
 	if tc and Duel.SpecialSummonStep(tc,0,tp,tp,true,false,POS_FACEUP) then
@@ -343,12 +392,12 @@ function root.me4op(e,tp,eg,ep,ev,re,r,rp)
 		ec1:SetType(EFFECT_TYPE_SINGLE)
 		ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 		ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-		ec1:SetValue(e:GetLabel())
+		ec1:SetValue(atk)
 		ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
 		tc:RegisterEffect(ec1)
 		local ec1b=ec1:Clone()
 		ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
-		ec1b:SetValue(e:GetLabelObject():GetLabel())
+		ec1b:SetValue(def)
 		tc:RegisterEffect(ec1b)
 	end
 	Duel.SpecialSummonComplete()
