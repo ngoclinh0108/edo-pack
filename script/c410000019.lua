@@ -4,6 +4,14 @@ local root,id=GetID()
 function root.initial_effect(c)
 	Pendulum.AddProcedure(c)
 
+	--special summon condition
+	local spc=Effect.CreateEffect(c)
+	spc:SetType(EFFECT_TYPE_SINGLE)
+	spc:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	spc:SetCode(EFFECT_SPSUMMON_CONDITION)
+	spc:SetValue(aux.penlimit)
+	c:RegisterEffect(spc)
+
 	--immune
 	local pe1=Effect.CreateEffect(c)
 	pe1:SetType(EFFECT_TYPE_SINGLE)

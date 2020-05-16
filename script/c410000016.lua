@@ -30,7 +30,7 @@ function root.initial_effect(c)
 	control:SetOperation(root.controlreg)
 	c:RegisterEffect(control)
 
-	 --special summon condition
+	--special summon condition
 	local spc=Effect.CreateEffect(c)
 	spc:SetType(EFFECT_TYPE_SINGLE)
 	spc:SetCode(EFFECT_SPSUMMON_CONDITION)
