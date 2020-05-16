@@ -16,7 +16,7 @@ function root.initial_effect(c)
 	e1:SetOperation(root.e1op)
 	c:RegisterEffect(e1)
 
-	--gain atk
+	--soul energy max
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(id,1))
 	e2:SetCategory(CATEGORY_ATKCHANGE)

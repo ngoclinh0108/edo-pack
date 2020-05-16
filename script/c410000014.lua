@@ -1,9 +1,9 @@
---Obelisk, The Giant Divine Guardian
+--Osiris, The Celestial Divine Dragon
 local root,id=GetID()
 
 root.divine_hierarchy=2
-root.listed_names={410000012,10000000}
-root.divine_evolution=10000000
+root.listed_names={410000012,10000020}
+root.divine_evolution=10000020
 
 function root.initial_effect(c)
 	c:EnableReviveLimit()
@@ -134,153 +134,93 @@ function root.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e1:SetCode(EFFECT_ADD_RACE)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(RACE_WARRIOR+RACE_ROCK)
+	e1:SetValue(RACE_DRAGON+RACE_THUNDER)
 	c:RegisterEffect(e1)
 
-	--battle indes & no damage
+	--atk
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
-	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
+	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_UNCOPYABLE)
+	e2:SetCode(EFFECT_SET_BASE_ATTACK)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetCountLimit(1)
-	e2:SetValue(root.e2con)
+	e2:SetValue(function(e,c)
+		local atk=Duel.GetFieldGroupCount(c:GetControler(),LOCATION_HAND,0)*1000
+		if atk<5000 then atk=5000 end
+		return atk
+	end)
 	c:RegisterEffect(e2)
-	local e2b=Effect.CreateEffect(c)
-	e2b:SetType(EFFECT_TYPE_SINGLE)
-	e2b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-	e2b:SetValue(root.e2val)
-	c:RegisterEffect(e2b)
 
-	--destroy
+	--hand infinite
 	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(id,0))
-	e3:SetCategory(CATEGORY_DESTROY)
-	e3:SetType(EFFECT_TYPE_IGNITION)
+	e3:SetType(EFFECT_TYPE_FIELD)
+	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e3:SetCode(EFFECT_HAND_LIMIT)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCost(root.e3cost)
-	e3:SetTarget(root.e3tg)
-	e3:SetOperation(root.e3op)
+	e3:SetTargetRange(1,0)
+	e3:SetValue(999)
 	c:RegisterEffect(e3)
 
-	--must attack
+	--lightning force
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(id,1))
-	e4:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_POSITION)
+	e4:SetDescription(aux.Stringid(id,0))
+	e4:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
 	e4:SetType(EFFECT_TYPE_QUICK_O)
 	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetHintTiming(0,TIMING_BATTLE_START+TIMING_BATTLE_END)
-	e4:SetCountLimit(1)
-	e4:SetCondition(root.e4con)
 	e4:SetCost(root.e4cost)
 	e4:SetTarget(root.e4tg)
 	e4:SetOperation(root.e4op)
 	c:RegisterEffect(e4)
 end
 
-function root.e2con(e,re,r,rp)
-	if r&REASON_BATTLE~=0 then
-		e:GetHandler():RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END,0,1)
-		return true
-	else return false end
-end
-
-function root.e2val(e,c)
-	if e:GetHandler():GetFlagEffect(id)==0 then return true
-	else return false end
-end
-
-function root.e3cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,1,false,nil,c) end
-
-	local g=Duel.SelectReleaseGroupCost(tp,nil,1,1,false,nil,c)
-	Duel.Release(g,REASON_COST)
-end
-
-function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(aux.TRUE,tp,0,LOCATION_MZONE,1,nil) end
-
-	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,#g,0,0)
-end
-
-function root.e3op(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-
-	local ng=Duel.GetMatchingGroup(function(tc) return tc:IsFaceup() and not tc:IsDisabled() end,tp,0,LOCATION_MZONE,nil)
-	for tc in aux.Next(ng) do
-		local ec1=Effect.CreateEffect(c)
-		ec1:SetType(EFFECT_TYPE_SINGLE)
-		ec1:SetCode(EFFECT_DISABLE)
-		ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterEffect(ec1)
-		local ec2=Effect.CreateEffect(c)
-		ec2:SetType(EFFECT_TYPE_SINGLE)
-		ec2:SetCode(EFFECT_DISABLE_EFFECT)
-		ec2:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterEffect(ec2)
-	end
-	Duel.BreakEffect()
-
-	local dg=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil) 
-	Duel.Destroy(dg,REASON_EFFECT)
-end
-
-function root.e4con(e,tp,eg,ep,ev,re,r,rp)
-	local ph=Duel.GetCurrentPhase()
-	return Duel.GetTurnPlayer()~=tp and (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE)
+function root.e4filter(c)
+	return c:GetFlagEffect(id)==0
 end
 
 function root.e4cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,2,false,nil,c) end
-
-	local atk=0
-	local g=Duel.SelectReleaseGroupCost(tp,nil,2,2,false,nil,c)
-	for tc in aux.Next(g) do atk=atk+tc:GetAttack() end
-	e:SetLabel(atk)
-	Duel.Release(g,REASON_COST)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,nil) end
+	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
 
 function root.e4tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
-	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
-	Duel.SetOperationInfo(0,CATEGORY_POSITION,g,#g,0,0)
+	local g=Duel.GetMatchingGroup(root.e4filter,tp,0,LOCATION_MZONE,nil)
+	if chk==0 then return #g>0 end
+	Duel.SetChainLimit(root.e4actlimit(g))
+end
+
+function root.e4actlimit(g)
+	return function(e,lp,tp)
+		return not g:IsContains(e:GetHandler())
+	end
 end
 
 function root.e4op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
-
-	local ec1=Effect.CreateEffect(c)
-	ec1:SetType(EFFECT_TYPE_SINGLE)
-	ec1:SetCode(EFFECT_UPDATE_ATTACK)
-	ec1:SetValue(e:GetLabel())
-	ec1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE+RESET_PHASE+PHASE_END)
-	c:RegisterEffect(ec1)
-
-	local g=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
-	if #g>0 then
-		local fid=c:GetRealFieldID()
-		Duel.ChangePosition(g,POS_FACEUP_ATTACK)
-		for tc in aux.Next(g) do
+	local g=Duel.GetMatchingGroup(root.e4filter,tp,0,LOCATION_MZONE,nil)
+	local dg=Group.CreateGroup()
+	
+	for tc in aux.Next(g) do
+		if tc:IsPosition(POS_FACEUP_ATTACK) then
+			local preatk=tc:GetAttack()
 			local ec1=Effect.CreateEffect(c)
 			ec1:SetType(EFFECT_TYPE_SINGLE)
-			ec1:SetCode(EFFECT_MUST_ATTACK)
-			ec1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+			ec1:SetCode(EFFECT_UPDATE_ATTACK)
+			ec1:SetValue(-3000)
+			ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(ec1)
-			
-			local ec2=ec1:Clone()
-			ec2:SetCode(EFFECT_MUST_ATTACK_MONSTER)
-			ec2:SetValue(root.e4atklimit)
-			ec2:SetLabel(fid)
+			if preatk>0 and tc:GetAttack()==0 then dg:AddCard(tc) end
+		elseif tc:IsPosition(POS_FACEUP_DEFENSE) then
+			local predef=tc:GetDefense()
+			local ec2=Effect.CreateEffect(c)
+			ec2:SetType(EFFECT_TYPE_SINGLE)
+			ec2:SetCode(EFFECT_UPDATE_DEFENSE)
+			ec2:SetValue(-3000)
+			ec2:SetReset(RESET_EVENT+RESETS_STANDARD)
 			tc:RegisterEffect(ec2)
+			if predef>0 and tc:GetDefense()==0 then dg:AddCard(tc) end
 		end
+		tc:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(id,1))
 	end
-end
 
-function root.e4atklimit(e,c)
-	return c:GetRealFieldID()==e:GetLabel()
+	Duel.Destroy(dg,REASON_EFFECT)
 end

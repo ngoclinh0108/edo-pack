@@ -1,4 +1,4 @@
---Giant Divine Soldier of Obelisk
+--Obelisk, The Giant Divine Soldier
 local root,id=GetID()
 
 root.divine_hierarchy=1
@@ -58,16 +58,16 @@ function root.initial_effect(c)
 	local nolnk=nofus:Clone()
 	nolnk:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
 	c:RegisterEffect(nolnk)
-	local noflip=Effect.CreateEffect(c)
-	noflip:SetType(EFFECT_TYPE_SINGLE)
-	noflip:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	noflip:SetCode(EFFECT_CANNOT_TURN_SET)
-	noflip:SetRange(LOCATION_MZONE)
-	c:RegisterEffect(noflip)
-	local noswitch=noflip:Clone()
+	local noswitch=Effect.CreateEffect(c)
+	noswitch:SetType(EFFECT_TYPE_SINGLE)
+	noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+	noswitch:SetRange(LOCATION_MZONE)
 	c:RegisterEffect(noswitch)
-	local noleave=noflip:Clone()
+	local noflip=noswitch:Clone()
+	noflip:SetCode(EFFECT_CANNOT_TURN_SET)
+	c:RegisterEffect(noflip)
+	local noleave=noswitch:Clone()
 	noleave:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	noleave:SetCode(EFFECT_SEND_REPLACE)
 	noleave:SetTarget(function(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -76,7 +76,7 @@ function root.initial_effect(c)
 	end)
 	noleave:SetValue(function(e) return false end)
 	c:RegisterEffect(noleave)
-	local immunity=noflip:Clone()
+	local immunity=noswitch:Clone()
 	immunity:SetCode(EFFECT_IMMUNE_EFFECT)
 	immunity:SetValue(function(e,te)
 		local c=e:GetOwner()
@@ -85,7 +85,7 @@ function root.initial_effect(c)
 			and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
 	end)
 	c:RegisterEffect(immunity)
-	local reset=noflip:Clone()
+	local reset=noswitch:Clone()
 	reset:SetDescription(1162)
 	reset:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	reset:SetCode(EVENT_PHASE+PHASE_END)
@@ -142,7 +142,7 @@ function root.initial_effect(c)
 	--destroy
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,0))
-	e3:SetCategory(CATEGORY_DESTROY)
+	e3:SetCategory(CATEGORY_DESTROY+CATEGORY_DAMAGE)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCost(root.e3cost)
@@ -173,7 +173,14 @@ end
 
 function root.e3cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,2,false,nil,c) end
+	if chk==0 then return c:GetAttackAnnouncedCount()==0 and Duel.CheckReleaseGroupCost(tp,nil,2,false,nil,c) end
+
+	local ec1=Effect.CreateEffect(c)
+	ec1:SetType(EFFECT_TYPE_SINGLE)
+	ec1:SetProperty(EFFECT_FLAG_OATH)
+	ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
+	ec1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
+	c:RegisterEffect(ec1)
 
 	local g=Duel.SelectReleaseGroupCost(tp,nil,2,2,false,nil,c)
 	Duel.Release(g,REASON_COST)
@@ -187,6 +194,11 @@ function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 
 function root.e3op(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)
-	Duel.Destroy(g,REASON_EFFECT)
+	local c=e:GetHandler()
+
+	local g=Duel.GetMatchingGroup(aux.TRUE,tp,0,LOCATION_MZONE,nil)	
+	if Duel.Destroy(g,REASON_EFFECT)~=0 then
+		Duel.BreakEffect()
+		Duel.Damage(1-tp,c:GetAttack(),REASON_EFFECT)
+	end
 end

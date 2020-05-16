@@ -1,72 +1,53 @@
---Egyptian God Slime II
+--Divine Evolution
 local root,id=GetID()
 
 function root.initial_effect(c)
-	--fusion summon
-	c:EnableReviveLimit()
-	Fusion.AddProcMix(c,true,true,aux.FilterBoolFunctionEx(Card.IsRace,RACE_AQUA),root.fusfilter)
-
-	--special summon rule
-	local spr=Effect.CreateEffect(c)
-	spr:SetType(EFFECT_TYPE_FIELD)
-	spr:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-	spr:SetCode(EFFECT_SPSUMMON_PROC)
-	spr:SetRange(LOCATION_EXTRA)
-	spr:SetCondition(root.sprcon)
-	spr:SetOperation(root.sprop)
-	c:RegisterEffect(spr)
-
-	--triple tribute
+	--gain hierarchy & atk
 	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetCode(EFFECT_TRIPLE_TRIBUTE)
-	e1:SetValue(1)
+	e1:SetCategory(CATEGORY_ATKCHANGE)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetCountLimit(1,id)
+	e1:SetTarget(root.e1tg)
+	e1:SetOperation(root.e1op)
 	c:RegisterEffect(e1)
-
-	--limit attack
-	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_FIELD)
-	e2:SetCode(EFFECT_CANNOT_ATTACK)
-	e2:SetRange(LOCATION_MZONE)
-	e2:SetTargetRange(0,LOCATION_MZONE)
-	e2:SetTarget(root.e2tg)
-	c:RegisterEffect(e2)
-
-	--cannot activate
-	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_FIELD)
-	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e3:SetCode(EFFECT_CANNOT_ACTIVATE)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetTargetRange(0,1)
-	e3:SetValue(root.e3val)
-	c:RegisterEffect(e3)
 end
 
-function root.fusfilter(c,fc,sumtype,tp)
-	return c:IsAttribute(ATTRIBUTE_WATER,fc,sumtype,tp) and c:GetLevel()==10
+function root.e1filter1(c)
+	return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_DIVINE)
 end
 
-function root.sprfilter(c,tp,sc)
-	return c:IsRace(RACE_AQUA) and c:GetLevel()==10 and c:GetAttack()==0 and Duel.GetLocationCountFromEx(tp,tp,c,sc)>0
+function root.e1filter2(c,sc,e,tp)
+	return c.divine_evolution and c.divine_evolution==sc:GetCode() and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 
-function root.sprcon(e,c)
-	if c==nil then return true end
-	local tp=c:GetControler()
-	return Duel.CheckReleaseGroup(tp,root.sprfilter,1,nil,tp,c)
+function root.e1tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chk==0 then return Duel.IsExistingMatchingCard(root.e1filter1,tp,LOCATION_MZONE,0,1,nil) end
 end
 
-function root.sprop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g=Duel.SelectReleaseGroup(tp,root.sprfilter,1,1,nil,tp,c)
-	Duel.Release(g,g,REASON_COST+REASON_MATERIAL)
-end
+function root.e1op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
 
-function root.e2tg(e,c)
-	return c:GetAttack()<e:GetHandler():GetAttack()
-end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
+	local tc=Duel.SelectMatchingCard(tp,root.e1filter1,tp,LOCATION_MZONE,0,1,1,nil):GetFirst()
+	if not tc or tc:IsFacedown() then return end
 
-function root.e3val(e,re,tp)
-	local loc=re:GetActivateLocation()
-	return loc==LOCATION_MZONE and re:IsActiveType(TYPE_MONSTER) and re:GetHandler():GetAttack()<e:GetHandler():GetAttack()
+	local ec1=Effect.CreateEffect(c)
+	ec1:SetType(EFFECT_TYPE_SINGLE)
+	ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+	ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+	ec1:SetValue(tc:GetBaseAttack()+1000)
+	ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
+	tc:RegisterEffect(ec1)
+	local ec2=ec1:Clone()
+	ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
+	ec2:SetValue(tc:GetBaseDefense()+1000)
+	tc:RegisterEffect(ec2)
+
+	local sc=Duel.SelectMatchingCard(tp,root.e1filter2,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_EXTRA,0,1,1,nil,tc,e,tp):GetFirst()
+	if not sc then return end
+	Duel.Release(tc,REASON_COST)
+	Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)
+	sc:CompleteProcedure()
 end
