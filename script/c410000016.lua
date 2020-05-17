@@ -188,6 +188,7 @@ function root.initial_effect(c)
 	pe3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	pe3:SetType(EFFECT_TYPE_IGNITION)
 	pe3:SetRange(LOCATION_PZONE)
+	pe3:SetLabelObject(Effect.CreateEffect(c))
 	pe3:SetCost(root.pe3cost)
 	pe3:SetTarget(root.pe3tg)
 	pe3:SetOperation(root.pe3op)
@@ -317,6 +318,18 @@ function root.pe3cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,3,false,nil,c) end
 	local g=Duel.SelectReleaseGroupCost(tp,nil,3,3,false,nil,c)
+	
+	local atk=0
+	local def=0
+	for tc in aux.Next(g) do
+		local catk=tc:GetAttack()
+		local cdef=tc:GetDefense()
+		atk=atk+(catk>=0 and catk or 0)
+		def=def+(cdef>=0 and cdef or 0)
+	end
+	e:SetLabel(atk)
+	e:GetLabelObject():SetLabel(def)
+
 	Duel.Release(g,REASON_COST)
 end
 
@@ -330,7 +343,23 @@ end
 function root.pe3op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
-	Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)
+
+	if Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)>0 then
+		local ec1=Effect.CreateEffect(c)
+		ec1:SetType(EFFECT_TYPE_SINGLE)
+		ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+		ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+		ec1:SetRange(LOCATION_MZONE)
+		ec1:SetValue(e:GetLabel())
+		ec1:SetReset(RESET_EVENT+0xff0000)
+		c:RegisterEffect(ec1)
+		local ec2=ec1:Clone()
+		ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
+		ec2:SetValue(e:GetLabelObject():GetLabel())
+		c:RegisterEffect(ec2)
+
+		c:CompleteProcedure()
+	end
 end
 
 function root.me1val(e,c)
