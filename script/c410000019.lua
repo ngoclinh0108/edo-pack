@@ -107,7 +107,7 @@ end
 function root.pe3con(e)
 	return Duel.IsExistingMatchingCard(function(c)
 		return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_DIVINE)
-	end,e:GetHandlerPlayer(),LOCATION_ONFIELD,0,1,nil)
+	end,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
 
 function root.pe4cost(e,tp,eg,ep,ev,re,r,rp,chk)
