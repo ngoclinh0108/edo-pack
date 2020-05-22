@@ -1,4 +1,4 @@
---Ra, The Sun Divine Phoenix
+--Ra the Sun Divine Phoenix
 local root,id=GetID()
 
 root.divine_hierarchy=2
@@ -102,7 +102,7 @@ function root.initial_effect(c)
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
 				or owner
 		end
-		return owner or (c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE))
+		return owner or (c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE+LOCATION_REMOVED))
 	end)
 	reset:SetOperation(function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
@@ -114,7 +114,7 @@ function root.initial_effect(c)
 				eff:Reset()
 			end
 		end
-		if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) then Duel.SendtoGrave(c,REASON_EFFECT) end
+		if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE+LOCATION_REMOVED) then Duel.SendtoGrave(c,REASON_EFFECT) end
 	end)
 	c:RegisterEffect(reset)
 
@@ -144,7 +144,8 @@ function root.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(id,0))
 	e3:SetCategory(CATEGORY_DESTROY)
-	e3:SetType(EFFECT_TYPE_IGNITION)
+	e3:SetType(EFFECT_TYPE_QUICK_O)
+	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCost(root.e3cost)
@@ -152,35 +153,26 @@ function root.initial_effect(c)
 	e3:SetOperation(root.e3op)
 	c:RegisterEffect(e3)
 
-	--summon from grave
-	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e4:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e4:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE) end)
-	e4:SetOperation(root.e4op)
-	c:RegisterEffect(e4)
-
 	--indes, no battle damage, unstoppable attack, attack all
-	local e5=Effect.CreateEffect(c)
-	e5:SetType(EFFECT_TYPE_SINGLE)
-	e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e5:SetCode(EFFECT_INDESTRUCTABLE)
-	e5:SetRange(LOCATION_MZONE)
-	e5:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():GetFlagEffect(id)>0 end)
-	e5:SetValue(1)
-	c:RegisterEffect(e5)
-	local e5b=e5:Clone()
-	e5b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-	e5b:SetValue(1)
-	c:RegisterEffect(e5b)
-	local e5c=e5:Clone()
-	e5c:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-	c:RegisterEffect(e5c)
-	local e5d=e5:Clone()
-	e5d:SetCode(EFFECT_ATTACK_ALL)
-	c:RegisterEffect(e5d)
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e4:SetCode(EFFECT_INDESTRUCTABLE)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE) end)
+	e4:SetValue(1)
+	c:RegisterEffect(e4)
+	local e4b=e4:Clone()
+	e4b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+	c:RegisterEffect(e4b)
+	local e4c=e4:Clone()
+	e4c:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+	c:RegisterEffect(e4c)
+	local e4d=e4:Clone()
+	e4d:SetCode(EFFECT_ATTACK_ALL)
+	c:RegisterEffect(e4d)
 
-	--pay lp for atk/def
+	--life point transfer
 	local e6=Effect.CreateEffect(c)
 	e6:SetDescription(aux.Stringid(id,1))
 	e6:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
@@ -188,7 +180,7 @@ function root.initial_effect(c)
 	e6:SetCode(EVENT_FREE_CHAIN)
 	e6:SetRange(LOCATION_MZONE)
 	e6:SetCountLimit(1)
-	e6:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():GetFlagEffect(id)>0 end)
+	e6:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE) end)
 	e6:SetCost(root.e6cost)
 	e6:SetTarget(root.e6tg)
 	e6:SetOperation(root.e6op)
@@ -202,7 +194,7 @@ function root.initial_effect(c)
 	e7:SetCode(EVENT_FREE_CHAIN)
 	e7:SetRange(LOCATION_MZONE)
 	e7:SetLabelObject(Effect.CreateEffect(c))
-	e7:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():GetFlagEffect(id)>0 end)
+	e7:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE) end)
 	e7:SetCost(root.e7cost)
 	e7:SetOperation(root.e7op)
 	c:RegisterEffect(e7)
@@ -237,8 +229,11 @@ function root.e2val(e,c)
 end
 
 function root.e3cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1000) end
+	local c=e:GetHandler()
+	if chk==0 then return Duel.CheckLPCost(tp,1000) and c:GetFlagEffect(id)==0 end
+
 	Duel.PayLPCost(tp,1000)
+	c:RegisterFlagEffect(id,RESET_CHAIN,0,1)
 end
 
 function root.e3tg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -255,12 +250,6 @@ function root.e3op(e,tp,eg,ep,ev,re,r,rp)
 	if not tc:IsRelateToEffect(e) then return end
 
 	Duel.Destroy(tc,REASON_EFFECT)
-end
-
-function root.e4op(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if c:IsFacedown() then return end
-	c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD,0,1)
 end
 
 function root.e6cost(e,tp,eg,ep,ev,re,r,rp,chk)
