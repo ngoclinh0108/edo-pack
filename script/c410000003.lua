@@ -1,4 +1,5 @@
 --Ra the Sun Divine Phoenix
+Duel.LoadScript("triplesix_util.lua")
 local root,id=GetID()
 
 root.divine_hierarchy=2

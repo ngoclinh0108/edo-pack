@@ -1,4 +1,5 @@
 --Slifer the Sky Divine Dragon
+Duel.LoadScript("triplesix_util.lua")
 local root,id=GetID()
 
 root.divine_hierarchy=1

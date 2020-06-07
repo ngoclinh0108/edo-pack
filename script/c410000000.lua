@@ -1,4 +1,5 @@
 --Tri-Divine Advent
+Duel.LoadScript("triplesix_util.lua")
 local root,id=GetID()
 
 root.listed_names={39913299}

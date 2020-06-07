@@ -1,4 +1,5 @@
 --Obelisk the Giant Divine Soldier
+Duel.LoadScript("triplesix_util.lua")
 local root,id=GetID()
 
 root.divine_hierarchy=1
