@@ -1,48 +1,64 @@
---The Sun Divine Sphere of Ra
+--Ra the Sun Divine Sphere
 local root,id=GetID()
 
 root.divine_hierarchy=2
 root.listed_names={10000010}
+root.base_transform=Group.CreateGroup()
 
 function root.initial_effect(c)
-	Pendulum.AddProcedure(c)
-	
-	--summon with 3 tribute
-	aux.AddNormalSummonProcedure(c,true,false,3,3,SUMMON_TYPE_TRIBUTE,aux.Stringid(id,0))
-	local sum2=Effect.CreateEffect(c)
-	sum2:SetDescription(aux.Stringid(id,1))
-	sum2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_SPSUM_PARAM)
-	sum2:SetType(EFFECT_TYPE_SINGLE)
-	sum2:SetCode(EFFECT_LIMIT_SUMMON_PROC)
-	sum2:SetTargetRange(POS_FACEUP_ATTACK,1)
-	sum2:SetCondition(root.sum2con)
-	sum2:SetTarget(root.sum2tg)
-	sum2:SetOperation(root.sum2op)
-	sum2:SetValue(SUMMON_TYPE_TRIBUTE)
-	c:RegisterEffect(sum2)
-	aux.AddNormalSetProcedure(c)
+	c:EnableReviveLimit()
 
-	--control return
-	local control=Effect.CreateEffect(c)
-	control:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	control:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	control:SetCode(EVENT_SUMMON_SUCCESS)
-	control:SetOperation(root.controlreg)
-	c:RegisterEffect(control)
+	--outside
+	local outside=Effect.CreateEffect(c)
+	outside:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	outside:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	outside:SetCode(EVENT_STARTUP)
+	outside:SetRange(0x5f)
+	outside:SetOperation(function(e,tp,eg,ep,ev,re,r,rp)
+		Duel.SendtoDeck(e:GetHandler(),tp,-2,REASON_RULE)
+		if e:GetHandler():GetPreviousLocation()==LOCATION_HAND then Duel.Draw(tp,1,REASON_RULE) end
+	end)
+	c:RegisterEffect(outside)
 
-	--special summon condition
-	local spc=Effect.CreateEffect(c)
-	spc:SetType(EFFECT_TYPE_SINGLE)
-	spc:SetCode(EFFECT_SPSUMMON_CONDITION)
-	spc:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	c:RegisterEffect(spc)
+	--turn back base form
+	local turnback=Effect.CreateEffect(c)
+	turnback:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+	turnback:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
+	turnback:SetCode(EVENT_LEAVE_FIELD)
+	turnback:SetRange(LOCATION_MZONE)
+	turnback:SetCondition(function(e,tp,eg,ep,ev,re,r,rp) return e:GetHandler():GetLocation()~=0 end)
+	turnback:SetOperation(function(e,tp,eg,ep,ev,re,r,rp)
+		local c=e:GetHandler()
+		local tc=c.base_transform:GetFirst()
+		c.base_transform:RemoveCard(tc)
+		
+		local loc=c:GetLocation()
+		if loc==LOCATION_DECK then Duel.SendtoDeck(tc,c:GetControler(),c:GetSequence(),c:GetReason())
+		elseif loc==LOCATION_HAND then Duel.SendtoHand(tc,c:GetControler(),c:GetReason())
+		elseif loc==LOCATION_GRAVE then Duel.SendtoGrave(tc,c:GetReason())
+		elseif loc==LOCATION_REMOVED then Duel.Remove(tc,c:GetPosition(),c:GetReason())
+		end
+		Duel.SendtoDeck(c,tp,-2,REASON_RULE)
+	end)
+	c:RegisterEffect(turnback)
+
+	--transform
+	local etrans=Effect.CreateEffect(c)
+	etrans:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	etrans:SetCode(EVENT_SUMMON_SUCCESS)
+	etrans:SetCondition(root.etranscon)
+	etrans:SetOperation(root.etransop)
+	Duel.RegisterEffect(etrans,0)
+
+	--special summon limit
+	local splimit=Effect.CreateEffect(c)
+	splimit:SetType(EFFECT_TYPE_SINGLE)
+	splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+	splimit:SetValue(aux.FALSE)
+	c:RegisterEffect(splimit)
 
 	--divine hierarchy
-	local sumsafe=Effect.CreateEffect(c)
-	sumsafe:SetType(EFFECT_TYPE_SINGLE)
-	sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
-	c:RegisterEffect(sumsafe)
 	local inact=Effect.CreateEffect(c)
 	inact:SetType(EFFECT_TYPE_FIELD)
 	inact:SetCode(EFFECT_CANNOT_INACTIVATE)
@@ -66,7 +82,7 @@ function root.initial_effect(c)
 	norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	norelease:SetCode(EFFECT_CANNOT_RELEASE)
 	norelease:SetRange(LOCATION_MZONE)
-	norelease:SetTargetRange(1,1)
+	norelease:SetTargetRange(0,1)
 	norelease:SetTarget(function(e,tc,tp,sumtp) return tc==e:GetHandler() end)
 	c:RegisterEffect(norelease)
 	local nofus=Effect.CreateEffect(c)
@@ -87,48 +103,26 @@ function root.initial_effect(c)
 	local nolnk=nofus:Clone()
 	nolnk:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
 	c:RegisterEffect(nolnk)
-	local noflip=Effect.CreateEffect(c)
-	noflip:SetType(EFFECT_TYPE_SINGLE)
-	noflip:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	local noswitch=Effect.CreateEffect(c)
+	noswitch:SetType(EFFECT_TYPE_SINGLE)
+	noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+	noswitch:SetRange(LOCATION_MZONE)
+	c:RegisterEffect(noswitch)
+	local noflip=noswitch:Clone()
 	noflip:SetCode(EFFECT_CANNOT_TURN_SET)
-	noflip:SetRange(LOCATION_MZONE)
 	c:RegisterEffect(noflip)
-	local noleave=noflip:Clone()
-	noleave:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	noleave:SetCode(EFFECT_SEND_REPLACE)
-	noleave:SetTarget(function(e,tp,eg,ep,ev,re,r,rp,chk)
-		if chk==0 then return e:GetHandler():IsReason(REASON_EFFECT) and r&REASON_EFFECT~=0 and re and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) end
-		return true
-	end)
-	noleave:SetValue(function(e) return false end)
-	c:RegisterEffect(noleave)
-	local untarget=noflip:Clone()
-	untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-	untarget:SetValue(function(e,re,rp)
-		local c=e:GetOwner()
-		local tc=te:GetOwner()
-		if tc==c or (tc.divine_hierarchy and tc.divine_hierarchy>=c.divine_hierarchy) then return false end
-		return rp~=e:GetHandlerPlayer()
-	end)
-	c:RegisterEffect(untarget)
-	local unbattle=noflip:Clone()
-	unbattle:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
-	unbattle:SetValue(function(e,tc)
-		local c=e:GetOwner()
-		return not tc:IsImmuneToEffect(e) and tc:GetControler()~=e:GetHandlerPlayer()
-			and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
-	end)
-	c:RegisterEffect(unbattle)
-	local immunity=noflip:Clone()
+	local immunity=noswitch:Clone()
 	immunity:SetCode(EFFECT_IMMUNE_EFFECT)
 	immunity:SetValue(function(e,te)
 		local c=e:GetOwner()
-		local tc=te:GetOwner()
-		return tc~=c and te:IsActiveType(TYPE_MONSTER)
-			and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
+		local tc=te:GetOwner()   
+		return (te:IsActiveType(TYPE_MONSTER) and c~=tc and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy))
+			or (te:IsActiveType(TYPE_SPELL+TYPE_TRAP)
+				and te:IsHasCategory(CATEGORY_TOHAND+CATEGORY_DESTROY+CATEGORY_REMOVE+CATEGORY_TODECK+CATEGORY_RELEASE+CATEGORY_TOGRAVE+CATEGORY_FUSION_SUMMON))
 	end)
 	c:RegisterEffect(immunity)
-	local reset=noflip:Clone()
+	local reset=noswitch:Clone()
 	reset:SetDescription(1162)
 	reset:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	reset:SetCode(EVENT_PHASE+PHASE_END)
@@ -137,13 +131,10 @@ function root.initial_effect(c)
 		local owner=false
 		local effs={c:GetCardEffect()}
 		for _,eff in ipairs(effs) do
-			owner=(eff:GetOwner()~=c and not eff:GetOwner():IsCode(0,10000080)
-				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+			local check=(eff:GetOwner()~=c and not eff:GetOwner():IsCode(0)
+				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and eff:GetCode()~=EFFECT_SPSUMMON_PROC
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
-				and (eff:GetOwner()~=c and not eff:GetOwner():IsCode(0,10000080)
-				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
-				or owner
+			owner=check or owner
 		end
 		return owner
 	end)
@@ -151,8 +142,8 @@ function root.initial_effect(c)
 		local c=e:GetHandler()
 		local effs={c:GetCardEffect()}
 		for _,eff in ipairs(effs) do
-			if eff:GetOwner()~=c and not eff:GetOwner():IsCode(0,10000080)
-				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+			if eff:GetOwner()~=c and not eff:GetOwner():IsCode(0)
+				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and eff:GetCode()~=EFFECT_SPSUMMON_PROC
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)) then
 				eff:Reset()
 			end
@@ -160,274 +151,165 @@ function root.initial_effect(c)
 	end)
 	c:RegisterEffect(reset)
 
-	--immune
-	local pe1=Effect.CreateEffect(c)
-	pe1:SetType(EFFECT_TYPE_SINGLE)
-	pe1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	pe1:SetCode(EFFECT_IMMUNE_EFFECT)
-	pe1:SetRange(LOCATION_PZONE)
-	pe1:SetValue(function(e,te) return te:GetHandlerPlayer()~=e:GetHandlerPlayer() end)
-	c:RegisterEffect(pe1)
-
-	--no damage
-	local pe2=Effect.CreateEffect(c)
-	pe2:SetType(EFFECT_TYPE_FIELD)
-	pe2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	pe2:SetCode(EFFECT_CHANGE_DAMAGE)
-	pe2:SetRange(LOCATION_PZONE)
-	pe2:SetTargetRange(1,0)
-	pe2:SetCondition(root.pe2con)
-	pe2:SetValue(root.pe2val)
-	c:RegisterEffect(pe2)
-	local pe2b=pe2:Clone()
-	pe2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-	c:RegisterEffect(pe2b)
-
-	--special summon
-	local pe3=Effect.CreateEffect(c)
-	pe3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	pe3:SetType(EFFECT_TYPE_IGNITION)
-	pe3:SetRange(LOCATION_PZONE)
-	pe3:SetLabelObject(Effect.CreateEffect(c))
-	pe3:SetCost(root.pe3cost)
-	pe3:SetTarget(root.pe3tg)
-	pe3:SetOperation(root.pe3op)
-	c:RegisterEffect(pe3)
-
-	--atk/def
-	local me1=Effect.CreateEffect(c)
-	me1:SetType(EFFECT_TYPE_SINGLE)
-	me1:SetCode(EFFECT_MATERIAL_CHECK)
-	me1:SetValue(root.me1val)
-	c:RegisterEffect(me1)
-	local me1sum=Effect.CreateEffect(c)
-	me1sum:SetType(EFFECT_TYPE_SINGLE)
-	me1sum:SetCode(EFFECT_SUMMON_COST)
-	me1sum:SetLabelObject(me1)
-	me1sum:SetOperation(function(e,tp,eg,ep,ev,re,r,rp) e:GetLabelObject():SetLabel(1) end)
-	c:RegisterEffect(me1sum)
+	--add race
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e1:SetCode(EFFECT_ADD_RACE)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetValue(RACE_WINGEDBEAST+RACE_PYRO)
+	c:RegisterEffect(e1)
 
 	--attack limit
-	local me2=Effect.CreateEffect(c)
-	me2:SetType(EFFECT_TYPE_SINGLE)
-	me2:SetCode(EFFECT_CANNOT_ATTACK)
-	c:RegisterEffect(me2)
-	
-	--summon ra
-	local me4=Effect.CreateEffect(c)
-	me4:SetDescription(aux.Stringid(id,2))
-	me4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	me4:SetType(EFFECT_TYPE_QUICK_O)
-	me4:SetCode(EVENT_FREE_CHAIN)
-	me4:SetRange(LOCATION_MZONE)
-	me4:SetCountLimit(1)
-	me4:SetTarget(root.me4tg)
-	me4:SetOperation(root.me4op)
-	c:RegisterEffect(me4)
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetCode(EFFECT_CANNOT_ATTACK)
+	c:RegisterEffect(e2)
+
+	--battle
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetValue(root.e3val)
+	c:RegisterEffect(e3)
+	local e3b=e3:Clone()
+	e3b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE) 
+	c:RegisterEffect(e3b)
+
+	--reborn ra
+	local e4=Effect.CreateEffect(c)
+	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e4:SetCode(EVENT_TO_GRAVE)
+	e4:SetCondition(root.e4con)
+	e4:SetOperation(root.e4op)
+	Duel.RegisterEffect(e4,0)
+
+	--standard mode
+	local e5=Effect.CreateEffect(c)
+	e5:SetDescription(aux.Stringid(id,0))
+	e5:SetType(EFFECT_TYPE_IGNITION)
+	e5:SetProperty(EFFECT_FLAG_BOTH_SIDE)
+	e5:SetRange(LOCATION_MZONE)
+	e5:SetCountLimit(1)
+	e5:SetTarget(root.e5tg)
+	e5:SetOperation(root.e5op)
+	c:RegisterEffect(e5)
 end
 
-function root.sum2con(e,c,minc,zone,relzone,exeff)
-	if c==nil then return true end
-	if exeff then
-		local ret=exeff:GetValue()
-		if type(ret)=="function" then
-			ret={ret(exeff,c)}
-			if #ret>1 then
-				zone=(ret[2]>>16)&0x7f
-			end
-		end
-	end
-	local tp=c:GetControler()
-	local mg=Duel.GetFieldGroup(tp,0,LOCATION_MZONE)
-	mg=mg:Filter(Auxiliary.IsZone,nil,relzone,tp)
-	return minc<=3 and Duel.CheckTribute(c,3,3,mg,1-tp,zone)
+function root.etransfilter(c)
+	return c:IsCode(10000010)
 end
 
-function root.sum2tg(e,tp,eg,ep,ev,re,r,rp,chk,c,minc,zone,relzone,exeff)
-	if exeff then
-		local ret=exeff:GetValue()
-		if type(ret)=="function" then
-			ret={ret(exeff,c)}
-			if #ret>1 then
-				zone=(ret[2]>>16)&0x7f
-			end
-		end
-	end
-	local mg=Duel.GetFieldGroup(tp,0,LOCATION_MZONE)
-	mg=mg:Filter(Auxiliary.IsZone,nil,relzone,tp)
-	local g=Duel.SelectTribute(tp,c,3,3,mg,1-tp,zone,true)
-	if g and #g>0 then
-		g:KeepAlive()
-		e:SetLabelObject(g)
-		return true
-	end
-	return false
+function root.etranscon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():GetLocation()==0 and eg:IsExists(root.etransfilter,1,nil)
 end
 
-function root.sum2op(e,tp,eg,ep,ev,re,r,rp,c,minc,zone,relzone,exeff)
-	local g=e:GetLabelObject()
-	c:SetMaterial(g)
-	Duel.Release(g,REASON_SUMMON+REASON_MATERIAL)
-	g:DeleteGroup()
-end
-
-function root.controlreg(e,tp,eg,ep,ev,re,r,rp)
+function root.etransop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD-RESET_TURN_SET+RESET_PHASE+PHASE_END,0,2)
+	local tc=eg:Filter(root.etransfilter,nil):GetFirst()
+	if not tc then return end
+	Duel.BreakEffect()
 
-	local ec1=Effect.CreateEffect(c)
-	ec1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-	ec1:SetCode(EVENT_PHASE+PHASE_END)
-	ec1:SetLabel(Duel.GetTurnCount()+1)
-	ec1:SetCountLimit(1)
-	ec1:SetCondition(root.controlcon)
-	ec1:SetOperation(root.controlop)
-	ec1:SetReset(RESET_PHASE+PHASE_END,2)
-	Duel.RegisterEffect(ec1,tp)
-end
-
-function root.controlcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnCount()==e:GetLabel() and e:GetOwner():GetFlagEffect(id)~=0
-end
-
-function root.controlop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetOwner()
-	c:ResetEffect(EFFECT_SET_CONTROL,RESET_CODE)
-
+	Duel.Hint(HINT_CARD,tp,id)
+	local pos=tc:GetPosition()
+	local zone=tc:GetSequence()
+	if zone>=0 and zone<=4 then zone=2^zone
+	else zone=0xff end
+	Duel.SendtoDeck(tc,nil,-2,REASON_RULE)
+	Duel.MoveToField(c,tc:GetControler(),tc:GetControler(),LOCATION_MZONE,pos,true,zone)
+	c.base_transform:AddCard(tc)
 	local ec1=Effect.CreateEffect(c)
 	ec1:SetType(EFFECT_TYPE_SINGLE)
-	ec1:SetCode(EFFECT_SET_CONTROL)
-	ec1:SetValue(c:GetOwner())
-	ec1:SetReset(RESET_EVENT+RESETS_STANDARD-(RESET_TOFIELD+RESET_TEMP_REMOVE+RESET_TURN_SET))
+	ec1:SetCode(EFFECT_CANNOT_CHANGE_POSITION)
+	ec1:SetReset(RESET_PHASE+PHASE_END)
 	c:RegisterEffect(ec1)
 end
 
-function root.pe2con(e)
-	return Duel.IsExistingMatchingCard(function(c)
-		return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_DIVINE)
-	end,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
+function root.e3val(e,tc)
+	return not tc.divine_hierarchy
 end
 
-function root.pe2val(e,re,val,r,rp,rc)
-	if (r&REASON_EFFECT)~=0 then return 0
-	else return val end
+function root.e4filter(c,e,tp)
+	return c:IsCode(10000010) and c:IsControler(tp) and c:IsPreviousLocation(LOCATION_ONFIELD)
+		and c:IsCanBeSpecialSummoned(e,0,tp,true,false,POS_FACEUP)
 end
 
-function root.pe3cost(e,tp,eg,ep,ev,re,r,rp,chk)
+function root.e4con(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():GetLocation()==0 and eg:IsExists(root.e4filter,1,nil,e,tp)
+end
+
+function root.e4op(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if chk==0 then return Duel.CheckReleaseGroupCost(tp,nil,3,false,nil,c) end
-	local g=Duel.SelectReleaseGroupCost(tp,nil,3,3,false,nil,c)
-	
-	local atk=0
-	local def=0
-	for tc in aux.Next(g) do
-		local catk=tc:GetAttack()
-		local cdef=tc:GetDefense()
-		atk=atk+(catk>=0 and catk or 0)
-		def=def+(cdef>=0 and cdef or 0)
-	end
-	e:SetLabel(atk)
-	e:GetLabelObject():SetLabel(def)
+	local tc=eg:Filter(root.e4filter,nil,e,tp):GetFirst()
+	if not tc then return end
+	Duel.BreakEffect()
 
-	Duel.Release(g,REASON_COST)
-end
-
-function root.pe3tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and c:IsCanBeSpecialSummoned(e,0,tp,true,false) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
-end
-
-function root.pe3op(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if not c:IsRelateToEffect(e) then return end
-
-	if Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)>0 then
+	Duel.Hint(HINT_CARD,tp,id)
+	if Duel.SpecialSummonStep(tc,0,tp,tp,true,false,POS_FACEUP_DEFENSE) then
+		local zone=tc:GetSequence()
+		if zone>=0 and zone<=4 then zone=2^zone
+		else zone=0xff end
+		Duel.SendtoDeck(tc,nil,-2,REASON_RULE)
+		Duel.MoveToField(c,tc:GetControler(),tc:GetControler(),LOCATION_MZONE,POS_FACEUP_DEFENSE,true,zone)
+		c.base_transform:AddCard(tc)
 		local ec1=Effect.CreateEffect(c)
 		ec1:SetType(EFFECT_TYPE_SINGLE)
-		ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-		ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-		ec1:SetRange(LOCATION_MZONE)
-		ec1:SetValue(e:GetLabel())
-		ec1:SetReset(RESET_EVENT+0xff0000)
+		ec1:SetCode(EFFECT_CANNOT_CHANGE_POSITION)
+		ec1:SetReset(RESET_PHASE+PHASE_END)
 		c:RegisterEffect(ec1)
-		local ec2=ec1:Clone()
-		ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
-		ec2:SetValue(e:GetLabelObject():GetLabel())
-		c:RegisterEffect(ec2)
 
-		c:CompleteProcedure()
-	end
-end
-
-function root.me1val(e,c)
-	local atk=0
-	local def=0
-	local mg=c:GetMaterial()
-	for tc in aux.Next(mg) do
-		local catk=tc:GetAttack()
-		local cdef=tc:GetDefense()
-		atk=atk+(catk>=0 and catk or 0)
-		def=def+(cdef>=0 and cdef or 0)
-	end
-
-	if e:GetLabel()==1 then
-		e:SetLabel(0)
-		local ec1=Effect.CreateEffect(c)
-		ec1:SetType(EFFECT_TYPE_SINGLE)
-		ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-		ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-		ec1:SetRange(LOCATION_MZONE)
-		ec1:SetValue(atk)
-		ec1:SetReset(RESET_EVENT+0xff0000)
-		c:RegisterEffect(ec1)
-		local ec2=ec1:Clone()
-		ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
-		ec2:SetValue(def)
-		c:RegisterEffect(ec2)
-	end
-end
-
-function root.me4filter(c,e,tp)
-	return c:IsCode(10000010) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
-end
-
-function root.me4tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	if c:GetSequence()<5 then ft=ft+1 end
-	if chk==0 then return (Duel.CheckLocation(tp,LOCATION_PZONE,0) or Duel.CheckLocation(tp,LOCATION_PZONE,1))
-		and ft>0 and Duel.IsExistingMatchingCard(root.me4filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
-end
-
-function root.me4op(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if not Duel.CheckLocation(tp,LOCATION_PZONE,0) and not Duel.CheckLocation(tp,LOCATION_PZONE,1) then return false end
-	if not c:IsRelateToEffect(e) then return end
-
-	local atk=c:GetBaseAttack()
-	if atk<4000 then atk=4000 end
-	local def=c:GetBaseDefense()
-	if def<4000 then def=4000 end
-	if not Duel.MoveToField(c,tp,tp,LOCATION_PZONE,POS_FACEUP,true) then return end
-	
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tc=Duel.SelectMatchingCard(tp,root.me4filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp):GetFirst()
-	if tc and Duel.SpecialSummonStep(tc,0,tp,tp,true,false,POS_FACEUP) then
-		local ec1=Effect.CreateEffect(c)
-		ec1:SetType(EFFECT_TYPE_SINGLE)
-		ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-		ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-		ec1:SetValue(atk)
-		ec1:SetReset(RESET_EVENT+RESETS_STANDARD)
-		tc:RegisterEffect(ec1)
-		local ec1b=ec1:Clone()
-		ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
-		ec1b:SetValue(def)
-		tc:RegisterEffect(ec1b)
+		c:RegisterFlagEffect(id,RESET_EVENT+RESETS_STANDARD-RESET_TOFIELD+RESET_PHASE+PHASE_END,0,1)
 	end
 	Duel.SpecialSummonComplete()
+end
+
+function root.e5tg(e,tp,eg,ep,ev,re,r,rp,chk)
+	local c=e:GetHandler()
+	local tc=c.base_transform:GetFirst()
+	if chk==0 then return c:GetFlagEffect(id)==0 and tp==tc:GetOwner()
+		and (c:IsControler(tp) or Duel.GetLocationCount(tp,LOCATION_MZONE)>0)
+	end
+end
+
+function root.e5op(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	if not c:IsControler(tp) and Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
+	local tc=c.base_transform:GetFirst()
+	c.base_transform:RemoveCard(tc)
+	
+	local zone=c:GetSequence()
+	if c:IsControler(tc:GetOwner()) and zone>=0 and zone<=4 then zone=2^zone
+	else zone=0xff end
+	Duel.SendtoDeck(c,tp,-2,REASON_RULE)
+	Duel.MoveToField(tc,tp,tp,LOCATION_MZONE,POS_FACEUP,true,zone)
+	local ec1=Effect.CreateEffect(c)
+	ec1:SetType(EFFECT_TYPE_SINGLE)
+	ec1:SetCode(EFFECT_CANNOT_CHANGE_POSITION)
+	ec1:SetReset(RESET_PHASE+PHASE_END)
+	c:RegisterEffect(ec1)
+
+	local atk=0
+	local def=0
+	if tc:IsSummonType(SUMMON_TYPE_TRIBUTE) then
+		local mg=tc:GetMaterial()
+		for mc in aux.Next(mg) do
+			atk=atk+mc:GetBaseAttack()
+			def=def+mc:GetBaseDefense()
+		end
+	end
+	local ec2=Effect.CreateEffect(c)
+	ec2:SetType(EFFECT_TYPE_SINGLE)
+	ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE+EFFECT_FLAG_IGNORE_IMMUNE)
+	ec2:SetCode(EFFECT_SET_BASE_ATTACK)
+	ec2:SetRange(LOCATION_MZONE)
+	ec2:SetValue(atk<4000 and 4000 or atk)
+	ec2:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE-RESET_TOFIELD)
+	tc:RegisterEffect(ec2)
+	local ec3=ec2:Clone()
+	ec3:SetCode(EFFECT_SET_BASE_DEFENSE)
+	ec3:SetValue(def<4000 and 4000 or def)
+	tc:RegisterEffect(ec3)
 end

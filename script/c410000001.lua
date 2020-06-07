@@ -1,4 +1,4 @@
---Osiris the Sky Divine Dragon
+--Slifer the Sky Divine Dragon
 local root,id=GetID()
 
 root.divine_hierarchy=1
@@ -67,22 +67,14 @@ function root.initial_effect(c)
 	local noflip=noswitch:Clone()
 	noflip:SetCode(EFFECT_CANNOT_TURN_SET)
 	c:RegisterEffect(noflip)
-	local noleave=noswitch:Clone()
-	noleave:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	noleave:SetCode(EFFECT_SEND_REPLACE)
-	noleave:SetTarget(function(e,tp,eg,ep,ev,re,r,rp,chk)
-		if chk==0 then return e:GetHandler():IsReason(REASON_EFFECT) and r&REASON_EFFECT~=0 and re and re:IsActiveType(TYPE_SPELL+TYPE_TRAP) end
-		return true
-	end)
-	noleave:SetValue(function(e) return false end)
-	c:RegisterEffect(noleave)
 	local immunity=noswitch:Clone()
 	immunity:SetCode(EFFECT_IMMUNE_EFFECT)
 	immunity:SetValue(function(e,te)
 		local c=e:GetOwner()
-		local tc=te:GetOwner()
-		return tc~=c and te:IsActiveType(TYPE_MONSTER)
-			and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy)
+		local tc=te:GetOwner()   
+		return (te:IsActiveType(TYPE_MONSTER) and c~=tc and (not tc.divine_hierarchy or tc.divine_hierarchy<c.divine_hierarchy))
+			or (te:IsActiveType(TYPE_SPELL+TYPE_TRAP)
+				and te:IsHasCategory(CATEGORY_TOHAND+CATEGORY_DESTROY+CATEGORY_REMOVE+CATEGORY_TODECK+CATEGORY_RELEASE+CATEGORY_TOGRAVE+CATEGORY_FUSION_SUMMON))
 	end)
 	c:RegisterEffect(immunity)
 	local reset=noswitch:Clone()
@@ -94,13 +86,10 @@ function root.initial_effect(c)
 		local owner=false
 		local effs={c:GetCardEffect()}
 		for _,eff in ipairs(effs) do
-			owner=(eff:GetOwner()~=c and not eff:GetOwner():IsCode(0)
-				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+			local check=(eff:GetOwner()~=c and not eff:GetOwner():IsCode(0)
+				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and eff:GetCode()~=EFFECT_SPSUMMON_PROC
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
-				and (eff:GetOwner()~=c and not eff:GetOwner():IsCode(0)
-				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)))
-				or owner
+			owner=check or owner
 		end
 		return owner or (c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE+LOCATION_REMOVED))
 	end)
@@ -109,7 +98,7 @@ function root.initial_effect(c)
 		local effs={c:GetCardEffect()}
 		for _,eff in ipairs(effs) do
 			if eff:GetOwner()~=c and not eff:GetOwner():IsCode(0)
-				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+				and not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and eff:GetCode()~=EFFECT_SPSUMMON_PROC
 				and (eff:GetTarget()==aux.PersistentTargetFilter or not eff:IsHasType(EFFECT_TYPE_GRANT+EFFECT_TYPE_FIELD)) then
 				eff:Reset()
 			end
