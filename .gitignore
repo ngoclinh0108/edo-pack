@@ -1,2 +1,3 @@
-/pics
 /pack.mse-set.bak
+/pics/regular/*
+!/pics/regular/400000000.jpg

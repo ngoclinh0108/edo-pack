@@ -5,7 +5,7 @@
       "name": "Build",
       "request": "launch",
       "type": "node-terminal",
-      "command": "ygofab make --clean && ygofab compose && ygofab sync -g triplesix"
+      "command": "ygofab make --clean && ygofab compose && ygofab sync -g triplesix --clean"
     }
   ]
 }

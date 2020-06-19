@@ -1,7 +1,5 @@
 {
-  "editor.formatOnSave": true,
   "files.exclude": {
-    "pics": true,
     ".vscode": true
   },
   "Lua.diagnostics.disable": [
