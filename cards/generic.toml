@@ -1,8 +1,12 @@
+[card.util]
+id = 400000000
+name = "triplesix's function"
+type = "token"
+
 [card.millennium-hieroglyph]
 id = 400000001
 name = "Millennium Hieroglyph"
 type = "skill"
-effect = ''''''
 
 [card.hyper-polymerization]
 id = 400000002
