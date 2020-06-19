@@ -1,10 +1,12 @@
 [card.util]
 id = 400000000
+ot = 32
 name = "triplesix's function"
 type = "token"
 
 [card.millennium-hieroglyph]
 id = 400000001
+ot = 32
 name = "Millennium Hieroglyph"
 type = "skill"
 strings = [
@@ -22,6 +24,7 @@ strings = [
 
 [card.hyper-polymerization]
 id = 400000002
+ot = 32
 alias = 24094653
 name = "Hyper Polymerization"
 type = "spell"

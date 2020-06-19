@@ -1,0 +1,19 @@
+[macro]
+DIVINE_EFFECT = '''(This card's name is always treated as "$1". This card's base Divine Hierarchy is $2.)
+Requires 3 Tributes to Normal Summon (cannot be Normal Set). This card's Normal Summon cannot be negated. This card's activation and effects cannot be negated, cannot be Tributed by your opponent, or be used as a material for a Summon by your opponent, control of this card cannot be switched, cannot be flipped face-down. Unaffected by Spell/Trap effects that would make this card leave the field and other monsters' effects, except for monsters with the same or higher Divine Hierarchy. This card is also a $3 monster while face-up on the field. $4 Other cards' effects are only applied on this card for 1 turn. During the End Phase, if this card was Special Summoned from the GY or Banished Zone: Send it to the GY.'''
+
+[card.obelisk]
+id = 410000001
+ot = 32
+name = "Obelisk the Giant Divine Soldier"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = 4000
+def = 4000
+effect = '''
+${DIVINE_EFFECT|Obelisk the Tormentor|1|Warrior/Rock|When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. Once per turn (Quick Effect): You can Tribute 2 other monsters; destroy all monsters your opponent controls, and if you do, inflict damage equal to the ATK of this card to your opponent. This card cannot declare an attack the turn this effect is activated.}'''
+strings = [
+    "Destroy all monsters your opponent controls",
+]
