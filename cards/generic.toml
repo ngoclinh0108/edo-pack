@@ -1,11 +1,11 @@
 [card.millennium-hieroglyph]
-id = 400000000
+id = 400000001
 name = "Millennium Hieroglyph"
 type = "skill"
 effect = ''''''
 
 [card.hyper-polymerization]
-id = 400000001
+id = 400000002
 alias = 24094653
 name = "Hyper Polymerization"
 type = "spell"
