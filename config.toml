@@ -7,4 +7,4 @@ mode  = "proxy"
 
 [expansion.triplesix]
 default = true
-recipe  = [ "cards.toml" ]
+recipe  = [ "/cards/generic.toml" ]
