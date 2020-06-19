@@ -5,6 +5,7 @@ Requires 3 Tributes to Normal Summon (cannot be Normal Set). This card's Normal 
 [card.obelisk]
 id = 410000001
 ot = 32
+alias = 10000000
 name = "Obelisk the Giant Divine Soldier"
 type = "monster effect"
 attribute = "divine"
@@ -16,4 +17,21 @@ effect = '''
 ${DIVINE_EFFECT|Obelisk the Tormentor|1|Warrior/Rock|When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. Once per turn (Quick Effect): You can Tribute 2 other monsters; destroy all monsters your opponent controls, and if you do, inflict damage equal to the ATK of this card to your opponent. This card cannot declare an attack the turn this effect is activated.}'''
 strings = [
     "Destroy all monsters your opponent controls",
+]
+
+[card.slifer]
+id = 410000002
+ot = 32
+alias = 10000020
+name = "Slifer the Sky Divine Dragon"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = '?'
+def = '?'
+effect = '''
+${DIVINE_EFFECT|Slifer the Sky Dragon|1|Dragon/Thunder|The original ATK/DEF of this card each become equal to the number of cards in your hand x 1000. If a monster(s) is Summoned to your opponent's field in face-up Position: That monster(s) loses 2000 ATK if it is in face-up Attack Position, but 2000 DEF if it is in face-up Defense Position, then if its ATK or DEF has been reduced to 0 as a result, destroy it. Also your opponent cannot activate those monster(s) effects in response to this effect's activation.}'''
+strings = [
+    "Reduce the monster(s)' ATK or DEF",
 ]
