@@ -7,6 +7,18 @@ type = "token"
 id = 400000001
 name = "Millennium Hieroglyph"
 type = "skill"
+strings = [
+    "Immunity by \"Millennium Hieroglyph\"",
+    "Go to next turn",
+    "Create a card",
+    "Protect a card",
+    "Move monster",
+    "Reset game",
+    "Add cards to you hand",
+    "Send cards to the GY",
+    "Return cards to the Deck",
+    "Add cards to Extra Deck face-up"
+]
 
 [card.hyper-polymerization]
 id = 400000002
