@@ -1,0 +1,8 @@
+[card.hyper-polymerization]
+id = 400000001
+alias = 24094653
+name = "Hyper Polymerization"
+type = "spell"
+effect = '''
+(This card's name is always treated as "Polymerization").
+Fusion Summon 1 Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Material, you can also banish monster from your GY as Fusion Material. Your opponent cannot activate cards or effects in response to this card's activation. During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: You can discard 1 Spell; add this card to your hand.'''
