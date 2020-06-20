@@ -106,7 +106,7 @@ Whenever your "The Winged Dragon of Ra" is Normal Summoned: Transform Summon thi
 ${DIVINE_EFFECT} \
 ${RACE|Winged-Beast/Pyro} \
 Cannot attack. \
-The first time this card would be destroyed by battle each turn, it is not destroyed. \
+Twice per turn, this card cannot be destroyed by battle. \
 You take no Battle Damage from battles involving this card. \
 Once per turn: Any player can De-Transform this card, \
     and if they do, original ATK/DEF of the original form become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \

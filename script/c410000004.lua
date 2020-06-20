@@ -29,7 +29,7 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
+    e3:SetCountLimit(2)
     e3:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
     c:RegisterEffect(e3)
 
