@@ -1,6 +1,6 @@
 [macro]
 DIVINE_EFFECT = '''(This card's name is always treated as "$1". This card's base Divine Hierarchy is $2.)
-Requires 3 Tributes to Normal Summon (cannot be Normal Set). This card's Normal Summon cannot be negated. This card's activation and effects cannot be negated, cannot be Tributed by your opponent, or be used as a material for a Summon by your opponent, control of this card cannot be switched, cannot be flipped face-down. Unaffected by Spell/Trap effects that would make this card leave the field and other monsters' effects, except for monsters with the same or higher Divine Hierarchy. This card is also a $3 monster while face-up on the field. $4 Other cards' effects are only applied on this card for 1 turn. During the End Phase, if this card was Special Summoned from the GY or Banished Zone: Send it to the GY.'''
+Requires 3 Tributes to Normal Summon (cannot be Normal Set). This card's Normal Summon cannot be negated. This card's activation and effects cannot be negated, cannot be Tributed by your opponent, or be used as a material for a Summon by your opponent, control of this card cannot be switched, cannot be flipped face-down. Unaffected by other card effects that would make this card leave the field except for monsters with the same or higher Divine Hierarchy. This card is also a $3 monster while face-up on the field.$4 Other cards' effects are only applied on this card for 1 turn. During the End Phase, if this card was Special Summoned from the GY or Banished Zone: Send it to the GY.'''
 
 [card.obelisk]
 id = 410000001
@@ -14,7 +14,7 @@ level = 10
 atk = 4000
 def = 4000
 effect = '''
-${DIVINE_EFFECT|Obelisk the Tormentor|1|Warrior/Rock|When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. Once per turn (Quick Effect): You can Tribute 2 other monsters; destroy all monsters your opponent controls, and if you do, inflict damage equal to the ATK of this card to your opponent. This card cannot declare an attack the turn this effect is activated.}'''
+${DIVINE_EFFECT|Obelisk the Tormentor|1|Warrior/Rock| When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. Once per turn (Quick Effect): You can Tribute 2 other monsters; destroy all monsters your opponent controls, and if you do, inflict damage equal to the ATK of this card to your opponent. This card cannot declare an attack the turn this effect is activated.}'''
 strings = [
     "Destroy all monsters your opponent controls",
 ]
@@ -31,7 +31,22 @@ level = 10
 atk = '?'
 def = '?'
 effect = '''
-${DIVINE_EFFECT|Slifer the Sky Dragon|1|Dragon/Thunder|The original ATK/DEF of this card each become equal to the number of cards in your hand x 1000. If a monster(s) is Summoned to your opponent's field in face-up Position: That monster(s) loses 2000 ATK if it is in face-up Attack Position, but 2000 DEF if it is in face-up Defense Position, then if its ATK or DEF has been reduced to 0 as a result, destroy it. Also your opponent cannot activate those monster(s) effects in response to this effect's activation.}'''
+${DIVINE_EFFECT|Slifer the Sky Dragon|1|Dragon/Thunder| The original ATK/DEF of this card each become equal to the number of cards in your hand x 1000. If a monster(s) is Summoned to your opponent's field in face-up Position: That monster(s) loses 2000 ATK if it is in face-up Attack Position, but 2000 DEF if it is in face-up Defense Position, then if its ATK or DEF has been reduced to 0 as a result, destroy it. Also your opponent cannot activate those monster(s) effects in response to this effect's activation.}'''
 strings = [
     "Reduce the monster(s)' ATK or DEF",
 ]
+
+[card.ra]
+id = 410000003
+ot = 32
+alias = 10000010
+name = "Ra the Sun Divine Phoenix"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = '?'
+def = '?'
+effect = '''
+${DIVINE_EFFECT|The Winged Dragon of Ra|2|Winged-Beast/Pyro}'''
+strings = []
