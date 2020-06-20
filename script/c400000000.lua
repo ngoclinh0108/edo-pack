@@ -6,7 +6,7 @@ end
 if not Divine then Divine = aux.DivineProcedure end
 
 function Divine.AddProcedure(c, race)
-    -- summon with 3 tribute
+    -- summon with 3 tributes
     aux.AddNormalSummonProcedure(c, true, false, 3, 3)
     aux.AddNormalSetProcedure(c)
 
@@ -37,7 +37,7 @@ function Divine.AddProcedure(c, race)
     nodis:SetCode(EFFECT_CANNOT_DISABLE)
     c:RegisterEffect(nodis)
 
-    -- cannot be Tributed or be used as a material for a Summon by your opponent by your opponent
+    -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
     norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -67,14 +67,6 @@ function Divine.AddProcedure(c, race)
     nolnk:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
     c:RegisterEffect(nolnk)
 
-    -- cannot be switched control
-    local noswitch = Effect.CreateEffect(c)
-    noswitch:SetType(EFFECT_TYPE_SINGLE)
-    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    noswitch:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(noswitch)
-
     -- cannot be flipped face-down
     local noflip = Effect.CreateEffect(c)
     noflip:SetType(EFFECT_TYPE_SINGLE)
@@ -82,6 +74,14 @@ function Divine.AddProcedure(c, race)
     noflip:SetCode(EFFECT_CANNOT_TURN_SET)
     noflip:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noflip)
+
+    -- cannot be switch control
+    local noswitch = Effect.CreateEffect(c)
+    noswitch:SetType(EFFECT_TYPE_SINGLE)
+    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    noswitch:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(noswitch)
 
     -- immunity
     local immunity = Effect.CreateEffect(c)
@@ -102,18 +102,7 @@ function Divine.AddProcedure(c, race)
     end)
     c:RegisterEffect(immunity)
 
-    -- multi race
-    if race then
-        local addrace = Effect.CreateEffect(c)
-        addrace:SetType(EFFECT_TYPE_SINGLE)
-        addrace:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-        addrace:SetCode(EFFECT_ADD_RACE)
-        addrace:SetRange(LOCATION_MZONE)
-        addrace:SetValue(race)
-        c:RegisterEffect(addrace)
-    end
-
-    -- last 1 turn
+    -- reset effect
     local reset = Effect.CreateEffect(c)
     reset:SetDescription(1162)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -122,51 +111,84 @@ function Divine.AddProcedure(c, race)
     reset:SetRange(LOCATION_MZONE)
     reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
-        local owner = false
+        local check = false
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
-            local check =
-                (eff:GetOwner() ~= c and not eff:GetOwner():IsCode(0) and
-                    not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
-                    eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
-                    (eff:GetTarget() == aux.PersistentTargetFilter or
-                        not eff:IsHasType(EFFECT_TYPE_GRANT)))
-            owner = check or owner
+            check = (eff:GetOwner() ~= c and
+                        not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
+                        eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
+                        (eff:GetTarget() == aux.PersistentTargetFilter or
+                            not eff:IsHasType(EFFECT_TYPE_GRANT)))
+            if check == true then break end
         end
-        return owner or (c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-                   c:IsPreviousLocation(LOCATION_GRAVE + LOCATION_REMOVED))
+        return check
     end)
     reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
-            if eff:GetOwner() ~= c and not eff:GetOwner():IsCode(0) and
-                not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
-                eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
-                (eff:GetTarget() == aux.PersistentTargetFilter or
-                    not eff:IsHasType(EFFECT_TYPE_GRANT)) then
+            local ec = eff:GetOwner()
+            local check = ec ~= c and
+                              not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
+                              eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
+                              (eff:GetTarget() == aux.PersistentTargetFilter or
+                                  not eff:IsHasType(EFFECT_TYPE_GRANT))
 
+            if check then
                 if not eff:IsHasType(EFFECT_TYPE_FIELD) then
                     eff:Reset()
                 end
 
-                local imm = Effect.CreateEffect(c)
-                imm:SetType(EFFECT_TYPE_SINGLE)
-                imm:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-                imm:SetCode(EFFECT_IMMUNE_EFFECT)
-                imm:SetRange(LOCATION_MZONE)
-                imm:SetLabelObject(eff:GetOwner())
-                imm:SetValue(function(e, te)
-                    return te:GetOwner() ~= c and te:GetOwner() ==
-                               e:GetLabelObject()
-                end)
-                c:RegisterEffect(imm)
+                if (not ec.divine_hierarchy) then
+                    local imm = Effect.CreateEffect(c)
+                    imm:SetType(EFFECT_TYPE_SINGLE)
+                    imm:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+                    imm:SetCode(EFFECT_IMMUNE_EFFECT)
+                    imm:SetRange(LOCATION_MZONE)
+                    imm:SetLabelObject(ec)
+                    imm:SetValue(function(e, te)
+                        return te:GetOwner() == e:GetLabelObject()
+                    end)
+                    imm:SetReset(RESET_EVENT + RESETS_STANDARD)
+                    c:RegisterEffect(imm)
+                end
             end
-        end
-        if c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-            c:IsPreviousLocation(LOCATION_GRAVE + LOCATION_REMOVED) then
-            Duel.SendtoGrave(c, REASON_EFFECT)
         end
     end)
     c:RegisterEffect(reset)
+
+    -- send to grave
+    local togy = Effect.CreateEffect(c)
+    togy:SetDescription(aux.Stringid(400000000, 0))
+    togy:SetCategory(CATEGORY_TOGRAVE)
+    togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
+    togy:SetCode(EVENT_PHASE + PHASE_END)
+    togy:SetRange(LOCATION_MZONE)
+    togy:SetCountLimit(1)
+    togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+                   c:IsPreviousLocation(LOCATION_GRAVE + LOCATION_REMOVED)
+    end)
+    togy:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then return true end
+        Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, e:GetHandler(), 1, 0, 0)
+    end)
+    togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+        Duel.SendtoGrave(c, REASON_EFFECT)
+    end)
+    c:RegisterEffect(togy)
+
+    -- multi-race
+    if race then
+        local multirace = Effect.CreateEffect(c)
+        multirace:SetType(EFFECT_TYPE_SINGLE)
+        multirace:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+        multirace:SetCode(EFFECT_ADD_RACE)
+        multirace:SetRange(LOCATION_MZONE)
+        multirace:SetValue(race)
+        c:RegisterEffect(multirace)
+    end
 end
