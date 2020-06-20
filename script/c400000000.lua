@@ -105,13 +105,20 @@ function Divine.AddProcedure(c, race, summon_mode, to_grave_end_phase)
     immunity:SetValue(function(e, te)
         local c = e:GetOwner()
         local tc = te:GetOwner()
-        return c ~= tc and
-                   te:IsHasCategory(CATEGORY_TOHAND + CATEGORY_DESTROY +
-                                        CATEGORY_REMOVE + CATEGORY_TODECK +
-                                        CATEGORY_RELEASE + CATEGORY_TOGRAVE +
-                                        CATEGORY_FUSION_SUMMON) and
-                   (not tc.divine_hierarchy or tc.divine_hierarchy <
-                       c.divine_hierarchy)
+
+        if tc == c then return false end
+
+        if (tc.divine_hierarchy and tc.divine_hierarchy >= c.divine_hierarchy) then
+            return true
+        end
+
+        if (te:GetOwnerPlayer() ~= e:GetHandlerPlayer() and
+            te:IsActiveType(TYPE_MONSTER)) then return true end
+
+        return te:IsHasCategory(CATEGORY_TOHAND + CATEGORY_DESTROY +
+                                    CATEGORY_REMOVE + CATEGORY_TODECK +
+                                    CATEGORY_RELEASE + CATEGORY_TOGRAVE +
+                                    CATEGORY_FUSION_SUMMON)
     end)
     c:RegisterEffect(immunity)
 
