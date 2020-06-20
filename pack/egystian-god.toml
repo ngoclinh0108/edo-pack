@@ -111,7 +111,7 @@ You take no Battle Damage from battles involving this card. \
 Once per turn: Any player can De-Transform this card, \
     and if they do, original ATK/DEF of the original form become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
     Only original owner of original form can use this effect. \
-During the End Phase: Transform Summon this card in face-up Defense Position, by using 1 "The Winged Dragon of Ra - Immortal Phoenix" Transform Monster. \
+During the End Phase: Transform Summon this card in the same battle position, by using 1 "The Winged Dragon of Ra - Immortal Phoenix" Transform Monster. \
     (transfer its materials to this card.)\
 """
 strings = [

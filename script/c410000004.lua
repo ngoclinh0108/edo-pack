@@ -148,6 +148,6 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     Duel.BreakEffect()
 
     Transform.Summon(c, tc:GetControler(), tc:GetControler(), tc,
-                     POS_FACEUP_DEFENSE)
+                     tc:GetPosition())
     c:SetMaterial(tc:GetMaterial())
 end
