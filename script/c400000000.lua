@@ -109,7 +109,7 @@ function Divine.AddProcedure(c, race, summon_mode, to_grave_end_phase)
         if tc == c then return false end
 
         if (tc.divine_hierarchy and tc.divine_hierarchy >= c.divine_hierarchy) then
-            return true
+            return false
         end
 
         if (te:GetOwnerPlayer() ~= e:GetHandlerPlayer() and
@@ -303,6 +303,7 @@ function Transform.AddProcedure(c, matfilter)
         local trans = Effect.CreateEffect(c)
         trans:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         trans:SetCode(EVENT_FREE_CHAIN)
+        trans:SetCountLimit(1)
         trans:SetCondition(Transform.Condition(matfilter))
         trans:SetOperation(Transform.Operation(matfilter))
         Duel.RegisterEffect(trans, nil)
@@ -319,7 +320,7 @@ function Transform.Summon(c, trans_player, target_player, mc, pos)
     end
 
     c:SetMaterial(Group.FromCards(mc))
-    Duel.SendtoDeck(mc, nil, -2, REASON_MATERIAL)
+    Duel.SendtoDeck(mc, nil, -2, REASON_MATERIAL+REASON_RULE)
     Duel.MoveToField(c, trans_player, target_player, LOCATION_MZONE, pos, true,
                      zone)
     Debug.PreSummon(c, mc:GetSummonType(), mc:GetSummonLocation())
