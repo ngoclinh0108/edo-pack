@@ -4,6 +4,7 @@ ot = 32
 name = "triplesix's function"
 type = "token"
 strings = [
+    "Select a card to use as Transform Material",
     "Send this card to the GY",
 ]
 

@@ -5,18 +5,15 @@ local s, id = GetID()
 s.divine_hierarchy = 1
 
 function s.initial_effect(c)
-    Divine.AddProcedure(c, RACE_WARRIOR + RACE_ROCK)
+    Divine.AddProcedure(c, RACE_WARRIOR + RACE_ROCK, '3_tribute', true)
 
-    -- negate
+    -- cannot be targeted
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(1117)
-    e1:SetCategory(CATEGORY_DISABLE)
-    e1:SetType(EFFECT_TYPE_QUICK_O)
-    e1:SetCode(EVENT_CHAINING)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetValue(aux.tgoval)
     c:RegisterEffect(e1)
 
     -- destroy
@@ -32,25 +29,6 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 end
-
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
-
-    local loc, tg = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION,
-                                      CHAININFO_TARGET_CARDS)
-    if not tg or not tg:IsContains(c) then return false end
-
-    return Duel.IsChainDisablable(ev) and loc ~= LOCATION_DECK
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk) Duel.NegateEffect(ev) end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
