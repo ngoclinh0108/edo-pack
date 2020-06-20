@@ -11,7 +11,7 @@ Cannot be Tributed by your opponent, or be used as a material for a Summon by yo
 Cannot be flipped face-down. \
 Control of this card cannot be switched. \
 Unaffected by your opponent's monster effects, other cards' effects that would make this card leave the field, and other cards' effects are only applied on this card for 1 turn, \
-    except for card with the same or higher Divine Hierarchy. \
+    except effects from card with the same or higher Divine Hierarchy. \
 This card cannot activate its effect or attack during the turn it is Special Summoned.\
 """
 TO_GRAVE = """Once per turn, during the End Phase, if this card was Special Summoned from the GY: Send it to the GY."""
