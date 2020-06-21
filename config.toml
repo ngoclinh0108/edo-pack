@@ -7,4 +7,4 @@ mode  = "proxy"
 
 [expansion.triplesix]
 default = true
-recipe  = [ "/pack/generic.toml", "/pack/egystian-god.toml" ]
+recipe  = [ "/pack/generic.toml", "/pack/god.toml" ]

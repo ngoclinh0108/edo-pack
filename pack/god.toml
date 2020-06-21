@@ -1,11 +1,10 @@
 [macro]
 ALIAS = """(This card's name is always treated as "$1". This card's base Divine Hierarchy is $2.$3)"""
-RACE = """This card is also a $4 monster while face-up on the field."""
 3_TRIBUTE_SUMMON = """\
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated.\
 """
-DIVINE_EFFECT = """\
+EGYSTIAN = """\
 This card's activation and effects cannot be negated. \
 Cannot be Tributed by your opponent, or be used as a material for a Summon by your opponent. \
 Cannot be flipped face-down. \
@@ -14,6 +13,7 @@ Unaffected by your opponent's monster effects, other cards' effects that would m
     except effects from card with the same or higher Divine Hierarchy. \
 This card cannot activate its effect or attack during the turn it is Special Summoned.\
 """
+RACE = """This card is also a $4 monster while face-up on the field."""
 TO_GRAVE = """Once per turn, during the End Phase, if this card was Special Summoned from the GY: Send it to the GY."""
 
 [card.obelisk]
@@ -30,7 +30,7 @@ def = 4000
 effect = """\
 ${ALIAS|Obelisk the Tormentor|1|}
 ${3_TRIBUTE_SUMMON} \
-${DIVINE_EFFECT} \
+${EGYSTIAN} \
 ${RACE|Warrior/Rock} \
 Your opponent cannot target this card with card effects. \
 Once per turn (Quick Effect): You can Tribute 2 other monsters; destroy all monsters your opponent controls, \
@@ -56,7 +56,7 @@ def = "?"
 effect = """\
 ${ALIAS|Slifer the Sky Dragon|1|}
 ${3_TRIBUTE_SUMMON} \
-${DIVINE_EFFECT} \
+${EGYSTIAN} \
 ${RACE|Dragon/Thunder} \
 The original ATK/DEF of this card each become equal to the number of cards in your hand x 1000. \
 If a monster(s) is Summoned to your opponent's field in face-up Position: \
@@ -84,7 +84,7 @@ effect = """\
 ${ALIAS|The Winged Dragon of Ra|2|}
 Cannot be Special Summoned from the Deck. \
 ${3_TRIBUTE_SUMMON} \
-${DIVINE_EFFECT} \
+${EGYSTIAN} \
 ${RACE|Winged-Beast/Pyro} \
 ${TO_GRAVE}\
 """
@@ -103,7 +103,7 @@ def = "?"
 effect = """\
 ${ALIAS|The Winged Dragon of Ra - Sphere Mode|2|}
 Whenever your "The Winged Dragon of Ra" is Normal Summoned: Transform Summon this card in the same battle position, by using it. \
-${DIVINE_EFFECT} \
+${EGYSTIAN} \
 ${RACE|Winged-Beast/Pyro} \
 Cannot attack. \
 Twice per turn, this card cannot be destroyed by battle. \
@@ -132,7 +132,7 @@ def = "?"
 effect = """\
 "The Winged Dragon of Ra" is Special Summoned from the GY
 ${ALIAS|The Winged Dragon of Ra - Immortal Phoenix|2|}
-${DIVINE_EFFECT} \
+${EGYSTIAN} \
 ${RACE|Winged-Beast/Pyro} \
 Cannot be destroyed by battle or card effects. \
 Unaffected by your opponent's Spell/Trap effects, and card effects that prevent it from attacking, and this card attacks cannot be negated. \
