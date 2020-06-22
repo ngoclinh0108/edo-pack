@@ -1,13 +1,3 @@
-[card.util]
-id = 400000000
-ot = 32
-name = "triplesix's function"
-type = "token"
-strings = [
-    "Select a card to use as Transform Material",
-    "Send this card to the GY",
-]
-
 [card.millennium-hieroglyph]
 id = 400000001
 ot = 32

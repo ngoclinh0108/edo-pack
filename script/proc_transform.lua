@@ -6,8 +6,8 @@ if not Transform then Transform = aux.TransformProcedure end
 
 -- constant
 Transform.TYPE = 0x20000000
-Transform.TEXT_TRANSFORM_MATERIAL = aux.Stringid(400000000, 0)
-Transform.TEXT_SELF_TO_GRAVE = aux.Stringid(400000000, 1)
+Transform.TEXT_TRANSFORM_MATERIAL = 666000
+Transform.TEXT_SELF_TO_GRAVE = 666100
 
 -- function
 function Transform.AddProcedure(c, matfilter)
