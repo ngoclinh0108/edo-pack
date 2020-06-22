@@ -1,6 +1,6 @@
 -- Ra the Sun Divine Immortal Phoenix
-Duel.LoadScript("c400000000.lua")
 Duel.LoadScript("util_divine.lua")
+Duel.LoadScript("proc_transform.lua")
 local s, id = GetID()
 
 s.divine_hierarchy = 2

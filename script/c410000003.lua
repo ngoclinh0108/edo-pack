@@ -1,5 +1,4 @@
 -- Ra the Sun Divine Phoenix
-Duel.LoadScript("c400000000.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
