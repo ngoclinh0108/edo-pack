@@ -1,5 +1,6 @@
 -- Ra the Sun Divine Sphere
 Duel.LoadScript("c400000000.lua")
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 s.divine_hierarchy = 2
