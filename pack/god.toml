@@ -4,17 +4,19 @@ ALIAS = """(This card's name is always treated as "$1". This card's base Divine 
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated.\
 """
-EGYSTIAN = """\
+EGYPTIAN = """\
 This card's activation and effects cannot be negated. \
 Cannot be Tributed by your opponent, or be used as a material for a Summon by your opponent. \
 Cannot be flipped face-down. \
 Control of this card cannot be switched. \
 Unaffected by your opponent's monster effects, other cards' effects that would make this card leave the field, and other cards' effects are only applied on this card for 1 turn, \
-    except effects from card with the same or higher Divine Hierarchy. \
-This card cannot activate its effect or attack during the turn it is Special Summoned.\
+    except effects from card with the same or higher Divine Hierarchy.\
+"""
+EGYPTIAN_LIMIT = """\
+This card cannot activate its effect or attack during the turn it is Special Summoned. \
+Once per turn, during the End Phase, if this card was Special Summoned from the GY: Send it to the GY.\
 """
 RACE = """This card is also a $4 monster while face-up on the field."""
-TO_GRAVE = """Once per turn, during the End Phase, if this card was Special Summoned from the GY: Send it to the GY."""
 
 [card.obelisk]
 id = 410000001
@@ -30,13 +32,13 @@ def = 4000
 effect = """\
 ${ALIAS|Obelisk the Tormentor|1|}
 ${3_TRIBUTE_SUMMON} \
-${EGYSTIAN} \
+${EGYPTIAN} \
+${EGYPTIAN_LIMIT} \
 ${RACE|Warrior/Rock} \
 Your opponent cannot target this card with card effects. \
 Once per turn (Quick Effect): You can Tribute 2 other monsters; destroy all monsters your opponent controls, \
     and if you do, inflict damage equal to the ATK of this card to your opponent. \
-    This card cannot declare an attack the turn this effect is activated. \
-${TO_GRAVE}\
+    This card cannot declare an attack the turn this effect is activated.\
 """
 strings = [
     "Destroy all monsters your opponent controls",
@@ -56,14 +58,14 @@ def = "?"
 effect = """\
 ${ALIAS|Slifer the Sky Dragon|1|}
 ${3_TRIBUTE_SUMMON} \
-${EGYSTIAN} \
+${EGYPTIAN} \
+${EGYPTIAN_LIMIT} \
 ${RACE|Dragon/Thunder} \
 The original ATK/DEF of this card each become equal to the number of cards in your hand x 1000. \
 If a monster(s) is Summoned to your opponent's field in face-up Position: \
     That monster(s) loses 2000 ATK if it is in face-up Attack Position, but 2000 DEF if it is in face-up Defense Position, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
-    Also your opponent cannot activate those monster(s) effects in response to this effect's activation. \
-${TO_GRAVE}\
+    Also your opponent cannot activate those monster(s) effects in response to this effect's activation.\
 """
 strings = [
     "Reduce the monster(s)' ATK or DEF",
@@ -84,9 +86,9 @@ effect = """\
 ${ALIAS|The Winged Dragon of Ra|2|}
 Cannot be Special Summoned from the Deck. \
 ${3_TRIBUTE_SUMMON} \
-${EGYSTIAN} \
-${RACE|Winged-Beast/Pyro} \
-${TO_GRAVE}\
+${EGYPTIAN} \
+${EGYPTIAN_LIMIT} \
+${RACE|Winged-Beast/Pyro}\
 """
 
 [card.ra_sphere]
@@ -103,7 +105,7 @@ def = "?"
 effect = """\
 ${ALIAS|The Winged Dragon of Ra - Sphere Mode|2|}
 Whenever your "The Winged Dragon of Ra" is Normal Summoned: Transform Summon this card in the same battle position, by using it. \
-${EGYSTIAN} \
+${EGYPTIAN} \
 ${RACE|Winged-Beast/Pyro} \
 Cannot attack. \
 Twice per turn, this card cannot be destroyed by battle. \
@@ -132,7 +134,7 @@ def = "?"
 effect = """\
 "The Winged Dragon of Ra" is Special Summoned from the GY
 ${ALIAS|The Winged Dragon of Ra - Immortal Phoenix|2|}
-${EGYSTIAN} \
+${EGYPTIAN} \
 ${RACE|Winged-Beast/Pyro} \
 Cannot be destroyed by battle or card effects. \
 Unaffected by your opponent's Spell/Trap effects, and card effects that prevent it from attacking, and this card attacks cannot be negated. \
