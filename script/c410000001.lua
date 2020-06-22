@@ -5,7 +5,7 @@ local s, id = GetID()
 s.divine_hierarchy = 1
 
 function s.initial_effect(c)
-    Divine.AddProcedure(c, RACE_WARRIOR + RACE_ROCK, '3_tribute', true)
+    Divine.AddProcedure(c, '3_tribute', true, RACE_WARRIOR + RACE_ROCK)
 
     -- cannot be targeted
     local e1 = Effect.CreateEffect(c)

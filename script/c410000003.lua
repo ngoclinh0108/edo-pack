@@ -5,7 +5,7 @@ local s, id = GetID()
 s.divine_hierarchy = 2
 
 function s.initial_effect(c)
-    Divine.AddProcedure(c, RACE_WINGEDBEAST + RACE_PYRO, '3_tribute', true)
+    Divine.AddProcedure(c, '3_tribute', true, RACE_WINGEDBEAST + RACE_PYRO)
 
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)

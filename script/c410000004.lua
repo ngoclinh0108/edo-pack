@@ -8,7 +8,7 @@ s.listed_names = {CARD_RA, 10000090}
 
 function s.initial_effect(c)
     Transform.AddProcedure(c)
-    Divine.AddProcedure(c, RACE_WINGEDBEAST + RACE_PYRO, 'self', false)
+    Divine.AddProcedure(c, 'self', false, RACE_WINGEDBEAST + RACE_PYRO)
 
     -- transform ra
     local e1 = Effect.CreateEffect(c)

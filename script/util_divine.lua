@@ -4,8 +4,7 @@ if not aux.DivineProcedure then
 end
 if not Divine then Divine = aux.DivineProcedure end
 
--- function
-function Divine.AddProcedure(c, race, summon_mode, to_grave_end_phase)
+function Divine.AddProcedure(c, summon_mode, limit, race)
     if summon_mode == '3_tribute' then
         -- summon with 3 tributes
         aux.AddNormalSummonProcedure(c, true, false, 3, 3)
@@ -177,38 +176,27 @@ function Divine.AddProcedure(c, race, summon_mode, to_grave_end_phase)
     end)
     c:RegisterEffect(reset)
 
-    -- cannot activate effect or attack
-    local atklimit = Effect.CreateEffect(c)
-    atklimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    atklimit:SetCode(EVENT_SPSUMMON_SUCCESS)
-    atklimit:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_CANNOT_TRIGGER)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        c:RegisterEffect(ec1)
-
-        local ec2 = ec1:Clone()
-        ec2:SetCode(EFFECT_CANNOT_ATTACK)
-        c:RegisterEffect(ec2)
-    end)
-    c:RegisterEffect(atklimit)
-
-    -- multi-race
-    if race then
-        local multirace = Effect.CreateEffect(c)
-        multirace:SetType(EFFECT_TYPE_SINGLE)
-        multirace:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-        multirace:SetCode(EFFECT_ADD_RACE)
-        multirace:SetRange(LOCATION_MZONE)
-        multirace:SetValue(race)
-        c:RegisterEffect(multirace)
-    end
-
     -- send to grave
-    if to_grave_end_phase then
+    if limit then
+        -- cannot activate effect or attack
+        local atklimit = Effect.CreateEffect(c)
+        atklimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+        atklimit:SetCode(EVENT_SPSUMMON_SUCCESS)
+        atklimit:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+            local c = e:GetHandler()
+
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetCode(EFFECT_CANNOT_TRIGGER)
+            ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+            c:RegisterEffect(ec1)
+
+            local ec2 = ec1:Clone()
+            ec2:SetCode(EFFECT_CANNOT_ATTACK)
+            c:RegisterEffect(ec2)
+        end)
+        c:RegisterEffect(atklimit)
+
         local togy = Effect.CreateEffect(c)
         togy:SetDescription(Transform.TEXT_SELF_TO_GRAVE)
         togy:SetCategory(CATEGORY_TOGRAVE)
@@ -229,5 +217,16 @@ function Divine.AddProcedure(c, race, summon_mode, to_grave_end_phase)
             end
         end)
         c:RegisterEffect(togy)
+    end
+
+    -- multi-race
+    if race then
+        local multirace = Effect.CreateEffect(c)
+        multirace:SetType(EFFECT_TYPE_SINGLE)
+        multirace:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+        multirace:SetCode(EFFECT_ADD_RACE)
+        multirace:SetRange(LOCATION_MZONE)
+        multirace:SetValue(race)
+        c:RegisterEffect(multirace)
     end
 end
