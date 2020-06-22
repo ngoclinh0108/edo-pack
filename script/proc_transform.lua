@@ -1,3 +1,4 @@
+-- init
 if not aux.TransformProcedure then
     aux.TransformProcedure = {}
     Transform = aux.TransformProcedure
@@ -125,7 +126,11 @@ function Transform.Condition(matfilter)
     return function(e, tp, eg, ep, ev, re, r, rp)
         tp = e:GetOwner():GetOwner()
         local c = e:GetHandler()
-        return e:GetHandler():GetLocation() == 0 and
+
+        return c:GetLocation() == 0 and Duel.GetCurrentChain() == 0 and
+                   Duel.GetTurnPlayer() == tp and
+                   (Duel.GetCurrentPhase() == PHASE_MAIN1 or
+                       Duel.GetCurrentPhase() == PHASE_MAIN2) and
                    Duel.IsExistingMatchingCard(matfilter, tp, LOCATION_MZONE, 0,
                                                1, nil, tp, c)
 

@@ -1,9 +1,11 @@
+-- init
 if not aux.DivineProcedure then
     aux.DivineProcedure = {}
     Divine = aux.DivineProcedure
 end
 if not Divine then Divine = aux.DivineProcedure end
 
+-- function
 function Divine.AddProcedure(c, summon_mode, limit, race)
     if summon_mode == '3_tribute' then
         -- summon with 3 tributes
