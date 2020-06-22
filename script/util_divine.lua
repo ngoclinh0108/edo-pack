@@ -200,7 +200,7 @@ function Divine.AddProcedure(c, summon_mode, limit, race)
         c:RegisterEffect(atklimit)
 
         local togy = Effect.CreateEffect(c)
-        togy:SetDescription(Transform.TEXT_SELF_TO_GRAVE)
+        togy:SetDescription(666000)
         togy:SetCategory(CATEGORY_TOGRAVE)
         togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         togy:SetCode(EVENT_PHASE + PHASE_END)

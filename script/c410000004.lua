@@ -142,7 +142,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     tp = e:GetOwner():GetOwner()
     local c = e:GetHandler()
 
-    Duel.Hint(HINT_SELECTMSG, tp, Transform.TEXT_TRANSFORM_MATERIAL)
+    Duel.Hint(HINT_SELECTMSG, tp, 666100)
     local tc = Duel.SelectMatchingCard(tp, s.e6filter, tp, LOCATION_MZONE, 0, 1,
                                        1, nil):GetFirst()
     if not tc then return end

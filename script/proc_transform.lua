@@ -7,8 +7,6 @@ if not Transform then Transform = aux.TransformProcedure end
 
 -- constant
 Transform.TYPE = 0x20000000
-Transform.TEXT_TRANSFORM_MATERIAL = 666000
-Transform.TEXT_SELF_TO_GRAVE = 666100
 
 -- function
 function Transform.AddProcedure(c, matfilter)
@@ -142,7 +140,7 @@ function Transform.Operation(matfilter)
         tp = e:GetOwner():GetOwner()
         local c = e:GetHandler()
 
-        Duel.Hint(HINT_SELECTMSG, tp, Transform.TEXT_TRANSFORM_MATERIAL)
+        Duel.Hint(HINT_SELECTMSG, tp, 666100)
         local tc = Duel.SelectMatchingCard(tp, matfilter, tp, LOCATION_MZONE, 0,
                                            1, 1, nil, tp, c):GetFirst()
         if not tc then return end
