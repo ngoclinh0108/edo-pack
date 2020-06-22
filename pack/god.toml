@@ -84,7 +84,7 @@ atk = "?"
 def = "?"
 effect = """\
 ${ALIAS|The Winged Dragon of Ra|2|}
-Cannot be Special Summoned from the Deck. \
+Cannot be Special Summoned from the hand or Deck. \
 ${3_TRIBUTE_SUMMON} \
 ${EGYPTIAN} \
 ${EGYPTIAN_LIMIT} \
