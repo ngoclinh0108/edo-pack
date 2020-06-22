@@ -1,6 +1,8 @@
 {
   "files.exclude": {
-    ".vscode": true
+    ".vscode": true,
+    ".gitignore": true,
+    "pics": true
   },
   "Lua.diagnostics.disable": [
     "undefined-global"
