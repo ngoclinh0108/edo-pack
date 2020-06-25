@@ -44,53 +44,42 @@ function s.initial_effect(c)
     e3:SetValue(1)
     c:RegisterEffect(e3)
 
-    -- send monsters to GY
+    -- life point transfer
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_TOGRAVE)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e4:SetCode(EVENT_BATTLED)
-    e4:SetCondition(s.e4con)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1)
+    e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
-    -- life point transfer
+    -- tribute for atk/def
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 1))
+    e5:SetDescription(aux.Stringid(id, 2))
     e5:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e5:SetType(EFFECT_TYPE_QUICK_O)
     e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetRange(LOCATION_MZONE)
-    e5:SetCountLimit(1)
     e5:SetCost(s.e5cost)
-    e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
 
-    -- tribute for atk/def
+    -- destroy
     local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 2))
-    e6:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e6:SetDescription(aux.Stringid(id, 3))
+    e6:SetCategory(CATEGORY_DESTROY)
     e6:SetType(EFFECT_TYPE_QUICK_O)
+    e6:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     e6:SetCode(EVENT_FREE_CHAIN)
     e6:SetRange(LOCATION_MZONE)
     e6:SetCost(s.e6cost)
+    e6:SetTarget(s.e6tg)
     e6:SetOperation(s.e6op)
     c:RegisterEffect(e6)
-
-    -- destroy
-    local e7 = Effect.CreateEffect(c)
-    e7:SetDescription(aux.Stringid(id, 3))
-    e7:SetCategory(CATEGORY_DESTROY)
-    e7:SetType(EFFECT_TYPE_QUICK_O)
-    e7:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    e7:SetCode(EVENT_FREE_CHAIN)
-    e7:SetRange(LOCATION_MZONE)
-    e7:SetCost(s.e7cost)
-    e7:SetTarget(s.e7tg)
-    e7:SetOperation(s.e7op)
-    c:RegisterEffect(e7)
 
     -- to grave
     local togy = Effect.CreateEffect(c)
@@ -111,22 +100,7 @@ function s.transfilter(c)
                c:IsPreviousLocation(LOCATION_GRAVE)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttacker() == e:GetHandler()
-end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    if chk == 0 then return #g > 0 end
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0, LOCATION_MZONE)
-end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    Duel.SendtoGrave(g, REASON_EFFECT)
-end
-
-function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetLP(tp) > 100 end
 
     local lp = Duel.GetLP(tp)
@@ -134,12 +108,12 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.PayLPCost(tp, lp - 100)
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
     Duel.SetChainLimit(aux.FALSE)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
@@ -160,12 +134,12 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetCode(EVENT_RECOVER)
     ec3:SetRange(LOCATION_MZONE)
     ec3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return ep == tp end)
-    ec3:SetOperation(s.e5recoverop)
+    ec3:SetOperation(s.e4recoverop)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec3)
 end
 
-function s.e5recoverop(e, tp, eg, ep, ev, re, r, rp)
+function s.e4recoverop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     if c:IsFacedown() then return end
@@ -185,7 +159,7 @@ function s.e5recoverop(e, tp, eg, ep, ev, re, r, rp)
     Duel.SetLP(tp, 100, REASON_EFFECT)
 end
 
-function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
@@ -201,7 +175,7 @@ function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = e:GetLabelObject()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
@@ -228,12 +202,12 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     g:DeleteGroup()
 end
 
-function s.e7filter(tc, e)
+function s.e6filter(tc, e)
     local c = e:GetHandler()
     return not tc.divine_hierarchy or tc.divine_hierarchy <= c.divine_hierarchy
 end
 
-function s.e7cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.CheckLPCost(tp, 1000) and c:GetFlagEffect(id) == 0
@@ -243,20 +217,20 @@ function s.e7cost(e, tp, eg, ep, ev, re, r, rp, chk)
     c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
 end
 
-function s.e7tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e7filter, tp, LOCATION_MZONE,
+        return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_MZONE,
                                            LOCATION_MZONE, 1, c, e)
     end
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, 0)
 end
 
-function s.e7op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local tc = Duel.SelectMatchingCard(tp, s.e7filter, tp, LOCATION_MZONE,
+    local tc = Duel.SelectMatchingCard(tp, s.e6filter, tp, LOCATION_MZONE,
                                        LOCATION_MZONE, 1, 1, c, e):GetFirst()
     if not tc then return end
 

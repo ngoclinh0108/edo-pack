@@ -139,7 +139,6 @@ ${RACE|Winged-Beast/Pyro} \
 Cannot be destroyed by battle or card effects. \
 Unaffected by your opponent's Spell/Trap effects, and card effects that prevent it from attacking, and this card attacks cannot be negated. \
 You take no Battle Damage from battles involving this card. \
-After damage calculation, if this card attacked: You can send all monsters your opponent controls to the GY. \
 Once per turn (Quick Effect): You can pay LP so that you only have 100 left; during this turn, while this card is on the field: \
     This card gains original ATK/DEF equal to the amount of LP paid, \
     and also, any increase in LP is changed to increase this card's ATK/DEF instead. \
@@ -150,7 +149,6 @@ Once per chain (Quick Effect): You can pay 1000 LP, then destroy 1 other monster
 Once per turn, during the End Phase: Send it to the GY.\
 """
 strings=[
-    "Send monsters to the GY",
     "Life Point transfer",
     "Tribtue monsters for ATK/DEF",
     "Destroy 1 monster",
