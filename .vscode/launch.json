@@ -5,8 +5,8 @@
       "name": "Build",
       "request": "launch",
       "type": "node-terminal",
-      "cwd": "${workspaceFolder}",
-      "command": "luajit -l modules.set-paths scripts/ygofab.lua %back% make a"
+      "cwd": "${workspaceFolder}/build",
+      "command": "luajit -l modules.set-paths scripts/ygofab.lua ${workspaceFolder} make"
     }
   ]
 }
