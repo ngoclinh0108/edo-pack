@@ -1,6 +1,0 @@
-rock_manifest = {
-   lib = {
-      ["struct.dll"] = "5b46beaa17fe1336876add632bfe8180"
-   },
-   ["struct-1.4-1.rockspec"] = "d2a2db5998ed26f41d539a4d776611c7"
-}

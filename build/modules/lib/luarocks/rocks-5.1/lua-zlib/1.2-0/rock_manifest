@@ -1,9 +1,0 @@
-rock_manifest = {
-   doc = {
-      README = "4745af624f1a9073abf4174943f9b120"
-   },
-   lib = {
-      ["zlib.dll"] = "27153f860b6fe3a4301238957a8f71aa"
-   },
-   ["lua-zlib-1.2-0.rockspec"] = "8cb1ff71aa4f9d7e52ca0967fd8668fb"
-}
