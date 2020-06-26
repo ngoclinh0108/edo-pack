@@ -5,7 +5,8 @@
       "name": "Build",
       "request": "launch",
       "type": "node-terminal",
-      "command": "ygofab make --clean && ygofab compose"
+      "cwd": "${workspaceFolder}",
+      "command": "luajit -l modules.set-paths scripts/ygofab.lua %back% make a"
     }
   ]
 }
