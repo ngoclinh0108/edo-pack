@@ -6,7 +6,7 @@
       "request": "launch",
       "type": "node-terminal",
       "cwd": "${workspaceFolder}",
-      "command": "fabrica\\ygofab compose"
+      "command": "ygofab make && ygofab compose && move /Y expansions\\triplesix.cdb triplesix.cdb",
     }
   ]
 }
