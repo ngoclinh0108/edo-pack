@@ -38,7 +38,7 @@ Layouts.proxy = {
   },
 
   name = { x = 54, y = 54, w = 512,
-    f = Fonts.get_family("card_name", "20"), ff = Fonts.get_file("card_name"), a = "low" },
+    f = Fonts.get_family("card_name", "17"), ff = Fonts.get_file("card_name"), a = "low" },
 
   lscale = {
     m = { x = 70, y = 695, w = 42,
