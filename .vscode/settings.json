@@ -1,7 +1,8 @@
 {
   "files.exclude": {
     ".vscode": true,
-    ".gitignore": true
+    ".gitignore": true,
+    "ygofab.cmd": true
   },
   "Lua.diagnostics.disable": [
     "undefined-global"
