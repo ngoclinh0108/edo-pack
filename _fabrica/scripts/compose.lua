@@ -42,7 +42,7 @@ return function(flags)
   local exps = get_expansions(fe)
   local picsets = get_picsets(fp)
   for picset, pscfg in pairs(picsets) do
-    local outfolder = path.join("pics", picset)
+    local outfolder = path.join("pics")
     for _, exp in pairs(exps) do
       Logs.info('Composing "', picset, '" with ', exp, "...")
       local cdbfp = path.join("expansions", exp .. ".cdb")
