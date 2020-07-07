@@ -1,0 +1,30 @@
+[card.millennium-hieroglyph]
+id = 400000001
+ot = 32
+name = "Millennium Hieroglyph"
+type = "skill"
+strings = [
+    "Immunity by \"Millennium Hieroglyph\"",
+    "Go to next turn",
+    "Create a card",
+    "Protect a card",
+    "Move monster",
+    "Reset game",
+    "Add cards to you hand",
+    "Send cards to the GY",
+    "Return cards to the Deck",
+    "Add cards to Extra Deck face-up"
+]
+
+[card.hyper-polymerization]
+id = 400000002
+ot = 32
+alias = 24094653
+name = "Hyper Polymerization"
+type = "spell"
+effect = """\
+(This card's name is always treated as "Polymerization").
+Fusion Summon 1 Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Material, you can also banish monster from your GY as Fusion Material. \
+    Your opponent cannot activate cards or effects in response to this card's activation. \
+During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: You can discard 1 Spell; add this card to your hand.\
+"""

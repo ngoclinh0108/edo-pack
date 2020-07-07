@@ -37,7 +37,7 @@ function fs.path.normalize(path)
   -- trailing slash. Thankfully, appending a "." will always work if the
   -- target is a directory; and if it's not, failing on paths with trailing
   -- slashes is consistent with other OSes.
-  return windows and path:gsub("\\", "/"):gsub("/$", "/.") or path
+  return windows and path:gsub("\\", "%/"):gsub("%/%$", "%/%.") or path
 end
 
 local _attributes = fs.attributes
