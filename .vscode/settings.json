@@ -3,7 +3,8 @@
     ".gitignore": true,
     "ygofab.cmd": true,
     "expansions": true,
-    ".vscode": true
+    ".vscode": true,
+    "pics": true
   },
   "Lua.diagnostics.disable": [
     "undefined-global"
