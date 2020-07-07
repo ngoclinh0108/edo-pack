@@ -14,7 +14,7 @@ rock_manifest = {
       ["update_hook.lua"] = "a31784da0a0b6e5344c140530c87559c"
    },
    lib = {
-      ["lsqlite3complete.dll"] = "7e4c528b809e82736f6c4dac63d170ba"
+      ["lsqlite3complete.dll"] = "f29189903de87946ecb437b73170b4b1"
    },
    ["lsqlite3complete-0.9.5-1.rockspec"] = "5659efc70ec5274fdda4e31ca6b466f6"
 }

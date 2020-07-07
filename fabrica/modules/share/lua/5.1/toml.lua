@@ -221,10 +221,11 @@ TOML.parse = function(toml, options)
 		local exp
 		local date = false
 		local prefixes = { ['0x'] = 16, ['0o'] = 8, ['0b'] = 2 }
+		local ranges = { [2] = '[01]', [8] = '[0-7]', [16] = '%x' }
 		local base = prefixes[char(0) .. char(1)]
 		if base then
 			step(2)
-			local digits = ({ [2] = '[01]', [8] = '[0-7]', [16] = '%x' })[base]
+			local digits = ranges[base]
 			while(bounds()) do
 				if char():match(digits) then
 					num = num .. char()
