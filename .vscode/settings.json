@@ -4,8 +4,7 @@
     "expansions": true,
     ".vscode": true,
     "triplesix.cdb": true,
-    "ygofab.cmd": true,
-    "pics": true
+    "ygofab.cmd": true
   },
   "Lua.diagnostics.disable": [
     "undefined-global"
