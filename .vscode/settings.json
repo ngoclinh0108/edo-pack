@@ -1,10 +1,11 @@
 {
   "files.exclude": {
     ".gitignore": true,
-    "ygofab.cmd": true,
     "expansions": true,
     ".vscode": true,
-    "pics": true
+    "pics": true,
+    "triplesix.cdb": true,
+    "ygofab.cmd": true
   },
   "Lua.diagnostics.disable": [
     "undefined-global"
