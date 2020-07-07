@@ -6,7 +6,7 @@
       "request": "launch",
       "type": "node-terminal",
       "cwd": "${workspaceFolder}",
-      "command": "/build/luajit -l modules.set-paths ${workspaceFolder}/build/scripts/ygofab.lua ${workspaceFolder} compose"
+      "command": "ygofab compose"
     }
   ]
 }
