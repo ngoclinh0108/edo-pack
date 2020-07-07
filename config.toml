@@ -3,7 +3,7 @@ default = true
 recipe  = [
     "pack/generic.toml",
     "pack/god.toml",
-    ]
+]
 
 [picset.triplesix]
 field = true
