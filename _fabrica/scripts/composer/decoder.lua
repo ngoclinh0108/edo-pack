@@ -320,16 +320,16 @@ function automatons.proxy(data)
   function states.serial_code()
     local darkbg = Parser.bcheck(data.type, types.XYZ)
       and not Parser.bcheck(data.type, types.PENDULUM)
-    insert(layers, MetaLayer.new("serial_code", data.id, darkbg and { 255, 255, 255 }))
+    -- insert(layers, MetaLayer.new("serial_code", data.id, darkbg and { 255, 255, 255 }))
     return states.finishing()
   end
 
   function states.finishing()
     local darkbg = Parser.bcheck(data.type, types.XYZ)
       and not Parser.bcheck(data.type, types.PENDULUM)
-    insert(layers, MetaLayer.new("copyright", darkbg and { 255, 255, 255 }))
+    -- insert(layers, MetaLayer.new("copyright", darkbg and { 255, 255, 255 }))
     insert(layers, MetaLayer.new("overlay", "bevel.png"))
-    insert(layers, MetaLayer.new("overlay", "holo.png"))
+    -- insert(layers, MetaLayer.new("overlay", "holo.png"))
     return layers
   end
 

@@ -2,12 +2,11 @@
 id = 400000001
 ot = 32
 name = "Millennium Hieroglyph"
-type = "skill"
 strings = [
     "Immunity by \"Millennium Hieroglyph\"",
     "Go to next turn",
-    "Create a card",
-    "Protect a card",
+    "Create card",
+    "Protect card",
     "Move monster",
     "Reset game",
     "Add cards to you hand",
