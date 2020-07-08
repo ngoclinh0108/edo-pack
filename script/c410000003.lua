@@ -5,5 +5,5 @@ local s, id = GetID()
 s.divine_hierarchy = 2
 
 function s.initial_effect(c)
-    Divine.AddProcedure(c, '3_tribute', true, RACE_WINGEDBEAST + RACE_PYRO)
+    Divine.AddProcedure(c, '3_tribute', true)
 end

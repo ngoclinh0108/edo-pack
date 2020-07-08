@@ -6,7 +6,7 @@ end
 if not Divine then Divine = aux.DivineProcedure end
 
 -- function
-function Divine.AddProcedure(c, summon_mode, limit, race)
+function Divine.AddProcedure(c, summon_mode, limit)
     if summon_mode == '3_tribute' then
         -- summon with 3 tributes
         aux.AddNormalSummonProcedure(c, true, false, 3, 3)
@@ -219,16 +219,5 @@ function Divine.AddProcedure(c, summon_mode, limit, race)
             end
         end)
         c:RegisterEffect(togy)
-    end
-
-    -- multi-race
-    if race then
-        local multirace = Effect.CreateEffect(c)
-        multirace:SetType(EFFECT_TYPE_SINGLE)
-        multirace:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-        multirace:SetCode(EFFECT_ADD_RACE)
-        multirace:SetRange(LOCATION_MZONE)
-        multirace:SetValue(race)
-        c:RegisterEffect(multirace)
     end
 end

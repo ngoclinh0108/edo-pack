@@ -5,7 +5,7 @@ local s, id = GetID()
 s.divine_hierarchy = 1
 
 function s.initial_effect(c)
-    Divine.AddProcedure(c, '3_tribute', true, RACE_DRAGON + RACE_THUNDER)
+    Divine.AddProcedure(c, '3_tribute', true)
 
     -- atk/def
     local e1 = Effect.CreateEffect(c)

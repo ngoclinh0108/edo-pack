@@ -16,7 +16,6 @@ EGYPTIAN_LIMIT = """\
 This card cannot activate its effect or attack during the turn it is Special Summoned. \
 Once per turn, during the End Phase, if this card was Special Summoned from the GY: Send it to the GY.\
 """
-RACE = """This card is also a $4 monster while face-up on the field."""
 
 [card.obelisk]
 id = 410000001
@@ -33,7 +32,6 @@ ${ALIAS|Obelisk the Tormentor|1|}
 ${3_TRIBUTE_SUMMON} \
 ${EGYPTIAN} \
 ${EGYPTIAN_LIMIT} \
-${RACE|Warrior/Rock} \
 Your opponent cannot target this card with card effects. \
 Once per turn (Quick Effect): You can Tribute 2 other monsters; destroy all monsters your opponent controls, \
     and if you do, inflict damage equal to the ATK of this card to your opponent. \
@@ -58,7 +56,6 @@ ${ALIAS|Slifer the Sky Dragon|1|}
 ${3_TRIBUTE_SUMMON} \
 ${EGYPTIAN} \
 ${EGYPTIAN_LIMIT} \
-${RACE|Dragon/Thunder} \
 The original ATK/DEF of this card each become equal to the number of cards in your hand x 1000. \
 If a monster(s) is Summoned to your opponent's field in face-up Position: \
     That monster(s) loses 2000 ATK if it is in face-up Attack Position, but 2000 DEF if it is in face-up Defense Position, \
@@ -83,8 +80,7 @@ effect = """\
 ${ALIAS|The Winged Dragon of Ra|2|}
 ${3_TRIBUTE_SUMMON} \
 ${EGYPTIAN} \
-${EGYPTIAN_LIMIT} \
-${RACE|Winged-Beast/Pyro}\
+${EGYPTIAN_LIMIT}\
 """
 
 [card.ra_sphere]
@@ -101,7 +97,6 @@ effect = """\
 ${ALIAS|The Winged Dragon of Ra - Sphere Mode|2|}
 Whenever your "The Winged Dragon of Ra" is Normal Summoned: Dimension Change it to this card in the same battle position. \
 ${EGYPTIAN} \
-${RACE|Winged-Beast/Pyro} \
 Cannot attack. \
 Twice per turn, this card cannot be destroyed by battle. \
 You take no Battle Damage from battles involving this card. \
@@ -129,7 +124,6 @@ effect = """\
 "The Winged Dragon of Ra" is Special Summoned from the GY
 ${ALIAS|The Winged Dragon of Ra - Immortal Phoenix|2|}
 ${EGYPTIAN} \
-${RACE|Winged-Beast/Pyro} \
 Cannot be destroyed by battle or card effects. \
 Unaffected by your opponent's Spell/Trap effects, and card effects that prevent it from attacking, and this card attacks cannot be negated. \
 You take no Battle Damage from battles involving this card. \
