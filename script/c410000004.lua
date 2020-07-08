@@ -1,13 +1,13 @@
 -- Ra the Sun Divine Sphere
 Duel.LoadScript("util_divine.lua")
-Duel.LoadScript("proc_transform.lua")
+Duel.LoadScript("proc_dimension.lua")
 local s, id = GetID()
 
 s.divine_hierarchy = 2
 s.listed_names = {CARD_RA, 10000090}
 
 function s.initial_effect(c)
-    Transform.AddProcedure(c)
+    Dimension.AddProcedure(c)
     Divine.AddProcedure(c, 'self', false, RACE_WINGEDBEAST + RACE_PYRO)
 
     -- transform ra
@@ -77,7 +77,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not tc then return end
     Duel.BreakEffect()
 
-    Transform.Summon(c, tc:GetControler(), tc:GetControler(), tc,
+    Dimension.Summon(c, tc:GetControler(), tc:GetControler(), tc,
                      tc:GetPosition())
 end
 
@@ -98,7 +98,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local tc = Transform.Detransform(c, tp, tp)
+    local tc = Dimension.Detransform(c, tp, tp)
 
     local atk = 0
     local def = 0
@@ -130,7 +130,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec2)
 end
 
-function s.e6filter(c) return c:IsCode(10000090) and c:IsType(Transform.TYPE) end
+function s.e6filter(c) return c:IsCode(10000090) and c:IsType(Dimension.TYPE) end
 
 function s.e6con(e, tp, eg, ep, ev, re, r, rp)
     tp = e:GetOwner():GetOwner()
@@ -148,7 +148,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     if not tc then return end
     Duel.BreakEffect()
 
-    Transform.Summon(c, tc:GetControler(), tc:GetControler(), tc,
+    Dimension.Summon(c, tc:GetControler(), tc:GetControler(), tc,
                      tc:GetPosition())
     c:SetMaterial(tc:GetMaterial())
 end

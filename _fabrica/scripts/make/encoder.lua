@@ -29,7 +29,11 @@ local generics = {
         elseif t == 'string' then
           entry[key] = Codes.combine(key, v)
         else
-          entry[key] = 0
+          if key == 'ot' then
+            entry[key] = 32
+          else
+            entry[key] = 0
+          end
         end
       end
     end

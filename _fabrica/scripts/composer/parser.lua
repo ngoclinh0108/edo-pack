@@ -84,7 +84,7 @@ function Parser.get_sumtype(data)
   return GameConst.name.type[sumtype]
 end
 
-local abilities = types.FLIP + types.GEMINI + types.SPIRIT + types.TOON + types.UNION
+local abilities = types.FLIP + types.GEMINI + types.SPIRIT + types.TOON + types.UNION + types.DIMENSION
 function Parser.get_ability(data)
   local ability = Parser.match_lsb(data.type, abilities)
   return GameConst.name.type[ability]

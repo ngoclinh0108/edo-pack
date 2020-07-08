@@ -22,7 +22,7 @@ GameConst.code = {
     SYNCHRO = 0x2000, TOKEN = 0x4000, QUICKPLAY = 0x10000, CONTINUOUS = 0x20000,
     EQUIP = 0x40000, FIELD = 0x80000, COUNTER = 0x100000, FLIP = 0x200000,
     TOON = 0x400000, XYZ = 0x800000, PENDULUM = 0x1000000, NOMI = 0x2000000,
-    LINK = 0x4000000
+    LINK = 0x4000000, SKILL = 0x8000000, DIMENSION = 0x20000000
   },
   link = {
     TOP_LEFT    = 0x040, TOP    = 0x080, TOP_RIGHT    = 0x100,
@@ -66,7 +66,8 @@ GameConst.name = {
     [types.RITUAL] = "Ritual", [types.SPIRIT] = "Spirit", [types.UNION] = "Union",
     [types.GEMINI] = "Gemini", [types.TUNER] = "Tuner", [types.SYNCHRO] = "Synchro",
     [types.TOKEN] = "Token", [types.FLIP] = "Flip", [types.TOON] = "Toon",
-    [types.XYZ] = "Xyz", [types.PENDULUM] = "Pendulum", [types.LINK] = "Link"
+    [types.XYZ] = "Xyz", [types.PENDULUM] = "Pendulum", [types.LINK] = "Link",
+    [types.SKILL] = "Skill", [types.DIMENSION] = "Dimension"
   }
 }
 

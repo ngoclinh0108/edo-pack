@@ -1,15 +1,15 @@
 -- init
-if not aux.TransformProcedure then
-    aux.TransformProcedure = {}
-    Transform = aux.TransformProcedure
+if not aux.DimensionProcedure then
+    aux.DimensionProcedure = {}
+    Dimension = aux.DimensionProcedure
 end
-if not Transform then Transform = aux.TransformProcedure end
+if not Dimension then Dimension = aux.DimensionProcedure end
 
 -- constant
-Transform.TYPE = 0x20000000
+Dimension.TYPE = 0x20000000
 
 -- function
-function Transform.AddProcedure(c, matfilter)
+function Dimension.AddProcedure(c, matfilter)
     -- outside 
     local outside = Effect.CreateEffect(c)
     outside:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -61,19 +61,19 @@ function Transform.AddProcedure(c, matfilter)
     end)
     c:RegisterEffect(turnback)
 
-    -- transform summon
+    -- dimension summon
     if matfilter then
         local trans = Effect.CreateEffect(c)
         trans:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         trans:SetCode(EVENT_FREE_CHAIN)
         trans:SetCountLimit(1)
-        trans:SetCondition(Transform.Condition(matfilter))
-        trans:SetOperation(Transform.Operation(matfilter))
+        trans:SetCondition(Dimension.Condition(matfilter))
+        trans:SetOperation(Dimension.Operation(matfilter))
         Duel.RegisterEffect(trans, nil)
     end
 end
 
-function Transform.Summon(c, trans_player, target_player, mc, pos)
+function Dimension.Summon(c, trans_player, target_player, mc, pos)
     if not pos then pos = POS_FACEUP end
 
     local zone = 0xff
@@ -96,7 +96,7 @@ function Transform.Summon(c, trans_player, target_player, mc, pos)
     c:RegisterEffect(nochangepos)
 end
 
-function Transform.Detransform(c, trans_player, target_player, pos)
+function Dimension.Detransform(c, trans_player, target_player, pos)
     local mc = c:GetMaterial():GetFirst()
     if not pos then pos = POS_FACEUP end
 
@@ -120,7 +120,7 @@ function Transform.Detransform(c, trans_player, target_player, pos)
     return mc
 end
 
-function Transform.Condition(matfilter)
+function Dimension.Condition(matfilter)
     return function(e, tp, eg, ep, ev, re, r, rp)
         tp = e:GetOwner():GetOwner()
         local c = e:GetHandler()
@@ -135,7 +135,7 @@ function Transform.Condition(matfilter)
     end
 end
 
-function Transform.Operation(matfilter)
+function Dimension.Operation(matfilter)
     return function(e, tp, eg, ep, ev, re, r, rp)
         tp = e:GetOwner():GetOwner()
         local c = e:GetHandler()
@@ -146,6 +146,6 @@ function Transform.Operation(matfilter)
         if not tc then return end
         Duel.BreakEffect()
 
-        Transform.Summon(c, tp, tp, tc, POS_FACEUP)
+        Dimension.Summon(c, tp, tp, tc, POS_FACEUP)
     end
 end

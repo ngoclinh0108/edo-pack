@@ -3,10 +3,9 @@
     ".gitignore": true,
     "expansions": true,
     ".vscode": true,
-    "triplesix.cdb": true,
+    "pics": true,
     "ygofab.cmd": true,
-    "_fabrica": true,
-    "pics": true
+    "_fabrica": true
   },
   "Lua.diagnostics.disable": [
     "undefined-global"

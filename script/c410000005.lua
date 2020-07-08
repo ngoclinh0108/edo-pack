@@ -1,13 +1,13 @@
 -- Ra the Sun Divine Immortal Phoenix
 Duel.LoadScript("util_divine.lua")
-Duel.LoadScript("proc_transform.lua")
+Duel.LoadScript("proc_dimension.lua")
 local s, id = GetID()
 
 s.divine_hierarchy = 2
 s.listed_names = {CARD_RA}
 
 function s.initial_effect(c)
-    Transform.AddProcedure(c, s.transfilter)
+    Dimension.AddProcedure(c, s.transfilter)
     Divine.AddProcedure(c, 'self', false, RACE_WINGEDBEAST + RACE_PYRO)
 
     -- indes

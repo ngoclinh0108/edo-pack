@@ -13,7 +13,7 @@ local mode, options = 'proxy', {}
 local types = GameConst.code.type
 local monster_types = types.NORMAL + types.EFFECT + types.FUSION + types.RITUAL
   + types.SYNCHRO + types.TOKEN + types.XYZ + types.LINK
-local spellortrap = types.SPELL + types.TRAP
+local spellortrap = types.SPELL + types.TRAP + types.SKILL
 local spelltrap_types = types.CONTINUOUS + types.COUNTER + types.EQUIP
   + types.FIELD + types.QUICKPLAY + types.RITUAL
 local frame_types = monster_types + spellortrap
