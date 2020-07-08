@@ -10,62 +10,62 @@ function s.initial_effect(c)
     Dimension.AddProcedure(c)
     Divine.AddProcedure(c, 'nomi', false)
 
-    -- seal ra
-    local dms = Effect.CreateEffect(c)
-    dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    dms:SetCode(EVENT_SUMMON_SUCCESS)
-    dms:SetCondition(s.dmscon)
-    dms:SetOperation(s.dmsop)
-    Duel.RegisterEffect(dms, nil)
+    -- seal from
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
+    e1:SetOperation(s.e1op)
+    Duel.RegisterEffect(e1, nil)
 
     -- attack limit
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_CANNOT_ATTACK)
-    c:RegisterEffect(e1)
-
-    -- battle indes
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(2)
-    e2:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
+    e2:SetCode(EFFECT_CANNOT_ATTACK)
     c:RegisterEffect(e2)
 
-    -- battle damage avoid
+    -- battle indes
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetValue(1)
+    e3:SetCountLimit(2)
+    e3:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
     c:RegisterEffect(e3)
 
-    -- standard form
+    -- battle damage avoid
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_BOTH_SIDE)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e4:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
+    e4:SetValue(1)
     c:RegisterEffect(e4)
+
+    -- standard form
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 0))
+    e5:SetType(EFFECT_TYPE_IGNITION)
+    e5:SetProperty(EFFECT_FLAG_BOTH_SIDE)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCountLimit(1)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
-function s.dmsfilter(c, mc)
+function s.e1filter(c, mc)
     return c:IsCode(CARD_RA) and c:GetOwner() == mc:GetOwner()
 end
 
-function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.dmsfilter, 1, nil, e:GetOwner())
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.e1filter, 1, nil, e:GetOwner())
 end
 
-function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetOwner()
-    local mc = eg:Filter(s.dmsfilter, nil, c):GetFirst()
+    local mc = eg:Filter(s.e1filter, nil, c):GetFirst()
     if not mc then return end
     Duel.BreakEffect()
 
@@ -73,18 +73,18 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
                      mc:GetPosition())
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetOwner()
     local mc = c:GetMaterial():GetFirst()
 
     if chk == 0 then
-        return tp == mc:GetOwner() and
+        return mc and mc:GetOwner() == tp and
                    (c:IsControler(tp) or
                        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0)
     end
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetOwner()
     if not c:IsControler(tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
         return
