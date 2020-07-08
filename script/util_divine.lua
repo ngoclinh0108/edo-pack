@@ -198,12 +198,13 @@ function Divine.AddProcedure(c, summon_mode, limit)
         togy:SetDescription(666000)
         togy:SetCategory(CATEGORY_TOGRAVE)
         togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        togy:SetCode(EVENT_PHASE + PHASE_END)
+        togy:SetCode(EVENT_ADJUST)
         togy:SetRange(LOCATION_MZONE)
         togy:SetCountLimit(1)
         togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
             local c = e:GetOwner()
-            return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+            return Duel.GetCurrentPhase() == PHASE_END and
+                       c:IsSummonType(SUMMON_TYPE_SPECIAL) and
                        c:IsPreviousLocation(LOCATION_GRAVE) and
                        c:IsAbleToGrave()
         end)

@@ -11,7 +11,7 @@ Cannot be flipped face-down. \
 Control of this card cannot be switched. \
 Unaffected by your opponent's monster effects and other cards' effects that would make this card leave the field, \
     except effects from card with the same or higher Divine Hierarchy. \
-Effects of card with no Divine Hierarchy are only applied on this card for 1 turn.\
+Effects of cards with no Divine Hierarchy are only applied on this card for 1 turn.\
 """
 EGYPTIAN_LIMIT = """\
 This card cannot activate its effect or attack during the turn it is Special Summoned. \
