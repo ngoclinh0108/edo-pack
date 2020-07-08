@@ -131,7 +131,7 @@ Once per turn (Quick Effect): You can pay LP so that you only have 100 left; Thi
 Once per turn (Quick Effect): You can Tribute any number of other monsters; \
     this card gains original ATK/DEF equal to the combined original ATK/DEF the Tributed monsters. \
 Once per chain (Quick Effect): You can pay 1000 LP, then destroy 1 other monster on the field with the same or lower Divine Hierarchy, ignoring card effects. \
-During the End Phase, Send this card to the GY or Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" Dimension Monster, in face-up Defense Position (Transfer this card's materials to it.)\
+During the End Phase, Send this card to the GY or Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" Dimension Monster, in face-up Defense Position (Transfer materials to it.)\
 """
 strings=[
     "Life Point transfer",
