@@ -31,7 +31,7 @@ function s.initial_effect(c)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     if chk == 0 then
         return c:GetAttackAnnouncedCount() == 0 and
                    Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c)
@@ -59,7 +59,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
 
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     if Duel.Destroy(g, REASON_EFFECT) == #g then

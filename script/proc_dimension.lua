@@ -29,10 +29,10 @@ function Dimension.AddProcedure(c, matfilter)
     turnback:SetCode(EVENT_LEAVE_FIELD)
     turnback:SetRange(LOCATION_MZONE)
     turnback:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return e:GetHandler():GetLocation() ~= 0
+        return e:GetOwner():GetLocation() ~= 0
     end)
     turnback:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
+        local c = e:GetOwner()
         local mc = c:GetMaterial():GetFirst()
         local mtp = mc:GetOwner()
         local pos = c:GetPosition()
@@ -125,7 +125,7 @@ end
 function Dimension.Condition(matfilter)
     return function(e, tp, eg, ep, ev, re, r, rp)
         tp = e:GetOwner():GetOwner()
-        local c = e:GetHandler()
+        local c = e:GetOwner()
 
         return c:GetLocation() == 0 and Duel.GetCurrentChain() == 0 and
                    Duel.GetTurnPlayer() == tp and
@@ -140,7 +140,7 @@ end
 function Dimension.Operation(matfilter)
     return function(e, tp, eg, ep, ev, re, r, rp)
         tp = e:GetOwner():GetOwner()
-        local c = e:GetHandler()
+        local c = e:GetOwner()
 
         Duel.Hint(HINT_SELECTMSG, tp, 666100)
         local tc = Duel.SelectMatchingCard(tp, matfilter, tp, LOCATION_MZONE, 0,

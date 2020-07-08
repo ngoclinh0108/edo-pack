@@ -154,8 +154,7 @@ function Divine.AddProcedure(c, summon_mode, limit)
                     eff:Reset()
                 end
 
-                if (not ec.divine_hierarchy or ec.divine_hierarchy <
-                    c.divine_hierarchy) then
+                if (not ec.divine_hierarchy) then
                     local immunity = Effect.CreateEffect(c)
                     immunity:SetType(EFFECT_TYPE_SINGLE)
                     immunity:SetProperty(EFFECT_FLAG_SINGLE_RANGE)

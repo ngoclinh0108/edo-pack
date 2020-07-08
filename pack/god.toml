@@ -11,7 +11,7 @@ Cannot be flipped face-down. \
 Control of this card cannot be switched. \
 Unaffected by your opponent's monster effects and other cards' effects that would make this card leave the field, \
     except effects from card with the same or higher Divine Hierarchy. \
-Effects of cards with no Divine Hierarchy are only applied on this card for 1 turn.\
+Cards' effects are only applied on this card for 1 turn.\
 """
 EGYPTIAN_LIMIT = """\
 This card cannot activate its effect or attack during the turn it is Special Summoned. \
@@ -101,14 +101,13 @@ ${EGYPTIAN} \
 Cannot attack. \
 Twice per turn, this card cannot be destroyed by battle. \
 You take no Battle Damage from battles involving this card. \
-Once per turn: Any player can Dimension Change this card to the Dimension Material, \
+Once per turn: The original owner of the Dimension Material can Dimension De-Change this card, \
     and if they do, original ATK/DEF of that monster become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
-    Only original owner of that monster can use this effect. \
 During the End Phase: Dimension Change 1 "The Winged Dragon of Ra - Immortal Phoenix" Dimension Monster to this card in the same battle position. \
     (transfer its materials to this card.)\
 """
 strings = [
-    "Dimension Change to Standard mode"
+    "Turn back to Standard mode"
 ]
 
 [card.ra_phoenix]

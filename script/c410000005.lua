@@ -90,7 +90,7 @@ function s.initial_effect(c)
     togy:SetRange(LOCATION_MZONE)
     togy:SetCountLimit(1)
     togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
+        Duel.SendtoGrave(e:GetOwner(), REASON_EFFECT)
     end)
     c:RegisterEffect(togy)
 end
@@ -114,7 +114,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
     local ec1 = Effect.CreateEffect(c)
@@ -140,7 +140,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4recoverop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
 
     if c:IsFacedown() then return end
 
@@ -160,7 +160,7 @@ function s.e4recoverop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     if chk == 0 then
         return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
     end
@@ -176,7 +176,7 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     local g = e:GetLabelObject()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
     if not g then return end
@@ -203,12 +203,12 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e6filter(tc, e)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     return not tc.divine_hierarchy or tc.divine_hierarchy <= c.divine_hierarchy
 end
 
 function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     if chk == 0 then
         return Duel.CheckLPCost(tp, 1000) and c:GetFlagEffect(id) == 0
     end
@@ -218,7 +218,7 @@ function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_MZONE,
                                            LOCATION_MZONE, 1, c, e)
@@ -227,7 +227,7 @@ function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local tc = Duel.SelectMatchingCard(tp, s.e6filter, tp, LOCATION_MZONE,

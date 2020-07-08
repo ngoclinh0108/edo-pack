@@ -68,11 +68,11 @@ function s.e1filter(c, sc)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e1filter, 1, nil, e:GetHandler())
+    return eg:IsExists(s.e1filter, 1, nil, e:GetOwner())
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     local tc = eg:Filter(s.e1filter, nil, c):GetFirst()
     if not tc then return end
     Duel.BreakEffect()
@@ -82,7 +82,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     local mc = c:GetMaterial():GetFirst()
 
     if chk == 0 then
@@ -93,7 +93,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     if not c:IsControler(tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
         return
     end
@@ -140,7 +140,7 @@ end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     tp = e:GetOwner():GetOwner()
-    local c = e:GetHandler()
+    local c = e:GetOwner()
 
     Duel.Hint(HINT_SELECTMSG, tp, 666100)
     local tc = Duel.SelectMatchingCard(tp, s.e6filter, tp, LOCATION_MZONE, 0, 1,

@@ -51,17 +51,17 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsRelateToEffect(e) end
+    if chk == 0 then return e:GetOwner():IsRelateToEffect(e) end
     Duel.SetTargetCard(eg)
     Duel.SetChainLimit(s.e2actlimit(eg))
 end
 
 function s.e2actlimit(g)
-    return function(e, lp, tp) return not g:IsContains(e:GetHandler()) end
+    return function(e, lp, tp) return not g:IsContains(e:GetOwner()) end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     local g = eg:Filter(s.e2filter, nil, e, 1 - tp)
     local dg = Group.CreateGroup()
 

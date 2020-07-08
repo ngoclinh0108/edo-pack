@@ -56,12 +56,12 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsAbleToHand() end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetHandler(), 1, 0, 0)
+    if chk == 0 then return e:GetOwner():IsAbleToHand() end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetOwner(), 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     if not c:IsRelateToEffect(e) then return end
 
     Duel.SendtoHand(c, nil, REASON_EFFECT)

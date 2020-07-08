@@ -12,7 +12,7 @@ function s.initial_effect(c)
 end
 
 function s.startup(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
 
     -- outside duel
     Duel.DisableShuffleCheck(true)
@@ -74,7 +74,7 @@ function s.sumop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.diceop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     local cc = Duel.GetCurrentChain()
     local cid = Duel.GetChainInfo(cc, CHAININFO_CHAIN_ID)
     if root[0] == cid or not Duel.SelectYesNo(tp, 553) then return end
@@ -92,7 +92,7 @@ function s.diceop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.coinop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     local cc = Duel.GetCurrentChain()
     local cid = Duel.GetChainInfo(cc, CHAININFO_CHAIN_ID)
     if root[1] == cid or not Duel.SelectYesNo(tp, 552) then return end
@@ -164,7 +164,7 @@ function s.skillop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
     local ph = Duel.GetCurrentPhase()
 
     if ph <= PHASE_DRAW then
@@ -206,7 +206,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
 
     getmetatable(c).announce_filter = {id, OPCODE_ISCODE, OPCODE_NOT}
     local code = Duel.AnnounceCard(tp, table.unpack(
@@ -224,7 +224,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local c = e:GetOwner()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_ONFIELD, 0,
@@ -273,7 +273,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec9:SetLabelObject(tc)
     ec9:SetValue(function(e, ct)
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetHandler() == e:GetLabelObject()
+        return te:GetOwner() == e:GetLabelObject()
     end)
     tc:RegisterEffect(ec9)
     local ec10 = ec9:Clone()
@@ -291,7 +291,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec12:SetTargetRange(1, 0)
     ec12:SetLabelObject(tc)
     ec12:SetValue(function(e, re, rp, val)
-        if re and re:GetHandler() == e:GetLabelObject() then
+        if re and re:GetOwner() == e:GetLabelObject() then
             return 0
         else
             return val
