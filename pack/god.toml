@@ -102,9 +102,7 @@ Cannot attack. \
 Twice per turn, this card cannot be destroyed by battle. \
 You take no Battle Damage from battles involving this card. \
 Once per turn: The original owner of the Dimension Material can Dimension De-Change this card, \
-    and if they do, original ATK/DEF of that monster become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
-During the End Phase: Dimension Change 1 "The Winged Dragon of Ra - Immortal Phoenix" Dimension Monster to this card in the same battle position. \
-    (transfer its materials to this card.)\
+    and if they do, original ATK/DEF of that monster become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000).\
 """
 strings = [
     "Turn back to Standard mode"

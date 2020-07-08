@@ -4,84 +4,76 @@ Duel.LoadScript("proc_dimension.lua")
 local s, id = GetID()
 
 s.divine_hierarchy = 2
-s.listed_names = {CARD_RA, 10000090}
+s.listed_names = {CARD_RA}
 
 function s.initial_effect(c)
     Dimension.AddProcedure(c)
     Divine.AddProcedure(c, 'nomi', false)
 
     -- seal ra
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1:SetCode(EVENT_SUMMON_SUCCESS)
-    e1:SetCondition(s.e1con)
-    e1:SetOperation(s.e1op)
-    Duel.RegisterEffect(e1, nil)
+    local dms = Effect.CreateEffect(c)
+    dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    dms:SetCode(EVENT_SUMMON_SUCCESS)
+    dms:SetCondition(s.dmscon)
+    dms:SetOperation(s.dmsop)
+    Duel.RegisterEffect(dms, nil)
 
     -- attack limit
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_CANNOT_ATTACK)
-    c:RegisterEffect(e2)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_CANNOT_ATTACK)
+    c:RegisterEffect(e1)
 
     -- battle indes
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(2)
+    e2:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
+    c:RegisterEffect(e2)
+
+    -- battle damage avoid
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
+    e3:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(2)
-    e3:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
+    e3:SetValue(1)
     c:RegisterEffect(e3)
 
-    -- battle damage avoid
+    -- standard form
     local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_SINGLE)
-    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e4:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetProperty(EFFECT_FLAG_BOTH_SIDE)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetValue(1)
+    e4:SetCountLimit(1)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-
-    -- release ra
-    local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 0))
-    e5:SetType(EFFECT_TYPE_IGNITION)
-    e5:SetProperty(EFFECT_FLAG_BOTH_SIDE)
-    e5:SetRange(LOCATION_MZONE)
-    e5:SetCountLimit(1)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
-
-    -- seal phoenix
-    local e6 = Effect.CreateEffect(c)
-    e6:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e6:SetCode(EVENT_PHASE + PHASE_END)
-    e6:SetCondition(s.e6con)
-    e6:SetOperation(s.e6op)
-    Duel.RegisterEffect(e6, nil)
 end
 
-function s.e1filter(c, mc)
-    return c:IsCode(CARD_RA) and mc:GetOwner() == c:GetOwner()
+function s.dmsfilter(c, mc)
+    return c:IsCode(CARD_RA) and c:GetOwner() == mc:GetOwner()
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e1filter, 1, nil, e:GetOwner())
+function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.dmsfilter, 1, nil, e:GetOwner())
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetOwner()
-    local mc = eg:Filter(s.e1filter, nil, c):GetFirst()
+    local mc = eg:Filter(s.dmsfilter, nil, c):GetFirst()
     if not mc then return end
     Duel.BreakEffect()
 
-    Dimension.Change(c, mc:GetControler(), mc:GetControler(), mc,
+    Dimension.Change(c, mc, mc:GetControler(), mc:GetControler(),
                      mc:GetPosition())
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetOwner()
     local mc = c:GetMaterial():GetFirst()
 
@@ -92,7 +84,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetOwner()
     if not c:IsControler(tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
         return
@@ -128,27 +120,4 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
     ec2:SetValue(def)
     tc:RegisterEffect(ec2)
-end
-
-function s.e6filter(c) return c:IsCode(10000090) and c:IsType(Dimension.TYPE) end
-
-function s.e6con(e, tp, eg, ep, ev, re, r, rp)
-    tp = e:GetOwner():GetOwner()
-    return
-        Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_MZONE, 0, 1, nil)
-end
-
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
-    tp = e:GetOwner():GetOwner()
-    local c = e:GetOwner()
-
-    Duel.Hint(HINT_SELECTMSG, tp, 666100)
-    local tc = Duel.SelectMatchingCard(tp, s.e6filter, tp, LOCATION_MZONE, 0, 1,
-                                       1, nil):GetFirst()
-    if not tc then return end
-    Duel.BreakEffect()
-
-    Dimension.Change(c, tc:GetControler(), tc:GetControler(), tc,
-                     tc:GetPosition())
-    c:SetMaterial(tc:GetMaterial())
 end
