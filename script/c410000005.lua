@@ -46,7 +46,7 @@ function s.initial_effect(c)
 
     -- life point transfer
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetDescription(aux.Stringid(id, 0))
     e4:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e4:SetType(EFFECT_TYPE_QUICK_O)
     e4:SetCode(EVENT_FREE_CHAIN)
@@ -59,7 +59,7 @@ function s.initial_effect(c)
 
     -- tribute for atk/def
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetDescription(aux.Stringid(id, 1))
     e5:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e5:SetType(EFFECT_TYPE_QUICK_O)
     e5:SetCode(EVENT_FREE_CHAIN)
@@ -70,7 +70,7 @@ function s.initial_effect(c)
 
     -- destroy
     local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 3))
+    e6:SetDescription(aux.Stringid(id, 2))
     e6:SetCategory(CATEGORY_DESTROY)
     e6:SetType(EFFECT_TYPE_QUICK_O)
     e6:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
