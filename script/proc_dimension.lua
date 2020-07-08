@@ -1,7 +1,7 @@
 -- init
 if not aux.DimensionProcedure then
     aux.DimensionProcedure = {}
-    Dimension = aux.DimensionProcedure
+    aux.DimensionProcedure._zones = {}
 end
 if not Dimension then Dimension = aux.DimensionProcedure end
 
@@ -19,6 +19,7 @@ function Dimension.AddProcedure(c, matfilter)
     outside:SetOperation(function(e)
         Duel.DisableShuffleCheck()
         Duel.SendtoDeck(e:GetOwner(), nil, -2, REASON_RULE)
+        Dimension.Zones(e:GetOwner():GetOwner()):AddCard(e:GetOwner())
     end)
     c:RegisterEffect(outside)
 
@@ -49,6 +50,8 @@ function Dimension.AddProcedure(c, matfilter)
         if c:GetReasonCard() then mc:SetReasonCard(c:GetReasonCard()) end
 
         Duel.SendtoDeck(c, tp, -2, REASON_RULE)
+        Dimension.Zones(c:GetOwner()):AddCard(c)
+
         if loc == LOCATION_DECK then
             Duel.SendtoDeck(mc, mtp, sequence, reason)
         elseif loc == LOCATION_HAND then
@@ -58,6 +61,7 @@ function Dimension.AddProcedure(c, matfilter)
         elseif loc == LOCATION_REMOVED then
             Duel.Remove(mc, pos, reason)
         end
+        Dimension.Zones(mc:GetOwner()):RemoveCard(mc)
     end)
     c:RegisterEffect(turnback)
 
@@ -73,7 +77,18 @@ function Dimension.AddProcedure(c, matfilter)
     end
 end
 
-function Dimension.Change(c, mc, change_player, target_player, pos)
+function Dimension.Zones(tp)
+    local g = Dimension._zones[tp]
+    if not g then
+        g = Group.CreateGroup()
+        g:KeepAlive()
+        Dimension._zones[tp] = g
+    end
+
+    return g
+end
+
+function Dimension.Change(c, mc, change_player, target_player, pos, mg)
     if not pos then pos = POS_FACEUP end
 
     local zone = 0xff
@@ -82,10 +97,18 @@ function Dimension.Change(c, mc, change_player, target_player, pos)
         zone = 2 ^ zone
     end
 
-    c:SetMaterial(Group.FromCards(mc))
     Duel.SendtoDeck(mc, nil, -2, REASON_MATERIAL + REASON_RULE)
+    Dimension.Zones(mc:GetOwner()):AddCard(mc)
+
     Duel.MoveToField(c, change_player, target_player, LOCATION_MZONE, pos, true,
                      zone)
+    Dimension.Zones(c:GetOwner()):RemoveCard(c)
+
+    if mg then
+        c:SetMaterial(mg)
+    else
+        c:SetMaterial(Group.FromCards(mc))
+    end
     Debug.PreSummon(c, mc:GetSummonType(), mc:GetSummonLocation())
 
     -- not allow change posiiton
@@ -109,8 +132,11 @@ function Dimension.Dechange(c, change_player, target_player, pos)
     end
 
     Duel.SendtoDeck(c, target_player, -2, REASON_RULE)
-    Duel.MoveToField(mc, change_player, target_player, LOCATION_MZONE, pos, true,
-                     zone)
+    Dimension.Zones(c:GetOwner()):AddCard(c)
+
+    Duel.MoveToField(mc, change_player, target_player, LOCATION_MZONE, pos,
+                     true, zone)
+    Dimension.Zones(mc:GetOwner()):RemoveCard(mc)
 
     -- not allow change posiiton
     local nochangepos = Effect.CreateEffect(mc)

@@ -123,19 +123,20 @@ effect = """\
 ${ALIAS|The Winged Dragon of Ra - Immortal Phoenix|2}
 ${EGYPTIAN} \
 Cannot be destroyed by battle or card effects. \
-Unaffected by your opponent's Spell/Trap effects, and card effects that prevent it from attacking, and this card attacks cannot be negated. \
+Unaffected by your opponent's Spell/Trap effects. \
 You take no Battle Damage from battles involving this card. \
-Once per turn (Quick Effect): You can pay LP so that you only have 100 left; during this turn, while this card is on the field: \
-    This card gains original ATK/DEF equal to the amount of LP paid, \
-    and also, any increase in LP is changed to increase this card's ATK/DEF instead. \
+Once per turn (Quick Effect): You can pay LP so that you only have 100 left; This card gains original ATK/DEF equal to the amount of LP paid, \
+    and also, during this turn, while this card is on the field: Any increase in LP is changed to increase this card's ATK/DEF instead. \
     Cards and effects cannot be activated in response to this effect's activation. \
-(Quick Effect): You can Tribute any number of other face-up monsters; \
+Once per turn (Quick Effect): You can Tribute any number of other monsters; \
     this card gains original ATK/DEF equal to the combined original ATK/DEF the Tributed monsters. \
 Once per chain (Quick Effect): You can pay 1000 LP, then destroy 1 other monster on the field with the same or lower Divine Hierarchy, ignoring card effects. \
-Once per turn, during the End Phase: Send it to the GY.\
+During the End Phase, Send this card to the GY or Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" Dimension Monster, in face-up Defense Position (Transfer this card's materials to it.)\
 """
 strings=[
     "Life Point transfer",
     "Tribtue monsters for ATK/DEF",
     "Destroy 1 monster",
+    "Change to Sphere mode",
+    "Return to the GY"
 ]

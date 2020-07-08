@@ -1,8 +1,5 @@
 -- init
-if not aux.DivineProcedure then
-    aux.DivineProcedure = {}
-    Divine = aux.DivineProcedure
-end
+if not aux.DivineProcedure then aux.DivineProcedure = {} end
 if not Divine then Divine = aux.DivineProcedure end
 
 -- function
@@ -123,7 +120,7 @@ function Divine.AddProcedure(c, summon_mode, limit)
     reset:SetCode(EVENT_ADJUST)
     reset:SetRange(LOCATION_MZONE)
     reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        if Duel.GetCurrentPhase() ~= PHASE_END then return end
+        if Duel.GetCurrentPhase() ~= PHASE_END then return false end
 
         local c = e:GetOwner()
         local check = false
