@@ -73,7 +73,7 @@ function Dimension.AddProcedure(c, matfilter)
     end
 end
 
-function Dimension.Change(c, change_player, target_player, mc, pos)
+function Dimension.Change(c, mc, change_player, target_player, pos)
     if not pos then pos = POS_FACEUP end
 
     local zone = 0xff
@@ -143,11 +143,11 @@ function Dimension.Operation(matfilter)
         local c = e:GetOwner()
 
         Duel.Hint(HINT_SELECTMSG, tp, 666100)
-        local tc = Duel.SelectMatchingCard(tp, matfilter, tp, LOCATION_MZONE, 0,
+        local mc = Duel.SelectMatchingCard(tp, matfilter, tp, LOCATION_MZONE, 0,
                                            1, 1, nil, tp, c):GetFirst()
-        if not tc then return end
+        if not mc then return end
         Duel.BreakEffect()
 
-        Dimension.Change(c, tp, tp, tc, POS_FACEUP)
+        Dimension.Change(c, mc, tp, tp, POS_FACEUP)
     end
 end
