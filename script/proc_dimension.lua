@@ -61,30 +61,30 @@ function Dimension.AddProcedure(c, matfilter)
     end)
     c:RegisterEffect(turnback)
 
-    -- dimension summon
+    -- dimension change
     if matfilter then
-        local trans = Effect.CreateEffect(c)
-        trans:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        trans:SetCode(EVENT_FREE_CHAIN)
-        trans:SetCountLimit(1)
-        trans:SetCondition(Dimension.Condition(matfilter))
-        trans:SetOperation(Dimension.Operation(matfilter))
-        Duel.RegisterEffect(trans, nil)
+        local change = Effect.CreateEffect(c)
+        change:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        change:SetCode(EVENT_FREE_CHAIN)
+        change:SetCountLimit(1)
+        change:SetCondition(Dimension.Condition(matfilter))
+        change:SetOperation(Dimension.Operation(matfilter))
+        Duel.RegisterEffect(change, nil)
     end
 end
 
-function Dimension.Summon(c, trans_player, target_player, mc, pos)
+function Dimension.Change(c, change_player, target_player, mc, pos)
     if not pos then pos = POS_FACEUP end
 
     local zone = 0xff
-    if trans_player == target_player then
+    if change_player == target_player then
         zone = mc:GetSequence()
         zone = 2 ^ zone
     end
 
     c:SetMaterial(Group.FromCards(mc))
     Duel.SendtoDeck(mc, nil, -2, REASON_MATERIAL + REASON_RULE)
-    Duel.MoveToField(c, trans_player, target_player, LOCATION_MZONE, pos, true,
+    Duel.MoveToField(c, change_player, target_player, LOCATION_MZONE, pos, true,
                      zone)
     Debug.PreSummon(c, mc:GetSummonType(), mc:GetSummonLocation())
 
@@ -96,18 +96,20 @@ function Dimension.Summon(c, trans_player, target_player, mc, pos)
     c:RegisterEffect(nochangepos)
 end
 
-function Dimension.Detransform(c, trans_player, target_player, pos)
+function Dimension.Dechange(c, change_player, target_player, pos)
+    if not c:IsType(Dimension.TYPE) then return end
+
     local mc = c:GetMaterial():GetFirst()
     if not pos then pos = POS_FACEUP end
 
     local zone = 0xff
-    if trans_player == target_player then
+    if change_player == target_player then
         zone = c:GetSequence()
         zone = 2 ^ zone
     end
 
     Duel.SendtoDeck(c, target_player, -2, REASON_RULE)
-    Duel.MoveToField(mc, trans_player, target_player, LOCATION_MZONE, pos, true,
+    Duel.MoveToField(mc, change_player, target_player, LOCATION_MZONE, pos, true,
                      zone)
 
     -- not allow change posiiton
@@ -146,6 +148,6 @@ function Dimension.Operation(matfilter)
         if not tc then return end
         Duel.BreakEffect()
 
-        Dimension.Summon(c, tp, tp, tc, POS_FACEUP)
+        Dimension.Change(c, tp, tp, tc, POS_FACEUP)
     end
 end

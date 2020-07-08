@@ -10,7 +10,7 @@ function s.initial_effect(c)
     Dimension.AddProcedure(c)
     Divine.AddProcedure(c, 'self', false, RACE_WINGEDBEAST + RACE_PYRO)
 
-    -- transform ra
+    -- seal ra
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_SUMMON_SUCCESS)
@@ -43,7 +43,7 @@ function s.initial_effect(c)
     e4:SetValue(1)
     c:RegisterEffect(e4)
 
-    -- de-transform
+    -- unseal ra
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 0))
     e5:SetType(EFFECT_TYPE_IGNITION)
@@ -54,7 +54,7 @@ function s.initial_effect(c)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
 
-    -- transform phoenix
+    -- seal phoenix
     local e6 = Effect.CreateEffect(c)
     e6:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e6:SetCode(EVENT_PHASE + PHASE_END)
@@ -77,7 +77,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not tc then return end
     Duel.BreakEffect()
 
-    Dimension.Summon(c, tc:GetControler(), tc:GetControler(), tc,
+    Dimension.Change(c, tc:GetControler(), tc:GetControler(), tc,
                      tc:GetPosition())
 end
 
@@ -98,7 +98,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local tc = Dimension.Detransform(c, tp, tp)
+    local tc = Dimension.Dechange(c, tp, tp)
 
     local atk = 0
     local def = 0
@@ -148,7 +148,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     if not tc then return end
     Duel.BreakEffect()
 
-    Dimension.Summon(c, tc:GetControler(), tc:GetControler(), tc,
+    Dimension.Change(c, tc:GetControler(), tc:GetControler(), tc,
                      tc:GetPosition())
     c:SetMaterial(tc:GetMaterial())
 end

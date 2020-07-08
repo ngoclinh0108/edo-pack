@@ -20,7 +20,6 @@ RACE = """This card is also a $4 monster while face-up on the field."""
 
 [card.obelisk]
 id = 410000001
-ot = 32
 alias = 10000000
 name = "Obelisk the Giant Divine Soldier"
 type = "monster effect"
@@ -46,7 +45,6 @@ strings = [
 
 [card.slifer]
 id = 410000002
-ot = 32
 alias = 10000020
 name = "Slifer the Sky Divine Dragon"
 type = "monster effect"
@@ -73,7 +71,6 @@ strings = [
 
 [card.ra]
 id = 410000003
-ot = 32
 alias = 10000010
 name = "Ra the Sun Divine Phoenix"
 type = "monster effect"
@@ -92,7 +89,6 @@ ${RACE|Winged-Beast/Pyro}\
 
 [card.ra_sphere]
 id = 410000004
-ot = 32
 alias = 10000080
 name = "Ra the Sun Divine Sphere"
 type = "monster dimension effect"
@@ -103,25 +99,24 @@ atk = "?"
 def = "?"
 effect = """\
 ${ALIAS|The Winged Dragon of Ra - Sphere Mode|2|}
-Whenever your "The Winged Dragon of Ra" is Normal Summoned: Transform Summon this card in the same battle position, by using it. \
+Whenever your "The Winged Dragon of Ra" is Normal Summoned: Dimension Change it to this card in the same battle position. \
 ${EGYPTIAN} \
 ${RACE|Winged-Beast/Pyro} \
 Cannot attack. \
 Twice per turn, this card cannot be destroyed by battle. \
 You take no Battle Damage from battles involving this card. \
-Once per turn: Any player can De-Transform this card, \
-    and if they do, original ATK/DEF of the original form become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
-    Only original owner of original form can use this effect. \
-During the End Phase: Transform Summon this card in the same battle position, by using 1 "The Winged Dragon of Ra - Immortal Phoenix" Transform Monster. \
+Once per turn: Any player can Dimension Change this card to the Dimension Material, \
+    and if they do, original ATK/DEF of that monster become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
+    Only original owner of that monster can use this effect. \
+During the End Phase: Dimension Change 1 "The Winged Dragon of Ra - Immortal Phoenix" Dimension Monster to this card in the same battle position. \
     (transfer its materials to this card.)\
 """
 strings = [
-    "Transform to Standard mode"
+    "Dimension Change to Standard mode"
 ]
 
 [card.ra_phoenix]
 id = 410000005
-ot = 32
 alias = 10000090
 name = "Ra the Sun Divine Immortal Phoenix"
 type = "monster dimension effect"
