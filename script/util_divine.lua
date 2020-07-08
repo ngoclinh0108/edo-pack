@@ -7,22 +7,19 @@ if not Divine then Divine = aux.DivineProcedure end
 
 -- function
 function Divine.AddProcedure(c, summon_mode, limit)
+    -- summon mode
     if summon_mode == '3_tribute' then
-        -- summon with 3 tributes
         aux.AddNormalSummonProcedure(c, true, false, 3, 3)
         aux.AddNormalSetProcedure(c)
 
-        -- summon cannot be negated
         local sumsafe = Effect.CreateEffect(c)
         sumsafe:SetType(EFFECT_TYPE_SINGLE)
         sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
         sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
         c:RegisterEffect(sumsafe)
-    elseif summon_mode == 'self' then
-        -- cannot normal summon / set
+    elseif summon_mode == 'nomi' then
         c:EnableReviveLimit()
 
-        -- must special summon by own effect
         local splimit = Effect.CreateEffect(c)
         splimit:SetType(EFFECT_TYPE_SINGLE)
         splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
@@ -34,20 +31,20 @@ function Divine.AddProcedure(c, summon_mode, limit)
     local inact = Effect.CreateEffect(c)
     inact:SetType(EFFECT_TYPE_FIELD)
     inact:SetCode(EFFECT_CANNOT_INACTIVATE)
-    inact:SetRange(0x5f)
-    inact:SetLabelObject(c)
+    inact:SetRange(LOCATION_MZONE)
     inact:SetValue(function(e, ct)
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetHandler() == e:GetLabelObject()
+        return te:GetOwner() == e:GetOwner()
     end)
     c:RegisterEffect(inact)
-    local inactb = inact:Clone()
-    inactb:SetCode(EFFECT_CANNOT_DISEFFECT)
-    c:RegisterEffect(inactb)
+    local inact2 = inact:Clone()
+    inact2:SetCode(EFFECT_CANNOT_DISEFFECT)
+    c:RegisterEffect(inact2)
     local nodis = Effect.CreateEffect(c)
     nodis:SetType(EFFECT_TYPE_SINGLE)
-    nodis:SetProperty(EFFECT_FLAG_IGNORE_RANGE)
+    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     nodis:SetCode(EFFECT_CANNOT_DISABLE)
+    nodis:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nodis)
 
     -- cannot be tributed or be used as a material
@@ -57,14 +54,13 @@ function Divine.AddProcedure(c, summon_mode, limit)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc, tp, sumtp)
-        return tc == e:GetHandler()
-    end)
+    norelease:SetTarget(function(e, tc, tp, sumtp) return tc == e:GetOwner() end)
     c:RegisterEffect(norelease)
     local nofus = Effect.CreateEffect(c)
     nofus:SetType(EFFECT_TYPE_SINGLE)
-    nofus:SetProperty(EFFECT_FLAG_IGNORE_RANGE)
+    nofus:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     nofus:SetCode(EFFECT_CANNOT_BE_FUSION_MATERIAL)
+    nofus:SetRange(LOCATION_MZONE)
     nofus:SetValue(function(e, tc)
         if not tc then return false end
         return tc:GetControler() ~= e:GetOwnerPlayer()
@@ -106,31 +102,30 @@ function Divine.AddProcedure(c, summon_mode, limit)
         local c = e:GetOwner()
         local tc = te:GetOwner()
 
-        if tc == c then return false end
-
-        if (tc.divine_hierarchy and tc.divine_hierarchy >= c.divine_hierarchy) then
+        if (tc == c) or
+            (tc.divine_hierarchy and tc.divine_hierarchy >= c.divine_hierarchy) then
             return false
         end
 
-        if (te:GetOwnerPlayer() ~= e:GetHandlerPlayer() and
-            te:IsActiveType(TYPE_MONSTER)) then return true end
-
-        return te:IsHasCategory(CATEGORY_TOHAND + CATEGORY_DESTROY +
-                                    CATEGORY_REMOVE + CATEGORY_TODECK +
-                                    CATEGORY_RELEASE + CATEGORY_TOGRAVE +
-                                    CATEGORY_FUSION_SUMMON)
+        return (te:GetOwnerPlayer() ~= e:GetOwnerPlayer() and
+                   te:IsActiveType(TYPE_MONSTER)) or
+                   te:IsHasCategory(CATEGORY_TOHAND + CATEGORY_DESTROY +
+                                        CATEGORY_REMOVE + CATEGORY_TODECK +
+                                        CATEGORY_RELEASE + CATEGORY_TOGRAVE +
+                                        CATEGORY_FUSION_SUMMON)
     end)
     c:RegisterEffect(immunity)
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
-    reset:SetDescription(1162)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    reset:SetCode(EVENT_PHASE + PHASE_END)
+    reset:SetCode(EVENT_ADJUST)
     reset:SetRange(LOCATION_MZONE)
     reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
+        if Duel.GetCurrentPhase() ~= PHASE_END then return end
+
+        local c = e:GetOwner()
         local check = false
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
@@ -144,7 +139,7 @@ function Divine.AddProcedure(c, summon_mode, limit)
         return check
     end)
     reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
+        local c = e:GetOwner()
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
             local ec = eff:GetOwner()
@@ -161,31 +156,31 @@ function Divine.AddProcedure(c, summon_mode, limit)
 
                 if (not ec.divine_hierarchy or ec.divine_hierarchy <
                     c.divine_hierarchy) then
-                    local imm = Effect.CreateEffect(c)
-                    imm:SetType(EFFECT_TYPE_SINGLE)
-                    imm:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-                    imm:SetCode(EFFECT_IMMUNE_EFFECT)
-                    imm:SetRange(LOCATION_MZONE)
-                    imm:SetLabelObject(ec)
-                    imm:SetValue(function(e, te)
+                    local immunity = Effect.CreateEffect(c)
+                    immunity:SetType(EFFECT_TYPE_SINGLE)
+                    immunity:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+                    immunity:SetCode(EFFECT_IMMUNE_EFFECT)
+                    immunity:SetRange(LOCATION_MZONE)
+                    immunity:SetLabelObject(ec)
+                    immunity:SetValue(function(e, te)
                         return te:GetOwner() == e:GetLabelObject()
                     end)
-                    imm:SetReset(RESET_EVENT + RESETS_STANDARD)
-                    c:RegisterEffect(imm)
+                    immunity:SetReset(RESET_EVENT + RESETS_STANDARD)
+                    c:RegisterEffect(immunity)
                 end
             end
         end
     end)
     c:RegisterEffect(reset)
 
-    -- send to grave
+    -- divine limit
     if limit then
         -- cannot activate effect or attack
-        local atklimit = Effect.CreateEffect(c)
-        atklimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-        atklimit:SetCode(EVENT_SPSUMMON_SUCCESS)
-        atklimit:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetHandler()
+        local splimit = Effect.CreateEffect(c)
+        splimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+        splimit:SetCode(EVENT_SPSUMMON_SUCCESS)
+        splimit:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+            local c = e:GetOwner()
 
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -197,7 +192,7 @@ function Divine.AddProcedure(c, summon_mode, limit)
             ec2:SetCode(EFFECT_CANNOT_ATTACK)
             c:RegisterEffect(ec2)
         end)
-        c:RegisterEffect(atklimit)
+        c:RegisterEffect(splimit)
 
         local togy = Effect.CreateEffect(c)
         togy:SetDescription(666000)
@@ -207,16 +202,13 @@ function Divine.AddProcedure(c, summon_mode, limit)
         togy:SetRange(LOCATION_MZONE)
         togy:SetCountLimit(1)
         togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetHandler()
+            local c = e:GetOwner()
             return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-                       c:IsPreviousLocation(LOCATION_GRAVE)
+                       c:IsPreviousLocation(LOCATION_GRAVE) and
+                       c:IsAbleToGrave()
         end)
         togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetHandler()
-            if c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-                c:IsPreviousLocation(LOCATION_GRAVE) then
-                Duel.SendtoGrave(c, REASON_EFFECT)
-            end
+            Duel.SendtoGrave(e:GetOwner(), REASON_EFFECT)
         end)
         c:RegisterEffect(togy)
     end

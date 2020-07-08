@@ -1,20 +1,21 @@
 [macro]
-ALIAS = """(This card's name is always treated as "$1". This card's base Divine Hierarchy is $2.$3)"""
+ALIAS = """(This card's name is always treated as "$1". This card's base Divine Hierarchy is $2.)"""
 3_TRIBUTE_SUMMON = """\
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated.\
 """
 EGYPTIAN = """\
 This card's activation and effects cannot be negated. \
-Cannot be Tributed by your opponent, or be used as a material for a Summon by your opponent. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Cannot be flipped face-down. \
 Control of this card cannot be switched. \
-Unaffected by your opponent's monster effects, other cards' effects that would make this card leave the field, and other cards' effects are only applied on this card for 1 turn, \
-    except effects from card with the same or higher Divine Hierarchy.\
+Unaffected by your opponent's monster effects and other cards' effects that would make this card leave the field, \
+    except effects from card with the same or higher Divine Hierarchy. \
+Effects of card with no Divine Hierarchy are only applied on this card for 1 turn.\
 """
 EGYPTIAN_LIMIT = """\
 This card cannot activate its effect or attack during the turn it is Special Summoned. \
-Once per turn, during the End Phase, if this card was Special Summoned from the GY: Send it to the GY.\
+During the End Phase, Send this card to the GY if it was Special Summoned from the GY.\
 """
 
 [card.obelisk]
@@ -28,7 +29,7 @@ level = 10
 atk = 4000
 def = 4000
 effect = """\
-${ALIAS|Obelisk the Tormentor|1|}
+${ALIAS|Obelisk the Tormentor|1}
 ${3_TRIBUTE_SUMMON} \
 ${EGYPTIAN} \
 ${EGYPTIAN_LIMIT} \
@@ -52,7 +53,7 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-${ALIAS|Slifer the Sky Dragon|1|}
+${ALIAS|Slifer the Sky Dragon|1}
 ${3_TRIBUTE_SUMMON} \
 ${EGYPTIAN} \
 ${EGYPTIAN_LIMIT} \
@@ -77,7 +78,7 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-${ALIAS|The Winged Dragon of Ra|2|}
+${ALIAS|The Winged Dragon of Ra|2}
 ${3_TRIBUTE_SUMMON} \
 ${EGYPTIAN} \
 ${EGYPTIAN_LIMIT}\
@@ -94,7 +95,7 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-${ALIAS|The Winged Dragon of Ra - Sphere Mode|2|}
+${ALIAS|The Winged Dragon of Ra - Sphere Mode|2}
 Whenever your "The Winged Dragon of Ra" is Normal Summoned: Dimension Change it to this card in the same battle position. \
 ${EGYPTIAN} \
 Cannot attack. \
@@ -122,7 +123,7 @@ atk = "?"
 def = "?"
 effect = """\
 "The Winged Dragon of Ra" is Special Summoned from the GY
-${ALIAS|The Winged Dragon of Ra - Immortal Phoenix|2|}
+${ALIAS|The Winged Dragon of Ra - Immortal Phoenix|2}
 ${EGYPTIAN} \
 Cannot be destroyed by battle or card effects. \
 Unaffected by your opponent's Spell/Trap effects, and card effects that prevent it from attacking, and this card attacks cannot be negated. \

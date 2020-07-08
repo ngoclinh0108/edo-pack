@@ -8,7 +8,7 @@ s.listed_names = {CARD_RA, 10000090}
 
 function s.initial_effect(c)
     Dimension.AddProcedure(c)
-    Divine.AddProcedure(c, 'self', false)
+    Divine.AddProcedure(c, 'nomi', false)
 
     -- seal ra
     local e1 = Effect.CreateEffect(c)
