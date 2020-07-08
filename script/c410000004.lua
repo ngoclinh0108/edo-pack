@@ -43,7 +43,7 @@ function s.initial_effect(c)
     e4:SetValue(1)
     c:RegisterEffect(e4)
 
-    -- unseal ra
+    -- release ra
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 0))
     e5:SetType(EFFECT_TYPE_IGNITION)
@@ -63,8 +63,8 @@ function s.initial_effect(c)
     Duel.RegisterEffect(e6, nil)
 end
 
-function s.e1filter(c, sc)
-    return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner()
+function s.e1filter(c, mc)
+    return c:IsCode(CARD_RA) and mc:GetOwner() == c:GetOwner()
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -73,12 +73,12 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetOwner()
-    local tc = eg:Filter(s.e1filter, nil, c):GetFirst()
-    if not tc then return end
+    local mc = eg:Filter(s.e1filter, nil, c):GetFirst()
+    if not mc then return end
     Duel.BreakEffect()
 
-    Dimension.Change(c, tc:GetControler(), tc:GetControler(), tc,
-                     tc:GetPosition())
+    Dimension.Change(c, mc:GetControler(), mc:GetControler(), mc,
+                     mc:GetPosition())
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
