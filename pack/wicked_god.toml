@@ -9,6 +9,7 @@ atk = "?"
 def = "?"
 effect = """\
 ${HIERARCHY|3}
+${DIVINE_IMMUNITY} \
 """
 strings = [
 ]

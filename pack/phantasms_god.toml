@@ -10,6 +10,7 @@ atk = "0"
 def = "0"
 effect = """\
 ${HIERARCHY_ALIAS|3|Armityle the Chaos Phantasm}
+${DIVINE_IMMUNITY} \
 """
 strings = [
 ]
@@ -26,28 +27,14 @@ atk = 4000
 def = 4000
 effect = """\
 ${HIERARCHY_ALIAS|2|Raviel, Lord of Phantasms}
-"""
-strings = [
-]
-
-[card.uria]
-id = 410000008
-alias = 6007213
-name = "Uria the Divine Lord of Searing Flames"
-type = "monster effect fusion"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = "?"
-def = "?"
-effect = """\
-${HIERARCHY_ALIAS|1|Uria, Lord of Searing Flames}
+${DIVINE_IMMUNITY} \
+${DIVINE_LIMIT}\
 """
 strings = [
 ]
 
 [card.hamon]
-id = 410000009
+id = 410000008
 alias = 32491822
 name = "Hamon the Divine Lord of Striking Thunders"
 type = "monster effect fusion"
@@ -58,6 +45,26 @@ atk = 4000
 def = 4000
 effect = """\
 ${HIERARCHY_ALIAS|1|Hamon, Lord of Striking Thunder}
+${DIVINE_IMMUNITY} \
+${DIVINE_LIMIT}\
+"""
+strings = [
+]
+
+[card.uria]
+id = 410000009
+alias = 6007213
+name = "Uria the Divine Lord of Searing Flames"
+type = "monster effect fusion"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+${HIERARCHY_ALIAS|1|Uria, Lord of Searing Flames}
+${DIVINE_IMMUNITY} \
+${DIVINE_LIMIT}\
 """
 strings = [
 ]

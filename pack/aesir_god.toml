@@ -13,6 +13,7 @@ atk = 4000
 def = 3500
 effect = """\
 ${HIERARCHY_ALIAS|3|Odin, Father of the Aesir}
+${DIVINE_IMMUNITY} \
 """
 strings = [
 ]
@@ -29,6 +30,7 @@ atk = 3500
 def = 2800
 effect = """\
 ${HIERARCHY_ALIAS|1|Thor, Lord of the Aesir}
+${DIVINE_IMMUNITY} \
 """
 strings = [
 ]
@@ -45,6 +47,7 @@ atk = 3300
 def = 3000
 effect = """\
 ${HIERARCHY_ALIAS|1|Loki, Lord of the Aesir}
+${DIVINE_IMMUNITY} \
 """
 strings = [
 ]
@@ -61,6 +64,7 @@ atk = "3800"
 def = "3700"
 effect = """\
 ${HIERARCHY|2}
+${DIVINE_IMMUNITY} \
 """
 strings = [
 ]

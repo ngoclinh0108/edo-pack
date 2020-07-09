@@ -5,15 +5,15 @@ if not Divine then Divine = aux.DivineProcedure end
 -- function
 function Divine.AddProcedure(c, summon_mode, summon_extra, limit)
     -- summon mode
-    if summon_mode == 'nomi' then
+    if summon_mode == "nomi" then
         summonNomi(c, summon_extra)
-    elseif summon_mode == 'egyptian' then
+    elseif summon_mode == "egyptian" then
         summonEgyptian(c, summon_extra)
-    elseif summon_mode == 'phantasms' then
+    elseif summon_mode == "phantasms" then
         summonPhantasms(c, summon_extra)
-    elseif summon_mode == 'aesir' then
+    elseif summon_mode == "aesir" then
         summonAesir(c, summon_extra)
-    elseif summon_mode == 'wicked' then
+    elseif summon_mode == "wicked" then
         summonWicked(c, summon_extra)
     end
 
