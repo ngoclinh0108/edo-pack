@@ -1,5 +1,8 @@
--- Odin the Allfather of Aesir
+-- Freyja the Mother of the Aesir
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
+
+s.divine_hierarchy = 2
+
 function s.initial_effect(c)
-  -- effects
 end

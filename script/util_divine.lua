@@ -3,25 +3,18 @@ if not aux.DivineProcedure then aux.DivineProcedure = {} end
 if not Divine then Divine = aux.DivineProcedure end
 
 -- function
-function Divine.AddProcedure(c, summon_mode, limit)
+function Divine.AddProcedure(c, summon_mode, summon_extra, limit)
     -- summon mode
-    if summon_mode == '3_tribute' then
-        aux.AddNormalSummonProcedure(c, true, false, 3, 3)
-        aux.AddNormalSetProcedure(c)
-
-        local sumsafe = Effect.CreateEffect(c)
-        sumsafe:SetType(EFFECT_TYPE_SINGLE)
-        sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-        sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
-        c:RegisterEffect(sumsafe)
-    elseif summon_mode == 'nomi' then
-        c:EnableReviveLimit()
-
-        local splimit = Effect.CreateEffect(c)
-        splimit:SetType(EFFECT_TYPE_SINGLE)
-        splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-        splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-        c:RegisterEffect(splimit)
+    if summon_mode == 'nomi' then
+        summonNomi(c, summon_extra)
+    elseif summon_mode == 'egyptian' then
+        summonEgyptian(c, summon_extra)
+    elseif summon_mode == 'phantasms' then
+        summonPhantasms(c, summon_extra)
+    elseif summon_mode == 'aesir' then
+        summonAesir(c, summon_extra)
+    elseif summon_mode == 'wicked' then
+        summonWicked(c, summon_extra)
     end
 
     -- activation and effects cannot be negated
@@ -171,25 +164,7 @@ function Divine.AddProcedure(c, summon_mode, limit)
 
     -- divine limit
     if limit then
-        -- cannot activate effect or attack
-        local splimit = Effect.CreateEffect(c)
-        splimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-        splimit:SetCode(EVENT_SPSUMMON_SUCCESS)
-        splimit:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetOwner()
-
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetCode(EFFECT_CANNOT_TRIGGER)
-            ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-            c:RegisterEffect(ec1)
-
-            local ec2 = ec1:Clone()
-            ec2:SetCode(EFFECT_CANNOT_ATTACK)
-            c:RegisterEffect(ec2)
-        end)
-        c:RegisterEffect(splimit)
-
+        -- send to grave
         local togy = Effect.CreateEffect(c)
         togy:SetDescription(666000)
         togy:SetCategory(CATEGORY_TOGRAVE)
@@ -210,3 +185,30 @@ function Divine.AddProcedure(c, summon_mode, limit)
         c:RegisterEffect(togy)
     end
 end
+
+function summonNomi(c, summon_extra)
+    c:EnableReviveLimit()
+
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    c:RegisterEffect(splimit)
+end
+
+function summonEgyptian(c, summon_extra)
+    aux.AddNormalSummonProcedure(c, true, false, 3, 3)
+    aux.AddNormalSetProcedure(c)
+
+    local sumsafe = Effect.CreateEffect(c)
+    sumsafe:SetType(EFFECT_TYPE_SINGLE)
+    sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
+    c:RegisterEffect(sumsafe)
+end
+
+function summonPhantasms(c, summon_extra) end
+
+function summonAesir(c, summon_extra) end
+
+function summonWicked(c, summon_extra) end
