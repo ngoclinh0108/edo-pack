@@ -140,3 +140,66 @@ strings=[
     "Change to Sphere mode",
     "Return to the GY"
 ]
+
+[card.zorc]
+id = 410000014
+name = "Zorc Necrophades the Creator of Shadow Realm"
+type = "monster effect xyz"
+attribute = "divine"
+race = "creator god"
+level = 12
+atk = "?"
+def = "?"
+effect = """\
+(This card's base Divine Hierarchy is 3.)
+"""
+strings = [
+]
+
+[card.dreadroot]
+id = 410000015
+alias = 62180201
+name = "Dreadroot the Wicked God"
+type = "monster effect xyz"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+${ALIAS|The Wicked Dreadroot|1}
+"""
+strings = [
+]
+
+[card.eraser]
+id = 410000016
+alias = 57793869
+name = "Eraser the Wicked God"
+type = "monster effect xyz"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+${ALIAS|The Wicked Eraser|1}
+"""
+strings = [
+]
+
+[card.avatar]
+id = 410000017
+alias = 21208154
+name = "Avatar the Wicked God"
+type = "monster effect xyz"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+${ALIAS|The Wicked Avatar|2}
+"""
+strings = [
+]
