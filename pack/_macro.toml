@@ -1,0 +1,22 @@
+[macro]
+HIERARCHY = """(This card's base Divine Hierarchy is $1.)"""
+HIERARCHY_ALIAS = """(This card's name is always treated as "$2". This card's base Divine Hierarchy is $1.)"""
+
+DIVINE_IMMUNITY = """\
+This card's activation and effects cannot be negated. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+Cannot be flipped face-down. \
+Control of this card cannot be switched. \
+Unaffected by your opponent's monster effects and other cards' effects that would make this card leave the field, \
+    except effects from card with the same or higher Divine Hierarchy. \
+Cards' effects are only applied on this card for 1 turn.\
+"""
+
+EGYPTIAN_SUMMON = """\
+Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
+This card's Normal Summon cannot be negated.\
+"""
+EGYPTIAN_LIMIT = """\
+This card cannot activate its effect or attack during the turn it is Special Summoned. \
+During the End Phase, Send this card to the GY if it was Special Summoned from the GY.\
+"""
