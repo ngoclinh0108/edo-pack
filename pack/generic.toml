@@ -1,5 +1,5 @@
 [card.millennium-hieroglyph]
-id = 400000001
+id = 400000000
 name = "Millennium Hieroglyph"
 strings = [
     "Immunity by \"Millennium Hieroglyph\"",
@@ -15,7 +15,7 @@ strings = [
 ]
 
 [card.hyper-polymerization]
-id = 400000002
+id = 400000001
 alias = 24094653
 name = "Hyper Polymerization"
 type = "spell"
