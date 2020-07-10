@@ -109,8 +109,8 @@ function Divine.AddProcedure(c, summon_mode, summon_extra, limit)
     battle:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     battle:SetRange(LOCATION_MZONE)
     battle:SetValue(function(e, tc)
-        return tc and tc.divine_hierarchy and e:GetOwner().divine_hierarchy >
-                   tc.divine_hierarchy
+        return tc and tc.divine_hierarchy and tc.divine_hierarchy <
+                   e:GetOwner().divine_hierarchy
     end)
     c:RegisterEffect(battle)
     local nodmg = battle:Clone()
@@ -172,29 +172,6 @@ function Divine.AddProcedure(c, summon_mode, summon_extra, limit)
         end
     end)
     c:RegisterEffect(reset)
-
-    -- divine limit
-    if limit then
-        -- send to grave
-        local togy = Effect.CreateEffect(c)
-        togy:SetDescription(666000)
-        togy:SetCategory(CATEGORY_TOGRAVE)
-        togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        togy:SetCode(EVENT_ADJUST)
-        togy:SetRange(LOCATION_MZONE)
-        togy:SetCountLimit(1)
-        togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetOwner()
-            return Duel.GetCurrentPhase() == PHASE_END and
-                       c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-                       c:IsPreviousLocation(LOCATION_GRAVE) and
-                       c:IsAbleToGrave()
-        end)
-        togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            Duel.SendtoGrave(e:GetOwner(), REASON_EFFECT)
-        end)
-        c:RegisterEffect(togy)
-    end
 end
 
 function Divine.ToGraveLimit(c)
