@@ -10,64 +10,73 @@ function s.initial_effect(c)
     Dimension.AddProcedure(c)
     Divine.AddProcedure(c, "nomi")
 
+    -- race
+    local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_ADD_RACE)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetValue(RACE_WINGEDBEAST+RACE_PYRO)
+    c:RegisterEffect(e1)
+    
     -- seal form
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1:SetCode(EVENT_SUMMON_SUCCESS)
-    e1:SetCondition(s.e1con)
-    e1:SetOperation(s.e1op)
-    Duel.RegisterEffect(e1, nil)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_SUMMON_SUCCESS)
+    e2:SetCondition(s.e2con)
+    e2:SetOperation(s.e2op)
+    Duel.RegisterEffect(e2, nil)
 
     -- attack limit
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_CANNOT_ATTACK)
-    c:RegisterEffect(e2)
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_CANNOT_ATTACK)
+    c:RegisterEffect(e3)
 
     -- cannot be targeted
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(aux.tgoval)
-    c:RegisterEffect(e2)
-
-    -- battle indes & damage avoid
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE)
     e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e4:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e4:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetValue(function(e) return e:GetOwner():IsDefensePos() end)
+    e4:SetValue(aux.tgoval)
     c:RegisterEffect(e4)
-    local e4b = e4:Clone()
-    e4b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    c:RegisterEffect(e4b)
+
+    -- battle indes & damage avoid
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_SINGLE)
+    e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e5:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetValue(function(e) return e:GetOwner():IsDefensePos() end)
+    c:RegisterEffect(e5)
+    local e5b = e5:Clone()
+    e5b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    c:RegisterEffect(e5b)
 
     -- standard form
-    local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 0))
-    e5:SetType(EFFECT_TYPE_IGNITION)
-    e5:SetProperty(EFFECT_FLAG_BOTH_SIDE)
-    e5:SetRange(LOCATION_MZONE)
-    e5:SetCountLimit(1)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
+    local e6 = Effect.CreateEffect(c)
+    e6:SetDescription(aux.Stringid(id, 0))
+    e6:SetType(EFFECT_TYPE_IGNITION)
+    e6:SetProperty(EFFECT_FLAG_BOTH_SIDE)
+    e6:SetRange(LOCATION_MZONE)
+    e6:SetCountLimit(1)
+    e6:SetTarget(s.e6tg)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
-function s.e1filter(c, mc)
+function s.e2filter(c, mc)
     return c:IsCode(CARD_RA) and c:GetOwner() == mc:GetOwner()
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e1filter, 1, nil, e:GetOwner())
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.e2filter, 1, nil, e:GetOwner())
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetOwner()
-    local mc = eg:Filter(s.e1filter, nil, c):GetFirst()
+    local mc = eg:Filter(s.e2filter, nil, c):GetFirst()
     if not mc then return end
     Duel.BreakEffect()
 
@@ -75,7 +84,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                      mc:GetPosition())
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetOwner()
     local mc = c:GetMaterial():GetFirst()
 
@@ -86,7 +95,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetOwner()
     if not c:IsControler(tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
         return
