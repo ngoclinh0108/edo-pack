@@ -10,7 +10,7 @@ function s.initial_effect(c)
     Dimension.AddProcedure(c)
     Divine.AddProcedure(c, "nomi")
 
-    -- seal from
+    -- seal form
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_SUMMON_SUCCESS)
@@ -24,24 +24,26 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_CANNOT_ATTACK)
     c:RegisterEffect(e2)
 
-    -- battle indes
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(2)
-    e3:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
-    c:RegisterEffect(e3)
+    -- cannot be targeted
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetValue(aux.tgoval)
+    c:RegisterEffect(e2)
 
-    -- battle damage avoid
+    -- battle indes & damage avoid
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE)
     e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e4:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e4:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetValue(1)
+    e4:SetValue(function(e) return e:GetOwner():IsDefensePos() end)
     c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    c:RegisterEffect(e4b)
 
     -- standard form
     local e5 = Effect.CreateEffect(c)

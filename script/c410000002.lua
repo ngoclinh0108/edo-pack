@@ -14,10 +14,7 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SET_BASE_ATTACK)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(function(e, c)
-        return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_HAND, 0) *
-                   1000
-    end)
+    e1:SetValue(s.e1val)
     c:RegisterEffect(e1)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_SET_BASE_DEFENSE)
@@ -40,6 +37,10 @@ function s.initial_effect(c)
     local e2c = e2:Clone()
     e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e2c)
+end
+
+function s.e1val(e, c)
+    return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_HAND, 0) * 1000
 end
 
 function s.e2filter(c, e, tp)

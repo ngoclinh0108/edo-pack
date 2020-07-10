@@ -8,13 +8,15 @@ function s.initial_effect(c)
     Divine.AddProcedure(c, "egyptian")
     Divine.ToGraveLimit(c)
 
-    -- cannot be targeted
+    -- negate
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e1:SetCategory(CATEGORY_DISABLE)
+    e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetCode(EVENT_CHAINING)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(aux.tgoval)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
     -- destroy
@@ -24,11 +26,41 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_MZONE)
+    e2:SetHintTiming(TIMING_SPSUMMON, TIMING_BATTLE_START)
     e2:SetCountLimit(1)
+    e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetOwner()
+    if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
+    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
+
+    local loc, tg = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION,
+                                      CHAININFO_TARGET_CARDS)
+    if not tg or not tg:IsContains(c) then return false end
+
+    return Duel.IsChainDisablable(ev) and loc ~= LOCATION_DECK
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk) Duel.NegateEffect(ev) end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local ph = Duel.GetCurrentPhase()
+    if Duel.GetTurnPlayer() == tp then
+        return ph == PHASE_MAIN1 or ph == PHASE_MAIN2
+    else
+        return (ph >= PHASE_BATTLE_START and ph <= PHASE_BATTLE)
+    end
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

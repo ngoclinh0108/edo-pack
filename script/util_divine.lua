@@ -109,9 +109,8 @@ function Divine.AddProcedure(c, summon_mode, summon_extra, limit)
     battle:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     battle:SetRange(LOCATION_MZONE)
     battle:SetValue(function(e, tc)
-        return tc and
-                   (not tc.divine_hierarchy or e:GetOwner().divine_hierarchy >
-                       tc.divine_hierarchy)
+        return tc and tc.divine_hierarchy and e:GetOwner().divine_hierarchy >
+                   tc.divine_hierarchy
     end)
     c:RegisterEffect(battle)
     local nodmg = battle:Clone()
