@@ -73,7 +73,7 @@ level = 12
 atk = 5000
 def = 5000
 effect = """\
-3 DARK Divine-Beast monsters with the same Level
+3 DARK Divine-Beast monsters with the same Level and different names
 ${HIERARCHY|3}
 This card's activation and effects cannot be negated. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
