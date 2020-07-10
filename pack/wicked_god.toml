@@ -54,7 +54,8 @@ effect = """\
 ${HIERARCHY_ALIAS|2|The Wicked Avatar}
 ${WICKED_SUMMON} \
 ${DIVINE_IMMUNITY} \
-${TO_GRAVE_LIMIT}\
+${TO_GRAVE_LIMIT} \
+The original and final ATK/DEF of this card are each 100 points higher than the highest face-up monster's ATK on the field (except "The Wicked Avatar").
 """
 strings = [
 ]
