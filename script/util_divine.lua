@@ -102,6 +102,22 @@ function Divine.AddProcedure(c, summon_mode, summon_extra, limit)
     end)
     c:RegisterEffect(immunity)
 
+    -- battle indes & no damage
+    local battle = Effect.CreateEffect(c)
+    battle:SetType(EFFECT_TYPE_SINGLE)
+    battle:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    battle:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    battle:SetRange(LOCATION_MZONE)
+    battle:SetValue(function(e, tc)
+        return tc and
+                   (not tc.divine_hierarchy or e:GetOwner().divine_hierarchy >
+                       tc.divine_hierarchy)
+    end)
+    c:RegisterEffect(battle)
+    local nodmg = battle:Clone()
+    nodmg:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    c:RegisterEffect(nodmg)
+
     -- reset effect
     local reset = Effect.CreateEffect(c)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -192,8 +208,7 @@ function Divine.ToGraveLimit(c)
         local c = e:GetOwner()
         return Duel.GetCurrentPhase() == PHASE_END and
                    c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-                   c:IsPreviousLocation(LOCATION_GRAVE) and
-                   c:IsAbleToGrave()
+                   c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()
     end)
     togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoGrave(e:GetOwner(), REASON_EFFECT)
