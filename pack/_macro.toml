@@ -11,11 +11,15 @@ Unaffected by your opponent's monster effects and other cards' effects that woul
     except effects from card with the same or higher Divine Hierarchy. \
 Cards' effects are only applied on this card for 1 turn.\
 """
-DIVINE_LIMIT = """\
+TO_GRAVE_LIMIT = """\
 During the End Phase, send this card to the GY if it was Special Summoned from the GY.\
 """
 
 EGYPTIAN_SUMMON = """\
+Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
+This card's Normal Summon cannot be negated.\
+"""
+WICKED_SUMMON = """\
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated.\
 """

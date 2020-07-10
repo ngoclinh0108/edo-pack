@@ -4,8 +4,6 @@ recipe  = [
     "pack/_macro.toml",
     "pack/generic.toml",
     "pack/egyptian_god.toml",
-    "pack/phantasms_god.toml",
-    "pack/aesir_god.toml",    
     "pack/wicked_god.toml",    
 ]
 

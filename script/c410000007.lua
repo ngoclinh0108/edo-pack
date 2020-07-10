@@ -1,9 +1,10 @@
--- Raviel the Phantasms of Demons
+-- Eraser the Wicked God
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
-s.divine_hierarchy = 2
+s.divine_hierarchy = 1
 
 function s.initial_effect(c)
-    Divine.AddProcedure(c, "phantasms", "monster", true)
+    Divine.AddProcedure(c, "wicked")
+    Divine.ToGraveLimit(c)
 end

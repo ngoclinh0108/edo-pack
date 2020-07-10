@@ -1,9 +1,10 @@
--- Armityle the Creator of Phantasms
+-- Dreadroot the Wicked God
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
-s.divine_hierarchy = 3
+s.divine_hierarchy = 1
 
 function s.initial_effect(c)
-    Divine.AddProcedure(c, "nomi", nil, false)
+    Divine.AddProcedure(c, "wicked")
+    Divine.ToGraveLimit(c)
 end

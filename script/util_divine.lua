@@ -9,10 +9,6 @@ function Divine.AddProcedure(c, summon_mode, summon_extra, limit)
         summonNomi(c, summon_extra)
     elseif summon_mode == "egyptian" then
         summonEgyptian(c, summon_extra)
-    elseif summon_mode == "phantasms" then
-        summonPhantasms(c, summon_extra)
-    elseif summon_mode == "aesir" then
-        summonAesir(c, summon_extra)
     elseif summon_mode == "wicked" then
         summonWicked(c, summon_extra)
     end
@@ -99,9 +95,9 @@ function Divine.AddProcedure(c, summon_mode, summon_extra, limit)
 
         return (te:GetOwnerPlayer() ~= e:GetOwnerPlayer() and
                    te:IsActiveType(TYPE_MONSTER)) or
-                   te:IsHasCategory(CATEGORY_TOHAND + CATEGORY_DESTROY +
-                                        CATEGORY_REMOVE + CATEGORY_TODECK +
-                                        CATEGORY_RELEASE + CATEGORY_TOGRAVE +
+                   te:IsHasCategory(CATEGORY_DESTROY + CATEGORY_REMOVE +
+                                        CATEGORY_TOGRAVE + CATEGORY_TOHAND +
+                                        CATEGORY_TODECK + CATEGORY_RELEASE +
                                         CATEGORY_FUSION_SUMMON)
     end)
     c:RegisterEffect(immunity)
@@ -186,6 +182,25 @@ function Divine.AddProcedure(c, summon_mode, summon_extra, limit)
     end
 end
 
+function Divine.ToGraveLimit(c)
+    local togy = Effect.CreateEffect(c)
+    togy:SetCategory(CATEGORY_TOGRAVE)
+    togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    togy:SetCode(EVENT_ADJUST)
+    togy:SetRange(LOCATION_MZONE)
+    togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetOwner()
+        return Duel.GetCurrentPhase() == PHASE_END and
+                   c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+                   c:IsPreviousLocation(LOCATION_GRAVE) and
+                   c:IsAbleToGrave()
+    end)
+    togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Duel.SendtoGrave(e:GetOwner(), REASON_EFFECT)
+    end)
+    c:RegisterEffect(togy)
+end
+
 function summonNomi(c, summon_extra)
     c:EnableReviveLimit()
 
@@ -207,8 +222,13 @@ function summonEgyptian(c, summon_extra)
     c:RegisterEffect(sumsafe)
 end
 
-function summonPhantasms(c, summon_extra) end
+function summonWicked(c, summon_extra)
+    aux.AddNormalSummonProcedure(c, true, false, 3, 3)
+    aux.AddNormalSetProcedure(c)
 
-function summonAesir(c, summon_extra) end
-
-function summonWicked(c, summon_extra) end
+    local sumsafe = Effect.CreateEffect(c)
+    sumsafe:SetType(EFFECT_TYPE_SINGLE)
+    sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
+    c:RegisterEffect(sumsafe)
+end
