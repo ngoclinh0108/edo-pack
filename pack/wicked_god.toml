@@ -13,6 +13,7 @@ ${HIERARCHY_ALIAS|1|The Wicked Dreadroot}
 ${WICKED_SUMMON} \
 ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
+This card is also a DARK/Fiend monster while face-up on the field. \
 Halve the ATK and DEF of all your opponent's monsters on the field. \
 If this card attacks a Defense Position monster, inflict piercing battle damage.\
 """
@@ -34,6 +35,7 @@ ${HIERARCHY_ALIAS|1|The Wicked Eraser}
 ${WICKED_SUMMON} \
 ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
+This card is also a DARK/Fiend monster while face-up on the field. \
 The original ATK/DEF of this card each become equal to the number of cards your opponent controls x 1000. \
 If this card leaves the field: Send all monsters your opponent controls to the GY.\
 """
@@ -55,6 +57,7 @@ ${HIERARCHY_ALIAS|2|The Wicked Avatar}
 ${WICKED_SUMMON} \
 ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
+This card is also a DARK/Fiend monster while face-up on the field. \
 The original and final ATK/DEF of this card are each 100 points higher than the highest face-up monster's ATK on the field (except "The Wicked Avatar").
 """
 strings = [
@@ -76,7 +79,8 @@ Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Cannot be flipped face-down. \
 Control of this card cannot be switched. \
 Unaffected by other cards' effects, except cards' effects with the same or higher Divine Hierarchy. \
-Cannot be destroyed by battle with a monster with no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
+Cannot be destroyed by battle with a monster with no or lower Divine Hierarchy, also you take no Battle Damage from that battle. \
+This card is also a DARK/Fiend monster while face-up on the field.\
 """
 strings = [
 ]

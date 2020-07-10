@@ -8,35 +8,48 @@ function s.initial_effect(c)
     Divine.AddProcedure(c, "wicked")
     Divine.ToGraveLimit(c)
 
-    -- atk & def
+    -- attribute & race
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(id)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_ADD_ATTRIBUTE)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetValue(ATTRIBUTE_DARK)
     c:RegisterEffect(e1)
-    local e1b = Effect.CreateEffect(c)
-    e1b:SetType(EFFECT_TYPE_SINGLE)
-    e1b:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT +
-                        EFFECT_FLAG_DELAY)
-    e1b:SetCode(EFFECT_SET_BASE_ATTACK)
-    e1b:SetRange(LOCATION_MZONE)
-    e1b:SetValue(s.e1val)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_ADD_RACE)
+    e1b:SetValue(RACE_FIEND)
     c:RegisterEffect(e1b)
-    local e1c = e1b:Clone()
-    e1c:SetCode(EFFECT_SET_ATTACK_FINAL)
-    c:RegisterEffect(e1c)
-    local e1d = e1b:Clone()
-    e1d:SetCode(EFFECT_SET_BASE_DEFENSE)
-    c:RegisterEffect(e1d)
-    local e1e = e1b:Clone()
-    e1e:SetCode(EFFECT_SET_DEFENSE_FINAL)
-    c:RegisterEffect(e1e)
+    
+    -- atk & def
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(id)
+    c:RegisterEffect(e2)
+    local e2b = Effect.CreateEffect(c)
+    e2b:SetType(EFFECT_TYPE_SINGLE)
+    e2b:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT +
+                        EFFECT_FLAG_DELAY)
+    e2b:SetCode(EFFECT_SET_BASE_ATTACK)
+    e2b:SetRange(LOCATION_MZONE)
+    e2b:SetValue(s.e2val)
+    c:RegisterEffect(e2b)
+    local e2c = e2b:Clone()
+    e2c:SetCode(EFFECT_SET_ATTACK_FINAL)
+    c:RegisterEffect(e2c)
+    local e2d = e2b:Clone()
+    e2d:SetCode(EFFECT_SET_BASE_DEFENSE)
+    c:RegisterEffect(e2d)
+    local e2e = e2b:Clone()
+    e2e:SetCode(EFFECT_SET_DEFENSE_FINAL)
+    c:RegisterEffect(e2e)
 end
 
-function s.e1filter(c) return c:IsFaceup() and not c:IsHasEffect(id) end
+function s.e2filter(c) return c:IsFaceup() and not c:IsHasEffect(id) end
 
-function s.e1val(e, tc)
+function s.e2val(e, tc)
     local c = e:GetOwner()
-    local g = Duel.GetMatchingGroup(s.e1filter, 0, LOCATION_MZONE,
+    local g = Duel.GetMatchingGroup(s.e2filter, 0, LOCATION_MZONE,
                                     LOCATION_MZONE, nil)
 
     if #g == 0 then

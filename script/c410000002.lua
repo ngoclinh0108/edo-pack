@@ -14,7 +14,7 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetCode(EFFECT_ADD_RACE)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(RACE_DRAGON+RACE_THUNDER)
+	e1:SetValue(RACE_THUNDER+RACE_DRAGON)
 	c:RegisterEffect(e1)
 
     -- atk/def

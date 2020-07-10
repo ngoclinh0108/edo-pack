@@ -39,7 +39,7 @@ ${HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
 ${EGYPTIAN_SUMMON} \
 ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
-This card is also a Dragon/Thunder monster while face-up on the field. \
+This card is also a Thunder/Dragon monster while face-up on the field. \
 The original ATK/DEF of this card each become equal to the number of cards in your hand x 1000. \
 If a monster(s) is Summoned to your opponent's field in face-up Position: \
     That monster(s) loses 2000 ATK if it is in face-up Attack Position, but 2000 DEF if it is in face-up Defense Position, \
@@ -65,7 +65,7 @@ ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
 ${EGYPTIAN_SUMMON} \
 ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
-This card is also a Winged-Beast/Pyro monster while face-up on the field.\
+This card is also a Pyro/Winged-Beast monster while face-up on the field.\
 """
 
 [card.ra_sphere]
@@ -82,7 +82,7 @@ effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Sphere Mode}
 Whenever your "The Winged Dragon of Ra" is Normal Summoned: Dimension Change it to this card in the same battle position. \
 ${DIVINE_IMMUNITY} \
-This card is also a Winged-Beast/Pyro monster while face-up on the field. \
+This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 Cannot attack. \
 Your opponent cannot target this card with card effects. \
 This Defense Position card cannot be destroyed by battle, also you take no Battle Damage from that battle. \
@@ -107,7 +107,7 @@ effect = """\
 "The Winged Dragon of Ra" is Special Summoned from the GY
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Immortal Phoenix}
 ${DIVINE_IMMUNITY} \
-This card is also a Winged-Beast/Pyro monster while face-up on the field. \
+This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 Unaffected by your opponent's Spell/Trap effects. \
 Once per turn (Quick Effect): You can pay LP so that you only have 100 left; This card gains original ATK/DEF equal to the amount of LP paid, \
     and also, during this turn, while this card is on the field: Any increase in LP is changed to increase this card's ATK/DEF instead. \
