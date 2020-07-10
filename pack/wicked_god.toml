@@ -79,7 +79,7 @@ Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Cannot be flipped face-down. \
 Control of this card cannot be switched. \
 Unaffected by other cards' effects, except cards' effects with the same or higher Divine Hierarchy. \
-Cannot be destroyed by battle with a monster with no or lower Divine Hierarchy, also you take no Battle Damage from that battle. \
+Cannot be destroyed by battle with a monster with have no or lower Divine Hierarchy, also you take no Battle Damage from that battle. \
 This card is also a DARK Fiend monster while face-up on the field.\
 """
 strings = [
