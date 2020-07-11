@@ -85,7 +85,7 @@ Control of this card cannot be switched. \
 Unaffected by other cards' effects, except cards' effects with the same or higher Divine Hierarchy. \
 Cannot be destroyed by battle with a monster with have no or lower Divine Hierarchy, also you take no Battle Damage from that battle. \
 This card is also a DARK Fiend monster while face-up on the field. \
-While this card is face-up on the field, it gains the effects of all monsters attached to it, except original Creator-God monsters.\
+This card gains the effects of all monsters attached to it, except original Creator-God monsters.\
 """
 strings = [
 ]
