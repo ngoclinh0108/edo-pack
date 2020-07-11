@@ -4,6 +4,30 @@ local s, id = GetID()
 s.divine_hierarchy = 3
 
 function s.initial_effect(c)
+    c:EnableReviveLimit()
+    c:SetUniqueOnField(1, 1, id)
+
+    -- xyz summon
+    Xyz.AddProcedure(c, s.xyzfilter, nil, 3, nil, nil, 99, nil, false,
+                     s.xyzcheck)
+
+    -- special summon condition
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(function(e, se, sp, st)
+        return not se and st and SUMMON_TYPE_XYZ == SUMMON_TYPE_XYZ
+    end)
+    c:RegisterEffect(splimit)
+
+    -- summon cannot be negated
+    local spsafe = Effect.CreateEffect(c)
+    spsafe:SetType(EFFECT_TYPE_SINGLE)
+    spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    c:RegisterEffect(spsafe)
+
     -- activation and effects cannot be negated
     local inact = Effect.CreateEffect(c)
     inact:SetType(EFFECT_TYPE_FIELD)
@@ -112,4 +136,61 @@ function s.initial_effect(c)
     e1b:SetCode(EFFECT_ADD_RACE)
     e1b:SetValue(RACE_FIEND)
     c:RegisterEffect(e1b)
+
+    -- gain effect
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_ADJUST)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+end
+
+function s.xyzfilter(c, xyz, sumtype, tp)
+    return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DIVINE)
+end
+
+function s.xyzcheck(g, tp, xyz)
+    return
+        g:GetClassCount(Card.GetLevel) == 1 and g:GetClassCount(Card.GetCode) ==
+            #g
+end
+
+function s.e2filter(c)
+    return c:IsType(TYPE_MONSTER) and c:GetOriginalRace() ~= RACE_CREATORGOD and
+               c:GetFlagEffect(id) == 0
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetOwner()
+    local g = c:GetOverlayGroup():Filter(s.e2filter, nil)
+    if c:IsFacedown() or #g <= 0 then return end
+
+    for tc in aux.Next(g) do
+        tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe0000, 0, 0)
+        local cid = c:CopyEffect(tc:GetOriginalCode(), RESET_EVENT + 0x1fe0000)
+
+        local reset = Effect.CreateEffect(c)
+        reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        reset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        reset:SetCode(EVENT_ADJUST)
+        reset:SetRange(LOCATION_MZONE)
+        reset:SetLabel(cid)
+        reset:SetLabelObject(tc)
+        reset:SetOperation(s.e2resetop)
+        reset:SetReset(RESET_EVENT + 0x1fe0000)
+        c:RegisterEffect(reset, true)
+    end
+end
+
+function s.e2resetop(e, tp, eg, ep, ev, re, r, rp)
+    local cid = e:GetLabel()
+    local c = e:GetOwner()
+    local tc = e:GetLabelObject()
+    local g = c:GetOverlayGroup():Filter(Card.IsType, nil, TYPE_MONSTER)
+
+    if c:IsDisabled() or c:IsFacedown() or not g:IsContains(tc) then
+        c:ResetEffect(cid, RESET_COPY)
+        tc:ResetFlagEffect(id)
+    end
 end
