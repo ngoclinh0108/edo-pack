@@ -70,8 +70,8 @@ type = "monster effect xyz"
 attribute = "divine"
 race = "creator-god"
 level = 12
-atk = 0
-def = 0
+atk = "?"
+def = "?"
 effect = """\
 3+ DARK Divine-Beast monsters with same Level and different names
 ${HIERARCHY|3}
