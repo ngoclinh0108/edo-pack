@@ -3,22 +3,21 @@ Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("proc_dimension.lua")
 local s, id = GetID()
 
-s.divine_hierarchy = 2
 s.listed_names = {CARD_RA}
 
 function s.initial_effect(c)
     Dimension.AddProcedure(c)
-    Divine.AddProcedure(c, "nomi")
+    Divine.DivineImmunity(s, c, 2, "nomi")
 
     -- race
-    local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetCode(EFFECT_ADD_RACE)
-	e1:SetRange(LOCATION_MZONE)
-	e1:SetValue(RACE_PYRO+RACE_WINGEDBEAST)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetValue(RACE_PYRO + RACE_WINGEDBEAST)
     c:RegisterEffect(e1)
-    
+
     -- seal form
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)

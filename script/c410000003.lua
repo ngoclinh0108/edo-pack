@@ -2,10 +2,8 @@
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
-s.divine_hierarchy = 2
-
 function s.initial_effect(c)
-    Divine.AddProcedure(c, "egyptian")
+    Divine.DivineImmunity(s, c, 2, "egyptian")
     Divine.ToGraveLimit(c)
 
     -- race

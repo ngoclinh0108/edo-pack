@@ -2,10 +2,8 @@
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
-s.divine_hierarchy = 1
-
 function s.initial_effect(c)
-    Divine.AddProcedure(c, "wicked")
+    Divine.DivineImmunity(s, c, 1, "wicked")
     Divine.ToGraveLimit(c)
 
     -- attribute & race
@@ -20,7 +18,7 @@ function s.initial_effect(c)
     e1b:SetCode(EFFECT_ADD_RACE)
     e1b:SetValue(RACE_FIEND)
     c:RegisterEffect(e1b)
-    
+
     -- atk/def
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
