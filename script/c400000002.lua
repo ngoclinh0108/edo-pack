@@ -1,0 +1,38 @@
+-- Divine Reborn
+local s, id = GetID()
+
+function s.initial_effect(c)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+end
+
+function s.e1filter(c, e, tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE,
+                                         LOCATION_GRAVE, 1, nil, e, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_GRAVE,
+                                LOCATION_GRAVE, 1, 1, nil, e, tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if not tc:IsRelateToEffect(e) then return end
+
+    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+end

@@ -25,3 +25,13 @@ Fusion Summon 1 Fusion Monster from your Extra Deck, using monsters from your ha
     Your opponent cannot activate cards or effects in response to this card's activation. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: You can discard 1 Spell; add this card to your hand.\
 """
+
+[card.divine-reborn]
+id = 400000002
+alias = 83764718
+name = "Divine Reborn"
+type = "spell quick-play"
+effect = """\
+(This card's name is always treated as "Monster Reborn").
+Target 1 monster in either GY; Special Summon it.
+"""
