@@ -283,22 +283,22 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec11:SetCode(EFFECT_CANNOT_DISABLE)
     ec11:SetValue(1)
     tc:RegisterEffect(ec11)
-    local ec12 = Effect.CreateEffect(c)
-    ec12:SetType(EFFECT_TYPE_FIELD)
-    ec12:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec12:SetCode(EFFECT_LPCOST_CHANGE)
-    ec12:SetRange(LOCATION_ONFIELD)
-    ec12:SetTargetRange(1, 0)
-    ec12:SetLabelObject(tc)
-    ec12:SetValue(function(e, re, rp, val)
-        if re and re:GetHandler() == e:GetLabelObject() then
-            return 0
-        else
-            return val
-        end
-    end)
-    ec12:SetReset(RESET_EVENT + RESETS_STANDARD)
-    tc:RegisterEffect(ec12)
+    -- local ec12 = Effect.CreateEffect(c)
+    -- ec12:SetType(EFFECT_TYPE_FIELD)
+    -- ec12:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    -- ec12:SetCode(EFFECT_LPCOST_CHANGE)
+    -- ec12:SetRange(LOCATION_ONFIELD)
+    -- ec12:SetTargetRange(1, 0)
+    -- ec12:SetLabelObject(tc)
+    -- ec12:SetValue(function(e, re, rp, val)
+    --     if re and re:GetHandler() == e:GetLabelObject() then
+    --         return 0
+    --     else
+    --         return val
+    --     end
+    -- end)
+    -- ec12:SetReset(RESET_EVENT + RESETS_STANDARD)
+    -- tc:RegisterEffect(ec12)
 
     tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD,
                           EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
