@@ -214,10 +214,19 @@ function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local mc = eg:Filter(s.dmsfilter, nil, c):GetFirst()
-    if not mc then return end
     Duel.BreakEffect()
+    local c = e:GetHandler()
+
+    local mc
+    local mg = eg:Filter(s.dmsfilter, nil, c)
+    if #mg <= 0 then
+        return
+    elseif #mg == 1 then
+        mc = mg:GetFirst()
+    else
+        mc = mg:Select(c:GetOwner(), 1, 1):GetFirst()
+    end
+    if not mc then return end
 
     Dimension.Change(c, mc, mc:GetControler(), mc:GetControler(),
                      mc:GetPosition())

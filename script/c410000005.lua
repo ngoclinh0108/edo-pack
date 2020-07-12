@@ -12,21 +12,19 @@ function s.initial_effect(c)
 
     -- startup
     Dimension.RegisterEffect(c, function(e, tp)
+        local reborn = Effect.CreateEffect(c)
+        reborn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        reborn:SetCode(EVENT_TO_GRAVE)
+        reborn:SetCondition(s.reborncon)
+        reborn:SetOperation(s.rebornop)
+        Duel.RegisterEffect(reborn, tp)
+
         local dms = Effect.CreateEffect(c)
         dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         dms:SetCode(EVENT_SPSUMMON_SUCCESS)
         dms:SetCondition(s.dmscon)
         dms:SetOperation(s.dmsop)
         Duel.RegisterEffect(dms, tp)
-
-        local reborn = Effect.CreateEffect(c)
-        reborn:SetCategory(CATEGORY_SPECIAL_SUMMON)
-        reborn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        reborn:SetCode(EVENT_TO_GRAVE)
-        reborn:SetCondition(s.reborncon)
-        reborn:SetTarget(s.reborntg)
-        reborn:SetOperation(s.rebornop)
-        Duel.RegisterEffect(reborn, tp)
     end)
 
     -- race
@@ -99,6 +97,37 @@ function s.initial_effect(c)
     c:RegisterEffect(e6)
 end
 
+function s.rebornfilter(c, e, tp)
+    local r = c:GetReason()
+    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0 and c:IsControler(tp) and
+               c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsCode(CARD_RA) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+end
+
+function s.reborncon(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.rebornfilter, 1, nil, e, tp)
+end
+
+function s.rebornop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_CARD, tp, id)
+
+    local tc
+    local g = eg:Filter(s.rebornfilter, nil, e, tp)
+    if #g <= 0 then
+        return
+    elseif #g == 1 then
+        Duel.HintSelection(g)
+        tc = g:GetFirst()
+    else
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+        tc = g:Select(tp, 1, 1):GetFirst()
+    end
+    if not tc then return end
+
+    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
+    tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD, 0, 1)
+end
+
 function s.dmsfilter(c, dc)
     return c:GetOwner() == dc:GetOwner() and c:IsControler(dc:GetOwner()) and
                c:IsCode(CARD_RA) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and
@@ -110,40 +139,23 @@ function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local mc = eg:Filter(s.dmsfilter, nil, c):GetFirst()
-    if not mc then return end
     Duel.BreakEffect()
+    local c = e:GetHandler()
 
+    local mc
+    local mg = eg:Filter(s.dmsfilter, nil, c)
+    if #mg <= 0 then
+        return
+    elseif #mg == 1 then
+        mc = mg:GetFirst()
+    else
+        mc = mg:Select(c:GetOwner(), 1, 1):GetFirst()
+    end
+    if not mc then return end
+
+    Debug.Message(mc:GetFlagEffect(id))
     Dimension.Change(c, mc, mc:GetControler(), mc:GetControler(),
                      mc:GetPosition())
-end
-
-function s.rebornfilter(c, e, tp)
-    local r = c:GetReason()
-    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0 and c:IsControler(tp) and
-               c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsCode(CARD_RA) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
-end
-
-function s.reborncon(e, tp, eg, ep, ev, re, r, rp)
-    return not eg:IsContains(e:GetHandler()) and
-               eg:IsExists(s.rebornfilter, 1, nil, e, tp)
-end
-
-function s.reborntg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
-    Duel.SetChainLimit(s.rebornchlimit)
-end
-
-function s.rebornop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local mc = eg:FilterSelect(tp, s.rebornfilter, 1, 1, e, tp):GetFirst()
-    if not mc then return end
-
-    Duel.SpecialSummon(mc, 0, tp, tp, true, false, POS_FACEUP)
 end
 
 function s.e2val(e, te)

@@ -78,7 +78,7 @@ function s.diceop(e, tp, eg, ep, ev, re, r, rp)
     local cc = Duel.GetCurrentChain()
     local cid = Duel.GetChainInfo(cc, CHAININFO_CHAIN_ID)
     if root[0] == cid or not Duel.SelectYesNo(tp, 553) then return end
-    Duel.Hint(HINT_CARD, 0, id)
+    Duel.Hint(HINT_CARD, tp, id)
 
     local t = {}
     for i = 1, 7 do t[i] = i end
@@ -96,7 +96,7 @@ function s.coinop(e, tp, eg, ep, ev, re, r, rp)
     local cc = Duel.GetCurrentChain()
     local cid = Duel.GetChainInfo(cc, CHAININFO_CHAIN_ID)
     if root[1] == cid or not Duel.SelectYesNo(tp, 552) then return end
-    Duel.Hint(HINT_CARD, 0, id)
+    Duel.Hint(HINT_CARD, tp, id)
 
     local res = {Duel.GetCoinResult()}
     local ct = ev
