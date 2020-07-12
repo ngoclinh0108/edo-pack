@@ -9,9 +9,7 @@ end
 
 function Divine.DivineImmunity(c, summon_mode, summon_extra)
     -- summon mode
-    if summon_mode == "nomi" then
-        summonNomi(c, summon_extra)
-    elseif summon_mode == "egyptian" then
+    if summon_mode == "egyptian" then
         summonEgyptian(c, summon_extra)
     elseif summon_mode == "wicked" then
         summonWicked(c, summon_extra)
@@ -314,16 +312,6 @@ function Divine.ToGraveLimit(c)
         Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
     end)
     c:RegisterEffect(togy)
-end
-
-function summonNomi(c, summon_extra)
-    c:EnableReviveLimit()
-
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    c:RegisterEffect(splimit)
 end
 
 function summonEgyptian(c, summon_extra)

@@ -6,19 +6,8 @@ local s, id = GetID()
 s.listed_names = {CARD_RA}
 
 function s.initial_effect(c)
-    c:EnableReviveLimit()
     Dimension.AddProcedure(c)
     Divine.SetHierarchy(s, 2)
-
-    -- special summon condition
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(function(e, se, sp, st)
-        return not se and st and SUMMON_TYPE_XYZ == SUMMON_TYPE_XYZ
-    end)
-    c:RegisterEffect(splimit)
 
     -- startup
     Dimension.RegisterEffect(c, function(e, tp)

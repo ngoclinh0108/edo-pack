@@ -80,7 +80,6 @@ atk = "?"
 def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Sphere Mode}
-Cannot be Normal Summoned/Special Summoned/Set. \
 Immediately after your "The Winged Dragon of Ra" is Normal Summoned, Dimension Change it to this card in the same battle position. \
 This card's activation and effects cannot be negated. \
 Neither player can target this card with card effects. \
@@ -115,7 +114,6 @@ atk = "?"
 def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Immortal Phoenix}
-Cannot be Normal Summoned/Special Summoned/Set. \
 Immediately after your "The Winged Dragon of Ra" is Special Summoned from the GY to your field, Dimension Change it to this card in the same battle position. \
 If "The Winged Dragon of Ra" is destroyed and sent from the field to your GY while this card is in your GY: Special Summon it, ignoring its Summoning conditions, \
     then Dimension Change it to this card in the same battle position, \

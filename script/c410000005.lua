@@ -8,7 +8,7 @@ s.listed_names = {CARD_RA, 10000080}
 function s.initial_effect(c)
     Dimension.AddProcedure(c)
     Divine.SetHierarchy(s, 2)
-    Divine.DivineImmunity(c, "nomi")
+    Divine.DivineImmunity(c)
 
     -- startup
     Dimension.RegisterEffect(c, function(e, tp)

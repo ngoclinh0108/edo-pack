@@ -10,6 +10,18 @@ Dimension.TYPE = 0x20000000
 
 -- function
 function Dimension.AddProcedure(c, matfilter)
+    c:EnableReviveLimit()
+
+    -- special summon condition
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(function(e, se, sp, st)
+        return not se and st and SUMMON_TYPE_XYZ == SUMMON_TYPE_XYZ
+    end)
+    c:RegisterEffect(splimit)
+    
     -- startup 
     local startup = Effect.CreateEffect(c)
     startup:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
