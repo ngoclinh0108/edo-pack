@@ -22,7 +22,7 @@ type = "spell"
 effect = """\
 (This card's name is always treated as "Polymerization").
 Fusion Summon 1 Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Material, you can also banish monster from your GY as Fusion Material. \
-    Your opponent cannot activate cards or effects in response to this card's activation. \
+    Your opponent cannot activate cards or effects in response to this effect activation. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: You can discard 1 Spell; add this card to your hand.\
 """
 
@@ -33,5 +33,7 @@ name = "Divine Reborn"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "Monster Reborn").
-Target 1 monster in either GY; Special Summon it.
+Target 1 monster in either GY; Special Summon it, ignoring its Summoning conditions, \
+    then if you Special Summoned a monster that cannot be Special Summoned, send it to the GY during the End Phase. \
+    Your opponent cannot activate cards or effects in response to this effect activation. \
 """

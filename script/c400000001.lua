@@ -9,7 +9,7 @@ function s.initial_effect(c)
         if chk == 0 then return e1tg(e, tp, eg, ep, ev, re, r, rp, chk) end
         e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
         if e:IsHasType(EFFECT_TYPE_ACTIVATE) then
-            Duel.SetChainLimit(aux.FALSE)
+            Duel.SetChainLimit(s.e1chlimit)
         end
     end)
     c:RegisterEffect(e1)
@@ -35,6 +35,8 @@ function s.e1matfilter(e, tp, mg)
     end
     return nil
 end
+
+function s.e1chlimit(e, ep, tp) return tp == ep end
 
 function s.e1op(e, tc, tp, sg)
     local rg = sg:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
