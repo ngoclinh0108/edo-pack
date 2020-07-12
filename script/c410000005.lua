@@ -25,7 +25,7 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_IMMUNE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
     e2:SetValue(function(e, te)
-        return te:GetOwnerPlayer() ~= e:GetOwnerPlayer() and
+        return te:GetHandlerPlayer() ~= e:GetHandlerPlayer() and
                    te:IsActiveType(TYPE_SPELL + TYPE_TRAP)
     end)
     c:RegisterEffect(e2)
@@ -100,7 +100,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
     local ec1 = Effect.CreateEffect(c)
@@ -125,7 +125,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3recoverop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     if c:IsFacedown() then return end
 
     local ec1 = Effect.CreateEffect(c)
@@ -143,7 +143,7 @@ function s.e3recoverop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     if chk == 0 then
         return Duel.CheckReleaseGroupCost(tp, nil, 1, false, nil, c)
     end
@@ -157,7 +157,7 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
     local g = e:GetLabelObject()
@@ -185,12 +185,12 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e5filter(tc, e)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     return not tc.divine_hierarchy or tc.divine_hierarchy <= c.divine_hierarchy
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     if chk == 0 then
         return Duel.CheckLPCost(tp, 1000) and c:GetFlagEffect(id) == 0
     end
@@ -200,7 +200,7 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_MZONE,
                                            LOCATION_MZONE, 1, c, e)
@@ -209,7 +209,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local tc = Duel.SelectMatchingCard(tp, s.e5filter, tp, LOCATION_MZONE,
@@ -228,7 +228,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec2, true)
     local ec3 = ec1:Clone()
     ec3:SetCode(EFFECT_IMMUNE_EFFECT)
-    ec3:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
+    ec3:SetValue(function(e, te) return te:GetHandler() ~= e:GetHandler() end)
     tc:RegisterEffect(ec3, true)
     Duel.AdjustInstantly(c)
 
@@ -238,7 +238,7 @@ end
 function s.e6filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     Duel.Hint(HINT_CARD, tp, id)
     Duel.HintSelection(Group.FromCards(c))
 

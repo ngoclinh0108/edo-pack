@@ -47,7 +47,7 @@ function s.e2val(e, c)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     return c:IsPreviousPosition(POS_FACEUP) and
                c:IsPreviousLocation(LOCATION_ONFIELD)
 end

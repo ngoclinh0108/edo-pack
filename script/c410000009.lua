@@ -47,7 +47,7 @@ function s.e2filter(c)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     local g = c:GetOverlayGroup():Filter(s.e2filter, nil)
     if c:IsFacedown() or #g <= 0 then return end
 
@@ -70,7 +70,7 @@ end
 
 function s.e2resetop(e, tp, eg, ep, ev, re, r, rp)
     local cid = e:GetLabel()
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     local tc = e:GetLabelObject()
     local g = c:GetOverlayGroup():Filter(Card.IsType, nil, TYPE_MONSTER)
 

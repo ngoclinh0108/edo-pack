@@ -46,7 +46,7 @@ end
 function s.e2filter(c) return c:IsFaceup() and not c:IsHasEffect(id) end
 
 function s.e2val(e, tc)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e2filter, 0, LOCATION_MZONE,
                                     LOCATION_MZONE, nil)
 

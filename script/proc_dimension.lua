@@ -17,7 +17,7 @@ function Dimension.AddProcedure(c, matfilter)
     startup:SetCode(EVENT_STARTUP)
     startup:SetRange(LOCATION_ALL)
     startup:SetOperation(function(e)
-        local c = e:GetOwner()
+        local c = e:GetHandler()
         local tp = c:GetOwner()
 
         Duel.DisableShuffleCheck()
@@ -43,10 +43,10 @@ function Dimension.AddProcedure(c, matfilter)
     turnback:SetCode(EVENT_LEAVE_FIELD)
     turnback:SetRange(LOCATION_MZONE)
     turnback:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return e:GetOwner():GetLocation() ~= 0
+        return e:GetHandler():GetLocation() ~= 0
     end)
     turnback:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetOwner()
+        local c = e:GetHandler()
         local mc = c:GetMaterial():GetFirst()
         local mtp = mc:GetOwner()
         local pos = c:GetPosition()
@@ -162,7 +162,7 @@ end
 
 function Dimension.Condition(matfilter)
     return function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetOwner()
+        local c = e:GetHandler()
 
         return c:GetLocation() == 0 and Duel.GetCurrentChain() == 0 and
                    Duel.GetTurnPlayer() == tp and
@@ -175,7 +175,7 @@ end
 
 function Dimension.Operation(matfilter)
     return function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetOwner()
+        local c = e:GetHandler()
 
         Duel.Hint(HINT_SELECTMSG, tp, 666100)
         local mc = Duel.SelectMatchingCard(tp, matfilter, tp, LOCATION_MZONE, 0,

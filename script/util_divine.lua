@@ -23,7 +23,7 @@ function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra
     inact:SetRange(LOCATION_MZONE)
     inact:SetValue(function(e, ct)
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetOwner() == e:GetOwner()
+        return te:GetHandler() == e:GetHandler()
     end)
     c:RegisterEffect(inact)
     local inact2 = inact:Clone()
@@ -43,7 +43,7 @@ function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc, tp, sumtp) return tc == e:GetOwner() end)
+    norelease:SetTarget(function(e, tc, tp, sumtp) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
     local nofus = Effect.CreateEffect(c)
     nofus:SetType(EFFECT_TYPE_SINGLE)
@@ -52,7 +52,7 @@ function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra
     nofus:SetRange(LOCATION_MZONE)
     nofus:SetValue(function(e, tc)
         if not tc then return false end
-        return tc:GetControler() ~= e:GetOwnerPlayer()
+        return tc:GetControler() ~= e:GetHandlerPlayer()
     end)
     c:RegisterEffect(nofus)
     local nosync = nofus:Clone()
@@ -88,15 +88,15 @@ function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra
     immunity:SetCode(EFFECT_IMMUNE_EFFECT)
     immunity:SetRange(LOCATION_MZONE)
     immunity:SetValue(function(e, te)
-        local c = e:GetOwner()
-        local tc = te:GetOwner()
+        local c = e:GetHandler()
+        local tc = te:GetHandler()
 
         if (tc == c) or
             (tc.divine_hierarchy and tc.divine_hierarchy >= c.divine_hierarchy) then
             return false
         end
 
-        return (te:GetOwnerPlayer() ~= e:GetOwnerPlayer() and
+        return (te:GetHandlerPlayer() ~= e:GetHandlerPlayer() and
                    te:IsActiveType(TYPE_MONSTER)) or
                    te:IsHasCategory(CATEGORY_DESTROY + CATEGORY_REMOVE +
                                         CATEGORY_TOGRAVE + CATEGORY_TOHAND +
@@ -113,7 +113,7 @@ function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra
     battle:SetRange(LOCATION_MZONE)
     battle:SetValue(function(e, tc)
         return tc and tc.divine_hierarchy and tc.divine_hierarchy <
-                   e:GetOwner().divine_hierarchy
+                   e:GetHandler().divine_hierarchy
     end)
     c:RegisterEffect(battle)
     local nodmg = battle:Clone()
@@ -129,7 +129,7 @@ function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra
     reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         if Duel.GetCurrentPhase() ~= PHASE_END then return false end
 
-        local c = e:GetOwner()
+        local c = e:GetHandler()
         local check = false
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
@@ -143,7 +143,7 @@ function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra
         return check
     end)
     reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetOwner()
+        local c = e:GetHandler()
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
             local ec = eff:GetOwner()
@@ -166,7 +166,7 @@ function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra
                     immunity:SetRange(LOCATION_MZONE)
                     immunity:SetLabelObject(ec)
                     immunity:SetValue(function(e, te)
-                        return te:GetOwner() == e:GetLabelObject()
+                        return te:GetHandler() == e:GetLabelObject()
                     end)
                     immunity:SetReset(RESET_EVENT + RESETS_STANDARD)
                     c:RegisterEffect(immunity)
@@ -207,7 +207,7 @@ function Divine.GodImmunity(s, c, divine_hierarchy)
     inact:SetRange(LOCATION_MZONE)
     inact:SetValue(function(e, ct)
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetOwner() == e:GetOwner()
+        return te:GetHandler() == e:GetHandler()
     end)
     c:RegisterEffect(inact)
     local inact2 = inact:Clone()
@@ -227,7 +227,7 @@ function Divine.GodImmunity(s, c, divine_hierarchy)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc, tp, sumtp) return tc == e:GetOwner() end)
+    norelease:SetTarget(function(e, tc, tp, sumtp) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
     local nofus = Effect.CreateEffect(c)
     nofus:SetType(EFFECT_TYPE_SINGLE)
@@ -236,7 +236,7 @@ function Divine.GodImmunity(s, c, divine_hierarchy)
     nofus:SetRange(LOCATION_MZONE)
     nofus:SetValue(function(e, tc)
         if not tc then return false end
-        return tc:GetControler() ~= e:GetOwnerPlayer()
+        return tc:GetControler() ~= e:GetHandlerPlayer()
     end)
     c:RegisterEffect(nofus)
     local nosync = nofus:Clone()
@@ -272,8 +272,8 @@ function Divine.GodImmunity(s, c, divine_hierarchy)
     immunity:SetCode(EFFECT_IMMUNE_EFFECT)
     immunity:SetRange(LOCATION_MZONE)
     immunity:SetValue(function(e, te)
-        local c = e:GetOwner()
-        local tc = te:GetOwner()
+        local c = e:GetHandler()
+        local tc = te:GetHandler()
         return tc ~= c and
                    (not tc.divine_hierarchy or tc.divine_hierarchy <
                        c.divine_hierarchy)
@@ -289,7 +289,7 @@ function Divine.GodImmunity(s, c, divine_hierarchy)
     battle:SetValue(function(e, tc)
         return tc and
                    (not tc.divine_hierarchy or tc.divine_hierarchy <
-                       e:GetOwner().divine_hierarchy)
+                       e:GetHandler().divine_hierarchy)
     end)
     c:RegisterEffect(battle)
     local nodmg = battle:Clone()
@@ -304,13 +304,13 @@ function Divine.ToGraveLimit(c)
     togy:SetCode(EVENT_ADJUST)
     togy:SetRange(LOCATION_MZONE)
     togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetOwner()
+        local c = e:GetHandler()
         return Duel.GetCurrentPhase() == PHASE_END and
                    c:IsSummonType(SUMMON_TYPE_SPECIAL) and
                    c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()
     end)
     togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Duel.SendtoGrave(e:GetOwner(), REASON_EFFECT)
+        Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
     end)
     c:RegisterEffect(togy)
 end

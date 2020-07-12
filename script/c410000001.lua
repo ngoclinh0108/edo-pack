@@ -43,7 +43,7 @@ function s.initial_effect(c)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
     if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
 
@@ -71,7 +71,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     if chk == 0 then
         return c:GetAttackAnnouncedCount() == 0 and
                    Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c)
@@ -99,7 +99,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
 
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     if Duel.Destroy(g, REASON_EFFECT) == #g then

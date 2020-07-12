@@ -60,17 +60,17 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetOwner():IsRelateToEffect(e) end
+    if chk == 0 then return e:GetHandler():IsRelateToEffect(e) end
     Duel.SetTargetCard(eg)
     Duel.SetChainLimit(s.e3actlimit(eg))
 end
 
 function s.e3actlimit(g)
-    return function(e, lp, tp) return not g:IsContains(e:GetOwner()) end
+    return function(e, lp, tp) return not g:IsContains(e:GetHandler()) end
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetOwner()
+    local c = e:GetHandler()
     local g = eg:Filter(s.e3filter, nil, e, 1 - tp)
     local dg = Group.CreateGroup()
 

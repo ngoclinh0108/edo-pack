@@ -41,7 +41,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e2tg(e, c) return c:GetControler() ~= e:GetOwner():GetControler() end
+function s.e2tg(e, c) return c:GetControler() ~= e:GetHandler():GetControler() end
 
 function s.e2val(e, c) return math.ceil(c:GetAttack() / 2) end
 
