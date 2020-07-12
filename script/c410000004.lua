@@ -58,10 +58,12 @@ function s.initial_effect(c)
     -- standard form
     local e6 = Effect.CreateEffect(c)
     e6:SetDescription(aux.Stringid(id, 0))
+    e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e6:SetType(EFFECT_TYPE_IGNITION)
     e6:SetProperty(EFFECT_FLAG_BOTH_SIDE)
     e6:SetRange(LOCATION_MZONE)
     e6:SetCountLimit(1)
+    e6:SetCost(s.e6cost)
     e6:SetTarget(s.e6tg)
     e6:SetOperation(s.e6op)
     c:RegisterEffect(e6)
@@ -85,7 +87,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                      mc:GetPosition())
 end
 
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local mc = c:GetMaterial():GetFirst()
 
@@ -94,19 +96,36 @@ function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
                    (c:IsControler(tp) or
                        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0)
     end
+
+    Dimension.SendToDimension(c, REASON_COST)
+end
+
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    local mc = c:GetMaterial():GetFirst()
+
+    if chk == 0 then return mc:IsCanBeSpecialSummoned(e, 0, tp, true, false) end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, mc, 1, 0, 0)
 end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local tc = c:GetMaterial():GetFirst()
+    if not tc then return end
     if not c:IsControler(tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
+        Duel.SendtoGrave(tc, REASON_RULE)
         return
     end
 
-    local tc = Dimension.Dechange(c, tp, tp)
+    local is_tribute_summon = tc:IsSummonType(SUMMON_TYPE_TRIBUTE)
+    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
+    Dimension.Zones(tc:GetOwner()):RemoveCard(tc)
+    Duel.BreakEffect()
 
     local atk = 0
     local def = 0
-    if tc:IsSummonType(SUMMON_TYPE_TRIBUTE) then
+    if is_tribute_summon then
         local mg = tc:GetMaterial()
         for mc in aux.Next(mg) do
             if mc:GetBaseAttack() > 0 then

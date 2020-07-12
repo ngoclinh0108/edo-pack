@@ -84,7 +84,7 @@ end
 
 function s.dmsfilter(c)
     return c:IsCode(CARD_RA) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-               c:IsPreviousLocation(LOCATION_GRAVE)
+               c:IsSummonLocation(LOCATION_GRAVE)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)

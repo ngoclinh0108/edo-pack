@@ -310,7 +310,7 @@ function Divine.ToGraveLimit(c)
         local c = e:GetHandler()
         return Duel.GetCurrentPhase() == PHASE_END and
                    c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-                   c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()
+                   c:IsSummonLocation(LOCATION_GRAVE) and c:IsAbleToGrave()
     end)
     togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
