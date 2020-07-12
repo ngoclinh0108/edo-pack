@@ -28,7 +28,7 @@ function s.initial_effect(c)
     e1:SetValue(RACE_PYRO + RACE_WINGEDBEAST)
     c:RegisterEffect(e1)
 
-    -- immune spell/trap
+    -- immune
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
