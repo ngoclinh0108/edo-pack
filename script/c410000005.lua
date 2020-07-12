@@ -282,7 +282,6 @@ function s.e7filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) en
 
 function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    Duel.Hint(HINT_CARD, tp, id)
     Duel.HintSelection(Group.FromCards(c))
 
     if Dimension.Zones(c:GetOwner()):IsExists(s.e7filter, 1, nil) then
