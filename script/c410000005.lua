@@ -34,10 +34,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetCode(EFFECT_IMMUNE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(function(e, te)
-        return te:GetHandlerPlayer() ~= e:GetHandlerPlayer() and
-                   te:IsActiveType(TYPE_SPELL + TYPE_TRAP)
-    end)
+    e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
 
     -- battle indes
@@ -46,10 +43,7 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetValue(function(e, tc)
-        return tc and (not tc.divine_hierarchy or tc.divine_hierarchy <
-                   e:GetHandler().divine_hierarchy)
-    end)
+    e3:SetValue(s.e3val)
     c:RegisterEffect(e3)
 
     -- life point transfer
@@ -122,6 +116,18 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
 
     Dimension.Change(c, mc, mc:GetControler(), mc:GetControler(),
                      mc:GetPosition())
+end
+
+function s.e2val(e, te)
+    return te:GetHandlerPlayer() ~= e:GetHandlerPlayer() and
+               te:IsActiveType(TYPE_SPELL + TYPE_TRAP)
+end
+
+function s.e3val(e, tc)
+    local c = e:GetHandler()
+    return tc and
+               (not tc.divine_hierarchy or tc.divine_hierarchy <
+                   c.divine_hierarchy)
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)

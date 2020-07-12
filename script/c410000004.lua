@@ -49,7 +49,7 @@ function s.initial_effect(c)
     e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e4:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetValue(function(e) return e:GetHandler():IsDefensePos() end)
+    e4:SetValue(s.e4val)
     c:RegisterEffect(e4)
     local e4b = e4:Clone()
     e4b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
@@ -85,6 +85,13 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
 
     Dimension.Change(c, mc, mc:GetControler(), mc:GetControler(),
                      mc:GetPosition())
+end
+
+function s.e4val(e, tc)
+    local c = e:GetHandler()
+    return c:IsDefensePos() and tc and
+               (not tc.divine_hierarchy or tc.divine_hierarchy <
+                   c.divine_hierarchy)
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
