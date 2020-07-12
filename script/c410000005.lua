@@ -109,6 +109,8 @@ function s.reborncon(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.rebornop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.BreakEffect()
+    local c = e:GetHandler()
     Duel.Hint(HINT_CARD, tp, id)
 
     local tc
@@ -125,7 +127,6 @@ function s.rebornop(e, tp, eg, ep, ev, re, r, rp)
     if not tc then return end
 
     Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
-    tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD, 0, 1)
 end
 
 function s.dmsfilter(c, dc)
@@ -153,9 +154,26 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     end
     if not mc then return end
 
-    Debug.Message(mc:GetFlagEffect(id))
+    local is_reborn = false
+    local re = mc:GetReasonEffect()
+    if re then is_reborn = re:GetHandler():GetOriginalCode() == id end
+
     Dimension.Change(c, mc, mc:GetControler(), mc:GetControler(),
                      mc:GetPosition())
+
+    if is_reborn then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
+        ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+        ec1:SetRange(LOCATION_MZONE)
+        ec1:SetValue(4000)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE - RESET_TOFIELD)
+        c:RegisterEffect(ec1)
+        local ec2 = ec1:Clone()
+        ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
+        c:RegisterEffect(ec2)
+    end
 end
 
 function s.e2val(e, te)
