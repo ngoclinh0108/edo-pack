@@ -1,9 +1,10 @@
--- Ra the Sun Divine Phoenix
+-- Ra the Sun Divine Beast
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineImmunity(s, c, 2, "egyptian")
+    Divine.SetHierarchy(s, 2)
+    Divine.DivineImmunity(c, "egyptian")
     Divine.ToGraveLimit(c)
 
     -- race

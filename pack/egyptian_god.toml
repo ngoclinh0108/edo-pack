@@ -53,7 +53,7 @@ strings = [
 [card.ra]
 id = 410000003
 alias = 10000010
-name = "Ra the Sun Divine Phoenix"
+name = "Ra the Sun Divine Beast"
 type = "monster effect"
 attribute = "divine"
 race = "divine-beast"
@@ -71,7 +71,7 @@ This card is also a Pyro/Winged-Beast monster while face-up on the field.\
 [card.ra_sphere]
 id = 410000004
 alias = 10000080
-name = "Ra the Sun Divine Sphere"
+name = "Ra the Sun Divine Beast - Sphere Mode"
 type = "monster dimension effect"
 attribute = "divine"
 race = "divine-beast"
@@ -81,11 +81,17 @@ def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Sphere Mode}
 Cannot be Normal Summoned/Special Summoned/Set. \
-Whenever your "The Winged Dragon of Ra" is Normal Summoned: Dimension Change it to this card in the same battle position. \
-${DIVINE_IMMUNITY} \
+Immediately after your "The Winged Dragon of Ra" is Normal Summoned, Dimension Change it to this card in the same battle position. \
+This card's activation and effects cannot be negated. \
+Neither player can target this card with card effects. \
+Cannot be Tributed, or be used as a material for a Summon. \
+Cannot be flipped face-down. \
+Control of this card cannot be switched. \
+Unaffected by other monster effects and other cards' effects that would make this card leave the field, \
+    except cards' effects with the same or higher Divine Hierarchy. \
+Cards' effects are only applied on this card for 1 turn. \
 This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 Cannot attack. \
-Neither player can target this card with card effects. \
 This Defense Position card cannot be destroyed by battle with a monster with have no or lower Divine Hierarchy, \
     also you take no Battle Damage from that battle. \
 Once per turn, during either turn: You can send this card to the Dimension Deck; \
@@ -100,7 +106,7 @@ strings = [
 [card.ra_phoenix]
 id = 410000005
 alias = 10000090
-name = "Ra the Sun Divine Immortal Phoenix"
+name = "Ra the Sun Divine Beast - Immortal Phoenix"
 type = "monster dimension effect"
 attribute = "divine"
 race = "divine-beast"
@@ -110,7 +116,7 @@ def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Immortal Phoenix}
 Cannot be Normal Summoned/Special Summoned/Set. \
-Whenever your "The Winged Dragon of Ra" is Special Summoned from the GY: Dimension Change it to this card in the same battle position. \
+Immediately after your "The Winged Dragon of Ra" is Special Summoned from the GY, Dimension Change it to this card in the same battle position. \
 ${DIVINE_IMMUNITY} \
 This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 Unaffected by your opponent's Spell/Trap effects. \

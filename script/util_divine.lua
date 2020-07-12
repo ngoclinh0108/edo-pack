@@ -3,10 +3,11 @@ if not aux.DivineProcedure then aux.DivineProcedure = {} end
 if not Divine then Divine = aux.DivineProcedure end
 
 -- function
-function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra)
-    -- divine hierarchy
+function Divine.SetHierarchy(s, divine_hierarchy)
     s.divine_hierarchy = divine_hierarchy
+end
 
+function Divine.DivineImmunity(c, summon_mode, summon_extra)
     -- summon mode
     if summon_mode == "nomi" then
         summonNomi(c, summon_extra)
@@ -179,11 +180,8 @@ function Divine.DivineImmunity(s, c, divine_hierarchy, summon_mode, summon_extra
     c:RegisterEffect(reset)
 end
 
-function Divine.GodImmunity(s, c, divine_hierarchy)
+function Divine.GodImmunity(c)
     c:EnableReviveLimit()
-
-    -- divine hierarchy
-    s.divine_hierarchy = divine_hierarchy
 
     -- special summon condition
     local splimit = Effect.CreateEffect(c)

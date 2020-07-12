@@ -1,4 +1,4 @@
--- Ra the Sun Divine Immortal Phoenix
+-- Ra the Sun Divine Beast - Immortal Phoenix
 Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("proc_dimension.lua")
 local s, id = GetID()

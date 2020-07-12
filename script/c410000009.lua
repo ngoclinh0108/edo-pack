@@ -3,7 +3,8 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.GodImmunity(s, c, 3)
+    Divine.SetHierarchy(s, 3)
+    Divine.GodImmunity(c)
 
     -- xyz summon
     Xyz.AddProcedure(c, s.xyzfilter, nil, 3, nil, nil, 99, nil, false,
