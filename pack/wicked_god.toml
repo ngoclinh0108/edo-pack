@@ -37,7 +37,7 @@ ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
 This card is also a DARK Fiend monster while face-up on the field. \
 The original ATK/DEF of this card each become equal to the number of cards your opponent controls x 1000. \
-If this card leaves the field: Send all monsters your opponent controls to the GY.\
+If this card leaves the field: Send all cards your opponent controls to the GY.\
 """
 strings = [
 ]
