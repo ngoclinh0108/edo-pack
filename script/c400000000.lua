@@ -19,7 +19,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoDeck(c, tp, -2, REASON_RULE)
     if c:IsPreviousLocation(LOCATION_HAND) then Duel.Draw(p, 1, REASON_RULE) end
     e:Reset()
-    
+
     -- complete summoned when summon
     local sum = Effect.CreateEffect(c)
     sum:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
