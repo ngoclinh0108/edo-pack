@@ -69,8 +69,8 @@ function s.initial_effect(c)
     c:RegisterEffect(e6)
 end
 
-function s.e1filter(c, mc)
-    return c:IsCode(CARD_RA) and c:GetOwner() == mc:GetOwner()
+function s.e1filter(c, dc)
+    return c:GetOwner() == dc:GetOwner() and c:IsCode(CARD_RA)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)

@@ -107,9 +107,9 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-"The Winged Dragon of Ra" is Special Summoned from the GY
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Immortal Phoenix}
 Cannot be Normal Summoned/Special Summoned/Set. \
+Whenever your "The Winged Dragon of Ra" is Special Summoned from the GY: Dimension Change it to this card in the same battle position. \
 ${DIVINE_IMMUNITY} \
 This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 Unaffected by your opponent's Spell/Trap effects. \
