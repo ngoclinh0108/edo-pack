@@ -7,7 +7,8 @@ s.listed_names = {CARD_RA, 10000080}
 
 function s.initial_effect(c)
     Dimension.AddProcedure(c)
-    Divine.DivineImmunity(s, c, 2, "nomi")
+    Divine.SetHierarchy(s, 2)
+    Divine.DivineImmunity(c, "nomi")
 
     -- startup
     Dimension.RegisterEffect(c, function(e, tp)
@@ -37,70 +38,61 @@ function s.initial_effect(c)
     e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
 
-    -- battle indes
+    -- life point transfer
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetValue(s.e3val)
+    e3:SetCountLimit(1)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- life point transfer
+    -- tribute for atk/def
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetDescription(aux.Stringid(id, 1))
     e4:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e4:SetType(EFFECT_TYPE_QUICK_O)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
     e4:SetCountLimit(1)
     e4:SetCost(s.e4cost)
-    e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
-    -- tribute for atk/def
+    -- destroy
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 1))
-    e5:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetCategory(CATEGORY_DESTROY)
     e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetRange(LOCATION_MZONE)
-    e5:SetCountLimit(1)
     e5:SetCost(s.e5cost)
+    e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
 
-    -- destroy
-    local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 2))
-    e6:SetCategory(CATEGORY_DESTROY)
-    e6:SetType(EFFECT_TYPE_QUICK_O)
-    e6:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    e6:SetCode(EVENT_FREE_CHAIN)
-    e6:SetRange(LOCATION_MZONE)
-    e6:SetCost(s.e6cost)
-    e6:SetTarget(s.e6tg)
-    e6:SetOperation(s.e6op)
-    c:RegisterEffect(e6)
-
     -- end phase
-    local e7 = Effect.CreateEffect(c)
-    e7:SetCategory(CATEGORY_TOGRAVE)
-    e7:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e7:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e7:SetCode(EVENT_ADJUST)
-    e7:SetRange(LOCATION_MZONE)
-    e7:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+    local e6 = Effect.CreateEffect(c)
+    e6:SetCategory(CATEGORY_TOGRAVE)
+    e6:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e6:SetCode(EVENT_ADJUST)
+    e6:SetRange(LOCATION_MZONE)
+    e6:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return Duel.GetCurrentPhase() == PHASE_END
     end)
-    e7:SetOperation(s.e7op)
-    c:RegisterEffect(e7)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
 function s.dmsfilter(c, dc)
-    return c:GetOwner() == dc:GetOwner() and c:IsCode(CARD_RA) and
-               c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+    return c:GetOwner() == dc:GetOwner() and c:IsControler(dc:GetOwner()) and
+               c:IsCode(CARD_RA) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and
                c:IsSummonLocation(LOCATION_GRAVE)
 end
 
@@ -123,26 +115,19 @@ function s.e2val(e, te)
                te:IsActiveType(TYPE_SPELL + TYPE_TRAP)
 end
 
-function s.e3val(e, tc)
-    local c = e:GetHandler()
-    return tc and
-               (not tc.divine_hierarchy or tc.divine_hierarchy <
-                   c.divine_hierarchy)
-end
-
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetLP(tp) > 100 end
     local lp = Duel.GetLP(tp)
     e:SetLabel(lp - 100)
     Duel.PayLPCost(tp, lp - 100)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
     Duel.SetChainLimit(aux.FALSE)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
@@ -162,12 +147,12 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetCode(EVENT_RECOVER)
     ec3:SetRange(LOCATION_MZONE)
     ec3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return ep == tp end)
-    ec3:SetOperation(s.e4recoverop)
+    ec3:SetOperation(s.e3recoverop)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec3)
 end
 
-function s.e4recoverop(e, tp, eg, ep, ev, re, r, rp)
+function s.e3recoverop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() then return end
 
@@ -185,7 +170,7 @@ function s.e4recoverop(e, tp, eg, ep, ev, re, r, rp)
     Duel.SetLP(tp, 100, REASON_EFFECT)
 end
 
-function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.CheckReleaseGroupCost(tp, nil, 1, false, nil, c)
@@ -199,7 +184,7 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
@@ -227,12 +212,12 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     g:DeleteGroup()
 end
 
-function s.e6filter(tc, e)
+function s.e5filter(tc, e)
     local c = e:GetHandler()
     return not tc.divine_hierarchy or tc.divine_hierarchy <= c.divine_hierarchy
 end
 
-function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.CheckLPCost(tp, 1000) and c:GetFlagEffect(id) == 0
@@ -242,20 +227,20 @@ function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
     c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
 end
 
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_MZONE,
+        return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_MZONE,
                                            LOCATION_MZONE, 1, c, e)
     end
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, 0)
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local tc = Duel.SelectMatchingCard(tp, s.e6filter, tp, LOCATION_MZONE,
+    local tc = Duel.SelectMatchingCard(tp, s.e5filter, tp, LOCATION_MZONE,
                                        LOCATION_MZONE, 1, 1, c, e):GetFirst()
     if not tc then return end
 
@@ -278,14 +263,14 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Destroy(tc, REASON_EFFECT)
 end
 
-function s.e7filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end
+function s.e6filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end
 
-function s.e7op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.HintSelection(Group.FromCards(c))
 
-    if Dimension.Zones(c:GetOwner()):IsExists(s.e7filter, 1, nil) then
-        local sc = Dimension.Zones(c:GetOwner()):Filter(s.e7filter, nil)
+    if Dimension.Zones(c:GetOwner()):IsExists(s.e6filter, 1, nil) then
+        local sc = Dimension.Zones(c:GetOwner()):Filter(s.e6filter, nil)
                        :GetFirst()
         Dimension.Change(sc, c, tp, tp, POS_FACEUP_DEFENSE, c:GetMaterial())
     else
