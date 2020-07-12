@@ -21,7 +21,15 @@ function s.initial_effect(c)
     end)
 
     -- reborn ra
-    
+    local reborn = Effect.CreateEffect(c)
+    reborn:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    reborn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
+    reborn:SetCode(EVENT_TO_GRAVE)
+    -- reborn:SetRange(LOCATION_GRAVE)
+    reborn:SetCondition(s.reborncon)
+    reborn:SetTarget(s.reborntg)
+    reborn:SetOperation(s.rebornop)
+    c:RegisterEffect(reborn)
 
     -- race
     local e1 = Effect.CreateEffect(c)
@@ -112,6 +120,35 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     Dimension.Change(c, mc, mc:GetControler(), mc:GetControler(),
                      mc:GetPosition())
 end
+
+function s.rebornfilter(c, e, tp)
+    local r = c:GetReason()
+    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0 and c:IsControler(tp) and
+               c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsCode(CARD_RA) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+end
+
+function s.reborncon(e, tp, eg, ep, ev, re, r, rp)
+    return not eg:IsContains(e:GetHandler()) and
+               eg:IsExists(s.rebornfilter, 1, nil, e, tp)
+end
+
+function s.reborntg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
+    Duel.SetChainLimit(s.rebornchlimit)
+end
+
+function s.rebornop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local mc = eg:FilterSelect(tp, s.rebornfilter, 1, 1, e, tp):GetFirst()
+    if not mc then return end
+
+    Duel.SpecialSummon(mc, 0, tp, tp, true, false, POS_FACEUP)
+end
+
+function s.rebornchlimit(e, ep, tp) return tp == ep end
 
 function s.e2val(e, te)
     return te:GetHandlerPlayer() ~= e:GetHandlerPlayer() and
