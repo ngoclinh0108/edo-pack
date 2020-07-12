@@ -10,18 +10,31 @@ Dimension.TYPE = 0x20000000
 
 -- function
 function Dimension.AddProcedure(c, matfilter)
-    -- outside 
-    local outside = Effect.CreateEffect(c)
-    outside:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    outside:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
-    outside:SetCode(EVENT_STARTUP)
-    outside:SetRange(0x5f)
-    outside:SetOperation(function(e)
+    -- startup 
+    local startup = Effect.CreateEffect(c)
+    startup:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    startup:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
+    startup:SetCode(EVENT_STARTUP)
+    startup:SetRange(LOCATION_ALL)
+    startup:SetOperation(function(e)
+        local c = e:GetOwner()
+        local tp = c:GetOwner()
+
         Duel.DisableShuffleCheck()
-        Duel.SendtoDeck(e:GetOwner(), nil, -2, REASON_RULE)
-        Dimension.Zones(e:GetOwner():GetOwner()):AddCard(e:GetOwner())
+        Duel.SendtoDeck(c, nil, -2, REASON_RULE)
+        Dimension.Zones(tp):AddCard(c)
+
+        if matfilter then
+            local change = Effect.CreateEffect(c)
+            change:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+            change:SetCode(EVENT_FREE_CHAIN)
+            change:SetCountLimit(1)
+            change:SetCondition(Dimension.Condition(matfilter))
+            change:SetOperation(Dimension.Operation(matfilter))
+            Duel.RegisterEffect(change, tp)
+        end
     end)
-    c:RegisterEffect(outside)
+    c:RegisterEffect(startup)
 
     -- turn back when leave field
     local turnback = Effect.CreateEffect(c)
@@ -64,17 +77,6 @@ function Dimension.AddProcedure(c, matfilter)
         Dimension.Zones(mc:GetOwner()):RemoveCard(mc)
     end)
     c:RegisterEffect(turnback)
-
-    -- dimension change
-    if matfilter then
-        local change = Effect.CreateEffect(c)
-        change:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        change:SetCode(EVENT_FREE_CHAIN)
-        change:SetCountLimit(1)
-        change:SetCondition(Dimension.Condition(matfilter))
-        change:SetOperation(Dimension.Operation(matfilter))
-        Duel.RegisterEffect(change, nil)
-    end
 end
 
 function Dimension.Zones(tp)
@@ -86,6 +88,16 @@ function Dimension.Zones(tp)
     end
 
     return g
+end
+
+function Dimension.RegisterEffect(c, op)
+    local startup = Effect.CreateEffect(c)
+    startup:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    startup:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
+    startup:SetCode(EVENT_STARTUP)
+    startup:SetRange(LOCATION_ALL)
+    startup:SetOperation(op)
+    c:RegisterEffect(startup)
 end
 
 function Dimension.Change(c, mc, change_player, target_player, pos, mg)
@@ -150,7 +162,6 @@ end
 
 function Dimension.Condition(matfilter)
     return function(e, tp, eg, ep, ev, re, r, rp)
-        tp = e:GetOwner():GetOwner()
         local c = e:GetOwner()
 
         return c:GetLocation() == 0 and Duel.GetCurrentChain() == 0 and
@@ -159,13 +170,11 @@ function Dimension.Condition(matfilter)
                        Duel.GetCurrentPhase() == PHASE_MAIN2) and
                    Duel.IsExistingMatchingCard(matfilter, tp, LOCATION_MZONE, 0,
                                                1, nil, tp, c)
-
     end
 end
 
 function Dimension.Operation(matfilter)
     return function(e, tp, eg, ep, ev, re, r, rp)
-        tp = e:GetOwner():GetOwner()
         local c = e:GetOwner()
 
         Duel.Hint(HINT_SELECTMSG, tp, 666100)

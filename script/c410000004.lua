@@ -9,22 +9,24 @@ function s.initial_effect(c)
     Dimension.AddProcedure(c)
     Divine.DivineImmunity(s, c, 2, "nomi")
 
-    -- race
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_ADD_RACE)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(RACE_PYRO + RACE_WINGEDBEAST)
-    c:RegisterEffect(e1)
+    -- startup
+    Dimension.RegisterEffect(c, function(e, tp)
+        local e1 = Effect.CreateEffect(c)
+        e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        e1:SetCode(EVENT_SUMMON_SUCCESS)
+        e1:SetCondition(s.e1con)
+        e1:SetOperation(s.e1op)
+        Duel.RegisterEffect(e1, tp)
+    end)
 
-    -- seal form
+    -- race
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_SUMMON_SUCCESS)
-    e2:SetCondition(s.e2con)
-    e2:SetOperation(s.e2op)
-    Duel.RegisterEffect(e2, nil)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_ADD_RACE)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetValue(RACE_PYRO + RACE_WINGEDBEAST)
+    c:RegisterEffect(e2)
 
     -- attack limit
     local e3 = Effect.CreateEffect(c)
@@ -65,17 +67,17 @@ function s.initial_effect(c)
     c:RegisterEffect(e6)
 end
 
-function s.e2filter(c, mc)
+function s.e1filter(c, mc)
     return c:IsCode(CARD_RA) and c:GetOwner() == mc:GetOwner()
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e2filter, 1, nil, e:GetOwner())
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.e1filter, 1, nil, e:GetOwner())
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetOwner()
-    local mc = eg:Filter(s.e2filter, nil, c):GetFirst()
+    local mc = eg:Filter(s.e1filter, nil, c):GetFirst()
     if not mc then return end
     Duel.BreakEffect()
 
