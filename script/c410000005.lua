@@ -285,19 +285,7 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_CARD, tp, id)
     Duel.HintSelection(Group.FromCards(c))
 
-    local b1 = Dimension.Zones(c:GetOwner()):IsExists(s.e7filter, 1, nil)
-    local b2 = c:IsAbleToGrave()
-
-    local opt
-    if b1 and b2 then
-        opt = Duel.SelectOption(tp, aux.Stringid(id, 3), aux.Stringid(id, 4))
-    elseif b1 then
-        opt = Duel.SelectOption(tp, aux.Stringid(id, 3))
-    else
-        opt = Duel.SelectOption(tp, aux.Stringid(id, 4)) + 1
-    end
-
-    if opt == 0 then
+    if Dimension.Zones(c:GetOwner()):IsExists(s.e7filter, 1, nil) then
         local sc = Dimension.Zones(c:GetOwner()):Filter(s.e7filter, nil)
                        :GetFirst()
         Dimension.Change(sc, c, tp, tp, POS_FACEUP_DEFENSE, c:GetMaterial())
