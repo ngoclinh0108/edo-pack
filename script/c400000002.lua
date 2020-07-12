@@ -18,7 +18,7 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_DESTROYED)
-    e2:SetRange(LOCATION_MZONE)
+    e2:SetRange(LOCATION_GRAVE)
     e2:SetCountLimit(1, id)
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
@@ -88,6 +88,7 @@ function s.e2filter(c, tp)
 
     return (r & REASON_EFFECT + REASON_BATTLE) ~= 0 and rp == 1 - tp and
                c:IsPreviousControler(tp) and
+               c:IsPreviousLocation(LOCATION_ONFIELD) and
                c:IsOriginalAttribute(ATTRIBUTE_DIVINE)
 end
 
