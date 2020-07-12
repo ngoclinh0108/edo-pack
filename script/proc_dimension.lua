@@ -149,7 +149,8 @@ function Dimension.Dechange(c, change_player, target_player, pos)
     Duel.MoveToField(mc, change_player, target_player, LOCATION_MZONE, pos,
                      true, zone)
     Dimension.Zones(mc:GetOwner()):RemoveCard(mc)
-
+    Debug.PreSummon(mc, c:GetSummonType(), c:GetSummonLocation())
+    
     -- not allow change posiiton
     local nochangepos = Effect.CreateEffect(mc)
     nochangepos:SetType(EFFECT_TYPE_SINGLE)
