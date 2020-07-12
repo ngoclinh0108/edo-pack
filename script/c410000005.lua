@@ -20,6 +20,9 @@ function s.initial_effect(c)
         Duel.RegisterEffect(dms, tp)
     end)
 
+    -- reborn ra
+    
+
     -- race
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
