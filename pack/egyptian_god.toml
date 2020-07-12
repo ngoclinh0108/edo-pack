@@ -116,7 +116,7 @@ def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Immortal Phoenix}
 Immediately after "The Winged Dragon of Ra"(s) is destroyed and sent from the field to your GY, \
-    Special Summon 1 of them, ignoring its Summoning conditions, then Dimension Change it to this card in the same battle position. \
+    Special Summon 1 of them, ignoring its Summoning conditions. \
 Immediately after your "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
     Dimension Change it to this card in the same battle position, \
     and if the Material is Special Summoned by this card's effect, the original ATK/DEF of this card each become 4000. \
