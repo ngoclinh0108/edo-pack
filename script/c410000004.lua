@@ -40,7 +40,7 @@ function s.initial_effect(c)
     e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e4:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetValue(aux.tgoval)
+    e4:SetValue(1)
     c:RegisterEffect(e4)
 
     -- battle indes & damage avoid
