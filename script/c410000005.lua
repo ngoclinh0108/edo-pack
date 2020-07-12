@@ -18,18 +18,16 @@ function s.initial_effect(c)
         dms:SetCondition(s.dmscon)
         dms:SetOperation(s.dmsop)
         Duel.RegisterEffect(dms, tp)
-    end)
 
-    -- reborn ra
-    local reborn = Effect.CreateEffect(c)
-    reborn:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    reborn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
-    reborn:SetCode(EVENT_TO_GRAVE)
-    -- reborn:SetRange(LOCATION_GRAVE)
-    reborn:SetCondition(s.reborncon)
-    reborn:SetTarget(s.reborntg)
-    reborn:SetOperation(s.rebornop)
-    c:RegisterEffect(reborn)
+        local reborn = Effect.CreateEffect(c)
+        reborn:SetCategory(CATEGORY_SPECIAL_SUMMON)
+        reborn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        reborn:SetCode(EVENT_TO_GRAVE)
+        reborn:SetCondition(s.reborncon)
+        reborn:SetTarget(s.reborntg)
+        reborn:SetOperation(s.rebornop)
+        Duel.RegisterEffect(reborn, tp)
+    end)
 
     -- race
     local e1 = Effect.CreateEffect(c)
@@ -147,8 +145,6 @@ function s.rebornop(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.SpecialSummon(mc, 0, tp, tp, true, false, POS_FACEUP)
 end
-
-function s.rebornchlimit(e, ep, tp) return tp == ep end
 
 function s.e2val(e, te)
     return te:GetHandlerPlayer() ~= e:GetHandlerPlayer() and
