@@ -38,41 +38,31 @@ function Dimension.AddProcedure(c, matfilter)
 
     -- turn back when leave field
     local turnback = Effect.CreateEffect(c)
-    turnback:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    turnback:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     turnback:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
-    turnback:SetCode(EVENT_LEAVE_FIELD)
-    turnback:SetRange(LOCATION_MZONE)
+    turnback:SetCode(EVENT_ADJUST)
+    turnback:SetRange(LOCATION_ALL - LOCATION_ONFIELD)
     turnback:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return e:GetHandler():GetLocation() ~= 0
     end)
     turnback:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
         local mc = c:GetMaterial():GetFirst()
-        local mtp = mc:GetOwner()
-        local pos = c:GetPosition()
         local loc = c:GetLocation()
-        local reason = c:GetReason()
-        local sequence = c:GetSequence()
 
-        if c:GetReasonEffect() then
-            mc:SetReasonEffect(c:GetReasonEffect())
-        end
-        if c:GetReasonPlayer() then
-            mc:SetReasonPlayer(c:GetReasonPlayer())
-        end
-        if c:GetReasonCard() then mc:SetReasonCard(c:GetReasonCard()) end
-
-        Dimension.SendToDimension(c, REASON_RULE)
-        if loc == LOCATION_DECK then
-            Duel.SendtoDeck(mc, mtp, sequence, reason)
+        if loc == LOCATION_EXTRA and c:IsFaceup() then
+            Duel.SendtoExtraP(mc, c:GetControler(), REASON_RULE)
+        elseif loc == LOCATION_DECK or loc == LOCATION_EXTRA then        
+            Duel.SendtoDeck(mc, c:GetControler(), 2, REASON_RULE)
         elseif loc == LOCATION_HAND then
-            Duel.SendtoHand(mc, mtp, reason)
+            Duel.SendtoHand(mc, c:GetControler(), REASON_RULE)
         elseif loc == LOCATION_GRAVE then
-            Duel.SendtoGrave(mc, reason)
+            Duel.SendtoGrave(mc, REASON_RULE)
         elseif loc == LOCATION_REMOVED then
-            Duel.Remove(mc, pos, reason)
+            Duel.Remove(mc, c:GetPosition(), REASON_RULE)
         end
         Dimension.Zones(mc:GetOwner()):RemoveCard(mc)
+        Dimension.SendToDimension(c, REASON_RULE)
     end)
     c:RegisterEffect(turnback)
 end

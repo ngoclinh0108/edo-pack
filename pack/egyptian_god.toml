@@ -111,6 +111,7 @@ ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Immortal Phoenix}
 ${DIVINE_IMMUNITY} \
 This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 Unaffected by your opponent's Spell/Trap effects. \
+Cannot be destroyed by battle with a monster with have no or lower Divine Hierarchy. \
 Once per turn (Quick Effect): You can pay LP so that you only have 100 left; This card gains original ATK/DEF equal to the amount of LP paid, \
     and also, during this turn, while this card is on the field: Any increase in LP is changed to increase this card's ATK/DEF instead. \
     Cards and effects cannot be activated in response to this effect's activation. \
