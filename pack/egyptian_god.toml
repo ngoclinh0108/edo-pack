@@ -1,3 +1,12 @@
+[card.millennium-ascension]
+id = 410000000
+name = "Millennium Ascension"
+type = "spell field"
+effect = """\
+"""
+strings = [
+]
+
 [card.obelisk]
 id = 410000001
 alias = 10000000

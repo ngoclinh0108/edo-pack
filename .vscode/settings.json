@@ -1,14 +1,13 @@
 {
-    "files.exclude": {
-        ".gitignore": true,
-        "expansions": true,
-        ".vscode": true,
-        "ygofab.cmd": true,
-        "_fabrica": true,
-        "pics": true
-    },
-    "Lua.diagnostics.disable": [
-        "undefined-global",
-        "lowercase-global"
-    ]
+  "files.exclude": {
+    ".gitignore": true,
+    "expansions": true,
+    ".vscode": true,
+    "ygofab.cmd": true,
+    "pics": true
+  },
+  "Lua.diagnostics.disable": [
+    "undefined-global",
+    "lowercase-global"
+  ]
 }
