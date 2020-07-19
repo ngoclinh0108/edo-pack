@@ -29,7 +29,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_FZONE)
     e3:SetTargetRange(LOCATION_GRAVE, 0)
     e3:SetTarget(function(e, c)
-        return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_DIVINE)
+        return c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(39913299)
     end)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
@@ -46,10 +46,20 @@ function s.initial_effect(c)
     e4:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
     e4:SetTarget(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e4)
+
+    -- look deck
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_IGNITION)
+    e5:SetRange(LOCATION_FZONE)
+    e5:SetCountLimit(1, id)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.e1filter(c)
-    return c:IsAttribute(ATTRIBUTE_DIVINE) and c:IsAbleToGrave()
+    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(39913299)) and
+               c:IsAbleToGrave()
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -74,3 +84,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                       nil)
     if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
 end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp) Duel.SortDecktop(tp, tp, 5) end

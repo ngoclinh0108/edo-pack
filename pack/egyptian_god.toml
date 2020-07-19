@@ -3,12 +3,14 @@ id = 410000000
 name = "Millennium Ascension"
 type = "spell field"
 effect = """\
-When this card is activated: Send 1 DIVINE monster from your hand or Deck to the GY. \
+When this card is activated: Send 1 DIVINE monster or 1 "The True Name" from your hand or Deck to the GY. \
 Your opponent cannot activate cards or effects in response to this card's activation. \
 Unaffected by your opponent's card effects. \
-DIVINE monsters in your GY cannot be banished or be targeted by your opponent's card effects. \
+DIVINE monsters and "The True Name" in your GY cannot be banished or be targeted by your opponent's card effects. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
+You can look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
+    You can only use this effect of "Millennium Ascension" once per turn.\
 """
 strings = [
     "Summon via \"Millennium Ascension\""
