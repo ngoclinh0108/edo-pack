@@ -117,6 +117,7 @@ end
 function s.skillop(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_CARD, tp, id)
     local all = {
+        {desc = aux.Stringid(id, 0), op = nil, check = true},
         {desc = aux.Stringid(id, 1), op = s.e1op, check = true},
         {desc = aux.Stringid(id, 2), op = s.e2op, check = true}, {
             desc = aux.Stringid(id, 3),
@@ -142,10 +143,6 @@ function s.skillop(e, tp, eg, ep, ev, re, r, rp)
             desc = aux.Stringid(id, 8),
             op = s.e8op,
             check = s.e8con(e, tp, eg, ep, ev, re, r, rp)
-        }, {
-            desc = aux.Stringid(id, 9),
-            op = s.e9op,
-            check = s.e9con(e, tp, eg, ep, ev, re, r, rp)
         }
     }
 
@@ -160,7 +157,9 @@ function s.skillop(e, tp, eg, ep, ev, re, r, rp)
 
     local index = Duel.SelectOption(tp, table.unpack(desc)) + 1
     index = t[index].index
-    all[index].op(e, tp, eg, ep, ev, re, r, rp)
+    if all[index].op then
+        all[index].op(e, tp, eg, ep, ev, re, r, rp)
+    end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -216,102 +215,14 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoDeck(card, nil, 2, REASON_RULE)
 end
 
-function s.e3filter(c) return c:IsFaceup() and c:GetFlagEffect(id) == 0 end
-
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_ONFIELD, 0, 1,
-                                       nil)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_ONFIELD, 0,
-                                       1, 1, nil):GetFirst()
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_CANNOT_DISABLE +
-                        EFFECT_FLAG_IGNORE_IMMUNE)
-    ec1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    ec1:SetValue(aux.tgoval)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    tc:RegisterEffect(ec1)
-    local ec2 = ec1:Clone()
-    ec2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    ec2:SetValue(1)
-    tc:RegisterEffect(ec2)
-    local ec3 = ec1:Clone()
-    ec3:SetCode(EFFECT_CANNOT_TO_HAND)
-    ec3:SetValue(1)
-    tc:RegisterEffect(ec2)
-    local ec4 = ec1:Clone()
-    ec4:SetCode(EFFECT_CANNOT_TO_DECK)
-    ec4:SetValue(1)
-    tc:RegisterEffect(ec4)
-    local ec5 = ec1:Clone()
-    ec5:SetCode(EFFECT_CANNOT_TO_GRAVE)
-    ec5:SetValue(1)
-    tc:RegisterEffect(ec5)
-    local ec6 = ec1:Clone()
-    ec6:SetCode(EFFECT_CANNOT_REMOVE)
-    ec6:SetValue(1)
-    tc:RegisterEffect(ec6)
-    local ec7 = ec1:Clone()
-    ec7:SetCode(EFFECT_CANNOT_TURN_SET)
-    ec7:SetValue(1)
-    tc:RegisterEffect(ec7)
-    local ec8 = ec1:Clone()
-    ec8:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    ec8:SetValue(1)
-    tc:RegisterEffect(ec8)
-    local ec9 = Effect.CreateEffect(c)
-    ec9:SetType(EFFECT_TYPE_FIELD)
-    ec9:SetCode(EFFECT_CANNOT_INACTIVATE)
-    ec9:SetRange(LOCATION_ONFIELD)
-    ec9:SetLabelObject(tc)
-    ec9:SetValue(function(e, ct)
-        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetHandler() == e:GetLabelObject()
-    end)
-    tc:RegisterEffect(ec9)
-    local ec10 = ec9:Clone()
-    ec10:SetCode(EFFECT_CANNOT_DISEFFECT)
-    tc:RegisterEffect(ec10)
-    local ec11 = ec1:Clone()
-    ec11:SetCode(EFFECT_CANNOT_DISABLE)
-    ec11:SetValue(1)
-    tc:RegisterEffect(ec11)
-    -- local ec12 = Effect.CreateEffect(c)
-    -- ec12:SetType(EFFECT_TYPE_FIELD)
-    -- ec12:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    -- ec12:SetCode(EFFECT_LPCOST_CHANGE)
-    -- ec12:SetRange(LOCATION_ONFIELD)
-    -- ec12:SetTargetRange(1, 0)
-    -- ec12:SetLabelObject(tc)
-    -- ec12:SetValue(function(e, re, rp, val)
-    --     if re and re:GetHandler() == e:GetLabelObject() then
-    --         return 0
-    --     else
-    --         return val
-    --     end
-    -- end)
-    -- ec12:SetReset(RESET_EVENT + RESETS_STANDARD)
-    -- tc:RegisterEffect(ec12)
-
-    tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD,
-                          EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
-end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_MZONE, 0, 1,
                                        nil) and
                Duel.GetLocationCount(tp, LOCATION_MZONE, tp,
                                      LOCATION_REASON_CONTROL) > 0
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.SelectMatchingCard(tp, Card.IsFaceup, tp, LOCATION_MZONE, 0,
                                        1, 1, nil):GetFirst()
     if not tc or Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 then return end
@@ -322,12 +233,12 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.MoveSequence(tc, zone)
 end
 
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED
     return Duel.IsExistingMatchingCard(nil, tp, loc, loc, 1, nil)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED
     local g = Duel.GetMatchingGroup(nil, tp, loc, loc, nil)
     if #g == 0 then return end
@@ -344,33 +255,33 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SetLP(1 - tp, 8000)
 end
 
-function s.e6filter(c) return not c:IsLocation(LOCATION_EXTRA) or c:IsFaceup() end
+function s.e5filter(c) return not c:IsLocation(LOCATION_EXTRA) or c:IsFaceup() end
 
-function s.e6con(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED +
                     LOCATION_EXTRA + LOCATION_ONFIELD
-    return Duel.IsExistingMatchingCard(s.e6filter, tp, loc, 0, 1, nil)
+    return Duel.IsExistingMatchingCard(s.e5filter, tp, loc, 0, 1, nil)
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED +
                     LOCATION_EXTRA + LOCATION_ONFIELD
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e6filter, tp, loc, 0, 1, 10, nil)
+    local g = Duel.SelectMatchingCard(tp, s.e5filter, tp, loc, 0, 1, 10, nil)
     if #g == 0 then return end
 
     Duel.SendtoHand(g, nil, REASON_RULE)
     Duel.ConfirmCards(1 - tp, g)
 end
 
-function s.e7con(e, tp, eg, ep, ev, re, r, rp)
+function s.e6con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_REMOVED +
                     LOCATION_EXTRA + LOCATION_ONFIELD
     return Duel.IsExistingMatchingCard(aux.TRUE, tp, loc, 0, 1, nil)
 end
 
-function s.e7op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_REMOVED +
                     LOCATION_EXTRA + LOCATION_ONFIELD
 
@@ -381,39 +292,39 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoGrave(g, REASON_RULE)
 end
 
-function s.e8filter(c) return not c:IsLocation(LOCATION_EXTRA) or c:IsFaceup() end
+function s.e7filter(c) return not c:IsLocation(LOCATION_EXTRA) or c:IsFaceup() end
 
-function s.e8con(e, tp, eg, ep, ev, re, r, rp)
+function s.e7con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED +
                     LOCATION_EXTRA + LOCATION_ONFIELD
-    return Duel.IsExistingMatchingCard(s.e8filter, tp, loc, 0, 1, nil)
+    return Duel.IsExistingMatchingCard(s.e7filter, tp, loc, 0, 1, nil)
 end
 
-function s.e8op(e, tp, eg, ep, ev, re, r, rp)
+function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED +
                     LOCATION_EXTRA + LOCATION_ONFIELD
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectMatchingCard(tp, s.e8filter, tp, loc, 0, 1, 10, nil)
+    local g = Duel.SelectMatchingCard(tp, s.e7filter, tp, loc, 0, 1, 10, nil)
     if #g == 0 then return end
 
     Duel.SendtoDeck(g, nil, 2, REASON_RULE)
 end
 
-function s.e9filter(c) return c:IsType(TYPE_PENDULUM) end
+function s.e8filter(c) return c:IsType(TYPE_PENDULUM) end
 
-function s.e9con(e, tp, eg, ep, ev, re, r, rp)
+function s.e8con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                     LOCATION_REMOVED + LOCATION_ONFIELD
-    return Duel.IsExistingMatchingCard(s.e9filter, tp, loc, 0, 1, nil)
+    return Duel.IsExistingMatchingCard(s.e8filter, tp, loc, 0, 1, nil)
 end
 
-function s.e9op(e, tp, eg, ep, ev, re, r, rp)
+function s.e8op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                     LOCATION_REMOVED + LOCATION_ONFIELD
 
     Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 8))
-    local g = Duel.SelectMatchingCard(tp, s.e9filter, tp, loc, 0, 1, 10, nil)
+    local g = Duel.SelectMatchingCard(tp, s.e8filter, tp, loc, 0, 1, 10, nil)
     if #g == 0 then return end
 
     Duel.SendtoExtraP(g, tp, REASON_RULE)

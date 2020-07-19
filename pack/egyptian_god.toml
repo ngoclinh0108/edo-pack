@@ -3,8 +3,13 @@ id = 410000000
 name = "Millennium Ascension"
 type = "spell field"
 effect = """\
+Your opponent cannot activate cards or effects in response to this card's activation. \
+Unaffected by your opponent's card effect. \
+During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.)\
 """
 strings = [
+    "Summon via \"Millennium Ascension\""
 ]
 
 [card.obelisk]

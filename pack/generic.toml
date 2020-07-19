@@ -2,10 +2,9 @@
 id = 400000000
 name = "Millennium Hieroglyph"
 strings = [
-    "Immunity by \"Millennium Hieroglyph\"",
+    "Do nothing",
     "Go to next turn",
     "Create card",
-    "Protect card",
     "Move monster",
     "Reset game",
     "Add cards to you hand",
