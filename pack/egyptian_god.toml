@@ -142,6 +142,7 @@ strings=[
 id = 410000010
 name = "Millennium Ascension"
 type = "spell field"
+attribute = "spell"
 effect = """\
 When this card is activated: Send 1 DIVINE monster or 1 "The True Name" from your hand or Deck to the GY. \
 Your opponent cannot activate cards or effects in response to this card's activation. \
