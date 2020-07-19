@@ -1,6 +1,8 @@
 -- Millennium Ascension
 local s, id = GetID()
 
+s.listed_names = {39913299}
+
 function s.initial_effect(c)
     -- activate
     local e1 = Effect.CreateEffect(c)
