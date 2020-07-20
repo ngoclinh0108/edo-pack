@@ -91,4 +91,9 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp) Duel.SortDecktop(tp, tp, 5) end
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.SortDecktop(tp, tp, 5)
+end

@@ -20,9 +20,7 @@ Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Eff
     and if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
     This card cannot declare an attack the turn this effect is activated.\
 """
-strings = [
-    "Destroy all monsters your opponent controls",
-]
+strings = ["Destroy all monsters your opponent controls"]
 
 [card.slifer]
 id = 410000002
@@ -46,9 +44,7 @@ If a monster(s) is Summoned to your opponent's field in face-up Position: \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
     Also your opponent cannot activate those monster(s) effects in response to this effect's activation.\
 """
-strings = [
-    "Reduce the monster(s)' ATK or DEF",
-]
+strings = ["Reduce the monster(s)' ATK or DEF"]
 
 [card.ra]
 id = 410000003
@@ -99,9 +95,7 @@ Once per turn, during either turn: You can send this card to the Dimension Deck;
     and if they do, original ATK/DEF of it become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
     Only the original owner of the Dimension Material can use this effect.\
 """
-strings = [
-    "Turn back to Standard mode"
-]
+strings = ["Turn back to Standard mode"]
 
 [card.ra_phoenix]
 id = 410000005
@@ -132,7 +126,7 @@ Once per chain (Quick Effect): You can pay 1000 LP, then destroy 1 other monster
 During the End Phase, Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in face-up Defense Position if able (Transfer materials to it.), \
     if you don't, send this card to the GY.\
 """
-strings=[
+strings = [
     "Life Point transfer",
     "Tribtue monsters for ATK/DEF",
     "Destroy 1 monster",
@@ -153,9 +147,7 @@ During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to yo
 You can look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
     You can only use this effect of "Millennium Ascension" once per turn.\
 """
-strings = [
-    "Summon via \"Millennium Ascension\""
-]
+strings = ["Summon via \"Millennium Ascension\""]
 
 [card.the-forbidden-pharaoh-true-name]
 id = 410000011
@@ -164,6 +156,16 @@ name = "The Forbidden Pharaoh's True Name"
 type = "spell spell quick-play"
 effect = """\
 (This card's name is always treated as "The True Name").
+Your opponent cannot activate cards or effects in response to this card's activation. \
+Declare 1 card name; excavate the top card of your Deck, and if it is the declared card, add it to your hand, \
+    then you can add to your hand, or Special Summon, 1 DIVINE monster from your Deck or GY. \
+    Otherwise, send it to the Graveyard. \
+You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
+During your Draw Phase, if you control "Millennium Ascension" and this card is in your GY, instead of conducting your normal draw: \
+    You can add this card from your GY to your hand.
 """
 strings = [
+    "Search or Special Summon 1 DIVINE monster?",
+    "Add to hand",
+    "Special Summon",
 ]
