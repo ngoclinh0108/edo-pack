@@ -42,14 +42,28 @@ function s.initial_effect(c)
     local e2e = e2b:Clone()
     e2e:SetCode(EFFECT_SET_DEFENSE_FINAL)
     c:RegisterEffect(e2e)
+
+    -- act limit
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e3:SetCode(EFFECT_CANNOT_ACTIVATE)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetTargetRange(0, 1)
+    e3:SetCondition(s.e3con)
+    e3:SetValue(s.e3val)
+    c:RegisterEffect(e3)
 end
 
-function s.e2filter(c) return c:IsFaceup() and not c:IsHasEffect(id) end
+function s.e2filter(c, divine_hierarchy)
+    return c:IsFaceup() and not c:IsHasEffect(id) and
+               (not c.divine_hierarchy or c.divine_hierarchy <= divine_hierarchy)
+end
 
 function s.e2val(e, tc)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e2filter, 0, LOCATION_MZONE,
-                                    LOCATION_MZONE, nil)
+                                    LOCATION_MZONE, nil, c.divine_hierarchy)
 
     if #g == 0 then
         return 100
@@ -61,4 +75,15 @@ function s.e2val(e, tc)
         end
         return val + 100
     end
+end
+
+function s.e3con(e)
+    local c = e:GetHandler()
+    return Duel.GetAttacker() == c or Duel.GetAttackTarget() == c
+end
+
+function s.e3val(e, re, tp)
+    local c = e:GetHandler()
+    local rc = re:GetHandler()
+    return not rc.divine_hierarchy or rc.divine_hierarchy <= c.divine_hierarchy
 end
