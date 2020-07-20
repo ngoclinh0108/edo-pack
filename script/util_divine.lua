@@ -105,6 +105,23 @@ function Divine.DivineImmunity(c, summon_mode, summon_extra)
                                         CATEGORY_FUSION_SUMMON)
     end)
     c:RegisterEffect(immunity)
+    local noleave = Effect.CreateEffect(c)
+    noleave:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    noleave:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noleave:SetCode(EFFECT_SEND_REPLACE)
+    noleave:SetRange(LOCATION_MZONE)
+    noleave:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        local c = e:GetHandler()
+        if chk == 0 then
+            return
+                c:IsReason(REASON_EFFECT) and r & REASON_EFFECT ~= 0 and re and
+                    (not re:GetHandler().divine_hierarchy or
+                        re:GetHandler().divine_hierarchy < c.divine_hierarchy)
+        end
+        return true
+    end)
+    noleave:SetValue(function(e, c) return false end)
+    c:RegisterEffect(noleave)
 
     -- battle indes & no damage
     local battle = Effect.CreateEffect(c)
