@@ -139,7 +139,7 @@ type = "spell field"
 attribute = "spell"
 effect = """\
 When this card is activated: Send 1 DIVINE monster or 1 "The True Name" from your hand or Deck to the GY. \
-Your opponent cannot activate cards or effects in response to this card's activation. \
+    Your opponent cannot activate cards or effects in response to this card's activation. \
 Unaffected by your opponent's card effects. \
 DIVINE monsters and "The True Name" in your GY cannot be banished or be targeted by your opponent's card effects. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
@@ -156,12 +156,12 @@ name = "The Forbidden Pharaoh's True Name"
 type = "spell spell quick-play"
 effect = """\
 (This card's name is always treated as "The True Name").
-Your opponent cannot activate cards or effects in response to this card's activation. \
 Declare 1 card name; excavate the top card of your Deck, and if it is the declared card, add it to your hand, \
     then you can take 1 DIVINE monster, \
     and add it from Deck or GY to your hand or Special Summon it from hand or Deck. \
     Otherwise, send it to the Graveyard. \
-You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
+    Your opponent cannot activate cards or effects in response to this card's activation. \
+    You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
 During your Draw Phase, if you control "Millennium Ascension" and this card is in your GY, instead of conducting your normal draw: \
     You can add this card from your GY to your hand.
 """
