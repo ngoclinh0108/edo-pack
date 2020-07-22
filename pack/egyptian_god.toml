@@ -132,6 +132,48 @@ strings = [
     "Destroy 1 monster",
 ]
 
+[card.obelisk_apostle]
+id = 410000006
+name = "Obelisk's Apostle"
+type = "monster effect"
+attribute = "earth"
+race = "spellcaster"
+level = 4
+atk = 2000
+def = 0
+effect = """\
+"""
+strings = [
+]
+
+[card.slifer_apostle]
+id = 410000007
+name = "Slifer's Apostle"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 4
+atk = 1000
+def = 2000
+effect = """\
+"""
+strings = [
+]
+
+[card.ra_apostle]
+id = 410000008
+name = "Ra's Apostle"
+type = "monster effect"
+attribute = "fire"
+race = "spellcaster"
+level = 4
+atk = 1500
+def = 1500
+effect = """\
+"""
+strings = [
+]
+
 [card.millennium-ascension]
 id = 410000009
 name = "Millennium Ascension"
