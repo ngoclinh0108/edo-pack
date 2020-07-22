@@ -29,7 +29,8 @@ end
 function s.echlimit(e, ep, tp) return tp == ep end
 
 function s.e1filter(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+    return c:IsType(TYPE_MONSTER) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
