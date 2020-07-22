@@ -133,7 +133,7 @@ strings = [
 ]
 
 [card.millennium-ascension]
-id = 410000010
+id = 410000013
 name = "Millennium Ascension"
 type = "spell field"
 attribute = "spell"
@@ -150,7 +150,7 @@ You can look at up to 5 cards from the top of your Deck, then place them on the 
 strings = ["Summon via \"Millennium Ascension\""]
 
 [card.the-forbidden-pharaoh-true-name]
-id = 410000011
+id = 410000014
 alias = 39913299
 name = "The Forbidden Pharaoh's True Name"
 type = "spell spell quick-play"
@@ -172,7 +172,7 @@ strings = [
 ]
 
 [card.divine-reborn]
-id = 410000012
+id = 410000015
 alias = 83764718
 name = "Divine Reborn"
 type = "spell quick-play"
