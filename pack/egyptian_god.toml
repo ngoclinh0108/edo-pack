@@ -158,7 +158,7 @@ effect = """\
 (This card's name is always treated as "The True Name").
 Your opponent cannot activate cards or effects in response to this card's activation. \
 Declare 1 card name; excavate the top card of your Deck, and if it is the declared card, add it to your hand, \
-    then you can take 1 DIVINE monster,
+    then you can take 1 DIVINE monster, \
     and add it from Deck or GY to your hand or Special Summon it from hand or Deck. \
     Otherwise, send it to the Graveyard. \
 You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
