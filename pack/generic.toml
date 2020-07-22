@@ -23,21 +23,6 @@ effect = """\
 Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters from your hand or field as Fusion Material, \
     you can also banish monster from your GY as Fusion Material. \
-    Your opponent cannot activate cards or effects in response to this effect activation. \
-During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: You can discard 1 Spell; add this card to your hand.\
-"""
-
-[card.divine-reborn]
-id = 400000002
-alias = 83764718
-name = "Divine Reborn"
-type = "spell quick-play"
-effect = """\
-(This card's name is always treated as "Monster Reborn").
-Target 1 monster in either GY; Special Summon it, ignoring its Summoning conditions, \
-    if you Special Summoned a monster that cannot be Special Summoned, send it to the GY during the End Phase. \
-    Your opponent cannot activate cards or effects in response to this effect activation. \
-If a original DIVINE monster you control is destroyed by your opponent's card, while this card is in your GY: \
-    You can add this card to your hand. \
-    You can only use this effect of "Divine Reborn" once per turn.\
+During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: \
+    You can discard 1 Spell; add this card to your hand.\
 """

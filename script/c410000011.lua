@@ -26,6 +26,8 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
+function s.echlimit(e, ep, tp) return tp == ep end
+
 function s.e1bool1(c)
     return c:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and c:IsAbleToHand()
 end
@@ -53,10 +55,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetTargetParam(ac)
     Duel.SetOperationInfo(0, CATEGORY_ANNOUNCE, nil, 0, tp, ANNOUNCE_CARD_FILTER)
 
-    Duel.SetChainLimit(s.e1chlimit)
+    Duel.SetChainLimit(s.echlimit)
 end
-
-function s.e1chlimit(e, ep, tp) return tp == ep end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.ConfirmDecktop(tp, 1)
@@ -128,6 +128,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetHandler(), 1, 0, 0)
+    Duel.SetChainLimit(s.echlimit)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

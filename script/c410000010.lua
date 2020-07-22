@@ -59,6 +59,8 @@ function s.initial_effect(c)
     c:RegisterEffect(e5)
 end
 
+function s.echlimit(e, ep, tp) return tp == ep end
+
 function s.e1filter(c)
     return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(39913299)) and
                c:IsAbleToGrave()
@@ -73,7 +75,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp,
                           LOCATION_HAND + LOCATION_DECK)
-    Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
+    Duel.SetChainLimit(s.echlimit)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -89,6 +91,7 @@ end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
+    Duel.SetChainLimit(s.echlimit)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)

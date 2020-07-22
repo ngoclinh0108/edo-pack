@@ -4,14 +4,6 @@ local s, id = GetID()
 function s.initial_effect(c)
     -- activate
     local e1 = Fusion.CreateSummonEff(c, nil, nil, s.e1matfilter, s.e1op)
-    local e1tg = e1:GetTarget()
-    e1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then return e1tg(e, tp, eg, ep, ev, re, r, rp, chk) end
-        e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-        if e:IsHasType(EFFECT_TYPE_ACTIVATE) then
-            Duel.SetChainLimit(s.e1chlimit)
-        end
-    end)
     c:RegisterEffect(e1)
     if not GhostBelleTable then GhostBelleTable = {} end
     table.insert(GhostBelleTable, e1)
@@ -36,8 +28,6 @@ function s.e1matfilter(e, tp, mg)
     return nil
 end
 
-function s.e1chlimit(e, ep, tp) return tp == ep end
-
 function s.e1op(e, tc, tp, sg)
     local rg = sg:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
     if #rg > 0 then
@@ -59,6 +49,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsAbleToHand() end
+
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetHandler(), 1, 0, 0)
 end
 

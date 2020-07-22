@@ -26,6 +26,8 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
+function s.echlimit(e, ep, tp) return tp == ep end
+
 function s.e1filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
 end
@@ -42,10 +44,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                 LOCATION_GRAVE, 1, 1, nil, e, tp)
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
-    Duel.SetChainLimit(s.e1chlimit)
+    Duel.SetChainLimit(s.echlimit)
 end
-
-function s.e1chlimit(e, ep, tp) return tp == ep end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -101,6 +101,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return c:IsAbleToHand() end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
+    Duel.SetChainLimit(s.echlimit)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
