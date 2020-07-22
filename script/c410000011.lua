@@ -4,7 +4,7 @@ local s, id = GetID()
 s.listed_names = {410000010}
 
 function s.initial_effect(c)
-    -- search
+    -- check deck
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_DECKDES)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -26,10 +26,18 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
+function s.e1bool1(c)
+    return c:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and c:IsAbleToHand()
+end
+
+function s.e1bool2(c, e, tp)
+    return c:IsLocation(LOCATION_HAND + LOCATION_DECK) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
 function s.e1filter(c, e, tp)
     return c:IsAttribute(ATTRIBUTE_DIVINE) and
-               (c:IsAbleToHand() or
-                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false))
+               (s.e1bool1(c) or s.e1bool2(c, e, tp))
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -62,16 +70,16 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
-    local g = Duel.GetMatchingGroup(s.e1filter, tp,
-                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil, e,
-                                    tp)
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND +
+                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil,
+                                    e, tp)
     if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
 
         Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 1))
         local sc = g:Select(tp, 1, 1, nil):GetFirst()
-        local b1 = sc:IsAbleToHand()
-        local b2 = sc:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+        local b1 = s.e1bool1(sc)
+        local b2 = s.e1bool2(sc, e, tp)
 
         local op = 0
         if b1 and b2 then

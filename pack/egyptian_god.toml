@@ -158,14 +158,15 @@ effect = """\
 (This card's name is always treated as "The True Name").
 Your opponent cannot activate cards or effects in response to this card's activation. \
 Declare 1 card name; excavate the top card of your Deck, and if it is the declared card, add it to your hand, \
-    then you can add to your hand, or Special Summon, 1 DIVINE monster from your Deck or GY. \
+    then you can take 1 DIVINE monster,
+    and add it from Deck or GY to your hand or Special Summon it from hand or Deck. \
     Otherwise, send it to the Graveyard. \
 You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
 During your Draw Phase, if you control "Millennium Ascension" and this card is in your GY, instead of conducting your normal draw: \
     You can add this card from your GY to your hand.
 """
 strings = [
-    "Search or Special Summon 1 DIVINE monster?",
+    "Take 1 DIVINE monster?",
     "Add to hand",
     "Special Summon",
 ]
