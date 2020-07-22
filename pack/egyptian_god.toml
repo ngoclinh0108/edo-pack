@@ -194,7 +194,7 @@ effect = """\
 Your opponent cannot activate cards or effects in response to this cards' activation and effects. \
 When this card is activated: Send 1 DIVINE monster or 1 "The True Name" from your hand or Deck to the GY. \
 Unaffected by your opponent's card effects. \
-DIVINE monsters and "The True Name" in your GY cannot be banished or be targeted by your opponent's card effects. \
+Original DIVINE monsters and "The True Name" in your GY cannot be banished or be targeted by your opponent's card effects. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
 You can look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
@@ -211,7 +211,7 @@ effect = """\
 (This card's name is always treated as "The True Name").
 Your opponent cannot activate cards or effects in response to this cards' activation and effects. \
 Declare 1 card name; excavate the top card of your Deck, and if it is the declared card, add it to your hand, \
-    then you can take 1 DIVINE monster, \
+    then you can take 1 original DIVINE monster, \
     and add it from Deck or GY to your hand or Special Summon it from hand or Deck. \
     Otherwise, send it to the Graveyard. \
     You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \

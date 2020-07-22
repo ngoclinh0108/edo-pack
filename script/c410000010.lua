@@ -38,7 +38,7 @@ function s.e1bool2(c, e, tp)
 end
 
 function s.e1filter(c, e, tp)
-    return c:IsAttribute(ATTRIBUTE_DIVINE) and
+    return c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and
                (s.e1bool1(c) or s.e1bool2(c, e, tp))
 end
 
