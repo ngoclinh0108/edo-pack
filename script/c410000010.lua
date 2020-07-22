@@ -1,7 +1,7 @@
 -- The Forbidden Pharaoh's True Name
 local s, id = GetID()
 
-s.listed_names = {410000010}
+s.listed_names = {410000009}
 
 function s.initial_effect(c)
     -- check deck
@@ -106,7 +106,7 @@ end
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return tp == Duel.GetTurnPlayer() and
                Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
-               Duel.GetDrawCount(tp) > 0 and Duel.IsEnvironment(410000010, tp)
+               Duel.GetDrawCount(tp) > 0 and Duel.IsEnvironment(410000009, tp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
