@@ -1,82 +1,102 @@
--- Zorc Necrophades the Creator of Shadow Realm
-Duel.LoadScript("util_divine.lua")
+-- Millennium Ascension
 local s, id = GetID()
 
+s.listed_names = {39913299}
+
 function s.initial_effect(c)
-    Divine.SetHierarchy(s, 3)
-    Divine.GodImmunity(c)
-
-    -- xyz summon
-    Xyz.AddProcedure(c, s.xyzfilter, nil, 3, nil, nil, 99, nil, false,
-                     s.xyzcheck)
-
-    -- attribute & race
+    -- activate
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_ADD_ATTRIBUTE)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(ATTRIBUTE_DARK)
+    e1:SetCategory(CATEGORY_TOGRAVE)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_ADD_RACE)
-    e1b:SetValue(RACE_FIEND)
-    c:RegisterEffect(e1b)
 
-    -- gain effect
+    -- immune
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_ADJUST)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_IMMUNE_EFFECT)
+    e2:SetRange(LOCATION_FZONE)
+    e2:SetValue(function(e, te)
+        return te:GetOwnerPlayer() ~= e:GetOwnerPlayer()
+    end)
     c:RegisterEffect(e2)
+
+    -- protect grave
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_CANNOT_REMOVE)
+    e3:SetRange(LOCATION_FZONE)
+    e3:SetTargetRange(LOCATION_GRAVE, 0)
+    e3:SetTarget(function(e, c)
+        return c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(39913299)
+    end)
+    c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e3b:SetValue(aux.tgoval)
+    c:RegisterEffect(e3b)
+
+    -- extra summon
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+    e4:SetRange(LOCATION_FZONE)
+    e4:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
+    e4:SetTarget(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
+    c:RegisterEffect(e4)
+
+    -- look deck
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_IGNITION)
+    e5:SetRange(LOCATION_FZONE)
+    e5:SetCountLimit(1, id)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
-function s.xyzfilter(c, xyz, sumtype, tp)
-    return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DIVINE)
+function s.echlimit(e, ep, tp) return tp == ep end
+
+function s.e1filter(c)
+    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(39913299)) and
+               c:IsAbleToGrave()
 end
 
-function s.xyzcheck(g, tp, xyz)
-    return
-        g:GetClassCount(Card.GetLevel) == 1 and g:GetClassCount(Card.GetCode) ==
-            #g
-end
-
-function s.e2filter(c)
-    return c:IsType(TYPE_MONSTER) and c:GetOriginalRace() ~= RACE_CREATORGOD and
-               c:GetFlagEffect(id) == 0
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local g = c:GetOverlayGroup():Filter(s.e2filter, nil)
-    if c:IsFacedown() or #g <= 0 then return end
-
-    for tc in aux.Next(g) do
-        tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe0000, 0, 0)
-        local cid = c:CopyEffect(tc:GetOriginalCode(), RESET_EVENT + 0x1fe0000)
-
-        local reset = Effect.CreateEffect(c)
-        reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        reset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        reset:SetCode(EVENT_ADJUST)
-        reset:SetRange(LOCATION_MZONE)
-        reset:SetLabel(cid)
-        reset:SetLabelObject(tc)
-        reset:SetOperation(s.e2resetop)
-        reset:SetReset(RESET_EVENT + 0x1fe0000)
-        c:RegisterEffect(reset, true)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+                                           nil)
     end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp,
+                          LOCATION_HAND + LOCATION_DECK)
+    Duel.SetChainLimit(s.echlimit)
 end
 
-function s.e2resetop(e, tp, eg, ep, ev, re, r, rp)
-    local cid = e:GetLabel()
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = e:GetLabelObject()
-    local g = c:GetOverlayGroup():Filter(Card.IsType, nil, TYPE_MONSTER)
+    if not c:IsRelateToEffect(e) then return end
 
-    if c:IsDisabled() or c:IsFacedown() or not g:IsContains(tc) then
-        c:ResetEffect(cid, RESET_COPY)
-        tc:ResetFlagEffect(id)
-    end
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp,
+                                      LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
+                                      nil)
+    if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
+end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
+    Duel.SetChainLimit(s.echlimit)
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.SortDecktop(tp, tp, 5)
 end
