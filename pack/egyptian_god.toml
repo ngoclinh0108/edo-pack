@@ -206,7 +206,7 @@ strings = ["Summon via \"Millennium Ascension\""]
 id = 410000010
 alias = 39913299
 name = "The Forbidden Pharaoh's True Name"
-type = "spell spell quick-play"
+type = "spell"
 effect = """\
 (This card's name is always treated as "The True Name").
 Your opponent cannot activate cards or effects in response to this cards' activation and effects. \
