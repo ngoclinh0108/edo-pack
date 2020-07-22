@@ -33,7 +33,8 @@ function s.initial_effect(c)
 end
 
 function s.xyzfilter(c, xyz, sumtype, tp)
-    return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DIVINE)
+    return c:IsLevelAbove(10) and c:IsAttribute(ATTRIBUTE_DARK) and
+               c:IsRace(RACE_DIVINE)
 end
 
 function s.xyzcheck(g, tp, xyz)

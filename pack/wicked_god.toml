@@ -8,7 +8,7 @@ level = 12
 atk = "?"
 def = "?"
 effect = """\
-3+ DARK Divine-Beast monsters with same Level and different names
+3+ Level 10 or higher DARK Divine-Beast monsters with same Level and different names
 ${HIERARCHY|3}
 Must be Xyz Summoned and cannot be Special Summoned by other cards' effects. \
 ${GOD_IMMUNITY} \
