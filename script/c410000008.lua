@@ -89,9 +89,9 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
-    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, 3000)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, 2000)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Recover(tp, 3000, REASON_EFFECT)
+    Duel.Recover(tp, 2000, REASON_EFFECT)
 end
