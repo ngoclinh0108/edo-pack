@@ -157,6 +157,7 @@ atk = 1900
 def = 100
 effect = """\
 You can only control 1 face-up "Obelisk's Apostle". \
+Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
 """
 strings = []
 
@@ -171,6 +172,7 @@ atk = 1000
 def = 2000
 effect = """\
 You can only control 1 face-up "Slifer's Apostle". \
+Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
 """
 strings = []
 
@@ -185,9 +187,12 @@ atk = 1500
 def = 1500
 effect = """\
 You can only control 1 face-up "Ra's Apostle". \
+Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
 You can reveal 1 DIVINE monster in your hand; \
     Special Summon 2 "Divine Apostle Token" (Spellcaster/FIRE/Level 4/ATK 1500/DEF 1500) in face-up Defense Position. \
-    You can only use this effect of "Ra's Apostle" once per turn.\
+    You can only use this effect of "Ra's Apostle" once per turn. \
+If this card is Tributed for a Tribute Summon: \
+    Gain 2000 LP.\
 """
 strings = [
     "Special Summon token",
