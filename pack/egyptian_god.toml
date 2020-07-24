@@ -158,6 +158,8 @@ def = 100
 effect = """\
 You can only control 1 face-up "Obelisk's Apostle". \
 Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
+You can reveal 1 DIVINE monster in your hand; \
+If this card is Tributed for a Tribute Summon: \
 """
 strings = []
 
@@ -173,6 +175,12 @@ def = 2000
 effect = """\
 You can only control 1 face-up "Slifer's Apostle". \
 Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
+You can reveal 1 DIVINE monster in your hand; \
+    Special Summon this card from your hand or GY in face-up Defense Position, \
+    and if you do, Special Summon 2 monsters from either GY in face-up Defense Position, \
+    but they has their effects negated and send them to the GY during the End Phase of this turn. \
+    You can only use this effect of "Slifer's Apostle" once per turn. \
+If this card is Tributed for a Tribute Summon: Draw 2 cards.\
 """
 strings = []
 
