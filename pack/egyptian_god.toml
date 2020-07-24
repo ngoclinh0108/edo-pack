@@ -153,9 +153,10 @@ type = "monster effect"
 attribute = "earth"
 race = "spellcaster"
 level = 4
-atk = 2000
-def = 0
+atk = 1900
+def = 100
 effect = """\
+You can only control 1 face-up "Obelisk's Apostle". \
 """
 strings = []
 
@@ -169,6 +170,7 @@ level = 4
 atk = 1000
 def = 2000
 effect = """\
+You can only control 1 face-up "Slifer's Apostle". \
 """
 strings = []
 
@@ -182,8 +184,14 @@ level = 4
 atk = 1500
 def = 1500
 effect = """\
+You can only control 1 face-up "Ra's Apostle". \
+You can reveal 1 DIVINE monster in your hand; \
+    Special Summon 2 "Divine Apostle Token" (Spellcaster/FIRE/Level 4/ATK 1500/DEF 1500) in face-up Defense Position. \
+    You can only use this effect of "Ra's Apostle" once per turn.\
 """
-strings = []
+strings = [
+    "Special Summon token",
+]
 
 [card.millennium-ascension]
 id = 410000009
