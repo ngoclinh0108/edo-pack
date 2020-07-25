@@ -288,6 +288,7 @@ effect = """\
 Target 1 monster in either GY; Special Summon it, ignoring its Summoning conditions, \
     if you Special Summoned a monster that cannot be Special Summoned, send it to the GY during the End Phase. \
 Your opponent cannot activate cards or effects in response to this cards' activation. \
+This card is also treated as an "Palladium" cards while it is on the GY. \
 """
 
 [card.djeser]
