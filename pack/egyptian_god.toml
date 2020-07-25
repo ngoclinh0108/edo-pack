@@ -297,8 +297,7 @@ name = "Divine Reborn"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "Monster Reborn").
-Target 1 monster in either GY; Special Summon it, ignoring its Summoning conditions, \
-    if you Special Summoned a monster that cannot be Special Summoned, send it to the GY during the End Phase. \
+Target 1 monster in either GY; Special Summon it, you can Special Summon "The Winged Dragon of Ra" with this card's effect. \
 Your opponent cannot activate cards or effects in response to this cards' activation. \
 This card is also treated as an "Palladium" cards while it is on the GY. \
 """
@@ -317,10 +316,14 @@ You can only use each of the following effects of "Djeser!" once per turn.
 ● You can reveal 1 DIVINE monster in your hand; take 1 "Palladium" card, \
     add it to your hand from Deck or GY, \
     or Special Summon it from hand or GY (if it is Monster Card).
-● 
+● You can send this face-up card from your Spell/Trap Zone to the GY \
+    and Tribute 3 monsters whose original names are "Slifer the Sky Dragon", "Obelisk the Tormentor", and "The Winged Dragon of Ra"; \
+    Special Summon 1 "Holactie the Creator of Light" from your hand, Deck or GY in face-up Attack Position, ignoring its Summoning conditions. \
+    Cards and effects cannot be activated in response to this effect's activation.
 """
 strings = [
-    "Take 1 Palladium card",
+    "Take 1 \"Palladium\" card",
     "Add to hand",
-    "Special Summon"
+    "Special Summon",
+    "Summon \"Holactie the Creator of Light\""
 ]

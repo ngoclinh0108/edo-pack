@@ -1,7 +1,7 @@
 -- Djeser!
 local s, id = GetID()
 
-s.listed_names = {410000011}
+s.listed_names = {410000011, 10000040}
 
 function s.initial_effect(c)
     c:SetUniqueOnField(1, 0, id)
@@ -49,7 +49,7 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- search / special summon
+    -- take card
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
     e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SPECIAL_SUMMON)
@@ -62,6 +62,19 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
+
+    -- summon holactie
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 3))
+    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetRange(LOCATION_SZONE)
+    e5:SetCountLimit(1, id + 3000000)
+    e5:SetCost(s.e5cost)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.e2val(e, ct)
@@ -160,4 +173,79 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     else
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     end
+end
+
+function s.e5filter1(c, code)
+    local code1, code2 = c:GetOriginalCodeRule()
+    return code1 == code or code2 == code
+end
+
+function s.e5filter2(c, e, tp)
+    return c:IsCode(10000040) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, true, false, POS_FACEUP_ATTACK)
+end
+
+function s.e5rescon(sg, e, tp, mg)
+    return aux.ChkfMMZ(1)(sg, e, tp, mg) and
+               sg:IsExists(s.e5check, 1, nil, sg, Group.CreateGroup(), 10000000,
+                           10000020, CARD_RA)
+end
+
+function s.e5check(c, sg, g, code, ...)
+    local code1, code2 = c:GetOriginalCodeRule()
+    if code ~= code1 and code ~= code2 then return false end
+    local res
+    if ... then
+        g:AddCard(c)
+        res = sg:IsExists(s.e5check, 1, g, sg, g, ...)
+        g:RemoveCard(c)
+    else
+        res = true
+    end
+    return res
+end
+
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    local rg = Duel.GetReleaseGroup(tp)
+    local g1 = rg:Filter(s.e5filter1, nil, 10000000)
+    local g2 = rg:Filter(s.e5filter1, nil, 10000020)
+    local g3 = rg:Filter(s.e5filter1, nil, CARD_RA)
+    local g = g1:Clone()
+    g:Merge(g2)
+    g:Merge(g3)
+
+    if chk == 0 then
+        return c:IsAbleToGraveAsCost() and #g1 > 0 and #g2 > 0 and #g3 > 0 and
+                   aux.SelectUnselectGroup(g, e, tp, 3, 3, s.e5rescon, 0)
+    end
+
+    Duel.SendtoGrave(c, REASON_COST)
+    
+    local sg = aux.SelectUnselectGroup(g, e, tp, 3, 3, s.e5rescon, 1, tp,
+                                       HINTMSG_RELEASE, s.e5rescon, nil, true)
+    Duel.Release(sg, REASON_COST)
+end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingMatchingCard(s.e5filter2, tp, LOCATION_HAND +
+                                                   LOCATION_DECK +
+                                                   LOCATION_GRAVE, 0, 1, nil, e,
+                                               tp)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
+    Duel.SetChainLimit(aux.FALSE)
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local tc = Duel.SelectMatchingCard(tp, s.e5filter2, tp, LOCATION_HAND +
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                       1, nil, e, tp):GetFirst()
+    if not tc then return end
+
+    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP_ATTACK)
 end
