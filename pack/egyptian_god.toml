@@ -8,7 +8,7 @@ level = 1
 atk = 1000
 def = 1000
 effect = """\
-Special Summoned with the effect of "Obelisk's Apostle".
+Special Summoned with the effect of "Obelisk's Apostle". \
 """
 strings = []
 
@@ -32,7 +32,7 @@ When a card or effect is activated that targets this card (Quick Effect): You ca
 Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Effect): \
     You can Tribute 2 other monsters; destroy all monsters your opponent controls, \
     and if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
-    This card cannot declare an attack the turn this effect is activated.\
+    This card cannot declare an attack the turn this effect is activated. \
 """
 strings = ["Destroy all monsters your opponent controls"]
 
@@ -56,7 +56,7 @@ The original ATK/DEF of this card each become equal to the number of cards in yo
 If a monster(s) is Summoned to your opponent's field in face-up Position: \
     That monster(s) loses 2000 ATK if it is in face-up Attack Position, but 2000 DEF if it is in face-up Defense Position, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
-    Also your opponent cannot activate those monster(s) effects in response to this effect's activation.\
+    Also your opponent cannot activate those monster(s) effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
@@ -75,7 +75,7 @@ ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
 ${EGYPTIAN_SUMMON} \
 ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
-This card is also a Pyro/Winged-Beast monster while face-up on the field.\
+This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 """
 
 [card.ra_sphere]
@@ -107,7 +107,7 @@ This Defense Position card cannot be destroyed by battle with a monster with hav
 Once per turn, during either turn: You can send this card to the Dimension Deck; \
     Dimension Summon the Dimension Material Monster, ignoring its Summoning conditions, \
     and if they do, original ATK/DEF of it become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
-    Only the original owner of the Dimension Material can use this effect.\
+    Only the original owner of the Dimension Material can use this effect. \
 """
 strings = ["Turn back to Standard mode"]
 
@@ -138,7 +138,7 @@ Once per turn (Quick Effect): You can Tribute any number of other monsters; \
     this card gains original ATK/DEF equal to the combined original ATK/DEF the Tributed monsters. \
 Once per chain (Quick Effect): You can pay 1000 LP, then destroy 1 other monster on the field with the same or lower Divine Hierarchy, ignoring card effects. \
 During the End Phase, Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in face-up Defense Position if able (Transfer materials to it.), \
-    if you don't, send this card to the GY.\
+    if you don't, send this card to the GY. \
 """
 strings = [
     "Life Point transfer",
@@ -159,9 +159,9 @@ effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 You can only use each of the following effects of "Obelisk's Apostle" once per turn.
 ● (Quick Effect): Reveal 1 DIVINE monster in your hand; \
-    Immediately after this effect resolves, Tribute Summon 1 DIVINE monster. \
+    Immediately after this effect resolves, Tribute Summon 1 DIVINE monster.
 ● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
-    Special Summon 2 "Divine Apostle Token" (Spellcaster/EARTH/Level 1/ATK 1000/DEF 1000) in face-up Defense Position.\
+    Special Summon 2 "Divine Apostle Token" (Spellcaster/EARTH/Level 1/ATK 1000/DEF 1000) in face-up Defense Position. \
 """
 strings = []
 
@@ -181,7 +181,7 @@ You can reveal 1 DIVINE monster in your hand; \
     and if you do, Special Summon 2 monsters from either GY in face-up Defense Position, \
     but they has their effects negated and send them to the GY during the End Phase of this turn. \
     You can only use this effect of "Slifer's Apostle" once per turn. \
-If this card is Tributed for a Tribute Summon: Draw 2 cards.\
+If this card is Tributed for a Tribute Summon: Draw 2 cards. \
 """
 strings = []
 
@@ -200,7 +200,7 @@ You can reveal 1 DIVINE monster in your hand; \
     Special Summon 2 "Divine Apostle Token" (Spellcaster/FIRE/Level 4/ATK 1500/DEF 1500) in face-up Defense Position. \
     You can only use this effect of "Ra's Apostle" once per turn. \
 If this card is Tributed for a Tribute Summon: \
-    Gain 2000 LP.\
+    Gain 2000 LP. \
 """
 strings = [
     "Special Summon token",
@@ -219,7 +219,7 @@ Original DIVINE monsters and "The True Name" in your GY cannot be banished or be
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
 You can look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
-    You can only use this effect of "Millennium Ascension" once per turn.\
+    You can only use this effect of "Millennium Ascension" once per turn. \
 """
 strings = ["Summon via \"Millennium Ascension\""]
 
@@ -237,7 +237,7 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
     Otherwise, send it to the Graveyard. \
     You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
 During your Draw Phase, if you control "Millennium Ascension" and this card is in your GY, instead of conducting your normal draw: \
-    You can add this card from your GY to your hand.
+    You can add this card from your GY to your hand. \
 """
 strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
 
@@ -253,5 +253,5 @@ Target 1 monster in either GY; Special Summon it, ignoring its Summoning conditi
     if you Special Summoned a monster that cannot be Special Summoned, send it to the GY during the End Phase. \
 If a original DIVINE monster you control is destroyed by your opponent's card, while this card is in your GY: \
     You can add this card to your hand. \
-    You can only use this effect of "Divine Reborn" once per turn.\
+    You can only use this effect of "Divine Reborn" once per turn. \
 """

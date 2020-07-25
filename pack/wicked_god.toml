@@ -13,7 +13,7 @@ ${HIERARCHY|3}
 Must be Xyz Summoned and cannot be Special Summoned by other cards' effects. \
 ${GOD_IMMUNITY} \
 This card is also a DARK Fiend monster while face-up on the field. \
-This card gains the effects of all monsters attached to it, except original Creator-God monsters.\
+This card gains the effects of all monsters attached to it, except original Creator-God monsters. \
 """
 strings = [
 ]
@@ -35,7 +35,7 @@ ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
 This card is also a DARK Fiend monster while face-up on the field. \
 Halve the ATK and DEF of all your opponent's monsters on the field. \
-If this card attacks a Defense Position monster, inflict piercing battle damage.\
+If this card attacks a Defense Position monster, inflict piercing battle damage. \
 """
 strings = [
 ]
@@ -57,7 +57,7 @@ ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
 This card is also a DARK Fiend monster while face-up on the field. \
 The original ATK/DEF of this card each become equal to the number of cards your opponent controls x 1000. \
-If this card leaves the field: Send all cards your opponent controls to the GY.\
+If this card leaves the field: Send all cards your opponent controls to the GY. \
 """
 strings = [
 ]
