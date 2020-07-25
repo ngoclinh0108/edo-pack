@@ -92,7 +92,8 @@ function s.e3bool1(c)
 end
 
 function s.e3bool2(c, e, tp)
-    return c:IsLocation(LOCATION_HAND + LOCATION_GRAVE) and
+    return c:IsType(TYPE_MONSTER) and
+               c:IsLocation(LOCATION_HAND + LOCATION_GRAVE) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
