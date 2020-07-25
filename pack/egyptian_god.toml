@@ -208,14 +208,27 @@ You can only use each of the following effects of "Ra's Apostle" once per turn.
 """
 strings = []
 
-[card.millennium-ascension]
+[card.hassan]
 id = 410000009
+name = "Palladium Oracle Hassan"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2800
+def = 2600
+effect = """\
+"""
+strings = []
+
+[card.millennium-ascension]
+id = 410000010
 name = "Millennium Ascension"
 type = "spell field"
 attribute = "spell"
 effect = """\
 Your opponent cannot activate cards or effects in response to this cards' activation and effects. \
-When this card is activated: Send 1 DIVINE monster or 1 "The True Name" from your hand or Deck to the GY. \
+When this card is activated: Send 1 DIVINE monster or 1 "Djeser!" from your hand or Deck to the GY. \
 Unaffected by your opponent's card effects. \
 Original DIVINE monsters and "The True Name" in your GY cannot be banished or be targeted by your opponent's card effects. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
@@ -226,7 +239,7 @@ You can look at up to 5 cards from the top of your Deck, then place them on the 
 strings = ["Summon via \"Millennium Ascension\""]
 
 [card.the-forbidden-pharaoh-true-name]
-id = 410000010
+id = 410000011
 alias = 39913299
 name = "The Forbidden Pharaoh's True Name"
 type = "spell"
@@ -242,7 +255,7 @@ Your opponent cannot activate cards or effects in response to this cards' activa
 strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
 
 [card.divine-reborn]
-id = 410000011
+id = 410000012
 alias = 83764718
 name = "Divine Reborn"
 type = "spell quick-play"
@@ -251,4 +264,11 @@ effect = """\
 Target 1 monster in either GY; Special Summon it, ignoring its Summoning conditions, \
     if you Special Summoned a monster that cannot be Special Summoned, send it to the GY during the End Phase. \
 Your opponent cannot activate cards or effects in response to this cards' activation. \
+"""
+
+[card.djeser]
+id = 410000013
+name = "Djeser!"
+type = "trap continuous"
+effect = """\
 """
