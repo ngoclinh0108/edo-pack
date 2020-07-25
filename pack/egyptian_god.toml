@@ -4,17 +4,18 @@ code = 0x13a
 [set.kuriboh]
 code = 0xa4 
 
-[card.divine_apostle_token]
+[card.palladium-token]
 id = 410000000
-name = "Divine Apostle Token"
+set = "palladium"
+name = "Palladium Token"
 type = "monster normal token"
-attribute = "earth"
+attribute = "light"
 race = "spellcaster"
 level = 1
 atk = 0
 def = 0
 effect = """\
-Special Summoned with the effect of "Obelisk's Apostle". \
+Special Summoned with the effect of "Palladium Apostle of Obelisk". \
 """
 strings = []
 
@@ -84,7 +85,7 @@ ${TO_GRAVE_LIMIT} \
 This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 """
 
-[card.ra_sphere]
+[card.ra-sphere]
 id = 410000004
 alias = 10000080
 name = "Ra the Sun Divine Beast - Sphere Mode"
@@ -118,7 +119,7 @@ Once per turn, during either turn: You can send this card to the Dimension Deck;
 """
 strings = ["Turn back to Standard mode"]
 
-[card.ra_phoenix]
+[card.ra-phoenix]
 id = 410000005
 alias = 10000090
 name = "Ra the Sun Divine Beast - Immortal Phoenix"
@@ -153,30 +154,32 @@ strings = [
     "Destroy 1 monster",
 ]
 
-[card.obelisk_apostle]
+[card.palladium-apostle-obelisk]
 id = 410000006
-name = "Obelisk's Apostle"
+set = "palladium"
+name = "Palladium Apostle of Obelisk"
 type = "monster effect"
-attribute = "earth"
+attribute = "light"
 race = "spellcaster"
 level = 4
 atk = 1500
 def = 1500
 effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-You can only use each of the following effects of "Obelisk's Apostle" once per turn.
+You can only use each of the following effects of "Palladium Apostle of Obelisk" once per turn.
 ● (Quick Effect): You can reveal 1 DIVINE monster in your hand; \
     Once during this turn, if you would Tribute a monster for a Tribute Summon, \
     you can Tribute 1 monster your opponent controls even though you do not control it. \
     And immediately after this effect resolves, Tribute Summon 1 DIVINE monster.
 ● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
-    You can Special Summon 2 "Divine Apostle Token" (Spellcaster/EARTH/Level 1/ATK 0/DEF 0) in Defense Position. \
+    You can Special Summon 2 "Palladium Token" (Spellcaster/LIGHT/Level 1/ATK 0/DEF 0) in Defense Position. \
 """
 strings = ["Summon a DIVINE monster"]
 
-[card.slifer_apostle]
+[card.palladium-apostle-slifer]
 id = 410000007
-name = "Slifer's Apostle"
+set = "palladium"
+name = "Palladium Apostle of Slifer"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
@@ -185,7 +188,7 @@ atk = 1200
 def = 2000
 effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-You can only use each of the following effects of "Slifer's Apostle" once per turn.
+You can only use each of the following effects of "Palladium Apostle of Slifer" once per turn.
 ● While this card is in your hand or GY: You can reveal 1 DIVINE monster in your hand; \
     Special Summon this card in face-up Defense Position, \
     and if you do, Special Summon 2 monsters from either GY in face-up Defense Position, \
@@ -195,18 +198,19 @@ You can only use each of the following effects of "Slifer's Apostle" once per tu
 """
 strings = []
 
-[card.ra_apostle]
+[card.palladium-apostle-ra]
 id = 410000008
-name = "Ra's Apostle"
+set = "palladium"
+name = "Palladium Apostle of Ra"
 type = "monster effect"
-attribute = "fire"
+attribute = "light"
 race = "spellcaster"
 level = 4
 atk = 1800
 def = 1000
 effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-You can only use each of the following effects of "Ra's Apostle" once per turn.
+You can only use each of the following effects of "Palladium Apostle of Ra" once per turn.
 ● You can reveal 1 DIVINE monster in your hand, \
     then target 1 Spell or Trap in your GY; Add it to your hand.
 ● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
@@ -214,7 +218,7 @@ You can only use each of the following effects of "Ra's Apostle" once per turn.
 """
 strings = []
 
-[card.hassan]
+[card.palladium-oracle-hassan]
 id = 410000009
 set = "palladium"
 name = "Palladium Oracle Hassan"

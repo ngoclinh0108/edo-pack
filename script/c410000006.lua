@@ -103,10 +103,10 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) >= 2 and
-                   Duel.IsPlayerCanSpecialSummonMonster(tp, 410000000, 0x54b,
+                   Duel.IsPlayerCanSpecialSummonMonster(tp, 410000000, 0x13a,
                                                         TYPES_TOKEN, 0, 0, 1,
                                                         RACE_SPELLCASTER,
-                                                        ATTRIBUTE_EARTH)
+                                                        ATTRIBUTE_LIGHT)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 2, 0, 0)
@@ -116,10 +116,10 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
-        not Duel.IsPlayerCanSpecialSummonMonster(tp, 410000000, 0x54b,
+        not Duel.IsPlayerCanSpecialSummonMonster(tp, 410000000, 0x13a,
                                                  TYPES_TOKEN, 0, 0, 1,
                                                  RACE_SPELLCASTER,
-                                                 ATTRIBUTE_EARTH) then return end
+                                                 ATTRIBUTE_LIGHT) then return end
 
     for i = 1, 2 do
         local token = Duel.CreateToken(tp, 410000000)
