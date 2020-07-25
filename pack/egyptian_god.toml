@@ -238,8 +238,6 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
     and add it from Deck or GY to your hand or Special Summon it from hand or Deck. \
     Otherwise, send it to the Graveyard. \
     You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
-During your Draw Phase, if you control "Millennium Ascension" and this card is in your GY, instead of conducting your normal draw: \
-    You can add this card from your GY to your hand. \
 """
 strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
 
@@ -253,7 +251,4 @@ effect = """\
 Your opponent cannot activate cards or effects in response to this cards' activation and effects. \
 Target 1 monster in either GY; Special Summon it, ignoring its Summoning conditions, \
     if you Special Summoned a monster that cannot be Special Summoned, send it to the GY during the End Phase. \
-If a original DIVINE monster you control is destroyed by your opponent's card, while this card is in your GY: \
-    You can add this card to your hand. \
-    You can only use this effect of "Divine Reborn" once per turn. \
 """
