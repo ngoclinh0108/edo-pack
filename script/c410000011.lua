@@ -62,7 +62,7 @@ end
 function s.echlimit(e, ep, tp) return tp == ep end
 
 function s.e1filter(c)
-    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(410000013)) and
+    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsSetCard(0x13a)) and
                c:IsAbleToGrave()
 end
 
