@@ -253,9 +253,9 @@ type = "spell field"
 attribute = "spell"
 effect = """\
 Your opponent cannot activate cards or effects in response to this cards' activation and effects. \
-When this card is activated: Send 1 DIVINE monster or 1 "Djeser!" from your hand or Deck to the GY. \
+When this card is activated: Send 1 DIVINE monster or 1 "Palladium" card from your hand or Deck to the GY. \
 Unaffected by your opponent's card effects. \
-Original DIVINE monsters and "Palladium" monsters in your GY cannot be banished or be targeted by your opponent's card effects. \
+Original DIVINE monsters and "Palladium" cards in your GY cannot be banished or be targeted by your opponent's card effects. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
 You can look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
@@ -293,7 +293,9 @@ Your opponent cannot activate cards or effects in response to this cards' activa
 
 [card.djeser]
 id = 410000014
+set = "palladium"
 name = "Djeser!"
 type = "trap continuous"
 effect = """\
+(This card is always treated as an "Palladium" cards.)
 """
