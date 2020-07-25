@@ -1,7 +1,7 @@
 -- Millennium Ascension
 local s, id = GetID()
 
-s.listed_names = {410000013}
+s.listed_names = {410000014}
 
 function s.initial_effect(c)
     -- activate
@@ -62,7 +62,7 @@ end
 function s.echlimit(e, ep, tp) return tp == ep end
 
 function s.e1filter(c)
-    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsSetCard(0x13a)) and
+    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(410000014)) and
                c:IsAbleToGrave()
 end
 
