@@ -259,7 +259,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return mc:IsCanBeSpecialSummoned(e, 0, tp, true, false) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, mc, 1, 0, 0)
-    Duel.SetChainLimit(false)
+    Duel.SetChainLimit(aux.FALSE)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
