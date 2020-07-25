@@ -2,12 +2,11 @@
 local s, id = GetID()
 
 function s.initial_effect(c)
-    -- cannot be tributed
+    -- 3 tribute
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_UNRELEASABLE_SUM)
-    e1:SetValue(aux.TargetBoolFunction(aux.NOT(Card.IsAttribute),
-                                       ATTRIBUTE_DIVINE))
+    e1:SetCode(EFFECT_TRIPLE_TRIBUTE)
+    e1:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e1)
 
     -- special summon
@@ -15,7 +14,7 @@ function s.initial_effect(c)
     e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_HAND + LOCATION_GRAVE)
-    e2:SetCountLimit(1, id)
+    e2:SetCountLimit(1, id + 1000000)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -24,9 +23,10 @@ function s.initial_effect(c)
     -- draw
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_DRAW)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DELAY)
     e3:SetCode(EVENT_RELEASE)
+    e3:SetCountLimit(1, id + 2000000)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -113,7 +113,8 @@ function s.e2gyop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsReason(REASON_SUMMON)
+    return e:GetHandler():IsReason(REASON_SUMMON) and
+               re:GetHandler():IsAttribute(ATTRIBUTE_DIVINE)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)

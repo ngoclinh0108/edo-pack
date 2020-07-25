@@ -5,8 +5,8 @@ type = "monster normal token"
 attribute = "earth"
 race = "spellcaster"
 level = 1
-atk = 1000
-def = 1000
+atk = 0
+def = 0
 effect = """\
 Special Summoned with the effect of "Obelisk's Apostle". \
 """
@@ -158,10 +158,10 @@ def = 1500
 effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 You can only use each of the following effects of "Obelisk's Apostle" once per turn.
-● (Quick Effect): Reveal 1 DIVINE monster in your hand; \
+● (Quick Effect): You can reveal 1 DIVINE monster in your hand; \
     Immediately after this effect resolves, Tribute Summon 1 DIVINE monster.
 ● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
-    Special Summon 2 "Divine Apostle Token" (Spellcaster/EARTH/Level 1/ATK 1000/DEF 1000) in face-up Defense Position. \
+    You can Special Summon 2 "Divine Apostle Token" (Spellcaster/EARTH/Level 1/ATK 0/DEF 0) in Defense Position. \
 """
 strings = ["Summon a DIVINE monster"]
 
@@ -175,13 +175,14 @@ level = 4
 atk = 1200
 def = 2000
 effect = """\
-Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
-You can reveal 1 DIVINE monster in your hand; \
-    Special Summon this card from your hand or GY in face-up Defense Position, \
+This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+You can only use each of the following effects of "Slifer's Apostle" once per turn.
+● While this card is in your hand or GY: You can reveal 1 DIVINE monster in your hand; \
+    Special Summon this card in face-up Defense Position, \
     and if you do, Special Summon 2 monsters from either GY in face-up Defense Position, \
-    but they has their effects negated and send them to the GY during the End Phase of this turn. \
-    You can only use this effect of "Slifer's Apostle" once per turn. \
-If this card is Tributed for a Tribute Summon: Draw 2 cards. \
+    but they has their effects negated and send them to the GY during the End Phase of this turn.
+● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
+    You can draw 2 cards.
 """
 strings = []
 
@@ -195,16 +196,14 @@ level = 4
 atk = 1800
 def = 1000
 effect = """\
-Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
-You can reveal 1 DIVINE monster in your hand; \
-    Special Summon 2 "Divine Apostle Token" (Spellcaster/FIRE/Level 4/ATK 1500/DEF 1500) in face-up Defense Position. \
-    You can only use this effect of "Ra's Apostle" once per turn. \
-If this card is Tributed for a Tribute Summon: \
-    Gain 2000 LP. \
+This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+You can only use each of the following effects of "Ra's Apostle" once per turn.
+● You can reveal 1 DIVINE monster in your hand, \
+    then target 1 Spell or Trap in your GY; Add it to your hand.
+● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
+    You can gain 3000 LP.
 """
-strings = [
-    "Special Summon token",
-]
+strings = []
 
 [card.millennium-ascension]
 id = 410000009

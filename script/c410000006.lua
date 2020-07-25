@@ -10,18 +10,18 @@ function s.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- summon DIVINE
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_SUMMON)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
-    e3:SetCountLimit(1, id)
-    e3:SetCost(s.e2cost)
-    e3:SetTarget(s.e2tg)
-    e3:SetOperation(s.e2op)
-    c:RegisterEffect(e3)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_SUMMON)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e2:SetCountLimit(1, id + 1000000)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 
     -- token
     local e3 = Effect.CreateEffect(c)
@@ -29,6 +29,7 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DELAY)
     e3:SetCode(EVENT_RELEASE)
+    e3:SetCountLimit(1, id + 2000000)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -93,7 +94,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) >= 2 and
                    Duel.IsPlayerCanSpecialSummonMonster(tp, 410000000, 0x54b,
-                                                        TYPES_TOKEN, 1000, 1000,
+                                                        TYPES_TOKEN, 0, 0,
                                                         1, RACE_SPELLCASTER,
                                                         ATTRIBUTE_EARTH)
     end
@@ -106,7 +107,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, 410000000, 0x54b,
-                                                 TYPES_TOKEN, 1000, 1000, 1,
+                                                 TYPES_TOKEN, 0, 0, 1,
                                                  RACE_SPELLCASTER,
                                                  ATTRIBUTE_EARTH) then return end
 
