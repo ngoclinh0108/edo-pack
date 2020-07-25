@@ -68,13 +68,11 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
-                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1,
                                            nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_DECK)
     Duel.SetChainLimit(s.echlimit)
 end
 
