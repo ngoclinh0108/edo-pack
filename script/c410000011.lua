@@ -13,8 +13,6 @@ function s.initial_effect(c)
     c:RegisterEffect(e1)
 end
 
-function s.echlimit(e, ep, tp) return tp == ep end
-
 function s.e1filter(c, e, tp)
     return c:IsType(TYPE_MONSTER) and
                c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
@@ -32,7 +30,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                 LOCATION_GRAVE, 1, 1, nil, e, tp)
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
-    Duel.SetChainLimit(s.echlimit)
+    Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)

@@ -15,8 +15,6 @@ function s.initial_effect(c)
     c:RegisterEffect(e1)
 end
 
-function s.echlimit(e, ep, tp) return tp == ep end
-
 function s.e1bool1(c)
     return c:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and c:IsAbleToHand()
 end
@@ -41,10 +39,10 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_CODE)
     s.announce_filter = {TYPE_EXTRA, OPCODE_ISTYPE, OPCODE_NOT}
     local ac = Duel.AnnounceCard(tp, table.unpack(s.announce_filter))
+
     Duel.SetTargetParam(ac)
     Duel.SetOperationInfo(0, CATEGORY_ANNOUNCE, nil, 0, tp, ANNOUNCE_CARD_FILTER)
-
-    Duel.SetChainLimit(s.echlimit)
+    Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
