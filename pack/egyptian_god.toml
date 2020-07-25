@@ -163,7 +163,7 @@ You can only use each of the following effects of "Obelisk's Apostle" once per t
 ● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
     Special Summon 2 "Divine Apostle Token" (Spellcaster/EARTH/Level 1/ATK 1000/DEF 1000) in face-up Defense Position. \
 """
-strings = []
+strings = ["Summon a DIVINE monster"]
 
 [card.slifer_apostle]
 id = 410000007

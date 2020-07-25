@@ -9,8 +9,9 @@ function s.initial_effect(c)
     e1:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e1)
 
-    -- special summon
+    -- summon DIVINE
     local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_SUMMON)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetCode(EVENT_FREE_CHAIN)
