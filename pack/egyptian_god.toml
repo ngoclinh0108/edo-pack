@@ -167,12 +167,12 @@ def = 1500
 effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 You can only use each of the following effects of "Palladium Apostle of Obelisk" once per turn.
+● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
+    You can Special Summon 2 "Palladium Token" (Spellcaster/LIGHT/Level 1/ATK 0/DEF 0) in Defense Position. \
 ● (Quick Effect): You can reveal 1 DIVINE monster in your hand; \
     Once during this turn, if you would Tribute a monster for a Tribute Summon, \
     you can Tribute 1 monster your opponent controls even though you do not control it. \
     And immediately after this effect resolves, Tribute Summon 1 DIVINE monster.
-● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
-    You can Special Summon 2 "Palladium Token" (Spellcaster/LIGHT/Level 1/ATK 0/DEF 0) in Defense Position. \
 """
 strings = ["Summon a DIVINE monster"]
 
@@ -189,12 +189,12 @@ def = 2000
 effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 You can only use each of the following effects of "Palladium Apostle of Slifer" once per turn.
+● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
+    You can draw 2 cards.
 ● While this card is in your hand or GY: You can reveal 1 DIVINE monster in your hand; \
     Special Summon this card in face-up Defense Position, \
     and if you do, Special Summon 2 monsters from either GY in face-up Defense Position, \
     but they has their effects negated and send them to the GY during the End Phase of this turn.
-● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
-    You can draw 2 cards.
 """
 strings = []
 
@@ -211,10 +211,10 @@ def = 1000
 effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 You can only use each of the following effects of "Palladium Apostle of Ra" once per turn.
-● You can reveal 1 DIVINE monster in your hand, \
-    then target 1 Spell or Trap in your GY; Add it to your hand.
 ● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
-    You can gain 3000 LP.
+    You can gain 2000 LP.
+● While this card is in your hand or GY (Quick Effect): You can Tribute 1 face-up original DIVINE monster; \
+    gain LP equal to the ATK it had on the field, then Special Summon this card in face-up Defense Position.
 """
 strings = []
 
@@ -252,8 +252,8 @@ name = "Millennium Ascension"
 type = "spell field"
 attribute = "spell"
 effect = """\
-Your opponent cannot activate cards or effects in response to this cards' activation and effects. \
 When this card is activated: Send 1 DIVINE monster or 1 "Djeser!" from your Deck to the GY. \
+    Your opponent cannot activate cards or effects in response to this cards' activation. \
 Unaffected by your opponent's card effects. \
 Original DIVINE monsters in your GY cannot be banished or be targeted by your opponent's card effects. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
@@ -274,7 +274,6 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
     and add it from Deck or GY to your hand or Special Summon it from hand or Deck. \
     Otherwise, send it to the Graveyard. \
     You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
-Your opponent cannot activate cards or effects in response to this cards' activation. \
 """
 strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
 
@@ -296,6 +295,9 @@ id = 410000014
 name = "Djeser!"
 type = "trap continuous"
 effect = """\
+You can only control 1 "Djeser!". \
 Summons of your "Palladium" monsters cannot be negated. \
 The activation and effects of "Palladium" cards activated on your field cannot be negated. \
+You can only use each of the following effects of "Djeser!" once per turn.
+● While this card is in your GY and you control "Millennium Ascension": You can activate it directly from your GY.
 """

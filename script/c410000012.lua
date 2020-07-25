@@ -42,7 +42,6 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.SetTargetParam(ac)
     Duel.SetOperationInfo(0, CATEGORY_ANNOUNCE, nil, 0, tp, ANNOUNCE_CARD_FILTER)
-    Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)

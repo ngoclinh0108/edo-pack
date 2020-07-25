@@ -1,7 +1,11 @@
 -- Djeser!
 local s, id = GetID()
 
+s.listed_names = {410000011}
+
 function s.initial_effect(c)
+    c:SetUniqueOnField(1, 0, id)
+
     -- activate
     local act = Effect.CreateEffect(c)
     act:SetType(EFFECT_TYPE_ACTIVATE)
@@ -33,6 +37,17 @@ function s.initial_effect(c)
     local e2b = e2:Clone()
     e2b:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(e2b)
+
+    -- activate direct
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCountLimit(1, id + 1000000)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e2val(e, ct)
@@ -43,4 +58,25 @@ function s.e2val(e, ct)
                                           CHAININFO_TRIGGERING_LOCATION)
     return p == tp and te:GetHandler():IsSetCard(0x13a) and loc &
                LOCATION_ONFIELD ~= 0
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsEnvironment(410000011, tp)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:GetActivateEffect() and
+                   c:GetActivateEffect():IsActivatable(tp, true)
+    end
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.MoveToField(c, tp, tp, LOCATION_SZONE, POS_FACEUP, true)
+    Duel.RaiseEvent(c, id, c:GetActivateEffect(), 0, tp, tp,
+                    Duel.GetCurrentChain())
 end

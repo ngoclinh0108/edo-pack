@@ -1,4 +1,4 @@
--- Ra's Apostle
+-- Palladium Apostle of Ra
 local s, id = GetID()
 
 function s.initial_effect(c)
@@ -9,79 +9,73 @@ function s.initial_effect(c)
     e1:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e1)
 
-    -- return spell
+    -- recover
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_TOHAND)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1, id + 1000000)
-    e2:SetCost(s.e2cost)
+    e2:SetCategory(CATEGORY_RECOVER)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DELAY)
+    e2:SetCode(EVENT_RELEASE)
+    e2:SetCountLimit(1, id + 2000000)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- gain lp
+    -- quick recover
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_RECOVER)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DELAY)
-    e3:SetCode(EVENT_RELEASE)
-    e3:SetCountLimit(1, id + 2000000)
-    e3:SetCondition(s.e3con)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetRange(LOCATION_HAND + LOCATION_GRAVE)
+    e3:SetCountLimit(1, id + 1000000)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter1(c)
-    return c:IsAttribute(ATTRIBUTE_DIVINE) and not c:IsPublic()
-end
-
-function s.e2filter2(c, e, tp)
-    return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToHand()
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_HAND, 0, 1,
-                                           nil)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_CONFIRM)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter1, tp, LOCATION_HAND, 0, 1,
-                                      1, nil)
-    Duel.ConfirmCards(1 - tp, g)
-    Duel.ShuffleHand(tp)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter2, tp, LOCATION_GRAVE, 0, 1, nil)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectTarget(tp, s.e2filter2, tp, LOCATION_GRAVE, 0, 1, 1,
-                                nil)
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, #g, 0, 0)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
-
-    Duel.SendtoHand(tc, nil, REASON_EFFECT)
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():IsReason(REASON_SUMMON)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
-    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, 3000)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, 2000)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Recover(tp, 2000, REASON_EFFECT)
+end
+
+function s.e3filter(c)
+    return c:IsFaceup() and c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and
+               c:GetAttack() > 0
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+                   Duel.CheckReleaseGroupCost(tp, s.e3filter, 1, false, nil, nil)
+    end
+
+    local tc =
+        Duel.SelectReleaseGroupCost(tp, s.e3filter, 1, 1, false, nil, nil):GetFirst()
+    local rec = tc:GetAttack()
+    Duel.Release(tc, REASON_COST)
+
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(rec)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, rec)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, tp, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Recover(tp, 3000, REASON_EFFECT)
+    local c = e:GetHandler()
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Recover(p, d, REASON_EFFECT)
+
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
+        not c:IsRelateToEffect(e) then return end
+    Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP_DEFENSE)
 end
