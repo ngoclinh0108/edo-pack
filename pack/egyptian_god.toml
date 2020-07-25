@@ -263,13 +263,12 @@ You can look at up to 5 cards from the top of your Deck, then place them on the 
 """
 strings = ["Summon via \"Millennium Ascension\""]
 
-[card.the-forbidden-pharaoh-true-name]
+[card.the-true-name-of-palladium-ruler]
 id = 410000012
-alias = 39913299
-name = "The Forbidden Pharaoh's True Name"
+set = "palladium"
+name = "The True Name of Palladium Ruler"
 type = "spell"
 effect = """\
-(This card's name is always treated as "The True Name").
 Declare 1 card name; excavate the top card of your Deck, and if it is the declared card, add it to your hand, \
     then you can take 1 original DIVINE monster, \
     and add it from Deck or GY to your hand or Special Summon it from hand or Deck. \
