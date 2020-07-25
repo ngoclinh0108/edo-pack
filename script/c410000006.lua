@@ -30,7 +30,6 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
     e3:SetCountLimit(1, id + 1000000)
-    e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -71,31 +70,14 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummonComplete()
 end
 
-function s.e3filter1(c)
-    return c:IsAttribute(ATTRIBUTE_DIVINE) and not c:IsPublic()
-end
-
-function s.e3filter2(c)
+function s.e3filter(c)
     return c:IsAttribute(ATTRIBUTE_DIVINE) and c:IsSummonable(true, nil, 1) or
                c:IsMSetable(true, nil, 1)
 end
 
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_HAND, 0, 1,
-                                           nil)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_CONFIRM)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter1, tp, LOCATION_HAND, 0, 1,
-                                      1, nil)
-    Duel.ConfirmCards(1 - tp, g)
-    Duel.ShuffleHand(tp)
-end
-
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_HAND, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND, 0, 1,
                                            nil)
     end
 
@@ -114,7 +96,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.e3filter2, tp, LOCATION_HAND, 0, 1,
+    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_HAND, 0, 1,
                                        1, nil):GetFirst()
     if not tc then return end
 

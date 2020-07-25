@@ -62,7 +62,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
 
-        Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 1))
+        Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
         local sc = g:Select(tp, 1, 1, nil):GetFirst()
         local b1 = s.e1bool1(sc)
         local b2 = s.e1bool2(sc, e, tp)
