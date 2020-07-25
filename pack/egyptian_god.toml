@@ -159,7 +159,9 @@ effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 You can only use each of the following effects of "Obelisk's Apostle" once per turn.
 ● (Quick Effect): You can reveal 1 DIVINE monster in your hand; \
-    Immediately after this effect resolves, Tribute Summon 1 DIVINE monster.
+    Once during this turn, if you would Tribute a monster for a Tribute Summon, \
+    you can Tribute 1 monster your opponent controls even though you do not control it. \
+    And immediately after this effect resolves, Tribute Summon 1 DIVINE monster.
 ● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
     You can Special Summon 2 "Divine Apostle Token" (Spellcaster/EARTH/Level 1/ATK 0/DEF 0) in Defense Position. \
 """

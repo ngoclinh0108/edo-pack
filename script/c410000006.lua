@@ -68,6 +68,16 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+    ec1:SetCode(EFFECT_EXTRA_RELEASE_SUM)
+    ec1:SetTargetRange(0, LOCATION_MZONE)
+    ec1:SetCountLimit(1)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
     local tc = Duel.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_HAND, 0, 1,
                                        1, nil):GetFirst()
@@ -94,8 +104,8 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) >= 2 and
                    Duel.IsPlayerCanSpecialSummonMonster(tp, 410000000, 0x54b,
-                                                        TYPES_TOKEN, 0, 0,
-                                                        1, RACE_SPELLCASTER,
+                                                        TYPES_TOKEN, 0, 0, 1,
+                                                        RACE_SPELLCASTER,
                                                         ATTRIBUTE_EARTH)
     end
 
