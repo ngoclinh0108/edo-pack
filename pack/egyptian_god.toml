@@ -1,3 +1,6 @@
+[set.palladium]
+code = 0x13a
+
 [card.divine_apostle_token]
 id = 410000000
 name = "Divine Apostle Token"
@@ -210,6 +213,7 @@ strings = []
 
 [card.hassan]
 id = 410000009
+set = "palladium"
 name = "Palladium Oracle Hassan"
 type = "monster effect"
 attribute = "light"
