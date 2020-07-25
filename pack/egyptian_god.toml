@@ -2,13 +2,13 @@
 id = 410000000
 name = "Divine Apostle Token"
 type = "monster normal token"
-attribute = "fire"
+attribute = "earth"
 race = "spellcaster"
-level = 4
-atk = 1500
-def = 1500
+level = 1
+atk = 1000
+def = 1000
 effect = """\
-Special Summoned with the effect of "Ra's Apostle".
+Special Summoned with the effect of "Obelisk's Apostle".
 """
 strings = []
 
@@ -153,13 +153,15 @@ type = "monster effect"
 attribute = "earth"
 race = "spellcaster"
 level = 4
-atk = 1900
-def = 100
+atk = 1500
+def = 1500
 effect = """\
-You can only control 1 face-up "Obelisk's Apostle". \
-Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
-You can reveal 1 DIVINE monster in your hand; \
-If this card is Tributed for a Tribute Summon: \
+This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+You can only use each of the following effects of "Obelisk's Apostle" once per turn.
+● (Quick Effect): Reveal 1 DIVINE monster in your hand; \
+    Immediately after this effect resolves, Tribute Summon 1 DIVINE monster. \
+● If this card is Tributed for a Tribute Summon of a DIVINE monster: \
+    Special Summon 2 "Divine Apostle Token" (Spellcaster/EARTH/Level 1/ATK 1000/DEF 1000) in face-up Defense Position.\
 """
 strings = []
 
@@ -170,10 +172,9 @@ type = "monster effect"
 attribute = "light"
 race = "spellcaster"
 level = 4
-atk = 1000
+atk = 1200
 def = 2000
 effect = """\
-You can only control 1 face-up "Slifer's Apostle". \
 Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
 You can reveal 1 DIVINE monster in your hand; \
     Special Summon this card from your hand or GY in face-up Defense Position, \
@@ -191,10 +192,9 @@ type = "monster effect"
 attribute = "fire"
 race = "spellcaster"
 level = 4
-atk = 1500
-def = 1500
+atk = 1800
+def = 1000
 effect = """\
-You can only control 1 face-up "Ra's Apostle". \
 Cannot be Tributed for a Tribute Summon, unless it is for a DIVINE monster. \
 You can reveal 1 DIVINE monster in your hand; \
     Special Summon 2 "Divine Apostle Token" (Spellcaster/FIRE/Level 4/ATK 1500/DEF 1500) in face-up Defense Position. \
