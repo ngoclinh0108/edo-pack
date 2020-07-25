@@ -41,9 +41,7 @@ Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Eff
     and if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
     This card cannot declare an attack the turn this effect is activated. \
 """
-strings = [
-    "Destroy all monsters your opponent controls"
-]
+strings = ["Destroy all monsters your opponent controls"]
 
 [card.slifer]
 id = 410000002
@@ -67,9 +65,7 @@ If a monster(s) is Summoned to your opponent's field in face-up Position: \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
     Also your opponent cannot activate those monster(s) effects in response to this effect's activation. \
 """
-strings = [
-    "Reduce the monster(s)' ATK or DEF"
-]
+strings = ["Reduce the monster(s)' ATK or DEF"]
 
 [card.ra]
 id = 410000003
@@ -121,9 +117,7 @@ Once per turn, during either turn: You can send this card to the Dimension Deck;
     Only the original owner of the Dimension Material can use this effect. \
     Cards and effects cannot be activated in response to this effect's activation. \
 """
-strings = [
-    "Turn back to Standard mode"
-]
+strings = ["Turn back to Standard mode"]
 
 [card.ra-phoenix]
 id = 410000005
@@ -179,9 +173,7 @@ You can only use each of the following effects of "Palladium Apostle of Obelisk"
     you can Tribute 1 monster your opponent controls even though you do not control it, \
     and immediately after this effect resolves, Tribute Summon 1 DIVINE monster.
 """
-strings = [
-    "Summon a DIVINE monster"
-]
+strings = ["Summon a DIVINE monster"]
 
 [card.palladium-apostle-slifer]
 id = 410000007
@@ -268,9 +260,7 @@ During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to yo
 You can look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
     You can only use this effect of "Millennium Ascension" once per turn. \
 """
-strings = [
-    "Summon via \"Millennium Ascension\""
-]
+strings = ["Summon via \"Millennium Ascension\""]
 
 [card.the-true-name-of-palladium-ruler]
 id = 410000012
@@ -284,11 +274,7 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
     Otherwise, send it to the Graveyard. \
     You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
 """
-strings = [
-    "Take 1 DIVINE monster?",
-    "Add to hand",
-    "Special Summon"
-]
+strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
 
 [card.divine-reborn]
 id = 410000013
@@ -301,7 +287,7 @@ Target 1 monster in either GY; Special Summon it, you can Special Summon "The Wi
 Your opponent cannot activate cards or effects in response to this cards' activation. \
 This card is also treated as an "Palladium" cards while it is on the GY. \
 """
-strings = [ ]
+strings = []
 
 [card.djeser]
 id = 410000014
@@ -311,19 +297,19 @@ effect = """\
 You can only control 1 "Djeser!". \
 Summons of your "Palladium" monsters cannot be negated. \
 The activation and effects of "Palladium" cards activated on your field cannot be negated. \
-You can only use each of the following effects of "Djeser!" once per turn.
-● While this card is in your GY and you control "Millennium Ascension": You can activate it directly from your GY.
-● You can reveal 1 DIVINE monster in your hand; take 1 "Palladium" card, \
+Once per turn, you can reveal 1 DIVINE monster in your hand; take 1 "Palladium" card, \
     add it to your hand from Deck or GY, \
     or Special Summon it from hand or GY (if it is Monster Card).
-● You can send this face-up card from your Spell/Trap Zone to the GY \
+Once per turn, You can send this face-up card from your Spell/Trap Zone to the GY \
     and Tribute 3 monsters whose original names are "Slifer the Sky Dragon", "Obelisk the Tormentor", and "The Winged Dragon of Ra"; \
     Special Summon 1 "Holactie the Creator of Light" from your hand, Deck or GY in face-up Attack Position, ignoring its Summoning conditions. \
-    Cards and effects cannot be activated in response to this effect's activation.
+    Cards and effects cannot be activated in response to this effect's activation. \
+While this card is in your GY and you control "Millennium Ascension": You can activate it directly from your GY. \
+    You can only use this effect of "Djeser!" once per turn. \
 """
 strings = [
     "Take 1 \"Palladium\" card",
     "Add to hand",
     "Special Summon",
-    "Summon \"Holactie the Creator of Light\""
+    "Summon \"Holactie the Creator of Light\"",
 ]
