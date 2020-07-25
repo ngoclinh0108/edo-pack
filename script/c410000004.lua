@@ -259,6 +259,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return mc:IsCanBeSpecialSummoned(e, 0, tp, true, false) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, mc, 1, 0, 0)
+    Duel.SetChainLimit(false)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
@@ -273,7 +274,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local is_tribute_summon = tc:IsSummonType(SUMMON_TYPE_TRIBUTE)
     Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
     Dimension.Zones(tc:GetOwner()):RemoveCard(tc)
-    Duel.BreakEffect()
 
     local atk = 0
     local def = 0
