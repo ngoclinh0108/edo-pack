@@ -292,12 +292,15 @@ strings = []
 [card.djeser]
 id = 410000014
 name = "Djeser!"
+set = "palladium"
 type = "trap continuous"
 effect = """\
+(This card is always treated as an "Palladium" card.)
 You can only control 1 "Djeser!". \
 Summons of your "Palladium" monsters cannot be negated. \
 The activation and effects of "Palladium" cards activated on your field cannot be negated. \
-Once per turn, you can reveal 1 DIVINE monster in your hand; take 1 "Palladium" card, \
+Once per turn, you can reveal 1 DIVINE monster in your hand; \
+    take 1 "Palladium" card (except "Djeser!"), \
     add it to your hand from Deck or GY, \
     or Special Summon it from hand or GY (if it is Monster Card).
 Once per turn, You can send this face-up card from your Spell/Trap Zone to the GY \

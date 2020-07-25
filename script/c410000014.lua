@@ -102,7 +102,8 @@ function s.e3filter1(c)
 end
 
 function s.e3filter2(c, e, tp)
-    return c:IsSetCard(0x13a) and (s.e3bool1(c) or s.e3bool2(c, e, tp))
+    return c:IsSetCard(0x13a) and not c:IsCode(id) and
+               (s.e3bool1(c) or s.e3bool2(c, e, tp))
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
