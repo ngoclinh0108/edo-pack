@@ -1,91 +1,102 @@
--- The Forbidden Pharaoh's True Name
+-- Millennium Ascension
 local s, id = GetID()
 
-s.listed_names = {410000009}
+s.listed_names = {410000013}
 
 function s.initial_effect(c)
-    -- check deck
+    -- activate
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_DECKDES)
+    e1:SetCategory(CATEGORY_TOGRAVE)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- immune
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_IMMUNE_EFFECT)
+    e2:SetRange(LOCATION_FZONE)
+    e2:SetValue(function(e, te)
+        return te:GetOwnerPlayer() ~= e:GetOwnerPlayer()
+    end)
+    c:RegisterEffect(e2)
+
+    -- protect grave
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_CANNOT_REMOVE)
+    e3:SetRange(LOCATION_FZONE)
+    e3:SetTargetRange(LOCATION_GRAVE, 0)
+    e3:SetTarget(function(e, c)
+        return c:IsOriginalAttribute(ATTRIBUTE_DIVINE) or c:IsSetCard(0x13a)
+    end)
+    c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e3b:SetValue(aux.tgoval)
+    c:RegisterEffect(e3b)
+
+    -- extra summon
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+    e4:SetRange(LOCATION_FZONE)
+    e4:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
+    e4:SetTarget(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
+    c:RegisterEffect(e4)
+
+    -- look deck
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_IGNITION)
+    e5:SetRange(LOCATION_FZONE)
+    e5:SetCountLimit(1, id)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
-function s.e1bool1(c)
-    return c:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and c:IsAbleToHand()
+function s.echlimit(e, ep, tp) return tp == ep end
+
+function s.e1filter(c)
+    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(410000013)) and
+               c:IsAbleToGrave()
 end
 
-function s.e1bool2(c, e, tp)
-    return c:IsLocation(LOCATION_HAND + LOCATION_DECK) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
-function s.e1filter(c, e, tp)
-    return c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and
-               (s.e1bool1(c) or s.e1bool2(c, e, tp))
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsPlayerCanDiscardDeck(tp, 1) and
-                   Duel.IsExistingMatchingCard(Card.IsAbleToHand, tp,
-                                               LOCATION_DECK, 0, 1, nil)
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+                                           nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_CODE)
-    s.announce_filter = {TYPE_EXTRA, OPCODE_ISTYPE, OPCODE_NOT}
-    local ac = Duel.AnnounceCard(tp, table.unpack(s.announce_filter))
-
-    Duel.SetTargetParam(ac)
-    Duel.SetOperationInfo(0, CATEGORY_ANNOUNCE, nil, 0, tp, ANNOUNCE_CARD_FILTER)
-    Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp,
+                          LOCATION_HAND + LOCATION_DECK)
+    Duel.SetChainLimit(s.echlimit)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.ConfirmDecktop(tp, 1)
-    local tc = Duel.GetDecktopGroup(tp, 1):GetFirst()
-    local ac = Duel.GetChainInfo(0, CHAININFO_TARGET_PARAM)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
 
-    if not tc:IsCode(ac) or not tc:IsAbleToHand() then
-        Duel.DisableShuffleCheck()
-        Duel.SendtoGrave(tc, REASON_EFFECT + REASON_REVEAL)
-        return
-    end
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp,
+                                      LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
+                                      nil)
+    if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
+end
 
-    Duel.SendtoHand(tc, nil, REASON_EFFECT)
-    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND +
-                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil,
-                                    e, tp)
-    if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
-        Duel.BreakEffect()
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
+    Duel.SetChainLimit(s.echlimit)
+end
 
-        Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 1))
-        local sc = g:Select(tp, 1, 1, nil):GetFirst()
-        local b1 = s.e1bool1(sc)
-        local b2 = s.e1bool2(sc, e, tp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
 
-        local op = 0
-        if b1 and b2 then
-            op = Duel.SelectOption(tp, aux.Stringid(id, 1), aux.Stringid(id, 2))
-        elseif b1 then
-            op = Duel.SelectOption(tp, aux.Stringid(id, 1))
-        else
-            op = Duel.SelectOption(tp, aux.Stringid(id, 2)) + 1
-        end
-
-        if op == 0 then
-            Duel.SendtoHand(sc, nil, REASON_EFFECT)
-            Duel.ConfirmCards(1 - tp, sc)
-        else
-            Duel.SpecialSummon(sc, 0, tp, tp, false, false, POS_FACEUP)
-        end
-    else
-        Duel.DisableShuffleCheck()
-    end
-
-    Duel.ShuffleHand(tp)
+    Duel.SortDecktop(tp, tp, 5)
 end

@@ -1,6 +1,9 @@
 [set.palladium]
 code = 0x13a
 
+[set.kuriboh]
+code = 0xa4 
+
 [card.divine_apostle_token]
 id = 410000000
 name = "Divine Apostle Token"
@@ -225,8 +228,22 @@ effect = """\
 """
 strings = []
 
-[card.millennium-ascension]
+[card.palladium-kuriboh]
 id = 410000010
+set = "palladium kuriboh"
+name = "Palladium Kuriboh"
+type = "monster effect"
+attribute = "light"
+race = "fairy"
+level = 1
+atk = 300
+def = 200
+effect = """\
+"""
+strings = []
+
+[card.millennium-ascension]
+id = 410000011
 name = "Millennium Ascension"
 type = "spell field"
 attribute = "spell"
@@ -234,7 +251,7 @@ effect = """\
 Your opponent cannot activate cards or effects in response to this cards' activation and effects. \
 When this card is activated: Send 1 DIVINE monster or 1 "Djeser!" from your hand or Deck to the GY. \
 Unaffected by your opponent's card effects. \
-Original DIVINE monsters and "The True Name" in your GY cannot be banished or be targeted by your opponent's card effects. \
+Original DIVINE monsters and "Palladium" monsters in your GY cannot be banished or be targeted by your opponent's card effects. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
 You can look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
@@ -243,7 +260,7 @@ You can look at up to 5 cards from the top of your Deck, then place them on the 
 strings = ["Summon via \"Millennium Ascension\""]
 
 [card.the-forbidden-pharaoh-true-name]
-id = 410000011
+id = 410000012
 alias = 39913299
 name = "The Forbidden Pharaoh's True Name"
 type = "spell"
@@ -259,7 +276,7 @@ Your opponent cannot activate cards or effects in response to this cards' activa
 strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
 
 [card.divine-reborn]
-id = 410000012
+id = 410000013
 alias = 83764718
 name = "Divine Reborn"
 type = "spell quick-play"
@@ -271,7 +288,7 @@ Your opponent cannot activate cards or effects in response to this cards' activa
 """
 
 [card.djeser]
-id = 410000013
+id = 410000014
 name = "Djeser!"
 type = "trap continuous"
 effect = """\
