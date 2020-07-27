@@ -248,6 +248,7 @@ level = 1
 atk = 300
 def = 200
 effect = """\
+If this card on the field is destroyed and sent to the GY: For the rest of this turn, you take no damage. \
 You can only use 1 of these effects of "Palladium Kuriboh" per turn, and only once that turn.
 ● (Quick Effect): You can Tribute this card; \
     take 1 "Kuriboh" monster from your Deck or GY, except "Palladium Kuriboh", \
