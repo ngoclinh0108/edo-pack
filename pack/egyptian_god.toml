@@ -41,7 +41,9 @@ Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Eff
     and if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
     This card cannot declare an attack the turn this effect is activated. \
 """
-strings = ["Destroy all monsters your opponent controls"]
+strings = [
+    "Destroy all monsters your opponent controls"
+]
 
 [card.slifer]
 id = 410000002
@@ -65,7 +67,9 @@ If a monster(s) is Summoned to your opponent's field in face-up Position: \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
     Also your opponent cannot activate those monster(s) effects in response to this effect's activation. \
 """
-strings = ["Reduce the monster(s)' ATK or DEF"]
+strings = [
+    "Reduce the monster(s)' ATK or DEF"
+]
 
 [card.ra]
 id = 410000003
@@ -117,7 +121,9 @@ Once per turn, during either turn: You can send this card to the Dimension Deck;
     Only the original owner of the Dimension Material can use this effect. \
     Cards and effects cannot be activated in response to this effect's activation. \
 """
-strings = ["Turn back to Standard mode"]
+strings = [
+    "Turn back to Standard mode"
+]
 
 [card.ra-phoenix]
 id = 410000005
@@ -242,8 +248,18 @@ level = 1
 atk = 300
 def = 200
 effect = """\
+You can only use 1 of these effects of "Palladium Kuriboh" per turn, and only once that turn.
+● (Quick Effect): You can Tribute this card; \
+    take 1 "Kuriboh" monster from your Deck or GY, except "Palladium Kuriboh", \
+    and add it to your hand or Special Summon it in face-up Defense Position.
+● While this card is in your GY (Quick Effect): You can Tribtue 1 monster you control; \
+    Special Summon this card in face-up Defense Position.
 """
-strings = []
+strings = [
+    "Take \"Kuriboh\" monster",
+    "Add to hand",
+    "Special Summon"
+]
 
 [card.millennium-ascension]
 id = 410000011
@@ -260,7 +276,9 @@ During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to yo
 You can look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
     You can only use this effect of "Millennium Ascension" once per turn. \
 """
-strings = ["Summon via \"Millennium Ascension\""]
+strings = [
+    "Summon via \"Millennium Ascension\""
+]
 
 [card.the-true-name-of-palladium-ruler]
 id = 410000012
@@ -274,7 +292,11 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
     Otherwise, send it to the Graveyard. \
     You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
 """
-strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
+strings = [
+    "Take 1 DIVINE monster?",
+    "Add to hand",
+    "Special Summon"
+]
 
 [card.divine-reborn]
 id = 410000013
@@ -300,7 +322,7 @@ You can only control 1 "Djeser!". \
 Summons of your "Palladium" monsters cannot be negated. \
 The activation and effects of "Palladium" cards activated on your field cannot be negated. \
 Once per turn, you can reveal 1 DIVINE monster in your hand; \
-    take 1 "Palladium" card (except "Djeser!"), \
+    take 1 "Palladium" card, except "Djeser!", \
     add it to your hand from Deck or GY, \
     or Special Summon it from hand or GY (if it is Monster Card).
 Once per turn, You can send this face-up card from your Spell/Trap Zone to the GY \
