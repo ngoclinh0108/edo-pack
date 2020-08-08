@@ -184,10 +184,10 @@ function s.e2val(e, te)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.GetLP(tp) > 100 end
+    if chk == 0 then return Duel.GetLP(tp) > 1 end
     local lp = Duel.GetLP(tp)
-    e:SetLabel(lp - 100)
-    Duel.PayLPCost(tp, lp - 100)
+    e:SetLabel(lp - 1)
+    Duel.PayLPCost(tp, lp - 1)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -235,7 +235,7 @@ function s.e3recoverop(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetValue(c:GetBaseDefense() + ev)
     c:RegisterEffect(ec2)
 
-    Duel.SetLP(tp, 100, REASON_EFFECT)
+    Duel.SetLP(tp, 1, REASON_EFFECT)
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)

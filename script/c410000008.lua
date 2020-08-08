@@ -26,7 +26,7 @@ function s.initial_effect(c)
     e3:SetCategory(CATEGORY_RECOVER)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetRange(LOCATION_HAND + LOCATION_GRAVE)
+    e3:SetRange(LOCATION_GRAVE)
     e3:SetCountLimit(1, id + 2000000)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -52,10 +52,8 @@ function s.e3filter(c)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
     if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-                   Duel.CheckReleaseGroupCost(tp, s.e3filter, 1, false, nil, nil)
+        return Duel.CheckReleaseGroupCost(tp, s.e3filter, 1, false, nil, nil)
     end
 
     local tc =
@@ -66,16 +64,10 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetTargetPlayer(tp)
     Duel.SetTargetParam(rec)
     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, rec)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, tp, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
                                    CHAININFO_TARGET_PARAM)
     Duel.Recover(p, d, REASON_EFFECT)
-
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
-        not c:IsRelateToEffect(e) then return end
-    Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP_DEFENSE)
 end

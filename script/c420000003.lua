@@ -66,14 +66,14 @@ function s.e2val(e, tc)
                                     LOCATION_MZONE, nil, c.divine_hierarchy)
 
     if #g == 0 then
-        return 100
+        return 1
     else
         local tg, val = g:GetMaxGroup(Card.GetAttack)
         if not tg:IsExists(aux.TRUE, 1, c) then
             g:RemoveCard(c)
             tg, val = g:GetMaxGroup(Card.GetAttack)
         end
-        return val + 100
+        return val + 1
     end
 end
 
