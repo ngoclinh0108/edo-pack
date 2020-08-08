@@ -86,6 +86,12 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
+    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_HAND, 0, 1,
+                                       1, nil):GetFirst()
+    if not tc then return end
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
@@ -94,11 +100,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCountLimit(1)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_HAND, 0, 1,
-                                       1, nil):GetFirst()
-    if not tc then return end
 
     local b1 = tc:IsSummonable(true, nil, 1)
     local b2 = tc:IsMSetable(true, nil, 1)
