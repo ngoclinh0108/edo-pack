@@ -24,7 +24,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2)
 
-    -- protect grave
+    -- grave protect
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
     e3:SetCode(EFFECT_CANNOT_REMOVE)
