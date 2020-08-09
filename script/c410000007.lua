@@ -20,6 +20,18 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- draw
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_DRAW)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e3:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCountLimit(1, id + 2000000)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
@@ -28,13 +40,36 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 2) end
     Duel.SetTargetPlayer(tp)
-    Duel.SetTargetParam(1)
+    Duel.SetTargetParam(2)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 2)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
-    Duel.Draw(p, 2, REASON_EFFECT)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Draw(p, d, REASON_EFFECT)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local ac = Duel.GetAttacker()
+    local dc = Duel.GetAttackTarget()
+
+    if not dc or ac:GetControler() == dc:GetControler() then return false end
+    local sc = ac:IsControler(tp) and ac or dc
+    return sc:IsFaceup() and sc:IsOriginalAttribute(ATTRIBUTE_DIVINE)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(1)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Draw(p, d, REASON_EFFECT)
 end
