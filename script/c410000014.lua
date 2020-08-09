@@ -119,11 +119,9 @@ end
 function s.e3val(e, ct)
     local c = e:GetHandler()
     local p = c:GetControler()
-    local te, tp, loc = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT,
-                                          CHAININFO_TRIGGERING_PLAYER,
-                                          CHAININFO_TRIGGERING_LOCATION)
-    return p == tp and te:GetHandler():IsSetCard(0x13a) and loc &
-               LOCATION_ONFIELD ~= 0
+    local te, tp = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT,
+                                     CHAININFO_TRIGGERING_PLAYER)
+    return p == tp and te:GetHandler():IsSetCard(0x13a)
 end
 
 function s.e5bool1(c)
