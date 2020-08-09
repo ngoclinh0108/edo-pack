@@ -1,7 +1,7 @@
 -- Djeser!
 local s, id = GetID()
 
-s.listed_names = {410000011, 10000040}
+s.listed_names = {410000011, 10000000, 10000020, CARD_RA, 10000040}
 
 function s.initial_effect(c)
     c:SetUniqueOnField(1, 0, id)
