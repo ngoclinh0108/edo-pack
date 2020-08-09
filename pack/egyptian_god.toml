@@ -281,8 +281,8 @@ effect = """\
 Declare 1 card name; excavate the top card of your Deck, and if it is the declared card, add it to your hand, \
     then you can take 1 original DIVINE monster, \
     and add it to your hand from Deck or GY or Special Summon it from hand or Deck. \
-    Otherwise, send it to the Graveyard. \
-    You can only activate 1 "The Forbidden Pharaoh's True Name" per turn. \
+    Otherwise, send it to the GY. \
+    You can only activate 1 "The True Name of Palladium Ruler" per turn. \
 """
 strings = [
     "Take 1 DIVINE monster?",
@@ -297,19 +297,17 @@ name = "Divine Reborn"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "Monster Reborn").
-Target 1 monster in either GY; Special Summon it, you can Special Summon "The Winged Dragon of Ra" with this card's effect. \
+Target 1 monster in either GY; Special Summon it, \
+    you can Special Summon "The Winged Dragon of Ra" with this card's effect. \
 Your opponent cannot activate cards or effects in response to this cards' activation. \
-This card is also treated as an "Palladium" cards while it is on the GY. \
 """
 strings = []
 
 [card.djeser]
 id = 410000014
 name = "Djeser!"
-set = "palladium"
 type = "trap continuous"
 effect = """\
-(This card is always treated as an "Palladium" card.)
 You can only control 1 "Djeser!". \
 While this card is in your GY and you control "Millennium Ascension", except the turn this card was sent to the GY: \
     You can activate it directly from your GY. \
@@ -317,8 +315,7 @@ While this card is in your GY and you control "Millennium Ascension", except the
 Summons of your "Palladium" monsters cannot be negated. \
 The activation and effects of "Palladium" cards activated on your field cannot be negated. \
 "Palladium" monsters in your GY cannot be banished or be targeted by your opponent's card effects. \
-Once per turn, you can reveal 1 DIVINE monster in your hand; \
-    take 1 "Palladium" card, except "Djeser!", \
+Once per turn, you can reveal 1 DIVINE monster in your hand; take 1 "Palladium" card, \
     add it to your hand from Deck or GY, \
     or Special Summon it from hand or GY (if it is Monster Card). \
 Once per turn, You can send this face-up card from your Spell/Trap Zone to the GY \

@@ -1,10 +1,10 @@
--- The Forbidden Pharaoh's True Name
+-- The True Name of Palladium Ruler
 local s, id = GetID()
 
 s.listed_names = {410000009}
 
 function s.initial_effect(c)
-    -- check deck
+    -- look deck
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_DECKDES)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
