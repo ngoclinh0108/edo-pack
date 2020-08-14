@@ -65,7 +65,7 @@ function s.initial_effect(c)
     -- search card
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 0))
-    e5:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SPECIAL_SUMMON)
+    e5:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e5:SetType(EFFECT_TYPE_QUICK_O)
     e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetRange(LOCATION_SZONE)
@@ -124,23 +124,13 @@ function s.e3val(e, ct)
     return p == tp and te:GetHandler():IsSetCard(0x13a)
 end
 
-function s.e5bool1(c)
-    return c:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and c:IsAbleToHand()
-end
-
-function s.e5bool2(c, e, tp)
-    return c:IsType(TYPE_MONSTER) and c:IsLocation(LOCATION_GRAVE) and
-               Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
 function s.e5filter1(c)
     return c:IsAttribute(ATTRIBUTE_DIVINE) and not c:IsPublic()
 end
 
-function s.e5filter2(c, e, tp)
+function s.e5filter2(c)
     return c:IsSetCard(0x13a) and not c:IsCode(id) and
-               (s.e5bool1(c) or s.e5bool2(c, e, tp))
+               c:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and c:IsAbleToHand()
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -158,9 +148,9 @@ end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e5filter2, tp, LOCATION_HAND +
-                                               LOCATION_DECK + LOCATION_GRAVE,
-                                           0, 1, nil, e, tp)
+        return Duel.IsExistingMatchingCard(s.e5filter2, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           nil)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
@@ -169,28 +159,13 @@ end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
-    local tc = Duel.SelectMatchingCard(tp, s.e5filter2, tp, LOCATION_HAND +
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                       1, nil, e, tp):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, s.e5filter2, tp,
+                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+                                       nil):GetFirst()
     if not tc then return end
-    local b1 = s.e5bool1(tc)
-    local b2 = s.e5bool2(tc, e, tp)
 
-    local op = 0
-    if b1 and b2 then
-        op = Duel.SelectOption(tp, aux.Stringid(id, 1), aux.Stringid(id, 2))
-    elseif b1 then
-        op = Duel.SelectOption(tp, aux.Stringid(id, 1))
-    else
-        op = Duel.SelectOption(tp, aux.Stringid(id, 2)) + 1
-    end
-
-    if op == 0 then
-        Duel.SendtoHand(tc, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, tc)
-    else
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
-    end
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, tc)
 end
 
 function s.e6filter1(c, code)
