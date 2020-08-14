@@ -129,8 +129,7 @@ function s.e5bool1(c)
 end
 
 function s.e5bool2(c, e, tp)
-    return c:IsType(TYPE_MONSTER) and
-               c:IsLocation(LOCATION_HAND + LOCATION_GRAVE) and
+    return c:IsType(TYPE_MONSTER) and c:IsLocation(LOCATION_GRAVE) and
                Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
