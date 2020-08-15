@@ -14,23 +14,12 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- untargetable
+    -- 3 tribute
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(0, LOCATION_MZONE)
-    e2:SetValue(s.e2val)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_TRIPLE_TRIBUTE)
+    e2:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e2)
-    local e2b = Effect.CreateEffect(c)
-    e2b:SetType(EFFECT_TYPE_FIELD)
-    e2b:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    e2b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e2b:SetRange(LOCATION_MZONE)
-    e2b:SetTargetRange(LOCATION_MZONE, LOCATION_MZONE)
-    e2b:SetTarget(s.e2tg)
-    e2b:SetValue(aux.tgoval)
-    c:RegisterEffect(e2b)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
@@ -46,10 +35,12 @@ end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not Duel.GetAttacker():IsControler(1 - tp) then return false end
+
     if c:IsLocation(LOCATION_GRAVE) and Duel.GetTurnCount() == c:GetTurnID() and
         not c:IsReason(REASON_RETURN) then return false end
-    return c:IsLocation(LOCATION_HAND) or Duel.GetAttackTarget() == nil
+
+    return Duel.GetAttackTarget() == nil and
+               Duel.GetAttacker():IsControler(1 - tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -80,10 +71,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.RegisterEffect(ec2, tp)
     end
 end
-
-function s.e2tg(e, c) return c ~= e:GetHandler() end
-
-function s.e2val(e, c) return c:IsFaceup() and c ~= e:GetHandler() end
 
 function s.e3filter(c, e, tp)
     return c:IsSetCard(0x13a) and not c:IsCode(id) and

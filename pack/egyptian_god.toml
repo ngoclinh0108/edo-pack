@@ -225,11 +225,11 @@ level = 8
 atk = 2800
 def = 2600
 effect = """\
-When an opponent's monster declares an attack: \
-    You can Special Summon this card from your hand or GY (if directly attack and not the turn this card was sent to the GY), \
+When an opponent's monster declares an directly attack: \
+    You can Special Summon this card from your hand or GY, except the turn this card was sent to the GY, \
     and if you do, you take no damage this turn. \
     You can only use this effect of "Palladium Oracle Hassan" once per turn. \
-Your opponent cannot target another face-up monster as an attack target, or target them with card effects. \
+This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium" monster from your hand, Deck, or GY, except "Palladium Oracle Hassan". \
 """
