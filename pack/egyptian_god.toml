@@ -225,6 +225,7 @@ level = 8
 atk = 2800
 def = 2600
 effect = """\
+You can only control 1 "Palladium Oracle Hassan". \
 When an opponent's monster declares an attack: You can Special Summon this card from your hand. \
 Your opponent cannot target another face-up monster as an attack target, or target them with card effects. \
 The first time this card would be destroyed each turn, it is not destroyed. \
@@ -246,7 +247,7 @@ def = 200
 effect = """\
 If this card on the field is destroyed and sent to the GY: For the rest of this turn, you take no damage. \
 You can only use 1 of these effects of "Palladium Kuriboh" per turn, and only once that turn.
-● (Quick Effect): You can Tribute this card; \
+● (Quick Effect): You can Tribute this card from your hand or face-up field; \
     take 1 "Kuriboh" monster from your Deck or GY, except "Palladium Kuriboh", \
     and add it to your hand or Special Summon it in face-up Defense Position.
 ● While this card is in your GY (Quick Effect): You can Tribtue 1 monster you control; \
