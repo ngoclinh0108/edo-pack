@@ -189,8 +189,7 @@ effect = """\
     You can only use 1 "Palladium Apostle of Slifer" per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is Tributed for a Tribute Summon of a DIVINE monster: You can draw 2 cards. \
-While this card is in the GY, when an attack is declared involving your face-up original DIVINE monster and an opponent's monster: \
-    You can draw 1 card. \
+While this card is in the GY: There is no limit to the number of cards in your hand. \
 """
 strings = []
 

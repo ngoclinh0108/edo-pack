@@ -32,15 +32,14 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- draw battle
+    -- infinite hand
     local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_DRAW)
-    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e4:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e4:SetCode(EFFECT_HAND_LIMIT)
     e4:SetRange(LOCATION_GRAVE)
-    e4:SetCondition(s.e4con)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
+    e4:SetTargetRange(1,0)
+    e4:SetValue(999)
     c:RegisterEffect(e4)
 end
 
@@ -136,28 +135,6 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
-    Duel.Draw(p, d, REASON_EFFECT)
-end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    local ac = Duel.GetAttacker()
-    local dc = Duel.GetAttackTarget()
-
-    if not dc or ac:GetControler() == dc:GetControler() then return false end
-    local sc = ac:IsControler(tp) and ac or dc
-    return sc:IsFaceup() and sc:IsOriginalAttribute(ATTRIBUTE_DIVINE)
-end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
-    Duel.SetTargetPlayer(tp)
-    Duel.SetTargetParam(1)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
-end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
                                    CHAININFO_TARGET_PARAM)
     Duel.Draw(p, d, REASON_EFFECT)
