@@ -2,14 +2,13 @@
 local s, id = GetID()
 
 function s.initial_effect(c)
-    c:SetUniqueOnField(1, 0, id)
-
     -- special summon self
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_ATTACK_ANNOUNCE)
     e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
+    e1:SetCountLimit(1, id)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
@@ -33,31 +32,23 @@ function s.initial_effect(c)
     e2b:SetValue(aux.tgoval)
     c:RegisterEffect(e2b)
 
-    -- indes
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
-    e3:SetValue(s.e3val)
-    c:RegisterEffect(e3)
-
     -- special summon
-    local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e4:SetProperty(EFFECT_FLAG_DELAY)
-    e4:SetCode(EVENT_DESTROYED)
-    e4:SetCondition(s.e4con)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_DESTROYED)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not Duel.GetAttacker():IsControler(1 - tp) then return false end
+    if c:IsLocation(LOCATION_GRAVE) and Duel.GetTurnCount() == c:GetTurnID() and
+        not c:IsReason(REASON_RETURN) then return false end
     return c:IsLocation(LOCATION_HAND) or Duel.GetAttackTarget() == nil
 end
 
@@ -84,7 +75,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetValue(0)
         ec1:SetReset(RESET_PHASE + PHASE_END)
         Duel.RegisterEffect(ec1, tp)
-        local ec2 = e1:Clone()
+        local ec2 = ec1:Clone()
         ec2:SetCode(EFFECT_NO_EFFECT_DAMAGE)
         Duel.RegisterEffect(ec2, tp)
     end
@@ -94,21 +85,19 @@ function s.e2tg(e, c) return c ~= e:GetHandler() end
 
 function s.e2val(e, c) return c:IsFaceup() and c ~= e:GetHandler() end
 
-function s.e3val(e, re, r, rp) return (r & REASON_BATTLE + REASON_EFFECT) ~= 0 end
-
-function s.e4filter(c, e, tp)
+function s.e3filter(c, e, tp)
     return c:IsSetCard(0x13a) and not c:IsCode(id) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
@@ -117,11 +106,11 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter), tp,
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter), tp,
                                       LOCATION_HAND + LOCATION_DECK +
                                           LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
 
