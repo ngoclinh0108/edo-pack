@@ -74,11 +74,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e2tg(e, c) return c:IsSetCard(0x13a) and c ~= e:GetHandler() end
+function s.e2tg(e, c) return c ~= e:GetHandler() end
 
-function s.e2val(e, c)
-    return c:IsFaceup() and c:IsSetCard(0x13a) and c ~= e:GetHandler()
-end
+function s.e2val(e, c) return c:IsFaceup() and c ~= e:GetHandler() end
 
 function s.e3val(e, re, r, rp) return (r & REASON_BATTLE + REASON_EFFECT) ~= 0 end
 
