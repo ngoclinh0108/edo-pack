@@ -75,7 +75,19 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
+    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) ~= 0 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+        ec1:SetCode(EFFECT_CHANGE_DAMAGE)
+        ec1:SetTargetRange(1, 0)
+        ec1:SetValue(0)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
+        local ec2 = e1:Clone()
+        ec2:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+        Duel.RegisterEffect(ec2, tp)
+    end
 end
 
 function s.e2tg(e, c) return c ~= e:GetHandler() end

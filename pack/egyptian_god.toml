@@ -226,7 +226,8 @@ atk = 2800
 def = 2600
 effect = """\
 You can only control 1 "Palladium Oracle Hassan". \
-When an opponent's monster declares an attack: You can Special Summon this card from your hand or GY (if directly attack). \
+When an opponent's monster declares an attack: You can Special Summon this card from your hand or GY (if directly attack), \
+    and if you do, you take no damage this turn. \
 Your opponent cannot target another face-up monster as an attack target, or target them with card effects. \
 The first time this card would be destroyed each turn, it is not destroyed. \
 If this card is destroyed by battle or card effect: \
