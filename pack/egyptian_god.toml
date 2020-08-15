@@ -169,7 +169,7 @@ This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monste
 If this card is Tributed for a Tribute Summon of a DIVINE monster: \
     You can Special Summon 2 "Palladium Token" (Spellcaster/LIGHT/Level 1/ATK 0/DEF 0) in Defense Position. \
 While this card is in the GY: If you would Tribute a DIVINE monster for a Tribute Summon, \
-    you can Tribute a monster(s) your opponent controls, even though you do not control then. \
+    you can Tribute a monster(s) your opponent controls, even though you do not control them. \
 """
 strings = ["Summon a DIVINE monster"]
 
