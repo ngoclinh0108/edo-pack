@@ -316,8 +316,7 @@ name = "Djeser!"
 type = "trap continuous"
 effect = """\
 You can only control 1 "Djeser!". \
-While this card is in your GY, except the turn this card was sent to the GY: \
-    You can set this card, but banish it when it leaves the field. \
+While this card is in your GY: You can Set this card, but banish it when it leaves the field. \
     You can only use this effect of "Djeser!" once per turn. \
 Summons of your "Palladium" monsters cannot be negated. \
 The activation and effects of "Palladium" cards cannot be negated. \
