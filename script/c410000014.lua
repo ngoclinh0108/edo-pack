@@ -1,7 +1,7 @@
 -- Djeser!
 local s, id = GetID()
 
-s.listed_names = {410000011, 10000000, 10000020, CARD_RA, 10000040}
+s.listed_names = {10000000, 10000020, CARD_RA, 10000040}
 
 function s.initial_effect(c)
     c:SetUniqueOnField(1, 0, id)
@@ -12,13 +12,13 @@ function s.initial_effect(c)
     act:SetCode(EVENT_FREE_CHAIN)
     c:RegisterEffect(act)
 
-    -- activate direct
+    -- set
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetRange(LOCATION_GRAVE)
     e1:SetCountLimit(1, id)
-    e1:SetCondition(s.e1con)
+    e1:SetCondition(aux.exccon)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -48,7 +48,7 @@ function s.initial_effect(c)
     local e3b = e3:Clone()
     e3b:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(e3b)
-   
+
     -- search card
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
@@ -77,30 +77,24 @@ function s.initial_effect(c)
     c:RegisterEffect(e5)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if Duel.GetTurnCount() == c:GetTurnID() and not c:IsReason(REASON_RETURN) then
-        return false
-    end
-
-    return Duel.IsEnvironment(410000011, tp)
-end
-
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:GetActivateEffect() and
-                   c:GetActivateEffect():IsActivatable(tp, true)
-    end
+    if chk == 0 then return c:IsSSetable() end
+    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, c, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
+    if not c:IsRelateToEffect(e) or not c:IsSSetable() then return end
 
-    Duel.MoveToField(c, tp, tp, LOCATION_SZONE, POS_FACEUP, true)
-    Duel.RaiseEvent(c, id, c:GetActivateEffect(), 0, tp, tp,
-                    Duel.GetCurrentChain())
+    Duel.SSet(tp, c)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    ec1:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
+    ec1:SetValue(LOCATION_REMOVED)
+    ec1:SetReset(RESET_EVENT + RESETS_REDIRECT)
+    c:RegisterEffect(ec1)
 end
 
 function s.e3val(e, ct)
