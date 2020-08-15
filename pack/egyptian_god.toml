@@ -225,6 +225,11 @@ level = 8
 atk = 2800
 def = 2600
 effect = """\
+When an opponent's monster declares an attack: You can Special Summon this card from your hand. \
+Your opponent cannot target another face-up "Palladium" monster as an attack target, or target them with card effects. \
+The first time this card would be destroyed each turn, it is not destroyed. \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 "Palladium" monster from your hand, Deck, or GY, except "Palladium Oracle Hassan". \
 """
 strings = []
 
@@ -314,7 +319,6 @@ While this card is in your GY and you control "Millennium Ascension", except the
     You can only use this effect of "Djeser!" once per turn. \
 Summons of your "Palladium" monsters cannot be negated. \
 The activation and effects of "Palladium" cards cannot be negated. \
-"Palladium" cards in your GY cannot be banished or be targeted by your opponent's card effects. \
 Once per turn, you can reveal 1 DIVINE monster in your hand; add 1 "Palladium" card from your Deck or GY to your hand. \
 Once per turn, You can send this face-up card from your Spell/Trap Zone to the GY \
     and Tribute 3 monsters whose original names are "Slifer the Sky Dragon", "Obelisk the Tormentor", and "The Winged Dragon of Ra"; \
