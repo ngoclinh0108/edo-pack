@@ -1,9 +1,6 @@
 [set.palladium]
 code = 0x13a
 
-[set.kuriboh]
-code = 0xa4
-
 [card.palladium-token]
 id = 410000000
 set = "palladium"
@@ -229,29 +226,8 @@ If this card is destroyed by battle or card effect: \
 """
 strings = []
 
-[card.palladium-kuriboh]
-id = 410000010
-set = "palladium kuriboh"
-name = "Palladium Kuriboh"
-type = "monster effect"
-attribute = "light"
-race = "fairy"
-level = 1
-atk = 300
-def = 200
-effect = """\
-If this card on the field is destroyed and sent to the GY: For the rest of this turn, you take no damage. \
-You can only use 1 of these effects of "Palladium Kuriboh" per turn, and only once that turn.
-● (Quick Effect): You can Tribute this card from your hand or face-up field; \
-    take 1 "Kuriboh" monster from your Deck or GY, except "Palladium Kuriboh", \
-    and add it to your hand or Special Summon it in face-up Defense Position.
-● While this card is in your GY (Quick Effect): You can Tribtue 1 monster you control; \
-    Special Summon this card in face-up Defense Position.
-"""
-strings = ["Take \"Kuriboh\" monster", "Add to hand", "Special Summon"]
-
 [card.millennium-ascension]
-id = 410000011
+id = 410000010
 name = "Millennium Ascension"
 type = "spell field"
 attribute = "spell"
@@ -270,7 +246,7 @@ You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, 
 strings = ["Summon via \"Millennium Ascension\""]
 
 [card.the-true-name-of-palladium-ruler]
-id = 410000012
+id = 410000011
 set = "palladium"
 name = "The True Name of Palladium Ruler"
 type = "spell"
@@ -284,7 +260,7 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
 strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
 
 [card.divine-reborn]
-id = 410000013
+id = 410000012
 alias = 83764718
 name = "Divine Reborn"
 type = "spell quick-play"
@@ -298,7 +274,7 @@ Your opponent cannot activate cards or effects in response to this cards' activa
 strings = ["Special Summoned by \"Monster Reborn\""]
 
 [card.djeser]
-id = 410000014
+id = 410000013
 name = "Djeser!"
 type = "trap continuous"
 effect = """\
