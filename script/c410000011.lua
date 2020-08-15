@@ -29,15 +29,9 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
     e3:SetCode(EFFECT_CANNOT_REMOVE)
     e3:SetRange(LOCATION_FZONE)
-    e3:SetTargetRange(LOCATION_GRAVE, 0)
-    e3:SetTarget(aux.TargetBoolFunction(Card.IsOriginalAttribute,
-                                        ATTRIBUTE_DIVINE))
+    e3:SetTargetRange(LOCATION_ONFIELD + LOCATION_GRAVE, 0)
     c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e3b:SetValue(aux.tgoval)
-    c:RegisterEffect(e3b)
-
+    
     -- extra summon
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
