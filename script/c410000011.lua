@@ -1,9 +1,18 @@
 -- Millennium Ascension
 local s, id = GetID()
 
-s.listed_names = {410000014}
+s.listed_names = {10000040, 410000014}
 
 function s.initial_effect(c)
+    -- startup
+    local e0 = Effect.CreateEffect(c)
+    e0:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e0:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
+    e0:SetCode(EVENT_STARTUP)
+    e0:SetRange(LOCATION_ALL)
+    e0:SetOperation(s.e0op)
+    c:RegisterEffect(e0)
+
     -- activate
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_TOGRAVE)
@@ -48,7 +57,7 @@ function s.initial_effect(c)
     e4:SetTarget(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e4)
 
-    -- look deck
+    -- shuffle deck
     local e5 = Effect.CreateEffect(c)
     e5:SetType(EFFECT_TYPE_IGNITION)
     e5:SetRange(LOCATION_FZONE)
@@ -56,6 +65,19 @@ function s.initial_effect(c)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
+end
+
+function s.e0op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local sc = Duel.GetFirstMatchingCard(Card.IsCode, tp, LOCATION_DECK, 0, nil,
+                                         10000040)
+    if not sc then return end
+
+    Duel.Hint(HINT_CARD, tp, id)
+    Duel.ConfirmCards(1 - tp, sc)
+
+    Duel.SendtoHand(c, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, c)
 end
 
 function s.e1filter(c)
@@ -90,5 +112,7 @@ end
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
+
+    Duel.ShuffleDeck(tp)
     Duel.SortDecktop(tp, tp, 5)
 end

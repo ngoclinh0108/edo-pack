@@ -225,7 +225,7 @@ level = 8
 atk = 2800
 def = 2600
 effect = """\
-When an opponent's monster declares an directly attack: \
+When an opponent's monster declares a directly attack: \
     You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not), \
     and if you do, you take no damage this turn. \
     You can only use this effect of "Palladium Oracle Hassan" once per turn. \
@@ -266,13 +266,15 @@ name = "Millennium Ascension"
 type = "spell field"
 attribute = "spell"
 effect = """\
+At the start of the Duel: \
+    Reveal 1 "Holactie the Creator of Light" in your Deck, and if you do, add this card from the Deck to you hand. \
 When this card is activated: Send 1 DIVINE monster or 1 "Djeser!" from your Deck to the GY. \
     Your opponent cannot activate cards or effects in response to this cards' activation. \
 Unaffected by your opponent's card effects. \
 Cards in your side of the field and original DIVINE monsters in your GY cannot be banished. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
-You can look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
+You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
     You can only use this effect of "Millennium Ascension" once per turn. \
 """
 strings = [
