@@ -162,6 +162,9 @@ level = 4
 atk = 1500
 def = 1500
 effect = """\
+When your opponent activates a card or effect (Quick Effect): You can reveal 1 DIVINE monster in your hand and discard this card; \
+    negate that effect. \
+    You can only use this effect of "Palladium Apostle of Obelisk" once per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is Tributed for a Tribute Summon of a DIVINE monster: \
     You can Special Summon 2 "Palladium Token" (Spellcaster/LIGHT/Level 1/ATK 0/DEF 0) in Defense Position. \
@@ -181,6 +184,9 @@ level = 4
 atk = 1200
 def = 2000
 effect = """\
+(Quick Effect): You can reveal 1 DIVINE monster in your hand and discard this card; \
+    this turn, each time your opponent Special Summons a monster(s), immediately draw 1 card. \
+    You can only use 1 "Palladium Apostle of Slifer" per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is Tributed for a Tribute Summon of a DIVINE monster: You can draw 2 cards. \
 While this card is in the GY, when an attack is declared involving your face-up original DIVINE monster and an opponent's monster: \
@@ -199,6 +205,9 @@ level = 4
 atk = 1800
 def = 1000
 effect = """\
+During either turn, except the End Phase (Quick Effect): You can reveal 1 DIVINE monster in your hand and discard this card; \
+    this turn, each time your opponent Special Summons a monster(s) during the Main or Battle Phase, you gain LP equal to that monster's ATK. \
+    You can only use this effect of "Palladium Apostle of Ra" once per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is Tributed for a Tribute Summon of a DIVINE monster: You can gain 2000 LP. \
 While this card is in the GY (Quick Effect): You can Tribute 1 face-up original DIVINE monster; gain LP equal to the ATK it had on the field. \
