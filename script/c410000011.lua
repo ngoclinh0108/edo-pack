@@ -32,7 +32,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_FZONE)
     e3:SetTargetRange(LOCATION_ONFIELD + LOCATION_GRAVE, 0)
     c:RegisterEffect(e3)
-    
+
     -- extra summon
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
