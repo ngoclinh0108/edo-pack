@@ -9,7 +9,7 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e1:SetRange(LOCATION_HAND)
+    e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
@@ -56,7 +56,9 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttacker():GetControler() ~= tp
+    local c = e:GetHandler()
+    if not Duel.GetAttacker():IsControler(1 - tp) then return false end
+    return c:IsLocation(LOCATION_HAND) or Duel.GetAttackTarget() == nil
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
