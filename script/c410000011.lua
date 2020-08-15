@@ -24,9 +24,10 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2)
 
-    -- grave protect
+    -- no banish
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
     e3:SetCode(EFFECT_CANNOT_REMOVE)
     e3:SetRange(LOCATION_FZONE)
     e3:SetTargetRange(LOCATION_ONFIELD + LOCATION_GRAVE, 0)
