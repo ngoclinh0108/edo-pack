@@ -9,7 +9,7 @@ function s.initial_effect(c)
     e1:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e1)
 
-    -- recover
+    -- recover tribute
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_RECOVER)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
@@ -20,7 +20,7 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- quick recover
+    -- recover grave
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_RECOVER)
     e3:SetType(EFFECT_TYPE_QUICK_O)

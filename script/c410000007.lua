@@ -9,7 +9,7 @@ function s.initial_effect(c)
     e1:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e1)
 
-    -- draw
+    -- draw tribute
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_DRAW)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)

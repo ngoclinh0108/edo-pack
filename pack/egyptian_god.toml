@@ -183,7 +183,7 @@ def = 2000
 effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is Tributed for a Tribute Summon of a DIVINE monster: You can draw 2 cards. \
-When an attack is declared involving your face-up original DIVINE monster and an opponent's monster, and this card is in the GY: \
+While this card is in the GY, when an attack is declared involving your face-up original DIVINE monster and an opponent's monster: \
     You can draw 1 card. \
 """
 strings = []
@@ -216,13 +216,14 @@ level = 8
 atk = 2800
 def = 2600
 effect = """\
-When an opponent's monster declares a directly attack: \
-    You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not), \
-    and if you do, you take no damage this turn. \
-    You can only use this effect of "Palladium Oracle Hassan" once per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium" monster from your hand, Deck, or GY, except "Palladium Oracle Hassan". \
+You can only use 1 of these effects of "Palladium Oracle Hassan" per turn, and only once that turn.
+● You can discard this card: Add 1 "Monster Reborn" from your Deck or GY to your hand.
+● When an opponent's monster declares a directly attack: \
+    You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not), \
+    and if you do, you take no damage this turn.
 """
 strings = []
 
