@@ -81,7 +81,7 @@ function s.e0op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1filter(c)
-    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(410000014)) and
+    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsCode(410000013)) and
                c:IsAbleToGrave()
 end
 
