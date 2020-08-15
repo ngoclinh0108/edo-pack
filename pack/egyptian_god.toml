@@ -41,9 +41,7 @@ Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Eff
     and if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
     This card cannot declare an attack the turn this effect is activated. \
 """
-strings = [
-    "Destroy all monsters your opponent controls"
-]
+strings = ["Destroy all monsters your opponent controls"]
 
 [card.slifer]
 id = 410000002
@@ -67,9 +65,7 @@ If a monster(s) is Summoned to your opponent's field in face-up Position: \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
     Also your opponent cannot activate those monster(s) effects in response to this effect's activation. \
 """
-strings = [
-    "Reduce the monster(s)' ATK or DEF"
-]
+strings = ["Reduce the monster(s)' ATK or DEF"]
 
 [card.ra]
 id = 410000003
@@ -121,9 +117,7 @@ Once per turn, during either turn: You can send this card to the Dimension Deck;
     Only the original owner of the Dimension Material can use this effect. \
     Cards and effects cannot be activated in response to this effect's activation. \
 """
-strings = [
-    "Turn back to Standard mode"
-]
+strings = ["Turn back to Standard mode"]
 
 [card.ra-phoenix]
 id = 410000005
@@ -254,11 +248,7 @@ You can only use 1 of these effects of "Palladium Kuriboh" per turn, and only on
 ● While this card is in your GY (Quick Effect): You can Tribtue 1 monster you control; \
     Special Summon this card in face-up Defense Position.
 """
-strings = [
-    "Take \"Kuriboh\" monster",
-    "Add to hand",
-    "Special Summon"
-]
+strings = ["Take \"Kuriboh\" monster", "Add to hand", "Special Summon"]
 
 [card.millennium-ascension]
 id = 410000011
@@ -277,9 +267,7 @@ During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to yo
 You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
     You can only use this effect of "Millennium Ascension" once per turn. \
 """
-strings = [
-    "Summon via \"Millennium Ascension\""
-]
+strings = ["Summon via \"Millennium Ascension\""]
 
 [card.the-true-name-of-palladium-ruler]
 id = 410000012
@@ -293,11 +281,7 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
     Otherwise, send it to the GY. \
     You can only activate 1 "The True Name of Palladium Ruler" per turn. \
 """
-strings = [
-    "Take 1 DIVINE monster?",
-    "Add to hand",
-    "Special Summon"
-]
+strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
 
 [card.divine-reborn]
 id = 410000013
@@ -306,11 +290,12 @@ name = "Divine Reborn"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "Monster Reborn").
-Target 1 monster in either GY; Special Summon it, \
-    you can Special Summon "The Winged Dragon of Ra" with this card's effect. \
+If you control "Millennium Ascension": Target 1 monster in either GY; Special Summon it, \
+    you can Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions, \
+    but send it to the GY during the End Phase of this turn. \
 Your opponent cannot activate cards or effects in response to this cards' activation. \
 """
-strings = []
+strings = ["Special Summoned by \"Monster Reborn\""]
 
 [card.djeser]
 id = 410000014
