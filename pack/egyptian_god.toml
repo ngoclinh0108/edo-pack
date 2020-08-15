@@ -226,7 +226,7 @@ atk = 2800
 def = 2600
 effect = """\
 When an opponent's monster declares an directly attack: \
-    You can Special Summon this card from your hand or GY, except the turn this card was sent to the GY, \
+    You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not), \
     and if you do, you take no damage this turn. \
     You can only use this effect of "Palladium Oracle Hassan" once per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \

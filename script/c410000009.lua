@@ -34,11 +34,6 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
-    if c:IsLocation(LOCATION_GRAVE) and Duel.GetTurnCount() == c:GetTurnID() and
-        not c:IsReason(REASON_RETURN) then return false end
-
     return Duel.GetAttackTarget() == nil and
                Duel.GetAttacker():IsControler(1 - tp)
 end
