@@ -22,7 +22,7 @@ Unaffected by other cards' effects, except cards' effects with the same or highe
 Cannot be destroyed by battle with a monster with have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
 """
 TO_GRAVE_LIMIT = """\
-During the End Phase, send this card to the GY if it was Special Summoned from the GY.\
+During the End Phase, if this card was Special Summoned from the GY: Send this card to the GY. \
 """
 
 EGYPTIAN_SUMMON = """\

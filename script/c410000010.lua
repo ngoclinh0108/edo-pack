@@ -33,23 +33,21 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2)
 
-    -- no banish
+    -- return banish
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-    e3:SetCode(EFFECT_CANNOT_REMOVE)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_TOGRAVE)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e3:SetCode(EVENT_PHASE + PHASE_END)
     e3:SetRange(LOCATION_FZONE)
-    e3:SetTargetRange(LOCATION_ONFIELD, 0)
+    e3:SetCountLimit(1)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetTargetRange(LOCATION_GRAVE, 0)
-    e3b:SetTarget(aux.TargetBoolFunction(Card.IsOriginalAttribute,
-                                         ATTRIBUTE_DIVINE))
-    c:RegisterEffect(e3b)
 
     -- extra summon
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetDescription(aux.Stringid(id, 1))
     e4:SetType(EFFECT_TYPE_FIELD)
     e4:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
     e4:SetRange(LOCATION_FZONE)
@@ -103,6 +101,18 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_DECK, 0, 1,
                                       1, nil)
     if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local g = Duel.GetMatchingGroup(Card.IsAbleToGrave, tp, LOCATION_REMOVED, 0,
+                                    nil)
+    if chk == 0 then return #g > 0 end
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(nil, tp, LOCATION_REMOVED, 0, nil)
+    Duel.SendtoGrave(g, REASON_EFFECT)
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
