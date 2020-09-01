@@ -168,9 +168,6 @@ level = 4
 atk = 1500
 def = 1500
 effect = """\
-When your opponent activates a card or effect (Quick Effect): You can reveal 1 DIVINE monster in your hand and discard this card; \
-    negate that effect. \
-    You can only use this effect of "Palladium Apostle of Obelisk" once per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is Tributed for a Tribute Summon of a DIVINE monster: \
     You can Special Summon 2 "Palladium Token" (Spellcaster/LIGHT/Level 1/ATK 0/DEF 0) in Defense Position. \
@@ -190,9 +187,6 @@ level = 4
 atk = 1200
 def = 2000
 effect = """\
-(Quick Effect): You can reveal 1 DIVINE monster in your hand and discard this card; \
-    this turn, each time your opponent Special Summons a monster(s), immediately draw 1 card. \
-    You can only use 1 "Palladium Apostle of Slifer" per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is Tributed for a Tribute Summon of a DIVINE monster: You can draw 2 cards. \
 While this card is in the GY: There is no limit to the number of cards in your hand. \
@@ -210,9 +204,6 @@ level = 4
 atk = 1800
 def = 1000
 effect = """\
-During either turn, except the End Phase (Quick Effect): You can reveal 1 DIVINE monster in your hand and discard this card; \
-    this turn, each time your opponent Special Summons a monster(s) during the Main or Battle Phase, you gain LP equal to that monster's ATK. \
-    You can only use this effect of "Palladium Apostle of Ra" once per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card is Tributed for a Tribute Summon of a DIVINE monster: You can gain 2000 LP. \
 While this card is in the GY (Quick Effect): You can Tribute 1 face-up original DIVINE monster; gain LP equal to the ATK it had on the field. \
@@ -231,13 +222,12 @@ atk = 2800
 def = 2600
 effect = """\
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+When an opponent's monster declares a directly attack: \
+    You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not), \
+    and if you do, you take no damage this turn. \
+    You can only use this effects of "Palladium Oracle Hassan" per turn. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium" monster from your hand, Deck, or GY, except "Palladium Oracle Hassan". \
-You can only use 1 of these effects of "Palladium Oracle Hassan" per turn, and only once that turn.
-● You can discard this card: Add 1 "Monster Reborn" from your Deck or GY to your hand.
-● When an opponent's monster declares a directly attack: \
-    You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not), \
-    and if you do, you take no damage this turn.
 """
 strings = []
 
@@ -247,20 +237,23 @@ name = "Millennium Ascension"
 type = "spell field"
 attribute = "spell"
 effect = """\
-At the start of the Duel: \
-    Reveal 1 "Holactie the Creator of Light" in your Deck, and if you do, add this card from the Deck to you hand. \
-When this card is activated: Send 1 DIVINE monster or 1 "Djeser!" from your Deck to the GY. \
-    Your opponent cannot activate cards or effects in response to this cards' activation. \
+At the start of the Duel: Reveal 1 "Holactie the Creator of Light" in your Deck, \
+    and if you do, activate this card from the Deck directly. \
 Unaffected by your opponent's card effects. \
-Once per turn, during the End Phase: You can send all your banished cards to the GY. \
+Summons of your "Palladium" monsters cannot be negated. \
+The activation and effects of your "Palladium" Spell/Trap cannot be negated. \
+During your Draw Phase, instead of conducting your normal draw: \
+    You can add 1 "Palladium" card from your Deck or GY to your hand. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
 You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
     You can only use this effect of "Millennium Ascension" once per turn. \
+Once per turn, during the End Phase: You can send all your banished cards to the GY. \
 """
 strings = [
+    "Search \"Palladium\" card",
+    "Summon via \"Millennium Ascension\"",
     "Return banished cards to GY",
-    "Summon via \"Millennium Ascension\""
 ]
 
 [card.the-true-name-of-palladium-ruler]
@@ -273,7 +266,7 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
     then you can take 1 original DIVINE monster, \
     and add it to your hand from Deck, GY or Special Summon it from hand, Deck. \
     Otherwise, send it to the GY. \
-    You can only activate 1 "The True Name of Palladium Ruler" per turn. \
+You can only activate 1 "The True Name of Palladium Ruler" per turn. \
 """
 strings = [
     "Take 1 DIVINE monster?",
@@ -281,47 +274,23 @@ strings = [
     "Special Summon"
 ]
 
-[card.divine-reborn]
+[card.palladium-reborn]
 id = 410000012
-alias = 83764718
-name = "Divine Reborn"
+set = "palladium"
+name = "Palladium Reborn"
 type = "spell quick-play"
 effect = """\
-(This card's name is always treated as "Monster Reborn").
-If you control "Millennium Ascension": Target 1 monster in either GY; Special Summon it, \
-    you can Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions, \
-    but send it to the GY during the End Phase of this turn. \
-Your opponent cannot activate cards or effects in response to this cards' activation. \
+This card's name is also treated as "Monster Reborn". \
+Target 1 monster in either GY; Special Summon it, but send it to the GY during the End Phase of this turn. \
+    you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
+You can only activate 1 "Palladium Reborn" per turn. \
 """
 strings = [
-    "Special Summoned by \"Monster Reborn\""
-]
-
-[card.djeser]
-id = 410000013
-name = "Djeser!"
-type = "trap continuous"
-effect = """\
-You can only control 1 "Djeser!". \
-While this card is in your GY: You can Set this card, but banish it when it leaves the field. \
-    You can only use this effect of "Djeser!" once per turn. \
-Summons of your "Palladium" monsters cannot be negated. \
-The activation and effects of "Palladium" cards cannot be negated. \
-Once per turn, you can reveal 1 DIVINE monster in your hand; add 1 "Palladium" card from your Deck or GY to your hand. \
-Once per turn, You can send this face-up card from your Spell/Trap Zone to the GY \
-    and Tribute 3 monsters whose original names are "Slifer the Sky Dragon", "Obelisk the Tormentor", and "The Winged Dragon of Ra"; \
-    Special Summon 1 "Holactie the Creator of Light" from your hand, Deck or GY in face-up Attack Position, ignoring its Summoning conditions. \
-    Cards and effects cannot be activated in response to this effect's activation. \
-"""
-strings = [
-    "Take 1 \"Palladium\" card",
-    "Add to hand",
-    "Special Summon",
-    "Summon \"Holactie the Creator of Light\"",
+    "Special Summoned by \"Palladium Reborn\""
 ]
 
 [card.palladium-knight-queen]
-id = 410000014
+id = 410000013
 set = 'palladium'
 name = "Palladium Knight - Queen"
 type = "monster effect"
@@ -333,13 +302,13 @@ def = 1600
 effect = """\
 This card's name is also treated as "Queen's Knight". \
 You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
-If this card is Summoned: You can add 1 LIGHT Warrior or 1 "Polymerization" Spell or "Fusion" Spell monster from your Deck or GY to your hand, except "Palladium Knight - Queen". \
+If this card is Summoned: You can add 1 LIGHT Warrior monster from your Deck or GY to your hand, except "Palladium Knight - Queen". \
     You can only use this effect of "Palladium Knight - Queen" once per turn. \
 """
 strings = []
 
 [card.palladium-knight-jack]
-id = 410000015
+id = 410000014
 set = 'palladium'
 name = "Palladium Knight - Jack"
 type = "monster effect"
@@ -361,7 +330,7 @@ strings = [
 ]
 
 [card.palladium-knight-king]
-id = 410000016
+id = 410000015
 set = 'palladium'
 name = "Palladium Knight - King"
 type = "monster effect"
@@ -375,16 +344,14 @@ This card's name is also treated as "King's Knight". \
 If you control "Queen's Knight", you can Special Summon this card from your hand, \
     then you can Special Summon 1 LIGHT Warrior monster from your hand, Deck or GY, except "Palladium Knight - King" and "King's Knight". \
     You can only use this effect of "Palladium Knight - King" once per turn. \
-During your Main Phase, you can Tribute Summon 1 monster in face-up Attack Position, in addition to your Normal Summon/Set. \
-    (You can only gain this effect once per turn). \
+If this card is Summoned: You can add 1 "Polymerization" from your Deck to your hand. \
 """
 strings = [
     "Summon a LIGHT Warrior monster?",
-    "Summon via \"Palladium Knight - King\"",
 ]
 
 [card.palladium-paladin-ace-joker]
-id = 410000017
+id = 410000016
 set = 'palladium'
 name = "Palladium Paladin - Ace Joker"
 type = "fusion monster effect"

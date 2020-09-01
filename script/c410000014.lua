@@ -1,4 +1,4 @@
--- Palladium Knight - Queen
+-- Palladium Knight - Jack
 local s, id = GetID()
 
 function s.initial_effect(c)
@@ -7,94 +7,86 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_ADD_CODE)
-    e1:SetValue(25652259)
+    e1:SetValue(90876561)
     c:RegisterEffect(e1)
 
-    -- special summon
+    -- destroy
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e2:SetCode(EFFECT_SPSUMMON_PROC)
-    e2:SetRange(LOCATION_HAND)
-    e2:SetCondition(s.e2con)
+    e2:SetCategory(CATEGORY_DESTROY)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY +
+                       EFFECT_FLAG_CARD_TARGET)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2:SetCountLimit(1, id)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- search
+    -- gain effect
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
-    e3:SetCode(EVENT_SUMMON_SUCCESS)
-    e3:SetCountLimit(1, id)
-    e3:SetTarget(s.e3tg)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetProperty(EFFECT_FLAG_EVENT_PLAYER)
+    e3:SetCode(EVENT_BE_MATERIAL)
+    e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e3b)
-    local e3c = e3:Clone()
-    e3c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e3c)
 end
 
-function s.e2filter(c) return c:IsRace(RACE_WARRIOR) and not c:IsPublic() end
-
-function s.e2con(e, c)
-    if c == nil then return true end
-    local tp = c:GetControler()
-    local rg = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_HAND, 0,
-                                     e:GetHandler())
-    return #rg > 0 and
-               aux.SelectUnselectGroup(rg, e, tp, 1, 1, aux.ChkfMMZ(1), 0)
+function s.e2filter(c)
+    return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and
+               c:IsFaceup()
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, c)
-    local rg = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_HAND, 0,
-                                     e:GetHandler())
-    local g = aux.SelectUnselectGroup(rg, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp,
-                                      HINTMSG_CONFIRM, nil, nil, true)
-    if #g > 0 then
-        g:KeepAlive()
-        e:SetLabelObject(g)
-        return true
-    end
-    return false
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = e:GetLabelObject()
-    if not g then return end
-
-    Duel.ConfirmCards(1 - tp, g)
-    Duel.ShuffleHand(tp)
-    g:DeleteGroup()
-end
-
-function s.e3filter(c)
-    if c:IsCode(id) or not c:IsAbleToHand() then return false end
-    return (c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR)) or
-               (c:IsSetCard(0x46) and c:IsType(TYPE_SPELL))
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1,
+                                           nil) and
+                   Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1,
+                                         nil)
     end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+
+    local ct =
+        Duel.GetMatchingGroupCount(s.e2filter, tp, LOCATION_MZONE, 0, nil)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
+    local g = Duel.SelectTarget(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, ct,
+                                nil)
+    Duel.SetOperationInfo(0, HINTMSG_DESTROY, g, #g, 0, 0)
 end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetTargetCards(e)
+    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return (r & REASON_FUSION) ~= 0 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                      nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
+    local c = e:GetHandler()
+    local tc = c:GetReasonCard()
+
+    local ec0 = Effect.CreateEffect(tc)
+    ec0:SetDescription(aux.Stringid(id, 0))
+    ec0:SetType(EFFECT_TYPE_SINGLE)
+    ec0:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
+    ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec0, true)
+
+    if not tc:IsType(TYPE_EFFECT) then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_ADD_TYPE)
+        ec1:SetValue(TYPE_EFFECT)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1, true)
     end
+
+    local ec2 = Effect.CreateEffect(tc)
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    ec2:SetValue(1)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec2, true)
+    local ec2b = ec2:Clone()
+    ec2b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    tc:RegisterEffect(ec2b, true)
 end
