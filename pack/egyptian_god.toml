@@ -38,7 +38,9 @@ Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Eff
     and if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
     This card cannot declare an attack the turn this effect is activated. \
 """
-strings = ["Destroy all monsters your opponent controls"]
+strings = [
+    "Destroy all monsters your opponent controls"
+]
 
 [card.slifer]
 id = 410000002
@@ -62,7 +64,9 @@ If a monster(s) is Summoned to your opponent's field in face-up Position: \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
     Also your opponent cannot activate those monster(s) effects in response to this effect's activation. \
 """
-strings = ["Reduce the monster(s)' ATK or DEF"]
+strings = [
+    "Reduce the monster(s)' ATK or DEF"
+]
 
 [card.ra]
 id = 410000003
@@ -114,7 +118,9 @@ Once per turn, during either turn: You can send this card to the Dimension Deck;
     Only the original owner of the Dimension Material can use this effect. \
     Cards and effects cannot be activated in response to this effect's activation. \
 """
-strings = ["Turn back to Standard mode"]
+strings = [
+    "Turn back to Standard mode"
+]
 
 [card.ra-phoenix]
 id = 410000005
@@ -269,7 +275,11 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
     Otherwise, send it to the GY. \
     You can only activate 1 "The True Name of Palladium Ruler" per turn. \
 """
-strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
+strings = [
+    "Take 1 DIVINE monster?",
+    "Add to hand",
+    "Special Summon"
+]
 
 [card.divine-reborn]
 id = 410000012
@@ -283,7 +293,9 @@ If you control "Millennium Ascension": Target 1 monster in either GY; Special Su
     but send it to the GY during the End Phase of this turn. \
 Your opponent cannot activate cards or effects in response to this cards' activation. \
 """
-strings = ["Special Summoned by \"Monster Reborn\""]
+strings = [
+    "Special Summoned by \"Monster Reborn\""
+]
 
 [card.djeser]
 id = 410000013
@@ -319,12 +331,12 @@ level = 4
 atk = 1500
 def = 1600
 effect = """\
-This card's name becomes "Queen's Knight" while it is on the field or in the GY. \
+This card's name is also treated as "Queen's Knight". \
 You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
 If this card is Summoned: You can add 1 LIGHT Warrior or 1 "Polymerization" Spell or "Fusion" Spell monster from your Deck or GY to your hand, except "Palladium Knight - Queen". \
     You can only use this effect of "Palladium Knight - Queen" once per turn. \
 """
-strings = ["Cannot be destroyed by card effects"]
+strings = []
 
 [card.palladium-knight-jack]
 id = 410000015
@@ -337,14 +349,16 @@ level = 4
 atk = 1900
 def = 1000
 effect = """\
-This card's name becomes "Jack's Knight" while it is on the field or in the GY. \
+This card's name is also treated as "Jack's Knight". \
 If this card was Special Summoned: \
     You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
     You can only use this effect of "Palladium Knight - Jack" once per turn. \
 A monster that was Fusion Summoned using this card as material gains the following effect.
 ● Cannot be destroyed by battle or card effects.
 """
-strings = ["Cannot be destroyed by battle or card effects"]
+strings = [
+    "Cannot be destroyed by battle or card effects"
+]
 
 [card.palladium-knight-king]
 id = 410000016
@@ -357,7 +371,7 @@ level = 4
 atk = 1800
 def = 1400
 effect = """\
-This card's name becomes "King's Knight" while it is on the field or in the GY. \
+This card's name is also treated as "King's Knight". \
 If you control "Queen's Knight", you can Special Summon this card from your hand, \
     then you can Special Summon 1 LIGHT Warrior monster from your hand, Deck or GY, except "Palladium Knight - King" and "King's Knight". \
     You can only use this effect of "Palladium Knight - King" once per turn. \
@@ -366,24 +380,11 @@ During your Main Phase, you can Tribute Summon 1 monster in face-up Attack Posit
 """
 strings = [
     "Summon a LIGHT Warrior monster?",
-    "Summon via \"Palladium Knight - King\""]
-
-[card.palladium-knight-joker]
-id = 410000017
-set = 'palladium'
-name = "Palladium Knight - Joker"
-type = "monster effect"
-attribute = "dark"
-race = "warrior"
-level = 6
-atk = 2400
-def = 1800
-effect = """\
-"""
-strings = []
+    "Summon via \"Palladium Knight - King\"",
+]
 
 [card.palladium-paladin-ace-joker]
-id = 410000018
+id = 410000017
 set = 'palladium'
 name = "Palladium Paladin - Ace Joker"
 type = "fusion monster effect"
@@ -394,5 +395,16 @@ atk = 3800
 def = 2500
 effect = """\
 "Queen's Knight" + "Jack's Knight" + "King's Knight"
+A Fusion Summon of this card can only be done with the above materials. \
+Must first be either Fusion Summoned, \
+    or Special Summoned by sending the above monsters you control to the GY (in which case you do not use "Polymerization"). \
+When a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
+    You can discard 1 card; negate the activation, and if you do, destroy it. \
+Once per turn (Quick Effect): \
+    You can send the top card of your deck to the GY, for the rest of the turn, \
+    and if you do, your opponent cannot activate card effects with the same type (Monster, Spell, or Trap) as that card.
 """
-strings = []
+strings = [
+    "Negate activation",
+    "Block activate"
+]

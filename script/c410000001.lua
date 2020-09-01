@@ -47,13 +47,11 @@ end
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
-
-    local loc, tg = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION,
-                                      CHAININFO_TARGET_CARDS)
+    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
+    local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
     if not tg or not tg:IsContains(c) then return false end
-
-    return Duel.IsChainDisablable(ev) and loc ~= LOCATION_DECK
+    
+    return Duel.IsChainDisablable(ev)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
