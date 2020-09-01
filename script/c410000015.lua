@@ -1,7 +1,7 @@
 -- Palladium Knight - King
 local s, id = GetID()
 
-s.listed_names = {25652259, 27847700}
+s.listed_names = {25652259, 24094653}
 
 function s.initial_effect(c)
     -- code
@@ -86,7 +86,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter(c) return c:IsCode(27847700) and c:IsAbleToHand() end
+function s.e3filter(c) return c:IsCode(24094653) and c:IsAbleToHand() end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
