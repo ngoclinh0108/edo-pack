@@ -7,7 +7,7 @@ function s.initial_effect(c)
     -- code
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_ADD_CODE)
     e1:SetValue(64788463)
     c:RegisterEffect(e1)
@@ -57,7 +57,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 0, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -68,9 +68,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
-    local g = Duel.GetMatchingGroup(s.e2filter2, tp,
-                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil, e,
-                                    tp)
+    local g = Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_HAND +
+                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil,
+                                    e, tp)
     if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
