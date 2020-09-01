@@ -1,4 +1,4 @@
--- Palladium Knight - Jack
+-- Palladium Knight of Jack
 local s, id = GetID()
 
 function s.initial_effect(c)

@@ -1,4 +1,4 @@
--- Palladium Knight - King
+-- Palladium Knight of King
 local s, id = GetID()
 
 s.listed_names = {25652259, 24094653}
