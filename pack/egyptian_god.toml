@@ -397,7 +397,7 @@ atk = 2000
 def = 1700
 effect = """\
 This card's name is also treated as "Dark Magician Girl". \
-You can Special Summon this card (from your hand) by discarding 1 card. \
+You can Special Summon this card (from your hand or GY) by discarding 1 card. \
 "Palladium" monsters you control cannot be destroyed by card effects. \
 During damage calculation, if your other "Palladium" monster battles an opponent's monster (Quick Effect): \
     You can send this card from your hand or face-up from your field to the GY; \
