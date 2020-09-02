@@ -17,7 +17,7 @@ function s.initial_effect(c)
         handler = c,
         desc = aux.Stringid(id, 0),
         extrafil = s.e2exfilter,
-        p = s.e2exop
+        extraop = s.e2exop
     })
     c:RegisterEffect(e2)
     if not GhostBelleTable then GhostBelleTable = {} end
@@ -29,7 +29,7 @@ function s.initial_effect(c)
         lvtype = RITPROC_GREATER,
         desc = aux.Stringid(id, 1),
         extrafil = s.e3exfilter,
-        p = s.e3exop
+        extraop = s.e3exop
     })
     c:RegisterEffect(e3)
 end
