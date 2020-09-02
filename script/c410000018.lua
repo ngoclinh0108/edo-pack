@@ -11,10 +11,6 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_ADD_CODE)
     e1:SetValue(CARD_DARK_MAGICIAN_GIRL)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_ADD_ATTRIBUTE)
-    e1b:SetValue(ATTRIBUTE_DARK)
-    c:RegisterEffect(e1b)
 
     -- special summon
     local e2 = Effect.CreateEffect(c)

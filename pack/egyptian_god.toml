@@ -377,7 +377,6 @@ atk = 2500
 def = 2100
 effect = """\
 This card's name is also treated as "Dark Magician". \
-This card is also treated as DARK monster. \
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
     You can only use this effects of "Palladium Sacred Oracle Mahad" per turn. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
@@ -398,7 +397,6 @@ atk = 2000
 def = 1700
 effect = """\
 This card's name is also treated as "Dark Magician Girl". \
-This card is also treated as DARK monster. \
 You can Special Summon this card (from your hand) by discarding 1 card. \
 "Palladium" monsters you control cannot be destroyed by card effects. \
 During damage calculation, if your other "Palladium" monster battles an opponent's monster (Quick Effect): \
@@ -412,15 +410,14 @@ strings = ["Gain ATK"]
 id = 410000019
 set = "palladium chaos"
 name = "Palladium Chaos Oracle Aknamkanon"
-type = "monster effect"
+type = "monster ritual effect"
 attribute = "light"
 race = "spellcaster"
 level = 8
 atk = 2800
 def = 2600
 effect = """\
-Cannot be Normal Summoned/Set. \
-Must first be Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
+You can Ritual Summon this card with "Chaos Form". \
 This card's name is also treated as "Magician of Black Chaos". \
 This card is also treated as DARK monster. \
 Your opponent cannot target "Palladium" monsters you control with card effects. \

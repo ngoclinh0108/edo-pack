@@ -4,17 +4,13 @@ local s, id = GetID()
 s.listed_names = {CARD_DARK_MAGICIAN}
 
 function s.initial_effect(c)
-    -- code & attribute
+    -- code
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_ADD_CODE)
     e1:SetValue(CARD_DARK_MAGICIAN)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_ADD_ATTRIBUTE)
-    e1b:SetValue(ATTRIBUTE_DARK)
-    c:RegisterEffect(e1b)
 
     -- special summon
     local e2 = Effect.CreateEffect(c)
