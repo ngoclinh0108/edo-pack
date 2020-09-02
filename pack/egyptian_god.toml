@@ -381,9 +381,8 @@ This card is also treated as DARK monster. \
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
     You can only use this effects of "Palladium Sacred Oracle Mahad" per turn. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 "Palladium" monster or 1 "Dark Magician" from your hand, Deck, or GY, \
-    except "Palladium Sacred Oracle Mahad". \
+You can activate a Quick-Play Spell Card or a Trap Card from your hand during your opponent's turn. \
+    You can only use this effect of "Palladium Sacred Oracle Mahad" once per turn. \
 """
 strings = []
 
@@ -400,15 +399,14 @@ def = 1700
 effect = """\
 This card's name is also treated as "Dark Magician Girl". \
 This card is also treated as DARK monster. \
-If your opponent activated a card or effect that targets 1 face-up monster you control (and no other cards), \
-    while this card is in your hand or GY (Quick Effect): You can Special Summon this card. \
-    You can only use this effect of "Palladium Sacred Oracle Mana" once per turn. \
+You can Special Summon this card (from your hand) by discarding 1 card. \
 "Palladium" monsters you control cannot be destroyed by card effects. \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 "Palladium" monster or 1 "Dark Magician Girl" from your hand, Deck, or GY, \
-    except "Palladium Sacred Oracle Mahad". \
+During damage calculation, if your other "Palladium" monster battles an opponent's monster (Quick Effect): \
+    You can send this card from your hand or face-up from your field to the GY; \
+    that monster you control gains 2000 ATK/DEF during that damage calculation only. \
+    You can only use this effect of "Palladium Sacred Oracle Mana" once per turn. \
 """
-strings = []
+strings = ["Gain ATK"]
 
 [card.palladium-sacred-oracle-aknamkanon]
 id = 410000019
@@ -430,8 +428,5 @@ All monsters your opponent controls become DARK-Attribute. \
 During the End Phase, if this card was Summoned this turn: \
     You can add 1 Spell/Trap from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 "Palladium" monster or 1 DARK Spellcaster from your hand, Deck, or GY, \
-    except "Palladium Chaos Oracle Aknamkanon". \
 """
 strings = ["Add 1 Spell to your hand"]

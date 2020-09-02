@@ -74,17 +74,6 @@ function s.initial_effect(c)
         e4regc:SetCode(EVENT_SPSUMMON_SUCCESS)
         Duel.RegisterEffect(e4regc, 0)
     end)
-
-    -- special summon when destroyed
-    local e5 = Effect.CreateEffect(c)
-    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e5:SetProperty(EFFECT_FLAG_DELAY)
-    e5:SetCode(EVENT_DESTROYED)
-    e5:SetCondition(s.e5con)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
 end
 
 function s.sprescon(sg, e, tp, mg)
@@ -168,39 +157,4 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
-end
-
-function s.e5filter(c, e, tp)
-    if c:IsCode(id) or not c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
-        return false
-    end
-    return c:IsSetCard(0x13a) or
-               (c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_SPELLCASTER))
-end
-
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
-end
-
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_HAND +
-                                                   LOCATION_DECK +
-                                                   LOCATION_GRAVE, 0, 1, nil, e,
-                                               tp)
-    end
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
-end
-
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e5filter), tp,
-                                      LOCATION_HAND + LOCATION_DECK +
-                                          LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
-
-    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
