@@ -160,7 +160,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     else
         Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT)
     end
-    if not tc:IsLocation(LOCATION_EXTRA) then Duel.ConfirmDecktop(tp, 1) end
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
