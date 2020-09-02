@@ -77,10 +77,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e3tg(e, c)
-    return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_SPELLCASTER) and
-               c:IsLevelAbove(6)
-end
+function s.e3tg(e, c) return c:IsSetCard(0x13a) end
 
 function s.e4filter(c, e, tp)
     return (c:IsSetCard(0x13a) or c:IsCode(CARD_DARK_MAGICIAN_GIRL)) and
