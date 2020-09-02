@@ -38,9 +38,7 @@ Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Eff
     and if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
     This card cannot declare an attack the turn this effect is activated. \
 """
-strings = [
-    "Destroy all monsters your opponent controls"
-]
+strings = ["Destroy all monsters your opponent controls"]
 
 [card.slifer]
 id = 410000002
@@ -64,9 +62,7 @@ If a monster(s) is Summoned to your opponent's field in face-up Position: \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
     Also your opponent cannot activate those monster(s) effects in response to this effect's activation. \
 """
-strings = [
-    "Reduce the monster(s)' ATK or DEF"
-]
+strings = ["Reduce the monster(s)' ATK or DEF"]
 
 [card.ra]
 id = 410000003
@@ -118,9 +114,7 @@ Once per turn, during either turn: You can send this card to the Dimension Deck;
     Only the original owner of the Dimension Material can use this effect. \
     Cards and effects cannot be activated in response to this effect's activation. \
 """
-strings = [
-    "Turn back to Standard mode"
-]
+strings = ["Turn back to Standard mode"]
 
 [card.ra-phoenix]
 id = 410000005
@@ -194,11 +188,7 @@ Declare 1 card name; excavate the top card of your Deck, and if it is the declar
     Otherwise, send it to the GY. \
 You can only activate 1 "The True Name of Palladium Ruler" per turn. \
 """
-strings = [
-    "Take 1 DIVINE monster?",
-    "Add to hand",
-    "Special Summon"
-]
+strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
 
 [card.palladium-reborn]
 id = 410000008
@@ -211,9 +201,7 @@ Target 1 monster in either GY; Special Summon it, but send it to the GY during t
     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
 You can only activate 1 "Palladium Reborn" per turn. \
 """
-strings = [
-    "Special Summoned by \"Palladium Reborn\""
-]
+strings = ["Special Summoned by \"Palladium Reborn\""]
 
 [card.palladium-apostle-obelisk]
 id = 410000009
@@ -304,9 +292,7 @@ If this card is Summoned: \
 A monster that was Fusion Summoned using this card as material gains the following effect.
 ● Cannot be destroyed by battle or card effects.
 """
-strings = [
-    "Cannot be destroyed by battle or card effects"
-]
+strings = ["Cannot be destroyed by battle or card effects"]
 
 [card.palladium-knight-king]
 id = 410000014
@@ -326,9 +312,7 @@ If you control "Queen's Knight", you can Special Summon this card from your hand
 If this card is Summoned: You can add 1 "Polymerization" from your Deck to your hand. \
     You can only use this effect of "Palladium Knight of King" once per turn. \
 """
-strings = [
-    "Summon a LIGHT Warrior monster?",
-]
+strings = ["Summon a LIGHT Warrior monster?"]
 
 [card.palladium-paladin-ace-joker]
 id = 410000015
@@ -351,10 +335,7 @@ Once per turn (Quick Effect): \
     You can send the top card of your deck to the GY, for the rest of the turn, \
     and if you do, your opponent cannot activate card effects with the same type (Monster, Spell, or Trap) as that card.
 """
-strings = [
-    "Negate activation",
-    "Block activate"
-]
+strings = ["Negate activation", "Block activate"]
 
 [card.palladium-guardian-hassan]
 id = 410000016
@@ -372,6 +353,45 @@ When an opponent's monster declares a directly attack: \
     You can only use this effects of "Palladium Guardian Hassan" per turn. \
 If this card is Summoned: You take no damage this turn. \
 If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 "Palladium" monster from your hand, Deck, or GY, except "Palladium Guardian Hassan". \
+    You can Special Summon 1 "Palladium" monster from your hand, Deck, or GY, \
+    except "Palladium Guardian Hassan". \
+"""
+strings = []
+
+[card.palladium-sacred-oracle-mahad]
+id = 410000017
+set = "palladium"
+name = "Palladium Sacred Oracle Mahad"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 7
+atk = 2500
+def = 2100
+effect = """\
+This card's name is also treated as "Dark Magician". \
+If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
+If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 "Palladium" monster or 1 "Dark Magician" from your hand, Deck, or GY, \
+    except "Palladium Sacred Oracle Mahad". \
+"""
+strings = []
+
+[card.palladium-sacred-oracle-mana]
+id = 410000018
+set = "palladium"
+name = "Palladium Sacred Oracle Mana"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 6
+atk = 2000
+def = 1700
+effect = """\
+This card's name is also treated as "Dark Magician Girl". \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 "Palladium" monster or 1 "Dark Magician Girl" from your hand, Deck, or GY, \
+    except "Palladium Sacred Oracle Mahad". \
 """
 strings = []
