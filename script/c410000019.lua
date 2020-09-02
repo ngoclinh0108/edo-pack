@@ -85,23 +85,23 @@ function s.initial_effect(c)
     c:RegisterEffect(e5)
 end
 
+function s.sprescon(sg, e, tp, mg)
+    return aux.ChkfMMZ(1)(sg, e, tp, mg) and sg:IsExists(s.spcheck, 1, nil, sg)
+end
+
+function s.spcheck(c, sg)
+    return c:IsAttribute(ATTRIBUTE_LIGHT) and
+               sg:FilterCount(Card.IsAttribute, c, ATTRIBUTE_DARK) == 1
+end
+
 function s.spfilter(c, att)
     return c:IsAttribute(att) and c:IsAbleToRemoveAsCost() and
                aux.SpElimFilter(c, true)
 end
 
-function s.sprescon(sg, e, tp, mg)
-    return aux.ChkfMMZ(1)(sg, e, tp, mg) and sg:IsExists(s.spchk, 1, nil, sg)
-end
-
-function s.spchk(c, sg)
-    return c:IsAttribute(ATTRIBUTE_LIGHT) and
-               sg:FilterCount(Card.IsAttribute, c, ATTRIBUTE_DARK) == 1
-end
-
 function s.spcon(e, c)
     if c == nil then return true end
-    local tp = e:GetHandlerPlayer()
+    local tp = c:GetControler()
 
     local rg1 = Duel.GetMatchingGroup(s.spfilter, tp,
                                       LOCATION_MZONE + LOCATION_GRAVE, 0, nil,
@@ -109,8 +109,9 @@ function s.spcon(e, c)
     local rg2 = Duel.GetMatchingGroup(s.spfilter, tp,
                                       LOCATION_MZONE + LOCATION_GRAVE, 0, nil,
                                       ATTRIBUTE_DARK)
+    local rg = rg1:Clone()
+    rg:Merge(rg2)
 
-    local rg = rg1:Clone():Merge(rg2)
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     return ft > -2 and #rg1 > 0 and #rg2 > 0 and
                aux.SelectUnselectGroup(rg, e, tp, 2, 2, s.sprescon, 0)
@@ -122,6 +123,7 @@ function s.sptg(e, tp, eg, ep, ev, re, r, rp, c)
                                      ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
     local g = aux.SelectUnselectGroup(rg, e, tp, 2, 2, s.sprescon, 1, tp,
                                       HINTMSG_REMOVE, nil, nil, true)
+
     if #g > 0 then
         g:KeepAlive()
         e:SetLabelObject(g)

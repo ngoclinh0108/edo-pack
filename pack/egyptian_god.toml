@@ -4,6 +4,9 @@ code = 0x13a
 [set.kuriboh]
 code = 0xa4
 
+[set.chaos]
+code = 0xcf
+
 [card.palladium-token]
 id = 410000000
 set = "palladium"
@@ -409,7 +412,7 @@ strings = []
 
 [card.palladium-sacred-oracle-aknamkanon]
 id = 410000019
-set = "palladium"
+set = "palladium chaos"
 name = "Palladium Chaos Oracle Aknamkanon"
 type = "monster effect"
 attribute = "light"
