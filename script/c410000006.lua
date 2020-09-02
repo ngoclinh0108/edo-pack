@@ -57,10 +57,10 @@ function s.initial_effect(c)
     e3b:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(e3b)
 
-    -- search
+    -- place top deck
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e4:SetCategory(CATEGORY_TODECK + CATEGORY_SEARCH)
     e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e4:SetCode(EVENT_PREDRAW)
     e4:SetRange(LOCATION_FZONE)
@@ -122,21 +122,23 @@ function s.e3val(e, ct)
                te:GetHandler():IsSetCard(0x13a)
 end
 
-function s.e4filter(c) return c:IsSetCard(0x13a) and c:IsAbleToHand() end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp and
-               Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
-               Duel.GetDrawCount(tp) > 0
+function s.e4filter(c, deck_count)
+    if not c:IsSetCard(0x13a) then return false end
+    return (c:IsLocation(LOCATION_DECK) and deck_count > 1) or
+               (not c:IsLocation(LOCATION_DECK) and c:IsAbleToDeck())
 end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() == tp end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e4filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
+                                           nil, Duel.GetFieldGroupCount(tp,
+                                                                        LOCATION_DECK,
+                                                                        0))
     end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, 0,
                           LOCATION_DECK + LOCATION_GRAVE)
 end
 
@@ -144,30 +146,21 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
-    local dt = Duel.GetDrawCount(tp)
-    if dt == 0 then return false end
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter),
+                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                       1, nil, Duel.GetFieldGroupCount(tp,
+                                                                       LOCATION_DECK,
+                                                                       0)):GetFirst()
+    if not tc then return end
 
-    _replace_count = 1
-    _replace_max = dt
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec1:SetCode(EFFECT_DRAW_COUNT)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetValue(0)
-    ec1:SetReset(RESET_PHASE + PHASE_DRAW)
-    Duel.RegisterEffect(ec1, tp)
-    if _replace_count > _replace_max then return end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter), tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                      nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
+    if tc:IsLocation(LOCATION_DECK) then
+        Duel.ShuffleDeck(tp)
+        Duel.MoveSequence(tc, 0)
+    else
+        Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT)
     end
+    if not tc:IsLocation(LOCATION_EXTRA) then Duel.ConfirmDecktop(tp, 1) end
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
