@@ -345,8 +345,8 @@ id = 410000016
 set = "palladium kuriboh"
 name = "Palladium Beast Kuriboh"
 type = "monster tuner effect"
-attribute = "light"
-race = "fairy"
+attribute = "dark"
+race = "fiend"
 level = 1
 atk = 300
 def = 200
@@ -371,6 +371,7 @@ atk = 2500
 def = 2100
 effect = """\
 This card's name is also treated as "Dark Magician". \
+This card is also treated as DARK monster. \
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
     You can only use this effects of "Palladium Sacred Oracle Mahad" per turn. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
@@ -392,6 +393,7 @@ atk = 2000
 def = 1700
 effect = """\
 This card's name is also treated as "Dark Magician Girl". \
+This card is also treated as DARK monster. \
 When your opponent activates a card or effect that targets 1 face-up monster you control (and no other cards), \
     while this card is in your hand or GY (Quick Effect): You can Special Summon this card. \
     You can only use this effect of "Palladium Sacred Oracle Mana" once per turn. \
