@@ -21,6 +21,14 @@ function s.initial_effect(c)
     e2:SetCondition(s.e2con)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- synchro level
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_SYNCHRO_LEVEL)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetValue(s.e3val)
+    c:RegisterEffect(e3)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -44,8 +52,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e2con(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsReason(REASON_DESTROY)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsReason(REASON_DESTROY)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -62,3 +70,5 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     Duel.RegisterEffect(ec2, tp)
 end
+
+function s.e3val(e, c) return 2 * 65536 + e:GetHandler():GetLevel() end

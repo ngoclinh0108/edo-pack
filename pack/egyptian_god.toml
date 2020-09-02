@@ -355,6 +355,7 @@ When an opponent's monster declares a directly attack: \
     You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not). \
     You can only use this effects of "Palladium Beast Kuriboh" per turn. \
 If this card on the field is destroyed: You take no damage this turn. \
+This card on the field can be treated as a Level 2 monster when used for a Synchro Summon. \
 """
 strings = []
 
