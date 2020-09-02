@@ -80,9 +80,10 @@ end
 function s.e3tg(e, c) return c:IsSetCard(0x13a) end
 
 function s.e4filter(c, e, tp)
-    return (c:IsSetCard(0x13a) or c:IsCode(CARD_DARK_MAGICIAN_GIRL)) and
-               not c:IsCode(id) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    if c:IsCode(id) or not c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
+        return false
+    end
+    return c:IsSetCard(0x13a) or c:IsCode(CARD_DARK_MAGICIAN_GIRL)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)

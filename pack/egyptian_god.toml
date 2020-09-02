@@ -406,3 +406,29 @@ If this card is destroyed by battle or card effect: \
     except "Palladium Sacred Oracle Mahad". \
 """
 strings = []
+
+[card.palladium-sacred-oracle-aknamkanon]
+id = 410000019
+set = "palladium"
+name = "Palladium Chaos Oracle Aknamkanon"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2800
+def = 2600
+effect = """\
+Cannot be Normal Summoned/Set. \
+Must first be Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
+This card's name is also treated as "Magician of Black Chaos". \
+This card is also treated as DARK monster. \
+Your opponent cannot target this card with card effects. \
+All monsters your opponent controls become DARK-Attribute. \
+During the End Phase, if this card was Summoned this turn: \
+    You can add 1 Spell/Trap from your Deck or GY to your hand. \
+    You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 "Palladium" monster or 1 DARK Spellcaster from your hand, Deck, or GY, \
+    except "Palladium Chaos Oracle Aknamkanon". \
+"""
+strings = ["Add 1 Spell to your hand"]
