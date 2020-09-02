@@ -1,7 +1,7 @@
 -- Palladium Sacred Oracle Mahad
 local s, id = GetID()
 
-s.listed_names = {46986414}
+s.listed_names = {CARD_DARK_MAGICIAN}
 
 function s.initial_effect(c)
     -- code
@@ -9,7 +9,7 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_ADD_CODE)
-    e1:SetValue(46986414)
+    e1:SetValue(CARD_DARK_MAGICIAN)
     c:RegisterEffect(e1)
 
     -- special summon from hand
@@ -19,6 +19,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_TO_HAND)
     e2:SetRange(LOCATION_HAND)
+    e2:SetCountLimit(1, id)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -77,7 +78,7 @@ end
 function s.e3val(e, c) return e:GetHandler():GetAttack() * 2 end
 
 function s.e4filter(c, e, tp)
-    return (c:IsSetCard(0x13a) or c:IsCode(46986414)) and not c:IsCode(id) and
+    return (c:IsSetCard(0x13a) or c:IsCode(CARD_DARK_MAGICIAN)) and not c:IsCode(id) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
