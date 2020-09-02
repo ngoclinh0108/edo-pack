@@ -156,8 +156,9 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local ct = Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0)
     local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter),
                                        tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                       1, nil, ct)
+                                       1, nil, ct):GetFirst()
     if not tc then return end
+    
     if tc:IsLocation(LOCATION_DECK) then
         Duel.ShuffleDeck(tp)
         Duel.MoveSequence(tc, 0)
