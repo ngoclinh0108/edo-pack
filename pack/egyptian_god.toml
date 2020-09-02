@@ -32,7 +32,7 @@ ${EGYPTIAN_SUMMON} \
 ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
 This card is also a Warrior/Rock monster while face-up on the field. \
-When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
+If a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
 Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Effect): \
     You can Tribute 2 other monsters; destroy all monsters your opponent controls, \
     and if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
@@ -329,7 +329,7 @@ effect = """\
 A Fusion Summon of this card can only be done with the above materials. \
 Must first be either Fusion Summoned, \
     or Special Summoned by sending the above monsters you control to the GY (in which case you do not use "Polymerization"). \
-When a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
+If a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
     You can discard 1 card; negate the activation, and if you do, destroy it. \
 Once per turn (Quick Effect): \
     You can send the top card of your deck to the GY, for the rest of the turn, \
@@ -391,7 +391,7 @@ atk = 2000
 def = 1700
 effect = """\
 This card's name is also treated as "Dark Magician Girl". \
-When your opponent activates a card or effect that targets 1 face-up monster you control (and no other cards), \
+If your opponent activates a card or effect that targets 1 face-up monster you control (and no other cards), \
     while this card is in your hand or GY (Quick Effect): You can Special Summon this card. \
     You can only use this effect of "Palladium Sacred Oracle Mana" once per turn. \
 Level 6 or higher LIGHT Spellcaster monsters you control cannot be destroyed by card effects. \
