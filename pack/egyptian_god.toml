@@ -319,7 +319,7 @@ atk = 1900
 def = 1000
 effect = """\
 This card's name is also treated as "Jack's Knight". \
-If this card was Special Summoned: \
+If this card is Summoned: \
     You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
     You can only use this effect of "Palladium Knight of Jack" once per turn. \
 A monster that was Fusion Summoned using this card as material gains the following effect.

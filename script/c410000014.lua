@@ -16,11 +16,17 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY +
                        EFFECT_FLAG_CARD_TARGET)
-    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2:SetCode(EVENT_SUMMON_SUCCESS)
     e2:SetCountLimit(1, id)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e2b)
+    local e2c = e2:Clone()
+    e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e2c)
 
     -- gain effect
     local e3 = Effect.CreateEffect(c)
