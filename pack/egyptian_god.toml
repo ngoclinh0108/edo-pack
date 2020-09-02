@@ -363,9 +363,9 @@ name = "Palladium Oracle Hassan"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
-level = 8
-atk = 2800
-def = 2600
+level = 7
+atk = 2600
+def = 2000
 effect = """\
 When an opponent's monster declares a directly attack: \
     You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not). \
