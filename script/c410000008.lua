@@ -1,71 +1,77 @@
--- Palladium Apostle of Ra
+-- Palladium Reborn
 local s, id = GetID()
 
+s.listed_names = {CARD_RA}
+
 function s.initial_effect(c)
-    -- 3 tribute
+    -- code
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_TRIPLE_TRIBUTE)
-    e1:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e1:SetCode(EFFECT_ADD_CODE)
+    e1:SetValue(83764718)
     c:RegisterEffect(e1)
 
-    -- recover tribute
+    -- activate
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_RECOVER)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_RELEASE)
-    e2:SetCondition(s.e2con)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetType(EFFECT_TYPE_ACTIVATE)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-
-    -- recover grave
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_RECOVER)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsReason(REASON_SUMMON)
+function s.e2filter(c, e, tp)
+    return (c:IsType(TYPE_MONSTER) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)) or
+               (c:IsOriginalCode(CARD_RA) and
+                   c:IsCanBeSpecialSummoned(e, 0, tp, true, false))
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, 2000)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE,
+                                         LOCATION_GRAVE, 1, nil, e, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE,
+                                LOCATION_GRAVE, 1, 1, nil, e, tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Recover(tp, 2000, REASON_EFFECT)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not tc:IsRelateToEffect(e) then return end
+
+    if Duel.SpecialSummon(tc, 0, tp, tp,
+                          tc:IsOriginalCode(CARD_RA) and true or false, false,
+                          POS_FACEUP) == 0 then return end
+
+    tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                              PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
+                          aux.Stringid(id, 0))
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(666000)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetCode(EVENT_PHASE + PHASE_END)
+    ec1:SetCountLimit(1)
+    ec1:SetOperation(s.e2gyop)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e3filter(c)
-    return c:IsFaceup() and c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and
-               c:GetAttack() > 0
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, s.e3filter, 1, false, nil, nil)
-    end
-
-    local tc =
-        Duel.SelectReleaseGroupCost(tp, s.e3filter, 1, 1, false, nil, nil):GetFirst()
-    local rec = tc:GetAttack()
-    Duel.Release(tc, REASON_COST)
-
-    Duel.SetTargetPlayer(tp)
-    Duel.SetTargetParam(rec)
-    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, rec)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
-    Duel.Recover(p, d, REASON_EFFECT)
+function s.e2gyop(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(function(c)
+        return c:GetFlagEffect(id) ~= 0
+    end, tp, LOCATION_MZONE, 0, nil)
+    if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
 end

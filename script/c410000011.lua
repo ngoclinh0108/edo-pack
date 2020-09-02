@@ -1,88 +1,71 @@
--- The True Name of Palladium Ruler
+-- Palladium Apostle of Ra
 local s, id = GetID()
 
 function s.initial_effect(c)
-    -- look deck
+    -- 3 tribute
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_DECKDES)
-    e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_TRIPLE_TRIBUTE)
+    e1:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e1)
+
+    -- recover tribute
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_RECOVER)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DELAY)
+    e2:SetCode(EVENT_RELEASE)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+
+    -- recover grave
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_RECOVER)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
-function s.e1bool1(c)
-    return c:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and c:IsAbleToHand()
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsReason(REASON_SUMMON)
 end
 
-function s.e1bool2(c, e, tp)
-    return c:IsLocation(LOCATION_HAND + LOCATION_DECK) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, 2000)
 end
 
-function s.e1filter(c, e, tp)
-    return c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and
-               (s.e1bool1(c) or s.e1bool2(c, e, tp))
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Recover(tp, 2000, REASON_EFFECT)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3filter(c)
+    return c:IsFaceup() and c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and
+               c:GetAttack() > 0
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsPlayerCanDiscardDeck(tp, 1) and
-                   Duel.IsExistingMatchingCard(Card.IsAbleToHand, tp,
-                                               LOCATION_DECK, 0, 1, nil)
+        return Duel.CheckReleaseGroupCost(tp, s.e3filter, 1, false, nil, nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_CODE)
-    s.announce_filter = {TYPE_EXTRA, OPCODE_ISTYPE, OPCODE_NOT}
-    local ac = Duel.AnnounceCard(tp, table.unpack(s.announce_filter))
+    local tc =
+        Duel.SelectReleaseGroupCost(tp, s.e3filter, 1, 1, false, nil, nil):GetFirst()
+    local rec = tc:GetAttack()
+    Duel.Release(tc, REASON_COST)
 
-    Duel.SetTargetParam(ac)
-    Duel.SetOperationInfo(0, CATEGORY_ANNOUNCE, nil, 0, tp, ANNOUNCE_CARD_FILTER)
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(rec)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, rec)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.ConfirmDecktop(tp, 1)
-    local tc = Duel.GetDecktopGroup(tp, 1):GetFirst()
-    local ac = Duel.GetChainInfo(0, CHAININFO_TARGET_PARAM)
-
-    if not tc:IsCode(ac) or not tc:IsAbleToHand() then
-        Duel.DisableShuffleCheck()
-        Duel.SendtoGrave(tc, REASON_EFFECT + REASON_REVEAL)
-        return
-    end
-
-    Duel.SendtoHand(tc, nil, REASON_EFFECT)
-    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND +
-                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil,
-                                    e, tp)
-    if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
-        Duel.BreakEffect()
-
-        Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
-        local sc = g:Select(tp, 1, 1, nil):GetFirst()
-        local b1 = s.e1bool1(sc)
-        local b2 = s.e1bool2(sc, e, tp)
-
-        local op = 0
-        if b1 and b2 then
-            op = Duel.SelectOption(tp, aux.Stringid(id, 1), aux.Stringid(id, 2))
-        elseif b1 then
-            op = Duel.SelectOption(tp, aux.Stringid(id, 1))
-        else
-            op = Duel.SelectOption(tp, aux.Stringid(id, 2)) + 1
-        end
-
-        if op == 0 then
-            Duel.SendtoHand(sc, nil, REASON_EFFECT)
-            Duel.ConfirmCards(1 - tp, sc)
-        else
-            Duel.SpecialSummon(sc, 0, tp, tp, false, false, POS_FACEUP)
-        end
-    else
-        Duel.DisableShuffleCheck()
-    end
-
-    Duel.ShuffleHand(tp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Recover(p, d, REASON_EFFECT)
 end
