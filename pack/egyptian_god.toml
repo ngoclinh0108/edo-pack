@@ -1,6 +1,9 @@
 [set.palladium]
 code = 0x13a
 
+[set.kuriboh]
+code = 0xa4
+
 [card.palladium-token]
 id = 410000000
 set = "palladium"
@@ -337,24 +340,21 @@ Once per turn (Quick Effect): \
 """
 strings = ["Negate activation", "Block activate"]
 
-[card.palladium-guardian-hassan]
+[card.palladium-beast-kuriboh]
 id = 410000016
-set = "palladium"
-name = "Palladium Guardian Hassan"
-type = "monster effect"
+set = "palladium kuriboh"
+name = "Palladium Beast Kuriboh"
+type = "monster tuner effect"
 attribute = "light"
-race = "warrior"
-level = 8
-atk = 2900
-def = 2500
+race = "fairy"
+level = 1
+atk = 300
+def = 200
 effect = """\
 When an opponent's monster declares a directly attack: \
     You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not). \
-    You can only use this effects of "Palladium Guardian Hassan" per turn. \
-If this card is Summoned: You take no damage this turn. \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 "Palladium" monster from your hand, Deck, or GY, \
-    except "Palladium Guardian Hassan". \
+    You can only use this effects of "Palladium Beast Kuriboh" per turn. \
+If this card on the field is destroyed: You take no damage this turn. \
 """
 strings = []
 
