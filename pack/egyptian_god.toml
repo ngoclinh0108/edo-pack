@@ -32,7 +32,7 @@ ${EGYPTIAN_SUMMON} \
 ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
 This card is also a Warrior/Rock monster while face-up on the field. \
-If a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
+When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
 Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Effect): \
     You can Tribute 2 other monsters; destroy all monsters your opponent controls, \
     and if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
@@ -329,7 +329,7 @@ effect = """\
 A Fusion Summon of this card can only be done with the above materials. \
 Must first be either Fusion Summoned, \
     or Special Summoned by sending the above monsters you control to the GY (in which case you do not use "Polymerization"). \
-If a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
+When a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
     You can discard 1 card; negate the activation, and if you do, destroy it. \
 Once per turn (Quick Effect): \
     You can send the top card of your deck to the GY, for the rest of the turn, \
