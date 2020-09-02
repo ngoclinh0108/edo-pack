@@ -394,7 +394,7 @@ def = 1700
 effect = """\
 This card's name is also treated as "Dark Magician Girl". \
 This card is also treated as DARK monster. \
-When your opponent activates a card or effect that targets 1 face-up monster you control (and no other cards), \
+If your opponent activated a card or effect that targets 1 face-up monster you control (and no other cards), \
     while this card is in your hand or GY (Quick Effect): You can Special Summon this card. \
     You can only use this effect of "Palladium Sacred Oracle Mana" once per turn. \
 Level 6 or higher LIGHT Spellcaster monsters you control cannot be destroyed by card effects. \
