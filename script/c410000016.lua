@@ -1,4 +1,4 @@
--- Palladium Oracle Hassan
+-- Palladium Guardian Hassan
 local s, id = GetID()
 
 function s.initial_effect(c)

@@ -356,22 +356,22 @@ strings = [
     "Block activate"
 ]
 
-[card.palladium-oracle-hassan]
+[card.palladium-guardian-hassan]
 id = 410000016
 set = "palladium"
-name = "Palladium Oracle Hassan"
+name = "Palladium Guardian Hassan"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
-level = 7
-atk = 2600
-def = 2000
+level = 8
+atk = 2900
+def = 2500
 effect = """\
 When an opponent's monster declares a directly attack: \
     You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not). \
-    You can only use this effects of "Palladium Oracle Hassan" per turn. \
+    You can only use this effects of "Palladium Guardian Hassan" per turn. \
 If this card is Summoned: You take no damage this turn. \
 If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 "Palladium" monster from your hand, Deck, or GY, except "Palladium Oracle Hassan". \
+    You can Special Summon 1 "Palladium" monster from your hand, Deck, or GY, except "Palladium Guardian Hassan". \
 """
 strings = []
