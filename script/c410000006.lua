@@ -57,10 +57,10 @@ function s.initial_effect(c)
     e3b:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(e3b)
 
-    -- search
+    -- place deck
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e4:SetCategory(CATEGORY_TODECK + CATEGORY_SEARCH)
     e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e4:SetCode(EVENT_PREDRAW)
     e4:SetRange(LOCATION_FZONE)
@@ -122,8 +122,13 @@ function s.e3val(e, ct)
                te:GetHandler():IsSetCard(0x13a)
 end
 
-function s.e4filter(c)
-    if c:IsCode(id) or not c:IsAbleToHand() then return false end
+function s.e4filter(c, deck_count)
+    if c:IsCode(id) then return false end
+    if (c:IsLocation(LOCATION_DECK) and deck_count <= 0) or
+        (not c:IsLocation(LOCATION_DECK) and not c:IsAbleToDeck()) then
+        return false
+    end
+
     return c:IsSetCard(0x13a) or ((aux.IsCodeListed(c, CARD_DARK_MAGICIAN) or
                aux.IsCodeListed(c, CARD_DARK_MAGICIAN_GIRL)) and
                c:IsType(TYPE_SPELL + TYPE_TRAP))
@@ -133,10 +138,11 @@ end
 function s.e4con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() == tp end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local ct = Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e4filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
+                                           nil, ct)
     end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
                           LOCATION_DECK + LOCATION_GRAVE)
@@ -147,13 +153,18 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter), tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                      nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
+    local ct = Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0)
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter),
+                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                       1, nil, ct)
+    if not tc then return end
+    if tc:IsLocation(LOCATION_DECK) then
+        Duel.ShuffleDeck(tp)
+        Duel.MoveSequence(tc, 0)
+    else
+        Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT)
     end
+    if not tc:IsLocation(LOCATION_EXTRA) then Duel.ConfirmDecktop(tp, 1) end
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
