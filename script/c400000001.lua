@@ -1,25 +1,40 @@
--- Hyper Polymerization
+-- Ritual Fusion Gate
 local s, id = GetID()
 
 function s.initial_effect(c)
-    -- activate
-    local e1 = Fusion.CreateSummonEff(c, nil, nil, s.e1matfilter, s.e1op)
+    -- fusion
+    local e1 = Fusion.CreateSummonEff({
+        handler = c,
+        desc = aux.Stringid(id, 0),
+        extrafil = s.e1exfilter,
+        p = s.e1exop
+    })
     c:RegisterEffect(e1)
     if not GhostBelleTable then GhostBelleTable = {} end
     table.insert(GhostBelleTable, e1)
 
-    -- to hand
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_GRAVE)
-    e2:SetCondition(aux.exccon)
-    e2:SetCost(s.e2cost)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    -- ritual
+    local e2 = Ritual.CreateProc({
+        handler = c,
+        lvtype = RITPROC_GREATER,
+        desc = aux.Stringid(id, 1),
+        extrafil = s.e2exfilter,
+        p = s.e2exop
+    })
     c:RegisterEffect(e2)
+
+    -- to hand
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCondition(aux.exccon)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
-function s.e1matfilter(e, tp, mg)
+function s.e1exfilter(e, tp, mg)
     if not Duel.IsPlayerAffectedByEffect(tp, 69832741) then
         local eg = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp,
                                          LOCATION_MZONE + LOCATION_GRAVE, 0, nil)
@@ -28,7 +43,7 @@ function s.e1matfilter(e, tp, mg)
     return nil
 end
 
-function s.e1op(e, tc, tp, sg)
+function s.e1exop(e, tc, tp, sg)
     local rg = sg:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
     if #rg > 0 then
         Duel.Remove(rg, POS_FACEUP,
@@ -37,22 +52,36 @@ function s.e1op(e, tc, tp, sg)
     end
 end
 
-function s.e2filter(c) return c:IsType(TYPE_SPELL) and c:IsDiscardable() end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND, 0, 1,
-                                           nil)
-    end
-    Duel.DiscardHand(tp, s.e2filter, 1, 1, REASON_COST + REASON_DISCARD)
+function s.e2exfilter(e, tp, eg, ep, ev, re, r, rp, chk)
+    return Duel.GetMatchingGroup(function(c)
+        return c:HasLevel() and c:IsAbleToRemove()
+    end, tp, LOCATION_GRAVE, 0, nil)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2exop(mg, e, tp, eg, ep, ev, re, r, rp)
+    local mat2 = mg:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
+    mg:Sub(mat2)
+    Duel.ReleaseRitualMaterial(mg)
+    Duel.Remove(mat2, POS_FACEUP,
+                REASON_EFFECT + REASON_MATERIAL + REASON_RITUAL)
+end
+
+function s.e3filter(c) return c:IsType(TYPE_SPELL) and c:IsDiscardable() end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND, 0, 1,
+                                           nil)
+    end
+    Duel.DiscardHand(tp, s.e3filter, 1, 1, REASON_COST + REASON_DISCARD)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsAbleToHand() end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetHandler(), 1, 0, 0)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
