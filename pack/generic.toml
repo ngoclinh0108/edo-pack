@@ -16,7 +16,7 @@ strings = [
 [card.ritual-fusion-gate]
 id = 400000001
 alias = 24094653
-name = "Advanced Fusion"
+name = "Hyper Fusion"
 type = "spell ritual"
 effect = """\
 (This card's name is always treated as "Polymerization").
