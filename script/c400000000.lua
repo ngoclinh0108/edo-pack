@@ -134,6 +134,10 @@ function s.skillop(e, tp, eg, ep, ev, re, r, rp)
             desc = aux.Stringid(id, 5),
             op = s.e5op,
             check = s.e5con(e, tp, eg, ep, ev, re, r, rp)
+        }, {
+            desc = aux.Stringid(id, 6),
+            op = s.e6op,
+            check = s.e6con(e, tp, eg, ep, ev, re, r, rp)
         }
     }
 
@@ -212,12 +216,25 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_DECK + LOCATION_GRAVE
+    local loc = LOCATION_REMOVED
     return Duel.IsExistingMatchingCard(aux.TRUE, tp, loc, 0, 1, nil)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_DECK + LOCATION_GRAVE
+    local loc = LOCATION_REMOVED
+    local g = Duel.GetMatchingGroup(nil, tp, loc, 0, nil)
+    if #g == 0 then return end
+
+    Duel.SendtoGrave(g, REASON_RULE)
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    local loc = LOCATION_DECK
+    return Duel.IsExistingMatchingCard(aux.TRUE, tp, loc, 0, 1, nil)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local loc = LOCATION_DECK
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, loc, 0, 1, 10, nil)
@@ -227,27 +244,28 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.ConfirmCards(1 - tp, g)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_REMOVED
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+    local loc = LOCATION_ONFIELD + LOCATION_GRAVE
     return Duel.IsExistingMatchingCard(aux.TRUE, tp, loc, 0, 1, nil)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_REMOVED
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local loc = LOCATION_ONFIELD + LOCATION_GRAVE
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, loc, 0, 1, 10, nil)
     if #g == 0 then return end
 
-    Duel.SendtoGrave(g, REASON_RULE)
+    Duel.SendtoHand(g, nil, REASON_RULE)
+    Duel.ConfirmCards(1 - tp, g)
 end
 
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+function s.e6con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED
     return Duel.IsExistingMatchingCard(nil, tp, loc, loc, 1, nil)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED
     local g = Duel.GetMatchingGroup(nil, tp, loc, loc, nil)
     if #g == 0 then return end
