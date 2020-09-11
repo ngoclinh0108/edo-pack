@@ -4,13 +4,10 @@ name = "Millennium Hieroglyph"
 strings = [
     "Do nothing",
     "Go to next turn",
-    "Create card",
     "Move monster",
+    "Add cards from Deck or GY to you hand",
+    "Return banished cards to the GY",
     "Reset game",
-    "Add cards to you hand",
-    "Send cards to the GY",
-    "Return cards to the Deck",
-    "Add cards to Extra Deck face-up",
 ]
 
 [card.ritual-fusion-gate]
