@@ -1,4 +1,4 @@
--- Ritual Fusion Gate
+-- Advanced Fusion
 local s, id = GetID()
 
 function s.initial_effect(c)
