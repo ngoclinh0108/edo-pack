@@ -228,36 +228,42 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoGrave(g, REASON_RULE)
 end
 
+function s.e4filter(c)
+    return c:IsType(TYPE_FIELD + TYPE_CONTINUOUS)
+end
+
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_DECK
-    return Duel.IsExistingMatchingCard(aux.TRUE, tp, loc, 0, 1, nil)
+    local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
+    return Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_DECK
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, loc, 0, 1, 10, nil)
+    local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
+    local g = Duel.GetMatchingGroup(s.e4filter, tp, loc, 0, nil)
     if #g == 0 then return end
+
+    if #g > 1 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+        g = g:Select(tp, 1, 10)
+    end
 
     Duel.SendtoHand(g, nil, REASON_RULE)
     Duel.ConfirmCards(1 - tp, g)
 end
 
 function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_ONFIELD + LOCATION_GRAVE
+    local loc = LOCATION_GRAVE + LOCATION_REMOVED
     return Duel.IsExistingMatchingCard(aux.TRUE, tp, loc, 0, 1, nil)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_ONFIELD + LOCATION_GRAVE
+    local loc = LOCATION_GRAVE + LOCATION_REMOVED
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
     local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, loc, 0, 1, 10, nil)
     if #g == 0 then return end
 
-    Duel.SendtoHand(g, nil, REASON_RULE)
-    Duel.ConfirmCards(1 - tp, g)
+    Duel.SendtoDeck(g, nil, 2, REASON_RULE)
 end
 
 function s.e6con(e, tp, eg, ep, ev, re, r, rp)
