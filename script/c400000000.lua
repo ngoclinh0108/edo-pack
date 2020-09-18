@@ -244,7 +244,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 
     if #g > 1 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-        g = g:Select(tp, 1, 10)
+        g = g:Select(tp, 1, 10, nil)
     end
 
     Duel.SendtoHand(g, nil, REASON_RULE)
