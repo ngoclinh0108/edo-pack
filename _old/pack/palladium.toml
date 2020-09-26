@@ -1,9 +1,6 @@
 # [set.kuriboh]
 # code = 0xa4
 
-# [set.chaos]
-# code = 0xcf
-
 # [card.the-true-name-of-palladium-ruler]
 # id = 410000007
 # set = "palladium"
@@ -183,25 +180,3 @@
 # This card on the field can be treated as a Level 2 monster when used for a Synchro Summon. \
 # """
 # strings = []
-
-# [card.palladium-sacred-oracle-aknamkanon]
-# id = 410000019
-# set = "palladium chaos"
-# name = "Palladium Chaos Oracle Aknamkanon"
-# type = "monster ritual effect"
-# attribute = "light"
-# race = "spellcaster"
-# level = 8
-# atk = 2800
-# def = 2600
-# effect = """\
-# You can Ritual Summon this card with "Chaos Form". \
-# This card's name is also treated as "Magician of Black Chaos". \
-# This card is also treated as DARK monster. \
-# Your opponent cannot target "Palladium" monsters you control with card effects. \
-# All monsters your opponent controls become DARK-Attribute. \
-# During the End Phase, if this card was Summoned this turn: \
-#     You can add 1 Spell/Trap from your Deck or GY to your hand. \
-#     You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
-# """
-# strings = ["Add 1 Spell to your hand"]
