@@ -257,14 +257,15 @@ id = 410000011
 set = "palladium chaos"
 name = "Palladium Chaos Oracle Aknamkanon"
 type = "monster ritual effect"
-attribute = "light"
+attribute = "dark"
 race = "spellcaster"
 level = 8
 atk = 2800
 def = 2600
 effect = """\
-(This card's name is also treated as "Magician of Black Chaos". This card's Attribute is also treated as DARK.)
+(This card's name is also treated as "Magician of Black Chaos". This card's Attribute is also treated as LIGHT.)
 You can Ritual Summon this card with "Chaos Form". \
+You can discard this card; Add 1 Ritual Spell from your Deck or GY to your hand. \
 All monsters your opponent controls become DARK. \
 Your opponent cannot target LIGHT Spellcaster monsters you control with card effects. \
 If this card destroys a monster by battle, after damage calculation: \
@@ -280,7 +281,7 @@ id = 410000012
 set = "palladium kuriboh"
 name = "Palladium Beast Kuriboh"
 type = "monster tuner effect"
-attribute = "light"
+attribute = "dark"
 race = "fiend"
 level = 1
 atk = 300
@@ -397,8 +398,38 @@ During the Battle Phase (Quick Effect): \
 """
 strings = []
 
-[card.palladium-guardian-suijin]
+[card.palladium-chaos-draco-knight]
 id = 410000018
+set = "palladium chaos"
+name = "Palladium Chaos Draco-Knight"
+type = "monster ritual effect"
+attribute = "earth"
+race = "warrior"
+level = 8
+atk = 3000
+def = 2500
+effect = """\
+(This card's name is also treated as "Black Luster Soldier". This card's Attribute is also treated as LIGHT and DARK.)
+You can Ritual Summon this card with "Chaos Form". \
+You can discard this card; Add 1 Level 7 or higher LIGHT or DARK Dragon monster from your Deck or GY to your hand. \
+While you control another Dragon monster, \
+    your opponent cannot target this card with card effects \
+    and also, this card cannot be destroyed by your opponent's card effects. \
+When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
+● This card gains 1500 ATK.
+● This card can make a second attack during the Battle Phase of your next turn.
+● Banish 1 card your opponent controls.
+● Banish 1 random card from your opponent's hand face-down.
+"""
+strings = [
+    "Gain 1500 ATK",
+    "Double attack on next turn",
+    "Banish 1 card on field",
+    "Banish 1 card on hand",
+]
+
+[card.palladium-guardian-suijin]
+id = 410000019
 set = 'palladium'
 name = "Palladium Guardian Suijin"
 type = "monster effect"
@@ -418,7 +449,7 @@ An Xyz Monster has this card as Xyz Material gains this effect.
 strings = ["Negate attack", "Return Spell or Trap to hand"]
 
 [card.palladium-guardian-kazejin]
-id = 410000019
+id = 410000020
 set = 'palladium'
 name = "Palladium Guardian Kazejin"
 type = "monster effect"
@@ -435,10 +466,10 @@ When this card is targeted for an attack: You can negate the attack. \
 An Xyz Monster has this card as Xyz Material gains this effect.
 ● Once per turn, when a monster declares an attack: You can make that monster's ATK 0 until the End Phase. \
 """
-strings = ["Negate attack","Make attacking's ATK become 0"]
+strings = ["Negate attack", "Make attacking's ATK become 0"]
 
 [card.palladium-guardian-sanga]
-id = 410000020
+id = 410000021
 set = 'palladium'
 name = "Palladium Guardian Sanga"
 type = "monster effect"
@@ -459,11 +490,11 @@ An Xyz Monster has this card as Xyz Material gains this effect.
 strings = ["Negate attack", "Negate effect"]
 
 [card.palladium-sacred-guardian]
-id = 410000021
+id = 410000022
 set = 'palladium'
 name = "Palladium Sacred Guardian"
 type = "monster xyz effect"
-attribute = "light"
+attribute = "dark"
 race = "warrior"
 level = 7
 atk = 3750

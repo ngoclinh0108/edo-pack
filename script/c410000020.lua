@@ -1,7 +1,7 @@
--- Palladium Guardian Sanga
+-- Palladium Guardian Kazejin
 local s, id = GetID()
 
-s.listed_names = {25955164}
+s.listed_names = {62340868}
 
 function s.initial_effect(c)
     -- code
@@ -9,7 +9,7 @@ function s.initial_effect(c)
     code:SetType(EFFECT_TYPE_SINGLE)
     code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(25955164)
+    code:SetValue(62340868)
     c:RegisterEffect(code)
 
     -- special summon
@@ -35,17 +35,13 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- negate
+    -- atk down
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY)
-    e3:SetType(EFFECT_TYPE_XMATERIAL + EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_CHAINING)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e3:SetType(EFFECT_TYPE_XMATERIAL + EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e3:SetRange(LOCATION_MZONE)
+    e3:SetCode(EVENT_ATTACK_ANNOUNCE)
     e3:SetCountLimit(1)
-    e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
@@ -94,28 +90,14 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateAttack() end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local rc = re:GetHandler()
-    return re:IsActiveType(TYPE_MONSTER) and rc ~= c and
-               not c:IsStatus(STATUS_BATTLE_DESTROYED) and
-               Duel.IsChainNegatable(ev)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local rc = re:GetHandler()
-    if chk == 0 then return true end
-
-    Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
-    if rc:IsDestructable() and rc:IsRelateToEffect(re) then
-        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, 1, 0, 0)
-    end
-end
-
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local rc = re:GetHandler()
+    local c = e:GetHandler()
+    local ac = Duel.GetAttacker()
 
-    if Duel.NegateActivation(ev) and rc:IsRelateToEffect(re) then
-        Duel.Destroy(rc, REASON_EFFECT)
-    end
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec1:SetValue(0)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    ac:RegisterEffect(ec1)
 end

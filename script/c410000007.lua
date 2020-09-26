@@ -38,7 +38,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c) return c:IsCode(10000020) and c:IsAbleToHand() end
+function s.e1filter(c) return c:IsAbleToHand() and c:IsCode(10000020) end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()

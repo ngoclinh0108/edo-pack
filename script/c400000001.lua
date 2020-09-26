@@ -28,8 +28,7 @@ function s.initial_effect(c)
         handler = c,
         lvtype = RITPROC_GREATER,
         desc = aux.Stringid(id, 1),
-        extrafil = s.e3exfilter,
-        extraop = s.e3exop
+        location = LOCATION_HAND + LOCATION_GRAVE,
     })
     c:RegisterEffect(e3)
 end
@@ -73,18 +72,4 @@ function s.e2exop(e, tc, tp, sg)
                     REASON_EFFECT + REASON_MATERIAL + REASON_FUSION)
         sg:Sub(rg)
     end
-end
-
-function s.e3exfilter(e, tp, eg, ep, ev, re, r, rp, chk)
-    return Duel.GetMatchingGroup(function(c)
-        return c:HasLevel() and c:IsAbleToRemove()
-    end, tp, LOCATION_GRAVE, 0, nil)
-end
-
-function s.e3exop(mg, e, tp, eg, ep, ev, re, r, rp)
-    local mat2 = mg:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
-    mg:Sub(mat2)
-    Duel.ReleaseRitualMaterial(mg)
-    Duel.Remove(mat2, POS_FACEUP,
-                REASON_EFFECT + REASON_MATERIAL + REASON_RITUAL)
 end

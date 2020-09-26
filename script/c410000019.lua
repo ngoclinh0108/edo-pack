@@ -1,7 +1,7 @@
--- Palladium Guardian Kazejin
+-- Palladium Guardian Suijin
 local s, id = GetID()
 
-s.listed_names = {62340868}
+s.listed_names = {98434877}
 
 function s.initial_effect(c)
     -- code
@@ -9,7 +9,7 @@ function s.initial_effect(c)
     code:SetType(EFFECT_TYPE_SINGLE)
     code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(62340868)
+    code:SetValue(98434877)
     c:RegisterEffect(code)
 
     -- special summon
@@ -35,13 +35,14 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- atk down
+    -- gain effect
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetType(EFFECT_TYPE_XMATERIAL + EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_XMATERIAL + EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetCountLimit(1)
+    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
@@ -88,16 +89,29 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetAttackTarget() == e:GetHandler()
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateAttack() end
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.NegateAttack()
+end
+
+function s.e3filter(c)
+    return c:IsAbleToHand() and c:IsType(TYPE_SPELL + TYPE_TRAP)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e3filter, tp, LOCATION_ONFIELD,
+                                     LOCATION_ONFIELD, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_ONFIELD,
+                                LOCATION_ONFIELD, 1, 1, nil)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, tp, 0)
+end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ac = Duel.GetAttacker()
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) then return end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
-    ec1:SetValue(0)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    ac:RegisterEffect(ec1)
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
 end

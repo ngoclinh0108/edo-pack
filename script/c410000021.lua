@@ -1,106 +1,121 @@
--- Palladium Sacred Guardian
+-- Palladium Guardian Sanga
 local s, id = GetID()
 
+s.listed_names = {25955164}
+
 function s.initial_effect(c)
-    c:EnableReviveLimit()
+    -- code
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(25955164)
+    c:RegisterEffect(code)
 
-    -- xyz summon
-    Xyz.AddProcedure(c, nil, 7, 3, nil, nil, 3, nil, false, s.xyzcheck)
-
-    -- lock zones
+    -- special summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetCountLimit(1, id)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e1:SetCode(EFFECT_SPSUMMON_PROC)
+    e1:SetRange(LOCATION_HAND)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- immune
+    -- disable attack
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_IMMUNE_EFFECT)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
+    e2:SetCode(EVENT_ATTACK_ANNOUNCE)
     e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
     e2:SetCondition(s.e2con)
-    e2:SetValue(s.e2val)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- damage reduce
+    -- negate
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e3:SetCode(EFFECT_CHANGE_DAMAGE)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY)
+    e3:SetType(EFFECT_TYPE_XMATERIAL + EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_CHAINING)
+    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(1, 0)
-    e3:SetValue(function(e, re, val, r, rp, rc)
-        if r & REASON_EFFECT ~= 0 then return 0 end
-        return val
-    end)
+    e3:SetCountLimit(1)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-    c:RegisterEffect(e3b)
-
-    -- destroy replace
-    local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e4:SetCode(EFFECT_DESTROY_REPLACE)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetTarget(s.e4tg)
-    c:RegisterEffect(e4)
 end
 
-function s.xyzcheck(g, tp, sc) return g:GetClassCount(Card.GetAttribute) == #g end
+function s.e1filter(c) return c:IsReleasableByEffect() and
+                                  c:IsType(TYPE_MONSTER) end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ)
+function s.e1con(e, c)
+    if c == nil then return true end
+    local tp = c:GetControler()
+    local g = Duel.GetMatchingGroup(s.e1filter, tp,
+                                    LOCATION_HAND + LOCATION_ONFIELD,
+                                    LOCATION_ONFIELD, nil)
+
+    return aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 0)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.GetLocationCount(1 - tp, LOCATION_MZONE) > 0 end
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    local ct = Duel.GetLocationCount(1 - tp, LOCATION_MZONE)
-    if ct == 0 then return end
-    if ct > 3 then ct = 3 end
+    local g = Duel.GetMatchingGroup(s.e1filter, tp,
+                                    LOCATION_HAND + LOCATION_ONFIELD,
+                                    LOCATION_ONFIELD, c)
+    local rg = aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp,
+                                       HINTMSG_RELEASE)
 
-    local zones = Duel.SelectDisableField(tp, ct, 0, LOCATION_MZONE, 0)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetCode(EFFECT_DISABLE_FIELD)
-    ec1:SetRange(LOCATION_MZONE)
-    ec1:SetLabel(zones)
-    ec1:SetOperation(function(e) return e:GetLabel() end)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
-    c:RegisterEffect(ec1)
-end
-
-function s.e2con(e)
-    local c = e:GetHandler()
-    return c:GetOverlayCount() > 0 and
-               Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_FZONE, 0,
-                                           1, nil)
-end
-
-function s.e2val(e, te) return te:GetOwner() ~= e:GetOwner() end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return not c:IsReason(REASON_REPLACE) and
-                   c:CheckRemoveOverlayCard(tp, 1, REASON_EFFECT)
-    end
-
-    if Duel.SelectEffectYesNo(tp, c, 96) then
-        c:RemoveOverlayCard(tp, 1, 1, REASON_EFFECT)
+    if #rg > 0 then
+        rg:KeepAlive()
+        e:SetLabelObject(rg)
         return true
-    else
-        return false
+    end
+    return false
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
+    local g = e:GetLabelObject()
+    if not g then return end
+
+    Duel.Release(g, REASON_COST)
+    g:DeleteGroup()
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttackTarget() == e:GetHandler()
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateAttack() end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local rc = re:GetHandler()
+    return re:IsActiveType(TYPE_MONSTER) and rc ~= c and
+               not c:IsStatus(STATUS_BATTLE_DESTROYED) and
+               Duel.IsChainNegatable(ev)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local rc = re:GetHandler()
+    if chk == 0 then return true end
+
+    Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
+    if rc:IsDestructable() and rc:IsRelateToEffect(re) then
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, 1, 0, 0)
+    end
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local rc = re:GetHandler()
+
+    if Duel.NegateActivation(ev) and rc:IsRelateToEffect(re) then
+        Duel.Destroy(rc, REASON_EFFECT)
     end
 end
