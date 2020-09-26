@@ -105,8 +105,8 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_POSCHANGE)
     local tg = Duel.SelectMatchingCard(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1,
-                                       1, nil):GetFirst()
-    if #g == 0 then return end
+                                       1, nil)
+    if #tg == 0 then return end
 
     Duel.ChangePosition(g, POS_FACEUP_DEFENSE, 0, POS_FACEUP_ATTACK, 0)
 end
