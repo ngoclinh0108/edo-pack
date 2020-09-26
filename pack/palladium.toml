@@ -210,10 +210,10 @@ While this card is in the GY (Quick Effect): \
 """
 strings = []
 
-[card.palladium-sacred-oracle-mahad]
+[card.palladium-oracle-mahad]
 id = 410000009
 set = "palladium"
-name = "Palladium Sacred Oracle Mahad"
+name = "Palladium Oracle Mahad - Sacred Wizard"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
@@ -228,10 +228,10 @@ You can activate a Quick-Play Spell or Trap from your hand during your opponent'
     You can only use this effect of "Palladium Sacred Oracle Mahad" once per turn. \
 """
 
-[card.palladium-sacred-oracle-mana]
+[card.palladium-oracle-mana]
 id = 410000010
 set = "palladium"
-name = "Palladium Sacred Oracle Mana"
+name = "Palladium Oracle Mana - Sacred Wizard"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"

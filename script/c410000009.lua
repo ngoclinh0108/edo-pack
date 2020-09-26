@@ -1,4 +1,4 @@
--- Palladium Sacred Oracle Mahad
+-- Palladium Oracle Mahad - Sacred Wizard
 local s, id = GetID()
 
 s.listed_names = {CARD_DARK_MAGICIAN}

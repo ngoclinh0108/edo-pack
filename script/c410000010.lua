@@ -1,4 +1,4 @@
--- Palladium Sacred Oracle Mana
+-- Palladium Oracle Mana - Sacred Wizard
 local s, id = GetID()
 
 s.listed_names = {CARD_DARK_MAGICIAN_GIRL}
