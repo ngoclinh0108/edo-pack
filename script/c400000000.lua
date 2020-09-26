@@ -117,27 +117,27 @@ end
 function s.skillop(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_CARD, tp, id)
     local all = {
-        {desc = aux.Stringid(id, 0), op = nil, check = true},
-        {desc = aux.Stringid(id, 1), op = s.e1op, check = true}, {
+        {desc = aux.Stringid(id, 0), check = true, op = nil},
+        {desc = aux.Stringid(id, 1), check = true, op = s.e1op}, {
             desc = aux.Stringid(id, 2),
-            op = s.e2op,
-            check = s.e2con(e, tp, eg, ep, ev, re, r, rp)
+            check = s.e2con(e, tp, eg, ep, ev, re, r, rp),
+            op = s.e2op
         }, {
             desc = aux.Stringid(id, 3),
-            op = s.e3op,
-            check = s.e3con(e, tp, eg, ep, ev, re, r, rp)
+            check = s.e3con(e, tp, eg, ep, ev, re, r, rp),
+            op = s.e3op
         }, {
             desc = aux.Stringid(id, 4),
-            op = s.e4op,
-            check = s.e4con(e, tp, eg, ep, ev, re, r, rp)
+            check = s.e4con(e, tp, eg, ep, ev, re, r, rp),
+            op = s.e4op
         }, {
             desc = aux.Stringid(id, 5),
-            op = s.e5op,
-            check = s.e5con(e, tp, eg, ep, ev, re, r, rp)
+            check = s.e5con(e, tp, eg, ep, ev, re, r, rp),
+            op = s.e5op
         }, {
             desc = aux.Stringid(id, 6),
-            op = s.e6op,
-            check = s.e6con(e, tp, eg, ep, ev, re, r, rp)
+            check = s.e6con(e, tp, eg, ep, ev, re, r, rp),
+            op = s.e6op
         }
     }
 
@@ -228,9 +228,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoGrave(g, REASON_RULE)
 end
 
-function s.e4filter(c)
-    return c:IsType(TYPE_FIELD + TYPE_CONTINUOUS)
-end
+function s.e4filter(c) return c:IsType(TYPE_FIELD + TYPE_CONTINUOUS) end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
@@ -273,17 +271,24 @@ end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED
-    local g = Duel.GetMatchingGroup(nil, tp, loc, loc, nil)
-    if #g == 0 then return end
-
     local tpdraw = Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0)
     local opdraw = Duel.GetFieldGroupCount(tp, 0, LOCATION_HAND)
 
-    Duel.SendtoDeck(g, nil, 2, REASON_EFFECT)
+    local g = Duel.GetMatchingGroup(nil, tp, loc, loc, nil)
+    if #g > 0 then Duel.SendtoDeck(g, nil, 2, REASON_EFFECT) end
+
     Duel.ShuffleDeck(tp)
     Duel.ShuffleDeck(1 - tp)
-    Duel.Draw(tp, tpdraw, REASON_EFFECT)
-    Duel.Draw(1 - tp, opdraw, REASON_EFFECT)
-    Duel.SetLP(tp, 8000)
-    Duel.SetLP(1 - tp, 8000)
+    if Duel.GetLP(tp) < 8000 then Duel.SetLP(tp, 8000) end
+    if Duel.GetLP(1 - tp) < 8000 then Duel.SetLP(1 - tp, 8000) end
+    if Duel.GetFieldGroupCount(tp, LOCATION_ONFIELD, 0) > 0 then
+        Duel.Draw(tp, tpdraw, REASON_EFFECT)
+    else
+        Duel.Draw(tp, 5, REASON_EFFECT)
+    end
+    if Duel.GetFieldGroupCount(1 - tp, LOCATION_ONFIELD, 0) > 0 then
+        Duel.Draw(1 - tp, opdraw, REASON_EFFECT)
+    else
+        Duel.Draw(1 - tp, 5, REASON_EFFECT)
+    end
 end
