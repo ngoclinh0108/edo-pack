@@ -108,5 +108,5 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                        1, nil)
     if #tg == 0 then return end
 
-    Duel.ChangePosition(g, POS_FACEUP_DEFENSE, 0, POS_FACEUP_ATTACK, 0)
+    Duel.ChangePosition(tg, POS_FACEUP_DEFENSE, 0, POS_FACEUP_ATTACK, 0)
 end
