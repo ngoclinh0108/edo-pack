@@ -12,13 +12,6 @@ function s.initial_effect(c)
 
     -- startup
     Dimension.RegisterEffect(c, function(e, tp)
-        local reborn = Effect.CreateEffect(c)
-        reborn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        reborn:SetCode(EVENT_TO_GRAVE)
-        reborn:SetCondition(s.reborncon)
-        reborn:SetOperation(s.rebornop)
-        Duel.RegisterEffect(reborn, tp)
-
         local dms = Effect.CreateEffect(c)
         dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         dms:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -97,38 +90,6 @@ function s.initial_effect(c)
     end)
     e6:SetOperation(s.e6op)
     c:RegisterEffect(e6)
-end
-
-function s.rebornfilter(c, e, tp)
-    local r = c:GetReason()
-    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0 and c:IsControler(tp) and
-               c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsCode(CARD_RA) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
-end
-
-function s.reborncon(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.rebornfilter, 1, nil, e, tp)
-end
-
-function s.rebornop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.BreakEffect()
-    local c = e:GetHandler()
-    Duel.Hint(HINT_CARD, tp, id)
-
-    local tc
-    local g = eg:Filter(s.rebornfilter, nil, e, tp)
-    if #g <= 0 then
-        return
-    elseif #g == 1 then
-        Duel.HintSelection(g)
-        tc = g:GetFirst()
-    else
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        tc = g:Select(tp, 1, 1):GetFirst()
-    end
-    if not tc then return end
-
-    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
 end
 
 function s.dmsfilter(c, dc)
