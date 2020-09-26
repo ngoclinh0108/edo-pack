@@ -12,6 +12,6 @@ level = 7
 atk = 2400
 def = 2000
 effect = """\
-(This card's name is always treated as "Red-Eyes Black Dragon")
+(This card's name is always treated as "Red-Eyes Black Dragon".)
 """
 strings = []
