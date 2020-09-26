@@ -6,5 +6,7 @@ attribute = "spell"
 effect = """\
 At the start of the Duel: Reveal 1 "Holactie the Creator of Light" in your Deck, \
     and if you do, activate this card from the Deck directly. \
+Unaffected by other cards' effects. \
+Your opponent cannot target this card with card effects. \
 """
 strings = []

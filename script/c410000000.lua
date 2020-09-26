@@ -19,6 +19,26 @@ function s.initial_effect(c)
     e0:SetRange(LOCATION_ALL)
     e0:SetOperation(s.e0op)
     c:RegisterEffect(e0)
+
+    -- immune
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_IMMUNE_EFFECT)
+    e1:SetRange(LOCATION_FZONE)
+    e1:SetValue(function(e, te)
+        return te:GetHandler() ~= e:GetHandler()
+    end)
+    c:RegisterEffect(e1)
+
+    -- cannot be target
+	local e2=Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+	e2:SetRange(LOCATION_FZONE)
+	e2:SetValue(aux.tgoval)
+	c:RegisterEffect(e2)
 end
 
 function s.e0op(e, tp, eg, ep, ev, re, r, rp)
