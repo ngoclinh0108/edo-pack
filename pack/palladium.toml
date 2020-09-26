@@ -392,3 +392,62 @@ During the Battle Phase (Quick Effect): \
     You can banish this card from your GY; Change the Battle Position of 1 monster on the field. \
 """
 strings = []
+
+[card.palladium-guardian-suijin]
+id = 410000018
+set = 'palladium'
+name = "Palladium Guardian Suijin"
+type = "monster effect"
+attribute = "water"
+race = "aqua"
+level = 7
+atk = 2500
+def = 2400
+effect = """\
+This card's name is also treated as "Suijin". \
+"""
+strings = []
+
+[card.palladium-guardian-kazejin]
+id = 410000019
+set = 'palladium'
+name = "Palladium Guardian Kazejin"
+type = "monster effect"
+attribute = "wind"
+race = "spellcaster"
+level = 7
+atk = 2400
+def = 2200
+effect = """\
+This card's name is also treated as "Kazejin". \
+"""
+strings = []
+
+[card.palladium-guardian-sanga]
+id = 410000020
+set = 'palladium'
+name = "Palladium Guardian Sanga"
+type = "monster effect"
+attribute = "light"
+race = "thunder"
+level = 7
+atk = 2600
+def = 2200
+effect = """\
+This card's name is also treated as "Sanga of the Thunder". \
+"""
+strings = []
+
+[card.palladium-sacred-guardian]
+id = 410000021
+set = 'palladium'
+name = "Palladium Sacred Guardian"
+type = "monster xyz effect"
+attribute = "light"
+race = "warrior"
+level = 11
+atk = 3750
+def = 3400
+effect = """\
+"""
+strings = []
