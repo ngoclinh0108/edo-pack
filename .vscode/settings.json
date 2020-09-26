@@ -4,7 +4,6 @@
     "expansions": true,
     ".vscode": true,
     "ygofab.cmd": true,
-    "pics": true,
     "_fabrica": true
   },
   "Lua.diagnostics.disable": [
