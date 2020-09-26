@@ -5,55 +5,55 @@ s.listed_names = {64788463, 25652259, 24094653}
 
 function s.initial_effect(c)
     -- code
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_ADD_CODE)
-    e1:SetValue(64788463)
-    c:RegisterEffect(e1)
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(64788463)
+    c:RegisterEffect(code)
 
     -- special summon
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetRange(LOCATION_HAND)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
+    -- search
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_HAND)
-    e2:SetCondition(s.e2con)
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
+    e2:SetCode(EVENT_SUMMON_SUCCESS)
+    e2:SetCountLimit(1, id)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-
-    -- search
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
-    e3:SetCode(EVENT_SUMMON_SUCCESS)
-    e3:SetCountLimit(1, id)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e3b)
-    local e3c = e3:Clone()
-    e3c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e3c)
+    local e2b = e2:Clone()
+    e2b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e2b)
+    local e2c = e2:Clone()
+    e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e2c)
 end
 
-function s.e2filter1(c) return c:IsFaceup() and c:IsCode(25652259) end
+function s.e1filter1(c) return c:IsFaceup() and c:IsCode(25652259) end
 
-function s.e2filter2(c, e, tp)
+function s.e1filter2(c, e, tp)
     return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                not c:IsCode(id)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1,
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_MZONE, 0, 1,
                                        nil)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
@@ -65,7 +65,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
     if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) == 0 then
@@ -73,7 +73,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
-    local g = Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_HAND +
+    local g = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_HAND +
                                         LOCATION_DECK + LOCATION_GRAVE, 0, nil,
                                     e, tp)
     if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
@@ -86,18 +86,18 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter(c) return c:IsCode(24094653) and c:IsAbleToHand() end
+function s.e2filter(c) return c:IsCode(24094653) and c:IsAbleToHand() end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, 1,
                                            nil)
     end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstMatchingCard(s.e3filter, tp, LOCATION_DECK, 0, nil)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, nil)
     if not tc then return end
 
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
