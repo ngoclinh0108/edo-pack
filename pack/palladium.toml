@@ -166,6 +166,28 @@ def = 2100
 effect = """\
 This card's name is also treated as "Dark Magician". \
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
-    You can only use this effects of "Palladium Sacred Oracle Mahad" per turn. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
+    You can only use this effect of "Palladium Sacred Oracle Mahad" once per turn. \
 """
+
+[card.palladium-mana]
+id = 410000007
+set = "palladium"
+name = "Palladium Sacred Oracle Mana"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 6
+atk = 2000
+def = 1700
+effect = """\
+This card's name is also treated as "Dark Magician Girl". \
+You can Special Summon this card (from your hand) by discarding 1 card. \
+"Palladium" Spellcaster monsters you control cannot be destroyed by card effects. \
+During damage calculation, if your other "Palladium" monster battles an opponent's monster (Quick Effect): \
+    You can send this card from your hand or face-up from your field to the GY; \
+    that monster you control gains 2000 ATK/DEF during that damage calculation only. \
+    You can only use this effect of "Palladium Sacred Oracle Mana" once per turn. \
+"""
+strings = ["Gain ATK"]

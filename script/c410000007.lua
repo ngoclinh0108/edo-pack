@@ -5,49 +5,49 @@ s.listed_names = {CARD_DARK_MAGICIAN_GIRL}
 
 function s.initial_effect(c)
     -- code
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_ADD_CODE)
-    e1:SetValue(CARD_DARK_MAGICIAN_GIRL)
-    c:RegisterEffect(e1)
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(CARD_DARK_MAGICIAN_GIRL)
+    c:RegisterEffect(code)
 
     -- special summon
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-    e2:SetCode(EFFECT_SPSUMMON_PROC)
-    e2:SetRange(LOCATION_HAND + LOCATION_GRAVE)
-    e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    e1:SetCode(EFFECT_SPSUMMON_PROC)
+    e1:SetRange(LOCATION_HAND)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
 
     -- indes
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(LOCATION_MZONE, 0)
-    e3:SetTarget(s.e3tg)
-    e3:SetValue(1)
-    c:RegisterEffect(e3)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(LOCATION_MZONE, 0)
+    e2:SetTarget(s.e2tg)
+    e2:SetValue(1)
+    c:RegisterEffect(e2)
 
     -- atk up
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-    e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
-    e4:SetRange(LOCATION_HAND + LOCATION_MZONE)
-    e4:SetCountLimit(1, id)
-    e4:SetCondition(s.e4con)
-    e4:SetCost(s.e4cost)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    e3:SetRange(LOCATION_HAND + LOCATION_MZONE)
+    e3:SetCountLimit(1, id)
+    e3:SetCondition(s.e3con)
+    e3:SetCost(s.e3cost)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
-function s.e2con(e, c)
+function s.e1con(e, c)
     if c == nil then return true end
     local tp = c:GetControler()
 
@@ -56,7 +56,7 @@ function s.e2con(e, c)
     return aux.SelectUnselectGroup(rg, e, tp, 1, 1, aux.ChkfMMZ(1), 0, c)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, c)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
     local rg = Duel.GetMatchingGroup(Card.IsDiscardable, tp, LOCATION_HAND, 0,
                                      e:GetHandler())
     local g = aux.SelectUnselectGroup(rg, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp,
@@ -70,16 +70,16 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, c)
     return false
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
     if not g then return end
     Duel.SendtoGrave(g, REASON_DISCARD + REASON_COST)
     g:DeleteGroup()
 end
 
-function s.e3tg(e, c) return c:IsSetCard(0x13a) end
+function s.e2tg(e, c) return c:IsSetCard(0x13a) and c:IsRace(RACE_SPELLCASTER) end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = Duel.GetAttackTarget()
     if not c then return false end
 
@@ -89,13 +89,13 @@ function s.e4con(e, tp, eg, ep, ev, re, r, rp)
                c:IsRelateToBattle()
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:IsAbleToGraveAsCost() end
     Duel.SendtoGrave(c, REASON_COST)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetLabelObject()
     if c:IsFacedown() or not c:IsRelateToBattle() then return end
 
@@ -105,8 +105,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp, chk)
     ec1:SetValue(2000)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_DAMAGE_CAL)
     c:RegisterEffect(ec1)
-    local e1b = ec1:Clone()
-    e1b:SetCode(EFFECT_UPDATE_DEFENSE)
-    c:RegisterEffect(e1b)
-
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_UPDATE_DEFENSE)
+    c:RegisterEffect(ec1b)
 end
