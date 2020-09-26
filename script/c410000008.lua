@@ -30,7 +30,9 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(function(e, c) return c:IsSetCard(0x13a) end)
+    e2:SetTarget(function(e, tc)
+        return tc:IsAttribute(ATTRIBUTE_LIGHT) and tc:IsRace(RACE_SPELLCASTER)
+    end)
     e2:SetValue(aux.tgoval)
     c:RegisterEffect(e2)
 
@@ -75,8 +77,9 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsSetCard(0x13a) and c:IsAbleToRemoveAsCost() and
-               (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup())
+    return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and
+               c:IsAbleToRemoveAsCost()
+
 end
 
 function s.e1con(e, c)

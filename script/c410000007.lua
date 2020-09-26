@@ -29,7 +29,9 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(s.e2tg)
+    e2:SetTarget(function(e, tc)
+        return tc:IsAttribute(ATTRIBUTE_LIGHT) and tc:IsRace(RACE_SPELLCASTER)
+    end)
     e2:SetValue(1)
     c:RegisterEffect(e2)
 
@@ -76,8 +78,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     Duel.SendtoGrave(g, REASON_DISCARD + REASON_COST)
     g:DeleteGroup()
 end
-
-function s.e2tg(e, c) return c:IsSetCard(0x13a) and c:IsRace(RACE_SPELLCASTER) end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = Duel.GetAttackTarget()
