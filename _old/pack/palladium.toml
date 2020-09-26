@@ -1,17 +1,3 @@
-# [card.the-true-name-of-palladium-ruler]
-# id = 410000007
-# set = "palladium"
-# name = "The True Name of Palladium Ruler"
-# type = "spell"
-# effect = """\
-# Declare 1 card name; excavate the top card of your Deck, and if it is the declared card, add it to your hand, \
-#     then you can take 1 original DIVINE monster, \
-#     and add it to your hand from Deck, GY or Special Summon it from hand, Deck. \
-#     Otherwise, send it to the GY. \
-# You can only activate 1 "The True Name of Palladium Ruler" per turn. \
-# """
-# strings = ["Take 1 DIVINE monster?", "Add to hand", "Special Summon"]
-
 # [card.palladium-reborn]
 # id = 410000008
 # set = "palladium"
@@ -24,56 +10,3 @@
 # You can only activate 1 "Palladium Reborn" per turn. \
 # """
 # strings = ["Special Summoned by \"Palladium Reborn\""]
-
-# [card.palladium-apostle-obelisk]
-# id = 410000009
-# set = "palladium"
-# name = "Palladium Apostle of Obelisk"
-# type = "monster effect"
-# attribute = "light"
-# race = "spellcaster"
-# level = 4
-# atk = 1500
-# def = 1500
-# effect = """\
-# This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-# If this card is Tributed for a Tribute Summon of a DIVINE monster: \
-#     You can Special Summon 2 "Palladium Token" (Spellcaster/LIGHT/Level 1/ATK 0/DEF 0) in Defense Position. \
-# While this card is in the GY: If you would Tribute a DIVINE monster for a Tribute Summon, \
-#     you can Tribute a monster(s) your opponent controls, even though you do not control them. \
-# """
-# strings = ["Summon a DIVINE monster"]
-
-# [card.palladium-apostle-slifer]
-# id = 410000010
-# set = "palladium"
-# name = "Palladium Apostle of Slifer"
-# type = "monster effect"
-# attribute = "light"
-# race = "spellcaster"
-# level = 4
-# atk = 1200
-# def = 2000
-# effect = """\
-# This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-# If this card is Tributed for a Tribute Summon of a DIVINE monster: You can draw 2 cards. \
-# While this card is in the GY: There is no limit to the number of cards in your hand. \
-# """
-# strings = []
-
-# [card.palladium-apostle-ra]
-# id = 410000011
-# set = "palladium"
-# name = "Palladium Apostle of Ra"
-# type = "monster effect"
-# attribute = "light"
-# race = "spellcaster"
-# level = 4
-# atk = 1800
-# def = 1000
-# effect = """\
-# This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-# If this card is Tributed for a Tribute Summon of a DIVINE monster: You can gain 2000 LP. \
-# While this card is in the GY (Quick Effect): You can Tribute 1 face-up original DIVINE monster; gain LP equal to the ATK it had on the field. \
-# """
-# strings = []
