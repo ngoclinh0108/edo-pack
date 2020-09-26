@@ -2,6 +2,7 @@
 local s, id = GetID()
 
 s.listed_names = {CARD_RA}
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     -- code
@@ -54,19 +55,21 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
                           tc:IsOriginalCode(CARD_RA) and true or false, false,
                           POS_FACEUP) == 0 then return end
 
-    tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                              PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
-                          aux.Stringid(id, 0))
+    if not tc:IsSetCard(0x13a) then
+        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                                  PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
+                              aux.Stringid(id, 0))
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(666000)
-    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    ec1:SetCode(EVENT_PHASE + PHASE_END)
-    ec1:SetCountLimit(1)
-    ec1:SetOperation(s.e2gyop)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(666000)
+        ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+        ec1:SetCode(EVENT_PHASE + PHASE_END)
+        ec1:SetCountLimit(1)
+        ec1:SetOperation(s.e2gyop)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
+    end
 end
 
 function s.e2gyop(e, tp, eg, ep, ev, re, r, rp)

@@ -509,3 +509,17 @@ You take no effect damage. \
 If this face-up card would be destroyed, you can detach 1 Xyz Material from this card instead. \
 """
 strings = []
+
+[card.palladium-reborn]
+id = 410000023
+set = "palladium"
+name = "Palladium Reborn"
+type = "spell quick-play"
+effect = """\
+(This card's name is also treated as "Monster Reborn".)
+Target 1 monster in either GY; Special Summon it, \
+    but send it to the GY during the End Phase of this turn if the monster is not "Palladium" monster. \
+    you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
+You can only activate 1 "Palladium Reborn" per turn. \
+"""
+strings = ["Special Summoned by \"Palladium Reborn\""]
