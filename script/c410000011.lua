@@ -91,7 +91,7 @@ function s.e1con(e, c)
     return aux.SelectUnselectGroup(g, e, tp, 2, 2, aux.ChkfMMZ(1), 0)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(s.e1filter, tp,
                                     LOCATION_MZONE + LOCATION_GRAVE, 0, nil)
     local rg = aux.SelectUnselectGroup(g, e, tp, 2, 2, aux.ChkfMMZ(1), 1, tp,

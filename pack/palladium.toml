@@ -405,6 +405,7 @@ atk = 2500
 def = 2400
 effect = """\
 This card's name is also treated as "Suijin". \
+You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
 """
 strings = []
 

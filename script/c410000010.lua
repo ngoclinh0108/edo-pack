@@ -59,7 +59,7 @@ function s.e1con(e, c)
     return aux.SelectUnselectGroup(rg, e, tp, 1, 1, aux.ChkfMMZ(1), 0, c)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp)
     local rg = Duel.GetMatchingGroup(Card.IsDiscardable, tp, LOCATION_HAND, 0,
                                      e:GetHandler())
     local g = aux.SelectUnselectGroup(rg, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp,
