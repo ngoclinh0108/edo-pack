@@ -48,7 +48,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) then return end
+    if not tc or not tc:IsRelateToEffect(e) then return end
 
     if Duel.SpecialSummon(tc, 0, tp, tp,
                           tc:IsOriginalCode(CARD_RA) and true or false, false,
