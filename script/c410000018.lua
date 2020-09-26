@@ -174,7 +174,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     elseif op == 4 then
         local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
                                         LOCATION_HAND, nil, tp, POS_FACEDOWN)
-        if #g > 0 thenf
+        if #g > 0 then
             local rg = g:RandomSelect(tp, 1)
             Duel.Remove(rg, POS_FACEDOWN, REASON_EFFECT)
         end
