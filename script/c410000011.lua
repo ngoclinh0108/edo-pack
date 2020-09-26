@@ -1,9 +1,11 @@
--- Palladium Oracle Aknamkanon
+-- Palladium Chaos Oracle Aknamkanon
 local s, id = GetID()
 
-s.listed_names = {30208479}
+s.listed_names = {30208479, 21082832}
 
 function s.initial_effect(c)
+    c:EnableReviveLimit()
+
     -- code
     local code = Effect.CreateEffect(c)
     code:SetType(EFFECT_TYPE_SINGLE)
@@ -12,15 +14,21 @@ function s.initial_effect(c)
     code:SetValue(30208479)
     c:RegisterEffect(code)
 
-    -- special summon
+    -- attribute
+    local attribute = Effect.CreateEffect(c)
+    attribute:SetType(EFFECT_TYPE_SINGLE)
+    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
+    attribute:SetValue(ATTRIBUTE_DARK)
+    c:RegisterEffect(attribute)
+
+    -- change attribute
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_SPSUMMON_PROC)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetCode(EFFECT_CHANGE_ATTRIBUTE)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetTargetRange(0, LOCATION_MZONE)
+    e1:SetValue(ATTRIBUTE_DARK)
     c:RegisterEffect(e1)
 
     -- cannot be target
@@ -74,42 +82,6 @@ function s.initial_effect(c)
         e4regc:SetCode(EVENT_SPSUMMON_SUCCESS)
         Duel.RegisterEffect(e4regc, 0)
     end)
-end
-
-function s.e1filter(c)
-    return (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and
-               c:IsAbleToRemoveAsCost()
-
-end
-
-function s.e1con(e, c)
-    if c == nil then return true end
-    local tp = c:GetControler()
-    local g = Duel.GetMatchingGroup(s.e1filter, tp,
-                                    LOCATION_ONFIELD + LOCATION_GRAVE, 0, nil)
-
-    return aux.SelectUnselectGroup(g, e, tp, 2, 2, aux.ChkfMMZ(1), 0)
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(s.e1filter, tp,
-                                    LOCATION_MZONE + LOCATION_GRAVE, 0, nil)
-    local rg = aux.SelectUnselectGroup(g, e, tp, 2, 2, aux.ChkfMMZ(1), 1, tp,
-                                       HINTMSG_REMOVE)
-
-    if #rg > 0 then
-        rg:KeepAlive()
-        e:SetLabelObject(rg)
-        return true
-    end
-    return false
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = e:GetLabelObject()
-    if not g then return end
-    Duel.Remove(g, POS_FACEUP, REASON_COST)
-    g:DeleteGroup()
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)

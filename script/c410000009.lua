@@ -12,6 +12,14 @@ function s.initial_effect(c)
     code:SetValue(CARD_DARK_MAGICIAN)
     c:RegisterEffect(code)
 
+    -- attribute
+    local attribute = Effect.CreateEffect(c)
+    attribute:SetType(EFFECT_TYPE_SINGLE)
+    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
+    attribute:SetValue(ATTRIBUTE_DARK)
+    c:RegisterEffect(attribute)
+
     -- normal monster
     local normal = Effect.CreateEffect(c)
     normal:SetType(EFFECT_TYPE_SINGLE)

@@ -1,6 +1,9 @@
 [set.palladium]
 code = 0x13a
 
+[set.chaos]
+code = 0xcf
+
 [set.kuriboh]
 code = 0xa4
 
@@ -221,7 +224,7 @@ level = 7
 atk = 2500
 def = 2100
 effect = """\
-(This card's name is also treated as "Dark Magician". This card is always treated as a Normal Monster.)
+(This card's name is also treated as "Dark Magician". This card is always treated as a Normal Monster. This card's Attribute is also treated as DARK.)
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
@@ -239,7 +242,7 @@ level = 6
 atk = 2000
 def = 1700
 effect = """\
-(This card's name is also treated as "Dark Magician Girl".)
+(This card's name is also treated as "Dark Magician Girl". This card's Attribute is also treated as DARK.)
 You can Special Summon this card (from your hand) by discarding 1 card. \
 LIGHT Spellcaster monsters you control cannot be destroyed by card effects. \
 During damage calculation, if your other "Palladium" monster battles an opponent's monster (Quick Effect): \
@@ -249,19 +252,20 @@ During damage calculation, if your other "Palladium" monster battles an opponent
 """
 strings = ["Gain ATK"]
 
-[card.palladium-oracle-aknamkanon]
+[card.palladium-chaos-oracle-aknamkanon]
 id = 410000011
-set = "palladium"
-name = "Palladium Oracle Aknamkanon"
-type = "monster effect"
+set = "palladium chaos"
+name = "Palladium Chaos Oracle Aknamkanon"
+type = "monster ritual effect"
 attribute = "light"
 race = "spellcaster"
 level = 8
 atk = 2800
 def = 2600
 effect = """\
-(This card's name is also treated as "Magician of Black Chaos".)
-You can Special Summon this card (from your hand) by banishing 2 monsters from your GY and/or face-up from your field. \
+(This card's name is also treated as "Magician of Black Chaos". This card's Attribute is also treated as DARK.)
+You can Ritual Summon this card with "Chaos Form". \
+All monsters your opponent controls become DARK. \
 Your opponent cannot target LIGHT Spellcaster monsters you control with card effects. \
 If this card destroys a monster by battle, after damage calculation: \
     Banish that monster. \
