@@ -38,7 +38,52 @@ function s.initial_effect(c)
 	e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
 	e2:SetRange(LOCATION_FZONE)
 	e2:SetValue(aux.tgoval)
-	c:RegisterEffect(e2)
+    c:RegisterEffect(e2)
+    
+    -- summon protect
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
+    e3:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
+    e3:SetRange(LOCATION_FZONE)
+    e3:SetTarget(aux.TargetBoolFunction(Card.IsSetCard, 0x13a))
+    c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_CANNOT_DISABLE_FLIP_SUMMON)
+    c:RegisterEffect(e3b)
+    local e3c = e3:Clone()
+    e3c:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    c:RegisterEffect(e3c)
+
+    -- spell/trap protect
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetCode(EFFECT_CANNOT_INACTIVATE)
+    e4:SetRange(LOCATION_FZONE)
+    e4:SetValue(s.e4val)
+    c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetCode(EFFECT_CANNOT_DISEFFECT)
+    c:RegisterEffect(e4b)
+
+    -- extra summon
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 1))
+    e5:SetType(EFFECT_TYPE_FIELD)
+    e5:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+    e5:SetRange(LOCATION_FZONE)
+    e5:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
+    e5:SetTarget(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
+    c:RegisterEffect(e5)
+
+    -- shuffle deck
+    local e6 = Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_IGNITION)
+    e6:SetRange(LOCATION_FZONE)
+    e6:SetCountLimit(1)
+    e6:SetTarget(s.e6tg)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
 function s.e0op(e, tp, eg, ep, ev, re, r, rp)
@@ -51,4 +96,24 @@ function s.e0op(e, tp, eg, ep, ev, re, r, rp)
     Duel.ConfirmCards(1 - tp, sc)
 
     aux.PlayFieldSpell(c, e, tp, eg, ep, ev, re, r, rp)
+end
+
+function s.e4val(e, ct)
+    local p = e:GetHandler():GetControler()
+    local te, tp = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT,
+                                     CHAININFO_TRIGGERING_PLAYER)
+    return p == tp and te:IsActiveType(TYPE_SPELL + TYPE_TRAP) and
+               te:GetHandler():IsSetCard(0x13a)
+end
+
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
+end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.ShuffleDeck(tp)
+    Duel.SortDecktop(tp, tp, 5)
 end

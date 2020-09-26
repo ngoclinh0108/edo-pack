@@ -1,3 +1,6 @@
+[set.palladium]
+code = 0x13a
+
 [card.millennium-ascension]
 id = 410000000
 name = "Millennium Ascension"
@@ -8,5 +11,14 @@ At the start of the Duel: Reveal 1 "Holactie the Creator of Light" in your Deck,
     and if you do, activate this card from the Deck directly. \
 Unaffected by other cards' effects. \
 Your opponent cannot target this card with card effects. \
+Summons of your "Palladium" monsters cannot be negated. \
+The activation and effects of your "Palladium" Spell/Trap cannot be negated. \
+During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn). \
+Once per turn: You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, \
+    then place them on the top of the Deck in any order. \
 """
-strings = []
+strings = [
+    "Summon via \"Millennium Ascension\"",
+    "Shuffle the Deck",
+]

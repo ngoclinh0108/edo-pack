@@ -1,31 +1,3 @@
-[card.millennium-ascension]
-id = 410000000
-name = "Millennium Ascension"
-type = "spell field"
-attribute = "spell"
-effect = """\
-At the start of the Duel: Reveal 1 "Holactie the Creator of Light" in your Deck, \
-    and if you do, activate this card from the Deck directly. \
-Unaffected by your opponent's card effects. \
-Summons of your "Palladium" monsters cannot be negated. \
-The activation and effects of your "Palladium" Spell/Trap cannot be negated. \
-During your Draw Phase, before your normal draw: \
-    You can take from your Deck or GY, \
-    1 "Palladium" card \
-    or 1 Spell/Trap that specifically lists the card "Dark Magician" or "Dark Magician Girl" in its text, except "Millennium Ascension", \
-    place it on top of the Deck. \
-During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
-    (You can only gain this effect once per turn). \
-You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order. \
-    You can only use this effect of "Millennium Ascension" once per turn. \
-Once per turn, during the End Phase: You can send all your banished cards to the GY. \
-"""
-strings = [
-    "Search \"Palladium\" card",
-    "Summon via \"Millennium Ascension\"",
-    "Return banished cards to GY",
-]
-
 # [set.palladium]
 # code = 0x13a
 
