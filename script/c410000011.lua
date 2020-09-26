@@ -106,10 +106,10 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
-    local rg = e:GetLabelObject()
-    if not rg then return end
-    Duel.Remove(rg, POS_FACEUP, REASON_COST)
-    rg:DeleteGroup()
+    local g = e:GetLabelObject()
+    if not g then return end
+    Duel.Remove(g, POS_FACEUP, REASON_COST)
+    g:DeleteGroup()
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)

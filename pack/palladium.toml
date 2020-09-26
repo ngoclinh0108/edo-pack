@@ -13,7 +13,7 @@ effect = """\
 At the start of the Duel: Reveal 1 "Holactie the Creator of Light" in your Deck, \
     and if you do, activate this card from the Deck directly. \
 Unaffected by other cards' effects. \
-Your opponent cannot target this card with card effects. \
+Neither player can target this card with card effects. \
 Summons of your "Palladium" monsters cannot be negated. \
 The activation and effects of your "Palladium" Spell/Trap cannot be negated. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
@@ -406,8 +406,12 @@ def = 2400
 effect = """\
 This card's name is also treated as "Suijin". \
 You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
+When this card is targeted for an attack: You can negate the attack. \
+    This effect can only be used once while this card is face-up on the field. \
+An Xyz Monster has this card as Xyz Material gains this effect.
+● Once per turn (Quick Effect): You can target 1 Spell or Trap card on the field; return it to the owner's hand. \
 """
-strings = []
+strings = ["Negate attack", "Return Spell or Trap to hand"]
 
 [card.palladium-guardian-kazejin]
 id = 410000019
@@ -421,8 +425,13 @@ atk = 2400
 def = 2200
 effect = """\
 This card's name is also treated as "Kazejin". \
+You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
+When this card is targeted for an attack: You can negate the attack. \
+    This effect can only be used once while this card is face-up on the field. \
+An Xyz Monster has this card as Xyz Material gains this effect.
+● Once per turn, when a monster declares an attack: You can make that monster's ATK 0 until the End Phase. \
 """
-strings = []
+strings = ["Negate attack","Make attacking's ATK become 0"]
 
 [card.palladium-guardian-sanga]
 id = 410000020
@@ -436,8 +445,14 @@ atk = 2600
 def = 2200
 effect = """\
 This card's name is also treated as "Sanga of the Thunder". \
+You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
+When this card is targeted for an attack: You can negate the attack. \
+    This effect can only be used once while this card is face-up on the field. \
+An Xyz Monster has this card as Xyz Material gains this effect.
+● Once per turn, when another monster's effect is activated (Quick Effect): \
+    You can negate the activation, and if you do, destroy that monster. \
 """
-strings = []
+strings = ["Negate attack", "Negate effect"]
 
 [card.palladium-sacred-guardian]
 id = 410000021
@@ -446,10 +461,15 @@ name = "Palladium Sacred Guardian"
 type = "monster xyz effect"
 attribute = "light"
 race = "warrior"
-level = 11
+level = 7
 atk = 3750
 def = 3400
 effect = """\
-3 Level 7 "Palladium" monsters
+3 Level 7 monsters with different attributes
+If this card is Xyz Summoned: You can choose up to 3 your opponent's unused Main Monster Zones; \
+    those zones cannot be used while this card is face-up on the field. \
+    You can use this effect of "Palladium Sacred Guardian" only once per turn. \
+Unaffected by other cards' effects while it has material and you control a face-up Field Spell \
+If this face-up card would be destroyed, you can detach 1 Xyz Material from this card instead. \
 """
 strings = []
