@@ -308,28 +308,8 @@ If this card is Summoned: You can add 1 LIGHT Warrior monster from your Deck or 
 """
 strings = []
 
-[card.palladium-knight-jack]
-id = 410000014
-set = 'palladium'
-name = "Palladium Knight of Jack"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1900
-def = 1000
-effect = """\
-This card's name is also treated as "Jack's Knight". \
-If this card is Summoned: \
-    You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
-    You can only use this effect of "Palladium Knight of Jack" once per turn. \
-A monster that was Fusion Summoned using this card as material gains the following effect.
-● Cannot be destroyed by battle or card effects.
-"""
-strings = ["Cannot be destroyed by battle or card effects"]
-
 [card.palladium-knight-king]
-id = 410000015
+id = 410000014
 set = 'palladium'
 name = "Palladium Knight of King"
 type = "monster effect"
@@ -347,6 +327,26 @@ If this card is Summoned: You can add 1 "Polymerization" from your Deck to your 
     You can only use this effect of "Palladium Knight of King" once per turn. \
 """
 strings = ["Summon a LIGHT Warrior monster?"]
+
+[card.palladium-knight-jack]
+id = 410000015
+set = 'palladium'
+name = "Palladium Knight of Jack"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1900
+def = 1000
+effect = """\
+This card's name is also treated as "Jack's Knight". \
+If this card is Summoned: \
+    You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
+    You can only use this effect of "Palladium Knight of Jack" once per turn. \
+A monster that was Fusion Summoned using this card as material gains the following effect.
+● Cannot be destroyed by battle or card effects.
+"""
+strings = ["Cannot be destroyed by battle or card effects"]
 
 [card.palladium-paladin-ace-joker]
 id = 410000016
