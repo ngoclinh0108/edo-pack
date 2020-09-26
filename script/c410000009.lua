@@ -1,74 +1,81 @@
--- Palladium Beast Kuriboh
+-- Palladium Sacred Oracle Mahad
 local s, id = GetID()
 
+s.listed_names = {CARD_DARK_MAGICIAN}
+
 function s.initial_effect(c)
-    -- synchro level
+    -- code
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(CARD_DARK_MAGICIAN)
+    c:RegisterEffect(code)
+
+    -- special summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_SYNCHRO_LEVEL)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(s.e1val)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_TO_HAND)
+    e1:SetRange(LOCATION_HAND)
+    e1:SetCost(s.e1cost)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    
-    -- special summon when attack
+
+    -- atk up
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e2:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e2:SetRange(LOCATION_HAND + LOCATION_GRAVE)
-    e2:SetCountLimit(1, id)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_SET_ATTACK_FINAL)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
 
-    -- no damage
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e3:SetCode(EVENT_LEAVE_FIELD)
-    e3:SetCondition(s.e3con)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+     -- act quick spell/trap in hand
+     local e3 = Effect.CreateEffect(c)
+     e3:SetType(EFFECT_TYPE_FIELD)
+     e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+     e3:SetRange(LOCATION_MZONE)
+     e3:SetTargetRange(LOCATION_HAND, 0)
+     e3:SetCountLimit(1, id)
+     e3:SetCondition(s.e3con)
+     c:RegisterEffect(e3)
+     local e3b = e3:Clone()
+     e3b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
+     c:RegisterEffect(e3b)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttackTarget() == nil and
-               Duel.GetAttacker():IsControler(1 - tp)
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return not e:GetHandler():IsPublic() end
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+        return c:IsRelateToEffect(e) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsReason(REASON_DESTROY)
+function s.e2con(e)
+    local ph = Duel.GetCurrentPhase()
+    local bc = e:GetHandler():GetBattleTarget()
+    return (ph == PHASE_DAMAGE or ph == PHASE_DAMAGE_CAL) and bc and
+               bc:IsAttribute(ATTRIBUTE_DARK)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec1:SetCode(EFFECT_CHANGE_DAMAGE)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetValue(0)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
-    local ec2 = ec1:Clone()
-    ec2:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-    Duel.RegisterEffect(ec2, tp)
-end
+function s.e2val(e, c) return e:GetHandler():GetAttack() * 2 end
 
-function s.e1val(e, c) return 2 * 65536 + e:GetHandler():GetLevel() end
+function s.e3con(e) return Duel.GetTurnPlayer() ~= e:GetHandlerPlayer() end

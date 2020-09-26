@@ -157,7 +157,7 @@ strings = [
 ]
 
 [card.palladium-sacred-oracle-mahad]
-id = 410000006
+id = 410000009
 set = "palladium"
 name = "Palladium Sacred Oracle Mahad"
 type = "monster effect"
@@ -175,7 +175,7 @@ You can activate a Quick-Play Spell or Trap from your hand during your opponent'
 """
 
 [card.palladium-sacred-oracle-mana]
-id = 410000007
+id = 410000010
 set = "palladium"
 name = "Palladium Sacred Oracle Mana"
 type = "monster effect"
@@ -196,7 +196,7 @@ During damage calculation, if your other "Palladium" monster battles an opponent
 strings = ["Gain ATK"]
 
 [card.palladium-oracle-aknamkanon]
-id = 410000008
+id = 410000011
 set = "palladium"
 name = "Palladium Oracle Aknamkanon"
 type = "monster effect"
@@ -218,7 +218,7 @@ During the End Phase, if this card was Summoned this turn: \
 strings = ["Add 1 Spell to your hand"]
 
 [card.palladium-beast-kuriboh]
-id = 410000009
+id = 410000012
 set = "palladium kuriboh"
 name = "Palladium Beast Kuriboh"
 type = "monster tuner effect"
@@ -237,7 +237,7 @@ If this card on the field is destroyed: You take no damage this turn. \
 strings = []
 
 [card.palladium-knight-queen]
-id = 410000010
+id = 410000013
 set = 'palladium'
 name = "Palladium Knight of Queen"
 type = "monster effect"
@@ -255,7 +255,7 @@ If this card is Summoned: You can add 1 LIGHT Warrior monster from your Deck or 
 strings = []
 
 [card.palladium-knight-jack]
-id = 410000011
+id = 410000014
 set = 'palladium'
 name = "Palladium Knight of Jack"
 type = "monster effect"
@@ -275,7 +275,7 @@ A monster that was Fusion Summoned using this card as material gains the followi
 strings = ["Cannot be destroyed by battle or card effects"]
 
 [card.palladium-knight-king]
-id = 410000012
+id = 410000015
 set = 'palladium'
 name = "Palladium Knight of King"
 type = "monster effect"
@@ -295,7 +295,7 @@ If this card is Summoned: You can add 1 "Polymerization" from your Deck to your 
 strings = ["Summon a LIGHT Warrior monster?"]
 
 [card.palladium-paladin-ace-joker]
-id = 410000013
+id = 410000016
 set = 'palladium'
 name = "Palladium Paladin Ace Joker"
 type = "fusion monster effect"
