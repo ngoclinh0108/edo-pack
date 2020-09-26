@@ -370,3 +370,18 @@ Once per turn (Quick Effect): \
     and if you do, your opponent cannot activate card effects with the same type (Monster, Spell, or Trap) as that card.
 """
 strings = ["Negate activation", "Block activate"]
+
+[card.palladium-knight-faris]
+id = 410000017
+set = 'palladium'
+name = "Palladium Knight Faris"
+type = "fusion monster effect"
+attribute = "light"
+race = "warrior"
+level = 7
+atk = 2300
+def = 2100
+effect = """\
+This card's name is also treated as "Gaia The Fierce Knight". \
+"""
+strings = []
