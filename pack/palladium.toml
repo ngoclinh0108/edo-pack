@@ -1,6 +1,9 @@
 [set.palladium]
 code = 0x13a
 
+[set.kuriboh]
+code = 0xa4
+
 [card.millennium-ascension]
 id = 410000000
 name = "Millennium Ascension"
@@ -153,7 +156,7 @@ strings = [
     "Destroy 1 monster",
 ]
 
-[card.palladium-mahad]
+[card.palladium-sacred-oracle-mahad]
 id = 410000006
 set = "palladium"
 name = "Palladium Sacred Oracle Mahad"
@@ -171,7 +174,7 @@ You can activate a Quick-Play Spell or Trap from your hand during your opponent'
     You can only use this effect of "Palladium Sacred Oracle Mahad" once per turn. \
 """
 
-[card.palladium-mana]
+[card.palladium-sacred-oracle-mana]
 id = 410000007
 set = "palladium"
 name = "Palladium Sacred Oracle Mana"
@@ -192,7 +195,7 @@ During damage calculation, if your other "Palladium" monster battles an opponent
 """
 strings = ["Gain ATK"]
 
-[card.palladium-aknamkanon]
+[card.palladium-oracle-aknamkanon]
 id = 410000008
 set = "palladium"
 name = "Palladium Oracle Aknamkanon"
@@ -213,3 +216,22 @@ During the End Phase, if this card was Summoned this turn: \
     You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
 """
 strings = ["Add 1 Spell to your hand"]
+
+[card.palladium-beast-kuriboh]
+id = 410000009
+set = "palladium kuriboh"
+name = "Palladium Beast Kuriboh"
+type = "monster tuner effect"
+attribute = "light"
+race = "fiend"
+level = 1
+atk = 300
+def = 200
+effect = """\
+When an opponent's monster declares a directly attack: \
+    You can Special Summon this card from the GY (if it was there when that monster was destroyed) or hand (even if not). \
+    You can only use this effects of "Palladium Beast Kuriboh" per turn. \
+If this card on the field is destroyed: You take no damage this turn. \
+This card on the field can be treated as a Level 2 monster when used for a Synchro Summon. \
+"""
+strings = []
