@@ -510,8 +510,18 @@ If this face-up card would be destroyed, you can detach 1 Xyz Material from this
 """
 strings = []
 
-[card.palladium-reborn]
+[card.tablet-of-lost-memories]
 id = 410000023
+set = "palladium"
+name = "Tablet of Lost Memories"
+type = "spell continuous"
+effect = """\
+(This card is always treated as "Palladium" card.)
+"""
+strings = []
+
+[card.palladium-reborn]
+id = 410000024
 set = "palladium"
 name = "Palladium Reborn"
 type = "spell quick-play"
