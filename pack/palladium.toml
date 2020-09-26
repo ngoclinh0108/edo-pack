@@ -18,10 +18,7 @@ During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to yo
 Once per turn: You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, \
     then place them on the top of the Deck in any order. \
 """
-strings = [
-    "Summon via \"Millennium Ascension\"",
-    "Shuffle the Deck",
-]
+strings = ["Summon via \"Millennium Ascension\"", "Shuffle the Deck"]
 
 [card.obelisk]
 id = 410000001
@@ -155,3 +152,20 @@ strings = [
     "Tribtue monsters for ATK/DEF",
     "Destroy 1 monster",
 ]
+
+[card.palladium-mahad]
+id = 410000006
+set = "palladium"
+name = "Palladium Sacred Oracle Mahad"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 7
+atk = 2500
+def = 2100
+effect = """\
+This card's name is also treated as "Dark Magician". \
+If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
+    You can only use this effects of "Palladium Sacred Oracle Mahad" per turn. \
+If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+"""
