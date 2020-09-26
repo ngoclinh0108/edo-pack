@@ -221,7 +221,7 @@ level = 7
 atk = 2500
 def = 2100
 effect = """\
-(This card's name is also treated as "Dark Magician".)
+(This card's name is also treated as "Dark Magician". This card is always treated as a Normal Monster.)
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \

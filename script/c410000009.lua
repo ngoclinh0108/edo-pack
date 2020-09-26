@@ -12,6 +12,18 @@ function s.initial_effect(c)
     code:SetValue(CARD_DARK_MAGICIAN)
     c:RegisterEffect(code)
 
+    -- normal monster
+    local normal = Effect.CreateEffect(c)
+    normal:SetType(EFFECT_TYPE_SINGLE)
+    normal:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    normal:SetCode(EFFECT_ADD_TYPE)
+    normal:SetValue(TYPE_NORMAL)
+    c:RegisterEffect(normal)
+    local normalb = normal:Clone()
+    normalb:SetCode(EFFECT_REMOVE_TYPE)
+    normalb:SetValue(TYPE_EFFECT)
+    c:RegisterEffect(normalb)
+
     -- special summon
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
