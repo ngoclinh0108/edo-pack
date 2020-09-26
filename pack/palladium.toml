@@ -205,6 +205,8 @@ def = 2600
 effect = """\
 This card's name is also treated as "Magician of Black Chaos". \
 Your opponent cannot target "Palladium" monsters you control with card effects. \
+If this card destroys a monster by battle, after damage calculation: \
+    Banish that monster. \
 During the End Phase, if this card was Summoned this turn: \
     You can add 1 Spell/Trap from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
