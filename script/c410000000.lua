@@ -2,6 +2,7 @@
 local s, id = GetID()
 
 s.listed_names = {10000040}
+s.listed_series={0x13a}
 
 function s.initial_effect(c)
     -- activate

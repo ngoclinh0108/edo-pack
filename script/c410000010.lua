@@ -2,6 +2,7 @@
 local s, id = GetID()
 
 s.listed_names = {CARD_DARK_MAGICIAN_GIRL}
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     -- code
@@ -85,8 +86,8 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 
     if c:IsControler(1 - tp) then c = Duel.GetAttacker() end
     e:SetLabelObject(c)
-    return c and c ~= e:GetHandler() and c:IsSetCard(0x13a) and
-               c:IsRelateToBattle()
+    return c and c ~= e:GetHandler() and c:IsRelateToBattle() and
+               c:IsSetCard(0x13a)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
