@@ -68,7 +68,7 @@ function s.initial_effect(c)
 
     -- extra summon
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 1))
+    e5:SetDescription(aux.Stringid(id, 0))
     e5:SetType(EFFECT_TYPE_FIELD)
     e5:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
     e5:SetRange(LOCATION_FZONE)
@@ -78,6 +78,7 @@ function s.initial_effect(c)
 
     -- shuffle deck
     local e6 = Effect.CreateEffect(c)
+    e6:SetDescription(aux.Stringid(id, 1))
     e6:SetType(EFFECT_TYPE_IGNITION)
     e6:SetRange(LOCATION_FZONE)
     e6:SetCountLimit(1)
