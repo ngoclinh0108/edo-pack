@@ -3,7 +3,7 @@ default = true
 recipe  = [
     "pack/_macro.toml",
     "pack/generic.toml",
-    "pack/egyptian_god.toml",
+    "pack/palladium.toml",
 ]
 
 [picset.triplesix]
