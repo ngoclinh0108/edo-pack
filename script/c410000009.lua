@@ -49,7 +49,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
