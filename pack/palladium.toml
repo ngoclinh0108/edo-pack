@@ -204,6 +204,7 @@ atk = 2800
 def = 2600
 effect = """\
 This card's name is also treated as "Magician of Black Chaos". \
+You can Special Summon this card (from your hand) by banishing 2 "Palladium" monsters from your GY and/or face-up from your field. \
 Your opponent cannot target "Palladium" monsters you control with card effects. \
 If this card destroys a monster by battle, after damage calculation: \
     Banish that monster. \

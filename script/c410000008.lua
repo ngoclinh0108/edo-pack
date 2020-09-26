@@ -12,6 +12,17 @@ function s.initial_effect(c)
     code:SetValue(30208479)
     c:RegisterEffect(code)
 
+    -- special summon
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e1:SetCode(EFFECT_SPSUMMON_PROC)
+    e1:SetRange(LOCATION_HAND)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
     -- cannot be target
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
@@ -61,6 +72,41 @@ function s.initial_effect(c)
         e4regc:SetCode(EVENT_SPSUMMON_SUCCESS)
         Duel.RegisterEffect(e4regc, 0)
     end)
+end
+
+function s.e1filter(c)
+    return c:IsSetCard(0x13a) and c:IsAbleToRemoveAsCost() and
+               (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup())
+end
+
+function s.e1con(e, c)
+    if c == nil then return true end
+    local tp = c:GetControler()
+    local g = Duel.GetMatchingGroup(s.e1filter, tp,
+                                    LOCATION_ONFIELD + LOCATION_GRAVE, 0, nil)
+
+    return aux.SelectUnselectGroup(g, e, tp, 2, 2, aux.ChkfMMZ(1), 0)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
+    local g = Duel.GetMatchingGroup(s.e1filter, tp,
+                                    LOCATION_MZONE + LOCATION_GRAVE, 0, nil)
+    local rg = aux.SelectUnselectGroup(g, e, tp, 2, 2, aux.ChkfMMZ(1), 1, tp,
+                                       HINTMSG_REMOVE)
+
+    if #rg > 0 then
+        rg:KeepAlive()
+        e:SetLabelObject(rg)
+        return true
+    end
+    return false
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
+    local rg = e:GetLabelObject()
+    if not rg then return end
+    Duel.Remove(rg, POS_FACEUP, REASON_COST)
+    rg:DeleteGroup()
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
