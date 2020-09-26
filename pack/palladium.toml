@@ -221,7 +221,7 @@ level = 7
 atk = 2500
 def = 2100
 effect = """\
-This card's name is also treated as "Dark Magician". \
+(This card's name is also treated as "Dark Magician")
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
@@ -239,7 +239,7 @@ level = 6
 atk = 2000
 def = 1700
 effect = """\
-This card's name is also treated as "Dark Magician Girl". \
+(This card's name is also treated as "Dark Magician Girl")
 You can Special Summon this card (from your hand) by discarding 1 card. \
 LIGHT Spellcaster monsters you control cannot be destroyed by card effects. \
 During damage calculation, if your other "Palladium" monster battles an opponent's monster (Quick Effect): \
@@ -260,7 +260,7 @@ level = 8
 atk = 2800
 def = 2600
 effect = """\
-This card's name is also treated as "Magician of Black Chaos". \
+(This card's name is also treated as "Magician of Black Chaos")
 You can Special Summon this card (from your hand) by banishing 2 monsters from your GY and/or face-up from your field. \
 Your opponent cannot target LIGHT Spellcaster monsters you control with card effects. \
 If this card destroys a monster by battle, after damage calculation: \
@@ -301,7 +301,7 @@ level = 4
 atk = 1500
 def = 1600
 effect = """\
-This card's name is also treated as "Queen's Knight". \
+(This card's name is also treated as "Queen's Knight")
 You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
 If this card is Summoned: You can add 1 LIGHT Warrior monster from your Deck or GY to your hand, except "Palladium Knight of Queen". \
     You can only use this effect of "Palladium Knight of Queen" once per turn. \
@@ -319,7 +319,7 @@ level = 4
 atk = 1800
 def = 1400
 effect = """\
-This card's name is also treated as "King's Knight". \
+(This card's name is also treated as "King's Knight".)
 If you control "Queen's Knight", you can Special Summon this card from your hand, \
     then you can Special Summon 1 LIGHT Warrior monster from your hand, Deck or GY, \
     except "Palladium Knight of King". \
@@ -339,7 +339,7 @@ level = 4
 atk = 1900
 def = 1000
 effect = """\
-This card's name is also treated as "Jack's Knight". \
+(This card's name is also treated as "Jack's Knight".)
 If this card is Summoned: \
     You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
     You can only use this effect of "Palladium Knight of Jack" once per turn. \
@@ -382,7 +382,7 @@ level = 7
 atk = 2300
 def = 2100
 effect = """\
-This card's name is also treated as "Gaia The Fierce Knight". \
+(This card's name is also treated as "Gaia The Fierce Knight".)
 If you control no monsters, or your opponent controls a DARK monster; \
     You can Special Summon this card from your hand. \
 If this card is Summoned: \
@@ -404,7 +404,7 @@ level = 7
 atk = 2500
 def = 2400
 effect = """\
-This card's name is also treated as "Suijin". \
+(This card's name is also treated as "Suijin".)
 You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
 When this card is targeted for an attack: You can negate the attack. \
     This effect can only be used once while this card is face-up on the field. \
@@ -424,7 +424,7 @@ level = 7
 atk = 2400
 def = 2200
 effect = """\
-This card's name is also treated as "Kazejin". \
+(This card's name is also treated as "Kazejin".)
 You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
 When this card is targeted for an attack: You can negate the attack. \
     This effect can only be used once while this card is face-up on the field. \
@@ -444,7 +444,7 @@ level = 7
 atk = 2600
 def = 2200
 effect = """\
-This card's name is also treated as "Sanga of the Thunder". \
+(This card's name is also treated as "Sanga of the Thunder".)
 You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
 When this card is targeted for an attack: You can negate the attack. \
     This effect can only be used once while this card is face-up on the field. \
