@@ -1,0 +1,17 @@
+[set.blue-eyes]
+code = 0xdd
+
+[card.blue-eyes-white-dragon]
+id = 410000201
+alias = 89631139
+name = "Blue-Eyes Sacred White Dragon"
+type = "monster effect"
+attribute = "light"
+race = "dragon"
+level = 8
+atk = 3000
+def = 2500
+effect = """\
+(This card's name is always treated as "Blue-Eyes White Dragon")
+"""
+strings = []

@@ -1,0 +1,17 @@
+[set.red-eyes]
+code = 0x3b
+
+[card.red-eyes-black-dragon]
+id = 410000301
+alias = 74677422
+name = "Red-Eyes Sacred Black Dragon"
+type = "monster effect"
+attribute = "dark"
+race = "dragon"
+level = 7
+atk = 2400
+def = 2000
+effect = """\
+(This card's name is always treated as "Red-Eyes Black Dragon")
+"""
+strings = []
