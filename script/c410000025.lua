@@ -29,8 +29,9 @@ end
 
 function s.e1filter(c, ft, e, tp)
     return c:IsCode(98434877, 62340868, 25955164, 25833572) and
-               (c:IsAbleToHand() or
-                   (ft > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)))
+               ((c:IsLocation(LOCATION_DECK) and c:IsAbleToHand()) or
+                   (c:IsLocation(LOCATION_GRAVE) and ft > 0 and
+                       c:IsCanBeSpecialSummoned(e, 0, tp, false, false)))
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -41,8 +42,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                            nil, ft, e, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -54,11 +55,25 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                        nil, ft, e, tp):GetFirst()
     if not tc then return end
 
-    aux.ToHandOrElse(tc, tp, function(c)
-        return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) and ft > 0
-    end, function(c)
+    local b1 = tc:IsLocation(LOCATION_DECK) and tc:IsAbleToHand()
+    local b2 = tc:IsLocation(LOCATION_GRAVE) and ft > 0 and
+                   tc:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+
+    local opt
+    if b1 and b2 then
+        opt = Duel.SelectOption(tp, 573, 574)
+    elseif b1 then
+        opt = Duel.SelectOption(player, 573)
+    else
+        opt = Duel.SelectOption(player, 574) + 1
+    end
+
+    if opt==0 then
+        Duel.SendtoHand(tc,nil,REASON_EFFECT)
+        Duel.ConfirmCards(1-tp,tc)
+    else
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
-    end, 2)
+    end
 end
 
 function s.e2filter1(c, e, tp, g)
