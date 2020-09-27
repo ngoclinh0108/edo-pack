@@ -108,6 +108,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.BreakEffect()
         local sg = aux.SelectUnselectGroup(g, e, tp, 3, 3, s.e2spcheck, 1, tp,
                                            HINTMSG_SPSUMMON)
-        Duel.SpecialSummon(sg, 0, tp, tp, false, false, POS_FACEUP)
+        Duel.SpecialSummon(sg, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
     end
 end
