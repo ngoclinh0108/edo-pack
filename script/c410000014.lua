@@ -90,16 +90,20 @@ function s.e2filter(c) return c:IsCode(24094653) and c:IsAbleToHand() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e2filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, nil)
-    if not tc then return end
+    local g = Duel.GetMatchingGroup(s.e2filter, tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    if #g == 0 then return end
+    if #g > 1 then g = g:Select(tp, 1, 1, nil) end
 
-    Duel.SendtoHand(tc, nil, REASON_EFFECT)
-    Duel.ConfirmCards(1 - tp, tc)
+    Duel.SendtoHand(g, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, g)
 end

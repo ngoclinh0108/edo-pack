@@ -49,15 +49,15 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND +
-                                               LOCATION_DECK + LOCATION_GRAVE,
-                                           0, 1, nil, e, tp) and
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_HAND + LOCATION_GRAVE, 0, 1,
+                                           nil, e, tp) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
+                          LOCATION_HAND + LOCATION_GRAVE)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -67,8 +67,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter), tp,
-                                      LOCATION_HAND + LOCATION_DECK +
-                                          LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+                                      LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1,
+                                      nil, e, tp)
 
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end

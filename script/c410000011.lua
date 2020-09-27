@@ -119,7 +119,10 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetMatchingGroup(s.e1filter, tp,
                                     LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-    if #g > 1 then g = g:Select(tp, 1, 1, nil) end
+    if #g > 1 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+        g = g:Select(tp, 1, 1, nil)
+    end
 
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
