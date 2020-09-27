@@ -99,7 +99,6 @@ function s.e2con(e, tp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
     if chk == 0 then return true end
 
     local b1 = true
@@ -140,6 +139,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
         Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 1 - tp, LOCATION_HAND)
     end
     e:SetLabel(op)
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, aux.Stringid(id, op))
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
