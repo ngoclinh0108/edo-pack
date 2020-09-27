@@ -75,9 +75,9 @@ end
 
 function s.e2filter(c)
     return c:IsAbleToHand() and not c:IsCode(id) and
-               c:IsType(TYPE_SPELL + TYPE_TRAP) and
+               c:IsType(TYPE_SPELL + TYPE_TRAP) and (c:IsSetCard(0x13a) or
                aux.IsCodeListed(c, CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL,
-                                CARD_BLUEEYES_W_DRAGON, CARD_REDEYES_B_DRAGON)
+                                CARD_BLUEEYES_W_DRAGON, CARD_REDEYES_B_DRAGON))
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -92,7 +92,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.thop(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 

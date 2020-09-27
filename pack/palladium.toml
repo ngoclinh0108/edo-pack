@@ -501,6 +501,7 @@ atk = 3750
 def = 3400
 effect = """\
 3 Level 7 monsters with different attributes
+(This card's name is also treated as "Gate Guardian".)
 If this card is Xyz Summoned: You can choose up to 3 your opponent's unused Main Monster Zones; \
     those zones cannot be used while this card is face-up on the field. \
     You can use this effect of "Palladium Sacred Guardian" only once per turn. \
@@ -520,7 +521,8 @@ effect = """\
 You can only use the following effect of "Tablet of Lost Memories" once per turn. You can activate 1 of these Quick Effects;
 ● Special Summon 1 Level 7 or higher Normal Monster from your hand or GY.
 ● Add 1 Spell or Trap from your Deck or GY to your hand, \
-    that specifically lists "Dark Magician", "Dark Magician Girl", "Blue-Eyes White Dragon" or "Red-Eyes Black Dragon" in its text, \
+    that is "Palladium" card \
+    or specifically lists "Dark Magician", "Dark Magician Girl", "Blue-Eyes White Dragon" or "Red-Eyes Black Dragon" in its text, \
     except "Tablet of Lost Memories". 
 """
 strings = ["Special Summon a monster","Search Spell or Trap"]
@@ -538,3 +540,18 @@ Target 1 monster in either GY; Special Summon it, \
 You can only activate 1 "Palladium Reborn" per turn. \
 """
 strings = ["Special Summoned by \"Palladium Reborn\""]
+
+[card.palladium-guardian-release]
+id = 410000025
+set = "palladium"
+name = "Palladium Guardian Release"
+type = "spell"
+effect = """\
+Take 1 "Suijin", "Kazejin", "Sanga of the Thunder" or "Gate Guardian" from your Deck or GY, \
+    and either add it to your hand or Special Summon it. \
+You can only activate 1 "Palladium Guardian Release" per turn. \
+During your Main Phase, except the turn this card was sent to the GY: \
+    You can banish this card from your GY; shuffle 1 face-up "Gate Guardian" you control into the Deck, \
+    and if you do, Special Summon in face-up Defanse Position, 1 each of "Suijin", "Kazejin" and "Sanga of the Thunder" from your hand, Deck, GY. \
+"""
+strings = []
