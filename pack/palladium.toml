@@ -520,11 +520,12 @@ type = "spell continuous"
 effect = """\
 (This card is always treated as "Palladium" card.)
 You can only use the following effect of "Tablet of Lost Memories" once per turn. You can activate 1 of these Quick Effects;
-● Special Summon 1 Level 7 or higher Normal Monster from your hand or GY.
-● Add 1 Spell or Trap from your Deck or GY to your hand, \
-    that is "Palladium" card \
-    or specifically lists "Dark Magician", "Dark Magician Girl", "Blue-Eyes White Dragon" or "Red-Eyes Black Dragon" in its text, \
-    except "Tablet of Lost Memories". 
+● Special Summon 1 Level 7 or higher Normal Monster from your hand, Deck or GY.
+● Add 1 Spell or Trap from your Deck or GY to your hand, except "Tablet of Lost Memories", \
+    that is "Palladium" card, \
+    or that specifically lists "Dark Magician" or "Dark Magician Girl" if you control "Dark Magician", \
+    or that specifically lists "Blue-Eyes White Dragon" or "Blue-Eyes Ultimate Dragon" if you control "Blue-Eyes White Dragon", \
+    or that is "Red-Eyes" card or that specifically lists "Red-Eyes Black Dragon" if you control "Red-Eyes Black Dragon". \
 """
 strings = ["Special Summon a monster","Search Spell or Trap"]
 
