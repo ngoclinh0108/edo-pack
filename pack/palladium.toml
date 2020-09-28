@@ -466,7 +466,7 @@ You can Special Summon this card (from your hand) by Tributing 1 monster in your
 When this card is targeted for an attack: You can negate the attack. \
     This effect can only be used once while this card is face-up on the field. \
 An Xyz Monster has this card as Xyz Material gains this effect.
-● Once per turn, when a monster declares an attack: You can make that monster's ATK 0 until the End Phase. \
+● Once per turn, when this card is targeted for an attack: You can make that monster's ATK 0 until the End Phase. \
 """
 strings = ["Negate attack", "Make attacking's ATK become 0"]
 

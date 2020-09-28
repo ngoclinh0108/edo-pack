@@ -44,6 +44,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCode(EVENT_ATTACK_ANNOUNCE)
     e3:SetCountLimit(1)
+    e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
@@ -93,6 +94,10 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateAttack() end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttackTarget() == e:GetHandler()
+end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
