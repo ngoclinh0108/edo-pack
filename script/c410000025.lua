@@ -30,7 +30,8 @@ end
 
 function s.e1filter(c, ft, e, tp)
     return c:IsCode(98434877, 62340868, 25955164, 25833572) and
-               ((c:IsLocation(LOCATION_DECK) and c:IsAbleToHand()) or
+               ((c:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and
+                   c:IsAbleToHand()) or
                    (c:IsLocation(LOCATION_HAND + LOCATION_GRAVE) and ft > 0 and
                        c:IsCanBeSpecialSummoned(e, 0, tp, true, false)))
 end
@@ -38,25 +39,28 @@ end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
-                                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil, ft, e, tp)
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND +
+                                               LOCATION_DECK + LOCATION_GRAVE,
+                                           0, 1, nil, ft, e, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
+                          LOCATION_HAND + LOCATION_GRAVE)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-    local tc = Duel.SelectMatchingCard(tp, s.e1filter, tp,
-    LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                       nil, ft, e, tp):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_HAND +
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                       1, nil, ft, e, tp):GetFirst()
     if not tc then return end
 
-    local b1 = tc:IsLocation(LOCATION_DECK) and tc:IsAbleToHand()
+    local b1 = tc:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and
+                   tc:IsAbleToHand()
     local b2 = tc:IsLocation(LOCATION_HAND + LOCATION_GRAVE) and ft > 0 and
                    tc:IsCanBeSpecialSummoned(e, 0, tp, true, false)
 
@@ -69,9 +73,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         opt = Duel.SelectOption(player, 574) + 1
     end
 
-    if opt==0 then
-        Duel.SendtoHand(tc,nil,REASON_EFFECT)
-        Duel.ConfirmCards(1-tp,tc)
+    if opt == 0 then
+        Duel.SendtoHand(tc, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, tc)
     else
         Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
     end

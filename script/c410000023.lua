@@ -3,8 +3,8 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {
-    CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL, 30208479,
-    CARD_BLUEEYES_W_DRAGON, 23995346, CARD_REDEYES_B_DRAGON
+    CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL, CARD_BLUEEYES_W_DRAGON,
+    23995346, CARD_REDEYES_B_DRAGON
 }
 s.listed_series = {0x13a, 0xdd, 0x3b}
 
@@ -86,7 +86,7 @@ end
 
 function s.e3filter(c, tp)
     local dmcheck = aux.IsCodeListed(c, CARD_DARK_MAGICIAN,
-                                     CARD_DARK_MAGICIAN_GIRL, 30208479)
+                                     CARD_DARK_MAGICIAN_GIRL)
     local becheck = aux.IsCodeListed(c, CARD_BLUEEYES_W_DRAGON, 23995346) or
                         Utility.IsSetCardListed(c, 0xdd)
     local recheck = aux.IsCodeListed(c, CARD_REDEYES_B_DRAGON) or

@@ -527,7 +527,7 @@ You can only use the following effect of "Tablet of Lost Memories" once per turn
 ● Special Summon 1 Level 7 or higher DARK or LIGHT Normal Monster from your hand or GY.
 ● Add 1 Spell or Trap from your Deck or GY to your hand, except "Tablet of Lost Memories", \
     that is "Palladium" card, or that specifically lists \
-    "Dark Magician", "Dark Magician Girl", "Magician of Black Chaos", \
+    "Dark Magician", "Dark Magician Girl", \
     "Blue-Eyes White Dragon", "Blue-Eyes Ultimate Dragon", "Blue-Eyes" cards, \
     "Red-Eyes Black Dragon" or "Red-Eyes" card. \
 """
@@ -554,7 +554,8 @@ name = "Palladium Guardian Release"
 type = "spell"
 effect = """\
 Take 1 "Suijin", "Kazejin", "Sanga of the Thunder" or "Gate Guardian", \
-    and either add it from your Deck to your hand or Special Summon it from your hand or GY, ignoring its Summoning conditions. \
+    and either add it from your Deck to your hand \
+    or Special Summon it from your hand or GY, ignoring its Summoning conditions. \
 You can only activate 1 "Palladium Guardian Release" per turn. \
 During your Main Phase, except the turn this card was sent to the GY: \
     You can banish this card from your GY; shuffle 1 face-up "Gate Guardian" you control into the Deck, \
