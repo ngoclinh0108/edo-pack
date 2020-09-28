@@ -554,7 +554,7 @@ name = "Palladium Guardian Release"
 type = "spell"
 effect = """\
 Take 1 "Suijin", "Kazejin", "Sanga of the Thunder" or "Gate Guardian", \
-    and either add it from your Deck to your hand or Special Summon it from your GY, ignoring its Summoning conditions. \
+    and either add it from your Deck to your hand or Special Summon it from your hand or GY, ignoring its Summoning conditions. \
 You can only activate 1 "Palladium Guardian Release" per turn. \
 During your Main Phase, except the turn this card was sent to the GY: \
     You can banish this card from your GY; shuffle 1 face-up "Gate Guardian" you control into the Deck, \
