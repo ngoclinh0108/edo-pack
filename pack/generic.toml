@@ -24,8 +24,8 @@ Activate 1 of the following effects.
 ● Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters from your hand or field as Fusion Material, \
     you can also banish monster from your GY as Fusion Material.
-● Ritual Summon 1 Ritual Monster from your hand or GY, \
-    by Tributing monsters from your hand or field, \
+● Ritual Summon 1 Ritual Monster from your hand, \
+    by Tributing monsters from your hand or field and/or banish monster from your GY, \
     whose total Levels equal or exceed the Level of the Ritual Monster.
 """
 strings = ["Fusion Summon", "Ritual Summon"]
