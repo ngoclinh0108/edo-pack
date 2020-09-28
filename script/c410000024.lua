@@ -1,4 +1,5 @@
 -- Palladium Reborn
+Duel.LoadScript("utility.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_RA}

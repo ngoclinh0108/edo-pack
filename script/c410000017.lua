@@ -1,4 +1,5 @@
 -- Palladium Knight Faris
+Duel.LoadScript("utility.lua")
 local s, id = GetID()
 
 s.listed_names = {6368038}

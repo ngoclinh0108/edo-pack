@@ -1,4 +1,5 @@
 -- Ra the Sun Divine Beast - Sphere Mode
+Duel.LoadScript("utility.lua")
 Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("proc_dimension.lua")
 local s, id = GetID()

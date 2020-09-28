@@ -1,5 +1,7 @@
 -- Palladium Paladin Ace Joker
+Duel.LoadScript("utility.lua")
 local s, id = GetID()
+
 function s.initial_effect(c)
     c:EnableReviveLimit()
     aux.DoubleSnareValidity(c, LOCATION_MZONE)

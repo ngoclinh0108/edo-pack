@@ -1,4 +1,5 @@
 -- Slifer the Sky Divine Dragon
+Duel.LoadScript("utility.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 

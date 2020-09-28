@@ -1,4 +1,5 @@
 -- Palladium Chaos Draco-Knight
+Duel.LoadScript("utility.lua")
 local s, id = GetID()
 
 s.listed_names = {5405694, 21082832}

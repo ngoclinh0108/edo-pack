@@ -1,4 +1,5 @@
 -- Palladium Guardian Sanga
+Duel.LoadScript("utility.lua")
 local s, id = GetID()
 
 s.listed_names = {25955164}

@@ -1,4 +1,5 @@
 -- Palladium Apostle of Slifer
+Duel.LoadScript("utility.lua")
 local s, id = GetID()
 
 s.listed_names = {10000020}

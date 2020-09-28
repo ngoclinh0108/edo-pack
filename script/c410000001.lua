@@ -1,4 +1,5 @@
 -- Obelisk the Giant Divine Soldier
+Duel.LoadScript("utility.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 

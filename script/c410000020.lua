@@ -1,4 +1,5 @@
 -- Palladium Guardian Kazejin
+Duel.LoadScript("utility.lua")
 local s, id = GetID()
 
 s.listed_names = {62340868}

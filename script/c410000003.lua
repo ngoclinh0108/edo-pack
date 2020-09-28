@@ -1,4 +1,5 @@
 -- Ra the Sun Divine Beast
+Duel.LoadScript("utility.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
