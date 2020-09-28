@@ -440,7 +440,8 @@ atk = 2500
 def = 2400
 effect = """\
 (This card's name is also treated as "Suijin".)
-You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
+You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
+    You can only Special Summon "Palladium Guardian Suijin" once per turn this way. \
 When this card is targeted for an attack: You can negate the attack. \
     This effect can only be used once while this card is face-up on the field. \
 An Xyz Monster has this card as Xyz Material gains this effect.
@@ -460,7 +461,8 @@ atk = 2400
 def = 2200
 effect = """\
 (This card's name is also treated as "Kazejin".)
-You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
+You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
+    You can only Special Summon "Palladium Guardian Kazejin" once per turn this way. \
 When this card is targeted for an attack: You can negate the attack. \
     This effect can only be used once while this card is face-up on the field. \
 An Xyz Monster has this card as Xyz Material gains this effect.
@@ -480,7 +482,8 @@ atk = 2600
 def = 2200
 effect = """\
 (This card's name is also treated as "Sanga of the Thunder".)
-You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or either side of the field. \
+You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
+    You can only Special Summon "Palladium Guardian Sanga" once per turn this way. \
 When this card is targeted for an attack: You can negate the attack. \
     This effect can only be used once while this card is face-up on the field. \
 An Xyz Monster has this card as Xyz Material gains this effect.

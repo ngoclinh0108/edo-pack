@@ -18,6 +18,7 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_PROC)
     e1:SetRange(LOCATION_HAND)
+    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
@@ -50,8 +51,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c) return c:IsReleasableByEffect() and
-                                  c:IsType(TYPE_MONSTER) end
+function s.e1filter(c)
+    return c:IsReleasableByEffect() and c:IsType(TYPE_MONSTER)
+        and (c:IsLocation(LOCATION_HAND) or c:IsFaceup())
+end
 
 function s.e1con(e, c)
     if c == nil then return true end
