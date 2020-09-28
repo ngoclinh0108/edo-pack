@@ -54,7 +54,8 @@ end
 
 function s.e2filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               c:IsType(TYPE_NORMAL) and c:IsLevelAbove(7)
+               c:IsType(TYPE_NORMAL) and c:IsLevelAbove(7) and
+               c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -87,9 +88,9 @@ function s.e3filter(c, tp)
     local dmcheck = aux.IsCodeListed(c, CARD_DARK_MAGICIAN,
                                      CARD_DARK_MAGICIAN_GIRL, 30208479)
     local becheck = aux.IsCodeListed(c, CARD_BLUEEYES_W_DRAGON, 23995346) or
-                        Utility.IsSetCardListed(c,0xdd)
+                        Utility.IsSetCardListed(c, 0xdd)
     local recheck = aux.IsCodeListed(c, CARD_REDEYES_B_DRAGON) or
-                        Utility.IsSetCardListed(c,0x3b)
+                        Utility.IsSetCardListed(c, 0x3b)
 
     return c:IsAbleToHand() and not c:IsCode(id) and
                c:IsType(TYPE_SPELL + TYPE_TRAP) and
