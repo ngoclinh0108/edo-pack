@@ -74,24 +74,13 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c, tp)
-    local dmcheck = Duel.IsExistingMatchingCard(
-                        aux.FilterFaceupFunction(Card.IsCode, CARD_DARK_MAGICIAN),
-                        tp, LOCATION_ONFIELD, 0, 1, nil) and
-                        aux.IsCodeListed(c, CARD_DARK_MAGICIAN,
-                                         CARD_DARK_MAGICIAN_GIRL)
+    local dmcheck = aux.IsCodeListed(c, CARD_DARK_MAGICIAN,
+                                     CARD_DARK_MAGICIAN_GIRL)
 
-    local becheck = Duel.IsExistingMatchingCard(
-                        aux.FilterFaceupFunction(Card.IsCode,
-                                                 CARD_BLUEEYES_W_DRAGON), tp,
-                        LOCATION_ONFIELD, 0, 1, nil) and
-                        aux.IsCodeListed(c, CARD_BLUEEYES_W_DRAGON, 23995346)
+    local becheck = aux.IsCodeListed(c, CARD_BLUEEYES_W_DRAGON, 23995346)
 
-    local recheck = Duel.IsExistingMatchingCard(
-                        aux.FilterFaceupFunction(Card.IsCode,
-                                                 CARD_REDEYES_B_DRAGON), tp,
-                        LOCATION_ONFIELD, 0, 1, nil) and
-                        (c:IsSetCard(0x3b) or
-                            aux.IsCodeListed(c, CARD_REDEYES_B_DRAGON))
+    local recheck = (c:IsSetCard(0x3b) or
+                        aux.IsCodeListed(c, CARD_REDEYES_B_DRAGON))
 
     return c:IsAbleToHand() and not c:IsCode(id) and
                c:IsType(TYPE_SPELL + TYPE_TRAP) and
