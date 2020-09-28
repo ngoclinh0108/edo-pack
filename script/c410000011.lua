@@ -1,5 +1,5 @@
 -- Palladium Chaos Oracle Aknamkanon
-Duel.LoadScript("utility.lua")
+Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {30208479, 21082832}

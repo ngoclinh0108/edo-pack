@@ -1,5 +1,5 @@
 -- Palladium Sacred Guardian
-Duel.LoadScript("utility.lua")
+Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {25833572}

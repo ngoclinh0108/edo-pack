@@ -1,5 +1,5 @@
 -- Palladium Knight of King
-Duel.LoadScript("utility.lua")
+Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {64788463, 25652259, 24094653}

@@ -1,5 +1,5 @@
 -- Palladium Apostle of Ra
-Duel.LoadScript("utility.lua")
+Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_RA}

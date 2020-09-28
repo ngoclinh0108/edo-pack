@@ -1,5 +1,5 @@
 -- Palladium Oracle Mana - Sacred Wizard
-Duel.LoadScript("utility.lua")
+Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_DARK_MAGICIAN_GIRL}
