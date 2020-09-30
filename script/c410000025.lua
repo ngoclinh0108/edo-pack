@@ -36,6 +36,7 @@ function s.e1filter(c, ft, e, tp)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c=e:GetHandler()
     if chk == 0 then return Duel.GetActivityCount(tp, ACTIVITY_SPSUMMON) == 0 end
 
     local ec1 = Effect.CreateEffect(c)
