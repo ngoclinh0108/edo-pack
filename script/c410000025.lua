@@ -60,11 +60,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     local opt
     if b1 and b2 then
-        opt = Duel.SelectOption(tp, 573, 574)
+        opt = Duel.SelectOption(tp, 573, 5)
     elseif b1 then
         opt = Duel.SelectOption(player, 573)
     else
-        opt = Duel.SelectOption(player, 574) + 1
+        opt = Duel.SelectOption(player, 5) + 1
     end
 
     if opt == 0 then
