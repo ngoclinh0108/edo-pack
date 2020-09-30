@@ -29,11 +29,9 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, ft, e, tp)
-    return c:IsCode(98434877, 62340868, 25955164, 25833572) and
-               ((c:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and
-                   c:IsAbleToHand()) or
-                   (c:IsLocation(LOCATION_HAND + LOCATION_GRAVE) and ft > 0 and
-                       c:IsCanBeSpecialSummoned(e, 0, tp, true, false)))
+    if not c:IsCode(98434877, 62340868, 25955164, 25833572) then return false end
+    return (ft > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, true, false)) or
+               c:IsAbleToHand()
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -44,10 +42,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                            0, 1, nil, ft, e, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND + CATEGORY_SPECIAL_SUMMON, nil, 1,
+                          tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -59,10 +55,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                        1, nil, ft, e, tp):GetFirst()
     if not tc then return end
 
-    local b1 = tc:IsLocation(LOCATION_DECK + LOCATION_GRAVE) and
-                   tc:IsAbleToHand()
-    local b2 = tc:IsLocation(LOCATION_HAND + LOCATION_GRAVE) and ft > 0 and
-                   tc:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+    local b1 = tc:IsAbleToHand()
+    local b2 = ft > 0 and tc:IsCanBeSpecialSummoned(e, 0, tp, true, false)
 
     local opt
     if b1 and b2 then
