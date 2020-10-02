@@ -31,72 +31,45 @@ function s.initial_effect(c)
     attribute:SetValue(ATTRIBUTE_DARK)
     c:RegisterEffect(attribute)
 
-    -- indes
+    -- gain effect
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetTargetRange(LOCATION_MZONE, 0)
-    e1:SetTarget(function(e, c)
-        return c == e:GetHandler() or
-                   (c:IsLevelAbove(6) and c:IsRace(RACE_SPELLCASTER))
-    end)
-    e1:SetValue(1)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- atk up
+    -- draw
+    local e2reg = Effect.CreateEffect(c)
+    e2reg:SetType(EFFECT_TYPE_CONTINUOUS + EFFECT_TYPE_FIELD)
+    e2reg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e2reg:SetCode(EVENT_CHAINING)
+    e2reg:SetRange(LOCATION_MZONE)
+    e2reg:SetOperation(aux.chainreg)
+    c:RegisterEffect(e2reg)
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_SET_ATTACK_FINAL)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_DRAW)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_DELAY)
+    e2:SetCode(EVENT_CHAIN_SOLVING)
     e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
     e2:SetCondition(s.e2con)
-    e2:SetValue(s.e2val)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- act quick spell/trap in hand
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(LOCATION_HAND, 0)
-    e3:SetCountLimit(1, id)
-    e3:SetCondition(s.e3con)
-    c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
-    c:RegisterEffect(e3b)
-
-    -- draw
-    local e4reg = Effect.CreateEffect(c)
-    e4reg:SetType(EFFECT_TYPE_CONTINUOUS + EFFECT_TYPE_FIELD)
-    e4reg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e4reg:SetCode(EVENT_CHAINING)
-    e4reg:SetRange(LOCATION_MZONE)
-    e4reg:SetOperation(aux.chainreg)
-    c:RegisterEffect(e4reg)
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_DRAW)
-    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e4:SetProperty(EFFECT_FLAG_DELAY)
-    e4:SetCode(EVENT_CHAIN_SOLVING)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetCondition(s.e4con)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
-
     -- special summon
-    local e5 = Effect.CreateEffect(c)
-    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e5:SetProperty(EFFECT_FLAG_DELAY)
-    e5:SetCode(EVENT_DESTROYED)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_DESTROYED)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.lnkfilter(c)
@@ -108,23 +81,25 @@ function s.lnkcheck(g, sc, sumtype, tp)
                       CARD_DARK_MAGICIAN, 42006475, CARD_DARK_MAGICIAN_GIRL)
 end
 
-function s.e2con(e)
-    local ph = Duel.GetCurrentPhase()
-    local bc = e:GetHandler():GetBattleTarget()
-    return (ph == PHASE_DAMAGE or ph == PHASE_DAMAGE_CAL) and bc and
-               bc:IsAttribute(ATTRIBUTE_DARK)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 
-function s.e2val(e, c) return e:GetHandler():GetAttack() * 2 end
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = c:GetMaterial()
+    for tc in aux.Next(g) do
+        local code = tc:GetOriginalCode()
+        c:CopyEffect(code, RESET_EVENT + RESETS_STANDARD, 1)
+    end
+end
 
-function s.e3con(e) return Duel.GetTurnPlayer() ~= e:GetHandlerPlayer() end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return re:IsActiveType(TYPE_SPELL + TYPE_TRAP) and c:GetFlagEffect(1) > 0
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
 
     Duel.SetTargetPlayer(tp)
@@ -132,7 +107,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
                                    CHAININFO_TARGET_PARAM)
@@ -162,20 +137,20 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e5filter(c, e, tp, code1, code2)
+function s.e3filter(c, e, tp, code1, code2)
     return c:IsCode(code1, code2) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
     if chk == 0 then
         return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 1 and
-                   Duel.IsExistingMatchingCard(s.e5filter, tp, loc, 0, 1, nil,
+                   Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
                                                e, tp, 71703785,
                                                CARD_DARK_MAGICIAN) and
-                   Duel.IsExistingMatchingCard(s.e5filter, tp, loc, 0, 1, nil,
+                   Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
                                                e, tp, 42006475,
                                                CARD_DARK_MAGICIAN_GIRL)
     end
@@ -183,14 +158,14 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp, loc)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 then return end
 
-    local g1 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e5filter), tp, loc,
+    local g1 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp, loc,
                                      0, nil, e, tp, 71703785, CARD_DARK_MAGICIAN)
-    local g2 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e5filter), tp, loc,
+    local g2 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp, loc,
                                      0, nil, e, tp, 42006475,
                                      CARD_DARK_MAGICIAN_GIRL)
 

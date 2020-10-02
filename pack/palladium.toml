@@ -233,7 +233,7 @@ def = 1700
 effect = """\
 (This card's name is also treated as "Dark Magician Girl". This card's Attribute is also treated as DARK.)
 You can Special Summon this card (from your hand) by discarding 1 card. \
-Level 6 or higher Spellcaster monsters you control cannot be destroyed by card effects. \
+Spellcaster monsters you control cannot be destroyed by card effects. \
 During damage calculation, if your other LIGHT Spellcaster monster battles an opponent's monster (Quick Effect): \
     You can send this card from your hand or face-up from your field to the GY; \
     that monster you control gains 2000 ATK/DEF during that damage calculation only. \
@@ -397,7 +397,7 @@ You can Ritual Summon this card with "Palladium Magic". \
 Must Be Ritual Summoned. \
 You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Spellcaster non-Ritual Monster from your Deck or GY to your hand. \
 All monsters your opponent controls become DARK. \
-Your opponent cannot target Level 6 or higher Spellcaster monsters you control with card effects. \
+Your opponent cannot target Spellcaster monsters you control with card effects. \
 When this card destroys a monster by battle, after damage calculation: \
     Banish that monster. \
 During the End Phase, if this card was Summoned this turn: \
@@ -641,10 +641,7 @@ link-rating = 2
 effect = """\
 2 LIGHT Spellcaster monsters, including "Palladium Oracle Mahad", "Dark Magician", "Palladium Oracle Mana" or "Dark Magician Girl"
 (This card's Attribute is also treated as DARK.)
-This card and other Level 6 or higher Spellcaster monsters you control cannot be destroyed by card effects. \
-If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
-You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
-    You can only use this effect of "The Palladium Oracles" once per turn. \
+This card gains the effects of material monster used to Link Summon this card. \
 Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \
     You can draw 1 card, \
     then if it was a Monster, you can Special Summon it, \
