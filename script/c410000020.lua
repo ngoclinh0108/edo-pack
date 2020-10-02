@@ -1,8 +1,9 @@
--- Palladium Guardian Kazejin
+-- Palladium Guardian Suijin
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {62340868}
+s.listed_names = {98434877}
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     -- code
@@ -10,7 +11,7 @@ function s.initial_effect(c)
     code:SetType(EFFECT_TYPE_SINGLE)
     code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(62340868)
+    code:SetValue(98434877)
     c:RegisterEffect(code)
 
     -- special summon
@@ -19,39 +20,55 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_PROC)
     e1:SetRange(LOCATION_HAND)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e1:SetCountLimit(1, id)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- disable attack
+    -- attack limit
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
-    e2:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetCondition(s.e2con)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec1)
+    end)
     c:RegisterEffect(e2)
 
-    -- atk down
+    -- disable attack
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetType(EFFECT_TYPE_XMATERIAL + EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetRange(LOCATION_MZONE)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
     e3:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1)
     e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- gain effect
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetType(EFFECT_TYPE_XMATERIAL + EFFECT_TYPE_QUICK_O)
+    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetCountLimit(1)
+    e4:SetCondition(s.e4con)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e1filter(c)
-    return c:IsReleasableByEffect() and c:IsType(TYPE_MONSTER)
-        and (c:IsLocation(LOCATION_HAND) or c:IsFaceup())
+    return c:IsReleasableByEffect() and c:IsType(TYPE_MONSTER) and
+               (c:IsLocation(LOCATION_HAND) or c:IsFaceup())
 end
 
 function s.e1con(e, c)
@@ -89,24 +106,36 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttackTarget() == e:GetHandler()
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateAttack() end
-
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetAttackTarget() == e:GetHandler()
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ac = Duel.GetAttacker()
+function s.e3op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateAttack() end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
-    ec1:SetValue(0)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    ac:RegisterEffect(ec1)
+function s.e4filter(c)
+    return c:IsAbleToHand() and c:IsType(TYPE_SPELL + TYPE_TRAP)
+end
+
+function s.e4con(e)
+    local c = e:GetHandler()
+    return c:IsSetCard(0x13a)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e4filter, tp, LOCATION_ONFIELD,
+                                     LOCATION_ONFIELD, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectTarget(tp, s.e4filter, tp, LOCATION_ONFIELD,
+                                LOCATION_ONFIELD, 1, 1, nil)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, tp, 0)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) then return end
+
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
 end

@@ -1,11 +1,20 @@
--- Palladium Chaos Draco-Knight
+-- Palladium Chaos Soldier - Envoy of the Nightfall
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {5405694, 21082832}
+s.listed_names = {5405694, 410000025}
+s.listed_series = {0xbd}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(aux.ritlimit)
+    c:RegisterEffect(splimit)
 
     -- code
     local code = Effect.CreateEffect(c)
@@ -23,7 +32,7 @@ function s.initial_effect(c)
     attribute:SetValue(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
     c:RegisterEffect(attribute)
 
-    -- search dragon
+    -- search
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e1:SetType(EFFECT_TYPE_IGNITION)
@@ -33,21 +42,18 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- cannot be target & indes
+    -- special summon
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(aux.tgoval)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_DELAY)
+    e2:SetCode(EVENT_DESTROYED)
     e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e2b:SetValue(function(e, re, rp) return rp == 1 - e:GetHandlerPlayer() end)
-    c:RegisterEffect(e2b)
 
-    -- destroy
+    -- battle destroy
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetCode(EVENT_BATTLE_DESTROYING)
@@ -58,9 +64,9 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsAbleToHand() and c:IsLevelAbove(7) and
-               c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
-               c:IsRace(RACE_DRAGON)
+    return
+        c:IsAbleToHand() and c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
+            not c:IsType(TYPE_RITUAL) and c:IsRace(RACE_WARRIOR)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -95,11 +101,37 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e2filter(c) return c:IsFaceup() and c:IsRace(RACE_DRAGON) end
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
+end
 
-function s.e2con(e, tp)
-    local c = e:GetHandler()
-    return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1, c)
+function s.e2filter(c, e, tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               c:IsSetCard(0xbd)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND +
+                                                   LOCATION_DECK +
+                                                   LOCATION_GRAVE, 0, 1, nil, e,
+                                               tp)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
+                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter), tp,
+                                      LOCATION_HAND + LOCATION_DECK +
+                                          LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+
+    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)

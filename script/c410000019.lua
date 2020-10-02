@@ -1,121 +1,159 @@
--- Palladium Guardian Suijin
+-- Palladium Chaos Dragon - Envoy of the Dawnbreak
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {98434877}
-
 function s.initial_effect(c)
-    -- code
-    local code = Effect.CreateEffect(c)
-    code:SetType(EFFECT_TYPE_SINGLE)
-    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(98434877)
-    c:RegisterEffect(code)
+    c:EnableReviveLimit()
 
-    -- special summon
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(aux.ritlimit)
+    c:RegisterEffect(splimit)
+
+    -- attribute
+    local attribute = Effect.CreateEffect(c)
+    attribute:SetType(EFFECT_TYPE_SINGLE)
+    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
+    attribute:SetValue(ATTRIBUTE_DARK)
+    c:RegisterEffect(attribute)
+
+    -- search
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_SPSUMMON_PROC)
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_HAND)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
-    e1:SetCondition(s.e1con)
+    e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- disable attack
+    -- piercing damage
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
-    e2:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetCondition(s.e2con)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_PIERCE)
     c:RegisterEffect(e2)
 
-    -- gain effect
+    -- inflict damage
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_XMATERIAL + EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetCountLimit(1)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_DAMAGE)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e3:SetCode(EVENT_BATTLE_DESTROYING)
+    e3:SetCondition(aux.bdocon)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- send cards to the graveyard
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_TOGRAVE + CATEGORY_DAMAGE)
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1, id)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e1filter(c)
-    return c:IsReleasableByEffect() and c:IsType(TYPE_MONSTER)
-        and (c:IsLocation(LOCATION_HAND) or c:IsFaceup())
+    return
+        c:IsAbleToHand() and c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
+            not c:IsType(TYPE_RITUAL) and c:IsRace(RACE_DRAGON)
 end
 
-function s.e1con(e, c)
-    if c == nil then return true end
-    local tp = c:GetControler()
-    local g = Duel.GetMatchingGroup(s.e1filter, tp,
-                                    LOCATION_HAND + LOCATION_ONFIELD,
-                                    LOCATION_ONFIELD, nil)
-
-    return aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 0)
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp)
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
+    if chk == 0 then return c:IsDiscardable() end
 
-    local g = Duel.GetMatchingGroup(s.e1filter, tp,
-                                    LOCATION_HAND + LOCATION_ONFIELD,
-                                    LOCATION_ONFIELD, c)
-    local rg = aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp,
-                                       HINTMSG_RELEASE)
+    Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
+end
 
-    if #rg > 0 then
-        rg:KeepAlive()
-        e:SetLabelObject(rg)
-        return true
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           nil)
     end
-    return false
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = e:GetLabelObject()
-    if not g then return end
+function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
+    local g = Duel.GetMatchingGroup(s.e1filter, tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    if #g > 1 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+        g = g:Select(tp, 1, 1, nil)
+    end
 
-    Duel.Release(g, REASON_COST)
-    g:DeleteGroup()
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttackTarget() == e:GetHandler()
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.NegateAttack()
-end
-
-function s.e3filter(c)
-    return c:IsAbleToHand() and c:IsType(TYPE_SPELL + TYPE_TRAP)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e3filter, tp, LOCATION_ONFIELD,
-                                     LOCATION_ONFIELD, 1, nil)
-    end
+    if chk == 0 then return true end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_ONFIELD,
-                                LOCATION_ONFIELD, 1, 1, nil)
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, tp, 0)
+    local c = e:GetHandler()
+    local bc = c:GetBattleTarget()
+    local dmg = bc:GetAttack()
+    if bc:GetAttack() < bc:GetDefense() then dmg = bc:GetDefense() end
+    if dmg < 0 then dmg = 0 end
+
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(dmg)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
+end
 
-    Duel.SendtoHand(tc, nil, REASON_EFFECT)
+function s.e4filter1(c, p) return c:GetOwner() == p and c:IsAbleToGrave() end
+
+function s.e4filter2(c, p)
+    return c:IsControler(p) and c:IsLocation(LOCATION_GRAVE)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    local g = Duel.GetFieldGroup(tp, 0, 0xe)
+    local dc = g:FilterCount(s.e4filter1, nil, 1 - tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, dc * 300)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
+    local g = Duel.GetFieldGroup(tp, 0, 0xe)
+    Duel.SendtoGrave(g, REASON_EFFECT)
+
+    local og = Duel.GetOperatedGroup()
+    local ct = og:FilterCount(s.e4filter2, nil, 1 - tp)
+    if ct > 0 then
+        Duel.BreakEffect()
+        Duel.Damage(1 - tp, ct * 500, REASON_EFFECT)
+    end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK)
+    ec1:SetLabel(c:GetFieldID())
+    ec1:SetTargetRange(LOCATION_MZONE, 0)
+    ec1:SetTarget(function(e, c) return e:GetLabel() ~= c:GetFieldID() end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end

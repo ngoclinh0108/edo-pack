@@ -13,26 +13,26 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- fusion
-    local e2 = Fusion.CreateSummonEff({
+    -- ritual
+    local e2 = Ritual.CreateProc({
         handler = c,
+        lvtype = RITPROC_GREATER,
         desc = aux.Stringid(id, 0),
         extrafil = s.e2exfilter,
         extraop = s.e2exop
     })
     c:RegisterEffect(e2)
-    if not GhostBelleTable then GhostBelleTable = {} end
-    table.insert(GhostBelleTable, e2)
 
-    -- ritual
-    local e3 = Ritual.CreateProc({
+    -- fusion
+    local e3 = Fusion.CreateSummonEff({
         handler = c,
-        lvtype = RITPROC_GREATER,
         desc = aux.Stringid(id, 1),
         extrafil = s.e3exfilter,
         extraop = s.e3exop
     })
     c:RegisterEffect(e3)
+    if not GhostBelleTable then GhostBelleTable = {} end
+    table.insert(GhostBelleTable, e3)
 end
 
 function s.e1filter(c) return c:IsType(TYPE_SPELL) and c:IsDiscardable() end
@@ -58,7 +58,21 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.ConfirmCards(1 - tp, c)
 end
 
-function s.e2exfilter(e, tp, mg)
+function s.e2exfilter(e, tp, eg, ep, ev, re, r, rp, chk)
+    return Duel.GetMatchingGroup(function(c)
+        return c:HasLevel() and c:IsAbleToRemove()
+    end, tp, LOCATION_GRAVE, 0, nil)
+end
+
+function s.e2exop(mg, e, tp, eg, ep, ev, re, r, rp)
+    local mat2 = mg:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
+    mg:Sub(mat2)
+    Duel.ReleaseRitualMaterial(mg)
+    Duel.Remove(mat2, POS_FACEUP,
+                REASON_EFFECT + REASON_MATERIAL + REASON_RITUAL)
+end
+
+function s.e3exfilter(e, tp, mg)
     if not Duel.IsPlayerAffectedByEffect(tp, 69832741) then
         local eg = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp,
                                          LOCATION_MZONE + LOCATION_GRAVE, 0, nil)
@@ -67,25 +81,11 @@ function s.e2exfilter(e, tp, mg)
     return nil
 end
 
-function s.e2exop(e, tc, tp, sg)
+function s.e3exop(e, tc, tp, sg)
     local rg = sg:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
     if #rg > 0 then
         Duel.Remove(rg, POS_FACEUP,
                     REASON_EFFECT + REASON_MATERIAL + REASON_FUSION)
         sg:Sub(rg)
     end
-end
-
-function s.e3exfilter(e, tp, eg, ep, ev, re, r, rp, chk)
-    return Duel.GetMatchingGroup(function(c)
-        return c:HasLevel() and c:IsAbleToRemove()
-    end, tp, LOCATION_GRAVE, 0, nil)
-end
-
-function s.e3exop(mg, e, tp, eg, ep, ev, re, r, rp)
-    local mat2 = mg:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
-    mg:Sub(mat2)
-    Duel.ReleaseRitualMaterial(mg)
-    Duel.Remove(mat2, POS_FACEUP,
-                REASON_EFFECT + REASON_MATERIAL + REASON_RITUAL)
 end
