@@ -2,8 +2,6 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_DARK_MAGICIAN_GIRL}
-
 function s.initial_effect(c)
     -- code
     local code = Effect.CreateEffect(c)

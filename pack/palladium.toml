@@ -460,10 +460,7 @@ You can send as many cards in your opponents' hands and on their side of the fie
     also, for the rest of this turn, Other monsters you control cannot attack. \
     You can only use this effect of "Palladium Chaos Dragon - Envoy of the Dawnbreak" once per turn. \
 """
-strings = [
-    "Inflict damage",
-    "Send card to the GY"
-]
+strings = ["Inflict damage", "Send card to the GY"]
 
 [card.palladium-guardian-suijin]
 id = 410000020
@@ -594,7 +591,13 @@ Activate 1 of these effect;
 ● If you control a "Palladium" Spellcaster monster or a "Palladium" Ritual monster: \
     Banish 1 card on the field face-down.
 """
-strings = ["Summoned with \"Palladium Magic\"", "Ritual Summon", "Search monster", "Special Spellcaster", "Banish"]
+strings = [
+    "Summoned with \"Palladium Magic\"",
+    "Ritual Summon",
+    "Search monster",
+    "Special Summon Spellcaster",
+    "Banish",
+]
 
 [card.palladium-reborn]
 id = 410000026
@@ -624,3 +627,27 @@ During your Main Phase, except the turn this card was sent to the GY: \
     and if you do, Special Summon in face-up Defanse Position, 1 each of "Suijin", "Kazejin" and "Sanga of the Thunder" from your hand, Deck, GY. \
 """
 strings = []
+
+[card.palladium-oracles]
+id = 410000028
+set = 'palladium'
+name = "The Palladium Oracles"
+type = "monster link effect"
+attribute = "light"
+race = "spellcaster"
+link-arrows = "bottom-left bottom-right"
+atk = 2800
+link-rating = 2
+effect = """\
+2 LIGHT Spellcaster monsters, including "Palladium Oracle Mahad", "Dark Magician", "Palladium Oracle Mana" or "Dark Magician Girl"
+(This card's Attribute is also treated as DARK.)
+This card and other Level 6 or higher Spellcaster monsters you control cannot be destroyed by card effects. \
+If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \
+    You can draw 1 card, \
+    then if it was a Monster, you can Special Summon it, \
+    or you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
+If this card is destroyed: You can Special Summon both 1 "Palladium Oracle Mahad" or "Dark Magician" and 1 "Palladium Oracle Mana" or "Dark Magician Girl" \
+    from your hand, Deck, and/or GY. \
+"""
+strings = ["Draw and check"]
