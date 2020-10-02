@@ -618,7 +618,6 @@ type = "spell"
 effect = """\
 Take 1 "Suijin", "Kazejin", "Sanga of the Thunder" or "Gate Guardian" from your hand, Deck or GY \
     and either add it to your hand or Special Summon it in face-up Defense Position, ignoring its Summoning conditions. \
-    You cannot Special Summon other monsters during the turn you activate this card. \
     You can only activate 1 "Palladium Guardian Release" per turn. \
 During your Main Phase, except the turn this card was sent to the GY: \
     You can banish this card from your GY; shuffle 1 face-up "Gate Guardian" you control into the Deck, \

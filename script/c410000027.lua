@@ -11,7 +11,6 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetCountLimit(1, id)
-    e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -32,22 +31,7 @@ end
 function s.e1filter(c, ft, e, tp)
     if not c:IsCode(98434877, 62340868, 25955164, 25833572) then return false end
     return (ft > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, true, false)) or
-               c:IsAbleToHand()
-end
-
-function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c=e:GetHandler()
-    if chk == 0 then return Duel.GetActivityCount(tp, ACTIVITY_SPSUMMON) == 0 end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
-    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetTarget(s.e1splimit)
-    ec1:SetLabelObject(e)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
+               (not c:IsLocation(LOCATION_HAND) and c:IsAbleToHand())
 end
 
 function s.e1splimit(e, c, sump, sumtype, sumpos, targetp, se)
@@ -75,7 +59,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                        1, nil, ft, e, tp):GetFirst()
     if not tc then return end
 
-    local b1 = tc:IsAbleToHand()
+    local b1 = not tc:IsLocation(LOCATION_HAND) and tc:IsAbleToHand()
     local b2 = ft > 0 and tc:IsCanBeSpecialSummoned(e, 0, tp, true, false)
 
     local opt
