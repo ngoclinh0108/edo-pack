@@ -150,6 +150,7 @@ Immediately after your "The Winged Dragon of Ra" is Special Summoned from the GY
 ${DIVINE_IMMUNITY} \
 This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 Unaffected by your opponent's Spell/Trap effects. \
+Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 Once per turn (Quick Effect): You can pay LP so that you only have 1 left; This card gains original ATK/DEF equal to the amount of LP paid, \
     and also, during this turn, while this card is on the field: Any increase in LP is changed to increase this card's ATK/DEF instead. \
     Cards and effects cannot be activated in response to this effect's activation. \
@@ -420,6 +421,7 @@ effect = """\
 You can Ritual Summon this card with "Palladium Magic". \
 Must Be Ritual Summoned. \
 You can discard this card; Add 1 LIGHT or DARK Warrior non-Ritual Monster from your Deck or GY to your hand. \
+Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Gaia the Fierce Knight" monster from your hand, Deck, or GY. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
