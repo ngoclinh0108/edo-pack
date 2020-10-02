@@ -63,7 +63,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.xyzcheck(g, tp, sc) return g:GetClassCount(Card.GetAttribute) == #g end
+function s.xyzcheck(g, tp, sc)
+    return g:GetClassCount(Card.GetAttribute) == #g and
+               g:GetClassCount(Card.GetRace) == #g
+end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ)

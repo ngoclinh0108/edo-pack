@@ -544,7 +544,7 @@ level = 7
 atk = 3750
 def = 3400
 effect = """\
-3 Level 7 monsters with different attributes
+3 Level 7 monsters with different attributes and types
 (This card's name is also treated as "Gate Guardian".)
 If this card is Xyz Summoned: You can choose up to 3 your opponent's unused Main Monster Zones; \
     those zones cannot be used while this card is face-up on the field. \
