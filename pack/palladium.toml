@@ -237,7 +237,7 @@ Level 6 or higher Spellcaster monsters you control cannot be destroyed by card e
 During damage calculation, if your other LIGHT Spellcaster monster battles an opponent's monster (Quick Effect): \
     You can send this card from your hand or face-up from your field to the GY; \
     that monster you control gains 2000 ATK/DEF during that damage calculation only. \
-    You can only use this effect of "Palladium Sacred Oracle Mana" once per turn. \
+    You can only use this effect of "Palladium Oracle Mana - Sacred Wizard" once per turn. \
 """
 strings = ["Gain ATK"]
 
@@ -256,7 +256,7 @@ effect = """\
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
-    You can only use this effect of "Palladium Sacred Oracle Mahad" once per turn. \
+    You can only use this effect of "Palladium Oracle Mahad - Sacred Wizard" once per turn. \
 """
 
 [card.palladium-beast-kuriboh]
@@ -643,6 +643,8 @@ effect = """\
 (This card's Attribute is also treated as DARK.)
 This card and other Level 6 or higher Spellcaster monsters you control cannot be destroyed by card effects. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
+    You can only use this effect of "The Palladium Oracles" once per turn. \
 Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \
     You can draw 1 card, \
     then if it was a Monster, you can Special Summon it, \
