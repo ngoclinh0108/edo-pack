@@ -116,7 +116,7 @@ This card's activation and effects cannot be negated. \
 Neither player can target this card with card effects. \
 Cannot be Tributed, or be used as a material for a Summon. \
 Cannot be flipped face-down. \
-Control of this card cannot be switched. \
+Possession of this card cannot be switched. \
 Unaffected by other monster effects and other cards' effects that would make this card leave the field, \
     except cards' effects with the same or higher Divine Hierarchy. \
 Cards' effects are only applied on this card for 1 turn. \
@@ -628,8 +628,68 @@ During your Main Phase, except the turn this card was sent to the GY: \
 """
 strings = []
 
-[card.palladium-oracles]
+[card.palladium-sacred-paladin-of-heaven-god]
 id = 410000028
+set = "palladium"
+name = "Palladium Sacred Paladin of Heaven's God"
+type = "monster fusion effect"
+attribute = "light"
+race = "spellcaster"
+level = 9
+atk = 2900
+def = 2400
+effect = """\
+"Dark Magician" + "Palladium Apostle of Slifer"
+Must Be Fusion Summoned with the above Fusion Materials. \
+Your opponent cannot Tribute this card, nor target it with card effects, \
+    also it cannot be destroyed by card effects and possession of it cannot switch. \
+This card Gain 500 ATK and DEF for each card in your hand. \
+Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
+    then if its ATK has been reduced to 0 as a result, destroy it. \
+Once per turn, when your opponent activates a card or effect (Quick Effect): \
+    You can negate the activation, and if you do, destroy that card. \
+If a card(s) your opponent controls is destroyed by battle or card effect: You can draw 1 card. \
+"""
+strings = ["Negate activation", "Reduce your opponent monster's ATK"]
+
+[card.palladium-dracoknight-of-war-god]
+id = 410000029
+set = "palladium"
+name = "Palladium Draco-Knight of War's God"
+type = "monster fusion effect"
+attribute = "earth"
+race = "dragon"
+level = 9
+atk = 3000
+def = 2500
+effect = """\
+"Blue-Eyes White Dragon" + "Palladium Apostle of Obelisk"
+Must Be Fusion Summoned with the above Fusion Materials. \
+Your opponent cannot Tribute this card, nor target it with card effects, \
+    also it cannot be destroyed by card effects and possession of it cannot switch. \
+"""
+strings = []
+
+[card.palladium-burning-soldier-of-sun-god]
+id = 410000030
+set = "palladium"
+name = "Palladium Burning Soldier of Sun's God"
+type = "monster fusion effect"
+attribute = "fire"
+race = "warrior"
+level = 9
+atk = 2600
+def = 2100
+effect = """\
+"Gaia The Fierce Knight" + "Palladium Apostle of Ra"
+Must Be Fusion Summoned with the above Fusion Materials. \
+Your opponent cannot Tribute this card, nor target it with card effects, \
+    also it cannot be destroyed by card effects and possession of it cannot switch. \
+"""
+strings = []
+
+[card.palladium-oracles]
+id = 410000031
 set = 'palladium'
 name = "The Palladium Oracles"
 type = "monster link effect"

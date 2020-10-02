@@ -101,7 +101,7 @@ function s.e2con(e)
                                            1, nil)
 end
 
-function s.e2val(e, te) return te:GetOwner() ~= e:GetOwner() end
+function s.e2val(e, te) return te:GetHandler() ~= e:GetHandler() end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
