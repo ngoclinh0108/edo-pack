@@ -395,7 +395,7 @@ effect = """\
 (This card's name is also treated as "Magician of Black Chaos". This card's Attribute is also treated as LIGHT.)
 You can Ritual Summon this card with "Palladium Magic". \
 Must Be Ritual Summoned. \
-You can discard this card; Add 1 LIGHT or DARK Spellcaster non-Ritual Monster from your Deck or GY to your hand. \
+You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Spellcaster non-Ritual Monster from your Deck or GY to your hand. \
 All monsters your opponent controls become DARK. \
 Your opponent cannot target Level 6 or higher Spellcaster monsters you control with card effects. \
 When this card destroys a monster by battle, after damage calculation: \
@@ -420,7 +420,7 @@ effect = """\
 (This card's name is also treated as "Black Luster Soldier". This card's Attribute is also treated as LIGHT and DARK.)
 You can Ritual Summon this card with "Palladium Magic". \
 Must Be Ritual Summoned. \
-You can discard this card; Add 1 LIGHT or DARK Warrior non-Ritual Monster from your Deck or GY to your hand. \
+You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Warrior non-Ritual Monster from your Deck or GY to your hand. \
 Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Gaia the Fierce Knight" monster from your hand, Deck, or GY. \
@@ -451,7 +451,7 @@ effect = """\
 (This card's Attribute is also treated as DARK.)
 You can Ritual Summon this card with "Palladium Magic". \
 Must Be Ritual Summoned. \
-You can discard this card; Add 1 LIGHT or DARK Dragon non-Ritual Monster from your Deck or GY to your hand. \
+You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Dragon non-Ritual Monster from your Deck or GY to your hand. \
 If this card attacks a Defense Position monster, inflict piercing Battle Damage to your opponent. \
 When this card destroys an opponent's monster by battle: \
     Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \

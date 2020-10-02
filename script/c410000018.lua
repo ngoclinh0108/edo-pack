@@ -72,9 +72,9 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return
-        c:IsAbleToHand() and c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
-            not c:IsType(TYPE_RITUAL) and c:IsRace(RACE_WARRIOR)
+    return c:IsAbleToHand() and not c:IsType(TYPE_RITUAL) and
+               c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
+               c:IsRace(RACE_WARRIOR) and c:IsLevelBelow(8)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
