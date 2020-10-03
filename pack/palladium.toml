@@ -641,8 +641,7 @@ def = 2400
 effect = """\
 "Dark Magician" + "Palladium Apostle of Slifer"
 Must Be Fusion Summoned with the above Fusion Materials. \
-Your opponent cannot Tribute this card, nor target it with card effects, \
-    also it cannot be destroyed by card effects and possession of it cannot switch. \
+Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 This card Gain 500 ATK and DEF for each card in your hand. \
 Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
@@ -660,20 +659,25 @@ type = "monster fusion effect"
 attribute = "earth"
 race = "dragon"
 level = 9
-atk = 3000
-def = 2500
+atk = 4000
+def = 0
 effect = """\
 "Blue-Eyes White Dragon" + "Palladium Apostle of Obelisk"
 Must Be Fusion Summoned with the above Fusion Materials. \
-Your opponent cannot Tribute this card, nor target it with card effects, \
-    also it cannot be destroyed by card effects and possession of it cannot switch. \
+Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
+Cannot be destroyed by battle. \
+This card can make up to 3 attacks during each Battle Phase. \
+At the end of the Damage Step, when this card attacks an opponent's monster, \
+    but the opponent's monster was not destroyed by the battle: You can send that opponent's monster to GY. \
+Once per turn, you can Tribute 2 monsters; destroy all face-up monsters your opponent controls. \
+    This card cannot declare an attack the turn this effect is activated. \
 """
-strings = []
+strings = ["Send the battling monster to the GY", "Tribute to destroy"]
 
 [card.palladium-burning-soldier-of-sun-god]
 id = 410000030
 set = "palladium"
-name = "Palladium Burning Soldier of Sun's God"
+name = "Palladium Immortal Soldier of Sun's God"
 type = "monster fusion effect"
 attribute = "fire"
 race = "warrior"
@@ -682,11 +686,26 @@ atk = 2600
 def = 2100
 effect = """\
 "Gaia The Fierce Knight" + "Palladium Apostle of Ra"
-Must Be Fusion Summoned with the above Fusion Materials. \
-Your opponent cannot Tribute this card, nor target it with card effects, \
-    also it cannot be destroyed by card effects and possession of it cannot switch. \
+Must Be Fusion Summoned with the above Fusion Materials or by its own effect. \
+Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
+When this card destroys an opponent's monster by battle: \
+    You can make this card gain ATK equal to the destroyed monster's original ATK. \
+Once per Chain, during the Main Phase (Quick Effect): \
+    You can target 1 face-up monster your opponent controls; this card loses exactly 1000 ATK, \
+    and if it does, destroy that card. \
+During the Main Phase (Quick Effect): You can Tribute this card, \
+    Special Summon 1 "The Winged Dragon of Ra" from your hand, Deck or GY, \
+    ignoring its Summoning conditions, and if you do, its original ATK/DEF become 4000 \
+    (but send it to the GY as cost during the End Phase). \
+If "The Winged Dragon of Ra" monster is sent from the field to your GY while this card is in your GY: \
+    Special Summon this card. \
+    Cards and effects cannot be activated in response to this effect's activation. \
 """
-strings = []
+strings = [
+    "Gain ATK of the destroyed monster",
+    "Lose ATK to destroy a card",
+    "Summon \"The Winged Dragon of Ra\"",
+]
 
 [card.palladium-oracles]
 id = 410000031
