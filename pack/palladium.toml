@@ -666,7 +666,7 @@ effect = """\
 Must Be Fusion Summoned with the above Fusion Materials. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 If you would Tribute a monster you control to activate a card effect, \
-    you can Tribute 1 monster your opponent controls, even though you do not control it. \
+    you can Tribute monsters your opponent controls, even though you do not control it. \
 Once per turn: You can Tribute 1 monster; \
     this card gains ATK equal to half of the Tributed monster's original ATK, until the end of this turn. \
 This card can make up to 2 attacks during each Battle Phase. \
