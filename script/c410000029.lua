@@ -89,7 +89,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local tc =
         Duel.SelectReleaseGroupCost(tp, nil, 1, 1, false, nil, c):GetFirst()
-    local atk = tc:GetBaseAttack()
+    local atk = tc:GetBaseAttack() / 2
     if atk < 0 then atk = 0 end
     e:SetLabel(atk)
 
