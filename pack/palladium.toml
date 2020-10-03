@@ -635,7 +635,7 @@ name = "Palladium Sacred Paladin of Heaven's God"
 type = "monster fusion effect"
 attribute = "light"
 race = "spellcaster"
-level = 9
+level = 10
 atk = 2900
 def = 2400
 effect = """\
@@ -658,21 +658,22 @@ name = "Palladium Draco-Knight of War's God"
 type = "monster fusion effect"
 attribute = "earth"
 race = "dragon"
-level = 9
+level = 10
 atk = 4000
 def = 0
 effect = """\
 "Blue-Eyes White Dragon" + "Palladium Apostle of Obelisk"
 Must Be Fusion Summoned with the above Fusion Materials. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
-Cannot be destroyed by battle. \
-This card can make up to 3 attacks during each Battle Phase. \
+If you would Tribute a monster you control to activate a card effect, \
+    you can Tribute 1 monster your opponent controls, even though you do not control it. \
+Once per turn: You can Tribute 1 monster; \
+    this card gains ATK equal to the Tributed monster's original ATK, until the end of this turn. \
+This card can make up to 2 attacks during each Battle Phase. \
 At the end of the Damage Step, when this card attacks an opponent's monster, \
     but the opponent's monster was not destroyed by the battle: You can send that opponent's monster to GY. \
-Once per turn, you can Tribute 2 monsters; destroy all face-up monsters your opponent controls. \
-    This card cannot declare an attack the turn this effect is activated. \
 """
-strings = ["Send the battling monster to the GY", "Tribute to destroy"]
+strings = ["Tribute monster for ATK", "Send the battling monster to the GY"]
 
 [card.palladium-burning-soldier-of-sun-god]
 id = 410000030
@@ -681,9 +682,9 @@ name = "Palladium Immortal Soldier of Sun's God"
 type = "monster fusion effect"
 attribute = "fire"
 race = "warrior"
-level = 9
-atk = 2600
-def = 2100
+level = 10
+atk = 3300
+def = 1800
 effect = """\
 "Gaia The Fierce Knight" + "Palladium Apostle of Ra"
 Must Be Fusion Summoned with the above Fusion Materials or by its own effect. \

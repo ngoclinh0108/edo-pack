@@ -40,46 +40,75 @@ function s.initial_effect(c)
     e1c:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
     c:RegisterEffect(e1c)
 
-    -- indes
+    -- tribute substitute
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetCode(EFFECT_EXTRA_RELEASE_NONSUM)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(1)
+    e2:SetTargetRange(0, LOCATION_MZONE)
+    e2:SetValue(function(e, re, r, rp)
+        return re:IsActivated() and (r & REASON_COST) ~= 0
+    end)
     c:RegisterEffect(e2)
 
-    -- extra attack
+    -- atk up
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetCode(EFFECT_EXTRA_ATTACK)
-    e3:SetValue(2)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_ATKCHANGE)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
+    e3:SetCost(s.e3cost)
+    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- send to grave
+    -- extra attack
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_TOGRAVE)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e4:SetCode(EVENT_DAMAGE_STEP_END)
-    e4:SetCondition(s.e4con)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetCode(EFFECT_EXTRA_ATTACK)
+    e4:SetValue(1)
     c:RegisterEffect(e4)
 
-    -- destroy
+    -- send to grave
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 1))
-    e5:SetCategory(CATEGORY_DESTROY)
-    e5:SetType(EFFECT_TYPE_IGNITION)
-    e5:SetRange(LOCATION_MZONE)
-    e5:SetCost(s.e5cost)
+    e5:SetCategory(CATEGORY_TOGRAVE)
+    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e5:SetCode(EVENT_DAMAGE_STEP_END)
+    e5:SetCondition(s.e5con)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.CheckReleaseGroupCost(tp, nil, 1, false, nil, c)
+    end
+
+    local tc =
+        Duel.SelectReleaseGroupCost(tp, nil, 1, 1, false, nil, c):GetFirst()
+    local atk = tc:GetBaseAttack()
+    if atk < 0 then atk = 0 end
+    e:SetLabel(atk)
+
+    Duel.Release(tc, REASON_COST)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(e:GetLabel())
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+end
+
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
     e:SetLabelObject(bc)
@@ -88,43 +117,14 @@ function s.e4con(e, tp, eg, ep, ev, re, r, rp)
                bc:IsOnField() and bc:IsRelateToBattle()
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetLabelObject():IsAbleToGrave() end
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, e:GetLabelObject(), 1, 0, 0)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local bc = e:GetLabelObject()
     if not bc:IsRelateToBattle() then return end
 
     Duel.SendtoGrave(bc, REASON_EFFECT)
-end
-
-function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return c:GetAttackAnnouncedCount() == 0 and
-                   Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c)
-    end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_OATH)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
-
-    local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, c)
-    Duel.Release(g, REASON_COST)
-end
-
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
-    if chk == 0 then return #g > 0 end
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
-end
-
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
-    Duel.Destroy(g, REASON_EFFECT)
 end
