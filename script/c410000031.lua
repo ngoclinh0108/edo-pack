@@ -2,25 +2,13 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {
-    71703785, CARD_DARK_MAGICIAN, 42006475, CARD_DARK_MAGICIAN_GIRL
-}
-s.material = {71703785, CARD_DARK_MAGICIAN, 42006475, CARD_DARK_MAGICIAN_GIRL}
-s.material_setcode = {0xa2, 0x10a2, 0x20a2, 0x30a2}
+s.material_setcode = {0x13a}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- link summon
     Link.AddProcedure(c, s.lnkfilter, 2, 2, s.lnkcheck)
-
-    -- attribute
-    local attribute = Effect.CreateEffect(c)
-    attribute:SetType(EFFECT_TYPE_SINGLE)
-    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
-    attribute:SetValue(ATTRIBUTE_DARK)
-    c:RegisterEffect(attribute)
 
     -- gain effect
     local e1 = Effect.CreateEffect(c)
@@ -69,7 +57,7 @@ end
 
 function s.lnkcheck(g, sc, sumtype, tp)
     return g:IsExists(Card.IsSummonCode, 1, nil, sc, sumtype, tp, 71703785,
-                      CARD_DARK_MAGICIAN, 42006475, CARD_DARK_MAGICIAN_GIRL)
+                      410000010, 42006475, 410000009)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -139,11 +127,9 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 1 and
                    Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
-                                               e, tp, 71703785,
-                                               CARD_DARK_MAGICIAN) and
+                                               e, tp, 71703785, 410000010) and
                    Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
-                                               e, tp, 42006475,
-                                               CARD_DARK_MAGICIAN_GIRL)
+                                               e, tp, 42006475, 410000009)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp, loc)
@@ -155,10 +141,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 then return end
 
     local g1 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp, loc,
-                                     0, nil, e, tp, 71703785, CARD_DARK_MAGICIAN)
+                                     0, nil, e, tp, 71703785, 410000010)
     local g2 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp, loc,
-                                     0, nil, e, tp, 42006475,
-                                     CARD_DARK_MAGICIAN_GIRL)
+                                     0, nil, e, tp, 42006475, 410000009)
 
     if #g1 > 0 and #g2 > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)

@@ -731,14 +731,13 @@ link-arrows = "bottom-left bottom-right"
 atk = 2800
 link-rating = 2
 effect = """\
-2 LIGHT Spellcaster monsters, including "Palladium Oracle Mahad", "Dark Magician", "Palladium Oracle Mana" or "Dark Magician Girl"
-(This card's Attribute is also treated as DARK.)
+2 LIGHT Spellcaster monsters, including 1 "Palladium Oracle Mahad" monster or 1 "Palladium Oracle Mana" monster
 This card gains the effects of material monster used to Link Summon this card. \
 Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \
     You can draw 1 card, \
     then if it was a Monster, you can Special Summon it, \
     or you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
-If this card is destroyed: You can Special Summon both 1 "Palladium Oracle Mahad" or "Dark Magician" and 1 "Palladium Oracle Mana" or "Dark Magician Girl" \
+If this card is destroyed: You can Special Summon both 1 "Palladium Oracle Mahad" monster and 1 "Palladium Oracle Mana" monster \
     from your hand, Deck, and/or GY. \
 """
 strings = ["Draw and check"]
