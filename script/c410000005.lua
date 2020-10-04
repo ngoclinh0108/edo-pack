@@ -92,14 +92,12 @@ function s.initial_effect(c)
 
     -- end phase
     local e7 = Effect.CreateEffect(c)
+    e7:SetDescription(666001)
     e7:SetCategory(CATEGORY_TOGRAVE)
     e7:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e7:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e7:SetCode(EVENT_ADJUST)
+    e7:SetCode(EVENT_PHASE + PHASE_END)
     e7:SetRange(LOCATION_MZONE)
-    e7:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return Duel.GetCurrentPhase() == PHASE_END
-    end)
     e7:SetOperation(s.e7op)
     c:RegisterEffect(e7)
 end
