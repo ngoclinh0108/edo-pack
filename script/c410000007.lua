@@ -3,6 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {10000020}
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     -- search
@@ -22,20 +23,15 @@ function s.initial_effect(c)
     e2:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e2)
 
-    -- infinite hand
+    -- level
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e3:SetCode(EFFECT_HAND_LIMIT)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetTargetRange(1, 0)
-    e3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return Duel.IsExistingMatchingCard(
-                   aux.FilterFaceupFunction(Card.IsOriginalAttribute,
-                                            ATTRIBUTE_DIVINE), tp,
-                   LOCATION_ONFIELD, 0, 1, nil)
-    end)
-    e3:SetValue(999)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
@@ -71,4 +67,36 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
+end
+
+function s.e3filter(c)
+    return c:IsFaceup() and c:HasLevel() and c:IsSetCard(0x13a)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, 0, 1, c)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
+    Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, c)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not c:IsRelateToEffect(e) or c:IsFacedown() or not tc:IsRelateToEffect(e) or
+        tc:IsFacedown() then return end
+
+    local lv = c:GetLevel() + tc:GetLevel()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    ec1:SetCode(EFFECT_CHANGE_LEVEL)
+    ec1:SetValue(lv)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+    local ec1b = ec1:Clone()
+    tc:RegisterEffect(ec1b)
 end

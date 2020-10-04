@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.material = {410000006}
+s.material = {CARD_BLUEEYES_W_DRAGON}
 s.material_setcode = {0xdd, 0x13a}
 s.synchro_nt_required = 1
 
@@ -10,8 +10,8 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion material
-    Synchro.AddProcedure(c, aux.FilterSummonCode(410000006), 1, 1,
-                         Synchro.NonTunerEx(s.synfilter), 1, 1)
+    Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x13a), 1,
+                         1, aux.FilterSummonCode(CARD_BLUEEYES_W_DRAGON), 1, 1)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -106,18 +106,43 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec1)
 
-    -- act limit
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetType(EFFECT_TYPE_FIELD)
-    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec2:SetCode(EFFECT_CANNOT_ACTIVATE)
-    ec2:SetRange(LOCATION_MZONE)
-    ec2:SetTargetRange(0, 1)
-    ec2:SetValue(1)
-    ec2:SetCondition(function(e)
-        local c = e:GetHandler()
-        return Duel.GetAttacker() == c or Duel.GetAttackTarget() == c
-    end)
-    ec2:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    -- unstoppable attack
+	local ec2=Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_SINGLE_RANGE)
+	ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+	ec2:SetRange(LOCATION_MZONE)
     tc:RegisterEffect(ec2)
+    
+    -- inflict damage
+    local ec3 = Effect.CreateEffect(c)
+    ec3:SetDescription(aux.Stringid(id, 2))
+    ec3:SetCategory(CATEGORY_DAMAGE)
+    ec3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    ec3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec3:SetCode(EVENT_BATTLE_DESTROYING)
+    ec3:SetCondition(aux.bdocon)
+    ec3:SetTarget(s.e4dmgtg)
+    ec3:SetOperation(s.e4dmgop)
+    c:RegisterEffect(ec3)
+end
+
+function s.e4dmgtg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    local c = e:GetHandler()
+    local bc = c:GetBattleTarget()
+    local dmg = bc:GetAttack()
+    if bc:GetAttack() < bc:GetDefense() then dmg = bc:GetDefense() end
+    if dmg < 0 then dmg = 0 end
+
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(dmg)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
+end
+
+function s.e4dmgop(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
 end

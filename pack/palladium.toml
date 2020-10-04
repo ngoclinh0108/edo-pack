@@ -197,10 +197,10 @@ def = 1800
 effect = """\
 You can discard this card; Add 1 "Slifer the Sky Dragon" from your Deck or GY to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-While this card is in the GY and you control an face-up original DIVINE monster: \
-    There is no limit to the number of cards in your hand. \
+Once per turn: You can target 1 other "Palladium" monster you control; \
+    the Levels of that monster and this card become their combined current Levels, until the end of this turn. \
 """
-strings = []
+strings = ["Combine level"]
 
 [card.palladium-apostle-ra]
 id = 410000008
@@ -421,7 +421,6 @@ effect = """\
 You can Ritual Summon this card with "Palladium Magic". \
 Must Be Ritual Summoned. \
 You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Warrior non-Ritual Monster from your Deck or GY to your hand. \
-Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Gaia the Fierce Knight" monster from your hand, Deck, or GY. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
@@ -452,9 +451,6 @@ effect = """\
 You can Ritual Summon this card with "Palladium Magic". \
 Must Be Ritual Summoned. \
 You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Dragon non-Ritual Monster from your Deck or GY to your hand. \
-If this card attacks a Defense Position monster, inflict piercing Battle Damage to your opponent. \
-When this card destroys an opponent's monster by battle: \
-    Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
 You can send as many cards in your opponents' hands and on their side of the field as possible to the GY, \
     then inflict 500 damage to your opponent for each card sent to the opponent's GY by this effect, \
     also, for the rest of this turn, Other monsters you control cannot attack. \
@@ -639,38 +635,42 @@ level = 10
 atk = 4000
 def = 0
 effect = """\
-"Palladium Apostle of Obelisk" + 1 non-Tuner "Blue-Eyes" Dragon Normal Monster
-Must be Synchro Summoned with the above Fusion Materials. \
+1 "Palladium" Tuner + "Blue-Eyes White Dragon"
+Must be Synchro Summoned. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 Cannot be destroyed by battle. \
 Once per turn, if you would Tribute a monster you control to activate a card effect, \
     you can Tribute 1 monster your opponent controls, even though you do not control it. \
 Once per turn: You can Tribute 2 other monsters; 1 monster you control gain these effects until the end of this turn.
 ● This card can make up to 3 attacks during each Battle Phase.
-● If this card battles, your opponent cannot activate cards or effects until the end of the Damage Step.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+● When this card destroys an opponent's monster by battle: \
+    Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
 """
-strings = ["Can make 3 attacks", "Make monster can multi-attacks"]
+strings = ["Buffed via \"Palladium Draconic Titan of War's God\"", "Make monster can multi-attacks", "Inflict damage"]
 
 [card.palladium-sacred-paladin-of-heaven-god]
 id = 410000029
 set = "palladium"
 name = "Palladium Sacred Paladin of Heaven's God"
-type = "monster fusion effect"
+type = "monster xyz effect"
 attribute = "light"
 race = "spellcaster"
 level = 10
 atk = 2900
 def = 2400
 effect = """\
-"Dark Magician" + "Palladium Apostle of Slifer"
-Must Be Fusion Summoned with the above Fusion Materials. \
+2+ Level 10 "Palladium" monsters, including "Dark Magician"
+Must Be Xyz Summoned. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
-This card Gain 500 ATK and DEF for each card in your hand. \
+There is no limit to the number of cards in your hand. \
+This card gain 500 ATK and DEF for each card in your hand. \
+If a card(s) your opponent controls is destroyed by battle or card effect: You can draw 1 card. \
 Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
 Once per turn, when your opponent activates a card or effect (Quick Effect): \
-    You can negate the activation, and if you do, destroy that card. \
-If a card(s) your opponent controls is destroyed by battle or card effect: You can draw 1 card. \
+    You can detach 1 material from this card; \
+    negate the activation, and if you do, destroy that card. \
 """
 strings = ["Negate activation", "Reduce your opponent monster's ATK"]
 

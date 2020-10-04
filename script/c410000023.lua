@@ -3,6 +3,11 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
+    c:EnableReviveLimit()
+    
+    -- xyz summon
+    Xyz.AddProcedure(c, nil, 7, 3, nil, nil, 3, nil, false, s.xyzcheck)
+
     -- code
     local code = Effect.CreateEffect(c)
     code:SetType(EFFECT_TYPE_SINGLE)
@@ -11,9 +16,6 @@ function s.initial_effect(c)
     code:SetValue(25833572)
     c:RegisterEffect(code)
     c:EnableReviveLimit()
-
-    -- xyz summon
-    Xyz.AddProcedure(c, nil, 7, 3, nil, nil, 3, nil, false, s.xyzcheck)
 
     -- lock zones
     local e1 = Effect.CreateEffect(c)

@@ -31,34 +31,16 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- piercing damage
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_PIERCE)
-    c:RegisterEffect(e2)
-
-    -- inflict damage
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DAMAGE)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e3:SetCode(EVENT_BATTLE_DESTROYING)
-    e3:SetCondition(aux.bdocon)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
-
     -- send cards to the graveyard
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_TOGRAVE + CATEGORY_DAMAGE)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1, id)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_TOGRAVE + CATEGORY_DAMAGE)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1, id)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter(c)
@@ -99,50 +81,30 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
+function s.e2filter1(c, p) return c:GetOwner() == p and c:IsAbleToGrave() end
 
-    local c = e:GetHandler()
-    local bc = c:GetBattleTarget()
-    local dmg = bc:GetAttack()
-    if bc:GetAttack() < bc:GetDefense() then dmg = bc:GetDefense() end
-    if dmg < 0 then dmg = 0 end
-
-    Duel.SetTargetPlayer(1 - tp)
-    Duel.SetTargetParam(dmg)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
-    Duel.Damage(p, d, REASON_EFFECT)
-end
-
-function s.e4filter1(c, p) return c:GetOwner() == p and c:IsAbleToGrave() end
-
-function s.e4filter2(c, p)
+function s.e2filter2(c, p)
     return c:IsControler(p) and c:IsLocation(LOCATION_GRAVE)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
     local g = Duel.GetFieldGroup(tp, 0, 0xe)
-    local dc = g:FilterCount(s.e4filter1, nil, 1 - tp)
+    local dc = g:FilterCount(s.e2filter1, nil, 1 - tp)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, dc * 300)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     local g = Duel.GetFieldGroup(tp, 0, 0xe)
     Duel.SendtoGrave(g, REASON_EFFECT)
 
     local og = Duel.GetOperatedGroup()
-    local ct = og:FilterCount(s.e4filter2, nil, 1 - tp)
+    local ct = og:FilterCount(s.e2filter2, nil, 1 - tp)
     if ct > 0 then
         Duel.BreakEffect()
         Duel.Damage(1 - tp, ct * 500, REASON_EFFECT)
