@@ -2,8 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {6368038, 410000008, CARD_RA}
-s.material = {6368038, 410000008}
+s.listed_names = {410000008, 6368038, CARD_RA}
+s.material = {410000008, 6368038}
 s.material_setcode = {0xbd, 0x13a}
 
 function s.initial_effect(c)
@@ -79,16 +79,26 @@ function s.initial_effect(c)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
-    -- special summon
+    -- recover
     local e5 = Effect.CreateEffect(c)
-    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
-    e5:SetCode(EVENT_TO_GRAVE)
+    e5:SetCategory(CATEGORY_RECOVER)
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetRange(LOCATION_GRAVE)
-    e5:SetCondition(s.e5con)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
+
+    -- reborn
+    local e6 = Effect.CreateEffect(c)
+    e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e6:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
+    e6:SetCode(EVENT_TO_GRAVE)
+    e6:SetRange(LOCATION_GRAVE)
+    e6:SetCondition(s.e6con)
+    e6:SetTarget(s.e6tg)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -208,24 +218,50 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummonComplete()
 end
 
-function s.e5filter(c, tp)
-    return c:IsControler(tp) and c:IsPreviousLocation(LOCATION_ONFIELD) and
-               c:IsCode(CARD_RA,10000080,10000090)
-end
-
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    return not eg:IsContains(e:GetHandler()) and
-               eg:IsExists(s.e5filter, 1, nil, tp)
+function s.e5filter(c)
+    return c:IsFaceup() and c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and
+               c:GetAttack() > 0
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.CheckReleaseGroupCost(tp, s.e3filter, 1, false, nil, nil)
+    end
+
+    local tc =
+        Duel.SelectReleaseGroupCost(tp, s.e3filter, 1, 1, false, nil, nil):GetFirst()
+    local rec = tc:GetAttack()
+    Duel.Release(tc, REASON_COST)
+
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(rec)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, rec)
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Recover(p, d, REASON_EFFECT)
+end
+
+function s.e6filter(c, tp)
+    return c:IsControler(tp) and c:IsPreviousLocation(LOCATION_ONFIELD) and
+               c:IsCode(CARD_RA, 10000080, 10000090)
+end
+
+function s.e6con(e, tp, eg, ep, ev, re, r, rp)
+    return not eg:IsContains(e:GetHandler()) and
+               eg:IsExists(s.e6filter, 1, nil, tp)
+end
+
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
     Duel.SetChainLimit(aux.FALSE)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, e:GetHandler(), 1, 0, 0)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 

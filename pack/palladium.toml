@@ -215,10 +215,10 @@ def = 1500
 effect = """\
 You can discard this card; Add 1 "The Winged Dragon of Ra" from your Deck or GY to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-While this card is in the GY (Quick Effect): \
-    You can Tribute 1 face-up original DIVINE monster; gain LP equal to the ATK it had on the field. \
+Once per turn: You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
+    using monsters you control as Fusion Materials, including this card. \
 """
-strings = []
+strings = ["Fusion Summon"]
 
 [card.palladium-oracle-mana]
 id = 410000009
@@ -643,9 +643,9 @@ Once per turn, if you would Tribute a monster you control to activate a card eff
     you can Tribute 1 monster your opponent controls, even though you do not control it. \
 Once per turn: You can Tribute 2 other monsters; 1 monster you control gain these effects until the end of this turn.
 ● This card can make up to 3 attacks during each Battle Phase.
-● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 ● When this card destroys an opponent's monster by battle: \
-    Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
+    Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster.
 """
 strings = ["Buffed via \"Palladium Draconic Titan of War's God\"", "Make monster can multi-attacks", "Inflict damage"]
 
@@ -685,7 +685,7 @@ level = 10
 atk = 3300
 def = 1800
 effect = """\
-"Gaia The Fierce Knight" + "Palladium Apostle of Ra"
+"Palladium Apostle of Ra" + "Gaia The Fierce Knight"
 Must Be Fusion Summoned with the above Fusion Materials or by its own effect. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 When this card destroys an opponent's monster by battle: \
@@ -697,6 +697,8 @@ During the Main Phase (Quick Effect): You can Tribute this card, \
     Special Summon 1 "The Winged Dragon of Ra" from your hand, Deck or GY, \
     ignoring its Summoning conditions, and if you do, its original ATK/DEF become 4000 \
     (but send it to the GY as cost during the End Phase). \
+While this card is in the GY (Quick Effect): \
+    You can Tribute 1 face-up original DIVINE monster; gain LP equal to the ATK it had on the field. \
 If "The Winged Dragon of Ra" monster is sent from the field to your GY while this card is in your GY: \
     Special Summon this card. \
     Cards and effects cannot be activated in response to this effect's activation. \

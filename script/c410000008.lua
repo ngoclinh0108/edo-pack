@@ -23,14 +23,16 @@ function s.initial_effect(c)
     e2:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e2)
 
-    -- recover grave
+    -- fusion Summon
+    local params = {nil, Fusion.OnFieldMat, nil, nil, Fusion.ForcedHandler}
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_RECOVER)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
+    e3:SetTarget(Fusion.SummonEffTG(table.unpack(params)))
+    e3:SetOperation(Fusion.SummonEffOP(table.unpack(params)))
     c:RegisterEffect(e3)
 end
 
@@ -66,30 +68,4 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
-end
-
-function s.e3filter(c)
-    return c:IsFaceup() and c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and
-               c:GetAttack() > 0
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, s.e3filter, 1, false, nil, nil)
-    end
-
-    local tc =
-        Duel.SelectReleaseGroupCost(tp, s.e3filter, 1, 1, false, nil, nil):GetFirst()
-    local rec = tc:GetAttack()
-    Duel.Release(tc, REASON_COST)
-
-    Duel.SetTargetPlayer(tp)
-    Duel.SetTargetParam(rec)
-    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, rec)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
-    Duel.Recover(p, d, REASON_EFFECT)
 end
