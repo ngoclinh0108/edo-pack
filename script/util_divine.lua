@@ -140,13 +140,12 @@ function Divine.DivineImmunity(c, summon_mode, summon_extra)
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
+    reset:SetDescription(666000)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    reset:SetCode(EVENT_ADJUST)
+    reset:SetCode(EVENT_PHASE + PHASE_END)
     reset:SetRange(LOCATION_MZONE)
     reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        if Duel.GetCurrentPhase() ~= PHASE_END then return false end
-
         local c = e:GetHandler()
         local check = false
         local effs = {c:GetCardEffect()}
@@ -315,7 +314,7 @@ end
 
 function Divine.ToGraveLimit(c)
     local togy = Effect.CreateEffect(c)
-    togy:SetDescription(666000)
+    togy:SetDescription(666001)
     togy:SetCategory(CATEGORY_TOGRAVE)
     togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     togy:SetCode(EVENT_PHASE + PHASE_END)
