@@ -85,6 +85,7 @@ function s.initial_effect(c)
     e5:SetType(EFFECT_TYPE_QUICK_O)
     e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetRange(LOCATION_GRAVE)
+    e5:SetCountLimit(1, id)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
@@ -225,11 +226,11 @@ end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, s.e3filter, 1, false, nil, nil)
+        return Duel.CheckReleaseGroupCost(tp, s.e5filter, 1, false, nil, nil)
     end
 
     local tc =
-        Duel.SelectReleaseGroupCost(tp, s.e3filter, 1, 1, false, nil, nil):GetFirst()
+        Duel.SelectReleaseGroupCost(tp, s.e5filter, 1, 1, false, nil, nil):GetFirst()
     local rec = tc:GetAttack()
     Duel.Release(tc, REASON_COST)
 
