@@ -98,7 +98,7 @@ end
 
 function s.e2filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               c:IsLevelBelow(8) and
+               not c:IsType(TYPE_RITUAL) and c:IsLevelBelow(8) and
                c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
                c:IsRace(RACE_WARRIOR)
 end

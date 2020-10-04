@@ -92,7 +92,7 @@ end
 
 function s.e2filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               c:IsLevelBelow(8) and
+               not c:IsType(TYPE_RITUAL) and c:IsLevelBelow(8) and
                c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
                c:IsRace(RACE_DRAGON)
 end
@@ -144,7 +144,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local ec2 = Effect.CreateEffect(c)
     ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT +
-                       EFFECT_FLAG_OATH)
+                        EFFECT_FLAG_OATH)
     ec2:SetDescription(aux.Stringid(id, 0))
     ec2:SetTargetRange(1, 0)
     ec2:SetReset(RESET_PHASE + PHASE_END)
