@@ -3,7 +3,6 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {410000025}
-s.listed_series = {0xbd}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -107,7 +106,9 @@ end
 
 function s.e2filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               c:IsSetCard(0xbd)
+               c:IsLevelBelow(8) and
+               c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
+               c:IsRace(RACE_WARRIOR)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
