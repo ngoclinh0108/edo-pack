@@ -448,12 +448,12 @@ You can Ritual Summon this card with "Palladium Magic". \
 You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Dragon non-Ritual Monster from your Deck or GY to your hand. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 Level 8 or lower LIGHT or DARK Dragon monster from your hand, Deck, or GY. \
-You can send as many cards in your opponents' hands and on their side of the field as possible to the GY, \
+Once per turn: You can send as many cards in your opponents' hands and on their side of the field as possible to the GY, \
     then inflict 500 damage to your opponent for each card sent to the opponent's GY by this effect, \
     also, for the rest of this turn, Other monsters you control cannot attack. \
-    You can only use this effect of "Palladium Chaos Dragon - Envoy of the Dawnbreak" once per turn. \
+    You cannot activate other cards or effects during the turn you activate this card's effect. \
 """
-strings = ["Inflict damage", "Send card to the GY"]
+strings = ["Activated \"Palladium Chaos Dragon - Envoy of the Dawnbreak\" effect", "Send card to the GY"]
 
 [card.palladium-guardian-suijin]
 id = 410000020

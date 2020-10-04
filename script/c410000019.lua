@@ -3,6 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
+    Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, aux.FALSE)
     c:EnableReviveLimit()
 
     -- attribute
@@ -40,7 +41,8 @@ function s.initial_effect(c)
     e3:SetCategory(CATEGORY_TOGRAVE + CATEGORY_DAMAGE)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1, id)
+    e3:SetCountLimit(1)
+    e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -123,6 +125,30 @@ function s.e3filter1(c, p) return c:GetOwner() == p and c:IsAbleToGrave() end
 
 function s.e3filter2(c, p)
     return c:IsControler(p) and c:IsLocation(LOCATION_GRAVE)
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.GetCustomActivityCount(id, tp, ACTIVITY_CHAIN) == 0
+    end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
+    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(aux.TRUE)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT +
+                       EFFECT_FLAG_OATH)
+    ec2:SetDescription(aux.Stringid(id, 0))
+    ec2:SetTargetRange(1, 0)
+    ec2:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec2, tp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
