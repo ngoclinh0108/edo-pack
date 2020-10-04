@@ -11,12 +11,12 @@ function s.initial_effect(c)
         filter = aux.FilterBoolFunction(Card.IsSetCard, 0x13a),
         lvtype = RITPROC_GREATER,
         location = LOCATION_HAND + LOCATION_GRAVE,
-        stage2 = s.e1sumop,
+        stage3 = s.e1sumop,
         desc = aux.Stringid(id, 1)
     })
     c:RegisterEffect(e1)
 
-    -- search
+    -- search fusion spell
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 2))
     e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
@@ -26,28 +26,38 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- special summon
+    -- search ritual monster
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 3))
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e3:SetType(EFFECT_TYPE_ACTIVATE)
     e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- banish
+    -- special summon spellcaster
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 4))
-    e4:SetCategory(CATEGORY_REMOVE)
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_ACTIVATE)
     e4:SetCode(EVENT_FREE_CHAIN)
-    e4:SetHintTiming(0, TIMING_END_PHASE)
     e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
+
+    -- banish
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 5))
+    e5:SetCategory(CATEGORY_REMOVE)
+    e5:SetType(EFFECT_TYPE_ACTIVATE)
+    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetHintTiming(0, TIMING_END_PHASE)
+    e5:SetCondition(s.e5con)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.e1sumop(mat, e, tp, eg, ep, ev, re, r, rp, tc)
@@ -71,13 +81,13 @@ function s.e1sumop(mat, e, tp, eg, ep, ev, re, r, rp, tc)
 end
 
 function s.e2filter(c)
-    return c:IsAbleToHand() and c:IsSetCard(0x13a) and c:IsType(TYPE_RITUAL) and
-               c:IsType(TYPE_MONSTER)
+    return c:IsAbleToHand() and c:IsType(TYPE_SPELL) and c:IsSetCard(0x46)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e2filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
 
@@ -87,7 +97,34 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_DECK, 0, 1,
+    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp,
+                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+                                      nil)
+
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
+
+function s.e3filter(c)
+    return c:IsAbleToHand() and c:IsSetCard(0x13a) and c:IsType(TYPE_RITUAL) and
+               c:IsType(TYPE_MONSTER)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK, 0, 1,
+                                           nil)
+    end
+
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_DECK, 0, 1,
                                       1, nil)
 
     if #g > 0 then
@@ -96,27 +133,27 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter1(c)
+function s.e4filter1(c)
     return c:IsFaceup() and c:IsLevel(7) and c:IsAttribute(ATTRIBUTE_LIGHT) and
                c:IsRace(RACE_SPELLCASTER) and c:IsType(TYPE_NORMAL) and
                c:IsSetCard(0x13a)
 end
 
-function s.e3filter2(c, e, tp)
+function s.e4filter2(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and c:IsLevel(6) and
                c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_SPELLCASTER) and
                c:IsSetCard(0x13a)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_ONFIELD, 0, 1,
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e4filter1, tp, LOCATION_ONFIELD, 0, 1,
                                        nil)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e4filter2, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
@@ -127,27 +164,27 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter2),
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter2),
                                       tp, LOCATION_HAND + LOCATION_DECK +
                                           LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
-function s.e4filter(c)
+function s.e5filter(c)
     return c:IsFaceup() and c:IsSetCard(0x13a) and
                (c:IsRace(RACE_SPELLCASTER) or c:IsType(TYPE_RITUAL))
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     return
-        Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_MZONE, 0, 1, nil)
+        Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_MZONE, 0, 1, nil)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD,
                                     LOCATION_ONFIELD, c, nil, POS_FACEDOWN)
@@ -157,7 +194,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, 0, 0)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)

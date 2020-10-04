@@ -558,16 +558,23 @@ type = "spell quick-play"
 effect = """\
 (This card is always treated as "Palladium" card.)
 You can only activate 1 "Tablet of Lost Memories" per turn. Activate 1 of these effect;
-● Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon" or "Red-Eyes Black Dragon" from your hand, Deck or GY.
-● If you control "Dark Magician": Destroy all Spells and Traps your opponent controls.
-● If you control "Blue-Eyes White Dragon": Destroy all monsters your opponent controls.
-● Inflict damage to your opponent equal to original ATK of 1 "Red-Eyes Black Dragon" you control.
+● Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon", "Red-Eyes Black Dragon" or "Gaia The Fierce Knight" \
+    from your hand, Deck or GY.
+● If you control "Dark Magician": \
+    Destroy all Spells and Traps your opponent controls.
+● If you control "Blue-Eyes White Dragon": \
+    Destroy all monsters your opponent controls.
+● If you control "Red-Eyes Black Dragon": \
+    Inflict damage to your opponent equal to original ATK of 1 monster you control.
+● If you control "Gaia The Fierce Knight": \
+    Double the ATK of 1 monster you control until the end of this turn.
 """
 strings = [
     "Special Summon",
     "Destroy Spells and Traps",
     "Destroy monsters",
     "Inflict damage",
+    "Double ATK"
 ]
 
 [card.palladium-magic]
@@ -582,6 +589,7 @@ Activate 1 of these effect;
     whose total Levels equal or exceed the Level of the Ritual Monster. \
     Your opponent cannot target The Ritual Summoned Monster with card effects and also, \
     it cannot be destroyed by your opponent's card effects.
+● Add 1 "Polymerization" Spell Card or "Fusion" Spell Card from your Deck or GY to your hand.
 ● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
 ● If you control a Level 7 "Palladium" LIGHT Spellcaster Normal Monster: \
     Special Summon 1 Level 6 "Palladium" LIGHT Spellcaster monster from your hand, Deck, or GY.
@@ -591,7 +599,8 @@ Activate 1 of these effect;
 strings = [
     "Summoned with \"Palladium Magic\"",
     "Ritual Summon",
-    "Search monster",
+    "Search Fusion Spell",
+    "Search Ritual Monster",
     "Special Summon Spellcaster",
     "Banish",
 ]
