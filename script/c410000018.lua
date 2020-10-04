@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {5405694, 410000025}
+s.listed_names = {410000025}
 s.listed_series = {0xbd}
 
 function s.initial_effect(c)

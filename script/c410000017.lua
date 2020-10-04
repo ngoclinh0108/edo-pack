@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {30208479, 410000025}
+s.listed_names = {410000025}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()

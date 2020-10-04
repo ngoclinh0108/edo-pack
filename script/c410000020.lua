@@ -2,9 +2,6 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {98434877}
-s.listed_series = {0x13a}
-
 function s.initial_effect(c)
     -- code
     local code = Effect.CreateEffect(c)
@@ -118,7 +115,7 @@ end
 
 function s.e4con(e)
     local c = e:GetHandler()
-    return c:IsSetCard(0x13a)
+    return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_WARRIOR)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)

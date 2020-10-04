@@ -2,9 +2,6 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {25955164}
-s.listed_series = {0x13a}
-
 function s.initial_effect(c)
     -- code
     local code = Effect.CreateEffect(c)
@@ -117,7 +114,8 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateAttack() end
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = re:GetHandler()
-    return c:IsSetCard(0x13a) and re:IsActiveType(TYPE_MONSTER) and rc ~= c and
+    return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_WARRIOR) and
+               re:IsActiveType(TYPE_MONSTER) and rc ~= c and
                not c:IsStatus(STATUS_BATTLE_DESTROYED) and
                Duel.IsChainNegatable(ev)
 end
@@ -127,6 +125,4 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.NegateActivation(ev)
-end
+function s.e4op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateActivation(ev) end

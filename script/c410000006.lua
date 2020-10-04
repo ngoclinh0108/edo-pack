@@ -3,6 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {10000000}
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     -- search
@@ -22,14 +23,12 @@ function s.initial_effect(c)
     e2:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e2)
 
-    -- indes
+    -- hand synchro
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-    e3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetTargetRange(LOCATION_ONFIELD, 0)
-    e3:SetTarget(s.e3tg)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e3:SetCode(EFFECT_HAND_SYNCHRO)
+    e3:SetLabel(id)
     e3:SetValue(s.e3val)
     c:RegisterEffect(e3)
 end
@@ -68,12 +67,57 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e3tg(e, c) return c:IsOriginalAttribute(ATTRIBUTE_DIVINE) end
+function s.e3val(e, tc, sc)
+    if not sc:IsSetCard(0x13a) then return false end
+    if not tc:IsLocation(LOCATION_HAND) then return false end
+    local c = e:GetHandler()
 
-function s.e3val(e, re, r, rp)
-    if (r & REASON_BATTLE) ~= 0 then
-        return 1
-    else
-        return 0
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK)
+    ec1:SetLabel(id)
+    ec1:SetTarget(s.e3syntg)
+    tc:RegisterEffect(ec1)
+    return true
+end
+
+function s.e3syntg(e, mc, sg, tg, ntg, tsg, ntsg)
+    if not mc then return true end
+
+    local res = true
+    if sg:IsExists(s.e3synchk1, 1, mc) or
+        (not tg:IsExists(s.e3synchk2, 1, mc) and
+            not ntg:IsExists(s.e3synchk2, 1, mc) and
+            not sg:IsExists(s.e3synchk2, 1, mc)) then return false end
+
+    local trg = tg:Filter(s.e3synchk1, nil)
+    local ntrg = ntg:Filter(s.e3synchk1, nil)
+    return res, trg, ntrg
+end
+
+function s.e3synchk1(c)
+    if not c:IsHasEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK) then
+        return false
     end
+
+    local te = {c:GetCardEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK)}
+    for i = 1, #te do
+        local e = te[i]
+        if e:GetLabel() ~= id then return false end
+    end
+    return true
+end
+
+function s.e3synchk2(c)
+    if not c:IsHasEffect(EFFECT_HAND_SYNCHRO) or
+        c:IsHasEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK) then
+        return false
+    end
+
+    local te = {c:GetCardEffect(EFFECT_HAND_SYNCHRO)}
+    for i = 1, #te do
+        local e = te[i]
+        if e:GetLabel() == id then return true end
+    end
+    return false
 end

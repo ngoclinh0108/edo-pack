@@ -2,9 +2,6 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {62340868}
-s.listed_series = {0x13a}
-
 function s.initial_effect(c)
     -- code
     local code = Effect.CreateEffect(c)
@@ -113,7 +110,8 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateAttack() end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return c:IsSetCard(0x13a) and Duel.GetAttackTarget() == e:GetHandler()
+    return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_WARRIOR) and
+               Duel.GetAttackTarget() == e:GetHandler()
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
