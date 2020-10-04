@@ -92,6 +92,7 @@ function s.initial_effect(c)
 
     -- reborn
     local e6 = Effect.CreateEffect(c)
+    e6:SetDescription(2)
     e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e6:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
     e6:SetCode(EVENT_TO_GRAVE)
@@ -220,8 +221,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e5filter(c)
-    return c:IsFaceup() and c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and
-               c:GetAttack() > 0
+    return c:IsFaceup() and c:IsOriginalAttribute(ATTRIBUTE_DIVINE)
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)

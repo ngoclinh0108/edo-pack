@@ -22,32 +22,28 @@ function s.initial_effect(c)
     e1:SetCondition(s.e1con)
     c:RegisterEffect(e1)
 
-    -- special summon other
+    -- reset a monster ATK
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_SUMMON_SUCCESS)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_ATKCHANGE)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1, id)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e2b)
-    local e2c = e2:Clone()
-    e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e2c)
 
     -- change battle position
     local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_POSITION)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetCondition(s.e3con)
-    e3:SetCost(aux.bfgcost)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1, id)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -62,42 +58,39 @@ function s.e1con(e, c)
                    tp, 0, LOCATION_MZONE, 1, nil)
 end
 
-function s.e2filter(c, e, tp)
-    return c:IsSetCard(0x13a) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               not c:IsCode(id)
-end
+function s.e2filter(c) return c:IsFaceup() and c:GetAttack() ~=
+                                  c:GetBaseAttack() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp,
-                                               LOCATION_HAND + LOCATION_GRAVE,
-                                               0, 1, nil, e, tp)
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE,
+                                     LOCATION_MZONE, 1, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0,
-                          LOCATION_HAND + LOCATION_GRAVE)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1,
+                      nil)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp,
-                                      LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1,
-                                      nil, e, tp)
-    if #g == 0 then return end
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
 
-    Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec1:SetValue(tc:GetBaseAttack())
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec1)
 end
 
 function s.e3filter(c) return c:IsCanChangePosition() end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsBattlePhase() end
-
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, 0, LOCATION_MZONE, 1,
-                                           nil)
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_MZONE,
+                                           LOCATION_MZONE, 1, nil)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_POSITION, nil, 1, 0, 0)
@@ -105,8 +98,8 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_POSCHANGE)
-    local tg = Duel.SelectMatchingCard(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1,
-                                       1, nil)
+    local tg = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_MZONE,
+                                       LOCATION_MZONE, 1, 1, nil)
     if #tg == 0 then return end
 
     Duel.ChangePosition(tg, POS_FACEUP_DEFENSE, 0, POS_FACEUP_ATTACK, 0)

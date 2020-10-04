@@ -292,13 +292,12 @@ effect = """\
 (This card's name is also treated as "Gaia The Fierce Knight".)
 If you control no monsters, or your opponent controls a DARK monster; \
     You can Special Summon this card from your hand. \
-If this card is Summoned: \
-    You can Special Summon 1 "Palladium" monster from hand or GY to the field, except "Palladium Knight Faris". \
-    You can use this effect of "Palladium Oracle Faris" only once per turn. \
-During the Battle Phase (Quick Effect): \
-    You can banish this card from your GY; Change the Battle Position of 1 monster on the field. \
+Once per turn, you can activate 1 of these effects (Quick Effect). \
+You can only use this effect of "Palladium Knight Faris" once per turn;
+● Target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK.
+● Change the Battle Position of 1 monster on the field.
 """
-strings = []
+strings = ["Reset ATK of a monster", "Change Battle Position of a monster"]
 
 [card.palladium-knight-queen]
 id = 410000013
@@ -451,6 +450,8 @@ effect = """\
 You can Ritual Summon this card with "Palladium Magic". \
 Must Be Ritual Summoned. \
 You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Dragon non-Ritual Monster from your Deck or GY to your hand. \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 Level 8 or lower LIGHT or DARK Dragon monster from your hand, Deck, or GY. \
 You can send as many cards in your opponents' hands and on their side of the field as possible to the GY, \
     then inflict 500 damage to your opponent for each card sent to the opponent's GY by this effect, \
     also, for the rest of this turn, Other monsters you control cannot attack. \
@@ -707,7 +708,7 @@ If "The Winged Dragon of Ra" monster is sent from the field to your GY while thi
 strings = [
     "Gain ATK of the destroyed monster",
     "Lose ATK to destroy a card",
-    "Summon \"The Winged Dragon of Ra\"",
+    "Summon \"The Winged Dragon of Ra\""
 ]
 
 [card.palladium-oracles]
