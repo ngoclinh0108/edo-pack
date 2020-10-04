@@ -96,9 +96,7 @@ end
 
 function s.e2con(e)
     local c = e:GetHandler()
-    return c:GetOverlayGroup():IsExists(Card.IsSetCard, 1, nil, 0x13a) and
-               Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_FZONE, 0,
-                                           1, nil)
+    return c:GetOverlayGroup():IsExists(Card.IsSetCard, 1, nil, 0x13a)
 end
 
 function s.e2val(e, te) return te:GetHandler() ~= e:GetHandler() end
