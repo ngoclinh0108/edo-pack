@@ -1,4 +1,4 @@
--- Palladium Draco-Knight of War's God
+-- Palladium Draconic Titan of War's God
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -46,6 +46,7 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_EXTRA_RELEASE_NONSUM)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(0, LOCATION_MZONE)
+    e2:SetCountLimit(1)
     e2:SetValue(function(e, re, r, rp)
         return re:IsActivated() and (r & REASON_COST) ~= 0
     end)
