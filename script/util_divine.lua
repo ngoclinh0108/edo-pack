@@ -143,9 +143,11 @@ function Divine.DivineImmunity(c, summon_mode, summon_extra)
     reset:SetDescription(666000)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    reset:SetCode(EVENT_PHASE + PHASE_END)
+    reset:SetCode(EVENT_ADJUST)
     reset:SetRange(LOCATION_MZONE)
     reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        if Duel.GetCurrentPhase() ~= PHASE_END then return false end
+
         local c = e:GetHandler()
         local check = false
         local effs = {c:GetCardEffect()}
