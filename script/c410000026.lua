@@ -26,7 +26,14 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e2check1(c) return c:IsAbleToHand() end
+function s.e2check1(c, tp)
+    if not c:IsAbleToHand() then return false end
+    if c:IsControler(tp) and
+        c:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ + TYPE_LINK) then
+        return false
+    end
+    return true
+end
 
 function s.e2check2(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp,
@@ -35,7 +42,7 @@ function s.e2check2(c, e, tp)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsType(TYPE_MONSTER) and s.e2check1(c) or s.e2check2(c, e, tp)
+    return c:IsType(TYPE_MONSTER) and s.e2check1(c, tp) or s.e2check2(c, e, tp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -56,7 +63,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
                                        LOCATION_GRAVE, 1, 1, nil, e, tp):GetFirst()
     if not tc then return end
 
-    local b1 = s.e2check1(tc)
+    local b1 = s.e2check1(tc, tp)
     local b2 = s.e2check2(tc, e, tp) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
 
