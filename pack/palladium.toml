@@ -176,7 +176,7 @@ level = 2
 atk = 1300
 def = 500
 effect = """\
-You can discard this card; Add 1 "Obelisk the Tormentor" from your Deck or GY to your hand. \
+You can discard this card; Add 1 "Obelisk the Tormentor" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card would be used as a Synchro Material for a "Palladium" monster, \
     1 monster in your hand can be used as 1 of the other Synchro Materials. \
@@ -194,7 +194,7 @@ level = 3
 atk = 1500
 def = 1800
 effect = """\
-You can discard this card; Add 1 "Slifer the Sky Dragon" from your Deck or GY to your hand. \
+You can discard this card; Add 1 "Slifer the Sky Dragon" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 Once per turn: You can target 1 other "Palladium" monster you control; \
     the Levels of that monster and this card become their combined current Levels, until the end of this turn. \
@@ -212,7 +212,7 @@ level = 4
 atk = 1700
 def = 1500
 effect = """\
-You can discard this card; Add 1 "The Winged Dragon of Ra" from your Deck or GY to your hand. \
+You can discard this card; Add 1 "The Winged Dragon of Ra" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 Once per turn: You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters you control as Fusion Materials, including this card. \
@@ -608,8 +608,8 @@ name = "Palladium Reborn"
 type = "spell quick-play"
 effect = """\
 (This card's name is also treated as "Monster Reborn".)
-Target 1 monster in either GY; Special Summon it, \
-    but send it to the GY during the End Phase of this turn if the monster is not "Palladium" monster. \
+Take 1 monster in either GY; Add to your hand or Special Summon it, \
+    but send the Summoned monster to the GY during the End Phase of this turn if the monster is not "Palladium" monster. \
     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
 You can only activate 1 "Palladium Reborn" per turn. \
 """

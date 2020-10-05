@@ -124,7 +124,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetCondition(aux.bdocon)
     ec3:SetTarget(s.e4dmgtg)
     ec3:SetOperation(s.e4dmgop)
-    c:RegisterEffect(ec3)
+    tc:RegisterEffect(ec3)
 end
 
 function s.e4dmgtg(e, tp, eg, ep, ev, re, r, rp, chk)
