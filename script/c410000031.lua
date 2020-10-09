@@ -45,7 +45,8 @@ function s.initial_effect(c)
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_DELAY)
-    e3:SetCode(EVENT_DESTROYED)
+    e3:SetCode(EVENT_LEAVE_FIELD)
+    e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -119,6 +120,12 @@ end
 function s.e3filter(c, e, tp, code1, code2)
     return c:IsCode(code1, code2) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsPreviousPosition(POS_FACEUP) and
+               c:IsPreviousLocation(LOCATION_ONFIELD)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)

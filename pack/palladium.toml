@@ -730,7 +730,8 @@ Once per turn, if a Spell/Trap Card or effect is activated (except during the Da
     You can draw 1 card, \
     then if it was a Monster, you can Special Summon it, \
     or you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
-If this card is destroyed: You can Special Summon both 1 "Palladium Oracle Mahad" monster and 1 "Palladium Oracle Mana" monster \
+If this card leaves the field: \
+    You can Special Summon both 1 "Palladium Oracle Mahad" monster and 1 "Palladium Oracle Mana" monster \
     from your hand, Deck, and/or GY. \
 """
 strings = ["Draw and check"]
