@@ -13,7 +13,7 @@ atk = 3000
 def = 2500
 effect = """\
 (This card's name is always treated as "Blue-Eyes White Dragon". This card is always treated as a Normal Monster.)
-You can Special Summon this card (from your hand) by Tributing 1 Level 1 LIGHT Tuner in your hand or on your field. \
+You can Special Summon this card (from your hand or GY) by Tributing 1 Level 1 LIGHT Tuner in your hand or on your field. \
     You can only Special Summon "Blue-Eyes Sacred White Dragon" once per turn this way. \
 Once per turn: You can target 1 monster your opponent controls; destroy it. \
     This card cannot attack the turn this effect is activated. \
