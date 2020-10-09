@@ -589,8 +589,6 @@ Activate 1 of these effect;
 ● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
 ● If you control a Level 7 "Palladium" LIGHT Spellcaster Normal Monster: \
     Special Summon 1 Level 6 "Palladium" LIGHT Spellcaster monster from your hand, Deck, or GY.
-● If you control a "Palladium" Spellcaster monster or a "Palladium" Ritual monster: \
-    Banish 1 card on the field face-down.
 """
 strings = [
     "Summoned with \"Palladium Magic\"",
@@ -598,7 +596,6 @@ strings = [
     "Search Fusion Spell",
     "Search Ritual Monster",
     "Special Summon Spellcaster",
-    "Banish",
 ]
 
 [card.palladium-reborn]

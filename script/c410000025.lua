@@ -46,18 +46,6 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-
-    -- banish
-    local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 5))
-    e5:SetCategory(CATEGORY_REMOVE)
-    e5:SetType(EFFECT_TYPE_ACTIVATE)
-    e5:SetCode(EVENT_FREE_CHAIN)
-    e5:SetHintTiming(0, TIMING_END_PHASE)
-    e5:SetCondition(s.e5con)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
 end
 
 function s.e1sumop(mat, e, tp, eg, ep, ev, re, r, rp, tc)
@@ -172,38 +160,4 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
                                       tp, LOCATION_HAND + LOCATION_DECK +
                                           LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
-end
-
-function s.e5filter(c)
-    return c:IsFaceup() and c:IsSetCard(0x13a) and
-               (c:IsRace(RACE_SPELLCASTER) or c:IsType(TYPE_RITUAL))
-end
-
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    return
-        Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_MZONE, 0, 1, nil)
-end
-
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD,
-                                    LOCATION_ONFIELD, c, nil, POS_FACEDOWN)
-    if chk == 0 then return #g > 0 end
-
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, 0, 0)
-end
-
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
-    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToRemove, tp,
-                                      LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1,
-                                      c, nil, POS_FACEDOWN)
-
-    if #g > 0 then
-        Duel.HintSelection(g)
-        Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
-    end
 end
