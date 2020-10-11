@@ -1,4 +1,4 @@
--- Palladium Forbidden Sacrophagus
+-- Palladium Sacrophagus
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

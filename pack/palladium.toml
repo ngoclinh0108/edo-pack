@@ -631,10 +631,10 @@ Once per turn, during your Main Phase, except the turn this card was sent to the
 """
 strings = []
 
-[card.palladium-forbidden-sacrophagus]
+[card.palladium-sacrophagus]
 id = 410000028
 set = "palladium"
-name = "Palladium Forbidden Sacrophagus"
+name = "Palladium Sacrophagus"
 type = "spell quick-play"
 effect = """\
 Banish 1 card in your opponent's GY or your Deck, \
