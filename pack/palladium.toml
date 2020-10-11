@@ -668,6 +668,7 @@ name = "Departure to the Afterlife"
 type = "trap"
 effect = """\
 You can only activate 1 "Departure to the Afterlife" per turn. \
+Neither player can activate cards or effects in response to this card's activation. \
 Tribute 1 "Palladium" monster, then activate 1 of these effect;
 ● Until the end of this turn: \
     your opponent cannot Normal Summon, Set, Flip Summon, or Special Summon a monster(s) \
