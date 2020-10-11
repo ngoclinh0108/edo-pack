@@ -172,15 +172,15 @@ name = "Palladium Apostle of Obelisk"
 type = "monster tuner effect"
 attribute = "light"
 race = "spellcaster"
-level = 2
-atk = 1300
-def = 500
+level = 4
+atk = 1900
+def = 1300
 effect = """\
 You can discard this card; Add 1 "Obelisk the Tormentor" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-If this card would be used as a Synchro Material for a "Palladium" monster, \
-    1 monster in your hand can be used as 1 of the other Synchro Materials. \
+Once per turn: You can Fusion Summon 1 "Palladium" Fusion Monster from your Extra Deck, \
+    using monsters you control as Fusion Materials, including this card. \
 """
 strings = ["Summon a DIVINE monster"]
 
@@ -193,7 +193,7 @@ attribute = "light"
 race = "spellcaster"
 level = 3
 atk = 1500
-def = 1800
+def = 2000
 effect = """\
 You can discard this card; Add 1 "Slifer the Sky Dragon" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
@@ -210,15 +210,15 @@ name = "Palladium Apostle of Ra"
 type = "monster tuner effect"
 attribute = "light"
 race = "spellcaster"
-level = 4
-atk = 1700
-def = 1500
+level = 2
+atk = 1100
+def = 500
 effect = """\
 You can discard this card; Add 1 "The Winged Dragon of Ra" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-Once per turn: You can Fusion Summon 1 "Palladium" Fusion Monster from your Extra Deck, \
-    using monsters you control as Fusion Materials, including this card. \
+If this card would be used as a Synchro Material for a "Palladium" monster, \
+    1 monster in your hand can be used as 1 of the other Synchro Materials. \
 """
 strings = ["Fusion Summon"]
 
