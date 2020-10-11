@@ -20,6 +20,15 @@ function s.initial_effect(c)
     e2:SetCost(s.effcost)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- reverse damage
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 2))
+    e3:SetType(EFFECT_TYPE_ACTIVATE)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetCost(s.effcost)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.efffilter(c) return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x13a) end
@@ -37,7 +46,6 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    aux.RegisterClientHint(c, nil, tp, 0, 1, aux.Stringid(id, 2), nil)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
@@ -71,7 +79,6 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    aux.RegisterClientHint(c, nil, tp, 0, 1, aux.Stringid(id, 3), nil)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
@@ -106,4 +113,17 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec4:SetTarget(function(e, c) return c:IsType(TYPE_SPELL + TYPE_TRAP) end)
     ec4:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec4, tp)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_REVERSE_DAMAGE)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(1)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end

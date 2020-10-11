@@ -639,7 +639,7 @@ type = "spell quick-play"
 effect = """\
 Banish 1 card in your opponent's GY or your Deck, \
     and if you do, until the end of the next turn, its effects are negated, \
-    as well as the activated effects and effects on the field of cards with the same original name. \
+    as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
 During your Main Phase, except the turn this card was sent to the GY: \
     You can shuffle this card from your GY into the Deck, \
     and if you do, add 1 your face-up banished card to your hand. \
@@ -675,12 +675,12 @@ Tribute 1 "Palladium" monster, then activate 1 of these effect;
 ● Until the end of this turn: \
     negate the effects of all Spell and Trap Cards on your opponent's side of the field, \
     and your opponent cannot activate or Set Spell or Trap Cards.
+● Until the end of this turn, whenever you would take damage you gain that amount of Life Points instead.
 """
 strings = [
     "Block your opponent's Monster",
     "Block your opponent's Spell/Trap",
-    "Monster Card be blocked by \"Departure to the Afterlife\"",
-    "Spell/Trap Card be blocked by \"Departure to the Afterlife\"",
+    "Reverse damage",
 ]
 
 [card.palladium-draconic-titan-of-war-god]
