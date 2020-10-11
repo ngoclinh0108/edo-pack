@@ -556,7 +556,8 @@ name = "Tablet of Lost Memories"
 type = "spell quick-play"
 effect = """\
 (This card is always treated as "Palladium" card.)
-You can only activate 1 "Tablet of Lost Memories" per turn. Activate 1 of these effect;
+You can only activate 1 "Tablet of Lost Memories" per turn. \
+Activate 1 of these effect;
 ● Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon", "Red-Eyes Black Dragon" or "Gaia The Fierce Knight" \
     from your hand, Deck or GY.
 ● If you control "Dark Magician": \
@@ -661,8 +662,31 @@ You can only activate 1 "The True Name of Palladium Ruler" per turn. \
 """
 strings = ["Take a DIVINE monster?"]
 
-[card.palladium-draconic-titan-of-war-god]
+[card.departure-to-the-afterlife]
 id = 410000030
+set = "palladium"
+name = "Departure to the Afterlife"
+type = "trap"
+effect = """\
+(This card is always treated as "Palladium" card.)
+You can only activate 1 "Departure to the Afterlife" per turn. \
+Tribute 1 "Palladium" monster, then activate 1 of these effect;
+● Until the end of this turn: \
+    your opponent cannot Normal Summon, Set, Flip Summon, or Special Summon a monster(s) \
+    or activate an Effect Monster's effect.
+● Until the end of this turn: \
+    negate the effects of all Spell and Trap Cards on your opponent's side of the field, \
+    and your opponent cannot activate or Set Spell or Trap Cards.
+"""
+strings = [
+    "Block your opponent's monster",
+    "Block your opponent's Spell/Trap",
+    "Monster Card be blocked by \"Departure to the Afterlife\"",
+    "Spell/Trap Card be blocked by \"Departure to the Afterlife\"",
+]
+
+[card.palladium-draconic-titan-of-war-god]
+id = 410000031
 set = "palladium"
 name = "Palladium Draconic Titan of War's God"
 type = "monster synchro effect"
@@ -691,7 +715,7 @@ strings = [
 ]
 
 [card.palladium-sacred-paladin-of-heaven-god]
-id = 410000031
+id = 410000032
 set = "palladium"
 name = "Palladium Sacred Paladin of Heaven's God"
 type = "monster xyz effect"
@@ -716,7 +740,7 @@ Once per turn, when your opponent activates a card or effect (Quick Effect): \
 strings = ["Negate activation", "Reduce your opponent monster's ATK"]
 
 [card.palladium-immortal-soldier-of-sun-god]
-id = 410000032
+id = 410000033
 set = "palladium"
 name = "Palladium Immortal Soldier of Sun's God"
 type = "monster fusion effect"
@@ -752,7 +776,7 @@ strings = [
 ]
 
 [card.palladium-oracles]
-id = 410000033
+id = 410000034
 set = 'palladium'
 name = "The Palladium Oracles"
 type = "monster link effect"
