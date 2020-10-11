@@ -19,17 +19,18 @@ At the start of the Duel: Reveal 1 "Holactie the Creator of Light" in your Deck,
 Unaffected by other cards' effects. \
 Summons of your "Palladium" monsters cannot be negated. \
 The activation and effects of your "Palladium" Spell/Trap cannot be negated. \
+During your Draw Phase, instead of conducting your normal draw: \
+    You can add 1 "Palladium" Spell or Trap from your Deck or GY to your hand. \
+    You can only use this effect of "Millennium Ascension" once per turn. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
 Once per turn: You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, \
     then place them on the top of the Deck in any order. \
-(Quick Effect): You can add 1 "Palladium" Spell or Trap from your Deck or GY to your hand, \
-    You can only use this effect of "Millennium Ascension" once per turn. \
 """
 strings = [
+    "Search \"Palladium\" Spell/Trap",
     "Summon via \"Millennium Ascension\"",
     "Shuffle the Deck",
-    "Search Spell/Trap",
 ]
 
 [card.obelisk]
@@ -606,7 +607,7 @@ type = "spell quick-play"
 effect = """\
 (This card's name is also treated as "Monster Reborn".)
 Take 1 monster in either GY; Add to your hand or Special Summon it, \
-    but send the Summoned monster to the GY during the End Phase of this turn if the monster is not "Palladium" monster. \
+    but send the Summoned monster to the GY during the End Phase of this turn if it is not "Palladium" monster. \
     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
 You can only activate 1 "Palladium Reborn" per turn. \
 """
