@@ -53,8 +53,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsFaceup() and c:IsLevelAbove(7) and c:IsSetCard(0x13a) and
-               c:IsRace(RACE_SPELLCASTER)
+    return c:IsFaceup() and c:IsLevelAbove(7) and c:IsRace(RACE_SPELLCASTER)
 end
 
 function s.e1con(e, c)
