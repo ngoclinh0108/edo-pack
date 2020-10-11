@@ -122,13 +122,13 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4filter1(c)
-    return c:IsFaceup() and c:IsLevel(7) and c:IsAttribute(ATTRIBUTE_LIGHT) and
-               c:IsRace(RACE_SPELLCASTER) and c:IsType(TYPE_NORMAL) and
-               c:IsSetCard(0x13a)
+    return
+        c:IsFaceup() and c:IsLevelAbove(7) and c:IsAttribute(ATTRIBUTE_LIGHT) and
+            c:IsRace(RACE_SPELLCASTER) and c:IsSetCard(0x13a)
 end
 
 function s.e4filter2(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and c:IsLevel(6) and
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and c:IsLevelBelow(6) and
                c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_SPELLCASTER) and
                c:IsSetCard(0x13a)
 end

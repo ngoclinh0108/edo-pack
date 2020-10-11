@@ -1,4 +1,4 @@
--- Palladium Oracle Mahad - Sacred Wizard
+-- Palladium Oracle Mahad - Servant of Ruler
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

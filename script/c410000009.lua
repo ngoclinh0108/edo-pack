@@ -1,4 +1,4 @@
--- Palladium Oracle Mana - Sacred Wizard
+-- Palladium Oracle Mana - Servant of Ruler
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
