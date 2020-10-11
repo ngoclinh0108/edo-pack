@@ -86,15 +86,15 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
-end
-
 function s.e2filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                not c:IsType(TYPE_RITUAL) and c:IsLevelBelow(8) and
                c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
                c:IsRace(RACE_DRAGON)
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)

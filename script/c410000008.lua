@@ -24,7 +24,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 
     -- fusion Summon
-    local params = {nil, Fusion.OnFieldMat, nil, nil, Fusion.ForcedHandler}
+    local params = {
+        aux.FilterBoolFunction(Card.IsSetCard, 0x13a), Fusion.OnFieldMat, nil,
+        nil, Fusion.ForcedHandler
+    }
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)

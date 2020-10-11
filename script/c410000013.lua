@@ -74,8 +74,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
 end
 
 function s.e2filter(c)
-    return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and
-               not c:IsCode(id) and c:IsAbleToHand()
+    return c:IsAbleToHand() and not c:IsCode(id) and c:IsLevel(4) and
+               c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -84,15 +84,19 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
+
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
                           LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                      nil)
+    local g = Duel.GetMatchingGroup(s.e2filter, tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    if #g > 1 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+        g = g:Select(tp, 1, 1, nil)
+    end
+
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)

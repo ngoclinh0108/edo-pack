@@ -44,9 +44,10 @@ end
 function s.e1filter1(c) return c:IsFaceup() and c:IsCode(25652259) end
 
 function s.e1filter2(c, e, tp)
-    return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               not c:IsCode(id)
+    return
+        c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and not c:IsCode(id) and
+            c:IsLevel(5) and c:IsAttribute(ATTRIBUTE_LIGHT) and
+            c:IsRace(RACE_WARRIOR)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -79,8 +80,13 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                     e, tp)
     if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local sg = g:Select(tp, 1, 1, nil)
+
+        local sg = g
+        if #g >1 then
+            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+            sg = g:Select(tp, 1, 1, nil)
+        end
+
         if #sg > 0 then
             Duel.SpecialSummon(sg, 0, tp, tp, false, false, POS_FACEUP)
         end
