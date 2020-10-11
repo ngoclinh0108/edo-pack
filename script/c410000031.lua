@@ -2,23 +2,21 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.material = {CARD_BLUEEYES_W_DRAGON}
+s.material = {CARD_BLUEEYES_W_DRAGON, 410000006}
 s.material_setcode = {0xdd, 0x13a}
-s.synchro_nt_required = 1
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- synchro summon
-    Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x13a), 1,
-                         1, aux.FilterSummonCode(CARD_BLUEEYES_W_DRAGON), 1, 1)
+    -- fusion material
+    Fusion.AddProcMix(c, false, false, CARD_BLUEEYES_W_DRAGON, 410000006)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(aux.synlimit)
+    splimit:SetValue(aux.fuslimit)
     c:RegisterEffect(splimit)
 
     -- immunity
@@ -107,13 +105,13 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec1)
 
     -- unstoppable attack
-	local ec2=Effect.CreateEffect(c)
+    local ec2 = Effect.CreateEffect(c)
     ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_SINGLE_RANGE)
-	ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-	ec2:SetRange(LOCATION_MZONE)
+    ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SINGLE_RANGE)
+    ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+    ec2:SetRange(LOCATION_MZONE)
     tc:RegisterEffect(ec2)
-    
+
     -- inflict damage
     local ec3 = Effect.CreateEffect(c)
     ec3:SetDescription(aux.Stringid(id, 2))

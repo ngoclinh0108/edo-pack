@@ -174,7 +174,7 @@ attribute = "light"
 race = "spellcaster"
 level = 4
 atk = 1900
-def = 1300
+def = 1200
 effect = """\
 You can discard this card; Add 1 "Obelisk the Tormentor" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
@@ -182,7 +182,7 @@ If this card you control is used as Synchro Material for a "Palladium" monster, 
 Once per turn: You can Fusion Summon 1 "Palladium" Fusion Monster from your Extra Deck, \
     using monsters you control as Fusion Materials, including this card. \
 """
-strings = ["Summon a DIVINE monster"]
+strings = ["Fusion Summon"]
 
 [card.palladium-apostle-slifer]
 id = 410000007
@@ -212,15 +212,14 @@ attribute = "light"
 race = "spellcaster"
 level = 2
 atk = 1100
-def = 500
+def = 600
 effect = """\
 You can discard this card; Add 1 "The Winged Dragon of Ra" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
 If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-If this card would be used as a Synchro Material for a "Palladium" monster, \
-    1 monster in your hand can be used as 1 of the other Synchro Materials. \
+Once per turn: You can Tribute 1 monster; Special Summon 1 Level 1 "Palladium" monster from your hand, Deck or GY in face-up Defense Position. \
 """
-strings = ["Fusion Summon"]
+strings = ["Summon a Level 1 \"Palladium\" Monster"]
 
 [card.palladium-oracle-mana]
 id = 410000009
@@ -692,23 +691,23 @@ strings = [
 id = 410000031
 set = "palladium"
 name = "Palladium Draconic Titan of War's God"
-type = "monster synchro effect"
+type = "monster fusion effect"
 attribute = "earth"
 race = "dragon"
 level = 10
 atk = 4000
 def = 0
 effect = """\
-1 "Palladium" Tuner + "Blue-Eyes White Dragon"
-Must be Synchro Summoned. \
+"Blue-Eyes White Dragon" + "Palladium Apostle of Obelisk"
+Must be Fusion Summoned with the above Fusion Materials. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 Cannot be destroyed by battle. \
 Once per turn, if you would Tribute a monster you control to activate a card effect, \
     you can Tribute 1 monster your opponent controls, even though you do not control it. \
 Once per turn: You can Tribute 2 other monsters; 1 monster you control gain these effects until the end of this turn.
-● This card can make up to 3 attacks during each Battle Phase.
-● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
-● When this card destroys an opponent's monster by battle: \
+● This card can make up to 3 attacks during each Battle Phase. \
+Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+When this card destroys an opponent's monster by battle: \
     Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster.
 """
 strings = [
@@ -728,7 +727,7 @@ level = 10
 atk = 2900
 def = 2400
 effect = """\
-2+ Level 10 "Palladium" monsters, including "Dark Magician"
+2+ Level 10 "Palladium" monsters, including "Dark Magician" and "Palladium Apostle of Slifer"
 Must Be Xyz Summoned. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 There is no limit to the number of cards in your hand. \
@@ -746,15 +745,15 @@ strings = ["Negate activation", "Reduce your opponent monster's ATK"]
 id = 410000033
 set = "palladium"
 name = "Palladium Immortal Soldier of Sun's God"
-type = "monster fusion effect"
+type = "monster synchro effect"
 attribute = "fire"
 race = "warrior"
 level = 10
 atk = 3300
 def = 1800
 effect = """\
-"Palladium Apostle of Ra" + "Gaia The Fierce Knight"
-Must Be Fusion Summoned with the above Fusion Materials or by its own effect. \
+"Palladium Apostle of Ra" + "Gaia The Fierce Knight" + 1 non-Tuner monster
+Must Be Synchro Summoned or by its own effect. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 When this card destroys an opponent's monster by battle: \
     You can make this card gain ATK equal to the destroyed monster's original ATK. \

@@ -2,22 +2,26 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {410000008, 6368038, CARD_RA}
 s.material = {410000008, 6368038}
-s.material_setcode = {0xbd, 0x13a}
+s.material_setcode = {0x13a, 0xbd}
+s.listed_names = {410000008, 6368038, CARD_RA}
+s.synchro_nt_required = 1
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- fusion material
-    Fusion.AddProcMix(c, false, false, 6368038, 410000008)
+    -- synchro summon
+    Synchro.AddMajesticProcedure(c, aux.FilterBoolFunction(Card.IsCode,
+                                                           410000008), true,
+                                 aux.FilterBoolFunction(Card.IsCode, 6368038),
+                                 true, Synchro.NonTuner(nil), false)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(aux.fuslimit)
+    splimit:SetValue(aux.synlimit)
     c:RegisterEffect(splimit)
 
     -- immunity

@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.material = {CARD_DARK_MAGICIAN}
+s.material = {CARD_DARK_MAGICIAN, 410000007}
 s.material_setcode = {0xa2, 0x10a2, 0x13a}
 
 function s.initial_effect(c)
@@ -110,7 +110,10 @@ end
 
 function s.xyzcheck(g, tp, sc)
     return g:IsExists(aux.FilterSummonCode(CARD_DARK_MAGICIAN), 1, nil, sc,
-                      SUMMON_TYPE_XYZ, tp)
+                      SUMMON_TYPE_XYZ, tp) and
+               g:IsExists(aux.FilterSummonCode(410000007), 1, nil, sc,
+                          SUMMON_TYPE_XYZ, tp)
+
 end
 
 function s.e4filter(c, tp)
