@@ -640,6 +640,10 @@ effect = """\
 Banish 1 card in your opponent's GY or your Deck, \
     and if you do, until the end of the next turn, its effects are negated, \
     as well as the activated effects and effects on the field of cards with the same original name. \
+During your Main Phase, except the turn this card was sent to the GY: \
+    You can shuffle this card from your GY into the Deck, \
+    and if you do, add 1 your face-up banished card to your hand. \
+    You can only use this effect of "Palladium Forbidden Sacrophagus" once per turn. \
 """
 strings = []
 

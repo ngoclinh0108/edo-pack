@@ -12,6 +12,17 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- return
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TOHAND)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, id)
+    e2:SetCondition(aux.exccon)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter(c)
@@ -70,4 +81,34 @@ end
 function s.e1disop(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_CARD, 0, id)
     Duel.NegateEffect(ev)
+end
+
+function s.e2filter(c) return c:IsFaceup() and c:IsAbleToHand() end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:IsAbleToDeck() and
+                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_REMOVED,
+                                               0, 1, nil)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_MZONE)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_REMOVED, 0, nil)
+
+    if #g > 0 and Duel.SendtoDeck(c, nil, 2, REASON_EFFECT) > 0 then
+        Duel.BreakEffect()
+
+        if #g > 1 then
+            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+            g = g:Select(tp, 1, 1, nil)
+        end
+
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
 end
