@@ -631,8 +631,20 @@ Once per turn, during your Main Phase, except the turn this card was sent to the
 """
 strings = []
 
-[card.palladium-draconic-titan-of-war-god]
+[card.palladium-forbidden-sacrophagus]
 id = 410000028
+set = "palladium"
+name = "Palladium Forbidden Sacrophagus"
+type = "spell quick-play"
+effect = """\
+Banish 1 card in your opponent's GY or your Deck, \
+    and if you do, until the end of the next turn, its effects are negated, \
+    as well as the activated effects and effects on the field of cards with the same original name. \
+"""
+strings = []
+
+[card.palladium-draconic-titan-of-war-god]
+id = 410000030
 set = "palladium"
 name = "Palladium Draconic Titan of War's God"
 type = "monster synchro effect"
@@ -661,7 +673,7 @@ strings = [
 ]
 
 [card.palladium-sacred-paladin-of-heaven-god]
-id = 410000029
+id = 410000031
 set = "palladium"
 name = "Palladium Sacred Paladin of Heaven's God"
 type = "monster xyz effect"
@@ -686,7 +698,7 @@ Once per turn, when your opponent activates a card or effect (Quick Effect): \
 strings = ["Negate activation", "Reduce your opponent monster's ATK"]
 
 [card.palladium-immortal-soldier-of-sun-god]
-id = 410000030
+id = 410000032
 set = "palladium"
 name = "Palladium Immortal Soldier of Sun's God"
 type = "monster fusion effect"
@@ -722,7 +734,7 @@ strings = [
 ]
 
 [card.palladium-oracles]
-id = 410000031
+id = 410000033
 set = 'palladium'
 name = "The Palladium Oracles"
 type = "monster link effect"
@@ -743,15 +755,3 @@ If this card leaves the field: \
     from your hand, Deck, and/or GY. \
 """
 strings = ["Draw and check"]
-
-[card.palladium-forbidden-sacrophagus]
-id = 410000032
-set = "palladium"
-name = "Palladium Forbidden Sacrophagus"
-type = "spell quick-play"
-effect = """\
-Banish 1 card in your opponent's GY or your Deck, \
-    and if you do, until the end of the next turn, its effects are negated, \
-    as well as the activated effects and effects on the field of cards with the same original name. \
-"""
-strings = []
