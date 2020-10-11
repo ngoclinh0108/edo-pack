@@ -743,3 +743,15 @@ If this card leaves the field: \
     from your hand, Deck, and/or GY. \
 """
 strings = ["Draw and check"]
+
+[card.palladium-forbidden-sacrophagus]
+id = 410000032
+set = "palladium"
+name = "Palladium Forbidden Sacrophagus"
+type = "spell quick-play"
+effect = """\
+Banish 1 card in your opponent's GY or your Deck, \
+    and if you do, until the end of the next turn, its effects are negated, \
+    as well as the activated effects and effects on the field of cards with the same original name. \
+"""
+strings = []
