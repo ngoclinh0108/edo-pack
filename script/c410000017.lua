@@ -57,19 +57,21 @@ function s.initial_effect(c)
 
     -- banish
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(1107)
+    e4:SetDescription(aux.Stringid(id, 0))
     e4:SetCategory(CATEGORY_REMOVE)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e4:SetCode(EVENT_BATTLED)
-    e4:SetCondition(s.e4con)
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1)
+    e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
     -- search spell/trap
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 0))
-    e5:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
+    e5:SetDescription(aux.Stringid(id, 1))
+    e5:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e5:SetCode(EVENT_BATTLE_DESTROYING)
     e5:SetCountLimit(1, id)
@@ -152,25 +154,38 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local bc = c:GetBattleTarget()
-    e:SetLabelObject(bc)
+    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
 
-    return bc and bc:IsStatus(STATUS_BATTLE_DESTROYED) and
-               c:IsStatus(STATUS_OPPO_BATTLE)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(3206)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_OATH +
+                        EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1, true)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, e:GetLabelObject(), 1, 0, 0)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(Card.IsAbleToRemove, tp, 0, LOCATION_MZONE,
+                                     1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
+    local g = Duel.SelectTarget(tp, Card.IsAbleToRemove, tp, 0, LOCATION_MZONE,
+                                1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local bc = e:GetLabelObject()
-    if not bc:IsRelateToBattle() or not bc:IsAbleToRemove() then return end
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) then return end
 
-    Duel.Remove(bc, POS_FACEUP, REASON_EFFECT)
+    Duel.Remove(tc, POS_FACEUP, REASON_EFFECT)
 end
 
 function s.e5filter(c)
@@ -182,7 +197,8 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
         return Duel.IsExistingTarget(s.e5filter, tp,
                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
     end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0, LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
+                          LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)

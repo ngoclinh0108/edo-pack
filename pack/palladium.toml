@@ -396,13 +396,13 @@ You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Spellcaster non-
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Spellcaster monster from your hand, Deck, or GY. \
 Your opponent cannot target Spellcaster monsters you control with card effects. \
-When this card destroys a monster by battle, after damage calculation: \
-    Banish that monster. \
+Once per turn: You can target 1 monster your opponent controls; banish it. \
+    This card cannot attack the turn this effect is activated. \
 When this card destroys an opponent's monster by battle: \
     You can add 1 Spell/Trap from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
 """
-strings = ["Add 1 Spell/Trap to your hand"]
+strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
 
 [card.palladium-chaos-soldier-nightfall]
 id = 410000018
@@ -454,7 +454,10 @@ Once per turn: You can send as many cards in your opponents' hands and on their 
     also, for the rest of this turn, Other monsters you control cannot attack. \
     You cannot activate other cards or effects during the turn you activate this card's effect. \
 """
-strings = ["Activated \"Palladium Chaos Dragon - Envoy of the Dawnbreak\" effect", "Send card to the GY"]
+strings = [
+    "Activated \"Palladium Chaos Dragon - Envoy of the Dawnbreak\" effect",
+    "Send card to the GY",
+]
 
 [card.palladium-guardian-suijin]
 id = 410000020
@@ -571,7 +574,7 @@ strings = [
     "Destroy Spells and Traps",
     "Destroy monsters",
     "Inflict damage",
-    "Double ATK"
+    "Double ATK",
 ]
 
 [card.palladium-magic]
@@ -651,7 +654,11 @@ Once per turn: You can Tribute 2 other monsters; 1 monster you control gain thes
 ● When this card destroys an opponent's monster by battle: \
     Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster.
 """
-strings = ["Buffed via \"Palladium Draconic Titan of War's God\"", "Make monster can multi-attacks", "Inflict damage"]
+strings = [
+    "Buffed via \"Palladium Draconic Titan of War's God\"",
+    "Make monster can multi-attacks",
+    "Inflict damage",
+]
 
 [card.palladium-sacred-paladin-of-heaven-god]
 id = 410000029
@@ -711,7 +718,7 @@ If "The Winged Dragon of Ra" monster is sent from the field to your GY while thi
 strings = [
     "Gain ATK of the destroyed monster",
     "Lose ATK to destroy a card",
-    "Summon \"The Winged Dragon of Ra\""
+    "Summon \"The Winged Dragon of Ra\"",
 ]
 
 [card.palladium-oracles]
