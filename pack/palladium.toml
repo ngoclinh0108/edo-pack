@@ -231,7 +231,7 @@ atk = 2000
 def = 1700
 effect = """\
 (This card's name is also treated as "Dark Magician Girl". This card's Attribute is also treated as DARK.)
-You can Special Summon this card (from your hand) by discarding 1 card. \
+If you control another Level 7 or higher "Palladium" Spellcaster monster, you can Special Summon this card (from your hand).
 Spellcaster monsters you control cannot be destroyed by card effects. \
 During damage calculation, if your other LIGHT Spellcaster monster battles an opponent's monster (Quick Effect): \
     You can send this card from your hand or face-up from your field to the GY; \
@@ -289,8 +289,7 @@ atk = 2300
 def = 2100
 effect = """\
 (This card's name is also treated as "Gaia The Fierce Knight".)
-If you control no monsters, or your opponent controls a DARK monster; \
-    You can Special Summon this card from your hand. \
+You can Special Summon this card (from your hand) by discarding 1 card. \
 Once per turn, you can activate 1 of these effects (Quick Effect). \
 You can only use this effect of "Palladium Knight Faris" once per turn;
 ● Target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK.
