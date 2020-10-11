@@ -1,4 +1,4 @@
--- Palladium Beast Kuriboh
+-- Palladium Spirit Kuriboh
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

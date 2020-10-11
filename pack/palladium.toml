@@ -260,13 +260,13 @@ You can activate a Quick-Play Spell or Trap from your hand during your opponent'
     You can only use this effect of "Palladium Oracle Mahad - Servant of Ruler" once per turn. \
 """
 
-[card.palladium-beast-kuriboh]
+[card.palladium-spirit-kuriboh]
 id = 410000011
 set = "palladium kuriboh"
-name = "Palladium Beast Kuriboh"
+name = "Palladium Spirit Kuriboh"
 type = "monster tuner effect"
-attribute = "dark"
-race = "fiend"
+attribute = "light"
+race = "fairy"
 level = 1
 atk = 300
 def = 200
@@ -274,7 +274,7 @@ effect = """\
 If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
 When an opponent's monster declares a directly attack: \
     You can Special Summon this card from the GY in face-up Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
-    You can only use this effects of "Palladium Beast Kuriboh" per turn. \
+    You can only use this effects of "Palladium Spirit Kuriboh" per turn. \
 You take no Battle Damage from battles involving this card. \
 If this card on the field is destroyed: You take no damage this turn. \
 """
