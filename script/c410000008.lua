@@ -23,20 +23,29 @@ function s.initial_effect(c)
     e2:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e2)
 
-    -- fusion Summon
+    -- non-tuner
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetCode(EFFECT_NONTUNER)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetValue(function(c, sc, tp) return sc and sc:IsSetCard(0x13a) end)
+    c:RegisterEffect(e3)
+
+    -- fusion summon
     local params = {
         aux.FilterBoolFunction(Card.IsSetCard, 0x13a), Fusion.OnFieldMat, nil,
         nil, Fusion.ForcedHandler
     }
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
-    e3:SetTarget(Fusion.SummonEffTG(table.unpack(params)))
-    e3:SetOperation(Fusion.SummonEffOP(table.unpack(params)))
-    c:RegisterEffect(e3)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1)
+    e4:SetTarget(Fusion.SummonEffTG(table.unpack(params)))
+    e4:SetOperation(Fusion.SummonEffOP(table.unpack(params)))
+    c:RegisterEffect(e4)
 end
 
 function s.e1filter(c) return c:IsAbleToHand() and c:IsCode(CARD_RA) end

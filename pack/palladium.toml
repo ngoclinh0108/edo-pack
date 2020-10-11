@@ -178,6 +178,7 @@ def = 500
 effect = """\
 You can discard this card; Add 1 "Obelisk the Tormentor" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
 If this card would be used as a Synchro Material for a "Palladium" monster, \
     1 monster in your hand can be used as 1 of the other Synchro Materials. \
 """
@@ -187,7 +188,7 @@ strings = ["Summon a DIVINE monster"]
 id = 410000007
 set = "palladium"
 name = "Palladium Apostle of Slifer"
-type = "monster effect"
+type = "monster tuner effect"
 attribute = "light"
 race = "spellcaster"
 level = 3
@@ -196,6 +197,7 @@ def = 1800
 effect = """\
 You can discard this card; Add 1 "Slifer the Sky Dragon" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
 Once per turn: You can target 1 other "Palladium" monster you control; \
     the Levels of that monster and this card become their combined current Levels, until the end of this turn. \
 """
@@ -205,7 +207,7 @@ strings = ["Combine level"]
 id = 410000008
 set = "palladium"
 name = "Palladium Apostle of Ra"
-type = "monster effect"
+type = "monster tuner effect"
 attribute = "light"
 race = "spellcaster"
 level = 4
@@ -214,6 +216,7 @@ def = 1500
 effect = """\
 You can discard this card; Add 1 "The Winged Dragon of Ra" from your Deck to your hand. \
 This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
 Once per turn: You can Fusion Summon 1 "Palladium" Fusion Monster from your Extra Deck, \
     using monsters you control as Fusion Materials, including this card. \
 """
@@ -269,6 +272,7 @@ level = 1
 atk = 300
 def = 200
 effect = """\
+If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
 When an opponent's monster declares a directly attack: \
     You can Special Summon this card from the GY in face-up Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
     You can only use this effects of "Palladium Beast Kuriboh" per turn. \

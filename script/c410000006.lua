@@ -23,14 +23,23 @@ function s.initial_effect(c)
     e2:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e2)
 
-    -- hand synchro
+    -- non-tuner
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e3:SetCode(EFFECT_HAND_SYNCHRO)
-    e3:SetLabel(id)
-    e3:SetValue(s.e3val)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetCode(EFFECT_NONTUNER)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetValue(function(c, sc, tp) return sc and sc:IsSetCard(0x13a) end)
     c:RegisterEffect(e3)
+
+    -- hand synchro
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e4:SetCode(EFFECT_HAND_SYNCHRO)
+    e4:SetLabel(id)
+    e4:SetValue(s.e4val)
+    c:RegisterEffect(e4)
 end
 
 function s.e1filter(c) return c:IsAbleToHand() and c:IsCode(10000000) end
@@ -64,7 +73,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e3val(e, tc, sc)
+function s.e4val(e, tc, sc)
     if not sc:IsSetCard(0x13a) then return false end
     if not tc:IsLocation(LOCATION_HAND) then return false end
     local c = e:GetHandler()
@@ -73,26 +82,26 @@ function s.e3val(e, tc, sc)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK)
     ec1:SetLabel(id)
-    ec1:SetTarget(s.e3syntg)
+    ec1:SetTarget(s.e4syntg)
     tc:RegisterEffect(ec1)
     return true
 end
 
-function s.e3syntg(e, mc, sg, tg, ntg, tsg, ntsg)
+function s.e4syntg(e, mc, sg, tg, ntg, tsg, ntsg)
     if not mc then return true end
 
     local res = true
-    if sg:IsExists(s.e3synchk1, 1, mc) or
-        (not tg:IsExists(s.e3synchk2, 1, mc) and
-            not ntg:IsExists(s.e3synchk2, 1, mc) and
-            not sg:IsExists(s.e3synchk2, 1, mc)) then return false end
+    if sg:IsExists(s.e4synchk1, 1, mc) or
+        (not tg:IsExists(s.e4synchk2, 1, mc) and
+            not ntg:IsExists(s.e4synchk2, 1, mc) and
+            not sg:IsExists(s.e4synchk2, 1, mc)) then return false end
 
-    local trg = tg:Filter(s.e3synchk1, nil)
-    local ntrg = ntg:Filter(s.e3synchk1, nil)
+    local trg = tg:Filter(s.e4synchk1, nil)
+    local ntrg = ntg:Filter(s.e4synchk1, nil)
     return res, trg, ntrg
 end
 
-function s.e3synchk1(c)
+function s.e4synchk1(c)
     if not c:IsHasEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK) then
         return false
     end
@@ -105,7 +114,7 @@ function s.e3synchk1(c)
     return true
 end
 
-function s.e3synchk2(c)
+function s.e4synchk2(c)
     if not c:IsHasEffect(EFFECT_HAND_SYNCHRO) or
         c:IsHasEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK) then
         return false

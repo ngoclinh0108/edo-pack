@@ -23,16 +23,25 @@ function s.initial_effect(c)
     e2:SetValue(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
     c:RegisterEffect(e2)
 
-    -- level
+    -- non-tuner
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetCode(EFFECT_NONTUNER)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetValue(function(c, sc, tp) return sc and sc:IsSetCard(0x13a) end)
     c:RegisterEffect(e3)
+
+    -- level
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e1filter(c) return c:IsAbleToHand() and c:IsCode(10000020) end
@@ -66,11 +75,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e3filter(c)
+function s.e4filter(c)
     return c:IsFaceup() and c:HasLevel() and c:IsSetCard(0x13a)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, 0, 1, c)
@@ -80,7 +89,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, c)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not c:IsRelateToEffect(e) or c:IsFacedown() or not tc:IsRelateToEffect(e) or
