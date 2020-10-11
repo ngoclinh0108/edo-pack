@@ -9,7 +9,7 @@ s.synchro_nt_required = 1
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- fusion material
+    -- synchro summon
     Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x13a), 1,
                          1, aux.FilterSummonCode(CARD_BLUEEYES_W_DRAGON), 1, 1)
 

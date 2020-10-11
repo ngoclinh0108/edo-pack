@@ -795,3 +795,20 @@ If this card leaves the field: \
     from your hand, Deck, and/or GY. \
 """
 strings = ["Draw and check"]
+
+[card.palladium-oracle-hassan]
+id = 410000035
+set = "palladium"
+name = "Palladium Oracle Hassan"
+type = "monster synchro effect"
+attribute = "light"
+race = "spellcaster"
+level = 9
+atk = 3200
+def = 2800
+effect = """\
+1 "Palladium" Tuner + 1+ non-Tuner Spellcaster monsters
+Must first be Synchro Summoned.
+"""
+strings = [
+]
