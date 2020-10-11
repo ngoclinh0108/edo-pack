@@ -664,11 +664,9 @@ strings = ["Take a DIVINE monster?"]
 
 [card.departure-to-the-afterlife]
 id = 410000030
-set = "palladium"
 name = "Departure to the Afterlife"
 type = "trap"
 effect = """\
-(This card is always treated as "Palladium" card.)
 You can only activate 1 "Departure to the Afterlife" per turn. \
 Tribute 1 "Palladium" monster, then activate 1 of these effect;
 ● Until the end of this turn: \
@@ -679,7 +677,7 @@ Tribute 1 "Palladium" monster, then activate 1 of these effect;
     and your opponent cannot activate or Set Spell or Trap Cards.
 """
 strings = [
-    "Block your opponent's monster",
+    "Block your opponent's Monster",
     "Block your opponent's Spell/Trap",
     "Monster Card be blocked by \"Departure to the Afterlife\"",
     "Spell/Trap Card be blocked by \"Departure to the Afterlife\"",
