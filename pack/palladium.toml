@@ -646,6 +646,21 @@ During your Main Phase, except the turn this card was sent to the GY: \
 """
 strings = []
 
+[card.the-true-name-of-palladium-ruler]
+id = 410000029
+set = "palladium"
+name = "The True Name of Palladium Ruler"
+type = "spell"
+effect = """\
+Declare 1 card name; excavate the top card of your Deck, \
+    and if it is the declared card, add it to your hand, \
+    then you can add to your hand, or Special Summon, 1 DIVINE monster from your hand, Deck or GY. \
+    Otherwise, send it to the GY. \
+    Neither player can activate cards or effects in response to this card's activation. \
+You can only activate 1 "The True Name of Palladium Ruler" per turn. \
+"""
+strings = ["Take a DIVINE monster?"]
+
 [card.palladium-draconic-titan-of-war-god]
 id = 410000030
 set = "palladium"
