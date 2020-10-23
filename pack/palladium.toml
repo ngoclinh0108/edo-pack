@@ -326,7 +326,7 @@ type = "monster effect"
 attribute = "light"
 race = "warrior"
 level = 4
-atk = 1800
+atk = 1600
 def = 1400
 effect = """\
 (This card's name is also treated as "King's Knight".)
