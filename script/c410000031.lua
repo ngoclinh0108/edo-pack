@@ -47,7 +47,7 @@ function s.initial_effect(c)
     e2:SetTargetRange(0, LOCATION_MZONE)
     e2:SetCountLimit(1)
     e2:SetValue(function(e, re, r, rp)
-        return re:IsActivated() and (r & REASON_COST) ~= 0
+        return re:GetHandler() ~= e:GetHandler() and re:IsActivated() and (r & REASON_COST) ~= 0
     end)
     c:RegisterEffect(e2)
 
@@ -110,6 +110,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SINGLE_RANGE)
     ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
     ec2:SetRange(LOCATION_MZONE)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec2)
 
     -- inflict damage
@@ -122,6 +123,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetCondition(aux.bdocon)
     ec3:SetTarget(s.e4dmgtg)
     ec3:SetOperation(s.e4dmgop)
+    ec3:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec3)
 end
 
