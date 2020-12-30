@@ -11,7 +11,7 @@ function s.initial_effect(c)
     act:SetCategory(CATEGORY_TOGRAVE)
     act:SetType(EFFECT_TYPE_ACTIVATE)
     act:SetCode(EVENT_FREE_CHAIN)
-    act:SetCode(s.actcost)
+    act:SetCost(s.actcost)
     c:RegisterEffect(act)
 
     -- startup
