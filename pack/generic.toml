@@ -14,18 +14,16 @@ strings = [
 [card.forbidden-polymerization]
 id = 400000001
 alias = 24094653
-name = "Forbidden Polymerization"
-type = "spell ritual"
+name = "Forbidden Fusion"
+type = "spell"
 effect = """\
 (This card's name is always treated as "Polymerization".)
-During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: \
-    You can discard 1 Spell; add this card to your hand. \
-Activate 1 of the these effects;
-● Ritual Summon 1 Ritual Monster from your hand, \
-    by Tributing monsters from your hand or field and/or banish monster from your GY, \
-    whose total Levels equal or exceed the Level of the Ritual Monster.
-● Fusion Summon 1 Fusion Monster from your Extra Deck, \
+You can discard 1 card when activating this card, and if you do, \
+    neither player can activate cards or effects in response to this card's activation. \
+Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters from your hand or field as Fusion Material, \
-    you can also banish monster from your GY as Fusion Material.
+    you can also banish monster from your GY as Fusion Material. \
+During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: \
+    You can discard 1 Spell; add this card to your hand.
 """
-strings = ["Ritual Summon", "Fusion Summon"]
+strings = ["Discard 1 card?"]
