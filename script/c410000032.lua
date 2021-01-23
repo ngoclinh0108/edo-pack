@@ -164,6 +164,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetValue(-1000)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec1)
+    Duel.BreakEffect()
 
     if preatk ~= 0 and tc:GetAttack() == 0 then
         Duel.Destroy(tc, REASON_EFFECT)
