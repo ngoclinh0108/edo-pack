@@ -100,9 +100,6 @@ function s.e0op(e, tp, eg, ep, ev, re, r, rp)
                                          10000040)
     if not sc then return end
 
-    Duel.Hint(HINT_CARD, tp, id)
-    Duel.ConfirmCards(1 - tp, sc)
-
     aux.PlayFieldSpell(c, e, tp, eg, ep, ev, re, r, rp)
 end
 

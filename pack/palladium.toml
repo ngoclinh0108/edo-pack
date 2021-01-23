@@ -699,7 +699,7 @@ atk = 4000
 def = 0
 effect = """\
 "Blue-Eyes White Dragon" + "Palladium Apostle of Obelisk"
-Must be Fusion Summoned with the above Fusion Materials. \
+Must first be Fusion Summoned with the above Fusion Materials. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 Cannot be destroyed by battle. \
 Once per turn, if you would Tribute a monster you control to activate a other card effect, \
@@ -728,7 +728,7 @@ atk = 2900
 def = 2400
 effect = """\
 2+ Level 10 "Palladium" monsters, including "Dark Magician" and "Palladium Apostle of Slifer"
-Must Be Xyz Summoned. \
+Must first be Xyz Summoned. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 There is no limit to the number of cards in your hand. \
 This card gain 500 ATK and DEF for each card in your hand. \
@@ -753,7 +753,7 @@ atk = 3300
 def = 1800
 effect = """\
 "Palladium Apostle of Ra" + "Gaia The Fierce Knight" + 1 non-Tuner monster
-Must Be Synchro Summoned or by its own effect. \
+Must first be Synchro Summoned. \
 Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
 When this card destroys an opponent's monster by battle: \
     You can make this card gain ATK equal to the destroyed monster's original ATK. \
@@ -788,15 +788,18 @@ link-arrows = "bottom-left bottom-right"
 atk = 2800
 link-rating = 2
 effect = """\
+(This card's name is also treated as "Dark Magician". This card's Attribute is also treated as DARK.)
 2 LIGHT Spellcaster monsters, including 1 "Palladium Oracle Mahad" monster or 1 "Palladium Oracle Mana" monster
-This card gains the effects of material monster used to Link Summon this card. \
+This card's name also "Dark Magician" and "Dark Magician Girl" while it is on the field or in the GY. \
+This card gains effects of material monster used to Link Summon this card. \
 Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \
     You can draw 1 card, \
     then if it was a Monster, you can Special Summon it, \
     or you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
 If this card leaves the field: \
     You can Special Summon both 1 "Palladium Oracle Mahad" monster and 1 "Palladium Oracle Mana" monster \
-    from your hand, Deck, and/or GY. \
+    from your hand, Deck, and/or GY, \
+    and if you do, shuffle this card into the Extra Deck. \
 """
 strings = ["Draw and check"]
 

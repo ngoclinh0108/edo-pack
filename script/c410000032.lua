@@ -17,7 +17,9 @@ function s.initial_effect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(aux.xyzlimit)
+    splimit:SetValue(function(e,se,sp,st)
+        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or (st&SUMMON_TYPE_XYZ)==SUMMON_TYPE_XYZ
+    end)
     c:RegisterEffect(splimit)
 
     -- immunity

@@ -10,6 +10,22 @@ function s.initial_effect(c)
     -- link summon
     Link.AddProcedure(c, s.lnkfilter, 2, 2, s.lnkcheck)
 
+    -- code
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(CARD_DARK_MAGICIAN)
+    c:RegisterEffect(code)
+    
+    -- attribute
+    local attribute = Effect.CreateEffect(c)
+    attribute:SetType(EFFECT_TYPE_SINGLE)
+    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
+    attribute:SetValue(ATTRIBUTE_DARK)
+    c:RegisterEffect(attribute)
+
     -- gain effect
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
@@ -69,8 +85,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = c:GetMaterial()
     for tc in aux.Next(g) do
-        local code = tc:GetOriginalCode()
-        c:CopyEffect(code, RESET_EVENT + RESETS_STANDARD, 1)
+        c:CopyEffect(tc:GetOriginalCode(), RESET_EVENT + RESETS_STANDARD, 1)
     end
 end
 
@@ -143,6 +158,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 then return end
@@ -154,10 +170,12 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     if #g1 > 0 and #g2 > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local sg1 = g1:Select(tp, 1, 1, nil)
+        local g = g1:Select(tp, 1, 1, nil)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local sg2 = g2:Select(tp, 1, 1, nil)
-        sg1:Merge(sg2)
-        Duel.SpecialSummon(sg1, 0, tp, tp, true, false, POS_FACEUP)
+        g:Merge(g2:Select(tp, 1, 1, nil))
+        
+        if Duel.SpecialSummon(g, 0, tp, tp, true, false, POS_FACEUP) ~= 0 then
+            Duel.SendtoDeck(c, tp, 2, REASON_EFFECT)
+        end
     end
 end

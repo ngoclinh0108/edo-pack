@@ -24,6 +24,6 @@ Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters from your hand or field as Fusion Material, \
     you can also banish monster from your GY as Fusion Material. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: \
-    You can discard 1 Spell; add this card to your hand.
+    You can discard 1 Spell; add this card to your hand. \
 """
 strings = ["Discard 1 card?"]
