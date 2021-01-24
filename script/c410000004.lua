@@ -50,7 +50,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 
     -- infinite atk
-    Utility.InfinityAtk(s, c)
+    Utility.GainInfinityAtk(s, c)
 end
 
 function s.dmsfilter(c)

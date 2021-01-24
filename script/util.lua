@@ -16,7 +16,7 @@ function Utility.IsSetCardListed(c, ...)
     return false
 end
 
-function Utility.InfinityAtk(root, c)
+function Utility.GainInfinityAtk(root, c)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
