@@ -114,7 +114,7 @@ function Dimension.Change(c, mc, change_player, target_player, pos, mg)
         zone = 2 ^ zone
     end
 
-    Dimension.SendToDimension(mc)
+    Dimension.SendToDimension(mc, REASON_RULE)
     Duel.MoveToField(c, change_player, target_player, LOCATION_MZONE, pos, true,
                      zone)
     Dimension.Zones(c:GetOwner()):RemoveCard(c)

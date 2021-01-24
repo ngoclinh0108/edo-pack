@@ -9,7 +9,7 @@ Cannot be flipped face-down. \
 Possession of this card cannot be switched. \
 Unaffected by your opponent's monster effects and other cards' effects that would make this card leave the field, \
     except cards' effects with the same or higher Divine Hierarchy. \
-Cannot be destroyed by battle with a monster with lower Divine Hierarchy, also you take no Battle Damage from that battle. \
+Cannot be destroyed by battle with a monster has lower Divine Hierarchy, also you take no Battle Damage from that battle. \
 Cards' effects are only applied on this card for 1 turn.\
 """
 
@@ -20,10 +20,10 @@ Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Cannot be flipped face-down. \
 Possession of this card cannot be switched. \
 Unaffected by other cards' effects, except cards' effects with the same or higher Divine Hierarchy. \
-Cannot be destroyed by battle with a monster with have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
+Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
 """
 TO_GRAVE_LIMIT = """\
-During the End Phase, if this card was Special Summoned: Send it to the GY.\
+During the End Phase, if this card was Special Summoned from the GY: Send it to the GY.\
 """
 
 EGYPTIAN_SUMMON = """\

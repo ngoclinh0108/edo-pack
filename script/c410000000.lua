@@ -32,67 +32,52 @@ function s.initial_effect(c)
     e1:SetValue(function(e, te) return te:GetHandler() ~= e:GetHandler() end)
     c:RegisterEffect(e1)
 
-    -- summon protect
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
-    e2:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
-    e2:SetRange(LOCATION_FZONE)
-    e2:SetTarget(aux.TargetBoolFunction(Card.IsSetCard, 0x13a))
-    c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_CANNOT_DISABLE_FLIP_SUMMON)
-    c:RegisterEffect(e2b)
-    local e2c = e2:Clone()
-    e2c:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    c:RegisterEffect(e2c)
-
     -- search
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetCode(EVENT_PREDRAW)
-    e3:SetRange(LOCATION_FZONE)
-    e3:SetCountLimit(1, id)
-    e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_PREDRAW)
+    e2:SetRange(LOCATION_FZONE)
+    e2:SetCountLimit(1, id)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 
     -- extra summon
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetType(EFFECT_TYPE_FIELD)
-    e4:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
-    e4:SetRange(LOCATION_FZONE)
-    e4:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
-    e4:SetTarget(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
-    c:RegisterEffect(e4)
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+    e3:SetRange(LOCATION_FZONE)
+    e3:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
+    e3:SetTarget(aux.TargetBoolFunction(Card.IsAttribute, ATTRIBUTE_DIVINE))
+    c:RegisterEffect(e3)
 
     -- draw
-    local e5=Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 2))
-	e5:SetCategory(CATEGORY_DRAW)
-    e5:SetType(EFFECT_TYPE_IGNITION)
-    e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e5:SetCode(EVENT_FREE_CHAIN)
-    e5:SetRange(LOCATION_FZONE)
-    e5:SetCountLimit(1)
-    e5:SetCost(s.e5cost)
-	e5:SetTarget(s.e5tg)
-	e5:SetOperation(s.e5op)
-	c:RegisterEffect(e5)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 2))
+    e4:SetCategory(CATEGORY_DRAW)
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetRange(LOCATION_FZONE)
+    e4:SetCountLimit(1)
+    e4:SetCost(s.e4cost)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 
     -- shuffle deck
-    local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 3))
-    e6:SetType(EFFECT_TYPE_IGNITION)
-    e6:SetRange(LOCATION_FZONE)
-    e6:SetCountLimit(1)
-    e6:SetTarget(s.e6tg)
-    e6:SetOperation(s.e6op)
-    c:RegisterEffect(e6)
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 3))
+    e5:SetType(EFFECT_TYPE_IGNITION)
+    e5:SetRange(LOCATION_FZONE)
+    e5:SetCountLimit(1)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.actcost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -117,20 +102,20 @@ function s.e0op(e, tp, eg, ep, ev, re, r, rp)
     aux.PlayFieldSpell(c, e, tp, eg, ep, ev, re, r, rp)
 end
 
-function s.e3filter(c)
+function s.e2filter(c)
     return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsSetCard(0x13a) and
                c:IsAbleToHand()
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp and
                Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
                Duel.GetDrawCount(tp) > 0
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp,
+        return Duel.IsExistingMatchingCard(s.e2filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
@@ -139,7 +124,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
@@ -159,7 +144,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if _replace_count > _replace_max then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter), tp,
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter), tp,
                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                       nil)
 
@@ -169,40 +154,46 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e5filter(c)
-	return c:IsAttribute(ATTRIBUTE_DIVINE) and c:IsType(TYPE_MONSTER) and not c:IsPublic()
+function s.e4filter(c)
+    return c:IsAttribute(ATTRIBUTE_DIVINE) and c:IsType(TYPE_MONSTER) and
+               not c:IsPublic()
 end
 
-function s.e5cost(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Duel.IsExistingMatchingCard(s.e5filter,tp,LOCATION_HAND,0,1,nil) end
-    
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
-	local g=Duel.SelectMatchingCard(tp,s.e5filter,tp,LOCATION_HAND,0,1,1,nil)
-	Duel.ConfirmCards(1-tp,g)
-	Duel.ShuffleHand(tp)
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_HAND, 0, 1,
+                                           nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_CONFIRM)
+    local g = Duel.SelectMatchingCard(tp, s.e4filter, tp, LOCATION_HAND, 0, 1,
+                                      1, nil)
+    Duel.ConfirmCards(1 - tp, g)
+    Duel.ShuffleHand(tp)
 end
 
-function s.e5tg(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Duel.IsPlayerCanDraw(tp,2) end
-    
-	Duel.SetTargetPlayer(tp)
-	Duel.SetTargetParam(2)
-	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,2)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 2) end
+
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(2)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 2)
 end
 
-function s.e5op(e,tp,eg,ep,ev,re,r,rp)
-    local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
-    
-	Duel.Draw(p,d,REASON_EFFECT)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+
+    Duel.Draw(p, d, REASON_EFFECT)
 end
 
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
