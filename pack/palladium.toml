@@ -80,29 +80,8 @@ Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Eff
 """
 strings = ["Destroy all monsters your opponent controls"]
 
-[card.obelisk-max]
-id = 410000003
-alias = 10000000
-name = "Obelisk the Giant Divine Soldier - Soul Energy MAX"
-type = "monster dimension effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = "?"
-def = "?"
-effect = """\
-${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
-During either player's Battle Phase: You can Dimension Change your "Obelisk the Tormentor" that did not declare an attack this turn to this card in the same battle position by Tributing 2 other monsters. \
-${DIVINE_IMMUNITY} \
-At the end of the Battle Phase: Dimension Change Back in the same battle position. \
-This card is also a Warrior/Rock monster while face-up on the field. \
-When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
-The original ATK/DEF of this card each become 9999999. \
-"""
-strings = []
-
 [card.ra]
-id = 410000004
+id = 410000003
 alias = 10000010
 name = "Ra the Sun Divine Beast"
 type = "monster effect"
@@ -118,6 +97,28 @@ ${DIVINE_IMMUNITY} \
 ${TO_GRAVE_LIMIT} \
 This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 """
+
+
+[card.obelisk-max]
+id = 410000004
+alias = 10000000
+name = "Obelisk the Giant Divine Soldier - Soul Energy MAX"
+type = "monster dimension effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = 4000
+effect = """\
+${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
+During either player's Battle Phase: You can Dimension Change your "Obelisk the Tormentor" that did not declare an attack this turn to this card in the same battle position by Tributing 2 other monsters. \
+${DIVINE_IMMUNITY} \
+At the end of the Battle Phase: Dimension Change Back in the same battle position. \
+This card is also a Warrior/Rock monster while face-up on the field. \
+When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
+This card gain ∞ ATK. \
+"""
+strings = []
 
 [card.ra-sphere]
 id = 410000005
