@@ -1,4 +1,4 @@
--- Slifer the Sky Divine Dragon
+-- Obelisk the Giant Divine Soldier
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
@@ -14,76 +14,93 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetCode(EFFECT_ADD_RACE)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(RACE_THUNDER + RACE_DRAGON)
+    e1:SetValue(RACE_WARRIOR + RACE_ROCK)
     c:RegisterEffect(e1)
 
-    -- atk/def
+    -- negate
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
-    e2:SetCode(EFFECT_SET_BASE_ATTACK)
+    e2:SetCategory(CATEGORY_DISABLE)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_CHAINING)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(s.e2val)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_SET_BASE_DEFENSE)
-    c:RegisterEffect(e2b)
 
-    -- atk/def down
+    -- destroy
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
-    e3:SetCode(EVENT_SUMMON_SUCCESS)
+    e3:SetCategory(CATEGORY_DESTROY + CATEGORY_DAMAGE)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_MZONE)
+    e3:SetHintTiming(TIMING_SPSUMMON, TIMING_BATTLE_START)
+    e3:SetCountLimit(1)
     e3:SetCondition(s.e3con)
+    e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e3b)
 end
 
-function s.e2val(e, c)
-    return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_HAND, 0) * 1000
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
+    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
+    local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+    if not tg or not tg:IsContains(c) then return false end
+
+    return Duel.IsChainDisablable(ev)
 end
 
-function s.e3filter(c, e, tp)
-    return c:IsControler(tp) and c:IsPosition(POS_FACEUP_ATTACK) and
-               (not e or c:IsRelateToEffect(e))
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
 end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk) Duel.NegateEffect(ev) end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e3filter, 1, nil, nil, 1 - tp)
+    local ph = Duel.GetCurrentPhase()
+    if Duel.GetTurnPlayer() == tp then
+        return ph == PHASE_MAIN1 or ph == PHASE_MAIN2
+    else
+        return (ph >= PHASE_BATTLE_START and ph <= PHASE_BATTLE)
+    end
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:GetAttackAnnouncedCount() == 0 and
+                   Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c)
+    end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_OATH)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+
+    local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, c)
+    Duel.Release(g, REASON_COST)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsRelateToEffect(e) end
-    Duel.SetTargetCard(eg)
-    Duel.SetChainLimit(s.e3actlimit(eg))
-end
-
-function s.e3actlimit(g)
-    return function(e, lp, tp) return not g:IsContains(e:GetHandler()) end
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
+    if chk == 0 then return #g > 0 end
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = eg:Filter(s.e3filter, nil, e, 1 - tp)
-    local dg = Group.CreateGroup()
-
-    for tc in aux.Next(g) do
-        local preatk = tc:GetAttack()
-        
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_UPDATE_ATTACK)
-        ec1:SetValue(-2000)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec1)
-
-        if preatk > 0 and tc:GetAttack() == 0 then dg:AddCard(tc) end
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
+    
+    if Duel.Destroy(g, REASON_EFFECT) == #g then
+        Duel.BreakEffect()
+        Duel.Damage(1 - tp, c:GetAttack(), REASON_EFFECT)
     end
-    Duel.Destroy(dg, REASON_EFFECT)
 end
