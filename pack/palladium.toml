@@ -21,6 +21,7 @@ Summons of your "Palladium" monsters cannot be negated. \
 During your Draw Phase, instead of conducting your normal draw: \
     You can add 1 "Palladium" Spell or Trap from your Deck or GY to your hand. \
     You can only use this effect of "Millennium Ascension" once per turn. \
+Once per turn, you can reveal 1 DIVINE monster in your hand; draw 2 card. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
 Once per turn: You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, \
@@ -29,6 +30,7 @@ Once per turn: You can shuffle the Deck, then look at up to 5 cards from the top
 strings = [
     "Search \"Palladium\" Spell/Trap",
     "Summon via \"Millennium Ascension\"",
+    "Reveal and Draw",
     "Shuffle the Deck",
 ]
 
