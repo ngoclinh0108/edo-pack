@@ -98,7 +98,6 @@ ${TO_GRAVE_LIMIT} \
 This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 """
 
-
 [card.obelisk-max]
 id = 410000004
 alias = 10000000
@@ -187,7 +186,7 @@ strings = [
     "Destroy 1 monster",
 ]
 
-[card.palladium-apostle-obelisk]
+[card.obelisk-apostle]
 id = 410000007
 name = "Obelisk's Apostle"
 type = "monster effect"
@@ -195,7 +194,7 @@ attribute = "light"
 race = "fairy"
 level = 4
 atk = 1500
-def = 1000
+def = 1300
 effect = """\
 You can Tribute this card from your hand or face-up field; \
     Add 1 "Obelisk the Tormentor" from your Deck or GY to your hand. \
@@ -208,41 +207,47 @@ If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
 """
 strings = ["Search a Divine-Beast", "Summon other apostles"]
 
-# [card.palladium-apostle-slifer]
-# id = 410000008
-# name = "Slifer's Apostle"
-# type = "monster tuner effect"
-# attribute = "light"
-# race = "spellcaster"
-# level = 3
-# atk = 1500
-# def = 2000
-# effect = """\
-# You can discard this card; Add 1 "Slifer the Sky Dragon" from your Deck to your hand. \
-# This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-# If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-# Once per turn: You can target 1 other "Palladium" monster you control; \
-#     the Levels of that monster and this card become their combined current Levels, until the end of this turn. \
-# """
-# strings = ["Combine level"]
+[card.slifer-apostle]
+id = 410000008
+name = "Slifer's Apostle"
+type = "monster effect"
+attribute = "light"
+race = "fairy"
+level = 4
+atk = 1500
+def = 1300
+effect = """\
+You can Tribute this card from your hand or face-up field; \
+    Add 1 "Slifer the Sky Dragon" from your Deck or GY to your hand. \
+Once while face-up on the field: \
+    You can Special Summon 1 "Obelisk's Apostle" and/or 1 "Ra's Apostle" from your hand, Deck or GY, \
+    also you cannot Normal or Special Summon monsters for the rest of this turn, except Divine-Beast monsters. \
+If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
+    You can add 1 Spell/Trap from your Deck to your hand that specifically lists the card "Slifer the Sky Dragon" in its text. \
+    You can only use this effect of "Slifer's Apostle" once per turn. \
+"""
+strings = ["Search a Divine-Beast", "Summon other apostles"]
 
-# [card.palladium-apostle-ra]
-# id = 410000009
-# set = "palladium"
-# name = "Ra's Apostle"
-# type = "monster tuner effect"
-# attribute = "light"
-# race = "spellcaster"
-# level = 2
-# atk = 1100
-# def = 600
-# effect = """\
-# You can discard this card; Add 1 "The Winged Dragon of Ra" from your Deck to your hand. \
-# This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-# If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-# Once per turn: You can Tribute 1 monster; Special Summon 1 Level 1 "Palladium" monster from your hand, Deck or GY in face-up Defense Position. \
-# """
-# strings = ["Summon a Level 1 \"Palladium\" Monster"]
+[card.ra-apostle]
+id = 410000009
+name = "Ra's Apostle"
+type = "monster effect"
+attribute = "light"
+race = "fairy"
+level = 4
+atk = 1500
+def = 1300
+effect = """\
+You can Tribute this card from your hand or face-up field; \
+    Add 1 "The Winged Dragon of Ra" from your Deck or GY to your hand. \
+Once while face-up on the field: \
+    You can Special Summon 1 "Obelisk's Apostle" and/or 1 "Slifer's Apostle" from your hand, Deck or GY, \
+    also you cannot Normal or Special Summon monsters for the rest of this turn, except Divine-Beast monsters. \
+If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
+    You can add 1 Spell/Trap from your Deck to your hand that specifically lists the card "The Winged Dragon of Ra" in its text. \
+    You can only use this effect of "Ra's Apostle" once per turn. \
+"""
+strings = ["Search a Divine-Beast", "Summon other apostles"]
 
 # [card.palladium-oracle-mana]
 # id = 410000009
