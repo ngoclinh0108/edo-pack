@@ -48,6 +48,18 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- atk/def
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
+    e3:SetCode(EFFECT_SET_BASE_ATTACK)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetValue(9999999)
+    c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_SET_BASE_DEFENSE)
+    c:RegisterEffect(e3b)
 end
 
 function s.dmsfilter(c)
@@ -94,7 +106,7 @@ end
 function s.rbop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = c:GetMaterial():GetFirst()
-    
+
     Dimension.Change(tc, c, c:GetControler(), c:GetControler(), c:GetPosition())
 end
 

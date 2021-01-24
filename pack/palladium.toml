@@ -88,8 +88,8 @@ type = "monster dimension effect"
 attribute = "divine"
 race = "divine-beast"
 level = 10
-atk = 9999999
-def = 9999999
+atk = "?"
+def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
 During either player's Battle Phase: You can Dimension Change your "Obelisk the Tormentor" that did not declare an attack this turn to this card in the same battle position by Tributing 2 other monsters. \
@@ -97,6 +97,7 @@ ${DIVINE_IMMUNITY} \
 At the end of the Battle Phase: Dimension Change Back in the same battle position. \
 This card is also a Warrior/Rock monster while face-up on the field. \
 When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
+The original ATK/DEF of this card each become 9999999. \
 """
 strings = []
 
