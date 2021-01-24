@@ -12,6 +12,7 @@ Unaffected by your opponent's monster effects and other cards' effects that woul
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, also you take no Battle Damage from that battle. \
 Cards' effects are only applied on this card for 1 turn.\
 """
+
 GOD_IMMUNITY = """\
 This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
@@ -22,7 +23,7 @@ Unaffected by other cards' effects, except cards' effects with the same or highe
 Cannot be destroyed by battle with a monster with have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
 """
 TO_GRAVE_LIMIT = """\
-During the End Phase, if this card was Special Summoned from the GY: Send this card to the GY. \
+During the End Phase, if this card was Special Summoned: Send it to the GY.\
 """
 
 EGYPTIAN_SUMMON = """\

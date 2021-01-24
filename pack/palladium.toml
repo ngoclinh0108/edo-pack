@@ -21,7 +21,7 @@ Summons of your "Palladium" monsters cannot be negated. \
 During your Draw Phase, instead of conducting your normal draw: \
     You can add 1 "Palladium" Spell or Trap from your Deck or GY to your hand. \
     You can only use this effect of "Millennium Ascension" once per turn. \
-Once per turn, you can reveal 1 DIVINE monster in your hand; draw 2 card. \
+Once per turn, you can reveal 1 DIVINE monster in your hand; Draw 2 card. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
 Once per turn: You can shuffle the Deck, then look at up to 5 cards from the top of your Deck, \
@@ -34,32 +34,8 @@ strings = [
     "Shuffle the Deck",
 ]
 
-[card.obelisk]
-id = 410000001
-alias = 10000000
-name = "Obelisk the Giant Divine Soldier"
-type = "monster effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = 4000
-def = 4000
-effect = """\
-${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
-${EGYPTIAN_SUMMON} \
-${DIVINE_IMMUNITY} \
-${TO_GRAVE_LIMIT} \
-This card is also a Warrior/Rock monster while face-up on the field. \
-When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
-Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Effect): \
-    You can Tribute 2 other monsters; destroy all monsters your opponent controls, \
-    then if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
-    This card cannot declare an attack the turn this effect is activated. \
-"""
-strings = ["Destroy all monsters your opponent controls"]
-
 [card.slifer]
-id = 410000002
+id = 410000001
 alias = 10000020
 name = "Slifer the Sky Divine Dragon"
 type = "monster effect"
@@ -82,750 +58,774 @@ If a monster(s) is Summoned to your opponent's field in face-up Position: \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
-[card.ra]
-id = 410000003
-alias = 10000010
-name = "Ra the Sun Divine Beast"
-type = "monster effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = "?"
-def = "?"
-effect = """\
-${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
-${EGYPTIAN_SUMMON} \
-${DIVINE_IMMUNITY} \
-${TO_GRAVE_LIMIT} \
-This card is also a Pyro/Winged-Beast monster while face-up on the field. \
-"""
+# [card.obelisk]
+# id = 410000002
+# alias = 10000000
+# name = "Obelisk the Giant Divine Soldier"
+# type = "monster effect"
+# attribute = "divine"
+# race = "divine-beast"
+# level = 10
+# atk = 4000
+# def = 4000
+# effect = """\
+# ${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
+# ${EGYPTIAN_SUMMON} \
+# ${DIVINE_IMMUNITY} \
+# ${TO_GRAVE_LIMIT} \
+# This card is also a Warrior/Rock monster while face-up on the field. \
+# When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
+# Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Effect): \
+#     You can Tribute 2 other monsters; destroy all monsters your opponent controls, \
+#     then if all your opponent's monsters are destroyed, inflict damage equal to the ATK of this card to your opponent. \
+#     This card cannot declare an attack the turn this effect is activated. \
+# """
+# strings = ["Destroy all monsters your opponent controls"]
 
-[card.ra-sphere]
-id = 410000004
-alias = 10000080
-name = "Ra the Sun Divine Beast - Sphere Mode"
-type = "monster dimension effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = "?"
-def = "?"
-effect = """\
-${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Sphere Mode}
-Immediately after your "The Winged Dragon of Ra" is Normal Summoned, \
-    Dimension Change it to this card in the same battle position. \
-This card's activation and effects cannot be negated. \
-Neither player can target this card with card effects. \
-Cannot be Tributed, or be used as a material for a Summon. \
-Cannot be flipped face-down. \
-Possession of this card cannot be switched. \
-Unaffected by other monster effects and other cards' effects that would make this card leave the field, \
-    except cards' effects with the same or higher Divine Hierarchy. \
-Cards' effects are only applied on this card for 1 turn. \
-This card is also a Pyro/Winged-Beast monster while face-up on the field. \
-Cannot attack. \
-This Defense Position card cannot be destroyed by battle with a monster with have no or lower Divine Hierarchy, \
-    also you take no Battle Damage from that battle. \
-Once per turn, during either turn: You can send this card to the Dimension Zone; \
-    Dimension Summon the Dimension Material Monster, ignoring its Summoning conditions, \
-    and if they do, original ATK/DEF of it become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
-    Only the original owner of the Dimension Material can use this effect. \
-    Cards and effects cannot be activated in response to this effect's activation. \
-"""
-strings = ["Turn back to Standard mode"]
+# [card.ra]
+# id = 410000003
+# alias = 10000010
+# name = "Ra the Sun Divine Beast"
+# type = "monster effect"
+# attribute = "divine"
+# race = "divine-beast"
+# level = 10
+# atk = "?"
+# def = "?"
+# effect = """\
+# ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
+# ${EGYPTIAN_SUMMON} \
+# ${DIVINE_IMMUNITY} \
+# ${TO_GRAVE_LIMIT} \
+# This card is also a Pyro/Winged-Beast monster while face-up on the field. \
+# """
 
-[card.ra-phoenix]
-id = 410000005
-alias = 10000090
-name = "Ra the Sun Divine Beast - Immortal Phoenix"
-type = "monster dimension effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = "?"
-def = "?"
-effect = """\
-${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Immortal Phoenix}
-Immediately after your "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
-    Dimension Change it to this card in the same battle position. \
-${DIVINE_IMMUNITY} \
-This card is also a Pyro/Winged-Beast monster while face-up on the field. \
-Unaffected by your opponent's Spell/Trap effects. \
-Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
-Once per turn (Quick Effect): You can pay LP so that you only have 1 left; This card gains original ATK/DEF equal to the amount of LP paid, \
-    and also, during this turn, while this card is on the field: Any increase in LP is changed to increase this card's ATK/DEF instead. \
-    Cards and effects cannot be activated in response to this effect's activation. \
-Once per turn (Quick Effect): You can Tribute any number of other monsters; \
-    this card gains original ATK/DEF equal to the combined original ATK/DEF the Tributed monsters. \
-Once per chain (Quick Effect): You can pay 1000 LP, then destroy 1 other monster on the field with the same or lower Divine Hierarchy, ignoring card effects. \
-During the End Phase, Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in face-up Defense Position if able (Transfer materials to it.), \
-    if you don't, send this card to the GY. \
-"""
-strings = [
-    "Life Point transfer",
-    "Tribtue monsters for ATK/DEF",
-    "Destroy 1 monster",
-]
+# [card.ra-sphere]
+# id = 410000004
+# alias = 10000080
+# name = "Ra the Sun Divine Beast - Sphere Mode"
+# type = "monster dimension effect"
+# attribute = "divine"
+# race = "divine-beast"
+# level = 10
+# atk = "?"
+# def = "?"
+# effect = """\
+# ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Sphere Mode}
+# Immediately after your "The Winged Dragon of Ra" is Normal Summoned, \
+#     Dimension Change it to this card in the same battle position. \
+# This card's activation and effects cannot be negated. \
+# Neither player can target this card with card effects. \
+# Cannot be Tributed, or be used as a material for a Summon. \
+# Cannot be flipped face-down. \
+# Possession of this card cannot be switched. \
+# Unaffected by other monster effects and other cards' effects that would make this card leave the field, \
+#     except cards' effects with the same or higher Divine Hierarchy. \
+# Cards' effects are only applied on this card for 1 turn. \
+# This card is also a Pyro/Winged-Beast monster while face-up on the field. \
+# Cannot attack. \
+# This Defense Position card cannot be destroyed by battle with a monster with have no or lower Divine Hierarchy, \
+#     also you take no Battle Damage from that battle. \
+# Once per turn, during either turn: You can send this card to the Dimension Zone; \
+#     Dimension Summon the Dimension Material Monster, ignoring its Summoning conditions, \
+#     and if they do, original ATK/DEF of it become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
+#     Only the original owner of the Dimension Material can use this effect. \
+#     Cards and effects cannot be activated in response to this effect's activation. \
+# """
+# strings = ["Turn back to Standard mode"]
 
-[card.palladium-apostle-obelisk]
-id = 410000006
-set = "palladium"
-name = "Palladium Apostle of Obelisk"
-type = "monster tuner effect"
-attribute = "light"
-race = "spellcaster"
-level = 4
-atk = 1900
-def = 1200
-effect = """\
-You can discard this card; Add 1 "Obelisk the Tormentor" from your Deck to your hand. \
-This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-Once per turn: You can Fusion Summon 1 "Palladium" Fusion Monster from your Extra Deck, \
-    using monsters you control as Fusion Materials, including this card. \
-"""
-strings = ["Fusion Summon"]
+# [card.ra-phoenix]
+# id = 410000005
+# alias = 10000090
+# name = "Ra the Sun Divine Beast - Immortal Phoenix"
+# type = "monster dimension effect"
+# attribute = "divine"
+# race = "divine-beast"
+# level = 10
+# atk = "?"
+# def = "?"
+# effect = """\
+# ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Immortal Phoenix}
+# Immediately after your "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
+#     Dimension Change it to this card in the same battle position. \
+# ${DIVINE_IMMUNITY} \
+# This card is also a Pyro/Winged-Beast monster while face-up on the field. \
+# Unaffected by your opponent's Spell/Trap effects. \
+# Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+# Once per turn (Quick Effect): You can pay LP so that you only have 1 left; This card gains original ATK/DEF equal to the amount of LP paid, \
+#     and also, during this turn, while this card is on the field: Any increase in LP is changed to increase this card's ATK/DEF instead. \
+#     Cards and effects cannot be activated in response to this effect's activation. \
+# Once per turn (Quick Effect): You can Tribute any number of other monsters; \
+#     this card gains original ATK/DEF equal to the combined original ATK/DEF the Tributed monsters. \
+# Once per chain (Quick Effect): You can pay 1000 LP, then destroy 1 other monster on the field with the same or lower Divine Hierarchy, ignoring card effects. \
+# During the End Phase, Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in face-up Defense Position if able (Transfer materials to it.), \
+#     if you don't, send this card to the GY. \
+# """
+# strings = [
+#     "Life Point transfer",
+#     "Tribtue monsters for ATK/DEF",
+#     "Destroy 1 monster",
+# ]
 
-[card.palladium-apostle-slifer]
-id = 410000007
-set = "palladium"
-name = "Palladium Apostle of Slifer"
-type = "monster tuner effect"
-attribute = "light"
-race = "spellcaster"
-level = 3
-atk = 1500
-def = 2000
-effect = """\
-You can discard this card; Add 1 "Slifer the Sky Dragon" from your Deck to your hand. \
-This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-Once per turn: You can target 1 other "Palladium" monster you control; \
-    the Levels of that monster and this card become their combined current Levels, until the end of this turn. \
-"""
-strings = ["Combine level"]
+# [card.palladium-apostle-obelisk]
+# id = 410000006
+# set = "palladium"
+# name = "Palladium Apostle of Obelisk"
+# type = "monster tuner effect"
+# attribute = "light"
+# race = "spellcaster"
+# level = 4
+# atk = 1900
+# def = 1200
+# effect = """\
+# You can discard this card; Add 1 "Obelisk the Tormentor" from your Deck to your hand. \
+# This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+# If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
+# Once per turn: You can Fusion Summon 1 "Palladium" Fusion Monster from your Extra Deck, \
+#     using monsters you control as Fusion Materials, including this card. \
+# """
+# strings = ["Fusion Summon"]
 
-[card.palladium-apostle-ra]
-id = 410000008
-set = "palladium"
-name = "Palladium Apostle of Ra"
-type = "monster tuner effect"
-attribute = "light"
-race = "spellcaster"
-level = 2
-atk = 1100
-def = 600
-effect = """\
-You can discard this card; Add 1 "The Winged Dragon of Ra" from your Deck to your hand. \
-This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
-If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-Once per turn: You can Tribute 1 monster; Special Summon 1 Level 1 "Palladium" monster from your hand, Deck or GY in face-up Defense Position. \
-"""
-strings = ["Summon a Level 1 \"Palladium\" Monster"]
+# [card.palladium-apostle-slifer]
+# id = 410000007
+# set = "palladium"
+# name = "Palladium Apostle of Slifer"
+# type = "monster tuner effect"
+# attribute = "light"
+# race = "spellcaster"
+# level = 3
+# atk = 1500
+# def = 2000
+# effect = """\
+# You can discard this card; Add 1 "Slifer the Sky Dragon" from your Deck to your hand. \
+# This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+# If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
+# Once per turn: You can target 1 other "Palladium" monster you control; \
+#     the Levels of that monster and this card become their combined current Levels, until the end of this turn. \
+# """
+# strings = ["Combine level"]
 
-[card.palladium-oracle-mana]
-id = 410000009
-set = "palladium"
-name = "Palladium Oracle Mana - Servant of Ruler"
-type = "monster effect"
-attribute = "light"
-race = "spellcaster"
-level = 6
-atk = 2000
-def = 1700
-effect = """\
-(This card's name is also treated as "Dark Magician Girl". This card's Attribute is also treated as DARK.)
-If you control another Level 7 or higher Spellcaster monster, you can Special Summon this card (from your hand). \
-Spellcaster monsters you control cannot be destroyed by card effects. \
-During damage calculation, if your other LIGHT Spellcaster monster battles an opponent's monster (Quick Effect): \
-    You can send this card from your hand or face-up from your field to the GY; \
-    that monster you control gains 2000 ATK/DEF during that damage calculation only. \
-    You can only use this effect of "Palladium Oracle Mana - Servant of Ruler" once per turn. \
-"""
-strings = ["Gain ATK"]
+# [card.palladium-apostle-ra]
+# id = 410000008
+# set = "palladium"
+# name = "Palladium Apostle of Ra"
+# type = "monster tuner effect"
+# attribute = "light"
+# race = "spellcaster"
+# level = 2
+# atk = 1100
+# def = 600
+# effect = """\
+# You can discard this card; Add 1 "The Winged Dragon of Ra" from your Deck to your hand. \
+# This card can be treated as 3 Tributes for the Tribute Summon of a DIVINE monster. \
+# If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
+# Once per turn: You can Tribute 1 monster; Special Summon 1 Level 1 "Palladium" monster from your hand, Deck or GY in face-up Defense Position. \
+# """
+# strings = ["Summon a Level 1 \"Palladium\" Monster"]
 
-[card.palladium-oracle-mahad]
-id = 410000010
-set = "palladium"
-name = "Palladium Oracle Mahad - Servant of Ruler"
-type = "monster effect"
-attribute = "light"
-race = "spellcaster"
-level = 7
-atk = 2500
-def = 2100
-effect = """\
-(This card's name is also treated as "Dark Magician". This card is always treated as a Normal Monster. This card's Attribute is also treated as DARK.)
-If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
-If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
-You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
-    You can only use this effect of "Palladium Oracle Mahad - Servant of Ruler" once per turn. \
-"""
+# [card.palladium-oracle-mana]
+# id = 410000009
+# set = "palladium"
+# name = "Palladium Oracle Mana - Servant of Ruler"
+# type = "monster effect"
+# attribute = "light"
+# race = "spellcaster"
+# level = 6
+# atk = 2000
+# def = 1700
+# effect = """\
+# (This card's name is also treated as "Dark Magician Girl". This card's Attribute is also treated as DARK.)
+# If you control another Level 7 or higher Spellcaster monster, you can Special Summon this card (from your hand). \
+# Spellcaster monsters you control cannot be destroyed by card effects. \
+# During damage calculation, if your other LIGHT Spellcaster monster battles an opponent's monster (Quick Effect): \
+#     You can send this card from your hand or face-up from your field to the GY; \
+#     that monster you control gains 2000 ATK/DEF during that damage calculation only. \
+#     You can only use this effect of "Palladium Oracle Mana - Servant of Ruler" once per turn. \
+# """
+# strings = ["Gain ATK"]
 
-[card.palladium-spirit-kuriboh]
-id = 410000011
-set = "palladium kuriboh"
-name = "Palladium Spirit Kuriboh"
-type = "monster tuner effect"
-attribute = "light"
-race = "fairy"
-level = 1
-atk = 300
-def = 200
-effect = """\
-If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-When an opponent's monster declares a directly attack: \
-    You can Special Summon this card from the GY in face-up Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
-    You can only use this effects of "Palladium Spirit Kuriboh" per turn. \
-You take no Battle Damage from battles involving this card. \
-If this card on the field is destroyed: You take no damage this turn. \
-"""
-strings = []
+# [card.palladium-oracle-mahad]
+# id = 410000010
+# set = "palladium"
+# name = "Palladium Oracle Mahad - Servant of Ruler"
+# type = "monster effect"
+# attribute = "light"
+# race = "spellcaster"
+# level = 7
+# atk = 2500
+# def = 2100
+# effect = """\
+# (This card's name is also treated as "Dark Magician". This card is always treated as a Normal Monster. This card's Attribute is also treated as DARK.)
+# If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
+# If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+# You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
+#     You can only use this effect of "Palladium Oracle Mahad - Servant of Ruler" once per turn. \
+# """
 
-[card.palladium-knight-faris]
-id = 410000012
-set = 'palladium'
-name = "Palladium Knight Faris"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 7
-atk = 2300
-def = 2100
-effect = """\
-(This card's name is also treated as "Gaia The Fierce Knight".)
-You can Special Summon this card (from your hand) by discarding 1 card. \
-Once per turn, you can activate 1 of these effects (Quick Effect). \
-You can only use this effect of "Palladium Knight Faris" once per turn;
-● Target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK.
-● Change the Battle Position of 1 monster on the field.
-"""
-strings = ["Reset ATK of a monster", "Change Battle Position of a monster"]
+# [card.palladium-spirit-kuriboh]
+# id = 410000011
+# set = "palladium kuriboh"
+# name = "Palladium Spirit Kuriboh"
+# type = "monster tuner effect"
+# attribute = "light"
+# race = "fairy"
+# level = 1
+# atk = 300
+# def = 200
+# effect = """\
+# If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
+# When an opponent's monster declares a directly attack: \
+#     You can Special Summon this card from the GY in face-up Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
+#     You can only use this effects of "Palladium Spirit Kuriboh" per turn. \
+# You take no Battle Damage from battles involving this card. \
+# If this card on the field is destroyed: You take no damage this turn. \
+# """
+# strings = []
 
-[card.palladium-knight-queen]
-id = 410000013
-set = 'palladium'
-name = "Palladium Knight of Queen"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1500
-def = 1600
-effect = """\
-(This card's name is also treated as "Queen's Knight".)
-You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
-If this card is Summoned: You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Palladium Knight of Queen". \
-    You can only use this effect of "Palladium Knight of Queen" once per turn. \
-"""
-strings = []
+# [card.palladium-knight-faris]
+# id = 410000012
+# set = 'palladium'
+# name = "Palladium Knight Faris"
+# type = "monster effect"
+# attribute = "light"
+# race = "warrior"
+# level = 7
+# atk = 2300
+# def = 2100
+# effect = """\
+# (This card's name is also treated as "Gaia The Fierce Knight".)
+# You can Special Summon this card (from your hand) by discarding 1 card. \
+# Once per turn, you can activate 1 of these effects (Quick Effect). \
+# You can only use this effect of "Palladium Knight Faris" once per turn;
+# ● Target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK.
+# ● Change the Battle Position of 1 monster on the field.
+# """
+# strings = ["Reset ATK of a monster", "Change Battle Position of a monster"]
 
-[card.palladium-knight-king]
-id = 410000014
-set = 'palladium'
-name = "Palladium Knight of King"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1600
-def = 1400
-effect = """\
-(This card's name is also treated as "King's Knight".)
-If you control "Queen's Knight", you can Special Summon this card from your hand, \
-    then you can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
-    except "Palladium Knight of King". \
-If this card is Summoned: You can add 1 "Polymerization" from your Deck or GY to your hand. \
-    You can only use this effect of "Palladium Knight of King" once per turn. \
-"""
-strings = ["Summon a LIGHT Warrior monster?"]
+# [card.palladium-knight-queen]
+# id = 410000013
+# set = 'palladium'
+# name = "Palladium Knight of Queen"
+# type = "monster effect"
+# attribute = "light"
+# race = "warrior"
+# level = 4
+# atk = 1500
+# def = 1600
+# effect = """\
+# (This card's name is also treated as "Queen's Knight".)
+# You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
+# If this card is Summoned: You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Palladium Knight of Queen". \
+#     You can only use this effect of "Palladium Knight of Queen" once per turn. \
+# """
+# strings = []
 
-[card.palladium-knight-jack]
-id = 410000015
-set = 'palladium'
-name = "Palladium Knight of Jack"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 5
-atk = 1900
-def = 1000
-effect = """\
-(This card's name is also treated as "Jack's Knight".)
-If this card is Summoned: \
-    You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
-    You can only use this effect of "Palladium Knight of Jack" once per turn. \
-A monster that was Fusion Summoned using this card as material gains the following effect.
-● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
-"""
-strings = ["Fusion Summoned with \"Palladium Knight of Jack\""]
+# [card.palladium-knight-king]
+# id = 410000014
+# set = 'palladium'
+# name = "Palladium Knight of King"
+# type = "monster effect"
+# attribute = "light"
+# race = "warrior"
+# level = 4
+# atk = 1600
+# def = 1400
+# effect = """\
+# (This card's name is also treated as "King's Knight".)
+# If you control "Queen's Knight", you can Special Summon this card from your hand, \
+#     then you can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
+#     except "Palladium Knight of King". \
+# If this card is Summoned: You can add 1 "Polymerization" from your Deck or GY to your hand. \
+#     You can only use this effect of "Palladium Knight of King" once per turn. \
+# """
+# strings = ["Summon a LIGHT Warrior monster?"]
 
-[card.palladium-paladin-ace-joker]
-id = 410000016
-set = 'palladium'
-name = "Palladium Paladin Ace Joker"
-type = "fusion monster effect"
-attribute = "light"
-race = "warrior"
-level = 9
-atk = 3800
-def = 2500
-effect = """\
-"Queen's Knight" + "Jack's Knight" + "King's Knight"
-A Fusion Summon of this card can only be done with the above materials. \
-Must first be either Fusion Summoned, \
-    or Special Summoned by sending the above monsters you control to the GY (in which case you do not use "Polymerization"). \
-When a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
-    You can discard 1 card; negate the activation, and if you do, destroy it. \
-Once per turn (Quick Effect): \
-    You can send the top card of your deck to the GY, for the rest of the turn, \
-    and if you do, your opponent cannot activate card effects with the same type (Monster, Spell, or Trap) as that card.
-"""
-strings = ["Negate activation", "Block activate"]
+# [card.palladium-knight-jack]
+# id = 410000015
+# set = 'palladium'
+# name = "Palladium Knight of Jack"
+# type = "monster effect"
+# attribute = "light"
+# race = "warrior"
+# level = 5
+# atk = 1900
+# def = 1000
+# effect = """\
+# (This card's name is also treated as "Jack's Knight".)
+# If this card is Summoned: \
+#     You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
+#     You can only use this effect of "Palladium Knight of Jack" once per turn. \
+# A monster that was Fusion Summoned using this card as material gains the following effect.
+# ● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
+# """
+# strings = ["Fusion Summoned with \"Palladium Knight of Jack\""]
 
-[card.palladium-chaos-oracle-aknamkanon]
-id = 410000017
-set = "palladium chaos"
-name = "Palladium Chaos Oracle Aknamkanon"
-type = "monster ritual effect"
-attribute = "dark"
-race = "spellcaster"
-level = 8
-atk = 2800
-def = 2600
-effect = """\
-(This card's name is also treated as "Magician of Black Chaos". This card's Attribute is also treated as LIGHT.)
-You can Ritual Summon this card with "Palladium Magic". \
-You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Spellcaster non-Ritual Monster from your Deck or GY to your hand. \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Spellcaster monster from your hand, Deck, or GY. \
-Your opponent cannot target Spellcaster monsters you control with card effects. \
-Once per turn: You can target 1 monster your opponent controls; banish it. \
-    This card cannot attack the turn this effect is activated. \
-When this card destroys an opponent's monster by battle: \
-    You can add 1 Spell/Trap from your Deck or GY to your hand. \
-    You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
-"""
-strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
+# [card.palladium-paladin-ace-joker]
+# id = 410000016
+# set = 'palladium'
+# name = "Palladium Paladin Ace Joker"
+# type = "fusion monster effect"
+# attribute = "light"
+# race = "warrior"
+# level = 9
+# atk = 3800
+# def = 2500
+# effect = """\
+# "Queen's Knight" + "Jack's Knight" + "King's Knight"
+# A Fusion Summon of this card can only be done with the above materials. \
+# Must first be either Fusion Summoned, \
+#     or Special Summoned by sending the above monsters you control to the GY (in which case you do not use "Polymerization"). \
+# When a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
+#     You can discard 1 card; negate the activation, and if you do, destroy it. \
+# Once per turn (Quick Effect): \
+#     You can send the top card of your deck to the GY, for the rest of the turn, \
+#     and if you do, your opponent cannot activate card effects with the same type (Monster, Spell, or Trap) as that card.
+# """
+# strings = ["Negate activation", "Block activate"]
 
-[card.palladium-chaos-soldier-nightfall]
-id = 410000018
-set = "palladium chaos"
-name = "Palladium Chaos Soldier - Envoy of the Nightfall"
-type = "monster ritual effect"
-attribute = "earth"
-race = "warrior"
-level = 8
-atk = 3000
-def = 2500
-effect = """\
-(This card's name is also treated as "Black Luster Soldier". This card's Attribute is also treated as LIGHT and DARK.)
-You can Ritual Summon this card with "Palladium Magic". \
-You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Warrior non-Ritual Monster from your Deck or GY to your hand. \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Warrior monster from your hand, Deck, or GY. \
-When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
-● This card gains 1500 ATK.
-● This card can make a second attack during the Battle Phase of your next turn.
-● Banish 1 card your opponent controls.
-● Banish 1 random card from your opponent's hand face-down.
-"""
-strings = [
-    "Gain 1500 ATK",
-    "Double attack on next turn",
-    "Banish 1 card on field",
-    "Banish 1 card on hand",
-]
+# [card.palladium-chaos-oracle-aknamkanon]
+# id = 410000017
+# set = "palladium chaos"
+# name = "Palladium Chaos Oracle Aknamkanon"
+# type = "monster ritual effect"
+# attribute = "dark"
+# race = "spellcaster"
+# level = 8
+# atk = 2800
+# def = 2600
+# effect = """\
+# (This card's name is also treated as "Magician of Black Chaos". This card's Attribute is also treated as LIGHT.)
+# You can Ritual Summon this card with "Palladium Magic". \
+# You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Spellcaster non-Ritual Monster from your Deck or GY to your hand. \
+# If this card is destroyed by battle or card effect: \
+#     You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Spellcaster monster from your hand, Deck, or GY. \
+# Your opponent cannot target Spellcaster monsters you control with card effects. \
+# Once per turn: You can target 1 monster your opponent controls; banish it. \
+#     This card cannot attack the turn this effect is activated. \
+# When this card destroys an opponent's monster by battle: \
+#     You can add 1 Spell/Trap from your Deck or GY to your hand. \
+#     You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
+# """
+# strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
 
-[card.palladium-chaos-dragon-dawnbreak]
-id = 410000019
-set = "palladium chaos"
-name = "Palladium Chaos Dragon - Envoy of the Dawnbreak"
-type = "monster ritual effect"
-attribute = "light"
-race = "dragon"
-level = 8
-atk = 3000
-def = 2500
-effect = """\
-(This card's Attribute is also treated as DARK.)
-You can Ritual Summon this card with "Palladium Magic". \
-You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Dragon non-Ritual Monster from your Deck or GY to your hand. \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Dragon monster from your hand, Deck, or GY. \
-Once per turn: You can send as many cards in your opponents' hands and on their side of the field as possible to the GY, \
-    then inflict 500 damage to your opponent for each card sent to the opponent's GY by this effect, \
-    also, for the rest of this turn, Other monsters you control cannot attack. \
-    You cannot activate other cards or effects during the turn you activate this card's effect. \
-"""
-strings = [
-    "Activated \"Palladium Chaos Dragon - Envoy of the Dawnbreak\" effect",
-    "Send card to the GY",
-]
+# [card.palladium-chaos-soldier-nightfall]
+# id = 410000018
+# set = "palladium chaos"
+# name = "Palladium Chaos Soldier - Envoy of the Nightfall"
+# type = "monster ritual effect"
+# attribute = "earth"
+# race = "warrior"
+# level = 8
+# atk = 3000
+# def = 2500
+# effect = """\
+# (This card's name is also treated as "Black Luster Soldier". This card's Attribute is also treated as LIGHT and DARK.)
+# You can Ritual Summon this card with "Palladium Magic". \
+# You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Warrior non-Ritual Monster from your Deck or GY to your hand. \
+# If this card is destroyed by battle or card effect: \
+#     You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Warrior monster from your hand, Deck, or GY. \
+# When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
+# ● This card gains 1500 ATK.
+# ● This card can make a second attack during the Battle Phase of your next turn.
+# ● Banish 1 card your opponent controls.
+# ● Banish 1 random card from your opponent's hand face-down.
+# """
+# strings = [
+#     "Gain 1500 ATK",
+#     "Double attack on next turn",
+#     "Banish 1 card on field",
+#     "Banish 1 card on hand",
+# ]
 
-[card.palladium-guardian-suijin]
-id = 410000020
-set = 'palladium'
-name = "Palladium Guardian Suijin"
-type = "monster effect"
-attribute = "water"
-race = "aqua"
-level = 7
-atk = 2500
-def = 2400
-effect = """\
-(This card's name is also treated as "Suijin".)
-You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
-    You can only Special Summon "Palladium Guardian Suijin" once per turn this way. \
-Cannot Attack the turn it is Special Summoned. \
-When this card is targeted for an attack: You can negate the attack. \
-    This effect can only be used once while this card is face-up on the field. \
-An DARK Warrior Xyz Monster has this card as Xyz Material gains this effect.
-● Once per turn (Quick Effect): You can target 1 Spell or Trap card on the field; return it to the owner's hand. \
-"""
-strings = ["Negate attack", "Return Spell or Trap to hand"]
+# [card.palladium-chaos-dragon-dawnbreak]
+# id = 410000019
+# set = "palladium chaos"
+# name = "Palladium Chaos Dragon - Envoy of the Dawnbreak"
+# type = "monster ritual effect"
+# attribute = "light"
+# race = "dragon"
+# level = 8
+# atk = 3000
+# def = 2500
+# effect = """\
+# (This card's Attribute is also treated as DARK.)
+# You can Ritual Summon this card with "Palladium Magic". \
+# You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Dragon non-Ritual Monster from your Deck or GY to your hand. \
+# If this card is destroyed by battle or card effect: \
+#     You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Dragon monster from your hand, Deck, or GY. \
+# Once per turn: You can send as many cards in your opponents' hands and on their side of the field as possible to the GY, \
+#     then inflict 500 damage to your opponent for each card sent to the opponent's GY by this effect, \
+#     also, for the rest of this turn, Other monsters you control cannot attack. \
+#     You cannot activate other cards or effects during the turn you activate this card's effect. \
+# """
+# strings = [
+#     "Activated \"Palladium Chaos Dragon - Envoy of the Dawnbreak\" effect",
+#     "Send card to the GY",
+# ]
 
-[card.palladium-guardian-kazejin]
-id = 410000021
-set = 'palladium'
-name = "Palladium Guardian Kazejin"
-type = "monster effect"
-attribute = "wind"
-race = "spellcaster"
-level = 7
-atk = 2400
-def = 2200
-effect = """\
-(This card's name is also treated as "Kazejin".)
-You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
-    You can only Special Summon "Palladium Guardian Kazejin" once per turn this way. \
-Cannot Attack the turn it is Special Summoned. \
-When this card is targeted for an attack: You can negate the attack. \
-    This effect can only be used once while this card is face-up on the field. \
-An DARK Warrior Xyz Monster has this card as Xyz Material gains this effect.
-● Once per turn, when this card is targeted for an attack: \
-    You can halve the ATK of that opponent's monster, during that damage calculation only. \
-"""
-strings = ["Negate attack", "Halve attacking's ATK"]
+# [card.palladium-guardian-suijin]
+# id = 410000020
+# set = 'palladium'
+# name = "Palladium Guardian Suijin"
+# type = "monster effect"
+# attribute = "water"
+# race = "aqua"
+# level = 7
+# atk = 2500
+# def = 2400
+# effect = """\
+# (This card's name is also treated as "Suijin".)
+# You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
+#     You can only Special Summon "Palladium Guardian Suijin" once per turn this way. \
+# Cannot Attack the turn it is Special Summoned. \
+# When this card is targeted for an attack: You can negate the attack. \
+#     This effect can only be used once while this card is face-up on the field. \
+# An DARK Warrior Xyz Monster has this card as Xyz Material gains this effect.
+# ● Once per turn (Quick Effect): You can target 1 Spell or Trap card on the field; return it to the owner's hand. \
+# """
+# strings = ["Negate attack", "Return Spell or Trap to hand"]
 
-[card.palladium-guardian-sanga]
-id = 410000022
-set = 'palladium'
-name = "Palladium Guardian Sanga"
-type = "monster effect"
-attribute = "light"
-race = "thunder"
-level = 7
-atk = 2600
-def = 2200
-effect = """\
-(This card's name is also treated as "Sanga of the Thunder".)
-You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
-    You can only Special Summon "Palladium Guardian Sanga" once per turn this way. \
-Cannot Attack the turn it is Special Summoned. \
-When this card is targeted for an attack: You can negate the attack. \
-    This effect can only be used once while this card is face-up on the field. \
-An DARK Warrior Xyz Monster has this card as Xyz Material gains this effect.
-● Once per turn, when another monster's effect is activated (Quick Effect): \
-    You can negate the activation. \
-"""
-strings = ["Negate attack", "Negate effect"]
+# [card.palladium-guardian-kazejin]
+# id = 410000021
+# set = 'palladium'
+# name = "Palladium Guardian Kazejin"
+# type = "monster effect"
+# attribute = "wind"
+# race = "spellcaster"
+# level = 7
+# atk = 2400
+# def = 2200
+# effect = """\
+# (This card's name is also treated as "Kazejin".)
+# You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
+#     You can only Special Summon "Palladium Guardian Kazejin" once per turn this way. \
+# Cannot Attack the turn it is Special Summoned. \
+# When this card is targeted for an attack: You can negate the attack. \
+#     This effect can only be used once while this card is face-up on the field. \
+# An DARK Warrior Xyz Monster has this card as Xyz Material gains this effect.
+# ● Once per turn, when this card is targeted for an attack: \
+#     You can halve the ATK of that opponent's monster, during that damage calculation only. \
+# """
+# strings = ["Negate attack", "Halve attacking's ATK"]
 
-[card.palladium-sacred-guardian]
-id = 410000023
-set = 'palladium'
-name = "Palladium Sacred Guardian"
-type = "monster xyz effect"
-attribute = "dark"
-race = "warrior"
-level = 7
-atk = 3750
-def = 3400
-effect = """\
-3 Level 7 monsters with different attributes and types
-(This card's name is also treated as "Gate Guardian".)
-If this card is Xyz Summoned: You can choose up to 3 your opponent's unused Main Monster Zones; \
-    those zones cannot be used while this card is face-up on the field. \
-    You can use this effect of "Palladium Sacred Guardian" only once per turn. \
-Unaffected by other cards' effects while it has "Palladium" card as Xyz Material. \
-Your opponent cannot target Spells/Traps you control with card effects, \
-    also they cannot be destroyed by your opponent's card effects. \
-If this face-up card would be destroyed, you can detach 1 Xyz Material from this card instead. \
-"""
-strings = []
+# [card.palladium-guardian-sanga]
+# id = 410000022
+# set = 'palladium'
+# name = "Palladium Guardian Sanga"
+# type = "monster effect"
+# attribute = "light"
+# race = "thunder"
+# level = 7
+# atk = 2600
+# def = 2200
+# effect = """\
+# (This card's name is also treated as "Sanga of the Thunder".)
+# You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
+#     You can only Special Summon "Palladium Guardian Sanga" once per turn this way. \
+# Cannot Attack the turn it is Special Summoned. \
+# When this card is targeted for an attack: You can negate the attack. \
+#     This effect can only be used once while this card is face-up on the field. \
+# An DARK Warrior Xyz Monster has this card as Xyz Material gains this effect.
+# ● Once per turn, when another monster's effect is activated (Quick Effect): \
+#     You can negate the activation. \
+# """
+# strings = ["Negate attack", "Negate effect"]
 
-[card.tablet-of-lost-memories]
-id = 410000024
-set = "palladium"
-name = "Tablet of Lost Memories"
-type = "spell quick-play"
-effect = """\
-(This card is always treated as "Palladium" card.)
-You can only activate 1 "Tablet of Lost Memories" per turn. \
-Activate 1 of these effect;
-● Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon", "Red-Eyes Black Dragon" or "Gaia The Fierce Knight" \
-    from your hand, Deck or GY.
-● If you control "Dark Magician": \
-    Destroy all Spells and Traps your opponent controls.
-● If you control "Blue-Eyes White Dragon": \
-    Destroy all monsters your opponent controls.
-● If you control "Red-Eyes Black Dragon": \
-    Inflict damage to your opponent equal to original ATK of 1 monster you control.
-● If you control "Gaia The Fierce Knight": \
-    Double the ATK of 1 monster you control until the end of this turn.
-"""
-strings = [
-    "Special Summon",
-    "Destroy Spells and Traps",
-    "Destroy monsters",
-    "Inflict damage",
-    "Double ATK",
-]
+# [card.palladium-sacred-guardian]
+# id = 410000023
+# set = 'palladium'
+# name = "Palladium Sacred Guardian"
+# type = "monster xyz effect"
+# attribute = "dark"
+# race = "warrior"
+# level = 7
+# atk = 3750
+# def = 3400
+# effect = """\
+# 3 Level 7 monsters with different attributes and types
+# (This card's name is also treated as "Gate Guardian".)
+# If this card is Xyz Summoned: You can choose up to 3 your opponent's unused Main Monster Zones; \
+#     those zones cannot be used while this card is face-up on the field. \
+#     You can use this effect of "Palladium Sacred Guardian" only once per turn. \
+# Unaffected by other cards' effects while it has "Palladium" card as Xyz Material. \
+# Your opponent cannot target Spells/Traps you control with card effects, \
+#     also they cannot be destroyed by your opponent's card effects. \
+# If this face-up card would be destroyed, you can detach 1 Xyz Material from this card instead. \
+# """
+# strings = []
 
-[card.palladium-magic]
-id = 410000025
-set = "palladium"
-name = "Palladium Magic"
-type = "spell quick-play"
-effect = """\
-Activate 1 of these effect;
-● Ritual Summon 1 "Palladium" Ritual Monster from your hand or GY, \
-    by Tributing monsters from your hand or field, \
-    whose total Levels equal or exceed the Level of the Ritual Monster. \
-    Your opponent cannot target The Ritual Summoned Monster with card effects and also, \
-    it cannot be destroyed by your opponent's card effects.
-● Add 1 "Polymerization" Spell Card or "Fusion" Spell Card from your Deck or GY to your hand.
-● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
-● If you control a Level 7 or higher "Palladium" LIGHT Spellcaster Monster: \
-    Special Summon 1 Level 6 or lower "Palladium" LIGHT Spellcaster monster from your hand, Deck, or GY.
-"""
-strings = [
-    "Summoned with \"Palladium Magic\"",
-    "Ritual Summon",
-    "Search Fusion Spell",
-    "Search Ritual Monster",
-    "Special Summon Spellcaster",
-]
+# [card.tablet-of-lost-memories]
+# id = 410000024
+# set = "palladium"
+# name = "Tablet of Lost Memories"
+# type = "spell quick-play"
+# effect = """\
+# (This card is always treated as "Palladium" card.)
+# You can only activate 1 "Tablet of Lost Memories" per turn. \
+# Activate 1 of these effect;
+# ● Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon", "Red-Eyes Black Dragon" or "Gaia The Fierce Knight" \
+#     from your hand, Deck or GY.
+# ● If you control "Dark Magician": \
+#     Destroy all Spells and Traps your opponent controls.
+# ● If you control "Blue-Eyes White Dragon": \
+#     Destroy all monsters your opponent controls.
+# ● If you control "Red-Eyes Black Dragon": \
+#     Inflict damage to your opponent equal to original ATK of 1 monster you control.
+# ● If you control "Gaia The Fierce Knight": \
+#     Double the ATK of 1 monster you control until the end of this turn.
+# """
+# strings = [
+#     "Special Summon",
+#     "Destroy Spells and Traps",
+#     "Destroy monsters",
+#     "Inflict damage",
+#     "Double ATK",
+# ]
 
-[card.palladium-reborn]
-id = 410000026
-set = "palladium"
-name = "Palladium Reborn"
-type = "spell quick-play"
-effect = """\
-(This card's name is also treated as "Monster Reborn".)
-Take 1 monster in either GY; Add to your hand or Special Summon it, \
-    but send the Summoned monster to the GY during the End Phase of this turn if it is not "Palladium" monster. \
-    you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
-You can only activate 1 "Palladium Reborn" per turn. \
-"""
-strings = ["Special Summoned by \"Palladium Reborn\""]
+# [card.palladium-magic]
+# id = 410000025
+# set = "palladium"
+# name = "Palladium Magic"
+# type = "spell quick-play"
+# effect = """\
+# Activate 1 of these effect;
+# ● Ritual Summon 1 "Palladium" Ritual Monster from your hand or GY, \
+#     by Tributing monsters from your hand or field, \
+#     whose total Levels equal or exceed the Level of the Ritual Monster. \
+#     Your opponent cannot target The Ritual Summoned Monster with card effects and also, \
+#     it cannot be destroyed by your opponent's card effects.
+# ● Add 1 "Polymerization" Spell Card or "Fusion" Spell Card from your Deck or GY to your hand.
+# ● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
+# ● If you control a Level 7 or higher "Palladium" LIGHT Spellcaster Monster: \
+#     Special Summon 1 Level 6 or lower "Palladium" LIGHT Spellcaster monster from your hand, Deck, or GY.
+# """
+# strings = [
+#     "Summoned with \"Palladium Magic\"",
+#     "Ritual Summon",
+#     "Search Fusion Spell",
+#     "Search Ritual Monster",
+#     "Special Summon Spellcaster",
+# ]
 
-[card.palladium-guardian-release]
-id = 410000027
-set = "palladium"
-name = "Palladium Guardian Release"
-type = "spell"
-effect = """\
-Take 1 "Suijin", "Kazejin", "Sanga of the Thunder" or "Gate Guardian" from your hand, Deck or GY \
-    and either add it to your hand or Special Summon it in face-up Defense Position, ignoring its Summoning conditions. \
-    You can only activate 1 "Palladium Guardian Release" per turn. \
-Once per turn, during your Main Phase, except the turn this card was sent to the GY: \
-    You can shuffle 1 face-up "Gate Guardian" you control into the Deck, \
-    and if you do, Special Summon in face-up Defanse Position, 1 each of "Suijin", "Kazejin" and "Sanga of the Thunder" from your hand, Deck, GY. \
-"""
-strings = []
+# [card.palladium-reborn]
+# id = 410000026
+# set = "palladium"
+# name = "Palladium Reborn"
+# type = "spell quick-play"
+# effect = """\
+# (This card's name is also treated as "Monster Reborn".)
+# Take 1 monster in either GY; Add to your hand or Special Summon it, \
+#     but send the Summoned monster to the GY during the End Phase of this turn if it is not "Palladium" monster. \
+#     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
+# You can only activate 1 "Palladium Reborn" per turn. \
+# """
+# strings = ["Special Summoned by \"Palladium Reborn\""]
 
-[card.palladium-sacrophagus]
-id = 410000028
-set = "palladium"
-name = "Palladium Sacrophagus"
-type = "spell quick-play"
-effect = """\
-Banish 1 card in your opponent's GY or your Deck, \
-    and if you do, until the end of the next turn, its effects are negated, \
-    as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
-During your Main Phase, except the turn this card was sent to the GY: \
-    You can shuffle this card from your GY into the Deck, \
-    and if you do, add 1 your face-up banished card to your hand. \
-    You can only use this effect of "Palladium Forbidden Sacrophagus" once per turn. \
-"""
-strings = []
+# [card.palladium-guardian-release]
+# id = 410000027
+# set = "palladium"
+# name = "Palladium Guardian Release"
+# type = "spell"
+# effect = """\
+# Take 1 "Suijin", "Kazejin", "Sanga of the Thunder" or "Gate Guardian" from your hand, Deck or GY \
+#     and either add it to your hand or Special Summon it in face-up Defense Position, ignoring its Summoning conditions. \
+#     You can only activate 1 "Palladium Guardian Release" per turn. \
+# Once per turn, during your Main Phase, except the turn this card was sent to the GY: \
+#     You can shuffle 1 face-up "Gate Guardian" you control into the Deck, \
+#     and if you do, Special Summon in face-up Defanse Position, 1 each of "Suijin", "Kazejin" and "Sanga of the Thunder" from your hand, Deck, GY. \
+# """
+# strings = []
 
-[card.the-true-name-of-palladium-ruler]
-id = 410000029
-set = "palladium"
-name = "The True Name of Palladium Ruler"
-type = "spell"
-effect = """\
-Declare 1 card name; excavate the top card of your Deck, \
-    and if it is the declared card, add it to your hand, \
-    then you can add to your hand, or Special Summon, 1 DIVINE monster from your hand, Deck or GY. \
-    Otherwise, send it to the GY. \
-    Neither player can activate cards or effects in response to this card's activation. \
-You can only activate 1 "The True Name of Palladium Ruler" per turn. \
-"""
-strings = ["Take a DIVINE monster?"]
+# [card.palladium-sacrophagus]
+# id = 410000028
+# set = "palladium"
+# name = "Palladium Sacrophagus"
+# type = "spell quick-play"
+# effect = """\
+# Banish 1 card in your opponent's GY or your Deck, \
+#     and if you do, until the end of the next turn, its effects are negated, \
+#     as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
+# During your Main Phase, except the turn this card was sent to the GY: \
+#     You can shuffle this card from your GY into the Deck, \
+#     and if you do, add 1 your face-up banished card to your hand. \
+#     You can only use this effect of "Palladium Forbidden Sacrophagus" once per turn. \
+# """
+# strings = []
 
-[card.departure-to-the-afterlife]
-id = 410000030
-name = "Departure to the Afterlife"
-type = "trap"
-effect = """\
-You can only activate 1 "Departure to the Afterlife" per turn. \
-Neither player can activate cards or effects in response to this card's activation. \
-Tribute 1 "Palladium" monster, then activate 1 of these effect;
-● Until the end of this turn: \
-    your opponent cannot Normal Summon, Set, Flip Summon, or Special Summon a monster(s) \
-    or activate an Effect Monster's effect.
-● Until the end of this turn: \
-    negate the effects of all Spell and Trap Cards on your opponent's side of the field, \
-    and your opponent cannot activate or Set Spell or Trap Cards.
-● Until the end of this turn, whenever you would take damage you gain that amount of Life Points instead.
-"""
-strings = [
-    "Block your opponent's Monster",
-    "Block your opponent's Spell/Trap",
-    "Reverse damage",
-]
+# [card.the-true-name-of-palladium-ruler]
+# id = 410000029
+# set = "palladium"
+# name = "The True Name of Palladium Ruler"
+# type = "spell"
+# effect = """\
+# Declare 1 card name; excavate the top card of your Deck, \
+#     and if it is the declared card, add it to your hand, \
+#     then you can add to your hand, or Special Summon, 1 DIVINE monster from your hand, Deck or GY. \
+#     Otherwise, send it to the GY. \
+#     Neither player can activate cards or effects in response to this card's activation. \
+# You can only activate 1 "The True Name of Palladium Ruler" per turn. \
+# """
+# strings = ["Take a DIVINE monster?"]
 
-[card.palladium-draconic-titan-of-war-god]
-id = 410000031
-set = "palladium"
-name = "Palladium Draconic Titan of War's God"
-type = "monster fusion effect"
-attribute = "earth"
-race = "dragon"
-level = 10
-atk = 4000
-def = 0
-effect = """\
-"Blue-Eyes White Dragon" + "Palladium Apostle of Obelisk"
-Must first be Fusion Summoned with the above Fusion Materials. \
-Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
-Cannot be destroyed by battle. \
-Once per turn, if you would Tribute a monster you control to activate a other card effect, \
-    you can Tribute 1 monster your opponent controls, even though you do not control it. \
-Once per turn: You can Tribute 2 other monsters; 1 monster you control gain these effects until the end of this turn.
-● This card can make up to 3 attacks during each Battle Phase. \
-Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
-When this card destroys an opponent's monster by battle: \
-    Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster.
-"""
-strings = [
-    "Buffed via \"Palladium Draconic Titan of War's God\"",
-    "Make monster can multi-attacks",
-    "Inflict damage",
-]
+# [card.departure-to-the-afterlife]
+# id = 410000030
+# name = "Departure to the Afterlife"
+# type = "trap"
+# effect = """\
+# You can only activate 1 "Departure to the Afterlife" per turn. \
+# Neither player can activate cards or effects in response to this card's activation. \
+# Tribute 1 "Palladium" monster, then activate 1 of these effect;
+# ● Until the end of this turn: \
+#     your opponent cannot Normal Summon, Set, Flip Summon, or Special Summon a monster(s) \
+#     or activate an Effect Monster's effect.
+# ● Until the end of this turn: \
+#     negate the effects of all Spell and Trap Cards on your opponent's side of the field, \
+#     and your opponent cannot activate or Set Spell or Trap Cards.
+# ● Until the end of this turn, whenever you would take damage you gain that amount of Life Points instead.
+# """
+# strings = [
+#     "Block your opponent's Monster",
+#     "Block your opponent's Spell/Trap",
+#     "Reverse damage",
+# ]
 
-[card.palladium-sacred-paladin-of-heaven-god]
-id = 410000032
-set = "palladium"
-name = "Palladium Sacred Paladin of Heaven's God"
-type = "monster xyz effect"
-attribute = "light"
-race = "spellcaster"
-level = 10
-atk = 2900
-def = 2400
-effect = """\
-2+ Level 10 "Palladium" monsters, including "Dark Magician" and "Palladium Apostle of Slifer"
-Must first be Xyz Summoned. \
-Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
-There is no limit to the number of cards in your hand. \
-This card gain 500 ATK and DEF for each card in your hand. \
-If a card(s) your opponent controls is destroyed by battle or card effect: You can draw 1 card. \
-Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
-    then if its ATK has been reduced to 0 as a result, destroy it. \
-Once per turn, when your opponent activates a card or effect (Quick Effect): \
-    You can detach 1 material from this card; \
-    negate the activation, and if you do, destroy that card. \
-"""
-strings = ["Negate activation", "Reduce your opponent monster's ATK"]
+# [card.palladium-draconic-titan-of-war-god]
+# id = 410000031
+# set = "palladium"
+# name = "Palladium Draconic Titan of War's God"
+# type = "monster fusion effect"
+# attribute = "earth"
+# race = "dragon"
+# level = 10
+# atk = 4000
+# def = 0
+# effect = """\
+# "Blue-Eyes White Dragon" + "Palladium Apostle of Obelisk"
+# Must first be Fusion Summoned with the above Fusion Materials. \
+# Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
+# Cannot be destroyed by battle. \
+# Once per turn, if you would Tribute a monster you control to activate a other card effect, \
+#     you can Tribute 1 monster your opponent controls, even though you do not control it. \
+# Once per turn: You can Tribute 2 other monsters; 1 monster you control gain these effects until the end of this turn.
+# ● This card can make up to 3 attacks during each Battle Phase. \
+# Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+# When this card destroys an opponent's monster by battle: \
+#     Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster.
+# """
+# strings = [
+#     "Buffed via \"Palladium Draconic Titan of War's God\"",
+#     "Make monster can multi-attacks",
+#     "Inflict damage",
+# ]
 
-[card.palladium-immortal-soldier-of-sun-god]
-id = 410000033
-set = "palladium"
-name = "Palladium Immortal Soldier of Sun's God"
-type = "monster synchro effect"
-attribute = "fire"
-race = "warrior"
-level = 10
-atk = 3300
-def = 1800
-effect = """\
-"Palladium Apostle of Ra" + "Gaia The Fierce Knight" + 1 non-Tuner monster
-Must first be Synchro Summoned. \
-Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
-When this card destroys an opponent's monster by battle: \
-    You can make this card gain ATK equal to the destroyed monster's original ATK. \
-Once per Chain, during the Main Phase (Quick Effect): \
-    You can target 1 face-up monster your opponent controls; this card loses exactly 1000 ATK, \
-    and if it does, destroy that card. \
-During the Main Phase (Quick Effect): You can Tribute this card, \
-    Special Summon 1 "The Winged Dragon of Ra" from your hand, Deck or GY, \
-    ignoring its Summoning conditions, and if you do, its original ATK/DEF become 4000 \
-    (but send it to the GY as cost during the End Phase). \
-While this card is in the GY (Quick Effect): \
-    You can Tribute 1 face-up original DIVINE monster; gain LP equal to the ATK it had on the field. \
-    You can only use this effect of "Palladium Immortal Soldier of Sun's God" once per turn. \
-If "The Winged Dragon of Ra" monster is sent from the field to your GY while this card is in your GY: \
-    Special Summon this card. \
-    Cards and effects cannot be activated in response to this effect's activation. \
-"""
-strings = [
-    "Gain ATK of the destroyed monster",
-    "Lose ATK to destroy a card",
-    "Summon \"The Winged Dragon of Ra\"",
-]
+# [card.palladium-sacred-paladin-of-heaven-god]
+# id = 410000032
+# set = "palladium"
+# name = "Palladium Sacred Paladin of Heaven's God"
+# type = "monster xyz effect"
+# attribute = "light"
+# race = "spellcaster"
+# level = 10
+# atk = 2900
+# def = 2400
+# effect = """\
+# 2+ Level 10 "Palladium" monsters, including "Dark Magician" and "Palladium Apostle of Slifer"
+# Must first be Xyz Summoned. \
+# Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
+# There is no limit to the number of cards in your hand. \
+# This card gain 500 ATK and DEF for each card in your hand. \
+# If a card(s) your opponent controls is destroyed by battle or card effect: You can draw 1 card. \
+# Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
+#     then if its ATK has been reduced to 0 as a result, destroy it. \
+# Once per turn, when your opponent activates a card or effect (Quick Effect): \
+#     You can detach 1 material from this card; \
+#     negate the activation, and if you do, destroy that card. \
+# """
+# strings = ["Negate activation", "Reduce your opponent monster's ATK"]
 
-[card.palladium-oracles]
-id = 410000034
-set = 'palladium'
-name = "The Palladium Oracles"
-type = "monster link effect"
-attribute = "light"
-race = "spellcaster"
-link-arrows = "bottom-left bottom-right"
-atk = 2800
-link-rating = 2
-effect = """\
-(This card's name is also treated as "Dark Magician". This card's Attribute is also treated as DARK.)
-2 LIGHT Spellcaster monsters, including 1 "Palladium Oracle Mahad" monster or 1 "Palladium Oracle Mana" monster
-This card's name also "Dark Magician" and "Dark Magician Girl" while it is on the field or in the GY. \
-This card gains effects of material monster used to Link Summon this card. \
-Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \
-    You can draw 1 card, \
-    then if it was a Monster, you can Special Summon it, \
-    or you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
-If this card leaves the field: \
-    You can Special Summon both 1 "Palladium Oracle Mahad" monster and 1 "Palladium Oracle Mana" monster \
-    from your hand, Deck, and/or GY, \
-    and if you do, shuffle this card into the Extra Deck. \
-"""
-strings = ["Draw and check"]
+# [card.palladium-immortal-soldier-of-sun-god]
+# id = 410000033
+# set = "palladium"
+# name = "Palladium Immortal Soldier of Sun's God"
+# type = "monster synchro effect"
+# attribute = "fire"
+# race = "warrior"
+# level = 10
+# atk = 3300
+# def = 1800
+# effect = """\
+# "Palladium Apostle of Ra" + "Gaia The Fierce Knight" + 1 non-Tuner monster
+# Must first be Synchro Summoned. \
+# Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
+# When this card destroys an opponent's monster by battle: \
+#     You can make this card gain ATK equal to the destroyed monster's original ATK. \
+# Once per Chain, during the Main Phase (Quick Effect): \
+#     You can target 1 face-up monster your opponent controls; this card loses exactly 1000 ATK, \
+#     and if it does, destroy that card. \
+# During the Main Phase (Quick Effect): You can Tribute this card, \
+#     Special Summon 1 "The Winged Dragon of Ra" from your hand, Deck or GY, \
+#     ignoring its Summoning conditions, and if you do, its original ATK/DEF become 4000 \
+#     (but send it to the GY as cost during the End Phase). \
+# While this card is in the GY (Quick Effect): \
+#     You can Tribute 1 face-up original DIVINE monster; gain LP equal to the ATK it had on the field. \
+#     You can only use this effect of "Palladium Immortal Soldier of Sun's God" once per turn. \
+# If "The Winged Dragon of Ra" monster is sent from the field to your GY while this card is in your GY: \
+#     Special Summon this card. \
+#     Cards and effects cannot be activated in response to this effect's activation. \
+# """
+# strings = [
+#     "Gain ATK of the destroyed monster",
+#     "Lose ATK to destroy a card",
+#     "Summon \"The Winged Dragon of Ra\"",
+# ]
 
-[card.palladium-oracle-hassan]
-id = 410000035
-set = "palladium"
-name = "Palladium Sacred Oracle Hassan"
-type = "monster synchro effect"
-attribute = "light"
-race = "spellcaster"
-level = 9
-atk = 3200
-def = 2800
-effect = """\
-1 "Palladium" Tuner + 1+ non-Tuner Spellcaster monsters
-Must first be Synchro Summoned. \
-You take no effect damage. \
-Spellcaster monsters you control cannot be destroyed by battle. \
-(Quick Effect): You can target 1 face-up card your opponent controls; negate its effects until the end of this turn. \
-    You can only use this effect of "Palladium Sacred Oracle Hassan" once per turn. \
-If this card leaves the field: \
-    You can Special Summon 1 Spellcaster monster from your hand, Deck, and/or GY, \
-    except "Palladium Oracle Hassan". \
-"""
-strings = [
-    "Negate the effect of a face-up card"
-]
+# [card.palladium-oracles]
+# id = 410000034
+# set = 'palladium'
+# name = "The Palladium Oracles"
+# type = "monster link effect"
+# attribute = "light"
+# race = "spellcaster"
+# link-arrows = "bottom-left bottom-right"
+# atk = 2800
+# link-rating = 2
+# effect = """\
+# (This card's name is also treated as "Dark Magician". This card's Attribute is also treated as DARK.)
+# 2 LIGHT Spellcaster monsters, including 1 "Palladium Oracle Mahad" monster or 1 "Palladium Oracle Mana" monster
+# This card's name also "Dark Magician" and "Dark Magician Girl" while it is on the field or in the GY. \
+# This card gains effects of material monster used to Link Summon this card. \
+# Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \
+#     You can draw 1 card, \
+#     then if it was a Monster, you can Special Summon it, \
+#     or you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
+# If this card leaves the field: \
+#     You can Special Summon both 1 "Palladium Oracle Mahad" monster and 1 "Palladium Oracle Mana" monster \
+#     from your hand, Deck, and/or GY, \
+#     and if you do, shuffle this card into the Extra Deck. \
+# """
+# strings = ["Draw and check"]
+
+# [card.palladium-oracle-hassan]
+# id = 410000035
+# set = "palladium"
+# name = "Palladium Sacred Oracle Hassan"
+# type = "monster synchro effect"
+# attribute = "light"
+# race = "spellcaster"
+# level = 9
+# atk = 3200
+# def = 2800
+# effect = """\
+# 1 "Palladium" Tuner + 1+ non-Tuner Spellcaster monsters
+# Must first be Synchro Summoned. \
+# You take no effect damage. \
+# Spellcaster monsters you control cannot be destroyed by battle. \
+# (Quick Effect): You can target 1 face-up card your opponent controls; negate its effects until the end of this turn. \
+#     You can only use this effect of "Palladium Sacred Oracle Hassan" once per turn. \
+# If this card leaves the field: \
+#     You can Special Summon 1 Spellcaster monster from your hand, Deck, and/or GY, \
+#     except "Palladium Oracle Hassan". \
+# """
+# strings = [
+#     "Negate the effect of a face-up card"
+# ]
