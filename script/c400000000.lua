@@ -217,14 +217,17 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_REMOVED
-    return Duel.IsExistingMatchingCard(aux.TRUE, tp, loc, 0, 1, nil)
+    return Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_REMOVED, 0, 1, nil)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_REMOVED
-    local g = Duel.GetMatchingGroup(nil, tp, loc, 0, nil)
+    local g = Duel.GetMatchingGroup(nil, tp, LOCATION_REMOVED, 0, nil)
     if #g == 0 then return end
+
+    if #g > 1 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+        g = g:Select(tp, 1, 10, nil)
+    end
 
     Duel.SendtoGrave(g, REASON_RULE)
 end

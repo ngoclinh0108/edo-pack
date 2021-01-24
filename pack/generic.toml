@@ -5,7 +5,7 @@ strings = [
     "Do nothing",
     "Go to next turn",
     "Move monster",
-    "Return all banished cards to the GY",
+    "Return banished cards to the GY",
     "Search Field and Continuos",
     "Return cards to Deck",
     "Reset game",
