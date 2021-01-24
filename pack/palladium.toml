@@ -147,7 +147,8 @@ This Defense Position card cannot be destroyed by battle with a monster with hav
     also you take no Battle Damage from that battle. \
 Once per turn, during either turn: You can send this card to the Dimension Zone; \
     Dimension Summon the Dimension Material Monster, ignoring its Summoning conditions, \
-    and if they do, original ATK/DEF of it become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon (min. 4000). \
+    and if they do, original ATK/DEF of it become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon, \
+    if the ATK/DEF are 0/0 then it become 4000/4000. \
     Only the original owner of the Dimension Material can use this effect. \
     Cards and effects cannot be activated in response to this effect's activation. \
 """

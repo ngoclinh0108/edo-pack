@@ -289,8 +289,10 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
             end
         end
     end
-    if atk < 4000 then atk = 4000 end
-    if def < 4000 then def = 4000 end
+    if atk == 0 and def == 0 then
+        atk = 4000
+        def = 4000
+    end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
