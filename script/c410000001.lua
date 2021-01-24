@@ -41,11 +41,8 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
-    e3b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    e3b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e3b)
-    local e3c = e3:Clone()
-    e3c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e3c)
 end
 
 function s.e2val(e, c)
@@ -53,7 +50,7 @@ function s.e2val(e, c)
 end
 
 function s.e3filter(c, e, tp)
-    return c:IsControler(tp) and c:IsPosition(POS_FACEUP) and
+    return c:IsControler(tp) and c:IsPosition(POS_FACEUP_ATTACK) and
                (not e or c:IsRelateToEffect(e))
 end
 
@@ -77,27 +74,16 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local dg = Group.CreateGroup()
 
     for tc in aux.Next(g) do
-        if tc:IsPosition(POS_FACEUP_ATTACK) then
-            local preatk = tc:GetAttack()
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetCode(EFFECT_UPDATE_ATTACK)
-            ec1:SetValue(-2000)
-            ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec1)
-            if preatk > 0 and tc:GetAttack() == 0 then dg:AddCard(tc) end
-        elseif tc:IsPosition(POS_FACEUP_DEFENSE) then
-            local predef = tc:GetDefense()
-            local ec2 = Effect.CreateEffect(c)
-            ec2:SetType(EFFECT_TYPE_SINGLE)
-            ec2:SetCode(EFFECT_UPDATE_DEFENSE)
-            ec2:SetValue(-2000)
-            ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec2)
-            if predef > 0 and tc:GetDefense() == 0 then
-                dg:AddCard(tc)
-            end
-        end
+        local preatk = tc:GetAttack()
+        
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(-2000)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1)
+
+        if preatk > 0 and tc:GetAttack() == 0 then dg:AddCard(tc) end
     end
     Duel.Destroy(dg, REASON_EFFECT)
 end
