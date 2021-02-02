@@ -102,7 +102,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_HAND +
                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                       ft, nil, e, tp)
-    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
+    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) end
 end
 
 function s.e3filter(c)
