@@ -87,9 +87,16 @@ function s.actcost(e, tp, eg, ep, ev, re, r, rp, chk)
                                            nil, 10000040)
     end
 
-    local tc = Duel.SelectMatchingCard(tp, Card.IsCode, tp,
-                                       LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-                                       nil, 10000040)
+    local tc
+    local g = Duel.GetMatchingGroup(Card.IsCode, tp,
+                                    LOCATION_HAND + LOCATION_DECK, 0, nil,
+                                    10000040)
+    if #g > 0 then
+        tc = g:GetFirst()
+    else
+        tc = g:Select(tp, 1, 1)
+    end
+
     Duel.ConfirmCards(1 - tp, tc)
 end
 
