@@ -28,9 +28,9 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- search spell/trap
+    -- recover
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e3:SetCategory(CATEGORY_RECOVER)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetCode(EVENT_BE_MATERIAL)
     e3:SetCountLimit(1, id + 2 * 1000000)
@@ -116,23 +116,10 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, 4000)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                      nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
-    end
+    Duel.Recover(tp, 4000, REASON_EFFECT)
 end

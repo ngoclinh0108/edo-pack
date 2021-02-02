@@ -202,7 +202,7 @@ You can Tribute this card from your hand or face-up field; \
 Once while face-up on the field: \
     You can Special Summon 1 "Slifer's Apostle" and/or 1 "Ra's Apostle" from your hand, Deck or GY. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
-    You can add 1 Spell/Trap from your Deck to your hand that specifically lists the card "Obelisk the Tormentor" in its text. \
+    You can add up to 2 cards from your GY to your hand. \
     You can only use this effect of "Obelisk's Apostle" once per turn. \
 """
 strings = ["Search a Divine-Beast", "Summon other apostles"]
@@ -222,7 +222,7 @@ You can Tribute this card from your hand or face-up field; \
 Once while face-up on the field: \
     You can Special Summon 1 "Obelisk's Apostle" and/or 1 "Ra's Apostle" from your hand, Deck or GY. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
-    You can add 1 Spell/Trap from your Deck to your hand that specifically lists the card "Slifer the Sky Dragon" in its text. \
+    You can draw 3 cards. \
     You can only use this effect of "Slifer's Apostle" once per turn. \
 """
 strings = ["Search a Divine-Beast", "Summon other apostles"]
@@ -242,7 +242,7 @@ You can Tribute this card from your hand or face-up field; \
 Once while face-up on the field: \
     You can Special Summon 1 "Obelisk's Apostle" and/or 1 "Slifer's Apostle" from your hand, Deck or GY. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
-    You can add 1 Spell/Trap from your Deck to your hand that specifically lists the card "The Winged Dragon of Ra" in its text. \
+    You can gain 4000 LP. \
     You can only use this effect of "Ra's Apostle" once per turn. \
 """
 strings = ["Search a Divine-Beast", "Summon other apostles"]

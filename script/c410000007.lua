@@ -28,9 +28,9 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- search spell/trap
+    -- return card
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetCode(EVENT_BE_MATERIAL)
     e3:SetCountLimit(1, id + 2 * 1000000)
@@ -117,20 +117,18 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
+        return Duel.IsExistingMatchingCard(Card.IsAbleToHand, tp,
+                                           LOCATION_GRAVE, 0, 1, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, 0, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                      nil)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOHAND)
+    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToHand, tp, LOCATION_GRAVE,
+                                      0, 1, 2, nil)
+
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
