@@ -29,7 +29,7 @@ Once per turn: You can shuffle the Deck, then look at up to 5 cards from the top
 strings = [
     "Search \"Palladium\" Spell/Trap",
     "Summon via \"Millennium Ascension\"",
-    "Reveal and Draw",
+    "Draw",
     "Shuffle the Deck",
 ]
 
@@ -246,6 +246,31 @@ If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
     You can only use this effect of "Ra's Apostle" once per turn. \
 """
 strings = ["Search a Divine-Beast", "Summon other apostles"]
+
+[card.the-true-name-of-palladium-ruler]
+id = 410000010
+set = "palladium"
+name = "The True Name of Palladium Ruler"
+type = "spell quick-play"
+effect = """\
+Neither player can activate cards or effects in response to this card's activation. \
+You can only activate or use effect of "The True Name of Palladium Ruler" once per turn. \
+While this card is in your GY (Quick Effect): \
+    You can Tribute 1 "The Winged Dragon of Ra" monster; gain LP equal to its ATK on the field. \
+During the Main Phase, activate 1 of these effect;
+● Declare 1 card name; excavate the top card of your Deck, \
+    and if it is the declared card, add it to your hand, \
+    then you can add to your hand, or Special Summon, 1 DIVINE monster from your hand, Deck or GY. \
+    Otherwise, send it to the GY.
+● Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
+    When you do, you can also Tribute monsters your opponent controls, as if you controlled them.
+"""
+strings = [
+    "Take a DIVINE monster?",
+    "Recover LP",
+    "Declare top your Deck",
+    "Summon a Divine-Beast monster"
+]
 
 # [card.palladium-oracle-mana]
 # id = 410000009
@@ -675,21 +700,6 @@ strings = ["Search a Divine-Beast", "Summon other apostles"]
 #     You can only use this effect of "Palladium Forbidden Sacrophagus" once per turn. \
 # """
 # strings = []
-
-# [card.the-true-name-of-palladium-ruler]
-# id = 410000029
-# set = "palladium"
-# name = "The True Name of Palladium Ruler"
-# type = "spell"
-# effect = """\
-# Declare 1 card name; excavate the top card of your Deck, \
-#     and if it is the declared card, add it to your hand, \
-#     then you can add to your hand, or Special Summon, 1 DIVINE monster from your hand, Deck or GY. \
-#     Otherwise, send it to the GY. \
-#     Neither player can activate cards or effects in response to this card's activation. \
-# You can only activate 1 "The True Name of Palladium Ruler" per turn. \
-# """
-# strings = ["Take a DIVINE monster?"]
 
 # [card.departure-to-the-afterlife]
 # id = 410000030
