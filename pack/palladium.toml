@@ -525,8 +525,9 @@ effect = """\
 (This card's name is also treated as "Gaia The Fierce Knight".)
 You can Special Summon this card (from your hand) by discarding 1 card. \
 Once per turn (Quick Effect): You can target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK. \
+When you Ritual Summon a "Palladium" monster, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
 """
-strings = ["Reset ATK of a monster", "Change Battle Position of a monster"]
+strings = ["Reset ATK of a monster"]
 
 # [card.palladium-chaos-oracle-aknamkanon]
 # id = 410000017

@@ -34,6 +34,16 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- ritual material
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_EXTRA_RITUAL_MATERIAL)
+    e3:SetCondition(function(e)
+        return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(), 69832741)
+    end)
+    e3:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
+    c:RegisterEffect(e3)
 end
 
 function s.e1con(e, c)
