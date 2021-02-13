@@ -432,7 +432,7 @@ atk = 1600
 def = 1400
 effect = """\
 (This card's name is also treated as "King's Knight".)
-If you control "Queen's Knight" (Quick Effect): You can Special Summon this card from your hand, \
+During the Main Phase, if you control "Queen's Knight": You can Special Summon this card from your hand, \
     then you can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
     except "Palladium Knight of King". \
 If this card is Summoned: You can add 1 "Polymerization" from your Deck or GY to your hand. \

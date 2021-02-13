@@ -52,8 +52,10 @@ function s.e1filter2(c, e, tp)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_MZONE, 0, 1,
-                                       nil)
+    return
+        Duel.IsMainPhase() and not e:GetHandler():IsStatus(STATUS_CHAINING) and
+            Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_MZONE, 0, 1,
+                                        nil)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -83,7 +85,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.BreakEffect()
 
         local sg = g
-        if #g >1 then
+        if #g > 1 then
             Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
             sg = g:Select(tp, 1, 1, nil)
         end
