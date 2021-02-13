@@ -373,9 +373,34 @@ Banish 1 card in either player GY or your Deck, \
 During your Main Phase, except the turn this card was sent to the GY: \
     You can shuffle this card from your GY into the Deck, \
     and if you do, add 1 your face-up banished card to your hand. \
-    You can only use this effect of "Palladium Forbidden Sacrophagus" once per turn. \
+    You can only use this effect of "Palladium Sacrophagus" once per turn. \
 """
 strings = []
+
+[card.palladium-magic]
+id = 410000016
+set = "palladium"
+name = "Palladium Magic"
+type = "spell quick-play"
+effect = """\
+Activate 1 of these effect;
+● Ritual Summon 1 "Palladium" Ritual Monster from your hand or GY, \
+    by Tributing monsters from your hand or field, \
+    whose total Levels equal or exceed the Level of the Ritual Monster. \
+    Your opponent cannot target The Ritual Summoned Monster with card effects and also, \
+    it cannot be destroyed by your opponent's card effects.
+● Add 1 "Polymerization" Spell Card or "Fusion" Spell Card from your Deck or GY to your hand.
+● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
+● If you control a Level 7 or higher "Palladium" LIGHT Spellcaster monster: \
+    Special Summon 1 Level 6 or lower "Palladium" LIGHT Spellcaster monster from your hand, Deck, or GY.
+"""
+strings = [
+    "Summoned with \"Palladium Magic\"",
+    "Ritual Summon",
+    "Search Fusion Spell",
+    "Search Ritual Monster",
+    "Special Summon Spellcaster",
+]
 
 # [card.palladium-knight-faris]
 # id = 410000012
@@ -675,31 +700,6 @@ strings = []
 #     "Destroy monsters",
 #     "Inflict damage",
 #     "Double ATK",
-# ]
-
-# [card.palladium-magic]
-# id = 410000025
-# set = "palladium"
-# name = "Palladium Magic"
-# type = "spell quick-play"
-# effect = """\
-# Activate 1 of these effect;
-# ● Ritual Summon 1 "Palladium" Ritual Monster from your hand or GY, \
-#     by Tributing monsters from your hand or field, \
-#     whose total Levels equal or exceed the Level of the Ritual Monster. \
-#     Your opponent cannot target The Ritual Summoned Monster with card effects and also, \
-#     it cannot be destroyed by your opponent's card effects.
-# ● Add 1 "Polymerization" Spell Card or "Fusion" Spell Card from your Deck or GY to your hand.
-# ● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
-# ● If you control a Level 7 or higher "Palladium" LIGHT Spellcaster Monster: \
-#     Special Summon 1 Level 6 or lower "Palladium" LIGHT Spellcaster monster from your hand, Deck, or GY.
-# """
-# strings = [
-#     "Summoned with \"Palladium Magic\"",
-#     "Ritual Summon",
-#     "Search Fusion Spell",
-#     "Search Ritual Monster",
-#     "Special Summon Spellcaster",
 # ]
 
 # [card.palladium-reborn]
