@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {410000025}
+s.listed_names = {410000022}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -23,117 +23,69 @@ function s.initial_effect(c)
     attribute:SetValue(ATTRIBUTE_LIGHT)
     c:RegisterEffect(attribute)
 
-    -- search
+    -- special summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetCost(s.e1cost)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_DESTROYED)
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- special summon
+    -- cannot be target
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_DESTROYED)
-    e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(LOCATION_MZONE, 0)
+    e2:SetTarget(function(e, c) return c:IsRace(RACE_SPELLCASTER) end)
+    e2:SetValue(aux.tgoval)
     c:RegisterEffect(e2)
 
-    -- cannot be target
+    -- banish
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_REMOVE)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(LOCATION_MZONE, 0)
-    e3:SetTarget(function(e, c) return c:IsRace(RACE_SPELLCASTER) end)
-    e3:SetValue(aux.tgoval)
+    e3:SetCountLimit(1)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- banish
+    -- search spell/trap
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_REMOVE)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetCost(s.e4cost)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetCode(EVENT_BATTLE_DESTROYING)
+    e4:SetCountLimit(1, id)
+    e4:SetCondition(aux.bdocon)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-
-    -- search spell/trap
-    local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 1))
-    e5:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e5:SetCode(EVENT_BATTLE_DESTROYING)
-    e5:SetCountLimit(1, id)
-    e5:SetCondition(aux.bdocon)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
 end
 
-function s.e1filter(c)
-    return c:IsAbleToHand() and not c:IsType(TYPE_RITUAL) and
-               c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
-               c:IsRace(RACE_SPELLCASTER) and c:IsLevelBelow(8)
-end
-
-function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:IsDiscardable() end
-
-    Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetMatchingGroup(s.e1filter, tp,
-                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-    if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-        g = g:Select(tp, 1, 1, nil)
-    end
-
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
-    end
-end
-
-function s.e2filter(c, e, tp)
+function s.e1filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                not c:IsType(TYPE_RITUAL) and c:IsLevelBelow(8) and
                c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
                c:IsRace(RACE_SPELLCASTER)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
@@ -143,18 +95,18 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter), tp,
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter), tp,
                                       LOCATION_HAND + LOCATION_DECK +
                                           LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
 
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
 
@@ -168,7 +120,7 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     c:RegisterEffect(ec1, true)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingTarget(Card.IsAbleToRemove, tp, 0, LOCATION_MZONE,
                                      1, nil)
@@ -181,29 +133,29 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, 0, 0)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
     Duel.Remove(tc, POS_FACEUP, REASON_EFFECT)
 end
 
-function s.e5filter(c)
+function s.e4filter(c)
     return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToHand()
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e5filter, tp,
+        return Duel.IsExistingTarget(s.e4filter, tp,
                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
     end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
                           LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e5filter, tp,
+    local g = Duel.SelectMatchingCard(tp, s.e4filter, tp,
                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                       nil)
     if #g > 0 then

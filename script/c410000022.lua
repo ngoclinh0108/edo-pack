@@ -11,7 +11,7 @@ function s.initial_effect(c)
         filter = aux.FilterBoolFunction(Card.IsSetCard, 0x13a),
         lvtype = RITPROC_GREATER,
         location = LOCATION_HAND + LOCATION_GRAVE,
-        stage3 = s.e1sumop,
+        stage2 = s.e1sumop,
         desc = aux.Stringid(id, 1)
     })
     e1:SetCondition(function() return Duel.IsMainPhase() end)
