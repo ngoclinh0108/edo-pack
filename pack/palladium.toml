@@ -362,10 +362,7 @@ You can target 1 DARK Spellcaster monster you control; this card's Level becomes
 During damage calculation, if the equipped monster battles your opponent's monster: \
     The Attribute of opponent's battling monster become DARK. \
 """
-strings = [
-    "Copy level",
-    "Change battling monster's Attribute",
-]
+strings = ["Copy level", "Change battling monster's Attribute"]
 
 [card.palladium-spirit-kuriboh]
 id = 410000015
@@ -571,7 +568,7 @@ type = "monster ritual pendulum effect"
 attribute = "dark"
 race = "warrior"
 level = 8
-pendulum-scale = 0
+pendulum-scale = [0, 13]
 atk = 3000
 def = 2500
 pendulum-effect = """\
@@ -603,7 +600,7 @@ name = "Palladium Chaos Dragon - Envoy of the Dawnbreak"
 type = "monster ritual pendulum effect"
 attribute = "light"
 race = "dragon"
-pendulum-scale = 13
+pendulum-scale = [0, 13]
 scale = 4
 atk = 3000
 def = 2500
@@ -683,7 +680,11 @@ Once per turn (Quick Effect): You can target 1 face-up monster your opponent con
 When a Spellcaster monster declares an attack: You can target 1 card your opponent controls; banish it. \
     You can only use this effect of "Palladium Ebony Wizard Aknadin" once per turn. \
 """
-strings = ["Summon Spellcaster", "Reduce your opponent monster's ATK", "Banish 1 card on the field"]
+strings = [
+    "Summon Spellcaster",
+    "Reduce your opponent monster's ATK",
+    "Banish 1 card on the field",
+]
 
 [card.palladium-reborn]
 id = 410000030
@@ -692,9 +693,42 @@ name = "Palladium Reborn"
 type = "spell quick-play"
 effect = """\
 (This card's name is also treated as "Monster Reborn".)
-Take 1 monster in either GY; Add to your hand or Special Summon it, \
+Take 1 monster in either GY or Extra Deck face-up; Add to your hand or Special Summon it, \
     but send the Summoned monster to the GY during the End Phase of this turn if it is not "Palladium" monster. \
     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
 You can only activate 1 "Palladium Reborn" per turn. \
 """
 strings = ["Special Summoned by \"Palladium Reborn\""]
+
+# [card.palladium-chaos-soldier-nightfall]
+# id = 410000024
+# set = "palladium chaos"
+# name = "Palladium Chaos Soldier - Envoy of the Nightfall"
+# type = "monster ritual pendulum effect"
+# attribute = "dark"
+# race = "warrior"
+# level = 8
+# pendulum-scale = [0, 13]
+# atk = 3000
+# def = 2500
+# pendulum-effect = """\
+# You can destroy this card, and if you do, add 1 Level 8 or lower LIGHT or DARK Warrior monster from your Deck or GY to your hand, \
+#     except "Palladium Chaos Soldier - Envoy of the Nightfall". \
+#     You can only use this effect of "Palladium Chaos Soldier - Envoy of the Nightfall" once per turn. \
+# """
+# effect = """\
+# (This card's Attribute is also treated as LIGHT.)
+# You can Ritual Summon this card with "Palladium Magic". \
+# If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+# When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
+# ● This card gains 1500 ATK.
+# ● This card can make a second attack during the Battle Phase of your next turn.
+# ● Banish 1 card your opponent controls.
+# ● Banish 1 random card from your opponent's hand face-down.
+# """
+# strings = [
+#     "Gain 1500 ATK",
+#     "Double attack on next turn",
+#     "Banish 1 card on field",
+#     "Banish 1 card on hand",
+# ]
