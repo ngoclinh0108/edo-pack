@@ -102,8 +102,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
     local sc = g:Select(tp, 1, 1, nil):GetFirst()
 
-    local b1 = s.e2check1(sc)
-    local b2 = s.e2check2(sc, e, tp)
+    local b1 = s.e1check1(sc)
+    local b2 = s.e1check2(sc, e, tp)
     local op = 0
     if b1 and b2 then
         op = Duel.SelectOption(tp, 573, 5)
