@@ -433,7 +433,7 @@ def = 1400
 effect = """\
 (This card's name is also treated as "King's Knight".)
 During the Main Phase, if you control "Queen's Knight": You can Special Summon this card from your hand, \
-    then you can Special Summon 1 Level 5 or higher LIGHT Warrior monster from your hand, Deck or GY, \
+    then you can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
     except "Palladium Knight of King". \
 If this card is Summoned: You can add 1 "Polymerization" from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Knight of King" once per turn. \
