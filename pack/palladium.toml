@@ -675,103 +675,16 @@ When a Spellcaster monster declares an attack: You can target 1 card your oppone
 """
 strings = ["Summon Spellcaster", "Reduce your opponent monster's ATK", "Banish 1 card on the field"]
 
-# [card.palladium-reborn]
-# id = 410000026
-# set = "palladium"
-# name = "Palladium Reborn"
-# type = "spell quick-play"
-# effect = """\
-# (This card's name is also treated as "Monster Reborn".)
-# Take 1 monster in either GY; Add to your hand or Special Summon it, \
-#     but send the Summoned monster to the GY during the End Phase of this turn if it is not "Palladium" monster. \
-#     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
-# You can only activate 1 "Palladium Reborn" per turn. \
-# """
-# strings = ["Special Summoned by \"Palladium Reborn\""]
-
-# [card.departure-to-the-afterlife]
-# id = 410000030
-# name = "Departure to the Afterlife"
-# type = "trap"
-# effect = """\
-# You can only activate 1 "Departure to the Afterlife" per turn. \
-# Neither player can activate cards or effects in response to this card's activation. \
-# Tribute 1 "Palladium" monster, then activate 1 of these effect;
-# ● Until the end of this turn: \
-#     your opponent cannot Normal Summon, Set, Flip Summon, or Special Summon a monster(s) \
-#     or activate an Effect Monster's effect.
-# ● Until the end of this turn: \
-#     negate the effects of all Spell and Trap Cards on your opponent's side of the field, \
-#     and your opponent cannot activate or Set Spell or Trap Cards.
-# ● Until the end of this turn, whenever you would take damage you gain that amount of Life Points instead.
-# """
-# strings = [
-#     "Block your opponent's Monster",
-#     "Block your opponent's Spell/Trap",
-#     "Reverse damage",
-# ]
-
-# [card.palladium-draconic-titan-of-war-god]
-# id = 410000031
-# set = "palladium"
-# name = "Palladium Draconic Titan of War's God"
-# type = "monster fusion effect"
-# attribute = "earth"
-# race = "dragon"
-# level = 10
-# atk = 4000
-# def = 0
-# effect = """\
-# "Blue-Eyes White Dragon" + "Palladium Apostle of Obelisk"
-# Must first be Fusion Summoned with the above Fusion Materials. \
-# Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
-# Cannot be destroyed by battle. \
-# Once per turn, if you would Tribute a monster you control to activate a other card effect, \
-#     you can Tribute 1 monster your opponent controls, even though you do not control it. \
-# Once per turn: You can Tribute 2 other monsters; 1 monster you control gain these effects until the end of this turn.
-# ● This card can make up to 3 attacks during each Battle Phase. \
-# Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
-# When this card destroys an opponent's monster by battle: \
-#     Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster.
-# """
-# strings = [
-#     "Buffed via \"Palladium Draconic Titan of War's God\"",
-#     "Make monster can multi-attacks",
-#     "Inflict damage",
-# ]
-
-# [card.palladium-immortal-soldier-of-sun-god]
-# id = 410000033
-# set = "palladium"
-# name = "Palladium Immortal Soldier of Sun's God"
-# type = "monster synchro effect"
-# attribute = "fire"
-# race = "warrior"
-# level = 10
-# atk = 3300
-# def = 1800
-# effect = """\
-# "Palladium Apostle of Ra" + "Gaia The Fierce Knight" + 1 non-Tuner monster
-# Must first be Synchro Summoned. \
-# Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
-# When this card destroys an opponent's monster by battle: \
-#     You can make this card gain ATK equal to the destroyed monster's original ATK. \
-# Once per Chain, during the Main Phase (Quick Effect): \
-#     You can target 1 face-up monster your opponent controls; this card loses exactly 1000 ATK, \
-#     and if it does, destroy that card. \
-# During the Main Phase (Quick Effect): You can Tribute this card, \
-#     Special Summon 1 "The Winged Dragon of Ra" from your hand, Deck or GY, \
-#     ignoring its Summoning conditions, and if you do, its original ATK/DEF become 4000 \
-#     (but send it to the GY as cost during the End Phase). \
-# While this card is in the GY (Quick Effect): \
-#     You can Tribute 1 face-up original DIVINE monster; gain LP equal to the ATK it had on the field. \
-#     You can only use this effect of "Palladium Immortal Soldier of Sun's God" once per turn. \
-# If "The Winged Dragon of Ra" monster is sent from the field to your GY while this card is in your GY: \
-#     Special Summon this card. \
-#     Cards and effects cannot be activated in response to this effect's activation. \
-# """
-# strings = [
-#     "Gain ATK of the destroyed monster",
-#     "Lose ATK to destroy a card",
-#     "Summon \"The Winged Dragon of Ra\"",
-# ]
+[card.palladium-reborn]
+id = 410000030
+set = "palladium"
+name = "Palladium Reborn"
+type = "spell quick-play"
+effect = """\
+(This card's name is also treated as "Monster Reborn".)
+Take 1 monster in either GY; Add to your hand or Special Summon it, \
+    but send the Summoned monster to the GY during the End Phase of this turn if it is not "Palladium" monster. \
+    you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
+You can only activate 1 "Palladium Reborn" per turn. \
+"""
+strings = ["Special Summoned by \"Palladium Reborn\""]
