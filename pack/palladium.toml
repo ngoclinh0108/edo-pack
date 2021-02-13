@@ -524,10 +524,7 @@ def = 2100
 effect = """\
 (This card's name is also treated as "Gaia The Fierce Knight".)
 You can Special Summon this card (from your hand) by discarding 1 card. \
-Once per turn, you can activate 1 of these effects (Quick Effect). \
-You can only use this effect of "Palladium Sacred Knight Faris" once per turn;
-● Target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK.
-● Change the Battle Position of 1 monster on the field.
+Once per turn (Quick Effect): You can target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK. \
 """
 strings = ["Reset ATK of a monster", "Change Battle Position of a monster"]
 
