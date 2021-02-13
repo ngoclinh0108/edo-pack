@@ -11,22 +11,23 @@ function s.initial_effect(c)
         filter = aux.FilterBoolFunction(Card.IsSetCard, 0x13a),
         lvtype = RITPROC_GREATER,
         location = LOCATION_HAND + LOCATION_GRAVE,
-        stage2 = s.e1sumop,
+        stage3 = s.e1sumop,
         desc = aux.Stringid(id, 1)
     })
     c:RegisterEffect(e1)
 
-    -- search fusion spell
+    -- special summon spellcaster
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 2))
-    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e2:SetType(EFFECT_TYPE_ACTIVATE)
     e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- search ritual monster
+    -- search fusion spell
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 3))
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
@@ -36,13 +37,12 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- special summon spellcaster
+    -- search ritual monster
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 4))
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e4:SetType(EFFECT_TYPE_ACTIVATE)
     e4:SetCode(EVENT_FREE_CHAIN)
-    e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -68,80 +68,27 @@ function s.e1sumop(mat, e, tp, eg, ep, ev, re, r, rp, tc)
     tc:RegisterEffect(ec2)
 end
 
-function s.e2filter(c)
-    return c:IsAbleToHand() and c:IsType(TYPE_SPELL) and c:IsSetCard(0x46)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
-    end
-
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                      nil)
-
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
-    end
-end
-
-function s.e3filter(c)
-    return c:IsAbleToHand() and c:IsSetCard(0x13a) and c:IsType(TYPE_RITUAL) and
-               c:IsType(TYPE_MONSTER)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK, 0, 1,
-                                           nil)
-    end
-
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_DECK, 0, 1,
-                                      1, nil)
-
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
-    end
-end
-
-function s.e4filter1(c)
+function s.e2filter1(c)
     return
         c:IsFaceup() and c:IsLevelAbove(7) and c:IsAttribute(ATTRIBUTE_LIGHT) and
             c:IsRace(RACE_SPELLCASTER) and c:IsSetCard(0x13a)
 end
 
-function s.e4filter2(c, e, tp)
+function s.e2filter2(c, e, tp)
     return c:IsLevelBelow(6) and c:IsAttribute(ATTRIBUTE_LIGHT) and
                c:IsRace(RACE_SPELLCASTER) and c:IsSetCard(0x13a) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e4filter1, tp, LOCATION_ONFIELD, 0, 1,
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_ONFIELD, 0, 1,
                                        nil)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e4filter2, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
@@ -152,12 +99,65 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter2),
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter2),
                                       tp, LOCATION_HAND + LOCATION_DECK +
                                           LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
+end
+
+function s.e3filter(c)
+    return c:IsAbleToHand() and c:IsType(TYPE_SPELL) and c:IsSetCard(0x46)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           nil)
+    end
+
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
+                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+                                      nil)
+
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
+
+function s.e4filter(c)
+    return c:IsAbleToHand() and c:IsSetCard(0x13a) and c:IsType(TYPE_RITUAL) and
+               c:IsType(TYPE_MONSTER)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_DECK, 0, 1,
+                                           nil)
+    end
+
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectMatchingCard(tp, s.e4filter, tp, LOCATION_DECK, 0, 1,
+                                      1, nil)
+
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
 end
