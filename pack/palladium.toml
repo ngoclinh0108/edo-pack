@@ -362,8 +362,26 @@ If this card on the field is destroyed: You take no damage this turn. \
 """
 strings = []
 
-[card.palladium-sacrophagus]
+[card.palladium-knight-faris]
 id = 410000015
+set = "palladium"
+name = "Palladium Sacred Knight Faris"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 7
+atk = 2300
+def = 2100
+effect = """\
+(This card's name is also treated as "Gaia The Fierce Knight".)
+You can Special Summon this card (from your hand) by discarding 1 card. \
+Once per turn (Quick Effect): You can target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK. \
+When you Ritual Summon a "Palladium" monster, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
+"""
+strings = ["Reset ATK of a monster"]
+
+[card.palladium-sacrophagus]
+id = 410000016
 set = "palladium"
 name = "Palladium Sacrophagus"
 type = "spell quick-play"
@@ -377,31 +395,6 @@ During your Main Phase, except the turn this card was sent to the GY: \
     You can only use this effect of "Palladium Sacrophagus" once per turn. \
 """
 strings = []
-
-[card.palladium-magic]
-id = 410000016
-set = "palladium"
-name = "Palladium Magic"
-type = "spell quick-play"
-effect = """\
-During the Main Phase, activate 1 of these effect;
-● Ritual Summon 1 "Palladium" Ritual Monster from your hand or GY, \
-    by Tributing monsters from your hand or field, \
-    whose total Levels equal or exceed the Level of the Ritual Monster. \
-    Your opponent cannot target The Ritual Summoned Monster with card effects and also, \
-    it cannot be destroyed by your opponent's card effects.
-● If you control a Level 7 or higher "Palladium" LIGHT Spellcaster monster: \
-    Special Summon 1 Level 6 or lower "Palladium" LIGHT Spellcaster monster from your hand, Deck, or GY.
-● Add 1 "Polymerization" Spell Card or "Fusion" Spell Card from your Deck or GY to your hand.
-● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
-"""
-strings = [
-    "Summoned with \"Palladium Magic\"",
-    "Ritual Summon",
-    "Summon Spellcaster",
-    "Search Fusion Spell",
-    "Search Ritual Monster",
-]
 
 [card.palladium-knight-queen]
 id = 410000017
@@ -512,80 +505,61 @@ strings = [
     "Double ATK",
 ]
 
-[card.palladium-knight-faris]
+[card.palladium-magic]
 id = 410000022
 set = "palladium"
-name = "Palladium Sacred Knight Faris"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 7
-atk = 2300
-def = 2100
+name = "Palladium Magic"
+type = "spell quick-play"
 effect = """\
-(This card's name is also treated as "Gaia The Fierce Knight".)
-You can Special Summon this card (from your hand) by discarding 1 card. \
-Once per turn (Quick Effect): You can target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK. \
-When you Ritual Summon a "Palladium" monster, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
+During the Main Phase, activate 1 of these effect;
+● Ritual Summon 1 "Palladium" Ritual Monster from your hand or GY, \
+    by Tributing monsters from your hand or field, \
+    whose total Levels equal or exceed the Level of the Ritual Monster. \
+    Your opponent cannot target The Ritual Summoned Monster with card effects and also, \
+    it cannot be destroyed by your opponent's card effects.
+● If you control a Level 7 or higher "Palladium" LIGHT Spellcaster monster: \
+    Special Summon 1 Level 6 or lower "Palladium" LIGHT Spellcaster monster from your hand, Deck, or GY.
+● Add 1 "Polymerization" Spell Card or "Fusion" Spell Card from your Deck or GY to your hand.
+● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
 """
-strings = ["Reset ATK of a monster"]
+strings = [
+    "Summoned with \"Palladium Magic\"",
+    "Ritual Summon",
+    "Summon Spellcaster",
+    "Search Fusion Spell",
+    "Search Ritual Monster",
+]
 
-# [card.palladium-chaos-oracle-aknamkanon]
-# id = 410000017
-# set = "palladium chaos"
-# name = "Palladium Chaos Oracle Aknamkanon"
-# type = "monster ritual effect"
-# attribute = "dark"
-# race = "spellcaster"
-# level = 8
-# atk = 2800
-# def = 2600
-# effect = """\
-# (This card's name is also treated as "Magician of Black Chaos". This card's Attribute is also treated as LIGHT.)
-# You can Ritual Summon this card with "Palladium Magic". \
-# You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Spellcaster non-Ritual Monster from your Deck or GY to your hand. \
-# If this card is destroyed by battle or card effect: \
-#     You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Spellcaster monster from your hand, Deck, or GY. \
-# Your opponent cannot target Spellcaster monsters you control with card effects. \
-# Once per turn: You can target 1 monster your opponent controls; banish it. \
-#     This card cannot attack the turn this effect is activated. \
-# When this card destroys an opponent's monster by battle: \
-#     You can add 1 Spell/Trap from your Deck or GY to your hand. \
-#     You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
-# """
-# strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
-
-# [card.palladium-chaos-soldier-nightfall]
-# id = 410000018
-# set = "palladium chaos"
-# name = "Palladium Chaos Soldier - Envoy of the Nightfall"
-# type = "monster ritual effect"
-# attribute = "earth"
-# race = "warrior"
-# level = 8
-# atk = 3000
-# def = 2500
-# effect = """\
-# (This card's name is also treated as "Black Luster Soldier". This card's Attribute is also treated as LIGHT and DARK.)
-# You can Ritual Summon this card with "Palladium Magic". \
-# You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Warrior non-Ritual Monster from your Deck or GY to your hand. \
-# If this card is destroyed by battle or card effect: \
-#     You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Warrior monster from your hand, Deck, or GY. \
-# When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
-# ● This card gains 1500 ATK.
-# ● This card can make a second attack during the Battle Phase of your next turn.
-# ● Banish 1 card your opponent controls.
-# ● Banish 1 random card from your opponent's hand face-down.
-# """
-# strings = [
-#     "Gain 1500 ATK",
-#     "Double attack on next turn",
-#     "Banish 1 card on field",
-#     "Banish 1 card on hand",
-# ]
+[card.palladium-chaos-soldier-nightfall]
+id = 410000023
+set = "palladium chaos"
+name = "Palladium Chaos Soldier - Envoy of the Nightfall"
+type = "monster ritual effect"
+attribute = "earth"
+race = "warrior"
+level = 8
+atk = 3000
+def = 2500
+effect = """\
+(This card's name is also treated as "Black Luster Soldier". This card's Attribute is also treated as LIGHT and DARK.)
+You can Ritual Summon this card with "Palladium Magic". \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Warrior monster from your hand, Deck, or GY. \
+When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
+● This card gains 1500 ATK.
+● This card can make a second attack during the Battle Phase of your next turn.
+● Banish 1 card your opponent controls.
+● Banish 1 random card from your opponent's hand face-down.
+"""
+strings = [
+    "Gain 1500 ATK",
+    "Double attack on next turn",
+    "Banish 1 card on field",
+    "Banish 1 card on hand",
+]
 
 # [card.palladium-chaos-dragon-dawnbreak]
-# id = 410000019
+# id = 410000024
 # set = "palladium chaos"
 # name = "Palladium Chaos Dragon - Envoy of the Dawnbreak"
 # type = "monster ritual effect"
@@ -610,96 +584,30 @@ strings = ["Reset ATK of a monster"]
 #     "Send card to the GY",
 # ]
 
-# [card.palladium-guardian-suijin]
-# id = 410000020
-# set = "palladium"
-# name = "Palladium Guardian Suijin"
-# type = "monster effect"
-# attribute = "water"
-# race = "aqua"
-# level = 7
-# atk = 2500
-# def = 2400
-# effect = """\
-# (This card's name is also treated as "Suijin".)
-# You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
-#     You can only Special Summon "Palladium Guardian Suijin" once per turn this way. \
-# Cannot Attack the turn it is Special Summoned. \
-# When this card is targeted for an attack: You can negate the attack. \
-#     This effect can only be used once while this card is face-up on the field. \
-# An DARK Warrior Xyz Monster has this card as Xyz Material gains this effect.
-# ● Once per turn (Quick Effect): You can target 1 Spell or Trap card on the field; return it to the owner's hand. \
-# """
-# strings = ["Negate attack", "Return Spell or Trap to hand"]
-
-# [card.palladium-guardian-kazejin]
-# id = 410000021
-# set = "palladium"
-# name = "Palladium Guardian Kazejin"
-# type = "monster effect"
-# attribute = "wind"
-# race = "spellcaster"
-# level = 7
-# atk = 2400
-# def = 2200
-# effect = """\
-# (This card's name is also treated as "Kazejin".)
-# You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
-#     You can only Special Summon "Palladium Guardian Kazejin" once per turn this way. \
-# Cannot Attack the turn it is Special Summoned. \
-# When this card is targeted for an attack: You can negate the attack. \
-#     This effect can only be used once while this card is face-up on the field. \
-# An DARK Warrior Xyz Monster has this card as Xyz Material gains this effect.
-# ● Once per turn, when this card is targeted for an attack: \
-#     You can halve the ATK of that opponent's monster, during that damage calculation only. \
-# """
-# strings = ["Negate attack", "Halve attacking's ATK"]
-
-# [card.palladium-guardian-sanga]
-# id = 410000022
-# set = "palladium"
-# name = "Palladium Guardian Sanga"
-# type = "monster effect"
-# attribute = "light"
-# race = "thunder"
-# level = 7
-# atk = 2600
-# def = 2200
-# effect = """\
-# (This card's name is also treated as "Sanga of the Thunder".)
-# You can Special Summon this card (from your hand) by Tributing 1 monster in your hand or face-up either side of the field. \
-#     You can only Special Summon "Palladium Guardian Sanga" once per turn this way. \
-# Cannot Attack the turn it is Special Summoned. \
-# When this card is targeted for an attack: You can negate the attack. \
-#     This effect can only be used once while this card is face-up on the field. \
-# An DARK Warrior Xyz Monster has this card as Xyz Material gains this effect.
-# ● Once per turn, when another monster's effect is activated (Quick Effect): \
-#     You can negate the activation. \
-# """
-# strings = ["Negate attack", "Negate effect"]
-
-# [card.palladium-sacred-guardian]
-# id = 410000023
-# set = "palladium"
-# name = "Palladium Sacred Guardian"
-# type = "monster xyz effect"
+# [card.palladium-chaos-oracle-aknamkanon]
+# id = 410000025
+# set = "palladium chaos"
+# name = "Palladium Chaos Oracle Aknamkanon"
+# type = "monster ritual effect"
 # attribute = "dark"
-# race = "warrior"
-# level = 7
-# atk = 3750
-# def = 3400
+# race = "spellcaster"
+# level = 8
+# atk = 2800
+# def = 2600
 # effect = """\
-# 3 Level 7 monsters with different attributes and types
-# (This card's name is also treated as "Gate Guardian".)
-# If this card is Xyz Summoned: You can choose up to 3 your opponent's unused Main Monster Zones; \
-#     those zones cannot be used while this card is face-up on the field. \
-#     You can use this effect of "Palladium Sacred Guardian" only once per turn. \
-# Unaffected by other cards' effects while it has "Palladium" card as Xyz Material. \
-# Your opponent cannot target Spells/Traps you control with card effects, \
-#     also they cannot be destroyed by your opponent's card effects. \
-# If this face-up card would be destroyed, you can detach 1 Xyz Material from this card instead. \
+# (This card's name is also treated as "Magician of Black Chaos". This card's Attribute is also treated as LIGHT.)
+# You can Ritual Summon this card with "Palladium Magic". \
+# You can discard this card; Add 1 Level 8 or lower LIGHT or DARK Spellcaster non-Ritual Monster from your Deck or GY to your hand. \
+# If this card is destroyed by battle or card effect: \
+#     You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Spellcaster monster from your hand, Deck, or GY. \
+# Your opponent cannot target Spellcaster monsters you control with card effects. \
+# Once per turn: You can target 1 monster your opponent controls; banish it. \
+#     This card cannot attack the turn this effect is activated. \
+# When this card destroys an opponent's monster by battle: \
+#     You can add 1 Spell/Trap from your Deck or GY to your hand. \
+#     You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
 # """
-# strings = []
+# strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
 
 # [card.palladium-reborn]
 # id = 410000026
@@ -714,21 +622,6 @@ strings = ["Reset ATK of a monster"]
 # You can only activate 1 "Palladium Reborn" per turn. \
 # """
 # strings = ["Special Summoned by \"Palladium Reborn\""]
-
-# [card.palladium-guardian-release]
-# id = 410000027
-# set = "palladium"
-# name = "Palladium Guardian Release"
-# type = "spell"
-# effect = """\
-# Take 1 "Suijin", "Kazejin", "Sanga of the Thunder" or "Gate Guardian" from your hand, Deck or GY \
-#     and either add it to your hand or Special Summon it in face-up Defense Position, ignoring its Summoning conditions. \
-#     You can only activate 1 "Palladium Guardian Release" per turn. \
-# Once per turn, during your Main Phase, except the turn this card was sent to the GY: \
-#     You can shuffle 1 face-up "Gate Guardian" you control into the Deck, \
-#     and if you do, Special Summon in face-up Defanse Position, 1 each of "Suijin", "Kazejin" and "Sanga of the Thunder" from your hand, Deck, GY. \
-# """
-# strings = []
 
 # [card.departure-to-the-afterlife]
 # id = 410000030
