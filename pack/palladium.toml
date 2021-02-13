@@ -343,7 +343,7 @@ If this card leaves the field: \
 strings = ["Draw and check"]
 
 [card.palladium-spirit-kuriboh]
-id = 410000014
+id = 410000015
 set = "palladium kuriboh"
 name = "Palladium Spirit Kuriboh"
 type = "monster tuner effect"
@@ -363,7 +363,7 @@ If this card on the field is destroyed: You take no damage this turn. \
 strings = []
 
 [card.palladium-knight-faris]
-id = 410000015
+id = 410000016
 set = "palladium"
 name = "Palladium Sacred Knight Faris"
 type = "monster effect"
@@ -379,22 +379,6 @@ Once per turn (Quick Effect): You can target 1 monster on the field whose curren
 When you Ritual Summon a "Palladium" monster, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
 """
 strings = ["Reset ATK of a monster"]
-
-[card.palladium-sacrophagus]
-id = 410000016
-set = "palladium"
-name = "Palladium Sacrophagus"
-type = "spell quick-play"
-effect = """\
-Banish 1 card in either player GY or your Deck, \
-    and if you do, until the end of the next turn, its effects are negated, \
-    as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
-During your Main Phase, except the turn this card was sent to the GY: \
-    You can shuffle this card from your GY into the Deck, \
-    and if you do, add 1 your face-up banished card to your hand. \
-    You can only use this effect of "Palladium Sacrophagus" once per turn. \
-"""
-strings = []
 
 [card.palladium-knight-queen]
 id = 410000017
@@ -606,6 +590,22 @@ When this card destroys an opponent's monster by battle: \
     You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
 """
 strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
+
+[card.palladium-sacrophagus]
+id = 410000026
+set = "palladium"
+name = "Palladium Sacrophagus"
+type = "spell quick-play"
+effect = """\
+Banish 1 card in either player GY or your Deck, \
+    and if you do, until the end of the next turn, its effects are negated, \
+    as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
+During your Main Phase, except the turn this card was sent to the GY: \
+    You can shuffle this card from your GY into the Deck, \
+    and if you do, add 1 your face-up banished card to your hand. \
+    You can only use this effect of "Palladium Sacrophagus" once per turn. \
+"""
+strings = []
 
 # [card.palladium-reborn]
 # id = 410000026

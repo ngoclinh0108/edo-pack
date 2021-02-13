@@ -1,104 +1,81 @@
--- Palladium Sacred Knight Faris
+-- Palladium Spirit Kuriboh
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-function s.initial_effect(c)
-    -- code
-    local code = Effect.CreateEffect(c)
-    code:SetType(EFFECT_TYPE_SINGLE)
-    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(6368038)
-    c:RegisterEffect(code)
+s.listed_series = {0x13a}
 
-    -- special summon
+function s.initial_effect(c)
+    -- special summon when attack
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_SPSUMMON_PROC)
-    e1:SetRange(LOCATION_HAND)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e1:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
+    e1:SetCountLimit(1, id)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- reset a monster ATK
+    -- double tribute
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_ATKCHANGE)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_DOUBLE_TRIBUTE)
+    e2:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
     c:RegisterEffect(e2)
 
-    -- ritual material
+    -- avoid battle damage
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetCode(EFFECT_EXTRA_RITUAL_MATERIAL)
-    e3:SetCondition(function(e)
-        return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(), 69832741)
-    end)
-    e3:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
+    e3:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e3:SetValue(1)
     c:RegisterEffect(e3)
+
+    -- no damage
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e4:SetCode(EVENT_LEAVE_FIELD)
+    e4:SetCondition(s.e4con)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
-function s.e1con(e, c)
-    if c == nil then return true end
-    local tp = c:GetControler()
-
-    local rg = Duel.GetMatchingGroup(Card.IsDiscardable, tp, LOCATION_HAND, 0,
-                                     e:GetHandler())
-    return aux.SelectUnselectGroup(rg, e, tp, 1, 1, aux.ChkfMMZ(1), 0, c)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttackTarget() == nil and
+               Duel.GetAttacker():IsControler(1 - tp)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp)
-    local rg = Duel.GetMatchingGroup(Card.IsDiscardable, tp, LOCATION_HAND, 0,
-                                     e:GetHandler())
-    local g = aux.SelectUnselectGroup(rg, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp,
-                                      HINTMSG_DISCARD, nil, nil, true)
-
-    if #g > 0 then
-        g:KeepAlive()
-        e:SetLabelObject(g)
-        return true
-    end
-    return false
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = e:GetLabelObject()
-    if not g then return end
-    Duel.SendtoGrave(g, REASON_DISCARD + REASON_COST)
-    g:DeleteGroup()
-end
-
-function s.e2filter(c) return c:IsFaceup() and c:GetAttack() ~=
-                                  c:GetBaseAttack() end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE,
-                                     LOCATION_MZONE, 1, nil)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1,
-                      nil)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    end
 
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsReason(REASON_DESTROY)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
-    ec1:SetValue(tc:GetBaseAttack())
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    tc:RegisterEffect(ec1)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_CHANGE_DAMAGE)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(0)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+    local ec2 = ec1:Clone()
+    ec2:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    Duel.RegisterEffect(ec2, tp)
 end
