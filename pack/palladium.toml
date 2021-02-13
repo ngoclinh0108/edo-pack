@@ -483,6 +483,34 @@ Once per turn (Quick Effect): \
 """
 strings = ["Negate activation", "Block activate"]
 
+[card.tablet-of-lost-memories]
+id = 410000021
+set = "palladium"
+name = "Tablet of Lost Memories"
+type = "spell quick-play"
+effect = """\
+(This card is always treated as "Palladium" card.)
+You can only activate 1 "Tablet of Lost Memories" per turn. \
+Activate 1 of these effect;
+● Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon", "Red-Eyes Black Dragon" or "Gaia The Fierce Knight" \
+    from your hand, Deck or GY.
+● If you control "Dark Magician": \
+    Destroy all Spells and Traps your opponent controls.
+● If you control "Blue-Eyes White Dragon": \
+    Destroy all monsters your opponent controls.
+● If you control "Red-Eyes Black Dragon": \
+    Inflict damage to your opponent equal to original ATK of 1 monster you control.
+● If you control "Gaia The Fierce Knight": \
+    Double the ATK of 1 monster you control until the end of this turn.
+"""
+strings = [
+    "Summon a monster",
+    "Destroy Spells and Traps",
+    "Destroy monsters",
+    "Inflict damage",
+    "Double ATK",
+]
+
 # [card.palladium-knight-faris]
 # id = 410000012
 # set = "palladium"
@@ -673,34 +701,6 @@ strings = ["Negate activation", "Block activate"]
 # If this face-up card would be destroyed, you can detach 1 Xyz Material from this card instead. \
 # """
 # strings = []
-
-# [card.tablet-of-lost-memories]
-# id = 410000024
-# set = "palladium"
-# name = "Tablet of Lost Memories"
-# type = "spell quick-play"
-# effect = """\
-# (This card is always treated as "Palladium" card.)
-# You can only activate 1 "Tablet of Lost Memories" per turn. \
-# Activate 1 of these effect;
-# ● Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon", "Red-Eyes Black Dragon" or "Gaia The Fierce Knight" \
-#     from your hand, Deck or GY.
-# ● If you control "Dark Magician": \
-#     Destroy all Spells and Traps your opponent controls.
-# ● If you control "Blue-Eyes White Dragon": \
-#     Destroy all monsters your opponent controls.
-# ● If you control "Red-Eyes Black Dragon": \
-#     Inflict damage to your opponent equal to original ATK of 1 monster you control.
-# ● If you control "Gaia The Fierce Knight": \
-#     Double the ATK of 1 monster you control until the end of this turn.
-# """
-# strings = [
-#     "Special Summon",
-#     "Destroy Spells and Traps",
-#     "Destroy monsters",
-#     "Inflict damage",
-#     "Double ATK",
-# ]
 
 # [card.palladium-reborn]
 # id = 410000026
