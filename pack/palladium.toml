@@ -493,7 +493,7 @@ effect = """\
 (This card is always treated as "Palladium" card.)
 You can only activate 1 "Tablet of Lost Memories" per turn. \
 Activate 1 of these effect;
-● Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon", "Red-Eyes Black Dragon" or "Gaia The Fierce Knight" \
+● Add to your hand or Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon", "Red-Eyes Black Dragon" or "Gaia The Fierce Knight" \
     from your hand, Deck or GY.
 ● If you control "Dark Magician": \
     Destroy all Spells and Traps your opponent controls.
@@ -505,7 +505,7 @@ Activate 1 of these effect;
     Double the ATK of 1 monster you control until the end of this turn.
 """
 strings = [
-    "Summon a monster",
+    "Search a monster",
     "Destroy Spells and Traps",
     "Destroy monsters",
     "Inflict damage",

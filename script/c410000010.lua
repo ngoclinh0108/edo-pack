@@ -20,7 +20,8 @@ function s.initial_effect(c)
     -- declare top deck
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 2))
-    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_DECKDES)
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SPECIAL_SUMMON +
+                       CATEGORY_DECKDES)
     e2:SetType(EFFECT_TYPE_ACTIVATE)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetCountLimit(1, id)
@@ -78,7 +79,9 @@ function s.e2check1(c)
 end
 
 function s.e2check2(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, c:IsOriginalCode(CARD_RA) and true or false, false) and
+    return c:IsCanBeSpecialSummoned(e, 0, tp,
+                                    c:IsOriginalCode(CARD_RA) and true or false,
+                                    false) and
                Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
 end
 
@@ -136,7 +139,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
             Duel.SendtoHand(sc, nil, REASON_EFFECT)
             Duel.ConfirmCards(1 - tp, sc)
         else
-            Duel.SpecialSummon(sc, 0, tp, tp, sc:IsOriginalCode(CARD_RA) and true or false, false, POS_FACEUP)
+            Duel.SpecialSummon(sc, 0, tp, tp,
+                               sc:IsOriginalCode(CARD_RA) and true or false,
+                               false, POS_FACEUP)
         end
     else
         Duel.DisableShuffleCheck()
