@@ -47,7 +47,7 @@ function s.e1filter1(c) return c:IsFaceup() and c:IsCode(25652259) end
 function s.e1filter2(c, e, tp)
     return
         c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and not c:IsCode(id) and
-            c:IsLevel(5) and c:IsAttribute(ATTRIBUTE_LIGHT) and
+            c:IsLevelAbove(5) and c:IsAttribute(ATTRIBUTE_LIGHT) and
             c:IsRace(RACE_WARRIOR)
 end
 
