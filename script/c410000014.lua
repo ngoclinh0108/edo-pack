@@ -15,20 +15,27 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- avoid battle damage
+    -- double tribute
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    e2:SetValue(1)
+    e2:SetCode(EFFECT_DOUBLE_TRIBUTE)
+    e2:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
     c:RegisterEffect(e2)
 
-    -- no damage
+    -- avoid battle damage
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e3:SetCode(EVENT_LEAVE_FIELD)
-    e3:SetCondition(s.e3con)
-    e3:SetOperation(s.e3op)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e3:SetValue(1)
     c:RegisterEffect(e3)
+
+    -- no damage
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e4:SetCode(EVENT_LEAVE_FIELD)
+    e4:SetCondition(s.e4con)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -52,11 +59,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():IsReason(REASON_DESTROY)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
