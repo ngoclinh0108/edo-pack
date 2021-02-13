@@ -575,6 +575,9 @@ pendulum-scale = 0
 atk = 3000
 def = 2500
 pendulum-effect = """\
+You can destroy this card, and if you do, add 1 LIGHT or DARK Warrior monster from your Deck or GY to your hand, \
+    except "Palladium Chaos Soldier - Envoy of the Nightfall". \
+    You can only use this effect of "Palladium Chaos Soldier - Envoy of the Nightfall" once per turn. \
 """
 effect = """\
 (This card's Attribute is also treated as LIGHT.)
@@ -606,6 +609,9 @@ scale = 4
 atk = 3000
 def = 2500
 pendulum-effect = """\
+You can destroy this card, and if you do, add 1 LIGHT or DARK Dragon monster from your Deck or GY to your hand, \
+    except "Palladium Chaos Dragon - Envoy of the Dawnbreak". \
+    You can only use this effect of "Palladium Chaos Dragon - Envoy of the Dawnbreak" once per turn. \
 """
 effect = """\
 (This card's Attribute is also treated as DARK.)
