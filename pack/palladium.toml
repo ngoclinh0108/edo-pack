@@ -323,7 +323,7 @@ link-arrows = "bottom-left bottom-right"
 atk = 2800
 link-rating = 2
 effect = """\
-(This card's Attribute is also treated as DARK.)
+(This card's name is also treated as "Dark Magician". This card's Attribute is also treated as DARK.)
 2 Level/Rank 6 or higher Spellcaster monsters, including 1 "Palladium" monster
 This card gains effects of material monsters used to Link Summon this card. \
 Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \

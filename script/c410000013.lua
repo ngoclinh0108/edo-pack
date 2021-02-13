@@ -10,6 +10,14 @@ function s.initial_effect(c)
     -- link summon
     Link.AddProcedure(c, s.lnkfilter, 2, 2, s.lnkcheck)
 
+    -- code
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(CARD_DARK_MAGICIAN)
+    c:RegisterEffect(code)
+
     -- attribute
     local attribute = Effect.CreateEffect(c)
     attribute:SetType(EFFECT_TYPE_SINGLE)
