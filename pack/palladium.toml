@@ -361,6 +361,22 @@ If this card on the field is destroyed: You take no damage this turn. \
 """
 strings = []
 
+[card.palladium-sacrophagus]
+id = 410000015
+set = "palladium"
+name = "Palladium Sacrophagus"
+type = "spell quick-play"
+effect = """\
+Banish 1 card in either player GY or your Deck, \
+    and if you do, until the end of the next turn, its effects are negated, \
+    as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
+During your Main Phase, except the turn this card was sent to the GY: \
+    You can shuffle this card from your GY into the Deck, \
+    and if you do, add 1 your face-up banished card to your hand. \
+    You can only use this effect of "Palladium Forbidden Sacrophagus" once per turn. \
+"""
+strings = []
+
 # [card.palladium-knight-faris]
 # id = 410000012
 # set = 'palladium'
@@ -712,22 +728,6 @@ strings = []
 # Once per turn, during your Main Phase, except the turn this card was sent to the GY: \
 #     You can shuffle 1 face-up "Gate Guardian" you control into the Deck, \
 #     and if you do, Special Summon in face-up Defanse Position, 1 each of "Suijin", "Kazejin" and "Sanga of the Thunder" from your hand, Deck, GY. \
-# """
-# strings = []
-
-# [card.palladium-sacrophagus]
-# id = 410000028
-# set = "palladium"
-# name = "Palladium Sacrophagus"
-# type = "spell quick-play"
-# effect = """\
-# Banish 1 card in your opponent's GY or your Deck, \
-#     and if you do, until the end of the next turn, its effects are negated, \
-#     as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
-# During your Main Phase, except the turn this card was sent to the GY: \
-#     You can shuffle this card from your GY into the Deck, \
-#     and if you do, add 1 your face-up banished card to your hand. \
-#     You can only use this effect of "Palladium Forbidden Sacrophagus" once per turn. \
 # """
 # strings = []
 

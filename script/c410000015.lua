@@ -32,7 +32,7 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK,
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK+LOCATION_GRAVE,
                                            LOCATION_GRAVE, 1, nil)
     end
 
