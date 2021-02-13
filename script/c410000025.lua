@@ -29,9 +29,8 @@ function s.initial_effect(c)
     pe1:SetOperation(s.pe1op)
     c:RegisterEffect(pe1)
 
-    -- special summon
+    -- place itself into pendulum zone
     local me1 = Effect.CreateEffect(c)
-    me1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     me1:SetProperty(EFFECT_FLAG_DELAY)
     me1:SetCode(EVENT_DESTROYED)
@@ -54,8 +53,9 @@ function s.initial_effect(c)
 end
 
 function s.pe1filter(c)
-    return c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
-               c:IsRace(RACE_DRAGON) and not c:IsCode(id) and c:IsAbleToHand()
+    return not c:IsCode(id) and c:IsLevelBelow(8) and
+               c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
+               c:IsRace(RACE_DRAGON) and c:IsAbleToHand()
 end
 
 function s.pe1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -88,39 +88,26 @@ function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.me1filter(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               not c:IsType(TYPE_RITUAL) and c:IsLevelBelow(8) and
-               c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
-               c:IsRace(RACE_DRAGON)
-end
-
 function s.me1con(e, tp, eg, ep, ev, re, r, rp)
-    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
+    return e:GetHandler():IsPreviousLocation(LOCATION_MZONE) and
+               e:GetHandler():IsFaceup()
 end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.me1filter, tp, LOCATION_HAND +
-                                                   LOCATION_DECK +
-                                                   LOCATION_GRAVE, 0, 1, nil, e,
-                                               tp)
+        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
+                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)
     end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
+    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
+        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.me1filter), tp,
-                                      LOCATION_HAND + LOCATION_DECK +
-                                          LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
 
-    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
+    Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end
 
 function s.me2filter1(c, p) return c:GetOwner() == p and c:IsAbleToGrave() end

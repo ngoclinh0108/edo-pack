@@ -575,15 +575,14 @@ pendulum-scale = 0
 atk = 3000
 def = 2500
 pendulum-effect = """\
-You can destroy this card, and if you do, add 1 LIGHT or DARK Warrior monster from your Deck or GY to your hand, \
+You can destroy this card, and if you do, add 1 Level 8 or lower LIGHT or DARK Warrior monster from your Deck or GY to your hand, \
     except "Palladium Chaos Soldier - Envoy of the Nightfall". \
     You can only use this effect of "Palladium Chaos Soldier - Envoy of the Nightfall" once per turn. \
 """
 effect = """\
 (This card's Attribute is also treated as LIGHT.)
 You can Ritual Summon this card with "Palladium Magic". \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Warrior monster from your hand, Deck, or GY. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
 ● This card gains 1500 ATK.
 ● This card can make a second attack during the Battle Phase of your next turn.
@@ -609,15 +608,14 @@ scale = 4
 atk = 3000
 def = 2500
 pendulum-effect = """\
-You can destroy this card, and if you do, add 1 LIGHT or DARK Dragon monster from your Deck or GY to your hand, \
+You can destroy this card, and if you do, add 1 Level 8 or lower LIGHT or DARK Dragon monster from your Deck or GY to your hand, \
     except "Palladium Chaos Dragon - Envoy of the Dawnbreak". \
     You can only use this effect of "Palladium Chaos Dragon - Envoy of the Dawnbreak" once per turn. \
 """
 effect = """\
 (This card's Attribute is also treated as DARK.)
 You can Ritual Summon this card with "Palladium Magic". \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Dragon monster from your hand, Deck, or GY. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 Once per turn: You can send as many cards in your opponents' hands and on their side of the field as possible to the GY, \
     then inflict 500 damage to your opponent for each card sent to the opponent's GY by this effect, \
     also, for the rest of this turn, other monsters you control cannot attack. \
