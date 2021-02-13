@@ -320,7 +320,7 @@ strings = ["Gain ATK"]
 
 [card.palladium-oracles]
 id = 410000013
-set = 'palladium'
+set = "palladium"
 name = "The Palladium Oracles"
 type = "monster link effect"
 attribute = "light"
@@ -402,9 +402,90 @@ strings = [
     "Search Ritual Monster",
 ]
 
+[card.palladium-knight-queen]
+id = 410000017
+set = "palladium"
+name = "Palladium Knight of Queen"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1500
+def = 1600
+effect = """\
+(This card's name is also treated as "Queen's Knight".)
+You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
+If this card is Summoned: You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Palladium Knight of Queen". \
+    You can only use this effect of "Palladium Knight of Queen" once per turn. \
+"""
+strings = []
+
+[card.palladium-knight-king]
+id = 410000018
+set = "palladium"
+name = "Palladium Knight of King"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1600
+def = 1400
+effect = """\
+(This card's name is also treated as "King's Knight".)
+If you control "Queen's Knight" (Quick Effect): You can Special Summon this card from your hand, \
+    then you can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
+    except "Palladium Knight of King". \
+If this card is Summoned: You can add 1 "Polymerization" from your Deck or GY to your hand. \
+    You can only use this effect of "Palladium Knight of King" once per turn. \
+"""
+strings = ["Summon a LIGHT Warrior monster?"]
+
+[card.palladium-knight-jack]
+id = 410000019
+set = "palladium"
+name = "Palladium Knight of Jack"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 5
+atk = 1900
+def = 1000
+effect = """\
+(This card's name is also treated as "Jack's Knight".)
+If this card is Summoned: \
+    You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
+    You can only use this effect of "Palladium Knight of Jack" once per turn. \
+A monster that was Fusion Summoned using this card as material gains the following effect.
+● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
+"""
+strings = ["Fusion Summoned with \"Palladium Knight of Jack\""]
+
+[card.palladium-paladin-ace-joker]
+id = 410000020
+set = "palladium"
+name = "Palladium Paladin Ace Joker"
+type = "fusion monster effect"
+attribute = "light"
+race = "warrior"
+level = 9
+atk = 3800
+def = 2500
+effect = """\
+"Queen's Knight" + "Jack's Knight" + "King's Knight"
+A Fusion Summon of this card can only be done with the above materials. \
+Must first be either Fusion Summoned, or Special Summoned by sending the above monsters you control to the GY \
+    (in which case you do not use "Polymerization"). \
+When a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
+    You can discard 1 card; negate the activation, and if you do, destroy it. \
+Once per turn (Quick Effect): \
+    You can send the top card of your deck to the GY, for the rest of the turn, \
+    and if you do, your opponent cannot activate card effects with the same type (Monster, Spell, or Trap) as that card.
+"""
+strings = ["Negate activation", "Block activate"]
+
 # [card.palladium-knight-faris]
 # id = 410000012
-# set = 'palladium'
+# set = "palladium"
 # name = "Palladium Knight Faris"
 # type = "monster effect"
 # attribute = "light"
@@ -421,87 +502,6 @@ strings = [
 # ● Change the Battle Position of 1 monster on the field.
 # """
 # strings = ["Reset ATK of a monster", "Change Battle Position of a monster"]
-
-# [card.palladium-knight-queen]
-# id = 410000013
-# set = 'palladium'
-# name = "Palladium Knight of Queen"
-# type = "monster effect"
-# attribute = "light"
-# race = "warrior"
-# level = 4
-# atk = 1500
-# def = 1600
-# effect = """\
-# (This card's name is also treated as "Queen's Knight".)
-# You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
-# If this card is Summoned: You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Palladium Knight of Queen". \
-#     You can only use this effect of "Palladium Knight of Queen" once per turn. \
-# """
-# strings = []
-
-# [card.palladium-knight-king]
-# id = 410000014
-# set = 'palladium'
-# name = "Palladium Knight of King"
-# type = "monster effect"
-# attribute = "light"
-# race = "warrior"
-# level = 4
-# atk = 1600
-# def = 1400
-# effect = """\
-# (This card's name is also treated as "King's Knight".)
-# If you control "Queen's Knight", you can Special Summon this card from your hand, \
-#     then you can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
-#     except "Palladium Knight of King". \
-# If this card is Summoned: You can add 1 "Polymerization" from your Deck or GY to your hand. \
-#     You can only use this effect of "Palladium Knight of King" once per turn. \
-# """
-# strings = ["Summon a LIGHT Warrior monster?"]
-
-# [card.palladium-knight-jack]
-# id = 410000015
-# set = 'palladium'
-# name = "Palladium Knight of Jack"
-# type = "monster effect"
-# attribute = "light"
-# race = "warrior"
-# level = 5
-# atk = 1900
-# def = 1000
-# effect = """\
-# (This card's name is also treated as "Jack's Knight".)
-# If this card is Summoned: \
-#     You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
-#     You can only use this effect of "Palladium Knight of Jack" once per turn. \
-# A monster that was Fusion Summoned using this card as material gains the following effect.
-# ● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
-# """
-# strings = ["Fusion Summoned with \"Palladium Knight of Jack\""]
-
-# [card.palladium-paladin-ace-joker]
-# id = 410000016
-# set = 'palladium'
-# name = "Palladium Paladin Ace Joker"
-# type = "fusion monster effect"
-# attribute = "light"
-# race = "warrior"
-# level = 9
-# atk = 3800
-# def = 2500
-# effect = """\
-# "Queen's Knight" + "Jack's Knight" + "King's Knight"
-# A Fusion Summon of this card can only be done with the above materials. \
-# Must first be either Fusion Summoned, \
-#     or Special Summoned by sending the above monsters you control to the GY (in which case you do not use "Polymerization"). \
-# When a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
-#     You can discard 1 card; negate the activation, and if you do, destroy it. \
-# Once per turn (Quick Effect): \
-#     You can send the top card of your deck to the GY, for the rest of the turn, \
-#     and if you do, your opponent cannot activate card effects with the same type (Monster, Spell, or Trap) as that card.
-# """
-# strings = ["Negate activation", "Block activate"]
 
 # [card.palladium-chaos-oracle-aknamkanon]
 # id = 410000017
@@ -585,7 +585,7 @@ strings = [
 
 # [card.palladium-guardian-suijin]
 # id = 410000020
-# set = 'palladium'
+# set = "palladium"
 # name = "Palladium Guardian Suijin"
 # type = "monster effect"
 # attribute = "water"
@@ -607,7 +607,7 @@ strings = [
 
 # [card.palladium-guardian-kazejin]
 # id = 410000021
-# set = 'palladium'
+# set = "palladium"
 # name = "Palladium Guardian Kazejin"
 # type = "monster effect"
 # attribute = "wind"
@@ -630,7 +630,7 @@ strings = [
 
 # [card.palladium-guardian-sanga]
 # id = 410000022
-# set = 'palladium'
+# set = "palladium"
 # name = "Palladium Guardian Sanga"
 # type = "monster effect"
 # attribute = "light"
@@ -653,7 +653,7 @@ strings = [
 
 # [card.palladium-sacred-guardian]
 # id = 410000023
-# set = 'palladium'
+# set = "palladium"
 # name = "Palladium Sacred Guardian"
 # type = "monster xyz effect"
 # attribute = "dark"
