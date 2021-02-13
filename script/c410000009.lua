@@ -1,8 +1,6 @@
--- Ra's Apostle
+-- Palladium Apostle of Ra
 Duel.LoadScript("util.lua")
 local s, id = GetID()
-
-s.listed_names = {10000010, 410000007, 410000008}
 
 function s.initial_effect(c)
     -- search divine-beast
@@ -24,6 +22,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1, id + 1 * 1000000)
+    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -75,8 +74,21 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsCode(410000007, 410000008) and
+    if c:IsCode(id) then return false end
+    return c:IsLevel(4) and c:IsRace(RACE_FAIRY) and c:IsSetCard(0x13a) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_OATH)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -102,7 +114,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_HAND +
                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                       ft, nil, e, tp)
-    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) end
+    if #g > 0 then
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    end
 end
 
 function s.e3filter(c)

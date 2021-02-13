@@ -187,11 +187,12 @@ strings = [
     "Destroy 1 monster",
 ]
 
-[card.obelisk-apostle]
+[card.palladium-apostle-obelisk]
 id = 410000007
-name = "Obelisk's Apostle"
+set = "palladium"
+name = "Palladium Apostle of Obelisk"
 type = "monster effect"
-attribute = "light"
+attribute = "earth"
 race = "fairy"
 level = 4
 atk = 1500
@@ -200,16 +201,18 @@ effect = """\
 You can Tribute this card from your hand or face-up field; \
     Add 1 "Obelisk the Tormentor" from your Deck or GY to your hand. \
 Once while face-up on the field: \
-    You can Special Summon 1 "Slifer's Apostle" and/or 1 "Ra's Apostle" in face-up Defense Position from your hand, Deck or GY. \
+    You can Special Summon up to 2 Level 4 Fairy "Palladium" monsters in face-up Defense Position from your hand, Deck or GY. except "Palladium Apostle of Obelisk". \
+    This card cannot declare an attack the turn this effect is activated. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
     You can add up to 3 cards from your GY to your hand. \
-    You can only use this effect of "Obelisk's Apostle" once per turn. \
+    You can only use this effect of "Palladium Apostle of Obelisk" once per turn. \
 """
-strings = ["Search a Divine-Beast", "Summon other apostles"]
+strings = ["Search a Divine-Beast", "Summon other Fairy \"Palladium\" monsters"]
 
-[card.slifer-apostle]
+[card.palladium-apostle-slifer]
 id = 410000008
-name = "Slifer's Apostle"
+set = "palladium"
+name = "Palladium Apostle of Slifer"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
@@ -220,18 +223,20 @@ effect = """\
 You can Tribute this card from your hand or face-up field; \
     Add 1 "Slifer the Sky Dragon" from your Deck or GY to your hand. \
 Once while face-up on the field: \
-    You can Special Summon 1 "Obelisk's Apostle" and/or 1 "Ra's Apostle" in face-up Defense Position from your hand, Deck or GY. \
+    You can Special Summon up to 2 Level 4 Fairy "Palladium" monsters in face-up Defense Position from your hand, Deck or GY. except "Palladium Apostle of Slifer". \
+    This card cannot declare an attack the turn this effect is activated. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
     You can draw 3 cards. \
-    You can only use this effect of "Slifer's Apostle" once per turn. \
+    You can only use this effect of "Palladium Apostle of Slifer" once per turn. \
 """
-strings = ["Search a Divine-Beast", "Summon other apostles"]
+strings = ["Search a Divine-Beast", "Summon other Fairy \"Palladium\" monsters"]
 
-[card.ra-apostle]
+[card.palladium-apostle-ra]
 id = 410000009
-name = "Ra's Apostle"
+set = "palladium"
+name = "Palladium Apostle of Ra"
 type = "monster effect"
-attribute = "light"
+attribute = "fire"
 race = "fairy"
 level = 4
 atk = 1500
@@ -240,12 +245,13 @@ effect = """\
 You can Tribute this card from your hand or face-up field; \
     Add 1 "The Winged Dragon of Ra" from your Deck or GY to your hand. \
 Once while face-up on the field: \
-    You can Special Summon 1 "Obelisk's Apostle" and/or 1 "Slifer's Apostle" in face-up Defense Position from your hand, Deck or GY. \
+    You can Special Summon up to 2 Level 4 Fairy "Palladium" monsters in face-up Defense Position from your hand, Deck or GY. except "Palladium Apostle of Ra". \
+    This card cannot declare an attack the turn this effect is activated. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
     You can gain 4000 LP. \
-    You can only use this effect of "Ra's Apostle" once per turn. \
+    You can only use this effect of "Palladium Apostle of Ra" once per turn. \
 """
-strings = ["Search a Divine-Beast", "Summon other apostles"]
+strings = ["Search a Divine-Beast", "Summon other Fairy \"Palladium\" monsters"]
 
 [card.the-true-name-of-palladium-ruler]
 id = 410000010
