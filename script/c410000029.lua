@@ -66,9 +66,8 @@ function s.e1val(e, ct)
     local te, tp, loc = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT,
                                           CHAININFO_TRIGGERING_PLAYER,
                                           CHAININFO_TRIGGERING_LOCATION)
-    local tc = te:GetHandler()
-    return p == tp and tc:IsSetCard(0x13a) and tc:IsRace(RACE_SPELLCASTER) and
-               loc & LOCATION_ONFIELD ~= 0
+    return p == tp and te:GetHandler():IsRace(RACE_SPELLCASTER) and loc &
+               LOCATION_ONFIELD ~= 0
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
