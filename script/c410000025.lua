@@ -55,7 +55,7 @@ end
 
 function s.pe1filter(c)
     return c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
-               c:IsRace(RACE_WARRIOR) and not c:IsCode(id) and c:IsAbleToHand()
+               c:IsRace(RACE_DRAGON) and not c:IsCode(id) and c:IsAbleToHand()
 end
 
 function s.pe1tg(e, tp, eg, ep, ev, re, r, rp, chk)
