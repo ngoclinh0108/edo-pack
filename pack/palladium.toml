@@ -342,6 +342,21 @@ If this card leaves the field: \
 """
 strings = ["Draw and check"]
 
+[card.palladium-magician-robe]
+id = 410000014
+set = "palladium"
+name = "Palladium Magician's Robe"
+type = "monster tuner effect"
+attribute = "dark"
+race = "spellcaster"
+level = 2
+atk = 300
+def = 500
+effect = """\
+You can target 1 DARK Spellcaster monster you control; this card's Level becomes the Level of that monster. \
+"""
+strings = ["Copy level from a DARK Spellcaster"]
+
 [card.palladium-spirit-kuriboh]
 id = 410000015
 set = "palladium kuriboh"
