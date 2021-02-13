@@ -8,6 +8,9 @@ function s.initial_effect(c)
     Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, aux.FALSE)
     c:EnableReviveLimit()
 
+    --pendulum summon
+	Pendulum.AddProcedure(c)
+
     -- attribute
     local attribute = Effect.CreateEffect(c)
     attribute:SetType(EFFECT_TYPE_SINGLE)

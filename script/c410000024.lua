@@ -7,6 +7,9 @@ s.listed_names = {410000022}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
+    --pendulum summon
+	Pendulum.AddProcedure(c)
+
     -- code
     local code = Effect.CreateEffect(c)
     code:SetType(EFFECT_TYPE_SINGLE)
