@@ -568,7 +568,7 @@ id = 410000024
 set = "palladium chaos"
 name = "Palladium Chaos Soldier - Envoy of the Nightfall"
 type = "monster ritual pendulum effect"
-attribute = "earth"
+attribute = "dark"
 race = "warrior"
 level = 8
 pendulum-scale = 0
@@ -577,7 +577,7 @@ def = 2500
 pendulum-effect = """\
 """
 effect = """\
-(This card's name is also treated as "Black Luster Soldier". This card's Attribute is also treated as LIGHT and DARK.)
+(This card's Attribute is also treated as LIGHT.)
 You can Ritual Summon this card with "Palladium Magic". \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Warrior monster from your hand, Deck, or GY. \

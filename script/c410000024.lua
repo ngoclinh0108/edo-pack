@@ -10,20 +10,12 @@ function s.initial_effect(c)
     --pendulum summon
 	Pendulum.AddProcedure(c)
 
-    -- code
-    local code = Effect.CreateEffect(c)
-    code:SetType(EFFECT_TYPE_SINGLE)
-    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(5405694)
-    c:RegisterEffect(code)
-
     -- attribute
     local attribute = Effect.CreateEffect(c)
     attribute:SetType(EFFECT_TYPE_SINGLE)
     attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
-    attribute:SetValue(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
+    attribute:SetValue(ATTRIBUTE_LIGHT)
     c:RegisterEffect(attribute)
 
     -- special summon
