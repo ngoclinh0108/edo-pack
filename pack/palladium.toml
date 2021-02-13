@@ -381,9 +381,9 @@ strings = []
 id = 410000016
 set = "palladium"
 name = "Palladium Magic"
-type = "spell"
+type = "spell quick-play"
 effect = """\
-Activate 1 of these effect;
+During the Main Phase, activate 1 of these effect;
 ● Ritual Summon 1 "Palladium" Ritual Monster from your hand or GY, \
     by Tributing monsters from your hand or field, \
     whose total Levels equal or exceed the Level of the Ritual Monster. \

@@ -14,6 +14,7 @@ function s.initial_effect(c)
         stage3 = s.e1sumop,
         desc = aux.Stringid(id, 1)
     })
+    e1:SetCondition(function() return Duel.IsMainPhase() end)
     c:RegisterEffect(e1)
 
     -- special summon spellcaster
@@ -33,6 +34,7 @@ function s.initial_effect(c)
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e3:SetType(EFFECT_TYPE_ACTIVATE)
     e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetCondition(function() return Duel.IsMainPhase() end)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -43,6 +45,7 @@ function s.initial_effect(c)
     e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e4:SetType(EFFECT_TYPE_ACTIVATE)
     e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetCondition(function() return Duel.IsMainPhase() end)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -81,8 +84,9 @@ function s.e2filter2(c, e, tp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_ONFIELD, 0, 1,
-                                       nil)
+    return Duel.IsMainPhase() and
+               Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_ONFIELD, 0,
+                                           1, nil)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
