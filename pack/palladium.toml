@@ -342,20 +342,27 @@ If this card leaves the field: \
 """
 strings = ["Draw and check"]
 
-[card.palladium-magician-robe]
+[card.palladium-magician-soul]
 id = 410000014
 set = "palladium"
-name = "Palladium Magician's Robe"
-type = "monster tuner effect"
+name = "Palladium Magician's Soul"
+type = "monster union tuner effect"
 attribute = "dark"
 race = "spellcaster"
 level = 2
 atk = 300
 def = 500
 effect = """\
+Once per turn, you can either: Target 1 "Palladium" Spellcaster monster you control; \
+    equip this card to that target, OR: Unequip this card and Special Summon it. \
+    If the equipped monster would be destroyed by battle or card effect, destroy this card instead. \
+If this card is in your GY: You can target 1 Level 7 "Palladium" Spellcaster monster you control; equip this card to it. \
+    You can only use this effect of "Palladium Magician's Soul" once per turn. \
 You can target 1 DARK Spellcaster monster you control; this card's Level becomes the Level of that monster. \
+During damage calculation, if the equipped monster battles your opponent's monster: \
+    The Attribute of opponent's battling monster become DARK. \
 """
-strings = ["Copy level from a DARK Spellcaster"]
+strings = ["Copy level from a DARK Spellcaster", "Change battling monster's Attribute"]
 
 [card.palladium-spirit-kuriboh]
 id = 410000015
