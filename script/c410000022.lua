@@ -1,4 +1,4 @@
--- Palladium Knight Faris
+-- Palladium Sacred Knight Faris
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
