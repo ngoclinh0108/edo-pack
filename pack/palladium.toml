@@ -363,7 +363,7 @@ During damage calculation, if the equipped monster battles your opponent's monst
     The Attribute of opponent's battling monster become DARK. \
 """
 strings = [
-    "Copy level from a DARK Spellcaster",
+    "Copy level",
     "Change battling monster's Attribute",
 ]
 
@@ -644,7 +644,6 @@ atk = 2800
 def = 2600
 effect = """\
 1 "Palladium" Tuner + 1+ non-Tuner Spellcaster monsters
-Must first be Synchro Summoned. \
 You take no effect damage. \
 Spellcaster monsters you control cannot be destroyed by battle. \
 (Quick Effect): You can target 1 face-up card your opponent controls; negate its effects until the end of this turn. \
@@ -667,13 +666,14 @@ atk = 2600
 def = 2100
 effect = """\
 2+ Level 7 "Palladium" Spellcaster monsters
-Must first be Xyz Summoned. \
 The activation and effects of Spellcaster monsters activated on your field cannot be negated. \
+Once per turn: You can detach 1 material from this card; Special Summon 1 Spellcaster monster from your hand, Deck or GY. \
 Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
-Once per turn: You can detach 1 material from this card; Special Summon 1 Spellcaster monster from your hand, Deck or GY. \
+When a Spellcaster monster declares an attack: You can target 1 card your opponent controls; banish it. \
+    You can only use this effect of "Palladium Ebony Wizard Aknadin" once per turn. \
 """
-strings = ["Reduce your opponent monster's ATK", "Summon Spellcaster"]
+strings = ["Summon Spellcaster", "Reduce your opponent monster's ATK", "Banish 1 card on the field"]
 
 # [card.palladium-reborn]
 # id = 410000026
