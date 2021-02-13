@@ -1,4 +1,4 @@
--- Palladium Oracle Mana - Servant of Ruler
+-- Palladium Sacred Oracle Mana
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -34,7 +34,11 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(function(e, c) return c:IsRace(RACE_SPELLCASTER) end)
+    e2:SetTarget(function(e, tc)
+        if e:GetHandler() == tc then return true end
+        return (tc:IsLevelAbove(7) or tc:IsRankAbove(7)) and
+                   tc:IsRace(RACE_SPELLCASTER)
+    end)
     e2:SetValue(1)
     c:RegisterEffect(e2)
 
@@ -53,7 +57,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsFaceup() and c:IsLevelAbove(7) and c:IsRace(RACE_SPELLCASTER)
+    return c:IsFaceup() and c:IsLevel(7) and c:IsType(TYPE_NORMAL) and
+               c:IsRace(RACE_SPELLCASTER)
 end
 
 function s.e1con(e, c)
@@ -72,7 +77,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     if c:IsControler(1 - tp) then c = Duel.GetAttacker() end
     e:SetLabelObject(c)
     return c and c ~= e:GetHandler() and c:IsRelateToBattle() and
-               c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_SPELLCASTER)
+               c:IsRace(RACE_SPELLCASTER)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
