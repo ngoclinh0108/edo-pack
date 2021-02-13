@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {CARD_RA}
+
 function s.initial_effect(c)
     -- recover LP
     local e1 = Effect.CreateEffect(c)
@@ -76,7 +78,7 @@ function s.e2check1(c)
 end
 
 function s.e2check2(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+    return c:IsCanBeSpecialSummoned(e, 0, tp, c:IsOriginalCode(CARD_RA) and true or false, false) and
                Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
 end
 
@@ -134,7 +136,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
             Duel.SendtoHand(sc, nil, REASON_EFFECT)
             Duel.ConfirmCards(1 - tp, sc)
         else
-            Duel.SpecialSummon(sc, 0, tp, tp, false, false, POS_FACEUP)
+            Duel.SpecialSummon(sc, 0, tp, tp, tc:IsOriginalCode(CARD_RA) and true or false, false, POS_FACEUP)
         end
     else
         Duel.DisableShuffleCheck()
