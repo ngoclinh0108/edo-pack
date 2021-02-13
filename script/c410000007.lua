@@ -128,7 +128,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectMatchingCard(tp, Card.IsAbleToHand, tp, LOCATION_GRAVE,
-                                      0, 1, 2, nil)
+                                      0, 1, 3, nil)
 
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)

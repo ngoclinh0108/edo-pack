@@ -29,8 +29,8 @@ Once per turn: You can shuffle the Deck, then look at up to 5 cards from the top
 strings = [
     "Search \"Palladium\" Spell/Trap",
     "Summon via \"Millennium Ascension\"",
-    "Draw",
-    "Shuffle the Deck",
+    "Reveal then draw",
+    "Shuffle the deck",
 ]
 
 [card.obelisk]
@@ -202,7 +202,7 @@ You can Tribute this card from your hand or face-up field; \
 Once while face-up on the field: \
     You can Special Summon 1 "Slifer's Apostle" and/or 1 "Ra's Apostle" in face-up Defense Position from your hand, Deck or GY. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
-    You can add up to 2 cards from your GY to your hand. \
+    You can add up to 3 cards from your GY to your hand. \
     You can only use this effect of "Obelisk's Apostle" once per turn. \
 """
 strings = ["Search a Divine-Beast", "Summon other apostles"]
