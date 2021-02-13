@@ -1,4 +1,4 @@
--- Palladium Chaos Oracle Aknamkanon
+-- Palladium Chaos Sorcerer Aknamkanon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

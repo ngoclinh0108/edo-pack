@@ -276,7 +276,7 @@ strings = [
     "Take a DIVINE monster?",
     "Recover LP",
     "Declare top your Deck",
-    "Summon a Divine-Beast monster"
+    "Summon a Divine-Beast monster",
 ]
 
 [card.palladium-oracle-mahad]
@@ -342,10 +342,10 @@ If this card leaves the field: \
 """
 strings = ["Draw and check"]
 
-[card.palladium-magician-soul]
+[card.palladium-magician-arcane]
 id = 410000014
 set = "palladium"
-name = "Palladium Magician's Soul"
+name = "Palladium Magician's Arcane"
 type = "monster union tuner effect"
 attribute = "dark"
 race = "spellcaster"
@@ -357,12 +357,15 @@ Once per turn, you can either: Target 1 "Palladium" Spellcaster monster you cont
     equip this card to that target, OR: Unequip this card and Special Summon it. \
     If the equipped monster would be destroyed by battle or card effect, destroy this card instead. \
 If this card is in your GY: You can target 1 Level 7 "Palladium" Spellcaster monster you control; equip this card to it. \
-    You can only use this effect of "Palladium Magician's Soul" once per turn. \
+    You can only use this effect of "Palladium Magician's Arcane" once per turn. \
 You can target 1 DARK Spellcaster monster you control; this card's Level becomes the Level of that monster. \
 During damage calculation, if the equipped monster battles your opponent's monster: \
     The Attribute of opponent's battling monster become DARK. \
 """
-strings = ["Copy level from a DARK Spellcaster", "Change battling monster's Attribute"]
+strings = [
+    "Copy level from a DARK Spellcaster",
+    "Change battling monster's Attribute",
+]
 
 [card.palladium-spirit-kuriboh]
 id = 410000015
@@ -589,10 +592,10 @@ strings = [
     "Send card to the GY",
 ]
 
-[card.palladium-chaos-oracle-aknamkanon]
+[card.palladium-chaos-sorcerer-aknamkanon]
 id = 410000025
 set = "palladium chaos"
-name = "Palladium Chaos Oracle Aknamkanon"
+name = "Palladium Chaos Sorcerer Aknamkanon"
 type = "monster ritual effect"
 attribute = "dark"
 race = "spellcaster"
@@ -609,7 +612,7 @@ Once per turn: You can target 1 monster your opponent controls; banish it. \
     This card cannot attack the turn this effect is activated. \
 When this card destroys an opponent's monster by battle: \
     You can add 1 Spell/Trap from your Deck or GY to your hand. \
-    You can only use this effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
+    You can only use this effect of "Palladium Chaos Sorcerer Aknamkanon" once per turn. \
 """
 strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
 
@@ -628,6 +631,48 @@ During your Main Phase, except the turn this card was sent to the GY: \
     You can only use this effect of "Palladium Sacrophagus" once per turn. \
 """
 strings = []
+
+[card.palladium-mysterious-keeper-hassan]
+id = 410000028
+set = "palladium"
+name = "Palladium Mysterious Keeper Hassan"
+type = "monster synchro effect"
+attribute = "light"
+race = "spellcaster"
+level = 9
+atk = 2800
+def = 2600
+effect = """\
+1 "Palladium" Tuner + 1+ non-Tuner Spellcaster monsters
+Must first be Synchro Summoned. \
+You take no effect damage. \
+Spellcaster monsters you control cannot be destroyed by battle. \
+(Quick Effect): You can target 1 face-up card your opponent controls; negate its effects until the end of this turn. \
+    You can only use this effect of "Palladium Mysterious Keeper Hassan" once per turn. \
+If this card leaves the field: \
+    You can Special Summon 1 Spellcaster monster from your hand, Deck, and/or GY, \
+    except "Palladium Mysterious Keeper Hassan". \
+"""
+strings = ["Negate the effect of a face-up card"]
+
+[card.palladium-ebony-wizard-aknadin]
+id = 410000029
+set = "palladium"
+name = "Palladium Ebony Wizard Aknadin"
+type = "monster xyz effect"
+attribute = "dark"
+race = "spellcaster"
+level = 7
+atk = 2600
+def = 2100
+effect = """\
+2+ Level 7 "Palladium" Spellcaster monsters
+Must first be Xyz Summoned. \
+Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
+    then if its ATK has been reduced to 0 as a result, destroy it. \
+Once per turn: You can detach 1 material from this card; Special Summon 1 Spellcaster monster from your hand, Deck or GY. \
+"""
+strings = ["Reduce your opponent monster's ATK", "Summon Spellcaster"]
 
 # [card.palladium-reborn]
 # id = 410000026
@@ -694,31 +739,6 @@ strings = []
 #     "Inflict damage",
 # ]
 
-# [card.palladium-sacred-paladin-of-heaven-god]
-# id = 410000032
-# set = "palladium"
-# name = "Palladium Sacred Paladin of Heaven's God"
-# type = "monster xyz effect"
-# attribute = "light"
-# race = "spellcaster"
-# level = 10
-# atk = 2900
-# def = 2400
-# effect = """\
-# 2+ Level 10 "Palladium" monsters, including "Dark Magician" and "Palladium Apostle of Slifer"
-# Must first be Xyz Summoned. \
-# Your opponent cannot Tribute this card, nor target this card with card effects, also possession of it cannot switch. \
-# There is no limit to the number of cards in your hand. \
-# This card gain 500 ATK and DEF for each card in your hand. \
-# If a card(s) your opponent controls is destroyed by battle or card effect: You can draw 1 card. \
-# Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
-#     then if its ATK has been reduced to 0 as a result, destroy it. \
-# Once per turn, when your opponent activates a card or effect (Quick Effect): \
-#     You can detach 1 material from this card; \
-#     negate the activation, and if you do, destroy that card. \
-# """
-# strings = ["Negate activation", "Reduce your opponent monster's ATK"]
-
 # [card.palladium-immortal-soldier-of-sun-god]
 # id = 410000033
 # set = "palladium"
@@ -753,29 +773,4 @@ strings = []
 #     "Gain ATK of the destroyed monster",
 #     "Lose ATK to destroy a card",
 #     "Summon \"The Winged Dragon of Ra\"",
-# ]
-
-# [card.palladium-oracle-hassan]
-# id = 410000035
-# set = "palladium"
-# name = "Palladium Sacred Oracle Hassan"
-# type = "monster synchro effect"
-# attribute = "light"
-# race = "spellcaster"
-# level = 9
-# atk = 3200
-# def = 2800
-# effect = """\
-# 1 "Palladium" Tuner + 1+ non-Tuner Spellcaster monsters
-# Must first be Synchro Summoned. \
-# You take no effect damage. \
-# Spellcaster monsters you control cannot be destroyed by battle. \
-# (Quick Effect): You can target 1 face-up card your opponent controls; negate its effects until the end of this turn. \
-#     You can only use this effect of "Palladium Sacred Oracle Hassan" once per turn. \
-# If this card leaves the field: \
-#     You can Special Summon 1 Spellcaster monster from your hand, Deck, and/or GY, \
-#     except "Palladium Oracle Hassan". \
-# """
-# strings = [
-#     "Negate the effect of a face-up card"
 # ]

@@ -1,4 +1,4 @@
--- Palladium Oracle Hassan
+-- Palladium Mysterious Keeper Hassan
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

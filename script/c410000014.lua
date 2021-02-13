@@ -1,4 +1,4 @@
--- Palladium Magician's Soul
+-- Palladium Magician's Arcane
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
