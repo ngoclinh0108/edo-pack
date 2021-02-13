@@ -668,6 +668,7 @@ def = 2100
 effect = """\
 2+ Level 7 "Palladium" Spellcaster monsters
 Must first be Xyz Summoned. \
+The activation and effects of "Palladium" Spellcaster monsters activated on your field cannot be negated. \
 Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
 Once per turn: You can detach 1 material from this card; Special Summon 1 Spellcaster monster from your hand, Deck or GY. \

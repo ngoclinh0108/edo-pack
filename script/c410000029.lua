@@ -21,6 +21,17 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(splimit)
 
+    -- inactivatable
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetCode(EFFECT_CANNOT_INACTIVATE)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetValue(s.e1val)
+    c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_CANNOT_DISEFFECT)
+    c:RegisterEffect(e1b)
+
     -- atk down
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
@@ -49,6 +60,16 @@ function s.initial_effect(c)
 end
 
 function s.xyzfilter(c) return c:IsSetCard(0x13a) and c:IsRace(RACE_SPELLCASTER) end
+
+function s.e1val(e, ct)
+    local p = e:GetHandler():GetControler()
+    local te, tp, loc = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT,
+                                          CHAININFO_TRIGGERING_PLAYER,
+                                          CHAININFO_TRIGGERING_LOCATION)
+    local tc = te:GetHandler()
+    return p == tp and tc:IsSetCard(0x13a) and tc:IsRace(RACE_SPELLCASTER) and
+               loc & LOCATION_ONFIELD ~= 0
+end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
@@ -108,9 +129,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter), tp, LOCATION_HAND +
-                                          LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                      1, nil, e, tp)
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter), tp,
+                                      LOCATION_HAND + LOCATION_DECK +
+                                          LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
 
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
