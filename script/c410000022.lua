@@ -10,7 +10,7 @@ function s.initial_effect(c)
         handler = c,
         filter = aux.FilterBoolFunction(Card.IsSetCard, 0x13a),
         lvtype = RITPROC_GREATER,
-        location = LOCATION_HAND + LOCATION_GRAVE,
+        location = LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA,
         stage2 = s.e1sumop,
         desc = aux.Stringid(id, 1)
     })

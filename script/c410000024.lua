@@ -1,19 +1,26 @@
--- Palladium Chaos Dragon - Envoy of the Dawnbreak
+-- Palladium Chaos Soldier - Envoy of the Nightfall
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {410000022}
 
 function s.initial_effect(c)
-    Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, aux.FALSE)
     c:EnableReviveLimit()
+
+    -- code
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(5405694)
+    c:RegisterEffect(code)
 
     -- attribute
     local attribute = Effect.CreateEffect(c)
     attribute:SetType(EFFECT_TYPE_SINGLE)
     attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
-    attribute:SetValue(ATTRIBUTE_DARK)
+    attribute:SetValue(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
     c:RegisterEffect(attribute)
 
     -- special summon
@@ -27,14 +34,11 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- send cards to the graveyard
+    -- battle destroy
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetCategory(CATEGORY_TOGRAVE + CATEGORY_DAMAGE)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetCost(s.e2cost)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_BATTLE_DESTROYING)
+    e2:SetCondition(aux.bdocon)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -44,7 +48,7 @@ function s.e1filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                not c:IsType(TYPE_RITUAL) and c:IsLevelBelow(8) and
                c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
-               c:IsRace(RACE_DRAGON)
+               c:IsRace(RACE_WARRIOR)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -75,65 +79,85 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
-function s.e2filter1(c, p) return c:GetOwner() == p and c:IsAbleToGrave() end
-
-function s.e2filter2(c, p)
-    return c:IsControler(p) and c:IsLocation(LOCATION_GRAVE)
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetCustomActivityCount(id, tp, ACTIVITY_CHAIN) == 0
-    end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
-    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetValue(aux.TRUE)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
-
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT +
-                        EFFECT_FLAG_OATH)
-    ec2:SetDescription(aux.Stringid(id, 0))
-    ec2:SetTargetRange(1, 0)
-    ec2:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec2, tp)
-end
-
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
-    local g = Duel.GetFieldGroup(tp, 0, 0xe)
-    local dc = g:FilterCount(s.e2filter1, nil, 1 - tp)
+    local b1 = true
+    local b2 = true
+    local b3 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
+                                           LOCATION_ONFIELD, 1, nil)
+    local b4 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
+                                           LOCATION_HAND, 1, nil, POS_FACEDOWN)
 
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, dc * 300)
+    local opt = {}
+    local sel = {}
+    if b1 then
+        table.insert(opt, aux.Stringid(id, 0))
+        table.insert(sel, 1)
+    end
+    if b2 then
+        table.insert(opt, aux.Stringid(id, 1))
+        table.insert(sel, 2)
+    end
+    if b3 then
+        table.insert(opt, aux.Stringid(id, 2))
+        table.insert(sel, 3)
+    end
+    if b4 then
+        table.insert(opt, aux.Stringid(id, 3))
+        table.insert(sel, 4)
+    end
+
+    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
+    e:SetCategory(0)
+    if op == 3 then
+        e:SetCategory(CATEGORY_REMOVE)
+        local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
+                                        LOCATION_ONFIELD, nil)
+        Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, tp, 0)
+    elseif op == 4 then
+        e:SetCategory(CATEGORY_REMOVE)
+        Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 1 - tp, LOCATION_HAND)
+    end
+    e:SetLabel(op)
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, aux.Stringid(id, op))
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local op = e:GetLabel()
 
-    local g = Duel.GetFieldGroup(tp, 0, 0xe)
-    Duel.SendtoGrave(g, REASON_EFFECT)
-
-    local og = Duel.GetOperatedGroup()
-    local ct = og:FilterCount(s.e2filter2, nil, 1 - tp)
-    if ct > 0 then
-        Duel.BreakEffect()
-        Duel.Damage(1 - tp, ct * 500, REASON_EFFECT)
+    if op == 1 and c:IsRelateToEffect(e) and c:IsFaceup() then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(1500)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        c:RegisterEffect(ec1)
+    elseif op == 2 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_EXTRA_ATTACK)
+        ec1:SetValue(1)
+        ec1:SetLabel(Duel.GetTurnCount())
+        ec1:SetCondition(function(e, tp)
+            return Duel.GetTurnCount() > e:GetLabel()
+        end)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END +
+                         RESET_SELF_TURN, 2)
+        c:RegisterEffect(ec1)
+    elseif op == 3 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
+        local g = Duel.SelectMatchingCard(tp, Card.IsAbleToRemove, tp, 0,
+                                          LOCATION_ONFIELD, 1, 1, nil)
+        if #g > 0 then Duel.Remove(g, POS_FACEUP, REASON_EFFECT) end
+    elseif op == 4 then
+        local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
+                                        LOCATION_HAND, nil, tp, POS_FACEDOWN)
+        if #g > 0 then
+            local rg = g:RandomSelect(tp, 1)
+            Duel.Remove(rg, POS_FACEDOWN, REASON_EFFECT)
+        end
     end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK)
-    ec1:SetLabel(c:GetFieldID())
-    ec1:SetTargetRange(LOCATION_MZONE, 0)
-    ec1:SetTarget(function(e, c) return e:GetLabel() ~= c:GetFieldID() end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
 end
