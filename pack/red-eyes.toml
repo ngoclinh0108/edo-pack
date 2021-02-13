@@ -12,7 +12,7 @@ level = 7
 atk = 2400
 def = 2000
 effect = """\
-(This card's name is always treated as "Red-Eyes Black Dragon". This card is always treated as a Normal Monster.)
+(This card is also always treated as "Red-Eyes Black Dragon", also Normal Monster.)
 If this card is sent from the hand or Deck to the GY: You can Special Summon it. \
     You can only use this effect of "Red-Eyes Sacred Black Dragon" once per turn. \
 Once per turn, if damage calculation is performed involving this card, at the end of the Battle Phase: \
