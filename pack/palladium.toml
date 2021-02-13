@@ -287,7 +287,7 @@ effect = """\
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
-    You can only use this effect of "Palladium Oracle Mahad - Servant of Ruler" once per turn. \
+    You can only use this effect of "Palladium Sacred Oracle Mahad" once per turn. \
 """
 
 [card.palladium-oracle-mana]
@@ -307,29 +307,28 @@ This card and other Level/Rank 7 or higher Spellcaster monsters you control cann
 During damage calculation, if your other Spellcaster monster battles an opponent's monster (Quick Effect): \
     You can send this card from your hand or face-up from your field to the GY; \
     that monster you control gains 2000 ATK/DEF during that damage calculation only. \
-    You can only use this effect of "Palladium Oracle Mana - Servant of Ruler" once per turn. \
+    You can only use this effect of "Palladium Sacred Oracle Mana" once per turn. \
 """
 strings = ["Gain ATK"]
 
-# [card.palladium-spirit-kuriboh]
-# id = 410000011
-# set = "palladium kuriboh"
-# name = "Palladium Spirit Kuriboh"
-# type = "monster tuner effect"
-# attribute = "light"
-# race = "fairy"
-# level = 1
-# atk = 300
-# def = 200
-# effect = """\
-# If this card you control is used as Synchro Material for a "Palladium" monster, you can treat it as a non-Tuner. \
-# When an opponent's monster declares a directly attack: \
-#     You can Special Summon this card from the GY in face-up Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
-#     You can only use this effects of "Palladium Spirit Kuriboh" per turn. \
-# You take no Battle Damage from battles involving this card. \
-# If this card on the field is destroyed: You take no damage this turn. \
-# """
-# strings = []
+[card.palladium-spirit-kuriboh]
+id = 410000013
+set = "palladium kuriboh"
+name = "Palladium Spirit Kuriboh"
+type = "monster tuner effect"
+attribute = "light"
+race = "fairy"
+level = 1
+atk = 300
+def = 200
+effect = """\
+When an opponent's monster declares a directly attack: \
+    You can Special Summon this card from the GY in face-up Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
+    You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
+You take no Battle Damage from battles involving this card. \
+If this card on the field is destroyed: You take no damage this turn. \
+"""
+strings = []
 
 # [card.palladium-knight-faris]
 # id = 410000012
