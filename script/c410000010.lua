@@ -136,7 +136,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
             Duel.SendtoHand(sc, nil, REASON_EFFECT)
             Duel.ConfirmCards(1 - tp, sc)
         else
-            Duel.SpecialSummon(sc, 0, tp, tp, tc:IsOriginalCode(CARD_RA) and true or false, false, POS_FACEUP)
+            Duel.SpecialSummon(sc, 0, tp, tp, sc:IsOriginalCode(CARD_RA) and true or false, false, POS_FACEUP)
         end
     else
         Duel.DisableShuffleCheck()
