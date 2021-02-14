@@ -274,7 +274,7 @@ function s.e6con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED
+    local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED + LOCATION_EXTRA
     local tpdraw = Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0)
     local opdraw = Duel.GetFieldGroupCount(tp, 0, LOCATION_HAND)
 
