@@ -72,14 +72,13 @@ function s.e1sumop(mat, e, tp, eg, ep, ev, re, r, rp, tc)
 end
 
 function s.e2filter1(c)
-    return
-        c:IsFaceup() and c:IsLevelAbove(7) and c:IsAttribute(ATTRIBUTE_LIGHT) and
-            c:IsRace(RACE_SPELLCASTER) and c:IsSetCard(0x13a)
+    return c:IsFaceup() and c:IsLevelAbove(7) and c:IsRace(RACE_SPELLCASTER) and
+               c:IsSetCard(0x13a)
 end
 
 function s.e2filter2(c, e, tp)
-    return c:IsLevelBelow(6) and c:IsAttribute(ATTRIBUTE_LIGHT) and
-               c:IsRace(RACE_SPELLCASTER) and c:IsSetCard(0x13a) and
+    return c:IsLevelBelow(6) and c:IsRace(RACE_SPELLCASTER) and
+               c:IsSetCard(0x13a) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
