@@ -84,16 +84,19 @@ function s.e2filter(c) return c:IsAbleToGrave() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
                                            nil)
     end
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp,
+                          LOCATION_HAND + LOCATION_DECK)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_DECK, 0, 1,
-                                      1, nil)
+    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp,
+                                      LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
+                                      nil)
 
     if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
 end
