@@ -828,8 +828,10 @@ While this card is in your hand or GY, \
     is destroyed by battle or card effect: You can Special Summon this card in face-up Defense Position. \
     You can only use this effect of "Palladium Draco-Knight of Atlantis" once per turn. \
 Once per turn, you can send 1 card from your hand or Deck to the GY. \
-(Quick Effect): You can Tribute this card; \
-    Add to your hand or Special Summon 1 level 7 or 8 Dragon or Warrior monster from your hand, Deck, GY or face-up Extra Deck, \
-    but that monster cannot attack this turn. \
+(Quick Effect): You can Tribute this card, activate 1 of these effects;
+● Add to your hand or Special Summon 1 level 7 or 8 Dragon or Warrior monster from your hand, Pendulum Zone, Deck, GY or face-up Extra Deck, \
+    but that monster cannot attack this turn.
+● Add to your hand 1 Spell/Trap from your GY, \
+    but you cannot activate cards, or the effects of cards, with that name for the rest of this turn.
 """
-strings = ["Send card to GY", "Search monster"]
+strings = ["Send card to GY", "Search monster", "Search spell/trap"]

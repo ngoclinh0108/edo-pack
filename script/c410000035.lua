@@ -35,10 +35,10 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- special summon monster
+    -- search monster
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_MZONE)
@@ -47,6 +47,19 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- search spell/trap
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 2))
+    e4:SetCategory(CATEGORY_TOHAND)
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetHintTiming(0, TIMING_END_PHASE)
+    e4:SetCost(s.e4cost)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e1filter(c, tp)
@@ -128,7 +141,7 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND + LOCATION_PZONE +
                                                LOCATION_DECK + LOCATION_GRAVE +
                                                LOCATION_EXTRA, 0, 1, nil, e, tp,
                                            e:GetHandler())
@@ -138,7 +151,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp,
-                                    LOCATION_HAND + LOCATION_DECK +
+                                    LOCATION_HAND + LOCATION_PZONE + LOCATION_DECK +
                                         LOCATION_GRAVE + LOCATION_EXTRA, 0, nil,
                                     e, tp, c)
     if #g == 0 then return end
@@ -169,4 +182,47 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         sc:RegisterEffect(ec1)
     end
+end
+
+function s.e4filter(c)
+    return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToHand()
+end
+
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsReleasable() end
+    Duel.Release(e:GetHandler(), REASON_COST)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_GRAVE, 0, 1,
+                                           nil)
+    end
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter),
+                                       tp, LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
+    if not tc then return end
+
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, tc)
+
+    if tc:IsLocation(LOCATION_HAND) then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+        ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+        ec1:SetTargetRange(1, 0)
+        ec1:SetValue(s.e4aclimit)
+        ec1:SetLabelObject(tc)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
+    end
+end
+
+function s.e4aclimit(e, re, tp)
+    local tc = e:GetLabelObject()
+    return re:GetHandler():IsCode(tc:GetCode())
 end
