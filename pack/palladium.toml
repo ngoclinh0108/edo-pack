@@ -375,12 +375,12 @@ level = 1
 atk = 300
 def = 200
 effect = """\
-When an opponent's monster declares a directly attack: \
-    You can Special Summon this card from the GY in face-up Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
-    You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
 This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
 You take no Battle Damage from battles involving this card. \
 If this card on the field is destroyed: You take no damage this turn. \
+When an opponent's monster declares a directly attack: \
+    You can Special Summon this card from the GY in face-up Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
+    You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
 """
 strings = []
 
@@ -827,8 +827,9 @@ While this card is in your hand or GY, \
     if a face-up Warrior or Dragon monster on the field, except "Palladium Draco-Knight of Atlantis",\
     is destroyed by battle or card effect: You can Special Summon this card in face-up Defense Position. \
     You can only use this effect of "Palladium Draco-Knight of Atlantis" once per turn. \
+Once per turn, you can send 1 card from your Deck to the GY. \
 (Quick Effect): You can Tribute this card; \
     Special Summon 1 level 7 or 8 Dragon or Warrior monster from your hand, Deck, GY or face-up Extra Deck, \
     but that monster cannot attack this turn. \
 """
-strings = ["Special Summon a monster"]
+strings = ["Send card to GY", "Special Summon a monster"]
