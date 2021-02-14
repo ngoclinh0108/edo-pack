@@ -7,82 +7,83 @@ s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     -- code
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_ADD_CODE)
-    e1:SetValue(83764718)
-    c:RegisterEffect(e1)
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(83764718)
+    c:RegisterEffect(code)
 
     -- activate
-    local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_ACTIVATE)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetCountLimit(1, id)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetCountLimit(1, id)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
 end
 
-function s.e2check1(c) return c:IsAbleToHand() end
+function s.e1check1(c) return c:IsAbleToHand() end
 
-function s.e2check2(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp,
-                                    c:IsOriginalCode(CARD_RA) and true or false,
-                                    false) and
-               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
-end
+function s.e1check2(c, e, tp)
+    local isRa = c:IsOriginalCode(CARD_RA) and true or false
+    if not c:IsCanBeSpecialSummoned(e, 0, tp, isRa, false) or
+        (c:IsLocation(LOCATION_EXTRA) and c:IsFacedown()) then return false end
 
-function s.e2filter(c, e, tp)
-    if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
-    return (s.e2check1(c) or s.e2check2(c, e, tp)) and
-               c:IsType(TYPE_MONSTER)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp,
-                                               LOCATION_GRAVE + LOCATION_EXTRA,
-                                               LOCATION_GRAVE + LOCATION_EXTRA,
-                                               1, nil, e, tp)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, nil, 1, 0, 0)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp,
-                                       LOCATION_GRAVE + LOCATION_EXTRA,
-                                       LOCATION_GRAVE + LOCATION_EXTRA, 1, 1,
-                                       nil, e, tp):GetFirst()
-    if not tc then return end
-
-    local b1 = s.e2check1(tc)
-    local b2 = s.e2check2(tc, e, tp)
-
-    local opt
-    if b1 and b2 then
-        opt = Duel.SelectOption(tp, 573, 5)
-    elseif b1 then
-        opt = Duel.SelectOption(tp, 573)
+    if (c:IsLocation(LOCATION_EXTRA)) then
+        return Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
     else
-        opt = Duel.SelectOption(tp, 5) + 1
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
 
-    if opt == 0 then
-        Duel.SendtoHand(tc, tp, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, tc)
-    elseif Duel.SpecialSummon(tc, 0, tp, tp,
-                              tc:IsOriginalCode(CARD_RA) and true or false,
-                              false, POS_FACEUP) > 0 then
-        if not tc:IsSetCard(0x13a) then
-            tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD +
+end
+
+function s.e1filter(c, e, tp)
+    return c:IsType(TYPE_MONSTER) and (s.e1check1(c) or s.e1check2(c, e, tp))
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_GRAVE + LOCATION_EXTRA,
+                                           LOCATION_GRAVE + LOCATION_EXTRA, 1,
+                                           nil, e, tp)
+    end
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp,
+                                    LOCATION_GRAVE + LOCATION_EXTRA,
+                                    LOCATION_GRAVE + LOCATION_EXTRA, nil, e, tp)
+    if #g == 0 then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
+    local sc = g:Select(tp, 1, 1, nil):GetFirst()
+
+    local b1 = s.e1check1(sc)
+    local b2 = s.e1check2(sc, e, tp)
+    local op = 0
+    if b1 and b2 then
+        op = Duel.SelectOption(tp, 573, 5)
+    elseif b1 then
+        op = Duel.SelectOption(tp, 573)
+    else
+        op = Duel.SelectOption(tp, 5) + 1
+    end
+
+    if op == 0 then
+        Duel.SendtoHand(sc, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, sc)
+    else
+        local isRa = c:IsOriginalCode(CARD_RA) and true or false
+        Duel.SpecialSummon(sc, 0, tp, tp, isRa, false, POS_FACEUP)
+
+        if not sc:IsSetCard(0x13a) then
+            sc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD +
                                       RESET_PHASE + PHASE_END,
                                   EFFECT_FLAG_CLIENT_HINT, 1, 0,
                                   aux.Stringid(id, 0))
@@ -93,14 +94,14 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
             ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
             ec1:SetCode(EVENT_PHASE + PHASE_END)
             ec1:SetCountLimit(1)
-            ec1:SetOperation(s.e2gyop)
+            ec1:SetOperation(s.e1gyop)
             ec1:SetReset(RESET_PHASE + PHASE_END)
             Duel.RegisterEffect(ec1, tp)
         end
     end
 end
 
-function s.e2gyop(e, tp, eg, ep, ev, re, r, rp)
+function s.e1gyop(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(function(c)
         return c:GetFlagEffect(id) ~= 0
     end, tp, LOCATION_MZONE, 0, nil)

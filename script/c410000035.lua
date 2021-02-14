@@ -106,16 +106,19 @@ function s.e3check1(c)
 end
 
 function s.e3check2(c, e, tp, mc)
-    if c:IsLocation(LOCATION_EXTRA) and
-        (c:IsFacedown() or Duel.GetLocationCountFromEx(tp, tp, mc, c) == 0) then
-        return false
+    if not c:IsCanBeSpecialSummoned(e, 0, tp, false, false) or
+        (c:IsLocation(LOCATION_EXTRA) and c:IsFacedown()) then return false end
+
+    if (c:IsLocation(LOCATION_EXTRA)) then
+        return Duel.GetLocationCountFromEx(tp, tp, mc, c) > 0
+    else
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e3filter(c, e, tp, mc)
     return c:IsLevel(7, 8) and c:IsRace(RACE_DRAGON + RACE_WARRIOR) and
-               s.e3check1(c) and s.e3check2(c, e, tp, mc)
+               (s.e3check1(c) or s.e3check2(c, e, tp, mc))
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -136,14 +139,15 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp,
                                     LOCATION_HAND + LOCATION_DECK +
-                                        LOCATION_GRAVE, 0, nil, e, tp, c)
+                                        LOCATION_GRAVE + LOCATION_EXTRA, 0, nil,
+                                    e, tp, c)
     if #g == 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
     local sc = g:Select(tp, 1, 1, nil):GetFirst()
 
-    local b1 = s.e1check1(sc)
-    local b2 = s.e1check2(sc, e, tp, c)
+    local b1 = s.e3check1(sc)
+    local b2 = s.e3check2(sc, e, tp, c)
     local op = 0
     if b1 and b2 then
         op = Duel.SelectOption(tp, 573, 5)
