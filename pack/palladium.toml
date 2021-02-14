@@ -719,7 +719,7 @@ You can target 1 face-up monster you control; \
     then destroy this card. \
 """
 effect = """\
-(This card is also always treated as "Legendary Knight Timaeus".)
+(This card is also always treated as "Legendary Knight Timaeus", also Dragon monster.)
 Cannot be Normal Summoned/Set. \
 If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
 Once per turn (Quick Effect): You can target 1 Spell in either GY; \
@@ -748,7 +748,7 @@ You send 1 Trap from your hand or field to the GY, \
     then destroy this card. \
 """
 effect = """\
-(This card is also always treated as "Legendary Knight Critias".)
+(This card is also always treated as "Legendary Knight Critias", also Dragon monster.)
 Cannot be Normal Summoned/Set. \
 If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
 Once per turn (Quick Effect): You can target 1 Trap in either GY; \
@@ -777,7 +777,7 @@ You can send 1 monster from your hand or field to the GY, \
     then destroy this card. \
 """
 effect = """\
-(This card is also always treated as "Legendary Knight Hermos".)
+(This card is also always treated as "Legendary Knight Hermos", also Dragon monster.)
 Cannot be Normal Summoned/Set. \
 If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
 Once per turn (Quick Effect): You can target 1 Effect Monster in either GY; \
