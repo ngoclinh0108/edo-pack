@@ -70,8 +70,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND +
                                                LOCATION_DECK + LOCATION_GRAVE,
-                                           0, 1, nil, e, tp) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+                                           0, 1, nil, e, tp)
     end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
