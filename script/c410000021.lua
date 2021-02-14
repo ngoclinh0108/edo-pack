@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {
-    CARD_DARK_MAGICIAN, CARD_BLUEEYES_W_DRAGON, CARD_REDEYES_B_DRAGON, 6368038
+    CARD_DARK_MAGICIAN, CARD_BLUEEYES_W_DRAGON, CARD_REDEYES_B_DRAGON
 }
 
 function s.initial_effect(c)
@@ -53,18 +53,6 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-
-    -- double atk
-    local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 4))
-    e5:SetCategory(CATEGORY_ATKCHANGE)
-    e5:SetType(EFFECT_TYPE_ACTIVATE)
-    e5:SetCode(EVENT_FREE_CHAIN)
-    e5:SetCountLimit(1, id)
-    e5:SetCondition(s.e5con)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
 end
 
 function s.e1check1(c)
@@ -79,7 +67,7 @@ end
 function s.e1filter(c, e, tp)
     return (s.e1check1(c) or s.e1check2(c, e, tp)) and
                c:IsCode(CARD_DARK_MAGICIAN, CARD_BLUEEYES_W_DRAGON,
-                        CARD_REDEYES_B_DRAGON, 6368038)
+                        CARD_REDEYES_B_DRAGON)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -94,9 +82,9 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp, LOCATION_HAND +
-                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil,
-                                    e, tp)
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp,
+                                    LOCATION_HAND + LOCATION_DECK +
+                                        LOCATION_GRAVE, 0, nil, e, tp)
     if #g == 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
@@ -189,37 +177,4 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     if not tc then return end
 
     Duel.Damage(1 - tp, tc:GetBaseAttack(), REASON_EFFECT)
-end
-
-function s.e5filter(c) return c:IsFaceup() and c:IsAttackAbove(0) end
-
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,
-                                                                6368038), tp,
-                                       LOCATION_ONFIELD, 0, 1, nil)
-end
-
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_MZONE, 0, 1,
-                                           nil)
-    end
-
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-end
-
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    local tc = Duel.SelectMatchingCard(tp, s.e5filter, tp, LOCATION_MZONE, 0, 1,
-                                       1, nil):GetFirst()
-    if not tc then return end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    ec1:SetValue(tc:GetAttack() * 2)
-    tc:RegisterEffect(ec1)
 end
