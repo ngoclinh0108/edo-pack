@@ -1,4 +1,4 @@
--- Violet-Eyes Palladium Dragoon
+-- Chaos-Eyes Palladium Dragoon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

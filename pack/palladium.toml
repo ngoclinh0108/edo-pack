@@ -833,10 +833,10 @@ Once per turn, you can send 1 card from your hand or Deck to the GY. \
 """
 strings = ["Send card to GY", "Search monster", "Add spell/trap"]
 
-[card.violet-eyes-palladium-dragoon]
+[card.chaos-eyes-palladium-dragoon]
 id = 410000036
 set = "palladium"
-name = "Violet-Eyes Palladium Dragoon"
+name = "Chaos-Eyes Palladium Dragoon"
 type = "monster fusion effect"
 attribute = "light"
 race = "spellcaster"
