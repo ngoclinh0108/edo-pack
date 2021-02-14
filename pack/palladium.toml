@@ -835,3 +835,18 @@ Once per turn, you can send 1 card from your hand or Deck to the GY. \
     but you cannot activate cards, or the effects of cards, with that name for the rest of this turn.
 """
 strings = ["Send card to GY", "Search monster", "Search spell/trap"]
+
+[card.violet-eyes-palladium-dragoon]
+id = 410000036
+set = "palladium"
+name = "Violet-Eyes Palladium Dragoon"
+type = "monster fusion effect"
+attribute = "light"
+race = "spellcaster"
+level = 11
+atk = 4900
+def = 3600
+effect = """\
+(This card is also always treated as DARK monster.)
+"""
+strings = []
