@@ -655,13 +655,11 @@ atk = 2800
 def = 2600
 effect = """\
 1 "Palladium" Tuner + 1+ non-Tuner Spellcaster monsters
+If this card is Synchro Summoned: You can target 1 card in your GY; add it to your hand. \
 You take no effect damage. \
 Spellcaster monsters you control cannot be destroyed by battle. \
 (Quick Effect): You can target 1 face-up card your opponent controls; negate its effects until the end of this turn. \
     You can only use this effect of "Palladium Mysterious Keeper Hassan" once per turn. \
-If this card leaves the field: \
-    You can Special Summon 1 Spellcaster monster from your hand, Deck, and/or GY, \
-    except "Palladium Mysterious Keeper Hassan". \
 """
 strings = ["Negate the effect of a face-up card"]
 
