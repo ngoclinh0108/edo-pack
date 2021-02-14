@@ -856,6 +856,12 @@ Once per turn, when your opponent activates a card or effect (Quick Effect): \
     and if you do that, this card gains 1000 ATK. \
 Once per turn, at the start of the Damage Step, if this card battles an opponent's monster: \
     You can banish that monster, also, this card can make a second attack in a row. \
-If this card leaves the field: shuffle it into the Extra Deck. \
+If this card leaves the field: Shuffle it into the Extra Deck, \
+    also, you can add 1 Spell/Trap from your GY to your hand. \
 """
-strings = ["Destroy & damage", "Negate activation", "Banish battling monster"]
+strings = [
+    "Destroy & damage",
+    "Negate activation",
+    "Banish battling monster",
+    "Add 1 Spell/Trap?",
+]

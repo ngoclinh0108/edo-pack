@@ -209,6 +209,10 @@ function s.e4atkop(e, tp)
     if e:GetHandler():CanChainAttack() then Duel.ChainAttack() end
 end
 
+function s.e5filter(c)
+    return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToHand()
+end
+
 function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsPreviousPosition(POS_FACEUP) and
@@ -222,4 +226,18 @@ end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoDeck(e:GetHandler(), tp, 2, REASON_EFFECT)
+
+    local g = Duel.GetMatchingGroup(s.e5filter, tp, LOCATION_GRAVE, 0, nil)
+    if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 3)) then
+        local sc
+        if #g == 1 then
+            sc = #g:GetFirst()
+        else
+            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+            sc = g:Select(tp, 1, 1)
+        end
+
+        Duel.SendtoHand(sc, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, sc)
+    end
 end
