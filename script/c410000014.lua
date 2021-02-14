@@ -14,7 +14,7 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_EQUIP)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e1:SetRange(LOCATION_GRAVE)
+    e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     e1:SetCountLimit(1, id)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
@@ -43,9 +43,9 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, ec)
-    return c:IsFaceup() and c:IsLevel(7) and c:IsSetCard(0x13a) and
-               c:IsRace(RACE_SPELLCASTER) and ec:CheckUnionTarget(c) and
-               aux.CheckUnionEquip(ec, c)
+    return ec:CheckUnionTarget(c) and aux.CheckUnionEquip(ec, c) and
+               c:IsFaceup() and c:IsSetCard(0x13a) and
+               c:IsRace(RACE_SPELLCASTER)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

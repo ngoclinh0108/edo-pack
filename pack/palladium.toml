@@ -356,7 +356,7 @@ effect = """\
 Once per turn, you can either: Target 1 "Palladium" Spellcaster monster you control; \
     equip this card to that target, OR: Unequip this card and Special Summon it. \
     If the equipped monster would be destroyed by battle or card effect, destroy this card instead. \
-If this card is in your GY: You can target 1 Level 7 "Palladium" Spellcaster monster you control; equip this card to it. \
+If this card is in your hand or GY: You can target 1 "Palladium" Spellcaster monster you control; equip this card to it. \
     You can only use this effect of "Palladium Magician's Arcane" once per turn. \
 You can target 1 DARK Spellcaster monster you control; this card's Level becomes the Level of that monster. \
 During damage calculation, if the equipped monster battles your opponent's monster: \
