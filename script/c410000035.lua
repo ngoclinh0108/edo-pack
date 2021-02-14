@@ -32,7 +32,6 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_MZONE)
     e2:SetHintTiming(0, TIMING_END_PHASE)
-    e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -81,10 +80,6 @@ function s.e2filter(c, e, tp, mc)
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetFieldGroupCount(tp, 0, LOCATION_MZONE) > 0
-end
-
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsReleasable() end
     Duel.Release(e:GetHandler(), REASON_COST)
@@ -113,7 +108,14 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, loc, 0, 1, 1, nil, e,
-                                      tp, c)
-    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
+    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp, loc, 0, 1, 1, nil, e,
+                                       tp, c):GetFirst()
+    if not tc then return end
+
+    Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    tc:RegisterEffect(ec1)
 end

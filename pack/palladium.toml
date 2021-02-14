@@ -827,8 +827,8 @@ While this card is in your hand or GY, \
     if a face-up Warrior or Dragon monster on the field, except "Palladium Draco-Knight of Atlantis",\
     is destroyed by battle or card effect: You can Special Summon this card in face-up Defense Position. \
     You can only use this effect of "Palladium Draco-Knight of Atlantis" once per turn. \
-If your opponent controls a monster (Quick Effect): \
-    You can Tribute this card; \
-    Special Summon 1 level 7 or 8 Dragon or Warrior monster from your hand, Deck, GY or face-up Extra Deck. \
+(Quick Effect): You can Tribute this card; \
+    Special Summon 1 level 7 or 8 Dragon or Warrior monster from your hand, Deck, GY or face-up Extra Deck, \
+    but that monster cannot attack this turn. \
 """
 strings = ["Special Summon a monster"]
