@@ -91,6 +91,17 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
+
+    -- to extra
+    local e5 = Effect.CreateEffect(c)
+    e5:SetCategory(CATEGORY_TODECK)
+    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e5:SetProperty(EFFECT_FLAG_DELAY)
+    e5:SetCode(EVENT_LEAVE_FIELD)
+    e5:SetCondition(s.e5con)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -196,4 +207,19 @@ end
 
 function s.e4atkop(e, tp)
     if e:GetHandler():CanChainAttack() then Duel.ChainAttack() end
+end
+
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsPreviousPosition(POS_FACEUP) and
+               c:IsPreviousLocation(LOCATION_ONFIELD)
+end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsAbleToDeck() end
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 0, 0, 0)
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.SendtoDeck(e:GetHandler(), tp, 2, REASON_EFFECT)
 end
