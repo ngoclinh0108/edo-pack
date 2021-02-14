@@ -781,7 +781,31 @@ effect = """\
 Cannot be Normal Summoned/Set. \
 If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
 Once per turn (Quick Effect): You can target 1 Effect Monster in either GY; \
-    Until the End Phase of your next turn, replace this effect with that target's original effects. \
+    Until the End Phase, replace this effect with that target's original effects. \
     You can only use this effect of "Palladium Knight Hermos" once per turn. \
 """
 strings = ["Fusion Summon", "Gain monster effect"]
+
+[card.palladium-destiny-knight-timaeus]
+id = 410000034
+set = "palladium"
+name = "Palladium Destiny Knight Timaeus"
+type = "monster link effect"
+attribute = "light"
+race = "warrior"
+link-arrows = "bottom-left bottom bottom-right"
+atk = "?"
+link-rating = 3
+effect = """\
+3 "Legendary Knight" monsters with different names
+Must be Link Summoned. \
+Unaffected by other cards' effects. \
+Cannot be destroyed by battle with a monster that has the same ATK. \
+Once per battle, if this card battles, during damage calculation (Quick Effect): \
+    You can make this card's ATK become equal to the ATK of the monster on the field with the highest ATK (your choice, if tied). \
+If this card is destroyed by battle: \
+    You can add 3 "Legendary Knight" monsters from Deck, face-up Extra Deck, and/or GY to your hand, \
+    and if you do, Special Summon them, ignoring their Summoning conditions, \
+    then shuffle this card into the Extra Deck. \
+"""
+strings = ["Gain the highest ATK"]

@@ -146,7 +146,8 @@ function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    Duel.SelectTarget(tp, s.me2filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
+    Duel.SelectTarget(tp, s.me2filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, 1,
+                      nil)
 end
 
 function s.me2op(e, tp, eg, ep, ev, re, r, rp)
@@ -156,6 +157,6 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                     PHASE_END + RESET_SELF_TURN)
+    c:CopyEffect(tc:GetCode(),
+                 RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1)
 end

@@ -158,6 +158,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, ct, tp,
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 0, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
