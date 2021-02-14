@@ -29,7 +29,7 @@ function s.initial_effect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_TOGRAVE)
     e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetCode(LOCATION_MZONE)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -85,7 +85,7 @@ function s.e2filter(c) return c:IsAbleToGrave() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+        return Duel.IsExistingMatchingCard(s.e2filter, tp,
                                            LOCATION_HAND + LOCATION_DECK, 0, 1,
                                            nil)
     end
@@ -95,7 +95,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp,
+    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp,
                                       LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
                                       nil)
 
