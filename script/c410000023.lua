@@ -122,12 +122,12 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsAbleToRemove, tp, 0, LOCATION_MZONE,
+        return Duel.IsExistingTarget(Card.IsAbleToRemove, tp, 0, LOCATION_ONFIELD,
                                      1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
-    local g = Duel.SelectTarget(tp, Card.IsAbleToRemove, tp, 0, LOCATION_MZONE,
+    local g = Duel.SelectTarget(tp, Card.IsAbleToRemove, tp, 0, LOCATION_ONFIELD,
                                 1, 1, nil)
 
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, 0, 0)
@@ -137,7 +137,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
-    Duel.Remove(tc, POS_FACEUP, REASON_EFFECT)
+    Duel.Remove(tc, POS_FACEDOWN, REASON_EFFECT)
 end
 
 function s.e4filter(c)

@@ -53,13 +53,15 @@ function s.initial_effect(c)
     -- negate
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_DISABLE)
+    e4:SetCategory(CATEGORY_DISABLE + CATEGORY_ATKCHANGE)
     e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e4:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e4:SetHintTiming(TIMING_DAMAGE_STEP,
+                     TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
     e4:SetCountLimit(1, id)
+    e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -89,15 +91,24 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
 end
 
+function s.e4filter(c)
+    return c:IsFaceup() and not (c:GetAttack() == 0 and c:IsDisabled())
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or
+               not Duel.IsDamageCalculated()
+end
+
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.disfilter1, tp, 0, LOCATION_ONFIELD, 1,
-                                     nil)
+        return
+            Duel.IsExistingTarget(s.e4filter, tp, 0, LOCATION_ONFIELD, 1, nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
-    local g = Duel.SelectTarget(tp, aux.disfilter1, tp, 0, LOCATION_ONFIELD, 1,
-                                1, nil)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    local g = Duel.SelectTarget(tp, s.e4filter, tp, 0, LOCATION_ONFIELD, 1, 1,
+                                nil)
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, 1, 0, 0)
 end
@@ -106,9 +117,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
-    if (tc:IsFacedown() or tc:IsDisabled()) and not tc:IsType(TYPE_TRAPMONSTER) then
-        return
-    end
+    if tc:IsFacedown() and not tc:IsType(TYPE_TRAPMONSTER) then return end
 
     Duel.NegateRelatedChain(tc, RESET_TURN_SET)
 
@@ -134,5 +143,14 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
         ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         tc:RegisterEffect(ec3)
+    end
+
+    if tc:IsType(TYPE_MONSTER) then
+        local ec4 = Effect.CreateEffect(c)
+        ec4:SetType(EFFECT_TYPE_SINGLE)
+        ec4:SetCode(EFFECT_SET_ATTACK_FINAL)
+        ec4:SetValue(0)
+        ec4:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec4)
     end
 end

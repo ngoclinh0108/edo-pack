@@ -557,7 +557,7 @@ You can Ritual Summon this card with "Palladium Magic". \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Spellcaster monster from your hand, Deck, or GY. \
 Your opponent cannot target Spellcaster monsters you control with card effects. \
-Once per turn: You can target 1 monster your opponent controls; banish it. \
+Once per turn: You can target 1 card your opponent controls; banish it face-down. \
     This card cannot attack the turn this effect is activated. \
 When this card destroys an opponent's monster by battle: \
     You can add 1 Spell/Trap from your Deck or GY to your hand. \
@@ -658,7 +658,9 @@ effect = """\
 If this card is Synchro Summoned: You can target 1 card in your GY; add it to your hand. \
 You take no effect damage. \
 Spellcaster monsters you control cannot be destroyed by battle. \
-(Quick Effect): You can target 1 face-up card your opponent controls; negate its effects until the end of this turn. \
+(Quick Effect): You can target 1 face-up card your opponent controls; \
+    until the end of this turn, negate its effects, \
+    and if it is monster, change its ATK to 0. \
     You can only use this effect of "Palladium Mysterious Keeper Hassan" once per turn. \
 """
 strings = ["Negate the effect of a face-up card"]
@@ -680,7 +682,7 @@ You can detach 1 material from this card; \
     Add to your hand from Deck or GY, \
     OR Special Summon from your hand, Deck or GY, \
     1 Spellcaster monster. \
-Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
+Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 2000 ATK, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
 When a Spellcaster monster declares an attack: You can target 1 card your opponent controls; banish it. \
     You can only use this effect of "Palladium Ebony Wizard Aknadin" once per turn. \
