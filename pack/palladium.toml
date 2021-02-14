@@ -797,6 +797,7 @@ link-arrows = "bottom-left bottom bottom-right"
 atk = "?"
 link-rating = 3
 effect = """\
+(This card is also always treated as Dragon monster.)
 3 "Legendary Knight" monsters with different names
 Must be Link Summoned. \
 Unaffected by other cards' effects. \
@@ -809,3 +810,25 @@ If this card is destroyed by battle: \
     then shuffle this card into the Extra Deck. \
 """
 strings = ["Gain the highest ATK"]
+
+[card.palladium-dracoknight-atlantis]
+id = 410000035
+set = "palladium"
+name = "Palladium Draco-Knight of Atlantis"
+type = "monster tuner effect"
+attribute = "light"
+race = "warrior"
+level = 3
+atk = 1400
+def = 1200
+effect = """\
+(This card is also always treated as Dragon monster.)
+While this card is in your hand or GY, \
+    if a face-up Warrior or Dragon monster on the field, except "Palladium Draco-Knight of Atlantis",\
+    is destroyed by battle or card effect: You can Special Summon this card in face-up Defense Position. \
+If your opponent controls a monster (Quick Effect): \
+    You can Tribute this card; \
+    Special Summon 1 level 7 or 8 Dragon or Warrior monster from your hand, Deck, GY or face-up Extra Deck. \
+You can only use each effect of "Palladium Draco-Knight of Atlantis" once per turn. \
+"""
+strings = ["Special Summon a monster"]

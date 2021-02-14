@@ -20,6 +20,14 @@ function s.initial_effect(c)
     splimit:SetValue(aux.lnklimit)
     c:RegisterEffect(splimit)
 
+    -- race
+    local race = Effect.CreateEffect(c)
+    race:SetType(EFFECT_TYPE_SINGLE)
+    race:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    race:SetCode(EFFECT_ADD_RACE)
+    race:SetValue(RACE_DRAGON)
+    c:RegisterEffect(race)
+
     -- immune
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
