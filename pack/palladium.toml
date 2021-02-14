@@ -266,7 +266,9 @@ While this card is in your GY (Quick Effect): \
 During the Main Phase, activate 1 of these effect;
 ● Declare 1 card name; excavate the top card of your Deck, \
     and if it is the declared card, add it to your hand, \
-    then you can add to your hand, or Special Summon, 1 DIVINE monster from your hand, Deck or GY. \
+    then you can add to your hand from your Deck or GY, \
+    OR Special Summon from your hand, Deck or GY, \
+    1 DIVINE monster. \
     Otherwise, send it to the GY. \
     (You can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions.)
 ● Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
@@ -358,7 +360,7 @@ Once per turn, you can either: Target 1 "Palladium" Spellcaster monster you cont
     If the equipped monster would be destroyed by battle or card effect, destroy this card instead. \
 If this card is in your hand or GY: You can target 1 "Palladium" Spellcaster monster you control; equip this card to it. \
     You can only use this effect of "Palladium Magician's Arcane" once per turn. \
-You can target 1 DARK Spellcaster monster you control; this card's Level becomes the Level of that monster. \
+You can target 1 "Palladium" Spellcaster monster you control; this card's Level becomes the Level of that monster. \
 During damage calculation, if the equipped monster battles your opponent's monster: \
     The Attribute of opponent's battling monster become DARK. \
 """
@@ -384,10 +386,10 @@ When an opponent's monster declares a directly attack: \
 """
 strings = []
 
-[card.palladium-knight-faris]
+[card.palladium-oracle-faris]
 id = 410000016
 set = "palladium"
-name = "Palladium Sacred Knight Faris"
+name = "Palladium Oracle Faris"
 type = "monster effect"
 attribute = "light"
 race = "warrior"
@@ -395,12 +397,17 @@ level = 7
 atk = 2300
 def = 2100
 effect = """\
-(This card is also always treated as "Gaia The Fierce Knight".)
-You can Special Summon this card (from your hand) by discarding 1 card. \
-Once per turn (Quick Effect): You can target 1 monster on the field whose current ATK is different from its original ATK; its ATK becomes its original ATK. \
+(This card is also always treated as "Gaia The Fierce Knight", also Spellcaster monster.)
 When you Ritual Summon a "Palladium" monster, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
+You can Normal Summon this card without Tributing, but its original ATK become 1900. \
+You can only use each of the following effects of "Palladium Oracle Faris" once per turn.
+● If this card is Summoned: You can Special Summon 1 Level 4 or lower "Palladium" Tuner monster \
+    from your hand, Deck or GY in face-up Defense Position.
+● If this card is used as material for a Ritual, Fusion, Synchro, Link Summon, \
+    or is detached from an Xyz Monster to activate that monster's Effect: \
+    You can add 1 "Palladium" Spell/Trap from your Deck or GY to your hand.
 """
-strings = ["Reset ATK of a monster"]
+strings = ["Summon without Tributing"]
 
 [card.palladium-knight-queen]
 id = 410000017
@@ -490,10 +497,10 @@ name = "Tablet of Lost Memories"
 type = "spell quick-play"
 effect = """\
 (This card is always treated as "Palladium" card.)
-You can only activate 1 "Tablet of Lost Memories" per turn. \
 Activate 1 of these effect;
-● Add to your hand or Special Summon 1 "Dark Magician", "Blue-Eyes White Dragon" or "Red-Eyes Black Dragon" \
-    from your hand, Deck or GY.
+● Add to your hand from your Deck or GY, \
+    OR Special Summon from your hand, Deck or GY, \
+    1 "Dark Magician", "Blue-Eyes White Dragon" or "Red-Eyes Black Dragon".
 ● If you control "Dark Magician": \
     Destroy all Spells and Traps your opponent controls.
 ● If you control "Blue-Eyes White Dragon": \
@@ -632,7 +639,6 @@ Banish 1 card in either player GY or your Deck, \
 During your Main Phase, except the turn this card was sent to the GY: \
     You can shuffle this card from your GY into the Deck, \
     and if you do, add 1 your face-up banished card to your hand. \
-    You can only use this effect of "Palladium Sacrophagus" once per turn. \
 """
 strings = []
 
@@ -671,14 +677,17 @@ def = 2100
 effect = """\
 2+ Level 7 "Palladium" Spellcaster monsters
 The activation and effects of Spellcaster monsters activated on your field cannot be negated. \
-Once per turn: You can detach 1 material from this card; Special Summon 1 Spellcaster monster from your hand, Deck or GY. \
+You can detach 1 material from this card; \
+    Add to your hand from Deck or GY, \
+    OR Special Summon from your hand, Deck or GY, \
+    1 Spellcaster monster. \
 Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 1000 ATK, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
 When a Spellcaster monster declares an attack: You can target 1 card your opponent controls; banish it. \
     You can only use this effect of "Palladium Ebony Wizard Aknadin" once per turn. \
 """
 strings = [
-    "Summon Spellcaster",
+    "Search Spellcaster",
     "Reduce your opponent monster's ATK",
     "Banish 1 card on the field",
 ]
@@ -693,7 +702,6 @@ effect = """\
 Take 1 monster in either GY or face-up Extra Deck; Add to your hand or Special Summon it, \
     but send the Summoned monster to the GY during the End Phase of this turn if it is not "Palladium" monster. \
     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
-You can only activate 1 "Palladium Reborn" per turn. \
 """
 strings = ["Special Summoned by \"Palladium Reborn\""]
 
@@ -826,7 +834,9 @@ While this card is in your hand or GY, \
     You can only use this effect of "Palladium Draco-Knight of Atlantis" once per turn. \
 Once per turn, you can send 1 card from your hand or Deck to the GY. \
 (Quick Effect): You can Tribute this card, activate 1 of these effects;
-● Add to your hand or Special Summon 1 level 7 or 8 Dragon or Warrior monster from your hand, Pendulum Zone, Deck, GY or face-up Extra Deck, \
+● Add to your hand from your Pendulum Zone, Deck, GY or face-up Extra Deck, \
+    OR Special Summon from your hand, Pendulum Zone, Deck, GY or face-up Extra Deck, \
+    1 level 7 or 8 Dragon or Warrior monster, \
     but that monster cannot attack this turn.
 ● Add to your hand 1 Spell/Trap from your GY, \
     but you cannot activate cards, or the effects of cards, with that name for the rest of this turn.

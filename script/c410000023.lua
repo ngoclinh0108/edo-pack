@@ -146,7 +146,7 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e4filter, tp,
+        return Duel.IsExistingMatchingCard(s.e4filter, tp,
                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
     end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,

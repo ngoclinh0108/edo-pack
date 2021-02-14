@@ -21,13 +21,12 @@ function s.initial_effect(c)
     e1b:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(e1b)
 
-    -- summon spellcaster
+    -- search spellcaster
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND + CATEGORY_SPECIAL_SUMMON)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -73,9 +72,18 @@ function s.e1val(e, ct)
                LOCATION_ONFIELD ~= 0
 end
 
+function s.e2check1(c)
+    return not c:IsLocation(LOCATION_HAND) and c:IsAbleToHand()
+end
+
+function s.e2check2(c, e, tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+end
+
 function s.e2filter(c, e, tp)
-    return c:IsRace(RACE_SPELLCASTER) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return (s.e2check1(c) or s.e2check2(c, e, tp)) and
+               c:IsRace(RACE_SPELLCASTER)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -93,20 +101,34 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
     end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e2filter), tp,
+                                    LOCATION_HAND + LOCATION_DECK +
+                                        LOCATION_GRAVE, 0, nil, e, tp)
+    if #g == 0 then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter), tp,
-                                      LOCATION_HAND + LOCATION_DECK +
-                                          LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
+    local sc = g:Select(tp, 1, 1, nil):GetFirst()
 
-    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
+    local b1 = s.e2check1(sc)
+    local b2 = s.e2check2(sc, e, tp)
+    local op = 0
+    if b1 and b2 then
+        op = Duel.SelectOption(tp, 573, 5)
+    elseif b1 then
+        op = Duel.SelectOption(tp, 573)
+    else
+        op = Duel.SelectOption(tp, 5) + 1
+    end
+
+    if op == 0 then
+        Duel.SendtoHand(sc, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, sc)
+    else
+        Duel.SpecialSummon(sc, 0, tp, tp, false, false, POS_FACEUP)
+    end
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
