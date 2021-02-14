@@ -700,10 +700,10 @@ You can only activate 1 "Palladium Reborn" per turn. \
 """
 strings = ["Special Summoned by \"Palladium Reborn\""]
 
-[card.palladium-knight-timaeus]
+[card.palladium-dracoknight-timaeus]
 id = 410000031
 set = "palladium"
-name = "Palladium Knight Timaeus"
+name = "Palladium Draco-Knight Timaeus"
 type = "monster pendulum effect"
 attribute = "light"
 race = "warrior"
@@ -724,14 +724,14 @@ Cannot be Normal Summoned/Set. \
 If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
 Once per turn (Quick Effect): You can target 1 Spell in either GY; \
     Set it, and if it was a Quick-Play Spell, you can activate it this turn. \
-    You can only use this effect of "Palladium Knight Timaeus" once per turn. \
+    You can only use this effect of "Palladium Draco-Knight Timaeus" once per turn. \
 """
 strings = ["Fusion Summon", "Set Spell"]
 
-[card.palladium-knight-critias]
+[card.palladium-dracoknight-critias]
 id = 410000032
 set = "palladium"
-name = "Palladium Knight Critias"
+name = "Palladium Draco-Knight Critias"
 type = "monster pendulum effect"
 attribute = "light"
 race = "warrior"
@@ -753,14 +753,14 @@ Cannot be Normal Summoned/Set. \
 If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
 Once per turn (Quick Effect): You can target 1 Trap in either GY; \
     Set it, and if you do, you can activate it this turn. \
-    You can only use this effect of "Palladium Knight Critias" once per turn. \
+    You can only use this effect of "Palladium Draco-Knight Critias" once per turn. \
 """
 strings = ["Fusion Summon", "Set Trap"]
 
-[card.palladium-knight-hermos]
+[card.palladium-dracoknight-hermos]
 id = 410000033
 set = "palladium"
-name = "Palladium Knight Hermos"
+name = "Palladium Draco-Knight Hermos"
 type = "monster pendulum effect"
 attribute = "light"
 race = "warrior"
@@ -782,7 +782,7 @@ Cannot be Normal Summoned/Set. \
 If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
 Once per turn (Quick Effect): You can target 1 Effect Monster in either GY; \
     Until the End Phase, replace this effect with that target's original effects. \
-    You can only use this effect of "Palladium Knight Hermos" once per turn. \
+    You can only use this effect of "Palladium Draco-Knight Hermos" once per turn. \
 """
 strings = ["Fusion Summon", "Gain monster effect"]
 

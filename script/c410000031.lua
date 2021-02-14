@@ -1,4 +1,4 @@
--- Palladium Knight Timaeus
+-- Palladium Draco-Knight Timaeus
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

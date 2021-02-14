@@ -1,4 +1,4 @@
--- Palladium Knight Hermos
+-- Palladium Draco-Knight Hermos
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
