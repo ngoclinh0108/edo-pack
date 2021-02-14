@@ -130,6 +130,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1,
                                       3, nil)
     if #g == 0 then return end
+    Duel.HintSelection(g)
 
     if Duel.Destroy(g, REASON_EFFECT, LOCATION_REMOVED) > 0 then
         local dmg = 0

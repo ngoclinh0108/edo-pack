@@ -277,6 +277,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.SelectMatchingCard(tp, s.e6filter, tp, LOCATION_MZONE,
                                        LOCATION_MZONE, 1, 1, c, e):GetFirst()
     if not tc then return end
+    Duel.HintSelection(Group.FromCards(tc))
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
