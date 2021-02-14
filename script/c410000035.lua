@@ -144,7 +144,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                        tp, c):GetFirst()
     if not tc then return end
 
-    Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_CANNOT_ATTACK)
