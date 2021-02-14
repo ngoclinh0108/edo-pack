@@ -573,7 +573,7 @@ type = "monster ritual pendulum effect"
 attribute = "dark"
 race = "warrior"
 level = 8
-pendulum-scale = [0, 13]
+pendulum-scale = 0
 atk = 3000
 def = 2500
 pendulum-effect = """\
@@ -605,7 +605,7 @@ name = "Palladium Chaos Dragon - Envoy of the Dawnbreak"
 type = "monster ritual pendulum effect"
 attribute = "light"
 race = "dragon"
-pendulum-scale = [0, 13]
+pendulum-scale = 11
 scale = 4
 atk = 3000
 def = 2500
@@ -714,7 +714,7 @@ type = "monster pendulum effect"
 attribute = "light"
 race = "warrior"
 level = 8
-pendulum-scale = [0, 9]
+pendulum-scale = 5
 atk = 2800
 def = 1800
 pendulum-effect = """\
@@ -723,6 +723,9 @@ This card's name becomes "The Eye of Timaeus". \
 You can target 1 face-up monster you control; \
     Fusion Summon 1 Fusion Monster from your Extra Deck or GY that lists that monster on the field as Fusion Material, using it as the Fusion Material, \
     then destroy this card. \
+Apply this effect based on the Pendulum Zone this card is in.
+● Left: Reduce this card's Pendulum Scale by 4.
+● Right: Increase this card's Pendulum Scale by 4.
 """
 effect = """\
 (This card is also always treated as "Legendary Knight Timaeus", also Dragon monster.)
@@ -742,7 +745,7 @@ type = "monster pendulum effect"
 attribute = "light"
 race = "warrior"
 level = 8
-pendulum-scale = [0, 9]
+pendulum-scale = 1
 atk = 2800
 def = 1800
 pendulum-effect = """\
@@ -771,7 +774,7 @@ type = "monster pendulum effect"
 attribute = "light"
 race = "warrior"
 level = 8
-pendulum-scale = [0, 9]
+pendulum-scale = 9
 atk = 2800
 def = 1800
 pendulum-effect = """\

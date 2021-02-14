@@ -48,6 +48,19 @@ function s.initial_effect(c)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
+    -- change scale
+    local pe3 = Effect.CreateEffect(c)
+    pe3:SetType(EFFECT_TYPE_SINGLE)
+    pe3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    pe3:SetCode(EFFECT_UPDATE_LSCALE)
+    pe3:SetRange(LOCATION_PZONE)
+    pe3:SetValue(-4)
+    c:RegisterEffect(pe3)
+    local pe3b = pe3:Clone()
+    pe3b:SetCode(EFFECT_UPDATE_RSCALE)
+    pe3b:SetValue(4)
+    c:RegisterEffect(pe3b)
+
     -- banish
     local me1 = Effect.CreateEffect(c)
     me1:SetCategory(CATEGORY_REMOVE)
