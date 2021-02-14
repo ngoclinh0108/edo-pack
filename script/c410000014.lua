@@ -44,8 +44,9 @@ function s.initial_effect(c)
     e4:SetDescription(aux.Stringid(id, 2))
     e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e4:SetRange(LOCATION_GRAVE + LOCATION_HAND)
+    e4:SetRange(LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_HAND)
     e4:SetCountLimit(1, id)
+    e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -143,6 +144,11 @@ end
 
 function s.e4filter(c)
     return c:IsFaceup() and c:IsSetCard(0x13a) and c:IsType(TYPE_XYZ)
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return not c:IsLocation(LOCATION_ONFIELD) or c:IsFaceup()
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
