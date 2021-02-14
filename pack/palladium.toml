@@ -829,7 +829,7 @@ While this card is in your hand or GY, \
     You can only use this effect of "Palladium Draco-Knight of Atlantis" once per turn. \
 Once per turn, you can send 1 card from your hand or Deck to the GY. \
 (Quick Effect): You can Tribute this card; \
-    Special Summon 1 level 7 or 8 Dragon or Warrior monster from your hand, Deck, GY or face-up Extra Deck, \
+    Add to your hand or Special Summon 1 level 7 or 8 Dragon or Warrior monster from your hand, Deck, GY or face-up Extra Deck, \
     but that monster cannot attack this turn. \
 """
-strings = ["Send card to GY", "Special Summon a monster"]
+strings = ["Send card to GY", "Search monster"]

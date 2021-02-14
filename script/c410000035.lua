@@ -101,14 +101,21 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
 end
 
-function s.e3filter(c, e, tp, mc)
+function s.e3check1(c)
+    return not c:IsLocation(LOCATION_HAND) and c:IsAbleToHand()
+end
+
+function s.e3check2(c, e, tp, mc)
     if c:IsLocation(LOCATION_EXTRA) and
         (c:IsFacedown() or Duel.GetLocationCountFromEx(tp, tp, mc, c) == 0) then
         return false
     end
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
 
+function s.e3filter(c, e, tp, mc)
     return c:IsLevel(7, 8) and c:IsRace(RACE_DRAGON + RACE_WARRIOR) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+               s.e3check1(c) and s.e3check2(c, e, tp, mc)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -117,36 +124,45 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local loc = LOCATION_EXTRA
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    if c:GetSequence() < 5 then ft = ft + 1 end
-    if ft > 0 then loc = loc + LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE end
-
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil, e,
-                                           tp, c)
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
+                                               LOCATION_DECK + LOCATION_GRAVE +
+                                               LOCATION_EXTRA, 0, 1, nil, e, tp,
+                                           e:GetHandler())
     end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local loc = LOCATION_EXTRA
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
-        loc = loc + LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp,
+                                    LOCATION_HAND + LOCATION_DECK +
+                                        LOCATION_GRAVE, 0, nil, e, tp, c)
+    if #g == 0 then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
+    local sc = g:Select(tp, 1, 1, nil):GetFirst()
+
+    local b1 = s.e1check1(sc)
+    local b2 = s.e1check2(sc, e, tp, c)
+    local op = 0
+    if b1 and b2 then
+        op = Duel.SelectOption(tp, 573, 5)
+    elseif b1 then
+        op = Duel.SelectOption(tp, 573)
+    else
+        op = Duel.SelectOption(tp, 5) + 1
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, loc, 0, 1, 1, nil, e,
-                                       tp, c):GetFirst()
-    if not tc then return end
+    if op == 0 then
+        Duel.SendtoHand(sc, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, sc)
+    else
+        Duel.SpecialSummon(sc, 0, tp, tp, false, false, POS_FACEUP)
 
-    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    tc:RegisterEffect(ec1)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        sc:RegisterEffect(ec1)
+    end
 end
