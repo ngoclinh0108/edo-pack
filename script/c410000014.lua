@@ -79,7 +79,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c, lv)
-    return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_DARK) and
+    return c:IsFaceup() and c:HasLevel() and c:IsAttribute(ATTRIBUTE_DARK) and
                c:IsRace(RACE_SPELLCASTER) and c:GetLevel() ~= lv
 end
 
@@ -123,7 +123,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local bc = ec:GetBattleTarget()
 
     if not c:IsRelateToEffect(e) or not bc:IsRelateToBattle() then return end
-    
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_CHANGE_ATTRIBUTE)

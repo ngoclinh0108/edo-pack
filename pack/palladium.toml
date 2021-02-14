@@ -7,9 +7,6 @@ code = 0xcf
 [set.kuriboh]
 code = 0xa4
 
-[set.legendary-knight]
-code = 0xa0
-
 [card.millennium-ascension]
 id = 410000000
 name = "Millennium Ascension"
@@ -696,28 +693,95 @@ name = "Palladium Reborn"
 type = "spell quick-play"
 effect = """\
 (This card is also always treated as "Monster Reborn".)
-Take 1 monster in either GY or Extra Deck face-up; Add to your hand or Special Summon it, \
+Take 1 monster in either GY or face-up Extra Deck; Add to your hand or Special Summon it, \
     but send the Summoned monster to the GY during the End Phase of this turn if it is not "Palladium" monster. \
     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
 You can only activate 1 "Palladium Reborn" per turn. \
 """
 strings = ["Special Summoned by \"Palladium Reborn\""]
 
-# [card.palladium-legendary-knight-timaeus]
-# id = 410000031
-# set = "palladium legendary-knight"
-# name = "Palladium Legendary Knight Timaeus"
-# type = "monster pendulum effect"
-# attribute = "light"
-# race = "warrior"
-# level = 8
-# pendulum-scale = [0, 9]
-# atk = 2800
-# def = 1800
-# pendulum-effect = """\
-# """
-# effect = """\
-# (This card is also .)
-# """
-# strings = [
-# ]
+[card.palladium-knight-timaeus]
+id = 410000031
+set = "palladium"
+name = "Palladium Knight Timaeus"
+type = "monster pendulum effect"
+attribute = "light"
+race = "warrior"
+level = 8
+pendulum-scale = [0, 9]
+atk = 2800
+def = 1800
+pendulum-effect = """\
+This card's name becomes "The Eye of Timaeus". \
+    This effect cannot be negated. \
+You can target 1 face-up monster you control; \
+    Fusion Summon 1 Fusion Monster from your Extra Deck or GY that lists that monster on the field as Fusion Material, using it as the Fusion Material, \
+    then destroy this card. \
+"""
+effect = """\
+(This card is also always treated as "Legendary Knight Timaeus".)
+Cannot be Normal Summoned/Set. \
+If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
+Once per turn (Quick Effect): You can target 1 Spell in either GY; \
+    Set it, and if it was a Quick-Play Spell, you can activate it this turn. \
+    You can only use this effect of "Palladium Knight Timaeus" once per turn. \
+"""
+strings = ["Fusion Summon", "Set Spell"]
+
+[card.palladium-knight-critias]
+id = 410000032
+set = "palladium"
+name = "Palladium Knight Critias"
+type = "monster pendulum effect"
+attribute = "light"
+race = "warrior"
+level = 8
+pendulum-scale = [0, 9]
+atk = 2800
+def = 1800
+pendulum-effect = """\
+This card's name becomes "The Fang of Critias". \
+    This effect cannot be negated. \
+You send 1 Trap from your hand or field to the GY, \
+    that is listed on a Fusion Monster that can only be Special Summoned with "The Fang of Critias" (if that card is Set, reveal it), \
+    then Special Summon that Fusion Monster from your Extra Deck or GY, \
+    then destroy this card. \
+"""
+effect = """\
+(This card is also always treated as "Legendary Knight Critias".)
+Cannot be Normal Summoned/Set. \
+If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
+Once per turn (Quick Effect): You can target 1 Trap in either GY; \
+    Set it, and if you do, you can activate it this turn. \
+    You can only use this effect of "Palladium Knight Critias" once per turn. \
+"""
+strings = ["Fusion Summon", "Set Trap"]
+
+[card.palladium-knight-hermos]
+id = 410000033
+set = "palladium"
+name = "Palladium Knight Hermos"
+type = "monster pendulum effect"
+attribute = "light"
+race = "warrior"
+level = 8
+pendulum-scale = [0, 9]
+atk = 2800
+def = 1800
+pendulum-effect = """\
+This card's name becomes "The Claw of Hermos". \
+    This effect cannot be negated. \
+You can send 1 monster from your hand or field to the GY, \
+    of the Type that is listed on a Fusion Monster that can only be Special Summoned with "The Claw of Hermos" (if that card is Set, reveal it), \
+    then Special Summon that Fusion Monster from your Extra Deck or GY, \
+    then destroy this card. \
+"""
+effect = """\
+(This card is also always treated as "Legendary Knight Hermos".)
+Cannot be Normal Summoned/Set. \
+If this card is Special Summoned: You can banish 1 face-up Spell/Trap on the field face-down. \
+Once per turn (Quick Effect): You can target 1 Effect Monster in either GY; \
+    Until the End Phase of your next turn, replace this effect with that target's original effects. \
+    You can only use this effect of "Palladium Knight Hermos" once per turn. \
+"""
+strings = ["Fusion Summon", "Gain monster effect"]
