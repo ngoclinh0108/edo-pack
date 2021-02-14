@@ -835,7 +835,7 @@ strings = ["Send card to GY", "Search monster", "Add spell/trap"]
 
 [card.chaos-eyes-palladium-dragoon]
 id = 410000036
-set = "palladium"
+set = "chaos palladium"
 name = "Chaos-Eyes Palladium Dragoon"
 type = "monster fusion effect"
 attribute = "light"
