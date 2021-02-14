@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_BLUEEYES_W_DRAGON}
+s.listed_names = {1784686}
 
 function s.initial_effect(c)
     c:EnableUnsummonable()

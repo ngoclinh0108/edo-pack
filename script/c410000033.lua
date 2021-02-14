@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {46232525}
+
 function s.initial_effect(c)
     c:EnableUnsummonable()
 
