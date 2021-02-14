@@ -121,8 +121,8 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
         return Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 3, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 3, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
