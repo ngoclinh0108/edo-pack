@@ -49,18 +49,17 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    if c:IsCode(id) then return false end
-    return c:IsRace(RACE_DRAGON + RACE_WARRIOR) and
-               c:IsReason(REASON_EFFECT + REASON_BATTLE) and
-               c:IsPreviousPosition(POS_FACEUP) and
-               c:IsPreviousLocation(LOCATION_MZONE) and
-               (c:GetPreviousRaceOnField() == RACE_DRAGON or
-                   c:GetPreviousRaceOnField() == RACE_WARRIOR)
+function s.e1filter(c, tp)
+    if c:GetPreviousCodeOnField() == id then return false end
+    return
+        c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_MZONE) and
+            c:IsPreviousPosition(POS_FACEUP) and not c:IsReason(REASON_RULE) and
+            (c:GetPreviousRaceOnField() == RACE_DRAGON or
+                c:GetPreviousRaceOnField() == RACE_WARRIOR)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:FilterCount(s.e1filter, nil) > 0;
+    return eg:IsExists(s.e1filter, 1, nil, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
