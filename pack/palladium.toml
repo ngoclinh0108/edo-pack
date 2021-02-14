@@ -849,13 +849,12 @@ effect = """\
 Must be Special Summoned with "Polymerization". \
 Cannot be destroyed by card effects, be Tributed, nor used as Fusion Material, also neither player can target it with card effects. \
 Once per turn: You can destroy up to 3 cards your opponent controls, \
-    and if you do, banish them, \
-    then inflict damage to your opponent equal to the combined original ATK of those destroyed monster(s). \
+    and if you do, banish them and inflict damage to your opponent equal to the combined original ATK of those destroyed monster(s). \
 Once per turn, when your opponent activates a card or effect (Quick Effect): \
     You can negate the activation, \
     and if you do, banish that card, \
     and if you do that, this card gains 1000 ATK/DEF. \
 Once per turn, at the start of the Damage Step, if this card battles an opponent's monster: \
-    You can banish that opponent's monster, also, this card can make a second attack in a row. \
+    You can banish that monster, also, this card can make a second attack in a row. \
 """
 strings = ["Destroy & damage", "Negate activation", "Banish battling monster"]
