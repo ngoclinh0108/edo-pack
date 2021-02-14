@@ -234,7 +234,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
             sc = #g:GetFirst()
         else
             Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-            sc = g:Select(tp, 1, 1)
+            sc = g:Select(tp, 1, 1, nil)
         end
 
         Duel.SendtoHand(sc, nil, REASON_EFFECT)

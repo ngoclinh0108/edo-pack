@@ -94,7 +94,7 @@ function s.actcost(e, tp, eg, ep, ev, re, r, rp, chk)
     if #g > 0 then
         tc = g:GetFirst()
     else
-        tc = g:Select(tp, 1, 1)
+        tc = g:Select(tp, 1, 1, nil)
     end
 
     Duel.ConfirmCards(1 - tp, tc)
