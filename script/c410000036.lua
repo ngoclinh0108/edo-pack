@@ -162,9 +162,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetValue(1000)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
         c:RegisterEffect(ec1)
-        local ec1b = ec1:Clone()
-        ec1b:SetCode(EFFECT_UPDATE_DEFENSE)
-        c:RegisterEffect(ec1b)
     end
 end
 
