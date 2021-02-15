@@ -635,6 +635,7 @@ effect = """\
 Banish 1 card in either player GY or your Deck, \
     and if you do, until the end of the next turn, its effects are negated, \
     as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
+If you control "Millennium Ascension", you can activate this card from your hand during either player. \
 During the Draw Phase: You can add this card from your Deck to your hand, \
     also, you cannot declare an attack this turn. \
     You can only use this effect of "Palladium Sacrophagus" once per turn. \
