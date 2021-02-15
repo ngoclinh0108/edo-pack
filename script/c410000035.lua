@@ -16,7 +16,7 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
-    e1:SetCountLimit(1, id)
+    e1:SetCountLimit(2, id)
     e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
@@ -70,7 +70,10 @@ function s.e1filter(c, tp)
 end
 
 function s.e1filter(c)
-    if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
+    if (c:IsLocation(LOCATION_EXTRA) and c:IsFacedown()) or c:IsCode(id) then
+        return false
+    end
+
     return c:IsRace(RACE_DRAGON + RACE_WARRIOR) and c:IsAbleToDeckAsCost()
 end
 

@@ -832,10 +832,10 @@ atk = 1400
 def = 1200
 effect = """\
 (This card is also always treated as Dragon monster.)
-While this card is in your hand or GY:
-    You can shuffle 1 Dragon or Warrior monster, except "Palladium Draco-Knight of Atlantis", from your GY or face-up Extra Deck into the Deck;
+While this card is in your hand or GY: \
+    You can shuffle 1 Dragon or Warrior monster, except "Palladium Draco-Knight of Atlantis", from your GY or face-up Extra Deck into the Deck; \
     Special Summon this card in face-up Defense Position. \
-    You can only use this effect of "Palladium Draco-Knight of Atlantis" once per turn. \
+    You can only use this effect of "Palladium Draco-Knight of Atlantis" twice per turn. \
 Once per turn, you can send 1 card from your hand or Deck to the GY. \
 (Quick Effect): You can Tribute this card, activate 1 of these effects;
 ● Add to your hand from your Pendulum Zone, Deck, GY or face-up Extra Deck, \
