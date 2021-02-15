@@ -9,8 +9,6 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion material
-    Fusion.AddProcMixN(c, false, false, CARD_BLUEEYES_W_DRAGON, 1, s.fusfilter,
-                       4)
+    Fusion.AddProcMixN(c, false, false, CARD_BLUEEYES_W_DRAGON, 1,
+                       aux.FilterBoolFunction(Card.IsSetCard, 0xdd), 4)
 end
-
-function s.fusfilter(c) return c:IsSetCard(0xdd) and c:IsRace(RACE_DRAGON) end
