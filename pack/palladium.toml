@@ -554,14 +554,18 @@ def = 2600
 effect = """\
 (This card is also always treated as "Magician of Black Chaos", also LIGHT monster.)
 You can Ritual Summon this card with "Palladium Magic". \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Spellcaster monster from your hand, Deck, or GY. \
+You can discard this card; \
+    Add 1 Level 8 or lower LIGHT or DARK Spellcaster monster from your Deck or GY to your hand, \
+    except "Palladium Chaos Sorcerer Aknamkanon". \
+    You can only use this effect of "Palladium Chaos Sorcerer Aknamkanon" once per turn. \
 Your opponent cannot target Spellcaster monsters you control with card effects. \
 Once per turn: You can target 1 card your opponent controls; banish it face-down. \
     This card cannot attack the turn this effect is activated. \
 When this card destroys an opponent's monster by battle: \
     You can add 1 Spell/Trap from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Chaos Sorcerer Aknamkanon" once per turn. \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Spellcaster monster from your hand, Deck, or GY. \
 """
 strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
 
@@ -837,15 +841,13 @@ While this card is in your hand or GY: \
     Special Summon this card in face-up Defense Position. \
     You can only use this effect of "Palladium Draco-Knight of Atlantis" twice per turn. \
 Once per turn, you can send 1 card from your hand or Deck to the GY. \
-(Quick Effect): You can Tribute this card, activate 1 of these effects;
-● Add to your hand from your Pendulum Zone, Deck, GY or face-up Extra Deck, \
+(Quick Effect): You can Tribute this card; \
+    Add to your hand from your Pendulum Zone, Deck, GY or face-up Extra Deck, \
     OR Special Summon from your hand, Pendulum Zone, Deck, GY or face-up Extra Deck, \
     1 level 7 or 8 Dragon or Warrior monster, \
-    but that monster cannot attack this turn.
-● Add to your hand 1 Spell/Trap from your GY, \
-    but you cannot activate cards, or the effects of cards, with that name for the rest of this turn.
+    but that monster cannot attack this turn. \
 """
-strings = ["Send card to GY", "Search monster", "Add spell/trap"]
+strings = ["Send card to GY", "Search monster"]
 
 [card.chaos-eyes-palladium-dragoon]
 id = 410000036
