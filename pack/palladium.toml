@@ -266,10 +266,10 @@ While this card is in your GY (Quick Effect): \
 During the Main Phase, activate 1 of these effect;
 ● Declare 1 card name; excavate the top card of your Deck, \
     and if it is the declared card, add it to your hand, \
-    then you can add to your hand from your Deck or GY, \
-    OR Special Summon from your hand, Deck or GY, \
-    1 DIVINE monster. \
-    Otherwise, send it to the GY. \
+    then you can take 1 DIVINE monster,
+    add it to your hand from your Deck or GY, \
+    OR Special Summon it from your hand, Deck or GY. \
+    Otherwise, send the declared card to the GY. \
     (You can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions.)
 ● Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
     When you do, you can also Tribute monsters your opponent controls, as if you controlled them.
@@ -302,7 +302,7 @@ You can activate a Quick-Play Spell or Trap from your hand during your opponent'
 [card.palladium-oracle-mana]
 id = 410000012
 set = "palladium"
-name = "Palladium Sacred Oracle Mana"
+name = "Palladium Illusion Oracle Mana"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
@@ -316,7 +316,7 @@ This card and other Level/Rank 7 or higher Spellcaster monsters you control cann
 During damage calculation, if your other Spellcaster monster battles an opponent's monster (Quick Effect): \
     You can send this card from your hand or face-up from your field to the GY; \
     that monster you control gains 2000 ATK/DEF during that damage calculation only. \
-    You can only use this effect of "Palladium Sacred Oracle Mana" once per turn. \
+    You can only use this effect of "Palladium Illusion Oracle Mana" once per turn. \
 """
 strings = ["Gain ATK"]
 
@@ -405,7 +405,7 @@ You can only use each of the following effects of "Palladium Oracle Faris" once 
 ● If this card is Summoned: You can Special Summon 1 Level 4 or lower "Palladium" Tuner monster \
     from your hand, Deck or GY in face-up Defense Position.
 ● If this card is used as material for a Ritual, Fusion, Synchro, Link Summon, \
-    or is detached from an Xyz Monster to activate that monster's Effect: \
+    or is detached from an Xyz Monster to activate that monster's effect: \
     You can add 1 "Palladium" Spell/Trap from your Deck or GY to your hand.
 """
 strings = ["Summon without Tributing"]
@@ -528,17 +528,14 @@ During the Main Phase, activate 1 of these effect;
     whose total Levels equal or exceed the Level of the Ritual Monster. \
     Your opponent cannot target The Ritual Summoned Monster with card effects and also, \
     it cannot be destroyed by your opponent's card effects.
-● If you control a Level 7 or higher "Palladium" Spellcaster monster: \
-    Special Summon 1 Level 6 or lower "Palladium" Spellcaster monster from your hand, Deck, or GY.
 ● Add 1 "Polymerization" Spell Card or "Fusion" Spell Card from your Deck or GY to your hand.
 ● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
 """
 strings = [
     "Summoned with \"Palladium Magic\"",
     "Ritual Summon",
-    "Summon Spellcaster",
-    "Search Fusion Spell",
-    "Search Ritual Monster",
+    "Add Fusion Spell",
+    "Add Ritual Monster",
 ]
 
 [card.palladium-chaos-sorcerer-aknamkanon]
@@ -554,18 +551,15 @@ def = 2600
 effect = """\
 (This card is also always treated as "Magician of Black Chaos", also LIGHT monster.)
 You can Ritual Summon this card with "Palladium Magic". \
-You can discard this card; \
-    Add 1 Level 8 or lower LIGHT or DARK Spellcaster monster from your Deck or GY to your hand, \
-    except "Palladium Chaos Sorcerer Aknamkanon". \
-    You can only use this effect of "Palladium Chaos Sorcerer Aknamkanon" once per turn. \
 Your opponent cannot target Spellcaster monsters you control with card effects. \
 Once per turn: You can target 1 card your opponent controls; banish it face-down. \
     This card cannot attack the turn this effect is activated. \
-When this card destroys an opponent's monster by battle: \
-    You can add 1 Spell/Trap from your Deck or GY to your hand. \
-    You can only use this effect of "Palladium Chaos Sorcerer Aknamkanon" once per turn. \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 Level 8 or lower LIGHT or DARK non-Ritual Spellcaster monster from your hand, Deck, or GY. \
+You can only use the following effect of "Palladium Chaos Sorcerer Aknamkanon" once per turn;
+● You can discard this card; \
+    Add 1 Level 8 or lower LIGHT or DARK Spellcaster monster from your Deck or GY to your hand, \
+    except "Palladium Chaos Sorcerer Aknamkanon".
+● When this card destroys an opponent's monster by battle: \
+    You can add 1 Spell/Trap from your Deck or GY to your hand.
 """
 strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
 
@@ -591,13 +585,13 @@ You can Ritual Summon this card with "Palladium Magic". \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
 ● This card gains 1500 ATK.
-● This card can make a second attack during the Battle Phase of your next turn.
+● This card can make a second attack in a row.
 ● Banish 1 card your opponent controls.
 ● Banish 1 random card from your opponent's hand face-down.
 """
 strings = [
     "Gain 1500 ATK",
-    "Double attack on next turn",
+    "Attack again",
     "Banish 1 card on field",
     "Banish 1 card on hand",
 ]
@@ -648,7 +642,7 @@ During your Main Phase, except the turn this card was sent to the GY: \
 strings = []
 
 [card.palladium-mysterious-keeper-hassan]
-id = 410000028
+id = 410000027
 set = "palladium"
 name = "Palladium Mysterious Keeper Hassan"
 type = "monster synchro effect"
@@ -660,17 +654,17 @@ def = 2600
 effect = """\
 1 "Palladium" Tuner + 1+ non-Tuner Spellcaster monsters
 If this card is Synchro Summoned: You can target 1 card in your GY; add it to your hand. \
+    You can only use this effect of "Palladium Mysterious Keeper Hassan" once per turn. \
 You take no effect damage. \
 Spellcaster monsters you control cannot be destroyed by battle. \
-(Quick Effect): You can target 1 face-up card your opponent controls; \
+Once per turn (Quick Effect): You can target 1 face-up card your opponent controls; \
     until the end of this turn, negate its effects, \
     and if it is monster, change its ATK to 0. \
-    You can only use this effect of "Palladium Mysterious Keeper Hassan" once per turn. \
 """
-strings = ["Negate the effect of a face-up card"]
+strings = ["Negate the effect"]
 
 [card.palladium-ebony-wizard-aknadin]
-id = 410000029
+id = 410000028
 set = "palladium"
 name = "Palladium Ebony Wizard Aknadin"
 type = "monster xyz effect"
@@ -683,9 +677,9 @@ effect = """\
 2+ Level 7 "Palladium" Spellcaster monsters
 The activation and effects of Spellcaster monsters activated on your field cannot be negated. \
 You can detach 1 material from this card; \
-    Add to your hand from Deck or GY, \
+    Take 1 Spellcaster monster, \
+    add it to your hand from Deck or GY, \
     OR Special Summon from your hand, Deck or GY, \
-    1 Spellcaster monster. \
 Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; it loses 2000 ATK, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
 When a Spellcaster monster declares an attack: You can target 1 card your opponent controls; banish it. \
@@ -698,7 +692,7 @@ strings = [
 ]
 
 [card.palladium-reborn]
-id = 410000030
+id = 410000029
 set = "palladium"
 name = "Palladium Reborn"
 type = "spell quick-play"
@@ -709,6 +703,31 @@ Take 1 monster in either GY or face-up Extra Deck; Add to your hand or Special S
     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
 """
 strings = ["Special Summoned by \"Palladium Reborn\""]
+
+[card.palladium-destiny-knight-timaeus]
+id = 410000030
+set = "palladium"
+name = "Timaeus the Palladium Destiny Draco-Knight"
+type = "monster link effect"
+attribute = "light"
+race = "warrior"
+link-arrows = "bottom-left bottom bottom-right"
+atk = "?"
+link-rating = 3
+effect = """\
+(This card is also always treated as Dragon monster.)
+3 "Legendary Knight" monsters with different names
+Must be Link Summoned. \
+Unaffected by other cards' effects. \
+Cannot be destroyed by battle with a monster that has the same ATK. \
+Once per battle, if this card battles, during damage calculation (Quick Effect): \
+    You can make this card's ATK become equal to the ATK of the monster on the field with the highest ATK (your choice, if tied). \
+If this card is destroyed by battle: \
+    You can add 3 "Legendary Knight" monsters from Deck, face-up Extra Deck, and/or GY to your hand, \
+    and if you do, Special Summon them, ignoring their Summoning conditions, \
+    then shuffle this card into the Extra Deck. \
+"""
+strings = ["Gain the highest ATK"]
 
 [card.palladium-dracoknight-timaeus]
 id = 410000031
@@ -799,33 +818,8 @@ Once per turn (Quick Effect): You can target 1 Effect Monster in either GY; \
 """
 strings = ["Fusion Summon", "Gain monster effect"]
 
-[card.palladium-destiny-knight-timaeus]
-id = 410000034
-set = "palladium"
-name = "Timaeus the Palladium Destiny Draco-Knight"
-type = "monster link effect"
-attribute = "light"
-race = "warrior"
-link-arrows = "bottom-left bottom bottom-right"
-atk = "?"
-link-rating = 3
-effect = """\
-(This card is also always treated as Dragon monster.)
-3 "Legendary Knight" monsters with different names
-Must be Link Summoned. \
-Unaffected by other cards' effects. \
-Cannot be destroyed by battle with a monster that has the same ATK. \
-Once per battle, if this card battles, during damage calculation (Quick Effect): \
-    You can make this card's ATK become equal to the ATK of the monster on the field with the highest ATK (your choice, if tied). \
-If this card is destroyed by battle: \
-    You can add 3 "Legendary Knight" monsters from Deck, face-up Extra Deck, and/or GY to your hand, \
-    and if you do, Special Summon them, ignoring their Summoning conditions, \
-    then shuffle this card into the Extra Deck. \
-"""
-strings = ["Gain the highest ATK"]
-
 [card.palladium-dracoknight-atlantis]
-id = 410000035
+id = 410000034
 set = "palladium"
 name = "Palladium Draco-Knight of Atlantis"
 type = "monster tuner effect"
@@ -837,20 +831,20 @@ def = 1200
 effect = """\
 (This card is also always treated as Dragon monster.)
 While this card is in your hand or GY: \
-    You can shuffle 1 Dragon or Warrior monster, except "Palladium Draco-Knight of Atlantis", from your GY or face-up Extra Deck into the Deck; \
+    You can shuffle 1 Dragon or Warrior monster, except "Palladium Draco-Knight of Atlantis", \
+    from your GY or face-up Extra Deck into the Deck; \
     Special Summon this card in face-up Defense Position. \
     You can only use this effect of "Palladium Draco-Knight of Atlantis" twice per turn. \
 Once per turn, you can send 1 card from your hand or Deck to the GY. \
 (Quick Effect): You can Tribute this card; \
-    Add to your hand from your Pendulum Zone, Deck, GY or face-up Extra Deck, \
-    OR Special Summon from your hand, Pendulum Zone, Deck, GY or face-up Extra Deck, \
-    1 level 7 or 8 Dragon or Warrior monster, \
-    but that monster cannot attack this turn. \
+    Take 1 level 7 or 8 Dragon or Warrior monster,
+    Add it to your hand from your Pendulum Zone, Deck, GY or face-up Extra Deck, \
+    OR Special Summon it from your hand, Pendulum Zone, Deck, GY or face-up Extra Deck, but that monster cannot attack this turn. \
 """
 strings = ["Send card to GY", "Search monster"]
 
 [card.chaos-eyes-palladium-dragoon]
-id = 410000036
+id = 410000035
 set = "chaos palladium"
 name = "Chaos-Eyes Palladium Dragoon"
 type = "monster fusion effect"

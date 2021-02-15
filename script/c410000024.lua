@@ -107,10 +107,11 @@ function s.me1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c=e:GetHandler()
     if chk == 0 then return true end
 
     local b1 = true
-    local b2 = true
+    local b2 = c:CanChainAttack()
     local b3 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
                                            LOCATION_ONFIELD, 1, nil)
     local b4 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
@@ -162,18 +163,7 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         c:RegisterEffect(ec1)
     elseif op == 2 then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_EXTRA_ATTACK)
-        ec1:SetValue(1)
-        ec1:SetLabel(Duel.GetTurnCount())
-        ec1:SetCondition(function(e, tp)
-            return Duel.GetTurnCount() > e:GetLabel()
-        end)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END +
-                         RESET_SELF_TURN, 2)
-        c:RegisterEffect(ec1)
+        Duel.ChainAttack()
     elseif op == 3 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
         local g = Duel.SelectMatchingCard(tp, Card.IsAbleToRemove, tp, 0,

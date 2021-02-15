@@ -1,4 +1,4 @@
--- Palladium Sacred Oracle Mana
+-- Palladium Illusion Oracle Mana
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
