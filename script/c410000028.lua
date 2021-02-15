@@ -1,4 +1,4 @@
--- Palladium Sacred Paladin of Heaven's God
+-- Palladium Ebony Wizard Aknadin
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -8,7 +8,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- xyz summon
-    Xyz.AddProcedure(c, s.xyzfilter, 7, 2, nil, nil, 99, nil, false)
+    Xyz.AddProcedure(c, s.xyzfilter, 7, 2, nil, nil, 99, nil)
 
     -- inactivatable
     local e1 = Effect.CreateEffect(c)
