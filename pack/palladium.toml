@@ -725,7 +725,7 @@ You can target 1 face-up monster you control; \
     then destroy this card. \
 Apply this effect based on the Pendulum Zone this card is in.
 ● Left: Reduce this card's Pendulum Scale by 4.
-● Right: Increase this card's Pendulum Scale by 4.
+● Right: Increase this card's Pendulum Scale by 4. \
 """
 effect = """\
 (This card is also always treated as "Legendary Knight Timaeus", also Dragon monster.)
@@ -832,9 +832,9 @@ atk = 1400
 def = 1200
 effect = """\
 (This card is also always treated as Dragon monster.)
-While this card is in your hand or GY, \
-    if a face-up Warrior or Dragon monster you control, except "Palladium Draco-Knight of Atlantis",\
-    is destroyed by battle or card effect: You can Special Summon this card in face-up Defense Position. \
+While this card is in your hand or GY:
+    You can shuffle 1 Dragon or Warrior monster, except "Palladium Draco-Knight of Atlantis", from your GY or face-up Extra Deck into the Deck;
+    Special Summon this card in face-up Defense Position. \
     You can only use this effect of "Palladium Draco-Knight of Atlantis" once per turn. \
 Once per turn, you can send 1 card from your hand or Deck to the GY. \
 (Quick Effect): You can Tribute this card, activate 1 of these effects;

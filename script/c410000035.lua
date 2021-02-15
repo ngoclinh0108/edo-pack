@@ -11,20 +11,18 @@ function s.initial_effect(c)
     race:SetValue(RACE_DRAGON)
     c:RegisterEffect(race)
 
-    -- special summon self
+    -- special summon
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
-    e1:SetCode(EVENT_DESTROYED)
+    e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
-    e1:SetCountLimit(1, id + 1 * 1000000)
-    e1:SetCondition(s.e1con)
+    e1:SetCountLimit(1, id)
+    e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- send gy
+    -- send grave
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_TOGRAVE)
@@ -71,8 +69,24 @@ function s.e1filter(c, tp)
                 c:GetPreviousRaceOnField() == RACE_WARRIOR)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e1filter, 1, nil, tp)
+function s.e1filter(c)
+    if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
+    return c:IsRace(RACE_DRAGON + RACE_WARRIOR) and c:IsAbleToDeckAsCost()
+end
+
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_GRAVE + LOCATION_EXTRA, 0,
+                                           1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp,
+                                      LOCATION_GRAVE + LOCATION_EXTRA, 0, 1, 1,
+                                      nil)
+
+    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -141,7 +155,8 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND + LOCATION_PZONE +
+        return Duel.IsExistingMatchingCard(s.e3filter, tp,
+                                           LOCATION_HAND + LOCATION_PZONE +
                                                LOCATION_DECK + LOCATION_GRAVE +
                                                LOCATION_EXTRA, 0, 1, nil, e, tp,
                                            e:GetHandler())
@@ -151,9 +166,9 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp,
-                                    LOCATION_HAND + LOCATION_PZONE + LOCATION_DECK +
-                                        LOCATION_GRAVE + LOCATION_EXTRA, 0, nil,
-                                    e, tp, c)
+                                    LOCATION_HAND + LOCATION_PZONE +
+                                        LOCATION_DECK + LOCATION_GRAVE +
+                                        LOCATION_EXTRA, 0, nil, e, tp, c)
     if #g == 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
