@@ -130,8 +130,9 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp, chk)
-    local tg = Duel.GetFirstMatchingCard(s.e3filter, tp,
-                                         LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    local tg = Duel.SelectMatchingCard(tp, s.e3filter, tp,
+                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+                                       nil)
     if tg then
         Duel.SendtoHand(tg, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, tg)

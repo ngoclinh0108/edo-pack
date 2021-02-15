@@ -19,7 +19,7 @@ function s.initial_effect(c)
 
     -- search fusion spell
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 3))
+    e2:SetDescription(aux.Stringid(id, 2))
     e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e2:SetType(EFFECT_TYPE_ACTIVATE)
     e2:SetCode(EVENT_FREE_CHAIN)
@@ -30,7 +30,7 @@ function s.initial_effect(c)
 
     -- search ritual monster
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 4))
+    e3:SetDescription(aux.Stringid(id, 3))
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e3:SetType(EFFECT_TYPE_ACTIVATE)
     e3:SetCode(EVENT_FREE_CHAIN)
