@@ -17,9 +17,6 @@ Activate by revealing 1 "Holactie the Creator of Light" in your hand or Deck. \
 At the start of the Duel: Reveal 1 "Holactie the Creator of Light" in your Deck, \
     and if you do, activate this card from the Deck directly. \
 Unaffected by other cards' effects. \
-During your Draw Phase, instead of conducting your normal draw: \
-    You can add 1 "Palladium" Spell or Trap from your Deck or GY to your hand. \
-    You can only use this effect of "Millennium Ascension" once per turn. \
 Once per turn, you can reveal 1 DIVINE monster in your hand; Draw 2 card. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn). \
@@ -261,8 +258,6 @@ type = "spell quick-play"
 effect = """\
 Neither player can activate cards or effects in response to this card's activation. \
 You can only activate or use effect of "The True Name of Palladium Ruler" once per turn. \
-While this card is in your GY (Quick Effect): \
-    You can Tribute 1 "The Winged Dragon of Ra" monster; gain LP equal to its ATK on the field. \
 During the Main Phase, activate 1 of these effect;
 ● Declare 1 card name; excavate the top card of your Deck, \
     and if it is the declared card, add it to your hand, \
@@ -522,6 +517,9 @@ set = "palladium"
 name = "Palladium Magic"
 type = "spell quick-play"
 effect = """\
+During your Draw Phase, if you control "Millennium Ascension": \
+    You can add this card from your Deck or GY to your hand. \
+    You can only use this effect of "Palladium Magic" once per turn. \
 During the Main Phase, activate 1 of these effect;
 ● Ritual Summon 1 "Palladium" Ritual Monster from your hand, GY or Extra Deck, \
     by Tributing monsters from your hand or field, \
@@ -636,8 +634,7 @@ Banish 1 card in either player GY or your Deck, \
     and if you do, until the end of the next turn, its effects are negated, \
     as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
 If you control "Millennium Ascension", you can activate this card from your hand in either player's turn. \
-During the Draw Phase: You can add this card from your Deck to your hand, \
-    also, you cannot declare an attack this turn. \
+During the Standby Phase, if you control "Millennium Ascension": You can add this card from your Deck to your hand, \
     You can only use this effect of "Palladium Sacrophagus" once per turn. \
 During your Main Phase, except the turn this card was sent to the GY: \
     You can shuffle this card from your GY into the Deck, \
@@ -705,6 +702,8 @@ effect = """\
 Take 1 monster in either GY or face-up Extra Deck; Add to your hand or Special Summon it, \
     but send the Summoned monster to the GY during the End Phase of this turn if it is not "Palladium" monster. \
     you can also Special Summon "The Winged Dragon of Ra" with this card's effect, ignoring its Summoning conditions. \
+Once per Chain, while this card is in your GY (Quick Effect): \
+    You can Tribute 1 "The Winged Dragon of Ra" monster; gain LP equal to its ATK on the field. \
 """
 strings = ["Special Summoned by \"Palladium Reborn\""]
 

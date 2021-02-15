@@ -26,11 +26,20 @@ function s.initial_effect(c)
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetCode(EVENT_PHASE + PHASE_DRAW)
+    e3:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e3:SetRange(LOCATION_DECK)
-    e3:SetCost(s.e3cost)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetCountLimit(1, id)
+    e3:SetCondition(function(e, tp) return Duel.IsEnvironment(410000000, tp) end)
+    e3:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then return e:GetHandler():IsAbleToHand() end
+        Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetHandler(), 1, 0, 0)
+    end)
+    e3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if not c:IsRelateToEffect(e) then return end
+        Duel.SendtoHand(c, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, c)
+    end)
     c:RegisterEffect(e3)
 
     -- salvage
@@ -102,33 +111,6 @@ function s.e1distg(e, c)
     local code = e:GetLabel()
     local code1, code4 = c:GetOriginalCodeRule()
     return code1 == code or code4 == code
-end
-
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return Duel.GetActivityCount(tp, ACTIVITY_ATTACK) == 0 end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:IsAbleToHand() end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
-
-    Duel.SendtoHand(c, nil, REASON_EFFECT)
-    Duel.ConfirmCards(1 - tp, c)
 end
 
 function s.e4filter(c) return c:IsFaceup() and c:IsAbleToHand() end

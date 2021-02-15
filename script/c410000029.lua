@@ -23,6 +23,18 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- recover LP
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_RECOVER)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, id)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1check1(c) return c:IsAbleToHand() end
@@ -105,4 +117,31 @@ function s.e1gyop(e, tp, eg, ep, ev, re, r, rp)
         return c:GetFlagEffect(id) ~= 0
     end, tp, LOCATION_MZONE, 0, nil)
     if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
+end
+
+function s.e2filter(c)
+    return c:IsFaceup() and c:IsCode(CARD_RA, 10000080, 10000090) and
+               c:GetAttack() > 0
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.CheckReleaseGroupCost(tp, s.e2filter, 1, false, nil, nil)
+            and not e:GetHandler():IsStatus(STATUS_CHAINING)
+    end
+
+    local tc =
+        Duel.SelectReleaseGroupCost(tp, s.e2filter, 1, 1, false, nil, nil):GetFirst()
+    local rec = tc:GetAttack()
+
+    Duel.Release(tc, REASON_COST)
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(rec)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, rec)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Recover(p, d, REASON_EFFECT)
 end
