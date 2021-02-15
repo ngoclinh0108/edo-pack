@@ -59,8 +59,8 @@ type = "monster xyz effect"
 attribute = "light"
 race = "dragon"
 level = 8
-atk = 3000
-def = 2500
+atk = 0
+def = 0
 effect = """\
 2 Level 8 "Blue-Eyes" Dragon monsters
 You can also Xyz Summon this card by using a "Blue-Eyes White Dragon" you control as the material. \
