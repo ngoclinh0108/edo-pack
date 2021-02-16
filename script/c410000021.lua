@@ -81,8 +81,9 @@ end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND, 0, 1,
-                                           nil)
+        return Duel.GetTurnPlayer() == tp and Duel.IsMainPhase() and
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND, 0,
+                                               1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_CONFIRM)

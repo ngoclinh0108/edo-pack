@@ -19,8 +19,10 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
-    e2:SetCondition(function(e, tp)
-        return Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0) == 0
+    e2:SetCondition(function(e)
+        return
+            Duel.GetFieldGroupCount(e:GetHandlerPlayer(), LOCATION_MZONE, 0) ==
+                0
     end)
     c:RegisterEffect(e2)
 

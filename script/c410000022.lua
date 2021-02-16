@@ -14,10 +14,7 @@ function s.initial_effect(c)
     e1:SetCode(EVENT_PHASE + PHASE_DRAW)
     e1:SetRange(LOCATION_DECK + LOCATION_GRAVE)
     e1:SetCountLimit(1, id)
-    e1:SetCondition(function(e, tp)
-        return Duel.GetTurnPlayer() == tp and Duel.IsMainPhase() and
-                   Duel.IsEnvironment(410000000, tp)
-    end)
+    e1:SetCondition(function(e, tp) return Duel.IsEnvironment(410000000, tp) end)
     e1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then return e:GetHandler():IsAbleToHand() end
         Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetHandler(), 1, 0, 0)
