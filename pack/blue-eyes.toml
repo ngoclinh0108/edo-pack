@@ -65,7 +65,7 @@ def = 0
 effect = """\
 2 Level 8 "Blue-Eyes" monsters
 You can also Xyz Summon this card by using a "Blue-Eyes White Dragon" you control as the material. \
-If this card is Special Summoned: this card's ATK/DEF become equal to the combined original ATK/DEF of "Blue-Eyes" monsters attached to it. \
+If this card is Special Summoned: this card's ATK become equal to the combined original ATK of "Blue-Eyes" monsters attached to it. \
 If a card(s) you control would be destroyed by battle or card effect, you can detach 1 material from this card instead. \
 If a face-up "Blue-Eyes" monster(s) you control, except "Blue-Eyes Savior Dragon", \
     is destroyed by battle or an opponent's card effect, and you have a Dragon monster in your GY: \

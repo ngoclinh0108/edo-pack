@@ -53,16 +53,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 
     local atk = 0
-    local def = 0
     local mg = c:GetMaterial()
     for tc in aux.Next(mg) do
-        if tc:IsSetCard(0xdd) then
-            if tc:GetTextAttack() > 0 then
-                atk = atk + tc:GetTextAttack()
-            end
-            if tc:GetTextDefense() > 0 then
-                def = def + tc:GetTextDefense()
-            end
+        if tc:IsSetCard(0xdd) and tc:GetTextAttack() > 0 then
+            atk = atk + tc:GetTextAttack()
         end
     end
 
@@ -72,10 +66,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetValue(atk)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
     c:RegisterEffect(ec1)
-    local ec2 = ec1:Clone()
-    ec2:SetCode(EFFECT_SET_DEFENSE_FINAL)
-    ec2:SetValue(def)
-    c:RegisterEffect(ec2)
 end
 
 function s.e2filter(c, tp)
