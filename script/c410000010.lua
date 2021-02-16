@@ -39,6 +39,7 @@ function s.e1check1(c)
 end
 
 function s.e1check2(c, e, tp)
+    if c:IsLocation(LOCATION_GRAVE) then return false end
     return c:IsCanBeSpecialSummoned(e, 0, tp,
                                     c:IsOriginalCode(CARD_RA) and true or false,
                                     false) and

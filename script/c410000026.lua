@@ -19,11 +19,14 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
-    e2:SetCondition(function(e, tp) return Duel.IsEnvironment(410000000, tp) end)
+    e2:SetCondition(function(e, tp)
+        return Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0) == 0
+    end)
     c:RegisterEffect(e2)
 
     -- add to hand
     local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(573)
     e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e3:SetCode(EVENT_PHASE + PHASE_STANDBY)

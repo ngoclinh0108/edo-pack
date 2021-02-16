@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_RA}
+s.listed_names = {CARD_RA, 410000000}
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
@@ -35,6 +35,27 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- add to hand
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(573)
+    e3:SetCategory(CATEGORY_TOHAND)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCountLimit(1, id)
+    e3:SetCondition(function(e, tp) return Duel.IsEnvironment(410000000, tp) end)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then return e:GetHandler():IsAbleToHand() end
+        Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetHandler(), 1, 0, 0)
+    end)
+    e3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if not c:IsRelateToEffect(e) then return end
+        Duel.SendtoHand(c, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, c)
+    end)
+    c:RegisterEffect(e3)
 end
 
 function s.e1check1(c) return c:IsAbleToHand() end
@@ -126,8 +147,9 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, s.e2filter, 1, false, nil, nil)
-            and not e:GetHandler():IsStatus(STATUS_CHAINING)
+        return
+            Duel.CheckReleaseGroupCost(tp, s.e2filter, 1, false, nil, nil) and
+                not e:GetHandler():IsStatus(STATUS_CHAINING)
     end
 
     local tc =
@@ -144,4 +166,13 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
                                    CHAININFO_TARGET_PARAM)
     Duel.Recover(p, d, REASON_EFFECT)
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, nil)
+    end
+    local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 1, false, nil,
+                                          nil)
+    Duel.Release(g, REASON_COST)
 end
