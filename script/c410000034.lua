@@ -61,7 +61,7 @@ function s.e1filter(c)
         return false
     end
 
-    return c:IsRace(RACE_DRAGON + RACE_WARRIOR) and c:IsAbleToDeckAsCost()
+    return c:IsRace(RACE_DRAGON + RACE_WARRIOR) and c:IsAbleToDeck()
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
