@@ -53,7 +53,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 
     local atk = 0
-    local mg = c:GetMaterial()
+    local mg = c:GetOverlayGroup()
     for tc in aux.Next(mg) do
         if tc:IsRace(RACE_DRAGON) and tc:GetTextAttack() > 0 then
             atk = atk + tc:GetTextAttack()
