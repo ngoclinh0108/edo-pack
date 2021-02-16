@@ -49,8 +49,12 @@ def = 2500
 effect = """\
 1 Level 1 LIGHT Tuner + 1 non-Tuner "Blue-Eyes" monster
 Gains 800 ATK for each Dragon monster in your GY. \
+When your opponent activates a card or effect that targets a card(s) you control (Quick Effect): You can negate that effect. \
+You can Tribute this card; Destroy all monsters your opponent controls, \
+    and if you do, you can Special Summon 1 "Blue-Eyes White Dragon" from your hand, Deck or GY. \
+    You can only use this effect of "Blue-Eyes Holy Dragon" once per turn. \
 """
-strings = []
+strings = ["Negate the effect", "Tribtue to destroy all monsters", "Special Summon 1 \"Blue-Eyes White Dragon\""]
 
 [card.blue-eyes-savior-dragon]
 id = 410000204
@@ -74,4 +78,4 @@ If a face-up "Blue-Eyes" monster(s) you control, except "Blue-Eyes Savior Dragon
     then, you can attach 1 Dragon monster from your GY to this card. \
     You can only use this effect of "Blue-Eyes Savior Dragon" once per turn. \
 """
-strings = ["Xyz Summon by using a \"Blue-Eyes White Dragon\"", "Attach 1 \"Blue-Eyes\" monster"]
+strings = ["Xyz Summon by using a \"Blue-Eyes White Dragon\"", "Attach 1 Dragon monster"]

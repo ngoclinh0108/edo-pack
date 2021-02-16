@@ -100,7 +100,7 @@ function s.e3filter1(c, tp)
                    c:GetReasonPlayer() ~= tp)
 end
 
-function s.e3filter2(c) return tc:IsRace(RACE_DRAGON) end
+function s.e3filter2(c) return c:IsRace(RACE_DRAGON) end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e3filter1, 1, nil, tp)
