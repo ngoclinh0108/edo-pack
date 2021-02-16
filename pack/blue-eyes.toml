@@ -48,6 +48,7 @@ atk = 3000
 def = 2500
 effect = """\
 1 Level 1 LIGHT Tuner + 1 non-Tuner "Blue-Eyes" monster
+Gains 500 ATK for each Dragon monster in your GY. \
 """
 strings = []
 
