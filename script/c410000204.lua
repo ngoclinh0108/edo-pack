@@ -55,7 +55,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local atk = 0
     local mg = c:GetMaterial()
     for tc in aux.Next(mg) do
-        if tc:IsSetCard(0xdd) and tc:GetTextAttack() > 0 then
+        if tc:IsRace(RACE_DRAGON) and tc:GetTextAttack() > 0 then
             atk = atk + tc:GetTextAttack()
         end
     end
@@ -100,7 +100,7 @@ function s.e3filter1(c, tp)
                    c:GetReasonPlayer() ~= tp)
 end
 
-function s.e3filter2(c) return c:IsSetCard(0xdd) and c:IsType(TYPE_MONSTER) end
+function s.e3filter2(c) return tc:IsRace(RACE_DRAGON) end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e3filter1, 1, nil, tp)
