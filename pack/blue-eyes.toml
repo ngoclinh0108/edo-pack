@@ -23,18 +23,25 @@ strings = ["Destroy a monster"]
 [card.blue-eyes-divinity-dragon]
 id = 410000202
 set = "blue-eyes"
-name = "Blue-Eyes Divinity Dragon"
+name = "Blue-Eyes Supreme Dragon"
 type = "monster fusion effect"
 attribute = "light"
 race = "dragon"
 level = 12
-atk = 5000
-def = 4500
+atk = 4500
+def = 3800
 effect = """\
-"Blue-Eyes White Dragon" + 4 "Blue-Eyes" monsters
+"Blue-Eyes White Dragon" + 2 "Blue-Eyes" monsters
 Must be Fusion Summoned with the above Fusion Materials. \
+Your opponent cannot target or destroy this card with card effects. \
+Once per turn, you can activate 1 of these effects.
+● Target cards on the field, up to the number of "Blue-Eyes White Dragon" used for the Fusion Summon of this card; destroy those targets. \
+    This card cannot attack the turn this effect is activated.
+● Tribute 2 other monsters you control; \
+    This turn, this card can make a second and third attack during each Battle Phase, \
+    also when it attacks, your opponent's cards and effects cannot be activated until the end of the Damage Step.
 """
-strings = []
+strings = ["Destroy cards on field", "Gain 3 attacks"]
 
 [card.blue-eyes-holy-dragon]
 id = 410000203
@@ -55,7 +62,11 @@ During your Main Phase or your opponent's Battle Phase (Quick Effect): You can T
     and if you do, destroy all monsters your opponent controls. \
     You can only use this effect of "Blue-Eyes Holy Dragon" once per turn. \
 """
-strings = ["Negate the effect", "Tribtue to summon & destroy", "Special Summon 1 \"Blue-Eyes White Dragon\""]
+strings = [
+    "Negate the effect",
+    "Tribtue to summon & destroy",
+    "Special Summon 1 \"Blue-Eyes White Dragon\"",
+]
 
 [card.blue-eyes-savior-dragon]
 id = 410000204
@@ -79,4 +90,7 @@ If a face-up "Blue-Eyes" monster(s) you control, except "Blue-Eyes Savior Dragon
     then, you can attach 1 Dragon monster from your GY to this card. \
     You can only use this effect of "Blue-Eyes Savior Dragon" once per turn. \
 """
-strings = ["Xyz Summon by using a \"Blue-Eyes White Dragon\"", "Attach 1 Dragon monster"]
+strings = [
+    "Xyz Summon by using a \"Blue-Eyes White Dragon\"",
+    "Attach 1 Dragon monster",
+]

@@ -79,8 +79,10 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(3206)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_OATH)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_OATH +
+                        EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
@@ -98,7 +100,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    
+
     if Duel.Destroy(g, REASON_EFFECT) == #g then
         Duel.BreakEffect()
         Duel.Damage(1 - tp, c:GetAttack(), REASON_EFFECT)
