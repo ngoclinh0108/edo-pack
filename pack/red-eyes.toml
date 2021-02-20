@@ -73,8 +73,8 @@ atk = 2400
 def = 2000
 effect = """\
 1 Level 1 DARK Tuner + 1 non-Tuner "Red-Eyes" monster
+For this card's Synchro Summon, you can treat 1 Dragon monster with 0 ATK/DEF you control as a Tuner. \
 Gains 300 ATK for each Dragon monster in your GY. \
-For this card's Synchro Summon, you can treat 1 Dark Dragon monster you control as a Tuner.
 """
 strings = []
 
@@ -91,9 +91,18 @@ def = 2400
 effect = """\
 2 Level 7 "Red-Eyes" monsters
 You can also Xyz Summon this card by using a "Red-Eyes Black Dragon" you control as the material. \
+Cannot be destroyed by card effects while it has Xyz Material. \
+While this card has Xyz Material, each time your opponent activates a card or effect, \
+    inflict 500 damage to your opponent immediately after it resolves. \
+When a card or effect is activated (Quick Effect): \
+    You can detach 1 material from this card; \
+    negate the activation, and if you do, destroy it, \
+    also inflict 1000 damage to your opponent. \
+    You can only use this effect of "Red-Eyes Mechanical Dragon" once per turn. \
 """
 strings = [
     "Xyz Summon by using a \"Red-Eyes Black Dragon\"",
+    "Negate the activation"
 ]
 
 [card.red-eyes-armored-dragon]

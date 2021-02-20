@@ -11,7 +11,7 @@ function s.initial_effect(c)
 
     -- xyz summon
     Xyz.AddProcedure(c, aux.FilterBoolFunction(Card.IsSetCard, 0xdd), 8, 2,
-                     s.ovfilter, aux.Stringid(id, 0), 2)
+                     s.xyzovfilter, aux.Stringid(id, 0), 2)
 
     -- atk/def
     local e1 = Effect.CreateEffect(c)
@@ -45,7 +45,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.ovfilter(c, tp, lc)
+function s.xyzovfilter(c, tp, lc)
     return c:IsFaceup() and c:IsCode(CARD_BLUEEYES_W_DRAGON)
 end
 

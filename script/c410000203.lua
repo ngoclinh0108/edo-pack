@@ -9,8 +9,9 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    Synchro.AddProcedure(c, s.synfilter, 1, 1,
-                         aux.FilterBoolFunction(Card.IsSetCard, 0xdd), 1, 1)
+    Synchro.AddProcedure(c, function(c)
+        return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT)
+    end, 1, 1, aux.FilterBoolFunction(Card.IsSetCard, 0xdd), 1, 1)
 
     -- atk up
     local e1 = Effect.CreateEffect(c)
@@ -52,8 +53,6 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
-
-function s.synfilter(c) return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) end
 
 function s.e2filter(c, tp)
     return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE)
