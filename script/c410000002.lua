@@ -61,11 +61,9 @@ end
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsRelateToEffect(e) end
     Duel.SetTargetCard(eg)
-    Duel.SetChainLimit(s.e3actlimit(eg))
-end
-
-function s.e3actlimit(g)
-    return function(e, lp, tp) return not g:IsContains(e:GetHandler()) end
+    Duel.SetChainLimit(function(e, ep, tp)
+        return not g:IsContains(e:GetHandler())
+    end)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -75,7 +73,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     for tc in aux.Next(g) do
         local preatk = tc:GetAttack()
-        
+
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_UPDATE_ATTACK)
