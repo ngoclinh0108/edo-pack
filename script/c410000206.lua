@@ -75,7 +75,7 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingTarget(s.e2filter, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND +
                                              LOCATION_DECK + LOCATION_GRAVE, 0,
                                          1, nil, e, tp)
     end
