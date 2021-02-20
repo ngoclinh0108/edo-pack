@@ -117,7 +117,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local g = Duel.GetMatchingGroup(Card.IsRace, tp, LOCATION_GRAVE, 0, nil,
                                     RACE_DRAGON)
-    local dmg = g:GetClassCount(Card.GetCode) * 800
+    local dmg = g:GetClassCount(Card.GetCode) * 600
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
@@ -130,7 +130,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) ~= 0 then
         local dmg = Duel.GetMatchingGroup(Card.IsRace, tp, LOCATION_GRAVE, 0,
                                           nil, RACE_DRAGON):GetClassCount(
-                        Card.GetCode) * 800
+                        Card.GetCode) * 600
         Duel.Damage(1 - tp, dmg, REASON_EFFECT)
 
         local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter2), tp,

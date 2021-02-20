@@ -22,7 +22,7 @@ function s.initial_effect(c)
         local ct = Duel.GetMatchingGroupCount(Card.IsRace, c:GetControler(),
                                               LOCATION_GRAVE, 0, nil,
                                               RACE_DRAGON)
-        return ct * 800
+        return ct * 300
     end)
     c:RegisterEffect(e1)
 
