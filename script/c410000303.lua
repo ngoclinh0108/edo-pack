@@ -8,9 +8,8 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    Synchro.AddProcedure(c, function(c)
-        return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_DARK)
-    end, 1, 1, aux.FilterBoolFunction(Card.IsSetCard, 0x3b), 1, 1,
+    Synchro.AddProcedure(c, function(c) return c:IsLevel(1) end, 1, 1,
+                         aux.FilterBoolFunction(Card.IsSetCard, 0x3b), 1, 1,
                          s.syntunerfilter)
 
     -- atk up
@@ -49,7 +48,7 @@ function s.initial_effect(c)
 end
 
 function s.syntunerfilter(c, scard, sumtype, tp)
-    return c:IsAttack(0) and c:IsDefense(0) and
+    return c:IsAttribute(ATTRIBUTE_DARK, scard, sumtype, tp) and
                c:IsRace(RACE_DRAGON, scard, sumtype, tp)
 end
 
@@ -75,7 +74,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     if Duel.SendtoGrave(tc, REASON_EFFECT) ~= 0 and
         tc:IsLocation(LOCATION_GRAVE) then
-        Duel.Damage(1 - tp, math.ceil(g:GetFirst():GetBaseAttack() / 2),
-                    REASON_EFFECT)
+        Duel.Damage(1 - tp, math.ceil(tc:GetBaseAttack() / 2), REASON_EFFECT)
     end
 end

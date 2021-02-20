@@ -72,8 +72,8 @@ level = 8
 atk = 2400
 def = 2000
 effect = """\
-1 Level 1 DARK Tuner + 1 non-Tuner "Red-Eyes" monster
-For this card's Synchro Summon, you can treat 1 Dragon monster with 0 ATK/DEF you control as a Tuner. \
+1 Level 1 Tuner + 1 non-Tuner "Red-Eyes" monster
+For this card's Synchro Summon, you can treat 1 DARK Dragon monster you control as a Tuner. \
 Gains 300 ATK for each Dragon monster in your GY. \
 Neither player can target this card with card effects. \
 You can send 1 Dragon monster from your hand or Deck to the GY, \
@@ -106,7 +106,7 @@ When a card or effect is activated (Quick Effect): \
 """
 strings = [
     "Xyz Summon by using a \"Red-Eyes Black Dragon\"",
-    "Negate the activation"
+    "Negate the activation",
 ]
 
 [card.red-eyes-armored-dragon]
