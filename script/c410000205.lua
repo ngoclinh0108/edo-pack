@@ -59,7 +59,7 @@ function s.e3filter(c, e, tp)
     end
 
     return (c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) and
-               c:IsType(TYPE_TUNER)) or c:IsRace(RACE_DRAGON)
+               c:IsType(TYPE_TUNER)) or c:IsSetCard(0xdd)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)

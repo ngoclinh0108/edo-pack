@@ -75,8 +75,12 @@ effect = """\
 1 Level 1 DARK Tuner + 1 non-Tuner "Red-Eyes" monster
 For this card's Synchro Summon, you can treat 1 Dragon monster with 0 ATK/DEF you control as a Tuner. \
 Gains 300 ATK for each Dragon monster in your GY. \
+Neither player can target this card with card effects. \
+You can send 1 Dragon monster from your hand or Deck to the GY, \
+    and if you do, inflict damage to your opponent equal to half the original ATK of that monster. \
+    You can only use this effect of "Red-Eyes Abyss Dragon" once per turn. \
 """
-strings = []
+strings = ["Send monster to GY"]
 
 [card.red-eyes-mechanical-dragon]
 id = 410000304
@@ -117,8 +121,13 @@ link-rating = 2
 atk = 2400
 effect = """\
 2 DARK monsters, including 1 Level 5 or higher "Red-Eyes" monster
+If this card would be destroyed, you can destroy 1 face-up card you control instead. \
+If a "Red-Eyes" monster you control attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
+You can Special Summon 1 "Red-Eyes" monster or Dragon monster from your hand or GY, except "Red-Eyes Armored Dragon". \
+    This card cannot attack the turn this effect is activated. \
+    You can only use this effect of "Red-Eyes Armored Dragon" once per turn. \
 """
-strings = []
+strings = ["Special Summon monster"]
 
 [card.red-eyes-polymerization]
 id = 410000306

@@ -26,9 +26,56 @@ function s.initial_effect(c)
         return ct * 300
     end)
     c:RegisterEffect(e1)
+
+    -- untargetable
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetValue(1)
+    c:RegisterEffect(e2)
+
+    -- damage
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_DECKDES + CATEGORY_DAMAGE)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1, id)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.syntunerfilter(c, scard, sumtype, tp)
     return c:IsAttack(0) and c:IsDefense(0) and
                c:IsRace(RACE_DRAGON, scard, sumtype, tp)
+end
+
+function s.e3filter(c)
+    return c:IsRace(RACE_DRAGON) and c:GetBaseAttack() > 0 and c:IsAbleToGrave()
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3filter, tp,
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+                                           nil)
+    end
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp,
+                                       LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
+                                       nil):GetFirst()
+    if not tc then return end
+
+    if Duel.SendtoGrave(tc, REASON_EFFECT) ~= 0 and
+        tc:IsLocation(LOCATION_GRAVE) then
+        Duel.Damage(1 - tp, math.ceil(g:GetFirst():GetBaseAttack() / 2),
+                    REASON_EFFECT)
+    end
 end
