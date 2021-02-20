@@ -70,7 +70,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_DECK,
-                                      LOCATION_DECK, 1, 1)
+                                      0, 1, 1, nil)
     if #g == 0 then return end
 
     Duel.SendtoHand(g, nil, REASON_EFFECT)
