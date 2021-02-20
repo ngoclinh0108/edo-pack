@@ -10,15 +10,21 @@ function s.initial_effect(c)
     -- link summon
     Link.AddProcedure(c, s.lnkfilter, 2, 2, s.lnkcheck)
 
-    -- damage conversion
+    -- no effect damage
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
     e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e1:SetCode(EFFECT_REVERSE_DAMAGE)
+    e1:SetCode(EFFECT_CHANGE_DAMAGE)
     e1:SetRange(LOCATION_MZONE)
     e1:SetTargetRange(1, 0)
-    e1:SetValue(function(e, re, r, rp, rc) return (r & REASON_EFFECT) ~= 0 end)
+    e1:SetValue(function(e, re, val, r, rp, rc)
+        if (r & REASON_EFFECT) ~= 0 then return 0 end
+        return val
+    end)
     c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    c:RegisterEffect(e1b)
 
     -- indes
     local e2 = Effect.CreateEffect(c)

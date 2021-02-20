@@ -108,7 +108,7 @@ link-rating = 2
 atk = 3000
 effect = """\
 2 Level 8 Dragon monsters, including 1 "Blue-Eyes" monster
-Any effect that would inflict damage to you makes you gain that much LP, instead. \
+You take no effect damage. \
 The first time each monster you control would be destroyed each turn by battle, it is not destroyed. \
 You can Special Summon 1 "Blue-Eyes" Dragon monster or Level 1 LIGHT Tuner from your hand or GY, except "Blue-Eyes Azure Dragon". \
     This card cannot attack the turn this effect is activated. \
