@@ -91,7 +91,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    Duel.SelectTarget(tp, CArd.IsFaceup, tp, LOCATION_MZONE, 0, 1, 1, nil)
+    Duel.SelectTarget(tp, Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, 1, nil)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
