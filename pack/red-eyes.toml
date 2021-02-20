@@ -1,6 +1,15 @@
 [set.red-eyes]
 code = 0x3b
 
+[card.erupted-field-black-dragon]
+id = 410000300
+name = "Erupted Field of the Black Dragon"
+type = "spell field"
+attribute = "spell"
+effect = """\
+"""
+strings = []
+
 [card.red-eyes-black-dragon]
 id = 410000301
 alias = 74677422
