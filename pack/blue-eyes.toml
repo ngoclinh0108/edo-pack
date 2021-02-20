@@ -114,3 +114,13 @@ You can Special Summon 1 "Blue-Eyes" Dragon monster or Level 1 LIGHT Tuner from 
     You can only use this effect of "Blue-Eyes Azure Dragon" once per turn. \
 """
 strings = ["Special Summon monster"]
+
+[card.temple-white-dragon]
+id = 410000206
+name = "Temple of the White Dragon"
+type = "spell field"
+attribute = "spell"
+effect = """\
+"""
+strings = [
+]
