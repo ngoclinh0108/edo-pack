@@ -323,8 +323,8 @@ type = "monster link effect"
 attribute = "light"
 race = "spellcaster"
 link-arrows = "bottom-left bottom-right"
-atk = 2800
 link-rating = 2
+atk = 2800
 effect = """\
 (This card is also always treated as "Dark Magician", also DARK monster.)
 2 Level/Rank 6 or higher Spellcaster monsters, including 1 "Palladium" monster
@@ -722,8 +722,8 @@ type = "monster link effect"
 attribute = "light"
 race = "warrior"
 link-arrows = "bottom-left bottom bottom-right"
-atk = "?"
 link-rating = 3
+atk = "?"
 effect = """\
 (This card is also always treated as Dragon monster.)
 3 "Legendary Knight" monsters with different names
