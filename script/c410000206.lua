@@ -69,7 +69,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_DECK,
+    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_DECK,
                                       LOCATION_DECK, 1, 1)
     if #g == 0 then return end
 
