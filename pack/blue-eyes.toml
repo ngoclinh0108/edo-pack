@@ -5,14 +5,14 @@ code = 0xdd
 id = 410000201
 alias = 89631139
 name = "Blue-Eyes Sacred White Dragon"
-type = "monster effect"
+type = "monster normal"
 attribute = "light"
 race = "dragon"
 level = 8
 atk = 3000
 def = 2500
 effect = """\
-(This card is also always treated as "Blue-Eyes White Dragon", also Normal Monster.)
+(This card is also always treated as "Blue-Eyes White Dragon")
 You can Special Summon this card (from your hand or GY) by Tributing 1 Level 1 LIGHT Tuner in your hand or on your field. \
     You can only Special Summon "Blue-Eyes Sacred White Dragon" once per turn this way. \
 Once per turn: You can target 1 monster your opponent controls; destroy it. \

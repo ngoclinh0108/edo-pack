@@ -280,14 +280,14 @@ strings = [
 id = 410000011
 set = "palladium"
 name = "Palladium Sacred Oracle Mahad"
-type = "monster effect"
+type = "monster normal"
 attribute = "light"
 race = "spellcaster"
 level = 7
 atk = 2500
 def = 2100
 effect = """\
-(This card is also always treated as "Dark Magician", also DARK Normal Monster.)
+(This card is also always treated as "Dark Magician")
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
