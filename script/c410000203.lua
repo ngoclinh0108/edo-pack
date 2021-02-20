@@ -1,4 +1,4 @@
--- Blue-Eyes Savior Dragon
+-- Blue-Eyes Holy Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -46,7 +46,6 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetHintTiming(TIMING_SPSUMMON, TIMING_BATTLE_START)
     e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
