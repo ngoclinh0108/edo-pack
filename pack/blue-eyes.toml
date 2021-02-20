@@ -1,6 +1,29 @@
 [set.blue-eyes]
 code = 0xdd
 
+[card.temple-white-dragon]
+id = 410000200
+name = "Temple of the White Dragon"
+type = "spell field"
+attribute = "spell"
+effect = """\
+During your Main Phase, you can Normal Summon 1 Level 1 LIGHT Tuner in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+If this card in its owner's Field Zone is destroyed by an opponent's card effect: \
+    You can Special Summon 1 "Blue-Eyes White Dragon" from your hand, Deck or GY. \
+Activate 1 of these effects; You can only use this effect of "Temple of the White Dragon" once per turn.
+● Add to your hand from your Deck, 1 "Blue-Eyes" monster, \
+    or Spell/Trap that specifically lists the card "Blue-Eyes White Dragon" or "Blue-Eyes Ultimate Dragon". \
+    except "Temple of the White Dragon".
+● Target 1 face-up monster you control; send 1 "Blue-Eyes" monster from your hand or Deck to the GY, \
+    and if you do, the targeted monster gains ATK/DEF equal to the Level of the monster sent to the GY x 100 (even if this card leaves the field).
+"""
+strings = [
+    "Summon via \"Temple of the White Dragon\"",
+    "Add card to your hand",
+    "Send card to GY"
+]
+
 [card.blue-eyes-white-dragon]
 id = 410000201
 alias = 89631139
@@ -115,26 +138,3 @@ You can Special Summon 1 "Blue-Eyes" Dragon monster or Level 1 LIGHT Tuner from 
     You can only use this effect of "Blue-Eyes Azure Dragon" once per turn. \
 """
 strings = ["Special Summon monster"]
-
-[card.temple-white-dragon]
-id = 410000206
-name = "Temple of the White Dragon"
-type = "spell field"
-attribute = "spell"
-effect = """\
-During your Main Phase, you can Normal Summon 1 Level 1 LIGHT Tuner in addition to your Normal Summon/Set. \
-    (You can only gain this effect once per turn.) \
-If this card in its owner's Field Zone is destroyed by an opponent's card effect: \
-    You can Special Summon 1 "Blue-Eyes White Dragon" from your hand, Deck or GY. \
-Activate 1 of these effects; You can only use this effect of "Temple of the White Dragon" once per turn.
-● Add to your hand from your Deck, 1 "Blue-Eyes" monster, \
-    or Spell/Trap that specifically lists the card "Blue-Eyes White Dragon" or "Blue-Eyes Ultimate Dragon". \
-    except "Temple of the White Dragon".
-● Target 1 face-up monster you control; send 1 "Blue-Eyes" monster from your hand or Deck to the GY, \
-    and if you do, the targeted monster gains ATK/DEF equal to the Level of the monster sent to the GY x 100 (even if this card leaves the field).
-"""
-strings = [
-    "Summon via \"Temple of the White Dragon\"",
-    "Add card to your hand",
-    "Send card to GY"
-]
