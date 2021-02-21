@@ -70,7 +70,6 @@ function s.e1check2(c, e, tp)
     else
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
-
 end
 
 function s.e1filter(c, e, tp)

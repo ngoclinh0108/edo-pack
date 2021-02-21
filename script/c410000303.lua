@@ -3,6 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.material_setcode = {0x3b}
+s.listed_names = {CARD_REDEYES_B_DRAGON}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -52,9 +53,7 @@ function s.syntunerfilter(c, scard, sumtype, tp)
                c:IsRace(RACE_DRAGON, scard, sumtype, tp)
 end
 
-function s.e3filter(c)
-    return c:IsRace(RACE_DRAGON) and c:GetBaseAttack() > 0 and c:IsAbleToGrave()
-end
+function s.e3filter(c) return c:IsRace(RACE_DRAGON) and c:IsAbleToGrave() end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
@@ -74,6 +73,12 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     if Duel.SendtoGrave(tc, REASON_EFFECT) ~= 0 and
         tc:IsLocation(LOCATION_GRAVE) then
-        Duel.Damage(1 - tp, math.ceil(tc:GetBaseAttack() / 2), REASON_EFFECT)
+        local dmg;
+        if tc:IsCode(CARD_REDEYES_B_DRAGON) then
+            dmg = tc:GetBaseAttack()
+        else
+            dmg = math.ceil(tc:GetBaseAttack() / 2)
+        end
+        Duel.Damage(1 - tp, dmg, REASON_EFFECT)
     end
 end

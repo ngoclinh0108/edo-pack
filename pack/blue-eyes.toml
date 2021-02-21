@@ -57,12 +57,12 @@ effect = """\
 "Blue-Eyes White Dragon" + 2 "Blue-Eyes" monsters
 Must be Fusion Summoned with the above Fusion Materials. \
 Your opponent cannot target or destroy this card with card effects. \
+If this card battles, your opponent cannot activate cards or effects until the end of the Damage Step. \
 Once per turn, you can activate 1 of these effects.
 ● Target cards on the field, up to the number of "Blue-Eyes White Dragon" used for the Fusion Summon of this card; destroy those targets. \
     This card cannot attack the turn this effect is activated.
 ● Tribute 2 other monsters you control; \
-    This turn, this card can make a second and third attack during each Battle Phase, \
-    also when it attacks, your opponent's cards and effects cannot be activated until the end of the Damage Step.
+    This turn, this card can make a second and third attack during each Battle Phase.
 """
 strings = ["Destroy cards on field", "Gain 3 attacks"]
 

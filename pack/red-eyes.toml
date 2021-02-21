@@ -58,8 +58,18 @@ def = 3000
 effect = """\
 "Red-Eyes Black Dragon" + 2 "Red-Eyes" monsters
 Must be Fusion Summoned with the above Fusion Materials. \
+Your opponent cannot target or destroy this card with card effects. \
+If this card battles, your opponent cannot activate cards or effects until the end of the Damage Step. \
+Once per turn, you can target face-up monsters your opponent controls, \
+    up to the number of "Red-Eyes Black Dragon" used for the Fusion Summon of this card; \
+    The ATK and DEF of those targets become 0. \
+If damage calculation is performed involving this card, at the end of the Battle Phase: \
+    You can target 1 "Red-Eyes" monster in your GY; \
+    inflict damage to your opponent equal to its ATK in the GY, \
+    then you can Special Summon it. \
+    You can only use this effect of "Red-Eyes Ultimate Dragon" once per turn. \
 """
-strings = []
+strings = ["Make monster's ATK/DEF become 0", "Inflict damage"]
 
 [card.red-eyes-abyss-dragon]
 id = 410000303
@@ -77,10 +87,11 @@ For this card's Synchro Summon, you can treat 1 DARK Dragon monster you control 
 Gains 300 ATK for each Dragon monster in your GY. \
 Neither player can target this card with card effects. \
 You can send 1 Dragon monster from your hand or Deck to the GY, \
-    and if you do, inflict damage to your opponent equal to half the original ATK of that monster. \
+    and if you do, inflict damage to your opponent equal to half the original ATK of that monster,
+    if you send "Red-Eyes Black Dragon", the damage is double. \
     You can only use this effect of "Red-Eyes Abyss Dragon" once per turn. \
 """
-strings = ["Send monster to GY"]
+strings = ["Send monster to GY & inflict damage"]
 
 [card.red-eyes-mechanical-dragon]
 id = 410000304
