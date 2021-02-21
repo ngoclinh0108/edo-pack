@@ -135,10 +135,8 @@ end
 function s.e4filter1(c) return c:IsFaceup() and c:IsSetCard(0x3b) end
 
 function s.e4filter2(c, e, tp)
-    if not c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then return false end
-    return c:IsType(TYPE_NORMAL) or
-               (c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_DARK) and
-                   c:IsRace(RACE_DRAGON))
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               c:IsType(TYPE_NORMAL)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)

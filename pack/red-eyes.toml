@@ -19,8 +19,7 @@ Activate 1 of these effects; You can only use this effect of "Erupted Field of t
     1 "Red-Eyes" Spell/Trap or Spell/Trap that specifically lists the card "Red-Eyes Black Dragon". \
     except "Erupted Field of the Black Dragon".
 ● If you control a "Red-Eyes" monster (Quick Effect): \
-    You can target 1 Normal Monster or Level 1 DARK Dragon monster in your GY; \
-    Special Summon it.
+    You can target 1 Normal Monster in your GY; Special Summon it.
 """
 strings = [
     "Summon via \"Erupted Field of the Black Dragon\"",
