@@ -94,8 +94,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter1(c)
-    return c:IsSetCard(0x3b) and c:IsType(TYPE_MONSTER) and
-               c:IsAbleToGraveAsCost()
+    return c:IsAbleToGraveAsCost() and c:IsType(TYPE_MONSTER) and
+               c:IsSetCard(0x3b) and
+               (c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_DARK) and
+                   c:IsRace(RACE_DRAGON))
 end
 
 function s.e3filter2(c)
