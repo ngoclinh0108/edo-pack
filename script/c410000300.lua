@@ -95,9 +95,8 @@ end
 
 function s.e3filter1(c)
     return c:IsAbleToGraveAsCost() and c:IsType(TYPE_MONSTER) and
-               c:IsSetCard(0x3b) and
-               (c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_DARK) and
-                   c:IsRace(RACE_DRAGON))
+               ((c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_DARK) and
+                   c:IsRace(RACE_DRAGON)) or c:IsSetCard(0x3b))
 end
 
 function s.e3filter2(c)
