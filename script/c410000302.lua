@@ -133,7 +133,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     if not tc or not tc:IsRelateToEffect(e) then return end
 
     if Duel.Damage(1 - tp, tc:GetBaseAttack(), REASON_EFFECT) ~= 0 and
-        c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+        tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
         Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
         Duel.SelectYesNo(tp, 5) then
         Duel.BreakEffect()
