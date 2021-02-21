@@ -113,7 +113,8 @@ function s.e3matcheck(e, c)
 end
 
 function s.e4filter(c, e, tp)
-    return c:IsSetCard(0x3b) and c:IsType(TYPE_MONSTER) and
+    return (c:IsSetCard(0x3b) or c:IsRace(RACE_DRAGON)) and
+               c:IsType(TYPE_MONSTER) and
                (s.e4check1(c) or s.e4check2(c, e, tp))
 end
 
