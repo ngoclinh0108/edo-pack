@@ -61,7 +61,7 @@ function s.initial_effect(c)
     -- damage
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_DAMAGE)
+    e4:SetCategory(CATEGORY_DAMAGE + CATEGORY_TOHAND + CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetCode(EVENT_BATTLE_DAMAGE)
@@ -112,18 +112,30 @@ function s.e3matcheck(e, c)
     e:GetLabelObject():SetLabel(ct)
 end
 
-function s.e4filter(c) return c:IsSetCard(0x3b) and c:IsType(TYPE_MONSTER) end
+function s.e4filter(c, e, tp)
+    return c:IsSetCard(0x3b) and c:IsType(TYPE_MONSTER) and
+               (s.e4check1(c) or s.e4check2(c, e, tp))
+end
+
+function s.e4check1(c) return c:IsAbleToHand() end
+
+function s.e4check2(c, e, tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp) return ep ~= tp end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e4filter, tp, LOCATION_GRAVE, 0, 1, nil)
+        return Duel.IsExistingTarget(s.e4filter, tp, LOCATION_GRAVE, 0, 1, nil,
+                                     e, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
     local tc = Duel.SelectTarget(tp, s.e4filter, tp, LOCATION_GRAVE, 0, 1, 1,
-                                 nil):GetFirst()
+                                 nil, e, tp):GetFirst()
+
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, tc:GetBaseAttack())
 end
 
@@ -131,11 +143,24 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
-    if Duel.Damage(1 - tp, tc:GetBaseAttack(), REASON_EFFECT) ~= 0 and
-        tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-        Duel.SelectYesNo(tp, 5) then
+    if Duel.Damage(1 - tp, tc:GetBaseAttack(), REASON_EFFECT) > 0 then
+        local b1 = s.e4check1(tc)
+        local b2 = s.e4check2(tc, e, tp)
+        local op = 0
+        if b1 and b2 then
+            op = Duel.SelectOption(tp, 573, 5)
+        elseif b1 then
+            op = Duel.SelectOption(tp, 573)
+        else
+            op = Duel.SelectOption(tp, 5) + 1
+        end
+
         Duel.BreakEffect()
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+        if op == 0 then
+            Duel.SendtoHand(tc, nil, REASON_EFFECT)
+            Duel.ConfirmCards(1 - tp, tc)
+        else
+            Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+        end
     end
 end
