@@ -25,7 +25,7 @@ Activate 1 of these effects; You can only use this effect of "Erupted Field of t
 strings = [
     "Summon via \"Erupted Field of the Black Dragon\"",
     "Add Spell/Trap",
-    "Special Summon a Normal Monster",
+    "Special Summon",
 ]
 
 [card.red-eyes-black-dragon]
