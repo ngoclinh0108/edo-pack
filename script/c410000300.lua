@@ -85,6 +85,14 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_HAND +
+                                          LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                      1, nil, e, tp)
+    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
+end
+
 function s.e3filter1(c)
     return c:IsSetCard(0x3b) and c:IsType(TYPE_MONSTER) and
                c:IsAbleToGraveAsCost()
