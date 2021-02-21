@@ -326,7 +326,7 @@ link-arrows = "bottom-left bottom-right"
 link-rating = 2
 atk = 2800
 effect = """\
-(This card is also always treated as "Dark Magician", also DARK monster.)
+(This card is also always treated as DARK monster.)
 2 Level/Rank 6 or higher Spellcaster monsters, including 1 "Palladium" monster
 This card gains effects of material monsters used to Link Summon this card. \
 Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \
@@ -367,12 +367,13 @@ id = 410000015
 set = "palladium kuriboh"
 name = "Palladium Spirit Kuriboh"
 type = "monster tuner effect"
-attribute = "light"
-race = "fairy"
+attribute = "dark"
+race = "fiend"
 level = 1
 atk = 300
 def = 200
 effect = """\
+(This card is also always treated as LIGHT monster.)
 This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
 You take no Battle Damage from battles involving this card. \
 If this card on the field is destroyed: You take no damage this turn. \

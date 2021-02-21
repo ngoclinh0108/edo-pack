@@ -9,8 +9,9 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    Synchro.AddProcedure(c, function(c) return c:IsLevel(1) end, 1, 1,
-                         aux.FilterBoolFunction(Card.IsSetCard, 0x3b), 1, 1,
+    Synchro.AddProcedure(c, function(c)
+        return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_DARK)
+    end, 1, 1, aux.FilterBoolFunction(Card.IsSetCard, 0x3b), 1, 1,
                          s.syntunerfilter)
 
     -- atk up
@@ -49,7 +50,7 @@ function s.initial_effect(c)
 end
 
 function s.syntunerfilter(c, scard, sumtype, tp)
-    return c:IsAttribute(ATTRIBUTE_DARK, scard, sumtype, tp) and
+    return c:IsAttack(0) and c:IsDefense(0) and
                c:IsRace(RACE_DRAGON, scard, sumtype, tp)
 end
 
