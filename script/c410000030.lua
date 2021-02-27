@@ -83,7 +83,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE,
-                                        LOCATION_MZONE, c)
+                                        LOCATION_MZONE, nil)
         if #g == 0 then return false end
 
         local _, atk = g:GetMaxGroup(Card.GetAttack)
@@ -96,7 +96,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE,
-                                    LOCATION_MZONE, c)
+                                    LOCATION_MZONE, nil)
     if #g == 0 then return end
 
     local _, atk = g:GetMaxGroup(Card.GetAttack)
