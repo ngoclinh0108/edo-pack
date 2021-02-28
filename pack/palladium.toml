@@ -619,9 +619,9 @@ effect = """\
 (This card is also always treated as DARK monster.)
 You can Ritual Summon this card with "Palladium Magic". \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-Once per turn: You can send as many cards in your opponents' hands and on their side of the field as possible to the GY, \
-    then inflict 500 damage to your opponent for each card sent to the opponent's GY by this effect, \
-    also, for the rest of this turn, other monsters you control cannot attack. \
+Once per turn: You can pay 1000 LP; \
+    send as many cards in both players' hands and on the field as possible to the GY, \
+    then inflict 300 damage to your opponent for each card sent to the opponent's GY by this effect. \
     You cannot activate other cards or effects during the turn you activate this card's effect. \
 """
 strings = [

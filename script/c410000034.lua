@@ -47,15 +47,6 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c, tp)
-    if c:GetPreviousCodeOnField() == id then return false end
-    return
-        c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_MZONE) and
-            c:IsPreviousPosition(POS_FACEUP) and not c:IsReason(REASON_RULE) and
-            (c:GetPreviousRaceOnField() == RACE_DRAGON or
-                c:GetPreviousRaceOnField() == RACE_WARRIOR)
-end
-
 function s.e1filter(c)
     if (c:IsLocation(LOCATION_EXTRA) and c:IsFacedown()) or c:IsCode(id) then
         return false

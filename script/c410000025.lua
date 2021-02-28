@@ -8,8 +8,8 @@ function s.initial_effect(c)
     Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, aux.FALSE)
     c:EnableReviveLimit()
 
-    --pendulum summon
-	Pendulum.AddProcedure(c)
+    -- pendulum summon
+    Pendulum.AddProcedure(c)
 
     -- attribute
     local attribute = Effect.CreateEffect(c)
@@ -119,8 +119,11 @@ end
 function s.me2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.GetCustomActivityCount(id, tp, ACTIVITY_CHAIN) == 0
+        return Duel.CheckLPCost(tp, 1000) and
+                   Duel.GetCustomActivityCount(id, tp, ACTIVITY_CHAIN) == 0
     end
+
+    Duel.PayLPCost(tp, 1000)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
@@ -143,7 +146,8 @@ end
 function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
-    local g = Duel.GetFieldGroup(tp, 0, 0xe)
+    local loc = LOCATION_HAND + LOCATION_ONFIELD
+    local g = Duel.GetFieldGroup(tp, loc, loc)
     local dc = g:FilterCount(s.me2filter1, nil, 1 - tp)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
@@ -153,7 +157,8 @@ end
 function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    local g = Duel.GetFieldGroup(tp, 0, 0xe)
+    local loc = LOCATION_HAND + LOCATION_ONFIELD
+    local g = Duel.GetFieldGroup(tp, loc, loc)
     Duel.SendtoGrave(g, REASON_EFFECT)
 
     local og = Duel.GetOperatedGroup()
@@ -162,13 +167,4 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.BreakEffect()
         Duel.Damage(1 - tp, ct * 500, REASON_EFFECT)
     end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK)
-    ec1:SetLabel(c:GetFieldID())
-    ec1:SetTargetRange(LOCATION_MZONE, 0)
-    ec1:SetTarget(function(e, c) return e:GetLabel() ~= c:GetFieldID() end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
 end
