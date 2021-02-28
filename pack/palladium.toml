@@ -890,13 +890,12 @@ id = 410000036
 set = "chaos palladium"
 name = "Chaos End Ruler - Envoy of Palladium"
 type = "monster xyz effect"
-attribute = "light"
+attribute = "dark"
 race = "warrior"
 level = 8
 atk = 3500
 def = 2500
 effect = """\
-(This card is also always treated as DARK Dragon monster.)
 2 Level 8 "Palladium" Ritual Pendulum Monsters
 This card's activation and effects cannot be negated. \
 Gains 100 ATK for each banished cards. \
