@@ -565,12 +565,12 @@ You can only use the following effect of "Palladium Chaos Sorcerer Aknamkanon" o
 """
 strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
 
-[card.palladium-chaos-soldier-nightfall]
+[card.palladium-chaos-soldier-dawnbreak]
 id = 410000024
 set = "palladium chaos"
-name = "Palladium Chaos Soldier - Envoy of the Nightfall"
+name = "Palladium Chaos Soldier - Envoy of the Dawnbreak"
 type = "monster ritual pendulum effect"
-attribute = "dark"
+attribute = "light"
 race = "warrior"
 level = 8
 pendulum-scale = 0
@@ -578,11 +578,10 @@ atk = 3000
 def = 2500
 pendulum-effect = """\
 You can destroy this card, and if you do, add 1 Level 8 or lower LIGHT or DARK Warrior monster from your Deck or GY to your hand, \
-    except "Palladium Chaos Soldier - Envoy of the Nightfall". \
-    You can only use this effect of "Palladium Chaos Soldier - Envoy of the Nightfall" once per turn. \
+    except "Palladium Chaos Soldier - Envoy of the Dawnbreak". \
+    You can only use this effect of "Palladium Chaos Soldier - Envoy of the Dawnbreak" once per turn. \
 """
 effect = """\
-(This card is also always treated as LIGHT monster.)
 You can Ritual Summon this card with "Palladium Magic". \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
@@ -598,12 +597,12 @@ strings = [
     "Banish 1 card on hand",
 ]
 
-[card.palladium-chaos-dragon-dawnbreak]
+[card.palladium-chaos-dragon-nightfall]
 id = 410000025
 set = "palladium chaos"
-name = "Palladium Chaos Dragon - Envoy of the Dawnbreak"
+name = "Palladium Chaos Dragon - Envoy of the Nightfall"
 type = "monster ritual pendulum effect"
-attribute = "light"
+attribute = "dark"
 race = "dragon"
 level = 8
 pendulum-scale = 11
@@ -612,11 +611,10 @@ atk = 3000
 def = 2500
 pendulum-effect = """\
 You can destroy this card, and if you do, add 1 Level 8 or lower LIGHT or DARK Dragon monster from your Deck or GY to your hand, \
-    except "Palladium Chaos Dragon - Envoy of the Dawnbreak". \
-    You can only use this effect of "Palladium Chaos Dragon - Envoy of the Dawnbreak" once per turn. \
+    except "Palladium Chaos Dragon - Envoy of the Nightfall". \
+    You can only use this effect of "Palladium Chaos Dragon - Envoy of the Nightfall" once per turn. \
 """
 effect = """\
-(This card is also always treated as DARK monster.)
 You can Ritual Summon this card with "Palladium Magic". \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 Once per turn: You can pay 1000 LP; \
@@ -625,7 +623,7 @@ Once per turn: You can pay 1000 LP; \
     You cannot activate other cards or effects during the turn you activate this card's effect. \
 """
 strings = [
-    "Activated \"Palladium Chaos Dragon - Envoy of the Dawnbreak\" effect",
+    "Activated \"Palladium Chaos Dragon - Envoy of the Nightfall\" effect",
     "Send card to the GY",
 ]
 
@@ -899,6 +897,22 @@ atk = 3500
 def = 2500
 effect = """\
 (This card is also always treated as DARK Dragon monster.)
-2 Level 8 monsters that cannot be Normal Summoned/Set
+2 Level 8 "Palladium" Ritual Pendulum Monsters
+This card's activation and effects cannot be negated. \
+Gains 100 ATK for each banished cards. \
+Banish any monster destroyed by battle with this card. \
+This card gains effects based on the Attribute of materials attached to it.
+● LIGHT: Your opponent cannot target or destroy this card with card effects. \
+    If this card attacks an opponent's monster, during the Damage Step only, \
+        negate the effects of that monster while it is face-up on the field \
+        (but its effects can still be activated)
+● DARK: You can detach 1 material from this card; \
+    Banish as many cards in your opponent's hands and on their side of the field, \
+    then inflict 500 damage to your opponent for each banished card this effect, \
+    also other monsters you control cannot attack for the rest of this turn. \
+    You can only use this effect of "Chaos End Ruler - Envoy of Palladium" once per turn.
 """
-strings = []
+strings = [
+    "Activated \"Chaos End Ruler - Envoy of Palladium\" effect",
+    "Banish all of your opponent's cards",
+]

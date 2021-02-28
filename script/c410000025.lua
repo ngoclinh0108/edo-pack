@@ -1,4 +1,4 @@
--- Palladium Chaos Dragon - Envoy of the Dawnbreak
+-- Palladium Chaos Dragon - Envoy of the Nightfall
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -10,14 +10,6 @@ function s.initial_effect(c)
 
     -- pendulum summon
     Pendulum.AddProcedure(c)
-
-    -- attribute
-    local attribute = Effect.CreateEffect(c)
-    attribute:SetType(EFFECT_TYPE_SINGLE)
-    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
-    attribute:SetValue(ATTRIBUTE_DARK)
-    c:RegisterEffect(attribute)
 
     -- destroy & search
     local pe1 = Effect.CreateEffect(c)
@@ -125,6 +117,14 @@ function s.me2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.PayLPCost(tp, 1000)
 
+    local ec0 = Effect.CreateEffect(c)
+    ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT +
+                        EFFECT_FLAG_OATH)
+    ec0:SetDescription(aux.Stringid(id, 0))
+    ec0:SetTargetRange(1, 0)
+    ec0:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec0, tp)
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
@@ -133,14 +133,6 @@ function s.me2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     ec1:SetValue(aux.TRUE)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
-
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT +
-                        EFFECT_FLAG_OATH)
-    ec2:SetDescription(aux.Stringid(id, 0))
-    ec2:SetTargetRange(1, 0)
-    ec2:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec2, tp)
 end
 
 function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
