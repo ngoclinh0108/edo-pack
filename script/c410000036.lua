@@ -107,7 +107,8 @@ function s.initial_effect(c)
 end
 
 function s.xyzfilter(c)
-    return c:IsSetCard(0x13a) and c:IsType(TYPE_RITUAL + TYPE_PENDULUM)
+    return c:IsSetCard(0x13a) and c:IsType(TYPE_RITUAL) and
+               c:IsType(TYPE_PENDULUM)
 end
 
 function s.effcon(e, tp, eg, ep, ev, re, r, rp)
