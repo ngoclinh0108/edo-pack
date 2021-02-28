@@ -33,7 +33,7 @@ function s.initial_effect(c)
         filter = aux.FilterBoolFunction(Card.IsSetCard, 0x13a),
         lvtype = RITPROC_GREATER,
         location = LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA,
-        stage3 = s.e2sumop,
+        stage2 = s.e2sumop,
         desc = aux.Stringid(id, 1)
     })
     e2:SetCondition(function() return Duel.IsMainPhase() end)
@@ -69,17 +69,12 @@ function s.e2sumop(mat, e, tp, eg, ep, ev, re, r, rp, tc)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    ec1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     ec1:SetRange(LOCATION_MZONE)
-    ec1:SetValue(function(e, re, rp) return rp == 1 - e:GetHandlerPlayer() end)
+    ec1:SetValue(aux.tgoval)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec1)
-    local ec2 = ec1:Clone()
-    ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
-    ec2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    ec2:SetValue(aux.tgoval)
-    tc:RegisterEffect(ec2)
 end
 
 function s.e3filter(c)
