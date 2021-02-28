@@ -165,6 +165,6 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     local ct = og:FilterCount(s.me2filter2, nil, 1 - tp)
     if ct > 0 then
         Duel.BreakEffect()
-        Duel.Damage(1 - tp, ct * 500, REASON_EFFECT)
+        Duel.Damage(1 - tp, ct * 300, REASON_EFFECT)
     end
 end
