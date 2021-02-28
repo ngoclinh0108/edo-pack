@@ -605,6 +605,7 @@ name = "Palladium Chaos Dragon - Envoy of the Dawnbreak"
 type = "monster ritual pendulum effect"
 attribute = "light"
 race = "dragon"
+level = 8
 pendulum-scale = 11
 scale = 4
 atk = 3000
@@ -885,3 +886,19 @@ strings = [
     "Banish battling monster",
     "Add 1 Spell/Trap?",
 ]
+
+[card.chaos-end-ruler]
+id = 410000036
+set = "chaos palladium"
+name = "Chaos End Ruler - Envoy of Palladium"
+type = "monster xyz effect"
+attribute = "light"
+race = "warrior"
+level = 8
+atk = 3500
+def = 2500
+effect = """\
+(This card is also always treated as DARK Dragon monster.)
+2 Level 8 monsters that cannot be Normal Summoned/Set
+"""
+strings = []
