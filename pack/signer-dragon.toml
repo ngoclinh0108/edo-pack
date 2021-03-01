@@ -1,0 +1,9 @@
+[card.mausoleum-signer-dragons]
+id = 410000500
+name = "Mausoleum of the Signer Dragons"
+type = "spell field"
+attribute = "spell"
+effect = """\
+"""
+strings = [
+]

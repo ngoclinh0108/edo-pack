@@ -6,6 +6,7 @@ recipe  = [
     "pack/palladium.toml",
     "pack/blue-eyes.toml",
     "pack/red-eyes.toml",
+    "pack/signer-dragon.toml",
 ]
 
 [picset.triplesix]
