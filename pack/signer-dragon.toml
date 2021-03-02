@@ -4,6 +4,11 @@ name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 attribute = "spell"
 effect = """\
+[ \
+Add from Outside "Majestic" versions of your Signer Dragons and alternative versions of "Shooting Quasar Dragon". \
+Alternative versions of Signer Dragons is always treated as Signer Dragons. \
+]
+
 Special Summons of your "Power Tool" Synchro Monsters and Dragon Synchro Monsters cannot be negated. \
 Neither player can return "Majestic" Synchro Monsters from the field to the Extra Deck. \
 During your Draw phase, before you draw: \

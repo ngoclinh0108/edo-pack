@@ -3,6 +3,14 @@ if not aux.UtilityProcedure then aux.UtilityProcedure = {} end
 if not Utility then Utility = aux.UtilityProcedure end
 
 -- function
+function Utility.RegisterGlobalEffect(c, eff, filter, param1, param2, param3,
+                                      param4, param5)
+    local g = Duel.GetMatchingGroup(filter, c:GetControler(),
+                                    LOCATION_DECK + LOCATION_EXTRA, 0, nil,
+                                    param1, param2, param3, param4, param5)
+    for tc in aux.Next(g) do tc:RegisterEffect(eff:Clone()) end
+end
+
 function Utility.IsSetCardListed(c, ...)
     if not c.listed_series then return false end
 
@@ -58,12 +66,11 @@ function Utility.GainInfinityAtk(root, c)
                            EFFECT_FLAG_IGNORE_IMMUNE)
         e3:SetCode(EVENT_ADJUST)
         e3:SetCondition(function(e, tp, eg, ev, ep, re, r, rp)
-            return Duel.IsExistingMatchingCard(AvatarFilter, tp, 0xff,
-                                               0xff, 1, nil)
+            return Duel.IsExistingMatchingCard(AvatarFilter, tp, 0xff, 0xff, 1,
+                                               nil)
         end)
         e3:SetOperation(function(e, tp, eg, ev, ep, re, r, rp)
-            local g = Duel.GetMatchingGroup(AvatarFilter, tp, 0xff, 0xff,
-                                            nil)
+            local g = Duel.GetMatchingGroup(AvatarFilter, tp, 0xff, 0xff, nil)
 
             g:ForEach(function(c)
                 local atktes = {c:GetCardEffect(EFFECT_SET_ATTACK_FINAL)}

@@ -60,6 +60,31 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     skill:SetOperation(s.skillop)
     Duel.RegisterEffect(skill, tp)
 
+    -- deck edit & global effect
+    local g = Duel.GetMatchingGroup(function(c)
+        return c.deck_edit or c.global_effect
+    end, tp, LOCATION_DECK + LOCATION_EXTRA, 0, nil)
+    local deck_edit = Group.CreateGroup()
+    local global_effect = Group.CreateGroup()
+    for tc in aux.Next(g) do
+        if tc.deck_edit and not deck_edit:IsExists(
+            function(c)
+                return c:GetOriginalCode() == tc:GetOriginalCode()
+            end, 1, nil) then
+            tc.deck_edit(tp)
+            deck_edit:AddCard(tc)
+        end
+    end
+    for tc in aux.Next(g) do
+        if tc.global_effect and not global_effect:IsExists(
+            function(c)
+                return c:GetOriginalCode() == tc:GetOriginalCode()
+            end, 1, nil) then
+            tc.global_effect(tc, tp)
+            global_effect:AddCard(tc)
+        end
+    end
+
     -- activate field
     local fields = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_DECK, 0, nil,
                                          TYPE_FIELD)

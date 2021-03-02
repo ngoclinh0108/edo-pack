@@ -4,6 +4,69 @@ local s, id = GetID()
 
 s.listed_series = {0xc2, 0x3f}
 
+function s.deck_edit(tp)
+    -- Stardust Dragon
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   44508094, 83994433) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 7841112), tp, 2, REASON_RULE)
+    end
+
+    -- Red Dragon Archfiend
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   70902743, 39765958, 80666118) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 67030233), tp, 2, REASON_RULE)
+    end
+
+    -- Shooting Star Dragon
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   24696097) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 101105104), tp, 2, REASON_RULE)
+    end
+
+    -- Shooting Quasar Dragon
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   35952884) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 26268488), tp, 2, REASON_RULE)
+        Duel.SendtoDeck(Duel.CreateToken(tp, 21123811), tp, 2, REASON_RULE)
+    end
+end
+
+function s.global_effect(c, tp)
+    -- Stardust Dragon
+    local eg1 = Effect.CreateEffect(c)
+    eg1:SetType(EFFECT_TYPE_SINGLE)
+    eg1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    eg1:SetCode(EFFECT_ADD_CODE)
+    eg1:SetValue(CARD_STARDUST_DRAGON)
+    Utility.RegisterGlobalEffect(c, eg1, Card.IsCode, 83994433)
+
+    -- Red Dragon Archfiend
+    local eg2 = eg1:Clone()
+    eg2:SetValue(70902743)
+    Utility.RegisterGlobalEffect(c, eg2, Card.IsCode, 39765958)
+    Utility.RegisterGlobalEffect(c, eg2, Card.IsCode, 80666118)
+
+    -- Black-Winged Dragon
+    local eg3 = eg1:Clone()
+    eg3:SetValue(9012916)
+    Utility.RegisterGlobalEffect(c, eg3, Card.IsCode, 60992105)
+
+    -- Black Rose Dragon
+    local eg4 = eg1:Clone()
+    eg4:SetValue(73580471)
+    Utility.RegisterGlobalEffect(c, eg4, Card.IsCode, 33698022)
+
+    -- Ancient Fairy Dragon
+    local eg5 = eg1:Clone()
+    eg5:SetValue(25862681)
+    Utility.RegisterGlobalEffect(c, eg5, Card.IsCode, 4179255)
+
+    -- Power Tool Dragon
+    local eg6 = eg1:Clone()
+    eg6:SetValue(2403771)
+    Utility.RegisterGlobalEffect(c, eg6, Card.IsCode, 68084557)
+end
+
 function s.initial_effect(c)
     -- activate
     local act = Effect.CreateEffect(c)
