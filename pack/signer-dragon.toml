@@ -1,3 +1,6 @@
+[set.stardust]
+code = 0xa3
+
 [card.mausoleum-signer-dragons]
 id = 410000500
 name = "Mausoleum of the Signer Dragons"
@@ -24,4 +27,35 @@ If a face-up "Power Tool" Synchro Monster(s) or Dragon Synchro Monster(s) you co
 strings = [
     "Summon via \"Mausoleum of the Signer Dragons\"",
     "Halve any damage you take",
+]
+
+[card.ancient-stardust-spark-dragon]
+id = 410000501
+alias = 44508094
+set = "stardust"
+name = "Ancient Stardust Spark Dragon"
+type = "monster synchro tuner effect"
+attribute = "light"
+race = "dragon"
+level = 8
+atk = 2500
+def = 2000
+effect = """\
+1 Tuner + 1+ non-Tuner monsters
+(This card is also always treated as "Stardust Dragon")
+If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
+    This effect cannot be negated. \
+Once per turn, you can activate 1 of these effects.
+● (Quick Effect): You can target 1 face-up card you control; \
+    once during this turn, it cannot be destroyed by battle or card effects.
+● When a card or effect is activated that would destroy a card(s) on the field (Quick Effect): \
+    You can Tribute this card; \
+    negate the activation, and if you do, destroy it. \
+    During the End Phase, if this effect was activated this turn (and was not negated): \
+    You can Special Summon this card from your GY.
+"""
+strings = [
+    "Affected by \"Ancient Stardust Spark Dragon\"",
+    "Protect card",
+    "Negate the activation",
 ]
