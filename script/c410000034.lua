@@ -159,11 +159,11 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local b2 = s.e3check2(sc, e, tp, c)
     local op = 0
     if b1 and b2 then
-        op = Duel.SelectOption(tp, 573, 5)
+        op = Duel.SelectOption(tp, 573, 2)
     elseif b1 then
         op = Duel.SelectOption(tp, 573)
     else
-        op = Duel.SelectOption(tp, 5) + 1
+        op = Duel.SelectOption(tp, 2) + 1
     end
 
     if op == 0 then

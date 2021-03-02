@@ -104,7 +104,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
                    tc:IsCanBeSpecialSummoned(e, tp, tp, false, false)
     local b2 = tc:IsType(TYPE_SPELL + TYPE_TRAP) and tc:IsSSetable()
 
-    if b1 and Duel.SelectYesNo(tp, 5) then
+    if b1 and Duel.SelectYesNo(tp, 2) then
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     elseif b2 and Duel.SelectYesNo(tp, 1153) then
         Duel.SSet(tp, tc, tp, false)

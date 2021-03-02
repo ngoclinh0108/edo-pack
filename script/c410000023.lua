@@ -130,6 +130,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp, chk)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
     local tg = Duel.SelectMatchingCard(tp, s.e3filter, tp,
                                        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                        nil)

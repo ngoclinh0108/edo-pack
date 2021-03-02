@@ -14,8 +14,6 @@ type = "spell field"
 attribute = "spell"
 effect = """\
 Activate by revealing 1 "Holactie the Creator of Light" in your hand or Deck. \
-At the start of the Duel: Reveal 1 "Holactie the Creator of Light" in your Deck, \
-    and if you do, activate this card from the Deck directly. \
 Unaffected by other cards' effects. \
 Once per turn, you can reveal 1 DIVINE monster in your hand; Draw 2 card. \
 During your Main Phase, you can Normal Summon 1 DIVINE monster in addition to your Normal Summon/Set. \

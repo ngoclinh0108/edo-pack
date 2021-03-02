@@ -14,15 +14,6 @@ function s.initial_effect(c)
     act:SetCost(s.actcost)
     c:RegisterEffect(act)
 
-    -- startup
-    local e0 = Effect.CreateEffect(c)
-    e0:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e0:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
-    e0:SetCode(EVENT_STARTUP)
-    e0:SetRange(LOCATION_ALL)
-    e0:SetOperation(s.e0op)
-    c:RegisterEffect(e0)
-
     -- immune
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
@@ -70,14 +61,15 @@ end
 function s.actcost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(Card.IsCode, tp,
-                                           LOCATION_HAND + LOCATION_DECK, 0,
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
                                            nil, 10000040)
     end
 
-    local tc
     local g = Duel.GetMatchingGroup(Card.IsCode, tp,
-                                    LOCATION_HAND + LOCATION_DECK, 0, nil,
+                                    LOCATION_HAND + LOCATION_DECK, 0, 1, nil,
                                     10000040)
+
+    local tc
     if #g > 0 then
         tc = g:GetFirst()
     else
@@ -85,15 +77,7 @@ function s.actcost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.ConfirmCards(1 - tp, tc)
-end
-
-function s.e0op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local sc = Duel.GetFirstMatchingCard(Card.IsCode, tp, LOCATION_DECK, 0, nil,
-                                         10000040)
-    if not sc then return end
-
-    aux.PlayFieldSpell(c, e, tp, eg, ep, ev, re, r, rp)
+    if tc:IsLocation(LOCATION_DECK) then Duel.ShuffleDeck(tp) end
 end
 
 function s.e3filter(c)

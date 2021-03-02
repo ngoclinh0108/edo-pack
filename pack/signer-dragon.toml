@@ -4,6 +4,19 @@ name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 attribute = "spell"
 effect = """\
+Special Summons of your "Power Tool" Synchro Monsters and Dragon Synchro Monsters cannot be negated. \
+Neither player can return "Majestic" Synchro Monsters from the field to the Extra Deck. \
+During your Draw phase, before you draw: \
+    You can place 1 Level 1 Dragon monster from your hand or Deck on top of your Deck. \
+During your Main Phase, you can Normal Summon 1 Tuner monster in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+If a "Power Tool" Synchro Monster(s) or Dragon Synchro Monster(s) is Special Summoned: You can draw 1 card. \
+If a face-up "Power Tool" Synchro Monster(s) or Dragon Synchro Monster(s) you control leaves the field to activate your card effect, or by your card effect: \
+    You can apply 1 of the following effects. You cannot apply that same effect of "Mausoleum of the Signer Dragons" for the rest of this turn.
+● Special Summon 1 of those monsters.
+● Any damage you take this turn is halved.
 """
 strings = [
+    "Summon via \"Mausoleum of the Signer Dragons\"",
+    "Halve any damage you take",
 ]

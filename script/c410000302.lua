@@ -149,11 +149,11 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         local b2 = s.e4check2(tc, e, tp)
         local op = 0
         if b1 and b2 then
-            op = Duel.SelectOption(tp, 573, 5)
+            op = Duel.SelectOption(tp, 573, 2)
         elseif b1 then
             op = Duel.SelectOption(tp, 573)
         else
-            op = Duel.SelectOption(tp, 5) + 1
+            op = Duel.SelectOption(tp, 2) + 1
         end
 
         Duel.BreakEffect()

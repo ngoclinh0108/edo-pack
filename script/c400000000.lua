@@ -59,6 +59,19 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     end)
     skill:SetOperation(s.skillop)
     Duel.RegisterEffect(skill, tp)
+
+    -- activate field
+    local fields = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_DECK, 0, nil,
+                                         TYPE_FIELD)
+    if #fields > 0 and Duel.SelectYesNo(tp, 2204) then
+        local tc
+        if #fields == 1 then
+            tc = fields:GetFirst()
+        else
+            tc = fields:Select(tp, 1, 1)
+        end
+        aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
+    end
 end
 
 function s.sumfilter(c, tp) return c:GetSummonPlayer() == tp end
@@ -206,6 +219,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
     local tc = Duel.SelectMatchingCard(tp, Card.IsFaceup, tp, LOCATION_MZONE, 0,
                                        1, 1, nil):GetFirst()
     if not tc or Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 then return end
@@ -217,7 +231,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_REMOVED, 0, 1, nil)
+    return
+        Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_REMOVED, 0, 1, nil)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -274,7 +289,8 @@ function s.e6con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED + LOCATION_EXTRA
+    local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED +
+                    LOCATION_EXTRA
     local tpdraw = Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0)
     local opdraw = Duel.GetFieldGroupCount(tp, 0, LOCATION_HAND)
 
