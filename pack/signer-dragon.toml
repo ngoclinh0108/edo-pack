@@ -93,7 +93,7 @@ strings = ["Negate the activation","Multi-Attack", "Banish"]
 [card.shooting-star-synchron]
 id = 410000503
 set = "synchron"
-name = "Shooting Star Dragon"
+name = "Shooting Star Synchron"
 type = "monster synchro tuner effect"
 attribute = "light"
 race = "machine"
@@ -109,6 +109,6 @@ Once per Chain, during your opponent's Main Phase, you can (Quick Effect): \
     Immediately after this effect resolves, Synchro Summon using this card you control. \
 While this card is in your GY: You can shuffle 1 other Tuner monster in your GY into the Deck, \
     and if you do, Special Summon this card in face-up Defense Position. \
-    You can only use this effect of "Shooting Star Dragon" once per turn. \
+    You can only use this effect of "Shooting Star Synchron" once per turn. \
 """
 strings = []
