@@ -21,6 +21,7 @@ function s.deck_edit(tp)
     if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
                                    24696097) then
         Duel.SendtoDeck(Duel.CreateToken(tp, 101105104), tp, 2, REASON_RULE)
+        Duel.SendtoDeck(Duel.CreateToken(tp, 68431965), tp, 2, REASON_RULE)
     end
 
     -- Shooting Quasar Dragon
