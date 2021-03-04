@@ -101,10 +101,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e4b)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp and
-               not e:GetHandler():IsStatus(STATUS_CHAINING)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() ~= tp end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()

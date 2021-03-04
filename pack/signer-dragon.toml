@@ -1,6 +1,9 @@
 [set.stardust]
 code = 0xa3
 
+[set.synchron]
+code = 0x1017
+
 [card.mausoleum-signer-dragons]
 id = 410000500
 name = "Mausoleum of the Signer Dragons"
@@ -84,3 +87,25 @@ Once per turn, when your opponent activates a card, effect OR an opponent's mons
     and if you do, negate the next attack this turn from a monster your opponent controls. \
 """
 strings = ["Negate the activation","Multi-Attack", "Banish"]
+
+[card.shooting-star-synchron]
+id = 410000503
+set = "synchron"
+name = "Shooting Star Dragon"
+type = "monster synchro tuner effect"
+attribute = "light"
+race = "machine"
+level = 2
+atk = 650
+def = 500
+effect = """\
+1 Tuner + 1 non-Tuner monster
+If this card is Synchro Summoned: You can draw 1 card. \
+This card on the field can be treated as a Level 4 monster when used for a Synchro Summon. \
+Once per Chain, during your opponent's Main Phase, you can (Quick Effect): \
+    Immediately after this effect resolves, Synchro Summon using this card you control. \
+While this card is in your GY: You can shuffle 1 other Tuner monster in your GY into the Deck, \
+    and if you do, Special Summon this card in face-up Defense Position. \
+    You can only use this effect of "Shooting Star Dragon" once per turn. \
+"""
+strings = []
