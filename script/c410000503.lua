@@ -19,13 +19,18 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- synchro level
+    -- treated as a non-tuner & synchro level
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_SYNCHRO_LEVEL)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE +
+                       EFFECT_FLAG_CANNOT_NEGATE)
+    e2:SetCode(EFFECT_NONTUNER)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(function(e, c) return 4 * 65536 + e:GetHandler():GetLevel() end)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_SYNCHRO_LEVEL)
+    e2b:SetValue(function(e, c) return 4 * 65536 + e:GetHandler():GetLevel() end)
+    c:RegisterEffect(e2b)
 
     -- synchro
     local e3 = Effect.CreateEffect(c)

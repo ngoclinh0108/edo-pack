@@ -101,7 +101,8 @@ def = 500
 effect = """\
 1 Tuner + 1 non-Tuner monster
 If this card is Synchro Summoned: You can draw 1 card. \
-This card on the field can be treated as a Level 4 monster when used for a Synchro Summon. \
+If this card you control is used as Synchro Material, you can treat it as a non-Tuner, and as Level 4 monster. \
+    This effect cannot be negated. \
 Once per Chain, during your opponent's Main Phase, you can (Quick Effect): \
     Immediately after this effect resolves, Synchro Summon using this card you control. \
 While this card is in your GY: You can shuffle 1 other Tuner monster in your GY into the Deck, \
