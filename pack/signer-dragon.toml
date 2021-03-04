@@ -11,7 +11,7 @@ type = "spell field"
 attribute = "spell"
 effect = """\
 [ \
-Add from Outside "Majestic" versions of your Signer Dragons and alternative versions of "Shooting Quasar Dragon". \
+Add from Outside "Majestic" versions of your Signer Dragons, and alternative versions of your "Shooting Quasar Dragon". \
 Alternative versions of Signer Dragons is always treated as Signer Dragons. \
 ]
 
