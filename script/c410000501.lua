@@ -1,4 +1,4 @@
--- Ancient Stardust Spark Dragon
+-- Ancient Stardust Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
