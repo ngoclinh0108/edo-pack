@@ -35,7 +35,7 @@ strings = [
 ]
 
 [card.ancient-stardust-dragon]
-id = 410000501
+id = 410000505
 alias = 44508094
 set = "stardust"
 name = "Ancient Stardust Dragon"
@@ -66,7 +66,7 @@ strings = [
 ]
 
 [card.shooting-stardust-dragon]
-id = 410000502
+id = 410000506
 set = "stardust"
 name = "Shooting Stardust Dragon"
 type = "monster synchro effect"
@@ -91,7 +91,7 @@ Once per turn, when your opponent activates a card, effect OR an opponent's mons
 strings = ["Negate the activation","Multi-Attack", "Banish"]
 
 [card.shooting-star-synchron]
-id = 410000503
+id = 410000507
 set = "synchron"
 name = "Shooting Star Synchron"
 type = "monster synchro tuner effect"
