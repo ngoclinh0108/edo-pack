@@ -4,9 +4,11 @@ local s, id = GetID()
 
 s.listed_names = {21159309, 9012916}
 s.synchro_nt_required = 1
+s.counter_list = {0x10}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    c:EnableCounterPermit(0x10)
 
     -- synchro summon
     Synchro.AddMajesticProcedure(c,
@@ -34,6 +36,41 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(doubletuner)
 
+    -- damage reduce
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e1:SetCode(EFFECT_CHANGE_DAMAGE)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetTargetRange(1, 0)
+    e1:SetValue(s.e1val)
+    c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    c:RegisterEffect(e1b)
+
+    -- atk up
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_UPDATE_ATTACK)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetValue(function(e, c) return c:GetCounter(0x10) * 400 end)
+    c:RegisterEffect(e2)
+
+    -- negate effect, atk down & damage
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_ATKCHANGE + CATEGORY_DAMAGE)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+
     -- to extra & special summon
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
@@ -46,6 +83,69 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
+end
+
+function s.e1val(e, re, val, r, rp, rc)
+    if (r & REASON_EFFECT) ~= 0 then
+        e:GetHandler():AddCounter(0x10, 1)
+        return 0
+    end
+    return val
+end
+
+function s.e3filter(c)
+    return c:IsFaceup() and not (c:IsDisabled() and c:IsAttackBelow(0))
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:GetCounter(0x10) > 0 end
+
+    local ct = c:GetCounter(0x10)
+    c:RemoveCounter(tp, 0x10, ct, REASON_COST)
+    e:SetLabel(ct)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
+    local g =
+        Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, 1, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() or
+        (tc:IsDisabled() and tc:IsAttackBelow(0)) then return end
+
+    local atk = tc:GetAttack()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_DISABLE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    tc:RegisterEffect(ec1)
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetCode(EFFECT_DISABLE_EFFECT)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    tc:RegisterEffect(ec2)
+    Duel.AdjustInstantly(tc)
+
+    local ec3 = Effect.CreateEffect(c)
+    ec3:SetType(EFFECT_TYPE_SINGLE)
+    ec3:SetCode(EFFECT_UPDATE_ATTACK)
+    ec3:SetValue(e:GetLabel() * -1000)
+    ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec3)
+
+    local dmg = atk - tc:GetAttack()
+    if dmg > 0 then Duel.Damage(1 - tp, dmg, REASON_EFFECT) end
 end
 
 function s.e4filter(c, e, tp)

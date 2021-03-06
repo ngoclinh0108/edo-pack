@@ -52,11 +52,18 @@ atk = 3900
 def = 2600
 effect = """\
 "Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
+If you would take damage from a card effect, place 1 Black Feather Counter on this card instead. \
+This card gain 400 ATK for each Black Feather Counter on it. \
+Once per turn: You can remove all Black Feather Counters on this card, \
+    then target 1 face-up monster your opponent controls; \
+    negate its effects, also, it loses 1000 ATK for each Black Feather Counter you removed, \
+    and if it does, inflict damage to your opponent equal to the ATK lost by this effect. \
 During the End Phase: Target 1 "Black-Winged Dragon" in your GY; \
     return this card from the field to the Extra Deck, then Speicla Summon that target. \
 """
 strings = [
-    "Return to Extra Deck"
+    "Return to Extra Deck",
+    "Negate effects, down atk & inflict damage"
 ]
 
 [card.majestic-rose-dragon]
