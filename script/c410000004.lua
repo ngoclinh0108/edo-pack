@@ -113,7 +113,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, #eg, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk) Duel.NegateEffect(ev) end

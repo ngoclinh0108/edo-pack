@@ -172,7 +172,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local g = Duel.SelectTarget(tp, Card.IsAbleToRemove, tp, 0,
                                 LOCATION_ONFIELD, 1, 1, nil)
 
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)

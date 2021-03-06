@@ -60,20 +60,19 @@ function s.initial_effect(c)
 
     -- negate effect, atk down & damage
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_DISABLE + CATEGORY_ATKCHANGE + CATEGORY_DAMAGE)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1)
-    e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
     -- to extra & special summon
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetDescription(aux.Stringid(id, 1))
     e4:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -94,16 +93,7 @@ function s.e1val(e, re, val, r, rp, rc)
 end
 
 function s.e3filter(c)
-    return c:IsFaceup() and not (c:IsDisabled() and c:IsAttackBelow(0))
-end
-
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:GetCounter(0x10) > 0 end
-
-    local ct = c:GetCounter(0x10)
-    c:RemoveCounter(tp, 0x10, ct, REASON_COST)
-    e:SetLabel(ct)
+    return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -115,16 +105,15 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local g =
         Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil)
 
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, #g, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() or
-        (tc:IsDisabled() and tc:IsAttackBelow(0)) then return end
+        tc:IsDisabled() then return end
 
-    local atk = tc:GetAttack()
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_DISABLE)
@@ -135,15 +124,18 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetCode(EFFECT_DISABLE_EFFECT)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec2)
+    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec2) then return end
     Duel.AdjustInstantly(tc)
 
+    local atk = tc:GetAttack()
     local ec3 = Effect.CreateEffect(c)
     ec3:SetType(EFFECT_TYPE_SINGLE)
     ec3:SetCode(EFFECT_UPDATE_ATTACK)
-    ec3:SetValue(e:GetLabel() * -1000)
+    ec3:SetValue(c:GetCounter(0x10) * -700)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec3)
 
+    Duel.BreakEffect()
     local dmg = atk - tc:GetAttack()
     if dmg > 0 then Duel.Damage(1 - tp, dmg, REASON_EFFECT) end
 end
@@ -161,7 +153,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                 nil, e, tp)
 
     Duel.SetOperationInfo(0, CATEGORY_TODECK, e:GetHandler(), 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)

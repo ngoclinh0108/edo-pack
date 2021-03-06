@@ -61,7 +61,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                 nil, e, tp)
 
     Duel.SetOperationInfo(0, CATEGORY_TODECK, e:GetHandler(), 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)

@@ -134,7 +134,7 @@ function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
         e:SetCategory(CATEGORY_REMOVE)
         local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
                                         LOCATION_ONFIELD, nil)
-        Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, tp, 0)
+        Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, tp, 0)
     elseif op == 4 then
         e:SetCategory(CATEGORY_REMOVE)
         Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 1 - tp, LOCATION_HAND)

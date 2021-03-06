@@ -48,23 +48,22 @@ type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
 level = 10
-atk = 3900
+atk = 3920
 def = 2600
 effect = """\
 "Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
 If you would take damage from a card effect, place 1 Black Feather Counter on this card instead. \
 This card gain 400 ATK for each Black Feather Counter on it. \
-Once per turn: You can remove all Black Feather Counters on this card, \
-    then target 1 face-up monster your opponent controls; \
+Once per turn: You can target 1 face-up monster your opponent controls; \
     negate its effects until the end of this turn, \
-    also, it loses 1000 ATK for each Black Feather Counter you removed, \
-    and if it does, inflict damage to your opponent equal to the ATK lost by this effect. \
+    and if you do, it loses 700 ATK for each Black Feather Counter you removed, \
+    then inflict damage to your opponent equal to the ATK lost by this effect. \
 During the End Phase: Target 1 "Black-Winged Dragon" in your GY; \
     return this card from the field to the Extra Deck, then Speicla Summon that target. \
 """
 strings = [
+    "Negate effects, down atk & inflict damage",    
     "Return to Extra Deck",
-    "Negate effects, down atk & inflict damage"
 ]
 
 [card.majestic-rose-dragon]
@@ -75,15 +74,23 @@ type = "monster synchro effect"
 attribute = "fire"
 race = "dragon"
 level = 9
-atk = 3750
+atk = 3760
 def = 2800
 effect = """\
 "Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
+If this card is Synchro Summoned: You can destroy all cards all cards your opponent controls. \
+If a monster(s) is Special Summoned to your opponent's field: \
+    Target 1 Special Summoned monster your opponent controls; \
+    return that target to the hand. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects, and if you do, its ATK becomes 0. \
+    These changes last until the end of this turn. \
 During the End Phase: Target 1 "Black Rose Dragon" in your GY; \
     return this card from the field to the Extra Deck, then Speicla Summon that target. \
 """
 strings = [
-    "Return to Extra Deck"
+    "Negate effect",
+    "Return to Extra Deck",
 ]
 
 [card.majestic-fairy-dragon]
@@ -94,14 +101,24 @@ type = "monster synchro effect"
 attribute = "light"
 race = "dragon"
 level = 9
-atk = 3650
+atk = 3640
 def = 4000
 effect = """\
 "Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
+Your opponent cannot target Field Spell you control with card effects, \
+    also it cannot be destroyed by your opponent's card effects. \
+Once per turn: You can Special Summon 1 monster from your hand or GY, \
+    but that monster cannot attack this turn. \
+    This card cannot declare an attack the turn this effect is activated. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects until the end of this turn, \
+    and if you do, gain LP equal to its ATK. \
 During the End Phase: Target 1 "Ancient Fairy Dragon" in your GY; \
     return this card from the field to the Extra Deck, then Speicla Summon that target. \
 """
 strings = [
+    "Special Summon a monster",
+    "Negate effect & gain LP",
     "Return to Extra Deck"
 ]
 
@@ -113,7 +130,7 @@ type = "monster synchro effect"
 attribute = "earth"
 race = "dragon"
 level = 9
-atk = 3700
+atk = 3720
 def = 3500
 effect = """\
 "Majestic Dragon" + "Power Tool Dragon" + 1 non-Tuner monster

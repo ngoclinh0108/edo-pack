@@ -82,7 +82,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local g = Duel.SelectTarget(tp, Card.IsAbleToHand, tp, LOCATION_GRAVE, 0, 1,
                                 1, nil)
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, #g, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -111,7 +111,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local g = Duel.SelectTarget(tp, s.e4filter, tp, 0, LOCATION_ONFIELD, 1, 1,
                                 nil)
 
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, #g, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)

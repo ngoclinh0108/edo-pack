@@ -87,7 +87,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local g = Duel.SelectTarget(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1, 1, nil)
 
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

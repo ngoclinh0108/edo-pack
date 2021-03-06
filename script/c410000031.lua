@@ -175,7 +175,7 @@ function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local g = Duel.SelectTarget(tp, s.me2filter, tp, LOCATION_GRAVE,
                                 LOCATION_GRAVE, 1, 1, nil)
 
-    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, g, #g, 0, 0)
 end
 
 function s.me2op(e, tp, eg, ep, ev, re, r, rp)
