@@ -61,10 +61,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 During the End Phase: Target 1 "Black-Winged Dragon" in your GY; \
     return this card from the field to the Extra Deck, then Speicla Summon that target. \
 """
-strings = [
-    "Negate effects, down atk & inflict damage",    
-    "Return to Extra Deck",
-]
+strings = ["Negate effects, down atk & inflict damage"]
 
 [card.majestic-rose-dragon]
 id = 410000502
@@ -88,10 +85,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 During the End Phase: Target 1 "Black Rose Dragon" in your GY; \
     return this card from the field to the Extra Deck, then Speicla Summon that target. \
 """
-strings = [
-    "Negate effect",
-    "Return to Extra Deck",
-]
+strings = ["Negate effect"]
 
 [card.majestic-fairy-dragon]
 id = 410000503
@@ -116,11 +110,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 During the End Phase: Target 1 "Ancient Fairy Dragon" in your GY; \
     return this card from the field to the Extra Deck, then Speicla Summon that target. \
 """
-strings = [
-    "Special Summon a monster",
-    "Negate effect & gain LP",
-    "Return to Extra Deck"
-]
+strings = ["Special Summon a monster", "Negate effect & gain LP"]
 
 [card.majestic-tool-dragon]
 id = 410000504
@@ -143,11 +133,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 During the End Phase: Target 1 "Power Tool Dragon" in your GY; \
     return this card from the field to the Extra Deck, then Speicla Summon that target. \
 """
-strings = [
-    "Equip a Spell",
-    "Negate effect",
-    "Return to Extra Deck"
-]
+strings = ["Negate effect"]
 
 [card.ancient-stardust-dragon]
 id = 410000505
@@ -203,7 +189,7 @@ Once per turn, when your opponent activates a card, effect OR an opponent's mons
     You can banish this card until the End Phase, \
     and if you do, negate the next attack this turn from a monster your opponent controls. \
 """
-strings = ["Negate the activation","Multi-Attack", "Banish"]
+strings = ["Negate the activation", "Multi-Attack", "Banish"]
 
 [card.shooting-star-synchron]
 id = 410000507

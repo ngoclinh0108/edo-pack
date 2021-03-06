@@ -46,7 +46,7 @@ function s.initial_effect(c)
 
     -- equip
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetDescription(518)
     e2:SetCategory(CATEGORY_EQUIP)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
@@ -57,7 +57,7 @@ function s.initial_effect(c)
 
     -- negate effect
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_DISABLE)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -67,9 +67,9 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- to extra & special summon
+    -- to extra
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 2))
+    e4:SetDescription(666002)
     e4:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)

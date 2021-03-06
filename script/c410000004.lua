@@ -19,9 +19,8 @@ function s.initial_effect(c)
         Duel.RegisterEffect(dms, tp)
     end)
 
-    -- rb at end battle
+    -- return to original at end battle
     local rb = Effect.CreateEffect(c)
-    rb:SetDescription(666002)
     rb:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     rb:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     rb:SetCode(EVENT_PHASE + PHASE_BATTLE)
