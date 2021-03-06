@@ -17,6 +17,30 @@ function s.deck_edit(tp)
         Duel.SendtoDeck(Duel.CreateToken(tp, 67030233), tp, 2, REASON_RULE)
     end
 
+    -- Black-Winged Dragon
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   9012916, 60992105) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 410000501), tp, 2, REASON_RULE)
+    end
+
+    -- Black Rose Dragon
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   73580471, 33698022) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 410000502), tp, 2, REASON_RULE)
+    end
+
+    -- Ancient Fairy Dragon
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   25862681, 4179255) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 410000503), tp, 2, REASON_RULE)
+    end
+
+    -- Power Tool Dragon
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   2403771, 68084557) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 410000504), tp, 2, REASON_RULE)
+    end
+
     -- Shooting Star Dragon
     if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
                                    24696097) then

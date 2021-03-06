@@ -1,5 +1,11 @@
+[set.majestic]
+code = 0x3f
+
 [set.stardust]
 code = 0xa3
+
+[set.rose-dragon]
+code = 0x1123
 
 [set.synchron]
 code = 0x1017
@@ -32,6 +38,82 @@ If a face-up "Power Tool" Synchro Monster(s) or Dragon Synchro Monster(s) you co
 strings = [
     "Summon via \"Mausoleum of the Signer Dragons\"",
     "Halve any damage you take",
+]
+
+[card.majestic-black-dragon]
+id = 410000501
+set = "majestic"
+name = "Majestic Black Dragon"
+type = "monster synchro effect"
+attribute = "dark"
+race = "dragon"
+level = 10
+atk = 3900
+def = 2600
+effect = """\
+"Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
+During the End Phase: Target 1 "Black-Winged Dragon" in your GY; \
+    return this card from the field to the Extra Deck, then Speicla Summon that target. \
+"""
+strings = [
+    "Return to Extra Deck"
+]
+
+[card.majestic-rose-dragon]
+id = 410000502
+set = "majestic rose-dragon"
+name = "Majestic Rose Dragon"
+type = "monster synchro effect"
+attribute = "fire"
+race = "dragon"
+level = 9
+atk = 3750
+def = 2800
+effect = """\
+"Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
+During the End Phase: Target 1 "Black Rose Dragon" in your GY; \
+    return this card from the field to the Extra Deck, then Speicla Summon that target. \
+"""
+strings = [
+    "Return to Extra Deck"
+]
+
+[card.majestic-fairy-dragon]
+id = 410000503
+set = "majestic"
+name = "Majestic Fairy Dragon"
+type = "monster synchro effect"
+attribute = "light"
+race = "dragon"
+level = 9
+atk = 3650
+def = 4000
+effect = """\
+"Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
+During the End Phase: Target 1 "Ancient Fairy Dragon" in your GY; \
+    return this card from the field to the Extra Deck, then Speicla Summon that target. \
+"""
+strings = [
+    "Return to Extra Deck"
+]
+
+[card.majestic-tool-dragon]
+id = 410000504
+set = "majestic"
+name = "Majestic Tool Dragon"
+type = "monster synchro effect"
+attribute = "earth"
+race = "dragon"
+level = 9
+atk = 3700
+def = 3500
+effect = """\
+"Majestic Dragon" + "Power Tool Dragon" + 1 non-Tuner monster
+During the End Phase: Target 1 "Power Tool Dragon" in your GY; \
+    return this card from the field to the Extra Deck, then Speicla Summon that target. \
+"""
+strings = [
+    "Return to Extra Deck"
 ]
 
 [card.ancient-stardust-dragon]
