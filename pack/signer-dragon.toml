@@ -134,10 +134,18 @@ atk = 3720
 def = 3500
 effect = """\
 "Majestic Dragon" + "Power Tool Dragon" + 1 non-Tuner monster
+If this card would be destroyed while equipped with an Equip Spell Card(s), \
+    you can send 1 of those cards to the GY instead. \
+Once per turn: You can equip 1 Equip Spell from your hand, Deck to this card. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects, and if you do, it is unaffected by your opponent's card effects. \
+    These changes last until the end of this turn. \
 During the End Phase: Target 1 "Power Tool Dragon" in your GY; \
     return this card from the field to the Extra Deck, then Speicla Summon that target. \
 """
 strings = [
+    "Equip a Spell",
+    "Negate effect",
     "Return to Extra Deck"
 ]
 
