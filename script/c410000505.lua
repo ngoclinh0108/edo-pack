@@ -14,7 +14,6 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_DELAY)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetRange(LOCATION_GRAVE)
-    e1:SetCountLimit(1, id)
     e1:SetCondition(s.e1con)
     e1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then return e:GetHandler():IsAbleToHand() end
@@ -77,10 +76,14 @@ function s.e1filter(c, tp)
     local rc = c:GetReasonEffect():GetHandler()
     if rc and rc:IsCode(id) then return false end
 
+    local mt = c:GetMetatable()
+    local ct = 0
+    if mt.synchro_tuner_required then ct = ct + mt.synchro_tuner_required end
+    if mt.synchro_nt_required then ct = ct + mt.synchro_nt_required end
+
     return c:IsType(TYPE_SYNCHRO) and c:IsControler(tp) and
-               c:IsSummonType(SUMMON_TYPE_SYNCHRO) and
-               ((c:IsLevelAbove(7) and c:IsRace(RACE_DRAGON)) or
-                   c:IsSetCard(0xc2))
+               c:IsSummonType(SUMMON_TYPE_SYNCHRO) and ct > 0
+
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)

@@ -144,10 +144,9 @@ name = "Signer Overdrive"
 type = "quick-play spell"
 effect = """\
 While you control "Mausoleum of the Signer Dragons", \
-    if a "Power Tool" Synchro Monster, or Level 7 or higher Dragon Synchro Monster is Synchro Summoned to your field, \
+    if a Dragon Synchro Monster that list a Synchro Monster as material is Synchro Summoned to your field, \
     except with effects of "Signer Overdrive": \
     You can add this card from your GY to your hand. \
-    You can only use this effect of "Signer Overdrive" once per turn. \
 During the Main Phase, activate 1 of these effect.
 ● Place 1 Level 1 Dragon monster from your hand, Deck or GY on top of your Deck.
 ● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your Deck to the GY.
@@ -224,9 +223,8 @@ effect = """\
 (This card's name is always treated as "Majestic Dragon".)
 If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
     This effect cannot be negated. \
-If this card is in your hand or GY: \
-    You can Tribute 1 monster; Special Summon this card in Defense Position, \
-    but banish it when it leaves the field, \
+If this card is in your hand or GY, and you control a "Power Tool" Synchro Monster or Level 7 or higher Dragon Synchro Monster: \
+    You can Special Summon this card in Defense Position, \
     also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except "Majestic" Synchro Monsters. \
 You can only use this effect of "Savior Dragon" once per turn. \
 """
