@@ -106,18 +106,18 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp,
-                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
-                                           nil)
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND +
+                                               LOCATION_DECK + LOCATION_GRAVE,
+                                           0, 1, nil)
     end
     Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK)
+                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp,
-                                       LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-                                       nil):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_HAND +
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                       1, nil):GetFirst()
     if not tc then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)

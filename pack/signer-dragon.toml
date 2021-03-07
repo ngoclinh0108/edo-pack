@@ -10,6 +10,9 @@ code = 0x1123
 [set.synchron]
 code = 0x1017
 
+[set.warrior]
+code = 0x66
+
 [card.mausoleum-signer-dragons]
 id = 410000500
 name = "Mausoleum of the Signer Dragons"
@@ -146,7 +149,7 @@ While you control "Mausoleum of the Signer Dragons", \
     You can add this card from your GY to your hand. \
     You can only use this effect of "Signer Overdrive" once per turn. \
 During the Main Phase, activate 1 of these effect.
-● Place 1 Level 1 Dragon monster from your hand or Deck on top of your Deck. \
+● Place 1 Level 1 Dragon monster from your hand, Deck or GY on top of your Deck.
 ● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your Deck to the GY.
 ● Special Summon 1 Tuner Dragon Synchro Monster from your Extra Deck or GY. \
     (This Special Summon is treated as a Synchro Summon.)
@@ -329,3 +332,24 @@ While this card is in your GY: \
     You can only use this effect of "Shooting Star Synchron" once per turn. \
 """
 strings = []
+
+[card.mach-warrior]
+id = 410000513
+set = "warrior"
+name = "Mach Warrior"
+type = "monster synchro effect"
+attribute = "wind"
+race = "warrior"
+level = 7
+atk = 2500
+def = 1500
+effect = """\
+1 "Synchron" Tuner + 1+ non-Tuner monsters
+If this card is Synchro Summoned: You can target 1 card in your GY; add it to your hand. \
+You can Special Summon 1 Level 2 or lower Warrior or Machine-Type monster from your Deck in Defense Position. \
+You can banish this card from your GY, then target 1 Level 8 or lower \
+    "Warrior", "Synchron", or "Stardust" Synchro Monster in your GY, except "Mach Warrior"; \
+    Special Summon it in Defense Position. \
+You can only use each effect of "Mach Warrior" once per turn. \
+"""
+strings = ["Special Summon 1 Level 2 or lower Warrior or Machine-Type monster"]
