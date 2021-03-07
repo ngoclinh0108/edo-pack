@@ -1,144 +1,234 @@
--- Shooting Star Synchron
+-- Shooting Stardust Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
+
+s.listed_names = {CARD_STARDUST_DRAGON}
+s.listed_series = {0xa3}
+s.synchro_tuner_required = 1
+s.synchro_nt_required = 1
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    Synchro.AddProcedure(c, nil, 1, 1, Synchro.NonTuner(nil), 1, 1)
+    Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsType, TYPE_SYNCHRO),
+                         1, 1, function(c, scard, sumtype, tp)
+        return c:IsSummonCode(scard, sumtype, tp, CARD_STARDUST_DRAGON) or
+                   (c:IsSetCard(0xa3) and c:IsRace(RACE_DRAGON) and
+                       c:IsType(TYPE_SYNCHRO))
+    end, 1, 1)
 
-    -- draw
+    -- code
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(24696097)
+    c:RegisterEffect(code)
+
+    -- double tuner check
+    local doubletuner = Effect.CreateEffect(c)
+    doubletuner:SetType(EFFECT_TYPE_SINGLE)
+    doubletuner:SetCode(EFFECT_MATERIAL_CHECK)
+    doubletuner:SetValue(function(e, c)
+        local g = c:GetMaterial()
+        if not g:IsExists(Card.IsType, 2, nil, TYPE_TUNER) then return end
+
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+        ec1:SetCode(21142671)
+        ec1:SetReset(
+            RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD + RESET_PHASE +
+                PHASE_END)
+        c:RegisterEffect(ec1)
+    end)
+    c:RegisterEffect(doubletuner)
+
+    -- opponent's turn synchro
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_DRAW)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DELAY)
-    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetDescription(aux.Stringid(575512, 0))
+    e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_UNCOPYABLE)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetRange(LOCATION_EXTRA)
+    e1:SetHintTiming(0, TIMING_END_PHASE + TIMING_MAIN_END)
+    e1:SetCountLimit(1)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- treated as a non-tuner
+    -- negate
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE +
-                       EFFECT_FLAG_CANNOT_NEGATE)
-    e2:SetCode(EFFECT_NONTUNER)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e2:SetCode(EVENT_CHAINING)
     e2:SetRange(LOCATION_MZONE)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- synchro
+    -- multi attack
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(1172)
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetCountLimit(1)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
     e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- shuffle & special summon
+    -- banish
     local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_TODECK)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetRange(LOCATION_GRAVE)
-    e4:SetCountLimit(1, id)
+    e4:SetDescription(aux.Stringid(id, 2))
+    e4:SetCategory(CATEGORY_REMOVE)
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetCode(EVENT_CHAINING)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e4:SetCondition(s.e4con1)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_FIELD)
+    e4b:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e4b:SetCondition(s.e4con2)
+    c:RegisterEffect(e4b)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() ~= tp end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
-
-    Duel.SetTargetPlayer(tp)
-    Duel.SetTargetParam(1)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsSynchroSummonable(nil) end
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, tp, LOCATION_EXTRA)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
-    Duel.Draw(p, d, REASON_EFFECT)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.SynchroSummon(tp, c, nil)
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) or
+        re:GetHandler() == c or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
+        return false
+    end
+
+    if re:IsHasCategory(CATEGORY_NEGATE) and
+        Duel.GetChainInfo(ev - 1, CHAININFO_TRIGGERING_EFFECT):IsHasType(
+            EFFECT_TYPE_ACTIVATE) then return false end
+
+    local ex, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
+    return ex and tg ~= nil and tc + tg:FilterCount(Card.IsOnField, c) - #tg > 0
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, #eg, 0, 0)
+    if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
+    end
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
+        Duel.Destroy(eg, REASON_EFFECT)
+    end
+
+    e:GetHandler():RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD +
+                                          RESET_PHASE + PHASE_END, 0, 0)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp and
-               (Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() ==
-                   PHASE_MAIN2)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsSynchroSummonable, tp,
-                                           LOCATION_EXTRA, 0, 1, nil, c) and
-                   c:GetFlagEffect(id) == 0
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
-    c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
+    return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) >= 5 and
+               Duel.IsAbleToEnterBP()
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsControler(1 - tp) or not c:IsRelateToEffect(e) or c:IsFacedown() then
-        return
-    end
 
-    local g = Duel.GetMatchingGroup(Card.IsSynchroSummonable, tp,
-                                    LOCATION_EXTRA, 0, nil, c)
-    if #g > 0 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local sc = g:Select(tp, 1, 1, nil):GetFirst()
-        Duel.SynchroSummon(tp, sc, c)
+    Duel.ConfirmDecktop(tp, 5)
+    local ct = Duel.GetDecktopGroup(tp, 5):FilterCount(Card.IsType, nil,
+                                                       TYPE_TUNER)
+    Duel.ShuffleDeck(tp)
+
+    if ct > 1 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        ec1:SetCode(EFFECT_EXTRA_ATTACK)
+        ec1:SetValue(ct - 1)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec1)
+    elseif ct == 0 then
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetDescription(3206)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
+        ec2:SetCode(EFFECT_CANNOT_ATTACK)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec2)
     end
 end
 
-function s.e4filter(c) return c:IsType(TYPE_TUNER) and c:IsAbleToDeck() end
+function s.e4con1(e, tp, eg, ep, ev, re, r, rp) return rp == 1 - tp end
+
+function s.e4con2(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttacker():GetControler() ~= tp
+end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_GRAVE,
-                                               0, 1, c)
-    end
+    if chk == 0 then return c:IsAbleToRemove() end
 
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_GRAVE)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, tp, LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, c, 1, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or not c:IsControler(tp) or
+        Duel.Remove(c, nil, REASON_EFFECT + REASON_TEMPORARY) == 0 then
+        return
+    end
 
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetTarget(function(e, c)
-        return not c:IsType(TYPE_SYNCHRO) and c:IsLocation(LOCATION_EXTRA)
-    end)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetCode(EVENT_PHASE + PHASE_END)
+    ec1:SetLabelObject(c)
+    ec1:SetCountLimit(1)
+    ec1:SetOperation(s.e4retop)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
-    aux.RegisterClientHint(c, nil, tp, 1, 0, 666004, nil)
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectMatchingCard(tp, s.e4filter, tp, LOCATION_GRAVE, 0, 1,
-                                      1, c)
-    if #g == 0 or Duel.SendtoDeck(g, nil, 2, REASON_EFFECT) == 0 then return end
+    if Duel.GetAttacker() and Duel.GetAttacker():GetControler() ~= tp then
+        Duel.NegateAttack()
+    else
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        ec2:SetCode(EVENT_ATTACK_ANNOUNCE)
+        ec2:SetCountLimit(1)
+        ec2:SetCondition(s.e4con2)
+        ec2:SetOperation(s.e4daop)
+        ec2:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec2, tp)
+    end
+end
 
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or
-        not c:IsRelateToEffect(e) then return end
+function s.e4retop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.ReturnToField(e:GetLabelObject())
+end
 
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+function s.e4daop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_CARD, 0, id)
+    Duel.NegateAttack()
 end

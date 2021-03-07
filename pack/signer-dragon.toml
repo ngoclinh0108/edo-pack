@@ -146,12 +146,14 @@ While you control "Mausoleum of the Signer Dragons", \
     You can add this card from your GY to your hand. \
     You can only use this effect of "Signer Overdrive" once per turn. \
 During the Main Phase, activate 1 of these effect.
+● Special Summon 1 Tuner Dragon Synchro Monster from your Extra Deck or GY. \
+    (This Special Summon is treated as a Synchro Summon.)
 ● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your Deck to the GY.
 ● Banish 1 Tuner and up to 2 non-Tuner monsters you control and/or from your GY, and if you do, \
     Special Summon 1 Synchro Monster from your Extra Deck whose Level equals the total Levels of those banished monsters. \
     (This Special Summon is treated as a Synchro Summon.)
 """
-strings = ["Search Tuner", "Synchro Summon"]
+strings = ["Special Summon a Dragon","Search Tuner", "Synchro Summon"]
 
 [card.spark-synchron]
 id = 410000506
@@ -182,9 +184,9 @@ name = "Mach Synchron"
 type = "monster tuner effect"
 attribute = "wind"
 race = "machine"
-level = 1
-atk = 500
-def = 0
+level = 2
+atk = 300
+def = 100
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
 If this card is sent to the GY as Synchro Material: \
@@ -199,7 +201,7 @@ You can only use 1 "Mach Synchron" effect per turn, and only once that turn. \
 strings = []
 
 [card.stardust-moose]
-id = 410000508
+id = 410000509
 set = "stardust"
 name = "Stardust Moose"
 type = "monster effect"
@@ -218,31 +220,6 @@ You can Tribute this card; Special Summon 1 Level 1 Dragon monster from your han
 You can only use each effect of "Spark Moose" once per turn. \
 """
 strings = ["Special Summon a monster"]
-
-[card.shooting-stardust-dragon]
-id = 410000509
-set = "stardust"
-name = "Shooting Stardust Dragon"
-type = "monster synchro effect"
-attribute = "light"
-race = "dragon"
-level = 10
-atk = 3300
-def = 2500
-effect = """\
-1 Tuner Synchro Monster + 1 "Stardust Dragon" or "Stardust" Dragon Synchro Monster
-(This card is also always treated as "Shooting Star Dragon")
-Once per turn, during your opponent's turn, you can (Quick Effect): \
-    Immediately after this effect resolves, Synchro Summon this card from your Extra Deck using monsters you control. \
-When a card or effect is activated that targets and would destroy other card(s) on the field (Quick Effect): \
-    You can negate the activation, and if you do, destroy it. \
-Once per turn: You can excavate the top 5 cards of your Deck, shuffle them back in, \
-    also this card's maximum number of attacks per Battle Phase this turn equals the number of Tuner monsters excavated. \
-Once per turn, when your opponent activates a card, effect OR an opponent's monster attacks (Quick Effect): \
-    You can banish this card until the End Phase, \
-    and if you do, negate the next attack this turn from a monster your opponent controls. \
-"""
-strings = ["Negate the activation", "Multi-Attack", "Banish"]
 
 [card.ancient-stardust-dragon]
 id = 410000510
@@ -275,8 +252,33 @@ strings = [
     "Negate the activation",
 ]
 
-[card.shooting-star-synchron]
+[card.shooting-stardust-dragon]
 id = 410000511
+set = "stardust"
+name = "Shooting Stardust Dragon"
+type = "monster synchro effect"
+attribute = "light"
+race = "dragon"
+level = 10
+atk = 3300
+def = 2500
+effect = """\
+1 Tuner Synchro Monster + 1 "Stardust Dragon" or "Stardust" Dragon Synchro Monster
+(This card is also always treated as "Shooting Star Dragon")
+Once per turn, during your opponent's turn, you can (Quick Effect): \
+    Immediately after this effect resolves, Synchro Summon this card from your Extra Deck using monsters you control. \
+When a card or effect is activated that targets and would destroy other card(s) on the field (Quick Effect): \
+    You can negate the activation, and if you do, destroy it. \
+Once per turn: You can excavate the top 5 cards of your Deck, shuffle them back in, \
+    also this card's maximum number of attacks per Battle Phase this turn equals the number of Tuner monsters excavated. \
+Once per turn, when your opponent activates a card, effect OR an opponent's monster attacks (Quick Effect): \
+    You can banish this card until the End Phase, \
+    and if you do, negate the next attack this turn from a monster your opponent controls. \
+"""
+strings = ["Negate the activation", "Multi-Attack", "Banish"]
+
+[card.shooting-star-synchron]
+id = 410000512
 set = "synchron"
 name = "Shooting Star Synchron"
 type = "monster synchro tuner effect"
