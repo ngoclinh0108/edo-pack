@@ -173,7 +173,7 @@ Once per turn (Quick Effect): You can pay LP so that you only have 1 left; This 
 Once per turn (Quick Effect): You can Tribute any number of other monsters; \
     this card gains original ATK/DEF equal to the combined original ATK/DEF the Tributed monsters. \
 Once per chain (Quick Effect): You can pay 1000 LP, then destroy 1 other monster on the field with the same or lower Divine Hierarchy, ignoring card effects. \
-During the End Phase, Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in face-up Defense Position if able (Transfer materials to it.), \
+During the End Phase, Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in Defense Position if able (Transfer materials to it.), \
     if you don't, send this card to the GY. \
 """
 strings = [
@@ -196,7 +196,7 @@ effect = """\
 You can Tribute this card from your hand or face-up field; \
     Add 1 "Obelisk the Tormentor" from your Deck or GY to your hand. \
 Once while face-up on the field: \
-    You can Special Summon up to 2 Level 4 Fairy "Palladium" monsters in face-up Defense Position from your hand, Deck or GY. except "Palladium Apostle of Obelisk". \
+    You can Special Summon up to 2 Level 4 Fairy "Palladium" monsters in Defense Position from your hand, Deck or GY. except "Palladium Apostle of Obelisk". \
     This card cannot declare an attack the turn this effect is activated. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
     You can add up to 3 cards from your GY to your hand. \
@@ -218,7 +218,7 @@ effect = """\
 You can Tribute this card from your hand or face-up field; \
     Add 1 "Slifer the Sky Dragon" from your Deck or GY to your hand. \
 Once while face-up on the field: \
-    You can Special Summon up to 2 Level 4 Fairy "Palladium" monsters in face-up Defense Position from your hand, Deck or GY. except "Palladium Apostle of Slifer". \
+    You can Special Summon up to 2 Level 4 Fairy "Palladium" monsters in Defense Position from your hand, Deck or GY. except "Palladium Apostle of Slifer". \
     This card cannot declare an attack the turn this effect is activated. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
     You can draw 3 cards. \
@@ -240,7 +240,7 @@ effect = """\
 You can Tribute this card from your hand or face-up field; \
     Add 1 "The Winged Dragon of Ra" from your Deck or GY to your hand. \
 Once while face-up on the field: \
-    You can Special Summon up to 2 Level 4 Fairy "Palladium" monsters in face-up Defense Position from your hand, Deck or GY. except "Palladium Apostle of Ra". \
+    You can Special Summon up to 2 Level 4 Fairy "Palladium" monsters in Defense Position from your hand, Deck or GY. except "Palladium Apostle of Ra". \
     This card cannot declare an attack the turn this effect is activated. \
 If this card is Tributed for the Tribute Summon of a Divine-Beast monster: \
     You can gain 4000 LP. \
@@ -376,7 +376,7 @@ This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" m
 You take no Battle Damage from battles involving this card. \
 If this card on the field is destroyed: You take no damage this turn. \
 When an opponent's monster declares a directly attack: \
-    You can Special Summon this card from the GY in face-up Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
+    You can Special Summon this card from the GY in Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
     You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
 """
 strings = []
@@ -397,7 +397,7 @@ When you Ritual Summon a "Palladium" monster, you can banish this card from your
 You can Normal Summon this card without Tributing, but its original ATK become 1900. \
 You can only use each of the following effects of "Palladium Oracle Faris" once per turn.
 ● If this card is Summoned: You can Special Summon 1 Level 4 or lower "Palladium" Tuner monster \
-    from your hand, Deck or GY in face-up Defense Position.
+    from your hand, Deck or GY in Defense Position.
 ● If this card is used as material for a Ritual, Fusion, Synchro, Link Summon, \
     or is detached from an Xyz Monster to activate that monster's effect: \
     You can add 1 "Palladium" Spell/Trap from your Deck or GY to your hand.
@@ -840,7 +840,7 @@ effect = """\
 While this card is in your hand or GY: \
     You can shuffle 1 Dragon or Warrior monster, except "Palladium Draco-Knight of Atlantis", \
     from your GY or face-up Extra Deck into the Deck; \
-    Special Summon this card in face-up Defense Position. \
+    Special Summon this card in Defense Position. \
     You can only use this effect of "Palladium Draco-Knight of Atlantis" twice per turn. \
 Once per turn, you can send 1 card from your hand or Deck to the GY. \
 (Quick Effect): You can Tribute this card; \
