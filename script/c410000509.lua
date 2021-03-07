@@ -36,13 +36,15 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
+function s.e2filter(c) return c:IsType(TYPE_TUNER) end
+
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, nil, 1, false,
+        return Duel.CheckReleaseGroupCost(tp, s.e2filter, 1, false,
                                           aux.ReleaseCheckMMZ, nil)
     end
 
-    local g = Duel.SelectReleaseGroupCost(tp, nil, 1, 1, false,
+    local g = Duel.SelectReleaseGroupCost(tp, s.e2filter, 1, 1, false,
                                           aux.ReleaseCheckMMZ, nil)
     Duel.Release(g, REASON_COST)
 end
@@ -83,8 +85,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c, e, tp)
-    return c:IsLevel(1) and c:IsRace(RACE_DRAGON) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsLevel(1) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
