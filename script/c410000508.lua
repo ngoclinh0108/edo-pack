@@ -40,7 +40,8 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)
+        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, c:GetLocation())
 end
@@ -61,6 +62,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
     aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 0), nil)
 
-    if not c:IsRelateToEffect(e) then return end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or
+        not c:IsRelateToEffect(e) then return end
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
 end
