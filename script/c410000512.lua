@@ -135,7 +135,9 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
     local g = Duel.SelectMatchingCard(tp, s.e4filter, tp, LOCATION_GRAVE, 0, 1,
                                       1, c)
-    if #g == 0 or Duel.SendtoDeck(g, nil, 2, REASON_EFFECT) == 0 then return end
+    if #g == 0 or Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT) == 0 then
+        return
+    end
 
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or
         not c:IsRelateToEffect(e) then return end

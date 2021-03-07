@@ -28,13 +28,12 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1)
 
-    -- special summon
+    -- place dragon
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetCategory(CATEGORY_TODECK)
     e2:SetType(EFFECT_TYPE_ACTIVATE)
     e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetCondition(function() return Duel.IsMainPhase() end)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -51,16 +50,27 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- synchro summon
+    -- special summon
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 2))
-    e4:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON)
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_ACTIVATE)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetCondition(function() return Duel.IsMainPhase() end)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
+
+    -- synchro summon
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 3))
+    e5:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON)
+    e5:SetType(EFFECT_TYPE_ACTIVATE)
+    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetCondition(function() return Duel.IsMainPhase() end)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.e1filter(c, tp)
@@ -89,30 +99,35 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if c:IsRelateToEffect(e) then Duel.SendtoHand(c, nil, REASON_EFFECT) end
 end
 
-function s.e2filter(c, e, tp)
-    return c:IsType(TYPE_TUNER) and c:IsRace(RACE_DRAGON) and
-               c:IsType(TYPE_SYNCHRO) and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+function s.e2filter(c)
+    return c:IsLevel(1) and c:IsRace(RACE_DRAGON) and
+               (c:IsLocation(LOCATION_DECK) or c:IsAbleToDeck())
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e2filter, tp,
-                                           LOCATION_EXTRA + LOCATION_GRAVE, 0,
-                                           1, nil, e, tp)
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+                                           nil)
     end
-
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0,
-                          LOCATION_EXTRA + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp,
+                          LOCATION_HAND + LOCATION_DECK)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp,
-                                      LOCATION_EXTRA + LOCATION_GRAVE, 0, 1, 1,
-                                      nil, e, tp)
-    if #g > 0 then Duel.SpecialSummon(g, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) end
+    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp,
+                                       LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
+                                       nil):GetFirst()
+    if not tc then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    if tc:IsLocation(LOCATION_DECK) then
+        Duel.ShuffleDeck(tp)
+        Duel.MoveSequence(tc, SEQ_DECKTOP)
+    else
+        Duel.SendtoDeck(tc, nil, SEQ_DECKTOP, REASON_EFFECT)
+    end
+    Duel.ConfirmDecktop(tp, 1)
 end
 
 function s.e3check1(c) return c:IsAbleToHand() end
@@ -171,7 +186,36 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4rescon(tuner, scard)
+function s.e4filter(c, e, tp)
+    return c:IsType(TYPE_TUNER) and c:IsRace(RACE_DRAGON) and
+               c:IsType(TYPE_SYNCHRO) and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter, tp,
+                                           LOCATION_EXTRA + LOCATION_GRAVE, 0,
+                                           1, nil, e, tp)
+    end
+
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0,
+                          LOCATION_EXTRA + LOCATION_GRAVE)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectMatchingCard(tp, s.e4filter, tp,
+                                      LOCATION_EXTRA + LOCATION_GRAVE, 0, 1, 1,
+                                      nil, e, tp)
+    if #g > 0 then
+        Duel.SpecialSummon(g, SUMMON_TYPE_SYNCHRO, tp, tp, false, false,
+                           POS_FACEUP)
+    end
+end
+
+function s.e5rescon(tuner, scard)
     return function(sg, e, tp, mg)
         sg:AddCard(tuner)
         local res = Duel.GetLocationCountFromEx(tp, tp, sg, scard) > 0 and
@@ -182,57 +226,57 @@ function s.e4rescon(tuner, scard)
     end
 end
 
-function s.e4filter1(c, e, tp)
+function s.e5filter1(c, e, tp)
     return c:IsType(TYPE_SYNCHRO) and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
-               Duel.IsExistingMatchingCard(s.e4filter2, tp,
+               Duel.IsExistingMatchingCard(s.e5filter2, tp,
                                            LOCATION_MZONE + LOCATION_GRAVE, 0,
                                            1, nil, e, tp, c)
 end
 
-function s.e4filter2(c, e, tp, sc)
-    local g = Duel.GetMatchingGroup(s.e4filter3, tp,
+function s.e5filter2(c, e, tp, sc)
+    local g = Duel.GetMatchingGroup(s.e5filter3, tp,
                                     LOCATION_MZONE + LOCATION_GRAVE, 0, c)
-    return aux.SelectUnselectGroup(g, e, tp, nil, 2, s.e4rescon(c, sc), 0) and
+    return aux.SelectUnselectGroup(g, e, tp, nil, 2, s.e5rescon(c, sc), 0) and
                c:IsType(TYPE_TUNER) and c:IsAbleToRemove()
 
 end
 
-function s.e4filter3(c)
+function s.e5filter3(c)
     return not c:IsType(TYPE_TUNER) and c:IsAbleToRemove() and c:HasLevel()
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         local pg = aux.GetMustBeMaterialGroup(tp, Group.CreateGroup(), tp, nil,
                                               nil, REASON_SYNCHRO)
-        return Duel.IsExistingMatchingCard(s.e4filter1, tp, LOCATION_EXTRA, 0,
+        return Duel.IsExistingMatchingCard(s.e5filter1, tp, LOCATION_EXTRA, 0,
                                            1, nil, e, tp) and #pg <= 0
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local pg = aux.GetMustBeMaterialGroup(tp, Group.CreateGroup(), tp, nil, nil,
                                           REASON_SYNCHRO)
     if #pg > 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local sc = Duel.SelectMatchingCard(tp, s.e4filter1, tp, LOCATION_EXTRA, 0,
+    local sc = Duel.SelectMatchingCard(tp, s.e5filter1, tp, LOCATION_EXTRA, 0,
                                        1, 1, nil, e, tp):GetFirst()
     if sc then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
-        local tuner = Duel.SelectMatchingCard(tp, s.e4filter2, tp,
+        local tuner = Duel.SelectMatchingCard(tp, s.e5filter2, tp,
                                               LOCATION_MZONE + LOCATION_GRAVE,
                                               0, 1, 1, nil, e, tp, sc):GetFirst()
-        local nontuners = Duel.GetMatchingGroup(s.e4filter3, tp,
+        local nontuners = Duel.GetMatchingGroup(s.e5filter3, tp,
                                                 LOCATION_MZONE + LOCATION_GRAVE,
                                                 0, tuner)
 
         local sg = aux.SelectUnselectGroup(nontuners, e, tp, 1, 2,
-                                           s.e4rescon(tuner, sc), 1, tp,
-                                           HINTMSG_REMOVE, s.e4rescon(tuner, sc))
+                                           s.e5rescon(tuner, sc), 1, tp,
+                                           HINTMSG_REMOVE, s.e5rescon(tuner, sc))
         sg:AddCard(tuner)
         Duel.Remove(sg, POS_FACEUP, REASON_EFFECT)
 

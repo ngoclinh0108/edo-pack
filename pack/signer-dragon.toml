@@ -146,21 +146,27 @@ While you control "Mausoleum of the Signer Dragons", \
     You can add this card from your GY to your hand. \
     You can only use this effect of "Signer Overdrive" once per turn. \
 During the Main Phase, activate 1 of these effect.
+● Place 1 Level 1 Dragon monster from your hand or Deck on top of your Deck. \
+● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your Deck to the GY.
 ● Special Summon 1 Tuner Dragon Synchro Monster from your Extra Deck or GY. \
     (This Special Summon is treated as a Synchro Summon.)
-● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your Deck to the GY.
 ● Banish 1 Tuner and up to 2 non-Tuner monsters you control and/or from your GY, and if you do, \
     Special Summon 1 Synchro Monster from your Extra Deck whose Level equals the total Levels of those banished monsters. \
     (This Special Summon is treated as a Synchro Summon.)
 """
-strings = ["Special Summon a Dragon","Search Tuner", "Synchro Summon"]
+strings = [
+    "Place a Dragon on top deck",
+    "Search Tuner",
+    "Summon a Dragon",
+    "Synchro Summon",
+]
 
 [card.spark-synchron]
 id = 410000506
 set = "synchron"
 name = "Spark Synchron"
 type = "monster tuner effect"
-attribute = "light"
+attribute = "wind"
 race = "machine"
 level = 3
 atk = 1300
@@ -199,6 +205,27 @@ If this card is in your GY: You can discard 1 card; \
 You can only use 1 "Mach Synchron" effect per turn, and only once that turn. \
 """
 strings = []
+
+[card.savior-dragon]
+id = 410000508
+alias = 21159309
+name = "Savior Dragon"
+type = "monster tuner effect"
+attribute = "light"
+race = "dragon"
+level = 1
+atk = 0
+def = 0
+effect = """\
+(This card's name is always treated as "Majestic Dragon".)
+If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
+    This effect cannot be negated. \
+If this card is in your hand or GY: \
+    You can Tribute 1 monster; Special Summon this card in Defense Position, \
+    also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except "Majestic" Synchro Monsters. \
+You can only use this effect of "Savior Dragon" once per turn. \
+"""
+strings = ["Cannot Special Summon monsters from the Extra Deck, except \"Majestic\" Synchro Monsters"]
 
 [card.stardust-moose]
 id = 410000509
@@ -294,7 +321,8 @@ If this card you control is used as Synchro Material, you can treat it as a non-
     This effect cannot be negated. \
 Once per Chain, during your opponent's Main Phase, you can (Quick Effect): \
     Immediately after this effect resolves, Synchro Summon using this card you control. \
-While this card is in your GY: You can shuffle 1 other Tuner monster in your GY into the Deck, \
+While this card is in your GY: \
+    You can return 1 other Tuner monster in your GY to the top of your Deck, \
     and if you do, Special Summon this card in Defense Position, \
     also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except Synchro Monsters. \
     You can only use this effect of "Shooting Star Synchron" once per turn. \
