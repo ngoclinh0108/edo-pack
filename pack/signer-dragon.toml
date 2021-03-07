@@ -23,19 +23,20 @@ Add from Outside "Majestic" versions of your Signer Dragons, \
 Alternative versions of Signer Dragons is always treated as Signer Dragons. \
 ]
 
-Special Summons of your "Power Tool" Synchro Monsters and Dragon Synchro Monsters cannot be negated. \
+During your Draw Phase, before you draw: You can give up your normal draw this turn, \
+    and if you do, add 1 "Signer Overdrive" from your Deck or GY to your hand. \
+Special Summons of your "Power Tool" Synchro Monsters and Level 7 or higher Dragon Synchro Monsters cannot be negated. \
 Neither player can return "Majestic" Synchro Monsters from the field to the Extra Deck. \
-During your Draw phase, before you draw: \
-    You can place 1 Level 1 Dragon monster from your hand or Deck on top of your Deck. \
 During your Main Phase, you can Normal Summon 1 Tuner monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
-If a "Power Tool" Synchro Monster(s) or Dragon Synchro Monster(s) is Special Summoned: You can draw 1 card. \
-If a face-up "Power Tool" Synchro Monster(s) or Dragon Synchro Monster(s) you control leaves the field to activate your card effect, or by your card effect: \
+If a "Power Tool" Synchro Monster(s) or Level 7 or higher Dragon Synchro Monster(s) is Special Summoned: You can draw 1 card. \
+If a face-up "Power Tool" Synchro Monster(s) or Level 7 or higher Dragon Synchro Monster(s) you control leaves the field to activate your card effect, or by your card effect: \
     You can apply 1 of the following effects. You cannot apply that same effect of "Mausoleum of the Signer Dragons" for the rest of this turn.
 ● Special Summon 1 of those monsters.
 ● Any damage you take this turn is halved.
 """
 strings = [
+    "Add \"Signer Overdrive\"",
     "Summon via \"Mausoleum of the Signer Dragons\"",
     "Halve any damage you take",
 ]
@@ -139,10 +140,12 @@ id = 410000505
 name = "Signer Overdrive"
 type = "quick-play spell"
 effect = """\
-During your Draw Phase, if you control "Mausoleum of the Signer Dragons": \
-    You can add this card from your Deck or GY to your hand. \
+While you control "Mausoleum of the Signer Dragons", \
+    if a "Power Tool" Synchro Monster, or Level 7 or higher Dragon Synchro Monster is Synchro Summoned to your field, \
+    except with effects of "Signer Overdrive": \
+    You can add this card from your GY to your hand. \
     You can only use this effect of "Signer Overdrive" once per turn. \
-During the Main Phase, activate 1 of these effect. You cannot apply that same effect of "Signer Overdrive" for the rest of this turn.
+During the Main Phase, activate 1 of these effect.
 ● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your Deck to the GY.
 ● Banish 1 Tuner and up to 2 non-Tuner monsters you control and/or from your GY, and if you do, \
     Special Summon 1 Synchro Monster from your Extra Deck whose Level equals the total Levels of those banished monsters. \
@@ -164,10 +167,11 @@ effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
 If this card is Summoned: \
     You can Special Summon 1 Level 2 or lower monster from your hand or GY in Defense Position, \
-    but it cannot activate its effects this turn. \
+    but it cannot activate its effects this turn, \
+    also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except Synchro Monsters. \
 You can Tribute this card; Special Summon 1 "Synchron" Tuner from your Deck or GY in Defense Position, \
     except "Spark Synchron". \
-You can only use each effect of "Spark Synchron" once per turn. \
+You can only use this effect of "Spark Synchron" once per turn. \
 """
 strings = ["Special Summon a \"Synchron\" Tuner"]
 

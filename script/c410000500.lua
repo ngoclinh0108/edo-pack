@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {410000505}
 s.listed_series = {0xc2, 0x3f}
 
 function s.deck_edit(tp)
@@ -99,45 +100,48 @@ function s.initial_effect(c)
     act:SetCode(EVENT_FREE_CHAIN)
     c:RegisterEffect(act)
 
-    -- cannot disable summon
+    -- search
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
-    e1:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e1:SetCode(EVENT_PREDRAW)
     e1:SetRange(LOCATION_FZONE)
-    e1:SetTargetRange(1, 0)
-    e1:SetTarget(function(e, c)
-        return c:IsType(TYPE_SYNCHRO) and
-                   (c:IsSetCard(0xc2) or c:IsRace(RACE_DRAGON))
-    end)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- cannot to extra
+    -- cannot disable summon
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetCode(EFFECT_CANNOT_TO_DECK)
-    e2:SetRange(LOCATION_SZONE)
-    e2:SetTargetRange(LOCATION_MZONE, 0)
+    e2:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    e2:SetRange(LOCATION_FZONE)
+    e2:SetTargetRange(1, 0)
     e2:SetTarget(function(e, c)
+        if not c:IsType(TYPE_SYNCHRO) then return false end
+        return (c:IsLevelAbove(7) and c:IsRace(RACE_DRAGON)) or
+                   c:IsSetCard(0xc2)
+    end)
+    c:RegisterEffect(e2)
+
+    -- cannot to extra
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_CANNOT_TO_DECK)
+    e3:SetRange(LOCATION_SZONE)
+    e3:SetTargetRange(LOCATION_MZONE, 0)
+    e3:SetTarget(function(e, c)
         return c:IsType(TYPE_EXTRA) and c:IsType(TYPE_SYNCHRO) and
                    c:IsSetCard(0x3f)
     end)
-    e2:SetValue(1)
-    c:RegisterEffect(e2)
-
-    -- place top deck
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetCode(EVENT_PREDRAW)
-    e3:SetRange(LOCATION_FZONE)
-    e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetValue(1)
     c:RegisterEffect(e3)
 
     -- additional summon
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetDescription(aux.Stringid(id, 1))
     e4:SetType(EFFECT_TYPE_FIELD)
     e4:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
     e4:SetRange(LOCATION_FZONE)
@@ -172,49 +176,56 @@ function s.initial_effect(c)
     c:RegisterEffect(e6)
 end
 
-function s.e3filter(c)
-    return c:IsLevel(1) and c:IsRace(RACE_DRAGON) and
-               (c:IsLocation(LOCATION_DECK) or c:IsAbleToDeck())
-end
+function s.e1filter(c) return c:IsCode(410000505) and c:IsAbleToHand() end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return tp == Duel.GetTurnPlayer() and
-               Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0
+               Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
+               Duel.GetDrawCount(tp) > 0
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp,
-                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
-
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
+                          LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp,
-                                       LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-                                       nil):GetFirst()
-    if not tc then return end
+    local dt = Duel.GetDrawCount(tp)
+    if dt == 0 then return false end
+    _replace_count = 1
+    _replace_max = dt
 
-    if not tc:IsLocation(LOCATION_DECK) then
-        Duel.SendtoDeck(tc, nil, SEQ_DECKTOP, REASON_EFFECT)
-    else
-        Duel.ShuffleDeck(tp)
-        Duel.MoveSequence(tc, SEQ_DECKTOP)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_DRAW_COUNT)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(0)
+    ec1:SetReset(RESET_PHASE + PHASE_DRAW)
+    Duel.RegisterEffect(ec1, tp)
+
+    if _replace_count > _replace_max or not c:IsRelateToEffect(e) then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.GetMatchingGroup(s.e1filter, tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    if #g > 1 then g = g:Select(tp, 1, 1) end
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
     end
-    Duel.ConfirmDecktop(tp, 1)
 end
 
 function s.e5filter(c)
-    return c:IsType(TYPE_SYNCHRO) and
-               (c:IsSetCard(0xc2) or c:IsRace(RACE_DRAGON))
+    if not c:IsType(TYPE_SYNCHRO) then return false end
+    return (c:IsLevelAbove(7) and c:IsRace(RACE_DRAGON)) or c:IsSetCard(0xc2)
 end
 
 function s.e5con(e, tp, eg, ep, ev, re, r, rp)
@@ -240,7 +251,8 @@ end
 
 function s.e6confilter(c, r, rp, tp)
     return c:IsPreviousPosition(POS_FACEUP) and c:IsType(TYPE_SYNCHRO) and
-               (c:IsSetCard(0xc2) or c:IsRace(RACE_DRAGON)) and rp == tp and
+               ((c:IsLevelAbove(7) and c:IsRace(RACE_DRAGON)) or
+                   c:IsSetCard(0xc2)) and rp == tp and
                ((r & REASON_EFFECT) == REASON_EFFECT or (r & REASON_COST) ==
                    REASON_COST)
 end
@@ -280,11 +292,11 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
 
     local op = 0
     if spcheck and dmgcheck then
-        op = Duel.SelectOption(tp, 2, aux.Stringid(id, 1))
+        op = Duel.SelectOption(tp, 509, aux.Stringid(id, 2))
     elseif spcheck then
-        op = Duel.SelectOption(tp, 2)
+        op = Duel.SelectOption(tp, 509)
     else
-        op = Duel.SelectOption(tp, aux.Stringid(id, 1)) + 1
+        op = Duel.SelectOption(tp, aux.Stringid(id, 2)) + 1
     end
 
     if op == 0 then

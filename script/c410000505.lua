@@ -3,6 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {410000500}
+s.listed_series = {0xc2}
 
 function s.initial_effect(c)
     -- add to hand
@@ -10,10 +11,11 @@ function s.initial_effect(c)
     e1:SetDescription(573)
     e1:SetCategory(CATEGORY_TOHAND)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e1:SetCode(EVENT_PHASE + PHASE_DRAW)
-    e1:SetRange(LOCATION_DECK + LOCATION_GRAVE)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetRange(LOCATION_GRAVE)
     e1:SetCountLimit(1, id)
-    e1:SetCondition(function(e, tp) return Duel.IsEnvironment(410000500, tp) end)
+    e1:SetCondition(s.e1con)
     e1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then return e:GetHandler():IsAbleToHand() end
         Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetHandler(), 1, 0, 0)
@@ -50,6 +52,32 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
+function s.e1filter(c, tp)
+    local rc = c:GetReasonEffect():GetHandler()
+    if rc and rc:IsCode(id) then return false end
+
+    return c:IsType(TYPE_SYNCHRO) and c:IsControler(tp) and
+               c:IsSummonType(SUMMON_TYPE_SYNCHRO) and
+               ((c:IsLevelAbove(7) and c:IsRace(RACE_DRAGON)) or
+                   c:IsSetCard(0xc2))
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsEnvironment(410000500, tp) and
+               eg:IsExists(s.e1filter, 1, nil, tp)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsAbleToHand() end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsRelateToEffect(e) then Duel.SendtoHand(c, nil, REASON_EFFECT) end
+end
+
 function s.e2check1(c) return c:IsAbleToHand() end
 
 function s.e2check2(c, e, tp)
@@ -65,16 +93,14 @@ function s.e2filter2(c) return c:IsType(TYPE_MONSTER) and c:IsAbleToGrave() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetFlagEffect(tp, id + 1 * 1000000) == 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_DECK,
-                                               0, 1, nil, e, tp)
+        return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_DECK, 0, 1,
+                                           nil, e, tp)
     end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.RegisterFlagEffect(tp, id + 1 * 1000000, RESET_PHASE + PHASE_END, 0, 1)
     local g = Duel.GetMatchingGroup(s.e2filter1, tp, LOCATION_DECK, 0, nil, e,
                                     tp)
     if #g == 0 then return end
