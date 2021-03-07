@@ -143,9 +143,13 @@ effect = """\
 During your Draw Phase, if you control "Mausoleum of the Signer Dragons": \
     You can add this card from your Deck or GY to your hand. \
     You can only use this effect of "Signer Overdrive" once per turn. \
-During the Main Phase, activate 1 of these effect;
+During the Main Phase, activate 1 of these effect. You cannot apply that same effect of "Signer Overdrive" for the rest of this turn.
+● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your Deck to the GY.
+● Banish 1 Tuner and up to 2 non-Tuner monsters you control and/or from your GY, and if you do, \
+    Special Summon 1 Synchro Monster from your Extra Deck whose Level equals the total Levels of those banished monsters. \
+    (This Special Summon is treated as a Synchro Summon.)
 """
-strings = []
+strings = ["Search Tuner", "Synchro Summon"]
 
 [card.spark-synchron]
 id = 410000506
@@ -208,6 +212,7 @@ If you control a face-up Tuner monster, you can Special Summon this card (from y
 This card can be treated as a Level 1 monster when used for a Synchro Summon. \
     This effect cannot be negated. \
 If this card is sent to the GY for a Synchro Summon: You can draw 1 card. \
+    You can only use this effect of "Stardust Moose" once per turn. \
 """
 strings = []
 
