@@ -209,7 +209,8 @@ If this card you control is used as Synchro Material, you can treat it as a non-
 Once per Chain, during your opponent's Main Phase, you can (Quick Effect): \
     Immediately after this effect resolves, Synchro Summon using this card you control. \
 While this card is in your GY: You can shuffle 1 other Tuner monster in your GY into the Deck, \
-    and if you do, Special Summon this card in Defense Position. \
+    and if you do, Special Summon this card in Defense Position, \
+    also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except Synchro Monsters. \
     You can only use this effect of "Shooting Star Synchron" once per turn. \
 """
 strings = []
@@ -252,7 +253,36 @@ If this card is sent to the GY as Synchro Material: \
     except "Mach Synchron". \
 If this card is in your GY: You can discard 1 card; \
     Special Summon this card in Defense Position, \
-    but banish it when it leaves the field. \
+    but banish it when it leaves the field, \
+    also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except Synchro Monsters. \
 You can only use 1 "Mach Synchron" effect per turn, and only once that turn. \
+"""
+strings = []
+
+[card.stardust-moose]
+id = 410000510
+set = "stardust"
+name = "Stardust Moose"
+type = "monster effect"
+attribute = "light"
+race = "beast"
+level = 2
+atk = 800
+def = 800
+effect = """\
+If you control a face-up Tuner monster, you can Special Summon this card (from your hand or GY) in Defense Position, \
+    but banish it when it leaves the field. \
+    You can only Special Summon "Stardust Moose" once per turn this way. \
+This card can be treated as a Level 1 monster when used for a Synchro Summon. \
+    This effect cannot be negated. \
+If this card is sent to the GY for a Synchro Summon: You can draw 1 card. \
+"""
+strings = []
+
+[card.signer-overdrive]
+id = 410000511
+name = "Signer Overdrive"
+type = "quick-play spell"
+effect = """\
 """
 strings = []

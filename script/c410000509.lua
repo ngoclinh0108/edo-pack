@@ -99,5 +99,17 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetValue(LOCATION_REMOVED)
         ec1:SetReset(RESET_EVENT + RESETS_REDIRECT)
         c:RegisterEffect(ec1, true)
+
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_FIELD)
+        ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+        ec2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+        ec2:SetTargetRange(1, 0)
+        ec2:SetTarget(function(e, c)
+            return not c:IsType(TYPE_SYNCHRO) and c:IsLocation(LOCATION_EXTRA)
+        end)
+        ec2:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec2, tp)
+        aux.RegisterClientHint(c, nil, tp, 1, 0, 666004, nil)
     end
 end
