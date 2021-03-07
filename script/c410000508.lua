@@ -86,12 +86,12 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e3filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           LOCATION_HAND + LOCATION_GRAVE, 0, 1,
                                            nil, e, tp) and ft > 0
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+                          LOCATION_HAND + LOCATION_GRAVE)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -99,7 +99,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+                                      LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1,
                                       nil, e, tp)
     if #g > 0 then
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)

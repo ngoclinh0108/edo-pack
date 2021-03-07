@@ -101,8 +101,7 @@ effect = """\
 "Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
 Your opponent cannot target Field Spell you control with card effects, \
     also it cannot be destroyed by your opponent's card effects. \
-Once per turn: You can Special Summon 1 monster from your hand or GY, \
-    but that monster cannot attack this turn. \
+Once per turn: You can Special Summon 1 monster from your hand or GY. \
     This card cannot declare an attack the turn this effect is activated. \
 Once per turn: You can target 1 face-up monster your opponent controls; \
     negate its effects until the end of this turn, \
