@@ -266,7 +266,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     if #g > 1 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-        g = g:Select(tp, 1, 10, nil)
+        g = g:Select(tp, 1, 99, nil)
     end
 
     Duel.SendtoGrave(g, REASON_RULE)
@@ -286,7 +286,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 
     if #g > 1 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-        g = g:Select(tp, 1, 10, nil)
+        g = g:Select(tp, 1, 99, nil)
     end
 
     Duel.SendtoHand(g, nil, REASON_RULE)
@@ -302,7 +302,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, loc, 0, 1, 10, nil)
+    local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, loc, 0, 1, 99, nil)
     if #g == 0 then return end
 
     Duel.SendtoDeck(g, nil, 2, REASON_RULE)
