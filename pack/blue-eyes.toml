@@ -13,7 +13,7 @@ If this card in its owner's Field Zone is destroyed by an opponent's card effect
     You can Special Summon 1 "Blue-Eyes White Dragon" from your hand, Deck or GY. \
 Activate 1 of these effects; You can only use this effect of "Temple of the White Dragon" once per turn.
 ● Add from your Deck to your hand, 1 "Blue-Eyes" monster, \
-    or Spell/Trap that specifically lists the card "Blue-Eyes White Dragon" or "Blue-Eyes Ultimate Dragon". \
+    or Spell/Trap that specifically lists the card "Blue-Eyes White Dragon" or "Blue-Eyes Ultimate Dragon", \
     except "Temple of the White Dragon".
 ● Target 1 face-up monster you control; send 1 "Blue-Eyes" monster from your hand or Deck to the GY, \
     and if you do, the targeted monster gains ATK/DEF equal to the Level of the monster sent to the GY x 100 (even if this card leaves the field).
@@ -45,6 +45,7 @@ strings = ["Destroy a monster"]
 
 [card.blue-eyes-divinity-dragon]
 id = 410000202
+aslias = 23995346
 set = "blue-eyes"
 name = "Blue-Eyes Supreme Dragon"
 type = "monster fusion effect"
@@ -55,16 +56,15 @@ atk = 4500
 def = 3800
 effect = """\
 "Blue-Eyes White Dragon" + 2 "Blue-Eyes" monsters
+(This card is also always treated as "Blue-Eyes Ultimate Dragon")
 Must be Fusion Summoned with the above Fusion Materials. \
 Your opponent cannot target or destroy this card with card effects. \
-If this card battles, your opponent cannot activate cards or effects until the end of the Damage Step. \
-Once per turn, you can activate 1 of these effects.
-● Target cards on the field, up to the number of "Blue-Eyes White Dragon" used for the Fusion Summon of this card; destroy those targets. \
-    This card cannot attack the turn this effect is activated.
-● Tribute 2 other monsters you control; \
-    This turn, this card can make a second and third attack during each Battle Phase.
+This card can make a second and third attack during each Battle Phase, \
+    also, when it attacks, your opponent's cards and effects cannot be activated until the end of the Damage Step. \
+Once per turn, you can target cards on the field, up to the number of "Blue-Eyes White Dragon" used for the Fusion Summon of this card; destroy those targets. \
+    This card cannot attack the turn this effect is activated. \
 """
-strings = ["Destroy cards on field", "Gain 3 attacks"]
+strings = ["Destroy cards on field"]
 
 [card.blue-eyes-holy-dragon]
 id = 410000203
