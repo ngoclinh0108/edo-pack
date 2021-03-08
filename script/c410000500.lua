@@ -58,15 +58,11 @@ function s.deck_edit(tp)
 
     -- Red Nova Dragon
     if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
-                                   97489701,99585850)
+                                   97489701, 99585850) then
         Duel.SendtoDeck(Duel.CreateToken(tp, 16172067), tp, 2, REASON_RULE)
-    end
-
-    -- Hot Red Dragon Archfiend King Calamity
-    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
-                                   62242678) then
         Duel.SendtoDeck(Duel.CreateToken(tp, 9753964), tp, 2, REASON_RULE)
         Duel.SendtoDeck(Duel.CreateToken(tp, 36857073), tp, 2, REASON_RULE)
+        Duel.SendtoDeck(Duel.CreateToken(tp, 62242678), tp, 2, REASON_RULE)
     end
 end
 
