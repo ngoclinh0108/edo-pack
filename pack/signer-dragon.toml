@@ -21,8 +21,8 @@ attribute = "spell"
 effect = """\
 [ \
 Add from Outside "Majestic" versions of your Signer Dragons, \
-    downgraded versions of your "Shooting Star Dragon", \
     alternative versions of your "Shooting Quasar Dragon", \
+    alternative and downgraded versions of your "Shooting Star Dragon", \
     alternative and downgraded versions of your "Red Nova Dragon" or "Red Supernova Dragon". \
 Alternative versions of Signer Dragons is always treated as Signer Dragons. \
 "Red Nova Dragon" and "Red Supernova Dragon" is always treated as "Red Dragon Archfiend" card. \

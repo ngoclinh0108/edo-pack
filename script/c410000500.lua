@@ -42,18 +42,19 @@ function s.deck_edit(tp)
         Duel.SendtoDeck(Duel.CreateToken(tp, 410000504), tp, 2, REASON_RULE)
     end
 
-    -- Shooting Star Dragon
-    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
-                                   24696097) then
-        Duel.SendtoDeck(Duel.CreateToken(tp, 101105104), tp, 2, REASON_RULE)
-        Duel.SendtoDeck(Duel.CreateToken(tp, 68431965), tp, 2, REASON_RULE)
-    end
-
     -- Shooting Quasar Dragon
     if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
                                    35952884) then
         Duel.SendtoDeck(Duel.CreateToken(tp, 26268488), tp, 2, REASON_RULE)
         Duel.SendtoDeck(Duel.CreateToken(tp, 21123811), tp, 2, REASON_RULE)
+    end
+
+    -- Shooting Star Dragon
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   24696097) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 101105104), tp, 2, REASON_RULE)
+        Duel.SendtoDeck(Duel.CreateToken(tp, 89474727), tp, 2, REASON_RULE)
+        Duel.SendtoDeck(Duel.CreateToken(tp, 68431965), tp, 2, REASON_RULE)
     end
 
     -- Red Nova Dragon
