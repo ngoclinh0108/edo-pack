@@ -146,7 +146,8 @@ effect = """\
 While you control "Mausoleum of the Signer Dragons", \
     if a Dragon Synchro Monster that list a Synchro Monster as material is Synchro Summoned to your field, \
     except with effects of "Signer Overdrive": \
-    You can add this card from your GY to your hand. \
+    You can add this card from your GY or Deck to your hand. \
+    You can only use this effect of "Signer Overdrive" once per turn. \
 During the Main Phase, activate 1 of these effect.
 ● Place 1 Level 1 Dragon monster from your hand, Deck or GY on top of your Deck.
 ● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your Deck to the GY.
