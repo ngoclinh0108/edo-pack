@@ -55,6 +55,13 @@ function s.deck_edit(tp)
         Duel.SendtoDeck(Duel.CreateToken(tp, 26268488), tp, 2, REASON_RULE)
         Duel.SendtoDeck(Duel.CreateToken(tp, 21123811), tp, 2, REASON_RULE)
     end
+
+    -- Hot Red Dragon Archfiend King Calamity
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   62242678) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 9753964), tp, 2, REASON_RULE)
+        Duel.SendtoDeck(Duel.CreateToken(tp, 36857073), tp, 2, REASON_RULE)
+    end
 end
 
 function s.global_effect(c, tp)
@@ -91,6 +98,15 @@ function s.global_effect(c, tp)
     local eg6 = eg1:Clone()
     eg6:SetValue(2403771)
     Utility.RegisterGlobalEffect(c, eg6, Card.IsCode, 68084557)
+
+    -- Red Nova Dragon
+    local eg7 = Effect.CreateEffect(c)
+    eg7:SetType(EFFECT_TYPE_SINGLE)
+    eg7:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    eg7:SetCode(EFFECT_ADD_SETCODE)
+    eg7:SetValue(0x1045)
+    Utility.RegisterGlobalEffect(c, eg7, Card.IsCode, 97489701)
+    Utility.RegisterGlobalEffect(c, eg7, Card.IsCode, 99585850)
 end
 
 function s.initial_effect(c)

@@ -22,8 +22,10 @@ effect = """\
 [ \
 Add from Outside "Majestic" versions of your Signer Dragons, \
     downgraded versions of your "Shooting Star Dragon", \
-    and alternative versions of your "Shooting Quasar Dragon". \
+    alternative versions of your "Shooting Quasar Dragon", \
+    downgraded versions of your "Hot Red Dragon Archfiend King Calamity". \
 Alternative versions of Signer Dragons is always treated as Signer Dragons. \
+"Red Nova Dragon" and "Red Supernova Dragon" is always treated as "Red Dragon Archfiend" card. \
 ]
 
 During your Draw Phase, before you draw: You can give up your normal draw this turn, \
