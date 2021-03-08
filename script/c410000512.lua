@@ -109,6 +109,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_GRAVE,
                                                0, 1, c)
     end
