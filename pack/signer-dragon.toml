@@ -39,11 +39,13 @@ If a "Power Tool" Synchro Monster(s) or Level 7 or higher Dragon Synchro Monster
 If a face-up "Power Tool" Synchro Monster(s) or Level 7 or higher Dragon Synchro Monster(s) you control leaves the field to activate your card effect, or by your card effect: \
     You can apply 1 of the following effects. You cannot apply that same effect of "Mausoleum of the Signer Dragons" for the rest of this turn.
 ● Special Summon 1 of those monsters.
+● Add 1 "Burning Soul" from your Deck, GY to your hand.
 ● Any damage you take this turn is halved.
 """
 strings = [
     "Add \"Signer Overdrive\"",
     "Summon via \"Mausoleum of the Signer Dragons\"",
+    "Add \"Burning Soul\"",
     "Halve any damage you take",
 ]
 

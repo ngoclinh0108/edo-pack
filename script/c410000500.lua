@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {410000505}
+s.listed_names = {410000505, 10723472}
 s.listed_series = {0xc2, 0x3f}
 
 function s.deck_edit(tp)
@@ -300,55 +300,93 @@ function s.e7tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e7sptg(e, tp, eg, ep, ev, re, r, rp)
-    return eg:Filter(s.e7confilter, nil, r, rp, tp):IsExists(s.e7spfilter, 1,
-                                                             nil, e, tp) and
-               Duel.GetFlagEffect(tp, id + 1 * 1000000) == 0
-end
-
-function s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetFlagEffect(tp, id + 2 * 1000000) == 0
-end
-
 function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
-    local spcheck = s.e7sptg(e, tp, eg, ep, ev, re, r, rp) and
-                        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    local dmgcheck = s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp)
+    local options = {
+        {
+            desc = 509,
+            check = s.e7sptg(e, tp, eg, ep, ev, re, r, rp, 1) and
+                Duel.GetLocationCount(tp, LOCATION_MZONE) > 0,
+            op = s.e7spop
+        }, {
+            desc = aux.Stringid(id, 2),
+            check = s.e7thtg(e, tp, eg, ep, ev, re, r, rp, 2),
+            op = s.e7thop
+        }, {
+            desc = aux.Stringid(id, 3),
+            check = s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp, 3),
+            op = s.e7dmgop
+        }
+    }
 
-    local op = 0
-    if spcheck and dmgcheck then
-        op = Duel.SelectOption(tp, 509, aux.Stringid(id, 2))
-    elseif spcheck then
-        op = Duel.SelectOption(tp, 509)
-    else
-        op = Duel.SelectOption(tp, aux.Stringid(id, 2)) + 1
+    local t = {}
+    local desc = {}
+    for i, item in ipairs(all) do
+        if (item.check) then
+            table.insert(t, {index = i, desc = item.desc})
+            table.insert(desc, item.desc)
+        end
     end
 
-    if op == 0 then
-        Duel.RegisterFlagEffect(tp, id + 1 * 1000000, RESET_PHASE + PHASE_END,
-                                0, 1)
-
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local g = eg:Filter(s.e7confilter, nil, r, rp, tp)
-        local tc = g:FilterSelect(tp, s.e7spfilter, 1, 1, nil, e, tp)
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
-    else
-        Duel.RegisterFlagEffect(tp, id + 2 * 1000000, RESET_PHASE + PHASE_END,
-                                0, 1)
-        aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 1), nil)
-
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_FIELD)
-        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-        ec1:SetCode(EFFECT_CHANGE_DAMAGE)
-        ec1:SetTargetRange(1, 0)
-        ec1:SetValue(s.e7dmgval)
-        ec1:SetReset(RESET_PHASE + PHASE_END)
-        Duel.RegisterEffect(ec1, tp)
+    local index = Duel.SelectOption(tp, table.unpack(desc)) + 1
+    index = t[index].index
+    if options[index].op then
+        Duel.RegisterFlagEffect(tp, id + index * 1000000,
+                                RESET_PHASE + PHASE_END, 0, 1)
+        options[index].op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e7dmgval(e, re, ev, r, rp, rc) return math.floor(ev / 2) end
+function s.e7sptg(e, tp, eg, ep, ev, re, r, rp, index)
+    if Duel.GetFlagEffect(tp, id + index * 1000000) > 0 then return false end
+    return eg:Filter(s.e7confilter, nil, r, rp, tp):IsExists(s.e7spfilter, 1,
+                                                             nil, e, tp)
+end
+
+function s.e7spop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = eg:Filter(s.e7confilter, nil, r, rp, tp)
+    local tc = g:FilterSelect(tp, s.e7spfilter, 1, 1, nil, e, tp)
+    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+end
+
+function s.e7thfilter(c) return c:IsCode(10723472) and c:IsAbleToHand() end
+
+function s.e7thtg(e, tp, eg, ep, ev, re, r, rp, index)
+    if Duel.GetFlagEffect(tp, id + index * 1000000) > 0 then return false end
+    return Duel.IsExistingMatchingCard(s.e7thfilter, tp,
+                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+end
+
+function s.e7thop(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(s.e7thfilter, tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    if #g > 1 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+        g = g:Select(tp, 1, 1)
+    end
+
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_RULE)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
+
+function s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp, index)
+    if Duel.GetFlagEffect(tp, id + index * 1000000) > 0 then return false end
+    return true
+end
+
+function s.e7dmgop(e, tp, eg, ep, ev, re, r, rp)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_CHANGE_DAMAGE)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(function(e, re, ev, r, rp, rc) return math.floor(ev / 2) end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 1), nil)
+end
