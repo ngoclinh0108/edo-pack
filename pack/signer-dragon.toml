@@ -110,7 +110,7 @@ effect = """\
 "Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
 Your opponent cannot target Field Spell you control with card effects, \
     also it cannot be destroyed by your opponent's card effects. \
-Once per turn: You can Special Summon 1 monster from your hand or GY. \
+Once per turn: You can Special Summon 1 Level 8 or lower monster from your hand or GY. \
     This card cannot declare an attack the turn this effect is activated. \
 Once per turn: You can target 1 face-up monster your opponent controls; \
     negate its effects until the end of this turn, \
@@ -169,8 +169,10 @@ If this card attacks an opponent's monster, during the Damage Step only, \
 Once per turn, when a card or effect is activated (Quick Effect): \
     You can negate the activation, and if you do, banish it. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
+Once per turn: You can Special Summon 1 Dragon Synchro Monster from your Extra Deck or GY. \
+    (This Special Summon is treated as a Synchro Summon.) \
 """
-strings = ["Negate activation & banish"]
+strings = ["Negate activation & banish", "Summon a Dragon"]
 
 [card.signer-overdrive]
 id = 410000506

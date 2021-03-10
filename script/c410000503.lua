@@ -89,7 +89,8 @@ function s.initial_effect(c)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               c:IsLevelBelow(8)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -119,7 +120,6 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
