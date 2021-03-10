@@ -225,7 +225,7 @@ function s.e3tg(e, c) return c == e:GetHandler():GetBattleTarget() end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and
-               Duel.IsChainNegatable(ev)
+               Duel.IsChainNegatable(ev) and rp == 1 - tp
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
