@@ -351,7 +351,8 @@ atk = 2500
 def = 1500
 effect = """\
 1 "Synchron" Tuner + 1+ non-Tuner monsters
-If this card is Synchro Summoned: You can target 1 card in your GY; add it to your hand. \
+If this card is Synchro Summoned: You can return 1 Synchro Monster from your GY to the Extra Deck, \
+    then target 1 card in your GY; add it to your hand. \
 You can Special Summon 1 Level 2 or lower Warrior or Machine-Type monster from your Deck in Defense Position. \
 You can banish this card from your GY, then target 1 Level 8 or lower \
     "Warrior", "Synchron", or "Stardust" Synchro Monster in your GY, except "Mach Warrior"; \

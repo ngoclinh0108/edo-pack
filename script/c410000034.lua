@@ -47,23 +47,23 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
+function s.e1costfilter(c)
     if (c:IsLocation(LOCATION_EXTRA) and c:IsFacedown()) or c:IsCode(id) then
         return false
     end
 
-    return c:IsRace(RACE_DRAGON + RACE_WARRIOR) and c:IsAbleToDeck()
+    return c:IsRace(RACE_DRAGON + RACE_WARRIOR) and c:IsAbleToDeckOrExtraAsCost()
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+        return Duel.IsExistingMatchingCard(s.e1costfilter, tp,
                                            LOCATION_GRAVE + LOCATION_EXTRA, 0,
                                            1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp,
+    local g = Duel.SelectMatchingCard(tp, s.e1costfilter, tp,
                                       LOCATION_GRAVE + LOCATION_EXTRA, 0, 1, 1,
                                       nil)
 

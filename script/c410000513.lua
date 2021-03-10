@@ -21,6 +21,7 @@ function s.initial_effect(c)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetCountLimit(1, id + 1 * 1000000)
     e1:SetCondition(s.e1con)
+    e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -42,15 +43,33 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetRange(LOCATION_GRAVE)
-    e3:SetCost(aux.bfgcost)
     e3:SetCountLimit(1, id + 3 * 1000000)
+    e3:SetCost(aux.bfgcost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
+function s.e1costfilter(c)
+    return c:IsType(TYPE_SYNCHRO) and c:IsAbleToDeckOrExtraAsCost()
+end
+
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
+end
+
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1costfilter, tp, LOCATION_GRAVE,
+                                           0, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g = Duel.SelectMatchingCard(tp, s.e1costfilter, tp, LOCATION_GRAVE, 0,
+                                      1, 1, nil)
+
+    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

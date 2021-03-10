@@ -307,23 +307,23 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local options = {
         {
             desc = 509,
-            check = s.e7sptg(e, tp, eg, ep, ev, re, r, rp, 1) and
+            check = s.e7sptg(e, tp, eg, ep, ev, re, r, rp) and
                 Duel.GetLocationCount(tp, LOCATION_MZONE) > 0,
             op = s.e7spop
         }, {
             desc = aux.Stringid(id, 2),
-            check = s.e7thtg(e, tp, eg, ep, ev, re, r, rp, 2),
+            check = s.e7thtg(e, tp, eg, ep, ev, re, r, rp),
             op = s.e7thop
         }, {
             desc = aux.Stringid(id, 3),
-            check = s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp, 3),
+            check = s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp),
             op = s.e7dmgop
         }
     }
 
     local t = {}
     local desc = {}
-    for i, item in ipairs(all) do
+    for i, item in ipairs(options) do
         if (item.check) then
             table.insert(t, {index = i, desc = item.desc})
             table.insert(desc, item.desc)
@@ -339,8 +339,8 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e7sptg(e, tp, eg, ep, ev, re, r, rp, index)
-    if Duel.GetFlagEffect(tp, id + index * 1000000) > 0 then return false end
+function s.e7sptg(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetFlagEffect(tp, id + 1 * 1000000) > 0 then return false end
     return eg:Filter(s.e7confilter, nil, r, rp, tp):IsExists(s.e7spfilter, 1,
                                                              nil, e, tp)
 end
@@ -354,8 +354,8 @@ end
 
 function s.e7thfilter(c) return c:IsCode(10723472) and c:IsAbleToHand() end
 
-function s.e7thtg(e, tp, eg, ep, ev, re, r, rp, index)
-    if Duel.GetFlagEffect(tp, id + index * 1000000) > 0 then return false end
+function s.e7thtg(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetFlagEffect(tp, id + 2 * 1000000) > 0 then return false end
     return Duel.IsExistingMatchingCard(s.e7thfilter, tp,
                                        LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
 end
@@ -374,8 +374,8 @@ function s.e7thop(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp, index)
-    if Duel.GetFlagEffect(tp, id + index * 1000000) > 0 then return false end
+function s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetFlagEffect(tp, id + 3 * 1000000) > 0 then return false end
     return true
 end
 
