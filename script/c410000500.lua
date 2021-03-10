@@ -380,6 +380,7 @@ function s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e7dmgop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
