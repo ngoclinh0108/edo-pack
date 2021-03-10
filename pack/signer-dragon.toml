@@ -143,6 +143,22 @@ During the End Phase: Target 1 "Power Tool Dragon" in your GY; \
 """
 strings = ["Negate effect"]
 
+[card.shooting-majestic-quasar-dragon]
+id = 410000505
+set = "majestic"
+name = "Shooting Majestic Quasar Dragon"
+type = "monster synchro effect"
+attribute = "light"
+race = "dragon"
+level = 13
+atk = 5000
+def = 5000
+effect = """\
+(This card's original Level is always treated as 13.)
+Cannot be Synchro Summoned.
+"""
+strings = []
+
 [card.signer-overdrive]
 id = 410000506
 name = "Signer Overdrive"
