@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {410000505, 10723472}
+s.listed_names = {410000506, 10723472}
 s.listed_series = {0xc2, 0x3f}
 
 function s.deck_edit(tp)
@@ -45,7 +45,7 @@ function s.deck_edit(tp)
     -- Shooting Quasar Dragon
     if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
                                    35952884) then
-        Duel.SendtoDeck(Duel.CreateToken(tp, 410000505), tp, 2, REASON_RULE)
+        Duel.SendtoDeck(Duel.CreateToken(tp, 410000506), tp, 2, REASON_RULE)
         Duel.SendtoDeck(Duel.CreateToken(tp, 26268488), tp, 2, REASON_RULE)
         Duel.SendtoDeck(Duel.CreateToken(tp, 21123811), tp, 2, REASON_RULE)
     end
@@ -204,7 +204,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e7)
 end
 
-function s.e1filter(c) return c:IsCode(410000505) and c:IsAbleToHand() end
+function s.e1filter(c) return c:IsCode(410000506) and c:IsAbleToHand() end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return tp == Duel.GetTurnPlayer() and
