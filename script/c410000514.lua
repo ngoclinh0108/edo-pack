@@ -1,83 +1,75 @@
--- Spark Synchron
+-- Stardust Moose
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0x1017}
-
 function s.initial_effect(c)
-    -- synchron substitute
+    -- synchro level
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(20932152)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
+    e1:SetCode(EFFECT_SYNCHRO_LEVEL)
+    e1:SetValue(function(e, c) return 1 * 65536 + e:GetHandler():GetLevel() end)
     c:RegisterEffect(e1)
 
-    -- summon success
+    -- special summon
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_SUMMON_SUCCESS)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_HAND + LOCATION_GRAVE)
+    e2:SetCountLimit(1, id + 1 * 1000000)
+    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e2b)
-    local e2c = e2:Clone()
-    e2c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e2c)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
     e3:SetHintTiming(0, TIMING_END_PHASE)
-    e3:SetCountLimit(1, id)
+    e3:SetCountLimit(1, id + 2 * 1000000)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter(c, e, tp)
-    return c:IsLevelBelow(2) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false,
-                                        POS_FACEUP_DEFENSE)
-end
+function s.e2filter(c) return c:IsType(TYPE_TUNER) end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp,
-                                               LOCATION_HAND + LOCATION_GRAVE,
-                                               0, 1, nil, e, tp)
+        return Duel.CheckReleaseGroupCost(tp, s.e2filter, 1, false,
+                                          aux.ReleaseCheckMMZ, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
+    local g = Duel.SelectReleaseGroupCost(tp, s.e2filter, 1, 1, false,
+                                          aux.ReleaseCheckMMZ, nil)
+    Duel.Release(g, REASON_COST)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)
+    end
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, c:GetLocation())
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp,
-                                       LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1,
-                                       nil, e, tp):GetFirst()
-    if tc and
-        Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) then
+    if c:IsRelateToEffect(e) and
+        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) > 0 then
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3302)
+        ec1:SetDescription(3300)
         ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_CANNOT_TRIGGER)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec1)
+        ec1:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetReset(RESET_EVENT + RESETS_REDIRECT)
+        ec1:SetValue(LOCATION_REMOVED)
+        c:RegisterEffect(ec1, true)
     end
-    Duel.SpecialSummonComplete()
 
     local ec2 = Effect.CreateEffect(c)
     ec2:SetType(EFFECT_TYPE_FIELD)
@@ -93,8 +85,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c, e, tp)
-    return c:IsSetCard(0x1017) and c:IsType(TYPE_TUNER) and not c:IsCode(id) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsLevel(1) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -109,12 +100,12 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e3filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           LOCATION_HAND + LOCATION_GRAVE, 0, 1,
                                            nil, e, tp) and ft > 0
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+                          LOCATION_HAND + LOCATION_GRAVE)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -122,7 +113,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+                                      LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1,
                                       nil, e, tp)
     if #g > 0 then
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
