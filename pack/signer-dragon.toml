@@ -10,8 +10,8 @@ code = 0x1123
 [set.synchron]
 code = 0x1017
 
-[set.warrior]
-code = 0x66
+[set.junk]
+code = 0x43
 
 [card.mausoleum-signer-dragons]
 id = 410000500
@@ -186,7 +186,8 @@ While you control "Mausoleum of the Signer Dragons", \
     You can only use this effect of "Signer Overdrive" once per turn. \
 During the Main Phase, activate 1 of these effect.
 ● Place 1 Level 1 Dragon monster from your hand, Deck or GY on top of your Deck.
-● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your Deck to the GY.
+● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your hand, Deck to the GY. \
+    For the rest of this turn after this effect resolves, your opponent cannot target Tuner monster on the field with card effects.
 ● Special Summon 1 Tuner Dragon Synchro Monster from your Extra Deck or GY. \
     (This Special Summon is treated as a Synchro Summon.)
 ● Banish 1 Tuner and up to 2 non-Tuner monsters you control and/or from your GY, and if you do, \
@@ -194,6 +195,7 @@ During the Main Phase, activate 1 of these effect.
     (This Special Summon is treated as a Synchro Summon.)
 """
 strings = [
+    "Cannot target Tuner monster with card effect",
     "Place a Dragon on top deck",
     "Search Tuner",
     "Summon a Dragon",
@@ -212,8 +214,6 @@ atk = 0
 def = 0
 effect = """\
 (This card's name is always treated as "Majestic Dragon".)
-If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
-    This effect cannot be negated. \
 If this card is in your hand or GY, and you control a "Power Tool" Synchro Monster or Level 7 or higher Dragon Synchro Monster: \
     You can Special Summon this card in Defense Position, \
     also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except "Majestic" Synchro Monsters. \
@@ -233,39 +233,37 @@ atk = 1300
 def = 500
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
-If this card is Summoned: \
-    You can Special Summon 1 Level 2 or lower monster from your hand or GY in Defense Position, \
-    but it cannot activate its effects this turn, \
-    also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except Synchro Monsters. \
-(Quick Effect): You can Tribute this card; \
-    Special Summon 1 "Synchron" Tuner from your Deck or GY in Defense Position, \
-    except "Spark Synchron". \
+If this card is Summoned: You can add 1 Level 2 or lower monster from your Deck to your hand. \
+You can banish this card from your GY; Special Summon 1 Level 2 or lower monster from your hand or GY in Defense Position, \
+    but it has its effects negated. \
 You can only use this effect of "Spark Synchron" once per turn. \
 """
-strings = ["Special Summon a \"Synchron\" Tuner"]
-
-[card.mach-synchron]
-id = 410000509
-set = "synchron"
-name = "Mach Synchron"
-type = "monster tuner effect"
-attribute = "wind"
-race = "machine"
-level = 2
-atk = 300
-def = 100
-effect = """\
-For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
-If this card is sent to the GY as Synchro Material: \
-    You can add 1 Level 2 or lower monster from your Deck to your hand, \
-    except "Mach Synchron". \
-If this card is in your GY: You can discard 1 card; \
-    Special Summon this card in Defense Position, \
-    but banish it when it leaves the field, \
-    also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except Synchro Monsters. \
-You can only use 1 "Mach Synchron" effect per turn, and only once that turn. \
-"""
 strings = []
+
+[card.shooting-stardust-dragon]
+id = 410000509
+set = "stardust"
+name = "Shooting Stardust Dragon"
+type = "monster synchro effect"
+attribute = "light"
+race = "dragon"
+level = 10
+atk = 3300
+def = 2500
+effect = """\
+1 Tuner Synchro Monster + 1 "Stardust Dragon" or "Stardust" Dragon Synchro Monster
+(This card is also always treated as "Shooting Star Dragon")
+Once per turn, during your opponent's turn, you can (Quick Effect): \
+    Immediately after this effect resolves, Synchro Summon this card from your Extra Deck using monsters you control. \
+When a card or effect is activated that targets and would destroy other card(s) on the field (Quick Effect): \
+    You can negate the activation, and if you do, destroy it. \
+Once per turn: You can excavate the top 5 cards of your Deck, shuffle them back in, \
+    also this card's maximum number of attacks per Battle Phase this turn equals the number of Tuner monsters excavated. \
+Once per turn, when your opponent activates a card, effect OR an opponent's monster attacks (Quick Effect): \
+    You can banish this card until the End Phase, \
+    and if you do, negate the next attack this turn from a monster your opponent controls. \
+"""
+strings = ["Negate the activation", "Multi-Attack", "Banish"]
 
 [card.ancient-stardust-dragon]
 id = 410000510
@@ -298,30 +296,27 @@ strings = [
     "Negate the activation",
 ]
 
-[card.shooting-stardust-dragon]
+[card.junk-assault]
 id = 410000511
-set = "stardust"
-name = "Shooting Stardust Dragon"
+set = "junk"
+name = "Junk Assault"
 type = "monster synchro effect"
-attribute = "light"
-race = "dragon"
-level = 10
-atk = 3300
-def = 2500
+attribute = "earth"
+race = "warrior"
+level = 7
+atk = 2500
+def = 1500
 effect = """\
-1 Tuner Synchro Monster + 1 "Stardust Dragon" or "Stardust" Dragon Synchro Monster
-(This card is also always treated as "Shooting Star Dragon")
-Once per turn, during your opponent's turn, you can (Quick Effect): \
-    Immediately after this effect resolves, Synchro Summon this card from your Extra Deck using monsters you control. \
-When a card or effect is activated that targets and would destroy other card(s) on the field (Quick Effect): \
-    You can negate the activation, and if you do, destroy it. \
-Once per turn: You can excavate the top 5 cards of your Deck, shuffle them back in, \
-    also this card's maximum number of attacks per Battle Phase this turn equals the number of Tuner monsters excavated. \
-Once per turn, when your opponent activates a card, effect OR an opponent's monster attacks (Quick Effect): \
-    You can banish this card until the End Phase, \
-    and if you do, negate the next attack this turn from a monster your opponent controls. \
+1 "Synchron" Tuner + 1+ non-Tuner Synchro Monsters
+If this card is Synchro Summoned: You can return 1 Synchro Monster from your GY to the Extra Deck, \
+    then target 1 card in your GY; add it to your hand. \
+You can Special Summon 1 Level 2 or lower Warrior or Machine-Type monster from your Deck in Defense Position. \
+You can banish this card from your GY, then target 1 Level 8 or lower \
+    "Warrior", "Synchron", or "Stardust" Synchro Monster in your GY; \
+    Special Summon it in Defense Position. \
+You can only use each effect of "Junk Assault" once per turn. \
 """
-strings = ["Negate the activation", "Multi-Attack", "Banish"]
+strings = ["Special Summon 1 Level 2 or lower Warrior or Machine-Type monster"]
 
 [card.shooting-star-synchron]
 id = 410000512
@@ -347,47 +342,3 @@ While this card is in your GY: \
     You can only use this effect of "Shooting Star Synchron" once per turn. \
 """
 strings = []
-
-[card.mach-warrior]
-id = 410000513
-set = "warrior"
-name = "Mach Warrior"
-type = "monster synchro effect"
-attribute = "wind"
-race = "warrior"
-level = 7
-atk = 2500
-def = 1500
-effect = """\
-1 "Synchron" Tuner + 1+ non-Tuner monsters
-If this card is Synchro Summoned: You can return 1 Synchro Monster from your GY to the Extra Deck, \
-    then target 1 card in your GY; add it to your hand. \
-You can Special Summon 1 Level 2 or lower Warrior or Machine-Type monster from your Deck in Defense Position. \
-You can banish this card from your GY, then target 1 Level 8 or lower \
-    "Warrior", "Synchron", or "Stardust" Synchro Monster in your GY, except "Mach Warrior"; \
-    Special Summon it in Defense Position. \
-You can only use each effect of "Mach Warrior" once per turn. \
-"""
-strings = ["Special Summon 1 Level 2 or lower Warrior or Machine-Type monster"]
-
-[card.stardust-moose]
-id = 410000514
-set = "stardust"
-name = "Stardust Moose"
-type = "monster effect"
-attribute = "light"
-race = "beast"
-level = 2
-atk = 800
-def = 800
-effect = """\
-This card can be treated as a Level 1 monster when used for a Synchro Summon. \
-    This effect cannot be negated. \
-If this card is in your hand or GY: \
-    You can Tribute 1 Tuner; Special Summon this card in Defense Position, \
-    but banish it when it leaves the field, \
-    also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except Synchro Monsters. \
-You can Tribute this card; Special Summon 1 Level 1 monster from your hand or GY in Defense Position. \
-You can only use each effect of "Stardust Moose" once per turn. \
-"""
-strings = ["Special Summon a monster"]

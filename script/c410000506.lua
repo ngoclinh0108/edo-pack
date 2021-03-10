@@ -30,7 +30,7 @@ function s.initial_effect(c)
 
     -- place dragon
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetDescription(aux.Stringid(id, 1))
     e2:SetCategory(CATEGORY_TODECK)
     e2:SetType(EFFECT_TYPE_ACTIVATE)
     e2:SetCode(EVENT_FREE_CHAIN)
@@ -41,7 +41,7 @@ function s.initial_effect(c)
 
     -- search tuner
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetDescription(aux.Stringid(id, 2))
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SPECIAL_SUMMON +
                        CATEGORY_TOGRAVE + CATEGORY_DECKDES)
     e3:SetType(EFFECT_TYPE_ACTIVATE)
@@ -53,7 +53,7 @@ function s.initial_effect(c)
 
     -- special summon
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 2))
+    e4:SetDescription(aux.Stringid(id, 3))
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_ACTIVATE)
     e4:SetCode(EVENT_FREE_CHAIN)
@@ -64,7 +64,7 @@ function s.initial_effect(c)
 
     -- synchro summon
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 3))
+    e5:SetDescription(aux.Stringid(id, 4))
     e5:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON)
     e5:SetType(EFFECT_TYPE_ACTIVATE)
     e5:SetCode(EVENT_FREE_CHAIN)
@@ -158,6 +158,18 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    ec1:SetTargetRange(LOCATION_MZONE, 0)
+    ec1:SetTarget(aux.TargetBoolFunction(Card.IsType, TYPE_TUNER))
+    ec1:SetValue(aux.indoval)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+    aux.RegisterClientHint(c, nil, 1 - tp, 1, 0, aux.Stringid(id, 0), nil)
+
     local g = Duel.GetMatchingGroup(s.e3filter1, tp, LOCATION_DECK, 0, nil, e,
                                     tp)
     if #g == 0 then return end
@@ -183,10 +195,12 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SpecialSummon(sc, 0, tp, tp, false, false, POS_FACEUP)
     end
 
-    if Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_DECK, 0, 1, nil) and
+    if Duel.IsExistingMatchingCard(s.e3filter2, tp,
+                                   LOCATION_HAND + LOCATION_DECK, 0, 1, nil) and
         Duel.SelectYesNo(tp, 504) then
-        local sg = Duel.SelectMatchingCard(tp, s.e3filter2, tp, LOCATION_DECK,
-                                           0, 1, 1, nil)
+        local sg = Duel.SelectMatchingCard(tp, s.e3filter2, tp,
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+                                           1, nil)
         if #sg > 0 then Duel.SendtoGrave(sg, REASON_EFFECT) end
     end
 end
