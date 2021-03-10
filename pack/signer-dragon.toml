@@ -187,7 +187,7 @@ While you control "Mausoleum of the Signer Dragons", \
 During the Main Phase, activate 1 of these effect.
 ● Place 1 Level 1 Dragon monster from your hand, Deck or GY on top of your Deck.
 ● Add to your hand, or Special Summon, 1 Tuner from your Deck, then you can send 1 monster from your hand, Deck to the GY. \
-    For the rest of this turn after this effect resolves, your opponent cannot target Tuner monster on the field with card effects.
+    For the rest of this turn after this effect resolves, your opponent cannot target your monster on the field with card effects.
 ● Special Summon 1 Tuner Dragon Synchro Monster from your Extra Deck or GY. \
     (This Special Summon is treated as a Synchro Summon.)
 ● Banish 1 Tuner and up to 2 non-Tuner monsters you control and/or from your GY, and if you do, \
@@ -195,7 +195,7 @@ During the Main Phase, activate 1 of these effect.
     (This Special Summon is treated as a Synchro Summon.)
 """
 strings = [
-    "Cannot target Tuner monster with card effect",
+    "Cannot target your opponent's monster with card effect",
     "Place a Dragon on top deck",
     "Search Tuner",
     "Summon a Dragon",
