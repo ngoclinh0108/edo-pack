@@ -148,16 +148,29 @@ id = 410000505
 set = "majestic"
 name = "Shooting Majestic Quasar Dragon"
 type = "monster synchro effect"
-attribute = "light"
+attribute = "divine"
 race = "dragon"
 level = 13
 atk = 5000
 def = 5000
 effect = """\
 (This card's original Level is always treated as 13.)
-Cannot be Synchro Summoned.
+Cannot be Synchro Summoned. \
+Must be Special Summoned (from your Extra Deck) by sending 1 "Majestic Dragon" and 1 Synchro Summoned "Shooting Quasar Dragon" you control to the GY. \
+This card's Special Summon cannot be negated. \
+This card's activation and effects cannot be negated. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+Unaffected by other cards' effects. \
+This card can attack all monsters your opponent controls, once each. \
+Any your monster banished from your GY is return to the GY. \
+If this card attacks an opponent's monster, during the Damage Step only, \
+    negate the effects of that monster while it is face-up on the field \
+    (but its effects can still be activated). \
+Once per turn, when a card or effect is activated (Quick Effect): \
+    You can negate the activation, and if you do, banish it. \
+    Your opponent cannot activate cards or effects in response to this effect's activation. \
 """
-strings = []
+strings = ["Negate activation & banish"]
 
 [card.signer-overdrive]
 id = 410000506
