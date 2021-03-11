@@ -269,7 +269,6 @@ During the Main Phase, activate 1 of these effect;
 """
 strings = [
     "Take a DIVINE monster?",
-    "Recover LP",
     "Declare top your Deck",
     "Summon a Divine-Beast monster",
 ]
