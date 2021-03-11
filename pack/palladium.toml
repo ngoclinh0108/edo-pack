@@ -393,8 +393,8 @@ atk = 2300
 def = 2100
 effect = """\
 (This card is also always treated as "Gaia The Fierce Knight", also Spellcaster monster.)
-When you Ritual Summon a "Palladium" monster, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
 You can Normal Summon this card without Tributing, but its original ATK become 1900. \
+When you Ritual Summon a "Palladium" monster, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
 You can only use each of the following effects of "Palladium Oracle Faris" once per turn.
 ● If this card is Summoned: You can Special Summon 1 Level 4 or lower "Palladium" Tuner monster \
     from your hand, Deck or GY in Defense Position.

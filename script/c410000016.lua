@@ -21,16 +21,6 @@ function s.initial_effect(c)
     race:SetValue(RACE_SPELLCASTER)
     c:RegisterEffect(race)
 
-    -- ritual material
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_EXTRA_RITUAL_MATERIAL)
-    e1:SetCondition(function(e)
-        return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(), 69832741)
-    end)
-    e1:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
-    c:RegisterEffect(e1)
-
     -- summon with no tribute
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
@@ -45,51 +35,61 @@ function s.initial_effect(c)
     e1b:SetOperation(s.e1atkop)
     c:RegisterEffect(e1b)
 
-    -- search tuner
+    -- ritual material
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND + CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_SUMMON_SUCCESS)
-    e2:SetCountLimit(1, id + 1 * 1000000)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e2b)
-    local e2c = e2:Clone()
-    e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e2c)
-
-    -- search spell/trap
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DELAY)
-    e3:SetCode(EVENT_BE_MATERIAL)
-    e3:SetCountLimit(1, id + 2 * 1000000)
-    e3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return
-            (r & REASON_RITUAL + REASON_FUSION + REASON_SYNCHRO + REASON_LINK) ~=
-                0
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_EXTRA_RITUAL_MATERIAL)
+    e2:SetCondition(function(e)
+        return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(), 69832741)
     end)
+    e2:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
+    c:RegisterEffect(e2)
+
+    -- search tuner
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND + CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_SUMMON_SUCCESS)
+    e3:SetCountLimit(1, id + 1 * 1000000)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
-    e3b:SetCode(EVENT_TO_GRAVE)
-    e3b:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+    e3b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e3b)
+    local e3c = e3:Clone()
+    e3c:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e3c)
+
+    -- search spell/trap
+    local e4 = Effect.CreateEffect(c)
+    e4:SetCategory(CATEGORY_SEARCH + CATEGORY_TOHAND)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_DELAY)
+    e4:SetCode(EVENT_BE_MATERIAL)
+    e4:SetCountLimit(1, id + 2 * 1000000)
+    e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return
+            (r & REASON_RITUAL + REASON_FUSION + REASON_SYNCHRO + REASON_LINK) ~=
+                0
+    end)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetCode(EVENT_TO_GRAVE)
+    e4b:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
         return c:IsPreviousLocation(LOCATION_OVERLAY) and
                    c:IsReason(REASON_COST) and re:IsActivated() and
                    re:IsActiveType(TYPE_XYZ)
 
     end)
-    c:RegisterEffect(e3b)
-    local e3c = e3b:Clone()
-    e3c:SetCode(EVENT_REMOVE)
-    c:RegisterEffect(e3c)
+    c:RegisterEffect(e4b)
+    local e4c = e4b:Clone()
+    e4c:SetCode(EVENT_REMOVE)
+    c:RegisterEffect(e4c)
 end
 
 function s.e1con(e, c, minc)
@@ -114,15 +114,15 @@ function s.e1atkop(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 end
 
-function s.e2filter(c, e, tp)
+function s.e3filter(c, e, tp)
     return c:IsLevelBelow(4) and c:IsSetCard(0x13a) and c:IsType(TYPE_TUNER) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
@@ -132,11 +132,11 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_HAND +
+    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_HAND +
                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                       1, nil, e, tp)
 
@@ -145,14 +145,14 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter(c)
+function s.e4filter(c)
     return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsSetCard(0x13a) and
                c:IsAbleToHand()
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp,
+        return Duel.IsExistingMatchingCard(s.e4filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
@@ -160,9 +160,9 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
+    local g = Duel.SelectMatchingCard(tp, s.e4filter, tp,
                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                       nil)
     if #g > 0 then

@@ -62,7 +62,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsRelateToEffect(e) end
     Duel.SetTargetCard(eg)
     Duel.SetChainLimit(function(e, ep, tp)
-        return not g:IsContains(e:GetHandler())
+        return not eg:IsContains(e:GetHandler())
     end)
 end
 
