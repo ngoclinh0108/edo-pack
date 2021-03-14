@@ -62,10 +62,10 @@ atk = 1900
 def = 1300
 effect = """\
 (This card is always treated as an "Elemental HERO" card.)
-While “Neo Space” is face-up on the field, this card’s name becomes "Elemental HERO Neos" while on the field or in the GY. \
+While "Neo Space" is face-up on the field, this card’s name becomes "Elemental HERO Neos" while on the field or in the GY. \
     This effect cannot be negated. \
 If this card is Normal or Special Summoned: You can add 1 Spell/Trap from your Deck to your hand \
     that specifically lists the card "Elemental HERO Neos" in its text. \
-    You can only use this effect of Spacian HERO Neu” once per turn. \
+    You can only use this effect of "Spacian HERO Neu" once per turn. \
 """
 strings = []
