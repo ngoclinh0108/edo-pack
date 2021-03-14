@@ -29,7 +29,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, tp)
-    return (c:IsControler(tp) or c:IsFaceup()) and c:IsSetCard(0x8)
+    return (c:IsControler(tp) or c:IsFaceup()) and
+               (c:IsSetCard(0x8) or c:IsSetCard(0x9))
 end
 
 function s.e2filter(c, tp)

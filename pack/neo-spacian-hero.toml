@@ -42,7 +42,7 @@ atk = 2500
 def = 2000
 effect = """\
 (This card is also always treated as "Elemental HERO Neos".)
-You can Tribute summon this card by Tributing 1 "HERO" monster. \
+You can Tribute summon this card by Tributing 1 "HERO" or "Neos" monster. \
 If a Fusion Monster(s) you control that lists "Elemental HERO Neos" as material \
     is destroyed by battle or has left the field because of a card effect: \
     You Special Summon this card from your hand, Deck, or GY. \
