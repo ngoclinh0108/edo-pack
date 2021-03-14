@@ -1,3 +1,6 @@
+[set.hero]
+code = 0x8
+
 [set.neos]
 code = 0x9
 
@@ -15,7 +18,8 @@ effect = """\
 "Elemental HERO Honest Neos" and "Elemental HERO Brave Neos" is also treated as "Elemental HERO Neos". \
 ]
 
-Fusion Monsters that list "Elemental HERO Neos" as a Fusion Material Monster \
+This card cannot be destroyed by card effects. \
+Fusion Monsters that list "Elemental HERO Neos" as a material \
     do not have to activate their effects during the End Phase that shuffle them into the Extra Deck. \
 """
 strings = []
@@ -31,6 +35,11 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-(This card is also always treated as "Elemental HERO Neos")
+(This card is also always treated as "Elemental HERO Neos".)
+You can Tribute summon this card by Tributing 1 "HERO" monster. \
+If a Fusion Monster(s) you control that lists "Elemental HERO Neos" as material \
+    is destroyed by battle or has left the field because of a card effect: \
+    You Special Summon this card from your hand, Deck, or GY. \
+    You can only use this effect of "Spacian HERO Neos" once per turn. \
 """
-strings = []
+strings = ["Normal Summon with 1 \"HERO\" monster"]
