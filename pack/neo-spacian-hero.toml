@@ -1,0 +1,18 @@
+[set.neos]
+code = 0x9
+
+[card.neo-space-multiverse]
+id = 410000400
+alias = 42015635
+set = "neos"
+name = "Neo-Space Multiverse"
+type = "spell field"
+attribute = "spell"
+effect = """\
+[ \
+"Elemental HERO Honest Neos" and "Elemental HERO Brave Neos" is also treated as "Elemental HERO Neos". \
+]
+
+(This card's name is always treated as "Neo Space".) \
+"""
+strings = []
