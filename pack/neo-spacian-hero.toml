@@ -1,8 +1,14 @@
 [set.hero]
 code = 0x8
 
+[set.elemental-hero]
+code = 0x3008
+
 [set.neos]
 code = 0x9
+
+[set.neo-spacian]
+code = 0x1f
 
 [card.neo-space-multiverse]
 id = 410000400
@@ -43,3 +49,23 @@ If a Fusion Monster(s) you control that lists "Elemental HERO Neos" as material 
     You can only use this effect of "Spacian HERO Neos" once per turn. \
 """
 strings = ["Normal Summon with 1 \"HERO\" monster"]
+
+[card.spacian-hero-neu]
+id = 410000402
+set = "elemental-hero"
+name = "Spacian HERO Neu"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1900
+def = 1300
+effect = """\
+(This card is always treated as an "Elemental HERO" card.)
+While “Neo Space” is face-up on the field, this card’s name becomes "Elemental HERO Neos" while on the field or in the GY. \
+    This effect cannot be negated. \
+If this card is Normal or Special Summoned: You can add 1 Spell/Trap from your Deck to your hand \
+    that specifically lists the card "Elemental HERO Neos" in its text. \
+    You can only use this effect of Spacian HERO Neu” once per turn. \
+"""
+strings = []
