@@ -9,10 +9,28 @@ name = "Neo-Space Multiverse"
 type = "spell field"
 attribute = "spell"
 effect = """\
+(This card's name is always treated as "Neo Space".)
+
 [ \
 "Elemental HERO Honest Neos" and "Elemental HERO Brave Neos" is also treated as "Elemental HERO Neos". \
 ]
 
-(This card's name is always treated as "Neo Space".) \
+Fusion Monsters that list "Elemental HERO Neos" as a Fusion Material Monster \
+    do not have to activate their effects during the End Phase that shuffle them into the Extra Deck. \
+"""
+strings = []
+
+[card.spacian-hero-neos]
+id = 410000401
+alias = 89943723
+name = "Spacian HERO Neos"
+type = "monster normal"
+attribute = "light"
+race = "warrior"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+(This card is also always treated as "Elemental HERO Neos")
 """
 strings = []
