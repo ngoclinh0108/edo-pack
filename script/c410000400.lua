@@ -3,7 +3,7 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 
 s.listed_names = {CARD_NEOS}
-s.listed_series = {0x8, 0x9}
+s.listed_series = {0x8, 0x1f}
 
 function s.global_effect(c, tp)
     -- Elemental HERO Neos
@@ -54,60 +54,62 @@ function s.initial_effect(c)
     -- special summon
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetRange(LOCATION_FZONE)
     e4:SetCountLimit(1)
-    e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 end
 
-function s.e4confilter(c, tp)
-    return c:IsLevel(4) and c:IsRace(RACE_WARRIOR) and
-               (Duel.GetMZoneCount(tp, c, tp) > 0 or
-                   (c:IsControler(tp) and c:GetSequence() < 5)) and
-               (c:IsControler(tp) or c:IsFaceup())
+function s.e4filter1(c, e, tp)
+    return c:IsLevel(4) and c:IsRace(RACE_WARRIOR) and c:IsAbleToDeck() and
+               Duel.IsExistingMatchingCard(s.e4filter2, tp,
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+                                           nil, e, tp, c:GetAttribute())
 end
 
-function s.e4tgfilter(c, e, tp)
+function s.e4filter2(c, e, tp, attr)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
-               c:IsSetCard(0x9)
-end
-
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    if chk == 0 then
-        return ft > -1 and
-                   Duel.CheckReleaseGroupCost(tp, s.e4confilter, 1, false, nil,
-                                              nil, tp)
-    end
-
-    local g = Duel.SelectReleaseGroupCost(tp, s.e4confilter, 1, 1, false, nil,
-                                          nil, tp)
-    Duel.Release(g, REASON_COST)
+               c:IsSetCard(0x1f) and c:IsAttribute(attr)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e4tgfilter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil, e, tp)
+        return Duel.IsExistingTarget(s.e4filter1, tp, LOCATION_MZONE, 0, 1, nil,
+                                     e, tp)
     end
 
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    local g = Duel.SelectTarget(tp, s.e4filter1, tp, LOCATION_MZONE, 0, 1, 1,
+                                nil, e, tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0,
                           LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local tc = Duel.GetTargetCards(e):GetFirst()
     if not c:IsRelateToEffect(e) then return end
+    if not tc or not tc:IsRelateToEffect(e) then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectTarget(tp, s.e4tgfilter, tp,
-                                LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, e,
-                                tp)
-    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
+    local attr = tc:GetAttribute()
+    if Duel.SendtoDeck(tc, tp, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
+        return
+    end
+
+    local g = Duel.GetMatchingGroup(s.e4filter2, tp,
+                                    LOCATION_HAND + LOCATION_DECK, 0, nil, e,
+                                    tp, attr)
+    if #g > 1 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+        g = g:Select(tp, 1, 1)
+    end
+    if #g == 0 then return end
+
+    Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
 end
