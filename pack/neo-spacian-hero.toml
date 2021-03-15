@@ -27,8 +27,15 @@ effect = """\
 This card cannot be destroyed by card effects. \
 Fusion Monsters that list "Elemental HERO Neos" as a material \
     do not have to activate their effects during the End Phase that shuffle them into the Extra Deck. \
+During your Main Phase, you can Tribute Summon 1 "HERO" monster in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+Once per turn: You can Tribute 1 Level 4 Warrior monster you control; \
+    Special Summon 1 "Neo-Spacian" monster from your hand or Deck. \
 """
-strings = []
+strings = [
+    "Summon via \"Neo-Space Multiverse\"",
+    "Special Summon a \"Neo-Spacian\" monster",
+]
 
 [card.spacian-hero-neos]
 id = 410000401
