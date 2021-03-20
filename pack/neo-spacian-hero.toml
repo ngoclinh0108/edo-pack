@@ -28,14 +28,8 @@ Fusion Monsters that list "Elemental HERO Neos" as a material \
     do not have to activate their effects during the End Phase that shuffle them into the Extra Deck. \
 During your Main Phase, you can Tribute Summon 1 "HERO" monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
-Once per turn: You can target 1 Level 4 Warrior monster you control; \
-    Shuffle it into the Deck, then Special Summon from your hand or Deck, \
-    1 "Neo-Spacian" monster with the same Attribute that shuffled monster had on the field. \
 """
-strings = [
-    "Summon via \"Neo-Space Multiverse\"",
-    "Special Summon a \"Neo-Spacian\" monster",
-]
+strings = ["Summon via \"Neo-Space Multiverse\""]
 
 [card.spacian-hero-neos]
 id = 410000401
@@ -90,7 +84,11 @@ def = 2000
 effect = """\
 "Elemental HERO Neos" + 1 Level 4 or lower Effect Monster
 Must first be Fusion Summoned. \
-Gains 100 ATK for each "Neo-Spacian" and "HERO" monster in your GY. \
+This card’s name becomes "Elemental HERO Neos" while on the field or in the GY. \
+    This effect cannot be negated. \
 If this attacking card destroys an opponent's monster by battle: It can make a second attack in a row. \
+You can Special Summon 1 "Neo-Spacian" monster from your hand, Deck or GY in Defense Position, but negate its effects. \
+    This card cannot declare an attack the turn this effect is activated. \
+    You can only use this effect of "Elemental HERO Space Neos" once per turn. \
 """
-strings = ["Attack again"]
+strings = ["Attack again", "Special Summon a \"Neo-Spacian\" monster"]
