@@ -105,7 +105,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                     e, tp)
     if #g > 1 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        g = g:Select(tp, 1, 1)
+        g = g:Select(tp, 1, 1, nil)
     end
     if #g == 0 then return end
     local tc = g:GetFirst()

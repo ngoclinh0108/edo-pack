@@ -225,7 +225,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     elseif #mg == 1 then
         mc = mg:GetFirst()
     else
-        mc = mg:Select(c:GetOwner(), 1, 1):GetFirst()
+        mc = mg:Select(c:GetOwner(), 1, 1, nil):GetFirst()
     end
     if not mc then return end
 

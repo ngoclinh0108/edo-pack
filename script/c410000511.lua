@@ -68,7 +68,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetMatchingGroup(s.e1costfilter, tp, LOCATION_GRAVE, 0, nil)
     if #g > 1 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-        g = g:Select(tp, 1, 1)
+        g = g:Select(tp, 1, 1, nil)
     end
 
     Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)

@@ -23,7 +23,8 @@ effect = """\
 "Elemental HERO Honest Neos" is also treated as "Elemental HERO Neos". \
 ]
 
-Unaffected by other cards' effects. \
+Unaffected by monsters' effects. \
+Special Summons of your Fusion Monsters that list "Elemental HERO Neos" as a material cannot be negated. \
 Fusion Monsters that list "Elemental HERO Neos" as a material \
     do not have to activate their effects during the End Phase that shuffle them into the Extra Deck. \
 During your Main Phase, you can Tribute Summon 1 "HERO" monster in addition to your Normal Summon/Set. \
