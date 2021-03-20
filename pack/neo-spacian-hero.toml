@@ -92,10 +92,5 @@ effect = """\
 Must first be Fusion Summoned. \
 Gains 100 ATK for each "Neo-Spacian" and "HERO" monster in your GY. \
 If this attacking card destroys an opponent's monster by battle: It can make a second attack in a row. \
-During the Main Phase (Quick Effect): \
-    You can Tribute this card and 1 face-up monster you control; \
-    Special Summon 1 Fusion Monster from your Extra Deck that lists exactly 2 monsters as material, including "Elemental HERO Neos", \
-    ignoring its Summoning conditions. \
-    You can only use this effect of "Elemental HERO Space Neos" once per turn. \
 """
-strings = ["Attack again", "Special Summon \"Neos\" Fusion Monster"]
+strings = ["Attack again"]
