@@ -100,9 +100,11 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e3filter, tp, LOCATION_HAND +
-                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                     nil, e, tp)
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
+                                                   LOCATION_DECK +
+                                                   LOCATION_GRAVE, 0, 1, nil, e,
+                                               tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0,
@@ -110,6 +112,8 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
+
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_HAND +
                                         LOCATION_DECK + LOCATION_GRAVE, 0, nil,
