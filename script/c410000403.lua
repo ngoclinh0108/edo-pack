@@ -12,6 +12,7 @@ function s.initial_effect(c)
     -- fusion material
     Fusion.AddProcMix(c, true, true, CARD_NEOS,
                       aux.FilterBoolFunctionEx(Card.IsType, TYPE_EFFECT))
+    Fusion.AddContactProc(c, s.contactfilter, s.contactop, s.splimit)
 
     -- special summon condition
     local splimit = Effect.CreateEffect(c)
@@ -56,6 +57,16 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+end
+
+function s.contactfilter(tp)
+    return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost, tp,
+                                 LOCATION_ONFIELD, 0, nil)
+end
+
+function s.contactop(g, tp)
+    Duel.ConfirmCards(1 - tp, g)
+    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST + REASON_MATERIAL)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)

@@ -84,7 +84,8 @@ atk = 2500
 def = 2000
 effect = """\
 "Elemental HERO Neos" + 1 Level 4 or lower Effect Monster
-Must first be Fusion Summoned. \
+Must first be either Fusion Summoned, \
+    or Special Summoned from your Extra Deck by shuffling the above cards you control into the Deck. \
 This card’s name becomes "Elemental HERO Neos" while on the field or in the GY. \
     This effect cannot be negated. \
 If this attacking card destroys an opponent's monster by battle: It can make a second attack in a row. \
