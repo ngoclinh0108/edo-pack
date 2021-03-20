@@ -22,25 +22,29 @@ function s.initial_effect(c)
     act:SetCode(EVENT_FREE_CHAIN)
     c:RegisterEffect(act)
 
-    -- cannot disable summon
+    -- indes & immune
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
-    e1:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e1:SetRange(LOCATION_FZONE)
-    e1:SetTargetRange(1, 0)
-    e1:SetTarget(function(e, c)
+    e1:SetValue(1)
+    c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_IMMUNE_EFFECT)
+    e1b:SetValue(function(e, te) return te:GetHandler():IsType(TYPE_MONSTER) end)
+    c:RegisterEffect(e1b)
+
+    -- cannot disable summon
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    e2:SetRange(LOCATION_FZONE)
+    e2:SetTargetRange(1, 0)
+    e2:SetTarget(function(e, c)
         return c:IsType(TYPE_FUSION) and aux.IsMaterialListCode(c, CARD_NEOS)
     end)
-    c:RegisterEffect(e1)
-
-    -- immune
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_IMMUNE_EFFECT)
-    e2:SetRange(LOCATION_FZONE)
-    e2:SetValue(function(e, te) return te:GetHandler():IsType(TYPE_MONSTER) end)
     c:RegisterEffect(e2)
 
     -- may not return
