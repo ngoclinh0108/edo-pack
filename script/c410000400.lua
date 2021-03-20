@@ -13,7 +13,6 @@ function s.global_effect(c, tp)
     eg1:SetCode(EFFECT_ADD_CODE)
     eg1:SetValue(CARD_NEOS)
     Utility.RegisterGlobalEffect(c, eg1, Card.IsCode, 14124483)
-    Utility.RegisterGlobalEffect(c, eg1, Card.IsCode, 64655485)
 end
 
 function s.initial_effect(c)
@@ -23,13 +22,13 @@ function s.initial_effect(c)
     act:SetCode(EVENT_FREE_CHAIN)
     c:RegisterEffect(act)
 
-    -- indes
+    -- immune
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e1:SetCode(EFFECT_IMMUNE_EFFECT)
     e1:SetRange(LOCATION_FZONE)
-    e1:SetValue(1)
+    e1:SetValue(function(e, te) return te:GetHandler() ~= e:GetHandler() end)
     c:RegisterEffect(e1)
 
     -- may not return

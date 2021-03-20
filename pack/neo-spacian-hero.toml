@@ -21,10 +21,10 @@ effect = """\
 (This card's name is always treated as "Neo Space".)
 
 [ \
-"Elemental HERO Honest Neos" and "Elemental HERO Brave Neos" is also treated as "Elemental HERO Neos". \
+"Elemental HERO Honest Neos" is also treated as "Elemental HERO Neos". \
 ]
 
-This card cannot be destroyed by card effects. \
+Unaffected by other cards' effects. \
 Fusion Monsters that list "Elemental HERO Neos" as a material \
     do not have to activate their effects during the End Phase that shuffle them into the Extra Deck. \
 During your Main Phase, you can Tribute Summon 1 "HERO" monster in addition to your Normal Summon/Set. \
@@ -77,3 +77,26 @@ If this card is Normal or Special Summoned: You can add 1 Spell/Trap from your D
     You can only use this effect of "Spacian HERO Neu" once per turn. \
 """
 strings = []
+
+[card.elemental-hero-space-neos]
+id = 410000403
+set = "elemental-hero neos"
+name = "Elemental HERO Space Neos"
+type = "monster fusion effect"
+attribute = "light"
+race = "warrior"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+"Elemental HERO Neos" + 1 Level 4 or lower Effect Monster
+Must first be Fusion Summoned. \
+Gains 100 ATK for each "Neo-Spacian" and "HERO" monster in your GY. \
+If this attacking card destroys an opponent's monster by battle: It can make a second attack in a row. \
+During the Main Phase (Quick Effect): \
+    You can Tribute this card and 1 face-up monster you control; \
+    Special Summon 1 Fusion Monster from your Extra Deck that lists exactly 2 monsters as material, including "Elemental HERO Neos", \
+    ignoring its Summoning conditions. \
+    You can only use this effect of "Elemental HERO Space Neos" once per turn. \
+"""
+strings = ["Attack again", "Special Summon \"Neos\" Fusion Monster"]
