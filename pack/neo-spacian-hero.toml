@@ -19,7 +19,6 @@ type = "spell field"
 attribute = "spell"
 effect = """\
 (This card's name is always treated as "Neo Space".)
-
 [ \
 "Elemental HERO Honest Neos" is also treated as "Elemental HERO Neos". \
 ]
