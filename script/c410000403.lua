@@ -1,4 +1,4 @@
--- Elemental HERO Space Neos
+-- Elemental HERO Shining Neos
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 
@@ -27,17 +27,26 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(splimit)
 
-    -- damage
+    -- atk up
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_DAMAGE)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e1:SetCode(EVENT_BATTLE_DESTROYING)
-    e1:SetCondition(aux.bdcon)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_UPDATE_ATTACK)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetValue(s.e1val)
     c:RegisterEffect(e1)
+
+    -- damage
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_DAMAGE)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EVENT_BATTLE_DESTROYING)
+    e2:SetCondition(aux.bdcon)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
@@ -64,7 +73,16 @@ function s.contactop(g, tp)
     Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST + REASON_MATERIAL)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1filter(c)
+    return c:IsFaceup() and c:IsType(TYPE_MONSTER) and
+               (c:IsSetCard(0x1f) or c:IsSetCard(0x8))
+end
+function s.e1val(e, c)
+    return Duel.GetMatchingGroupCount(s.e1filter, c:GetControler(),
+                                      LOCATION_GRAVE, 0, nil) * 200
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
     local dmg = e:GetHandler():GetBattleTarget():GetBaseAttack()
@@ -75,7 +93,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
                                    CHAININFO_TARGET_PARAM)
     Duel.Damage(p, d, REASON_EFFECT)
@@ -94,8 +112,9 @@ end
 function s.e3con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsReleasable() end
-    Duel.Release(e:GetHandler(), REASON_COST)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsAbleToExtraAsCost() end
+    Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_COST)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -117,7 +136,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c=e:GetHandler()
+    local c = e:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
         Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then return end
 

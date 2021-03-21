@@ -72,10 +72,10 @@ If this card is Normal or Special Summoned: You can add 1 Spell/Trap from your D
 """
 strings = []
 
-[card.elemental-hero-space-neos]
+[card.elemental-hero-shining-neos]
 id = 410000403
 set = "elemental-hero neos"
-name = "Elemental HERO Space Neos"
+name = "Elemental HERO Shining Neos"
 type = "monster fusion effect"
 attribute = "light"
 race = "warrior"
@@ -86,9 +86,10 @@ effect = """\
 "Elemental HERO Neos" + 1 Level 4 or lower Effect Monster
 Must first be either Fusion Summoned, \
     or Special Summoned from your Extra Deck by shuffling the above cards you control into the Deck. \
+Gains 200 ATK for each "Neo-Spacian" and "HERO" monster in your GY. \
 If this card destroys a monster by battle: Inflict damage to your opponent equal to that monster's original ATK. \
-During the Main Phase (Quick Effect): You can Tribute this card; \
+During the Main Phase (Quick Effect): you can shuffle this card into the Extra Deck; \
     Special Summon 1 "Elemental HERO Neos" and 1 "Neo-Spacian" monster from your hand, Deck or GY in Defense Position, but negate their effects. \
-    You can only use this effect of "Elemental HERO Space Neos" once per turn. \
+    You can only use this effect of "Elemental HERO Shining Neos" once per turn. \
 """
 strings = ["Inflict damage", "Special Summon \"Neos\" and \"Neo-Spacian\" monster"]
