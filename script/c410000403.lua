@@ -55,7 +55,6 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -84,7 +83,7 @@ function s.e1filter(c)
 end
 function s.e1val(e, c)
     return Duel.GetMatchingGroupCount(s.e1filter, c:GetControler(),
-                                      LOCATION_GRAVE, 0, nil) * 200
+                                      LOCATION_GRAVE, 0, nil) * 300
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -113,8 +112,6 @@ function s.e3filter2(c, e, tp)
     return c:IsSetCard(0x1f) and c:IsType(TYPE_MONSTER) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
@@ -156,14 +153,18 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if #g ~= 2 then return end
 
     for tc in aux.Next(g) do
-        if Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) then
+        if Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP) then
             local ec1 = Effect.CreateEffect(c)
-            ec1:SetDescription(3302)
+            ec1:SetDescription(3206)
             ec1:SetType(EFFECT_TYPE_SINGLE)
             ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-            ec1:SetCode(EFFECT_CANNOT_TRIGGER)
+            ec1:SetCode(EFFECT_CANNOT_ATTACK)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
             tc:RegisterEffect(ec1)
+            local ec2 = ec1:Clone()
+            ec2:SetDescription(3302)
+            ec2:SetCode(EFFECT_CANNOT_TRIGGER)
+            tc:RegisterEffect(ec2)
         end
     end
 end
