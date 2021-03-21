@@ -27,32 +27,27 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(splimit)
 
-    -- change name
+    -- damage
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE +
-                       EFFECT_FLAG_CANNOT_NEGATE)
-    e1:SetCode(EFFECT_CHANGE_CODE)
-    e1:SetRange(LOCATION_MZONE + LOCATION_GRAVE)
-    e1:SetValue(CARD_NEOS)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_DAMAGE)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e1:SetCode(EVENT_BATTLE_DESTROYING)
+    e1:SetCondition(aux.bdcon)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-
-    -- make a second attack in a row
-    local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetCode(EVENT_BATTLE_DESTROYING)
-    e2:SetCondition(s.e2con)
-    e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1, id)
+    e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -69,69 +64,82 @@ function s.contactop(g, tp)
     Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST + REASON_MATERIAL)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return
-        Duel.GetAttacker() == c and aux.bdocon(e, tp, eg, ep, ev, re, r, rp) and
-            c:CanChainAttack()
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    local dmg = e:GetHandler():GetBattleTarget():GetBaseAttack()
+    if dmg < 0 then dmg = 0 end
+
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(dmg)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.ChainAttack() end
-
-function s.e3filter(c, e, tp)
-    return
-        c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP_DEFENSE) and
-            c:IsSetCard(0x1f)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
 end
+
+function s.e3filter1(c, e, tp)
+    return c:IsCode(CARD_NEOS) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e3filter2(c, e, tp)
+    return c:IsSetCard(0x1f) and c:IsType(TYPE_MONSTER) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(3206)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_OATH +
-                        EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
+    if chk == 0 then return e:GetHandler():IsReleasable() end
+    Duel.Release(e:GetHandler(), REASON_COST)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 1 and
+                   not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
+                   Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_HAND +
+                                                   LOCATION_DECK +
+                                                   LOCATION_GRAVE, 0, 1, nil, e,
+                                               tp) and
+                   Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0,
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp,
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
+    local c=e:GetHandler()
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
+        Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then return end
 
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_HAND +
-                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil,
-                                    e, tp)
-    if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        g = g:Select(tp, 1, 1, nil)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectMatchingCard(tp, s.e3filter1, tp, LOCATION_HAND +
+                                          LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                      1, nil, e, tp)
+    g:Merge(Duel.SelectMatchingCard(tp, s.e3filter2, tp, LOCATION_HAND +
+                                        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+                                    nil, e, tp))
+    if #g ~= 2 then return end
+
+    for tc in aux.Next(g) do
+        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_DISABLE)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1, true)
+        local ec2 = ec1:Clone()
+        ec2:SetCode(EFFECT_DISABLE_EFFECT)
+        tc:RegisterEffect(ec2, true)
     end
-    if #g == 0 then return end
-    local tc = g:GetFirst()
-
-    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_DISABLE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    tc:RegisterEffect(ec1, true)
-    local ec2 = ec1:Clone()
-    ec2:SetCode(EFFECT_DISABLE_EFFECT)
-    tc:RegisterEffect(ec2, true)
 end

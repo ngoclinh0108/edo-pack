@@ -86,11 +86,9 @@ effect = """\
 "Elemental HERO Neos" + 1 Level 4 or lower Effect Monster
 Must first be either Fusion Summoned, \
     or Special Summoned from your Extra Deck by shuffling the above cards you control into the Deck. \
-This card’s name becomes "Elemental HERO Neos" while on the field or in the GY. \
-    This effect cannot be negated. \
-If this attacking card destroys an opponent's monster by battle: It can make a second attack in a row. \
-You can Special Summon 1 "Neo-Spacian" monster from your hand, Deck or GY in Defense Position, but negate its effects. \
-    This card cannot declare an attack the turn this effect is activated. \
+If this card destroys a monster by battle: Inflict damage to your opponent equal to that monster's original ATK. \
+During the Main Phase (Quick Effect): You can Tribute this card; \
+    Special Summon 1 "Elemental HERO Neos" and 1 "Neo-Spacian" monster from your hand, Deck or GY in Defense Position, but negate their effects. \
     You can only use this effect of "Elemental HERO Space Neos" once per turn. \
 """
-strings = ["Attack again", "Special Summon a \"Neo-Spacian\" monster"]
+strings = ["Inflict damage", "Special Summon \"Neos\" and \"Neo-Spacian\" monster"]
