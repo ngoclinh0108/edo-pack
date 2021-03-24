@@ -3,7 +3,8 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_neos.lua")
 
-s.listed_names = {42015635}
+s.listed_names = {CARD_NEOS, 80344569, 42015635}
+s.material_setcode = {0x8, 0x3008, 0x9, 0x1f}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()

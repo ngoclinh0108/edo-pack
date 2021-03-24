@@ -3,7 +3,8 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_neos.lua")
 
-s.listed_names = {42015635}
+s.listed_names = {CARD_NEOS, 43237273, 42015635}
+s.material_setcode = {0x8, 0x3008, 0x9, 0x1f}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -50,7 +51,7 @@ function s.e2filter(c)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c=e:GetHandler()
+    local c = e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and
                    Duel.IsExistingTarget(s.e2filter, tp, 0, LOCATION_MZONE, 1,
