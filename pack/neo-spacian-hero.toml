@@ -110,7 +110,7 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-"Elemental HERO Neos" + "Neo-Spacian Flare Scarab" or Level 4 or lower FIRE monster
+"Elemental HERO Neos" + "Neo-Spacian Flare Scarab" or Level 4 or lower FIRE Insect monster
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE} \
 Gains 400 ATK for each Spell/Trap Cards on the field. \

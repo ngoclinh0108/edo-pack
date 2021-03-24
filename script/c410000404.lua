@@ -11,7 +11,8 @@ function s.initial_effect(c)
     -- fusion material
     Neos.AddProc(c, {
         89621922, function(tc)
-            return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_FIRE)
+            return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_FIRE) and
+                       tc:IsRace(RACE_INSECT)
         end
     }, nil, true, true)
 
