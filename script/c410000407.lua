@@ -75,9 +75,11 @@ end
 function s.e2filter(c) return c:IsAbleToHand() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
     if chk == 0 then
-        return
-            Duel.IsExistingTarget(s.e2filter, tp, 0, LOCATION_ONFIELD, 1, nil)
+        return c:GetFlagEffect(id) == 0 and
+                   Duel.IsExistingTarget(s.e2filter, tp, 0, LOCATION_ONFIELD, 1,
+                                         nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
@@ -85,6 +87,8 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                 nil)
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, 0, 0)
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                             PHASE_END, 0, 1)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

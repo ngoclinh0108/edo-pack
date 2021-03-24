@@ -194,8 +194,15 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Glow Moss" or Level 4 or lower LIGHT Plant monster
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE} \
+Cannot be destroyed by card effects. \
+Once per turn, during the Main Phase: You can destroy 1 card your opponent controls, \
+    and if you do, apply the effect based on its type. \
+    This is a Quick Effect if "Neo Space" is on the field.
+● Monster: This card gains 500 ATK.
+● Spell: Banish 1 random monster from your opponent's Extra Deck, face-up.
+● Trap: Banish 1 card from the your opponent's GY.
 """
-strings = []
+strings = ["Destroy 1 face-up card and apply effect"]
 
 [card.elemental-hero-void-neos]
 id = 410000409
@@ -211,5 +218,9 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Dark Panther" or Level 4 or lower DARK Beast monster
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE} \
+Your opponent cannot target this card with card effect. \
+Once per turn: You can target 1 face-up Effect Monster your opponent controls; \
+    negate its effects, and if you do, this card gains that monster's effects until the End Phase. \
+    This is a Quick Effect if "Neo Space" is on the field. \
 """
-strings = []
+strings = ["Negate & copy effect"]

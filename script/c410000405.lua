@@ -48,8 +48,9 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.GetFieldGroupCount(tp, 0, LOCATION_HAND) > 0 and
-                   c:GetFlagEffect(id) == 0
+        return c:GetFlagEffect(id) == 0 and
+                   Duel.GetFieldGroupCount(tp, 0, LOCATION_HAND) > 0
+
     end
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 1 - tp, LOCATION_HAND)
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
