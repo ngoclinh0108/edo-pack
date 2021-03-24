@@ -47,7 +47,7 @@ end
 function s.e1val(e)
     return Duel.GetMatchingGroupCount(Card.IsType, 0, LOCATION_ONFIELD,
                                       LOCATION_ONFIELD, nil,
-                                      TYPE_SPELL + TYPE_TRAP) * 500
+                                      TYPE_SPELL + TYPE_TRAP) * 400
 end
 
 function s.e3con(e) return Duel.GetAttacker() == e:GetHandler() end

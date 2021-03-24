@@ -1,4 +1,4 @@
--- Elemental HERO Shining Neos
+-- Elemental HERO Prime Neos
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_neos.lua")

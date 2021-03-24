@@ -72,10 +72,10 @@ If this card is Normal or Special Summoned: You can add 1 Spell/Trap from your D
 """
 strings = []
 
-[card.elemental-hero-shining-neos]
+[card.elemental-hero-prime-neos]
 id = 410000403
 set = "elemental-hero neos"
-name = "Elemental HERO Shining Neos"
+name = "Elemental HERO Prime Neos"
 type = "monster fusion effect"
 attribute = "light"
 race = "warrior"
@@ -91,7 +91,7 @@ If Summoned by its owned effect, the following effect cannot be activated this t
 (Quick Effect): you can shuffle this card into the Extra Deck; \
     Special Summon 1 "Elemental HERO Neos" and 1 "Neo-Spacian" monster from your hand, Deck or GY, \
     but they cannot attack or activate their effects this turn. \
-    You can only use this effect of "Elemental HERO Shining Neos" once per turn. \
+    You can only use this effect of "Elemental HERO Prime Neos" once per turn. \
 """
 strings = [
     "Summoned by its own effect",
@@ -113,7 +113,7 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Flare Scarab" or Level 4 or lower FIRE Insect monster
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE} \
-Gains 500 ATK for each Spell/Trap Cards on the field. \
+Gains 400 ATK for each Spell/Trap Cards on the field. \
 While "Neo Space" is on the field, this card cannot be destroyed by battle. \
 If this card attacks, your opponent cannot activate Spell/Trap Cards until the end of the Damage Step. \
 """
@@ -138,3 +138,71 @@ Once per turn: You can destroy 1 random card in your opponent's hand. \
     This is a Quick Effect if "Neo Space" is on the field. \
 """
 strings = ["Destroy card in your opponent's hand"]
+
+[card.elemental-hero-celestial-neos]
+id = 410000406
+set = "elemental-hero neos"
+name = "Elemental HERO Celestial Neos"
+type = "monster fusion effect"
+attribute = "wind"
+race = "warrior"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+"Elemental HERO Neos" + "Neo-Spacian Air Hummingbird" or Level 4 or lower WIND Winged-Beast monster
+${NEOS_SUMMON} \
+${NEOS_END_PHASE} \
+"""
+strings = []
+
+[card.elemental-hero-colossal-neos]
+id = 410000407
+set = "elemental-hero neos"
+name = "Elemental HERO Colossal Neos"
+type = "monster fusion effect"
+attribute = "earth"
+race = "warrior"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+"Elemental HERO Neos" + "Neo-Spacian Grand Mole" or Level 4 or lower EARTH Rock monster
+${NEOS_SUMMON} \
+${NEOS_END_PHASE} \
+"""
+strings = []
+
+[card.elemental-hero-shining-neos]
+id = 410000408
+set = "elemental-hero neos"
+name = "Elemental HERO Shining Neos"
+type = "monster fusion effect"
+attribute = "earth"
+race = "warrior"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+"Elemental HERO Neos" + "Neo-Spacian Glow Moss" or Level 4 or lower LIGHT Plant monster
+${NEOS_SUMMON} \
+${NEOS_END_PHASE} \
+"""
+strings = []
+
+[card.elemental-hero-void-neos]
+id = 410000409
+set = "elemental-hero neos"
+name = "Elemental HERO Void Neos"
+type = "monster fusion effect"
+attribute = "earth"
+race = "warrior"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+"Elemental HERO Neos" + "Neo-Spacian Dark Panther" or Level 4 or lower DARK Beast monster
+${NEOS_SUMMON} \
+${NEOS_END_PHASE} \
+"""
+strings = []
