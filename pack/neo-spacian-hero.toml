@@ -84,8 +84,7 @@ atk = 2500
 def = 2000
 effect = """\
 "Elemental HERO Neos" + 1 Level 4 or lower Effect Monster, except "Neo-Spacian" monster
-Must first be either Fusion Summoned, \
-    or Special Summoned from your Extra Deck by shuffling the above cards you control into the Deck. \
+${NEOS_SUMMON} \
 Gains 300 ATK for each "Neo-Spacian" and "HERO" monster in your GY. \
 If this card destroys a monster by battle: Inflict damage to your opponent equal to that monster's original ATK. \
 If Summoned by its owned effect, the following effect cannot be activated this turn. \
@@ -94,4 +93,28 @@ If Summoned by its owned effect, the following effect cannot be activated this t
     but they cannot attack or activate their effects this turn. \
     You can only use this effect of "Elemental HERO Shining Neos" once per turn. \
 """
-strings = ["Summoned by its own effect", "Inflict damage", "Special Summon \"Neos\" and \"Neo-Spacian\" monster"]
+strings = [
+    "Summoned by its own effect",
+    "Inflict damage",
+    "Special Summon \"Neos\" and \"Neo-Spacian\" monster",
+]
+
+[card.elemental-hero-blazing-neos]
+id = 410000404
+set = "elemental-hero neos"
+name = "Elemental HERO Blazing Neos"
+type = "monster fusion effect"
+attribute = "fire"
+race = "warrior"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+"Elemental HERO Neos" + "Neo-Spacian Flare Scarab" or Level 4 or lower FIRE monster
+${NEOS_SUMMON} \
+${NEOS_END_PHASE} \
+Gains 400 ATK for each Spell/Trap Cards on the field. \
+This card cannot be destroyed by battle. \
+If this card attacks and "Neo Space" is on the field, your opponent cannot activate Spell/Trap Cards until the end of the Damage Step. \
+"""
+strings = []

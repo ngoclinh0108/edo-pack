@@ -1,7 +1,11 @@
 [macro]
+
 HIERARCHY = """(This card's base Divine Hierarchy is $1.)"""
 HIERARCHY_ALIAS = """(This card's name is always treated as "$2". This card's base Divine Hierarchy is $1.)"""
-
+EGYPTIAN_SUMMON = """\
+Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
+This card's Normal Summon cannot be negated.\
+"""
 DIVINE_IMMUNITY = """\
 This card's activation and effects cannot be negated. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
@@ -12,7 +16,9 @@ Unaffected by your opponent's monster effects and other cards' effects that woul
 Cannot be destroyed by battle with a monster has lower Divine Hierarchy, also you take no Battle Damage from that battle. \
 Cards' effects are only applied on this card for 1 turn.\
 """
-
+DIVINE_LIMIT = """\
+During the End Phase, if this card was Special Summoned from the GY: Send it to the GY.\
+"""
 GOD_IMMUNITY = """\
 This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
@@ -22,15 +28,11 @@ Possession of this card cannot be switched. \
 Unaffected by other cards' effects, except cards' effects with the same or higher Divine Hierarchy. \
 Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
 """
-TO_GRAVE_LIMIT = """\
-During the End Phase, if this card was Special Summoned from the GY: Send it to the GY.\
-"""
 
-EGYPTIAN_SUMMON = """\
-Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
-This card's Normal Summon cannot be negated.\
+NEOS_SUMMON = """\
+Must first be either Fusion Summoned, \
+    or Special Summoned from your Extra Deck by shuffling the above cards you control into the Deck.\
 """
-WICKED_SUMMON = """\
-Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
-This card's Normal Summon cannot be negated.\
+NEOS_END_PHASE = """\
+During the End Phase: Shuffle this card into the Extra Deck.\
 """

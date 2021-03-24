@@ -1,30 +1,26 @@
 -- Elemental HERO Shining Neos
 local s, id = GetID()
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_neos.lua")
 
 s.listed_names = {CARD_NEOS}
-s.material_setcode = {0x8, 0x3008, 0x9}
-s.listed_series = {0x1f, 0x8}
+s.listed_series = {0x8, 0x3008, 0x9, 0x1f}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion material
-    Fusion.AddProcMix(c, true, true, CARD_NEOS, s.fusfilter)
-    Fusion.AddContactProc(c, s.contactfilter, s.contactop, s.splimit)
-
-    -- special summon condition
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(function(e, se, sp, st)
-        if e:GetHandler():IsLocation(LOCATION_EXTRA) then
-            return (st & SUMMON_TYPE_FUSION) == SUMMON_TYPE_FUSION
+    Neos.AddProc(c, {
+        function(tc)
+            return tc:IsType(TYPE_EFFECT) and tc:IsLevelBelow(4) and
+                       not tc:IsSetCard(0x1f)
         end
-        return true
-    end)
-    c:RegisterEffect(splimit)
+    }, function(g, tp, c)
+        c:RegisterFlagEffect(id,
+                             RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD +
+                                 RESET_PHASE + PHASE_END,
+                             EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
+    end, true, false)
 
     -- atk up
     local e1 = Effect.CreateEffect(c)
@@ -59,24 +55,6 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-end
-
-function s.fusfilter(tc)
-    return tc:IsType(TYPE_EFFECT) and tc:IsLevelBelow(4) and
-               not tc:IsSetCard(0x1f)
-end
-
-function s.contactfilter(tp)
-    return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost, tp,
-                                 LOCATION_ONFIELD, 0, nil)
-end
-
-function s.contactop(g, tp, c)
-    Duel.ConfirmCards(1 - tp, g)
-    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST + REASON_MATERIAL)
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD +
-                             RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT,
-                         1, 0, aux.Stringid(id, 0))
 end
 
 function s.e1filter(c)

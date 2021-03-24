@@ -42,7 +42,7 @@ effect = """\
 ${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
 ${EGYPTIAN_SUMMON} \
 ${DIVINE_IMMUNITY} \
-${TO_GRAVE_LIMIT} \
+${DIVINE_LIMIT} \
 This card is also a Warrior/Rock monster while face-up on the field. \
 When a card or effect is activated that targets this card (Quick Effect): You can negate that effect. \
 Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Effect): \
@@ -66,7 +66,7 @@ effect = """\
 ${HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
 ${EGYPTIAN_SUMMON} \
 ${DIVINE_IMMUNITY} \
-${TO_GRAVE_LIMIT} \
+${DIVINE_LIMIT} \
 This card is also a Thunder/Dragon monster while face-up on the field. \
 The original ATK/DEF of this card each become equal to the number of cards in your hand x 1000. \
 If a monster(s) is Normal or Special Summoned to your opponent's field in face-up Attack Position: \
@@ -89,7 +89,7 @@ effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
 ${EGYPTIAN_SUMMON} \
 ${DIVINE_IMMUNITY} \
-${TO_GRAVE_LIMIT} \
+${DIVINE_LIMIT} \
 This card is also a Pyro/Winged-Beast monster while face-up on the field. \
 """
 
