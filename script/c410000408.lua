@@ -93,8 +93,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
                                         LOCATION_GRAVE, nil)
         if #g == 0 then return end
-        if #g > 0 then g = g:Select(tp, 1, 1) end
+        if #g > 0 then g = g:Select(tp, 1, 1, nil) end
         Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
     end
-
 end
