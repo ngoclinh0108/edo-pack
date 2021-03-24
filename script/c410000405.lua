@@ -33,6 +33,7 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1)
+    e2:SetCondition(function() return not Duel.IsEnvironment(42015635) end)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -57,6 +58,6 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_HAND)
-    if #g > 1 then g:RandomSelect(tp, 1) end
+    if #g > 1 then g = g:RandomSelect(tp, 1) end
     Duel.Destroy(g, REASON_EFFECT)
 end
