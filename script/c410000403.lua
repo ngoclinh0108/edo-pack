@@ -61,8 +61,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.fusfilter(tc) return tc:IsType(TYPE_EFFECT) and
-                                    not tc:IsSetCard(0x1f) end
+function s.fusfilter(tc)
+    return tc:IsType(TYPE_EFFECT) and tc:IsLevelBelow(4) and
+               not tc:IsSetCard(0x1f)
+end
 
 function s.contactfilter(tp)
     return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost, tp,
