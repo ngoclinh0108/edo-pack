@@ -114,6 +114,7 @@ effect = """\
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE} \
 Gains 400 ATK for each Spell/Trap Cards on the field. \
-If this card attacks and "Neo Space" is on the field, your opponent cannot activate Spell/Trap Cards until the end of the Damage Step. \
+While "Neo Space" is on the field, this card cannot be destroyed by battle. \
+If this card attacks, your opponent cannot activate Spell/Trap Cards until the end of the Damage Step. \
 """
 strings = []
