@@ -113,8 +113,28 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Flare Scarab" or Level 4 or lower FIRE Insect monster
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE} \
-Gains 400 ATK for each Spell/Trap Cards on the field. \
+Gains 500 ATK for each Spell/Trap Cards on the field. \
 While "Neo Space" is on the field, this card cannot be destroyed by battle. \
 If this card attacks, your opponent cannot activate Spell/Trap Cards until the end of the Damage Step. \
 """
 strings = []
+
+[card.elemental-hero-abyssal-neos]
+id = 410000405
+set = "elemental-hero neos"
+name = "Elemental HERO Abyssal Neos"
+type = "monster fusion effect"
+attribute = "water"
+race = "warrior"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+"Elemental HERO Neos" + "Neo-Spacian Aqua Dolphin" or Level 4 or lower WATER Fish monster
+${NEOS_SUMMON} \
+${NEOS_END_PHASE} \
+Your opponent cannot banish cards from either GY. \
+Once per turn: You can destroy 1 random card in your opponent's hand. \
+    This is a Quick Effect if "Neo Space" is on the field. \
+"""
+strings = ["Destroy card in your opponent's hand"]
