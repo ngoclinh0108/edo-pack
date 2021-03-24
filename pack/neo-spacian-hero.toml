@@ -199,7 +199,7 @@ Once per turn, during the Main Phase: You can destroy 1 card your opponent contr
     and if you do, apply the effect based on its type. \
     This is a Quick Effect if "Neo Space" is on the field.
 ● Monster: This card gains 500 ATK.
-● Spell: Banish 1 random monster from your opponent's Extra Deck, face-up.
+● Spell: Banish 1 random monster from your opponent's Extra Deck.
 ● Trap: Banish 1 card from the your opponent's GY.
 """
 strings = ["Destroy 1 face-up card and apply effect"]
