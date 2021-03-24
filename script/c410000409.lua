@@ -50,6 +50,7 @@ function s.e2filter(c)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c=e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and
                    Duel.IsExistingTarget(s.e2filter, tp, 0, LOCATION_MZONE, 1,
