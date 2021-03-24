@@ -153,6 +153,10 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Air Hummingbird" or Level 4 or lower WIND Winged-Beast monster
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE} \
+While "Neo Space" is on the field, you take no effect damage. \
+While your LP is higher your opponent's, this card gains ATK equal to the difference. \
+If this card attacks an opponent's monster, during the Damage Step only, \
+    negate the effects of that monster while it is face-up on the field (but its effects can still be activated) \
 """
 strings = []
 
@@ -170,8 +174,11 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Grand Mole" or Level 4 or lower EARTH Rock monster
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE} \
+Once per turn, during the Main Phase (Quick Effect): You can banish this card until the End Phase. \
+Once per turn: You can target 1 card your opponent controls; return it to the hand. \
+    This is a Quick Effect if "Neo Space" is on the field. \
 """
-strings = []
+strings = ["Banish itself", "Return card your opponent controls to hand"]
 
 [card.elemental-hero-shining-neos]
 id = 410000408

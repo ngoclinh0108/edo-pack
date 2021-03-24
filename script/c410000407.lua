@@ -15,4 +15,80 @@ function s.initial_effect(c)
                        tc:IsRace(RACE_ROCK)
         end
     }, nil, true, true)
+
+    -- banish
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_REMOVE)
+    e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCountLimit(1)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
+    -- to hand
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_TOHAND)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
+    e2:SetCondition(function() return not Duel.IsEnvironment(42015635) end)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetType(EFFECT_TYPE_QUICK_O)
+    e2b:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
+    e2b:SetCode(EVENT_FREE_CHAIN)
+    e2b:SetCondition(function() return Duel.IsEnvironment(42015635) end)
+    c:RegisterEffect(e2b)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then return e:GetHandler():IsAbleToRemove() end
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+
+    Duel.Remove(c, POS_FACEUP, REASON_EFFECT + REASON_TEMPORARY)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetCode(EVENT_PHASE + PHASE_END)
+    ec1:SetLabelObject(c)
+    ec1:SetCountLimit(1)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Duel.ReturnToField(e:GetLabelObject())
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+end
+
+function s.e2filter(c) return c:IsAbleToHand() end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return
+            Duel.IsExistingTarget(s.e2filter, tp, 0, LOCATION_ONFIELD, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, 0, LOCATION_ONFIELD, 1, 1,
+                                nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) then return end
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
 end
