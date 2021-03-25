@@ -84,13 +84,11 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               (c:IsCode(CARD_NEOS) or c:IsSetCard(0x1f))
 end
 
-function s.e3check(g, e, tp)
-    return g:IsExists(Card.IsCode, 1, nil, CARD_NEOS) and
-               g:IsExists(Card.IsSetCard, 1, nil, 0x1f)
-end
+function s.e3check(g, e, tp) return g:GetClassCount(Card.GetCode) == #g end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
