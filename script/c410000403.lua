@@ -83,14 +83,13 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Damage(p, d, REASON_EFFECT)
 end
 
-function s.e3filter1(c, e, tp)
-    return c:IsCode(CARD_NEOS) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e3filter(c, e, tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e3filter2(c, e, tp)
-    return c:IsSetCard(0x1f) and c:IsType(TYPE_MONSTER) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e3check(g, e, tp)
+    return g:IsExists(Card.IsCode, 1, nil, CARD_NEOS) and
+               g:IsExists(Card.IsSetCard, 1, nil, 0x1f)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -100,40 +99,35 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_DECK
+    local g = Duel.GetMatchingGroup(s.e3filter, tp, loc, 0, nil, e, tp)
+
     if chk == 0 then
-        return e:GetHandler():GetFlagEffect(id) == 0 and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 1 and
+        return c:GetFlagEffect(id) == 0 and
+                   Duel.IsPlayerCanSpecialSummonCount(tp, 2) and
                    not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
-                   Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_HAND +
-                                                   LOCATION_DECK +
-                                                   LOCATION_GRAVE, 0, 1, nil, e,
-                                               tp) and
-                   Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_HAND +
-                                                   LOCATION_DECK +
-                                                   LOCATION_GRAVE, 0, 1, nil, e,
-                                               tp)
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 1 and
+                   aux.SelectUnselectGroup(g, e, tp, 2, 2, s.e3check, 0)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp,
-                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp, loc)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
-        Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then return end
+    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
+        Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter1, tp, LOCATION_HAND +
-                                          LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                      1, nil, e, tp)
-    g:Merge(Duel.SelectMatchingCard(tp, s.e3filter2, tp, LOCATION_HAND +
-                                        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                    nil, e, tp))
+    local c = e:GetHandler()
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp, loc,
+                                    0, nil, e, tp)
+    g = aux.SelectUnselectGroup(g, e, tp, 2, 2, s.e3check, 1, tp,
+                                HINTMSG_SPSUMMON)
     if #g ~= 2 then return end
 
     for tc in aux.Next(g) do
-        if Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP) then
+        if Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
             local ec1 = Effect.CreateEffect(c)
             ec1:SetDescription(3206)
             ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -147,4 +141,5 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
             tc:RegisterEffect(ec2)
         end
     end
+    Duel.SpecialSummonComplete()
 end
