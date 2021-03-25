@@ -16,24 +16,16 @@ function s.initial_effect(c)
                        tc:IsRace(RACE_WINGEDBEAST)
         end
     }, nil, true, true)
-
-    -- no effect damage
+    
+    -- cannot be target
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e1:SetCode(EFFECT_CHANGE_DAMAGE)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetTargetRange(1, 0)
-    e1:SetCondition(function() return Duel.IsEnvironment(42015635) end)
-    e1:SetValue(function(e, re, val, r, rp, rc)
-        if (r & REASON_EFFECT) ~= 0 then return 0 end
-        return val
-    end)
+    e1:SetValue(aux.tgoval)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-    c:RegisterEffect(e1b)
-
+    
     -- atk up
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
@@ -43,17 +35,22 @@ function s.initial_effect(c)
     e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
 
-    -- disable
+    
+    -- no effect damage
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_DISABLE)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e3:SetCode(EFFECT_CHANGE_DAMAGE)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(0, LOCATION_MZONE)
-    e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
+    e3:SetTargetRange(1, 0)
+    e3:SetCondition(function() return Duel.IsEnvironment(42015635) end)
+    e3:SetValue(function(e, re, val, r, rp, rc)
+        if (r & REASON_EFFECT) ~= 0 then return 0 end
+        return val
+    end)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_DISABLE_EFFECT)
+    e3b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     c:RegisterEffect(e3b)
 end
 
@@ -66,12 +63,3 @@ function s.e2val(e, c)
         return lps - lpo
     end
 end
-
-function s.e3con(e)
-    local c = e:GetHandler()
-    return Duel.GetAttacker() == c and c:GetBattleTarget() and
-               (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() ==
-                   PHASE_DAMAGE_CAL)
-end
-
-function s.e3tg(e, c) return c == e:GetHandler():GetBattleTarget() end

@@ -26,22 +26,22 @@ function s.initial_effect(c)
     e1:SetValue(s.e1val)
     c:RegisterEffect(e1)
 
-    -- indes
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    e2:SetValue(function() return Duel.IsEnvironment(42015635) end)
-    c:RegisterEffect(e2)
-
     -- act limit
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EFFECT_CANNOT_ACTIVATE)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(0, 1)
+    e2:SetCondition(s.e2con)
+    e2:SetValue(s.e2val)
+    c:RegisterEffect(e2)
+    
+    -- indes
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e3:SetCode(EFFECT_CANNOT_ACTIVATE)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(0, 1)
-    e3:SetCondition(s.e3con)
-    e3:SetValue(s.e3val)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e3:SetValue(function() return Duel.IsEnvironment(42015635) end)
     c:RegisterEffect(e3)
 end
 
@@ -51,6 +51,6 @@ function s.e1val(e)
                                       TYPE_SPELL + TYPE_TRAP) * 400
 end
 
-function s.e3con(e) return Duel.GetAttacker() == e:GetHandler() end
+function s.e2con(e) return Duel.GetAttacker() == e:GetHandler() end
 
-function s.e3val(e, re, tp) return re:IsHasType(EFFECT_TYPE_ACTIVATE) end
+function s.e2val(e, re, tp) return re:IsHasType(EFFECT_TYPE_ACTIVATE) end
