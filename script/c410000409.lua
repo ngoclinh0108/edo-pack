@@ -22,8 +22,8 @@ function s.initial_effect(c)
     e1:SetDescription(aux.Stringid(id, 0))
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetCode(EVENT_BATTLE_DESTROYING)
-    e1:SetCondition(s.atcon)
-    e1:SetOperation(s.atop)
+    e1:SetCondition(s.e1con)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
     -- negate & copy effect
