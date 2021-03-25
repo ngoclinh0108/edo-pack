@@ -17,9 +17,20 @@ function s.initial_effect(c)
         end
     }, nil, true, true)
 
+    -- repeat attack
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_TOGRAVE)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetCode(EVENT_BATTLE_START)
+    e1:SetCountLimit(1)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
     -- negate & copy effect
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetDescription(aux.Stringid(id, 1))
     e2:SetCategory(CATEGORY_DISABLE)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -35,6 +46,38 @@ function s.initial_effect(c)
     e2b:SetCode(EVENT_FREE_CHAIN)
     e2b:SetCondition(function() return Duel.IsEnvironment(42015635) end)
     c:RegisterEffect(e2b)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    local tc = c:GetBattleTarget()
+    if chk == 0 then
+        return Duel.GetAttacker() == c and tc and tc:IsAbleToGrave()
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, tc, 1, 0, 0)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetAttacker()
+
+    if c == tc then tc = Duel.GetAttackTarget() end
+    if tc and tc:IsRelateToBattle() then Duel.SendtoGrave(tc, REASON_EFFECT) end
+
+    if c:IsRelateToEffect(e) and c:CanChainAttack() and Duel.GetAttacker() == c then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+        ec1:SetCode(EVENT_DAMAGE_STEP_END)
+        ec1:SetCountLimit(1)
+        ec1:SetOperation(function(e, tp)
+            if e:GetHandler():CanChainAttack() then
+                Duel.ChainAttack()
+            end
+        end)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_BATTLE)
+        c:RegisterEffect(ec1)
+    end
 end
 
 function s.e2filter(c)

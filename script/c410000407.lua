@@ -17,6 +17,16 @@ function s.initial_effect(c)
         end
     }, nil, true, true)
 
+    -- hand limit
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e1:SetCode(EFFECT_HAND_LIMIT)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetTargetRange(0, 1)
+    e1:SetValue(5)
+    c:RegisterEffect(e1)
+
     -- to hand
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 1))
