@@ -140,7 +140,7 @@ function s.e6filter1(c, e, tp)
                                            0, 1, nil, e, c:GetAttribute())
 end
 
-function s.e6tgfilter(c, e, tp, attr)
+function s.e6filter2(c, e, tp, attr)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
                c:IsSetCard(0x1f) and c:IsAttribute(attr)
 end
@@ -169,7 +169,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local attr = tc:GetAttribute()
     if Duel.SendtoGrave(tc, REASON_EFFECT) > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local g = Duel.SelectMatchingCard(tp, s.e4filter2, tp, LOCATION_HAND +
+        local g = Duel.SelectMatchingCard(tp, s.e6filter2, tp, LOCATION_HAND +
                                               LOCATION_DECK + LOCATION_GRAVE, 0,
                                           1, 1, nil, e, tp, attr)
         if #g > 0 then
