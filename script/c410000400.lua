@@ -137,7 +137,7 @@ function s.e6filter1(c, e, tp)
                c:IsAbleToGrave() and
                Duel.IsExistingMatchingCard(s.e6filter2, tp, LOCATION_HAND +
                                                LOCATION_DECK + LOCATION_GRAVE,
-                                           0, 1, nil, e, c:GetAttribute())
+                                           0, 1, nil, e, tp, c:GetAttribute())
 end
 
 function s.e6filter2(c, e, tp, attr)
