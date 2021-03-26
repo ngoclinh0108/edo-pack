@@ -147,11 +147,11 @@ end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e4filter1, tp, LOCATION_MZONE, 0, 1, nil,
+        return Duel.IsExistingTarget(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil,
                                      e, tp)
     end
 
-    local g = Duel.SelectTarget(tp, s.e4filter1, tp, LOCATION_MZONE, 0, 1, 1,
+    local g = Duel.SelectTarget(tp, s.e6filter1, tp, LOCATION_MZONE, 0, 1, 1,
                                 nil, e, tp)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
