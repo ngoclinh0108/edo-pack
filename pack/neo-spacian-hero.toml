@@ -27,10 +27,11 @@ This card cannot be destroyed by card effects, also unaffected by monsters' effe
 Special Summons of your Fusion Monsters that list "Elemental HERO Neos" as a material cannot be negated. \
 Fusion Monsters that list "Elemental HERO Neos" as a material \
     do not have to activate their effects during the End Phase that shuffle them into the Extra Deck. \
+You can Tribute 1 monster to Tribute Summon a Level 7 or higher "HERO" monster. \
 During your Main Phase, you can Tribute Summon 1 "HERO" monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
 """
-strings = ["Summon via \"Neo-Space Multiverse\""]
+strings = ["Tribute Summon with 1 monster", "Summon via \"Neo-Space Multiverse\""]
 
 [card.spacian-hero-neos]
 id = 410000401
@@ -44,7 +45,6 @@ atk = 2500
 def = 2000
 effect = """\
 (This card is also always treated as "Elemental HERO Neos".)
-You can Tribute summon this card by Tributing 1 "HERO" or "Neos" monster. \
 If a Fusion Monster(s) you control that lists "Elemental HERO Neos" as material \
     is destroyed by battle or has left the field because of a card effect: \
     You Special Summon this card from your hand, Deck, or GY. \
