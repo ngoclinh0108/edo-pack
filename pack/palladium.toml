@@ -1,17 +1,7 @@
-[set.palladium]
-code = 0x13a
-
-[set.chaos]
-code = 0xcf
-
-[set.kuriboh]
-code = 0xa4
-
 [card.millennium-ascension]
 id = 410000000
 name = "Millennium Ascension"
 type = "spell field"
-attribute = "spell"
 effect = """\
 Activate by revealing 1 "Holactie the Creator of Light" in your hand or Deck. \
 Unaffected by other cards' effects. \

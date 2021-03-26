@@ -1,14 +1,7 @@
-[set.red-eyes]
-code = 0x3b
-
-[set.fusion]
-code = 0x46
-
 [card.erupted-field-black-dragon]
 id = 410000300
 name = "Erupted Field of the Black Dragon"
 type = "spell field"
-attribute = "spell"
 effect = """\
 During your Main Phase, you can Normal Summon 1 Gemini monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
@@ -145,7 +138,6 @@ id = 410000306
 set = "red-eyes fusion"
 name = "Red-Eyes Polymerization"
 type = "spell quick-play"
-attribute = "spell"
 effect = """\
 During the Main Phase: Fusion Summon 1 Fusion Monster that lists a "Red-Eyes" monster as material from your Extra Deck, \
     using monsters from your hand, Deck, or field as Fusion Materials, \

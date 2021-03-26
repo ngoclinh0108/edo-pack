@@ -1,25 +1,9 @@
-[set.hero]
-code = 0x8
-
-[set.elemental-hero]
-code = 0x3008
-
-[set.evil-hero]
-code = 0x6008
-
-[set.neos]
-code = 0x9
-
-[set.neo-spacian]
-code = 0x1f
-
 [card.neo-space-multiverse]
 id = 410000400
 alias = 42015635
 set = "neos"
 name = "Neo-Space Multiverse"
 type = "spell field"
-attribute = "spell"
 effect = """\
 (This card's name is always treated as "Neo Space".)
 [ \
@@ -239,7 +223,7 @@ strings = ["Attack again", "Negate & copy effect"]
 [card.evil-hero-supreme-neos]
 id = 410000414
 name = "Evil HERO Supreme Neos"
-set = "evil-hero neos"
+set = "evil-hero elemental-hero neos"
 type = "monster effect"
 attribute = "dark"
 race = "fiend"
@@ -261,3 +245,12 @@ If this card destroys an opponent's monster by battle: \
     You can only use this effect of "Evil HERO Supreme Neos" once per turn. \
 """
 strings = ["Send a monster to GY then gain ATK", "Add Fusion Spell"]
+
+[card.neos-polymerization]
+id = 410000415
+set = "neos fusion"
+name = "Neos Polymerization"
+type = "spell"
+effect = """\
+"""
+strings = []

@@ -2,6 +2,7 @@
 default = true
 recipe  = [
     "pack/_macro.toml",
+    "pack/_setcard.toml",
     "pack/generic.toml",
     "pack/palladium.toml",
     "pack/blue-eyes.toml",

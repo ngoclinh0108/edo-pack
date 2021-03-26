@@ -1,11 +1,7 @@
-[set.blue-eyes]
-code = 0xdd
-
 [card.temple-white-dragon]
 id = 410000200
 name = "Temple of the White Dragon"
 type = "spell field"
-attribute = "spell"
 effect = """\
 During your Main Phase, you can Normal Summon 1 Level 1 LIGHT Tuner in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
@@ -21,7 +17,7 @@ Activate 1 of these effects; You can only use this effect of "Temple of the Whit
 strings = [
     "Summon via \"Temple of the White Dragon\"",
     "Add card to your hand",
-    "Send card to GY"
+    "Send card to GY",
 ]
 
 [card.blue-eyes-white-dragon]
@@ -43,7 +39,7 @@ Once per turn: You can target 1 monster your opponent controls; destroy it. \
 """
 strings = ["Destroy a monster"]
 
-[card.blue-eyes-divinity-dragon]
+[card.blue-eyes-supreme-dragon]
 id = 410000202
 aslias = 23995346
 set = "blue-eyes"
@@ -59,8 +55,9 @@ effect = """\
 (This card is always treated as "Blue-Eyes Ultimate Dragon")
 Must be Fusion Summoned with the above Fusion Materials. \
 Your opponent cannot target or destroy this card with card effects. \
-This card can make a second and third attack during each Battle Phase, \
-    also, when it attacks, your opponent's cards and effects cannot be activated until the end of the Damage Step. \
+When it attacks, your opponent's cards and effects cannot be activated until the end of the Damage Step. \
+At the end of the Damage Step, if this card attacked: You can activate this effect; this card can attack again in a row.
+    You can use this effect of "Blue-Eyes Supreme Dragon" up to twice per turn. \
 Once per turn, you can target cards on the field, up to the number of "Blue-Eyes White Dragon" used for the Fusion Summon of this card; destroy those targets. \
     This card cannot attack the turn this effect is activated. \
 """
