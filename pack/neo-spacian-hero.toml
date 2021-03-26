@@ -32,7 +32,7 @@ During your Main Phase, you can Tribute Summon 1 "HERO" monster in addition to y
     (You can only gain this effect once per turn.) \
 One per turn, you can target 1 face-up Level 4 or lower "Elemental HERO" monster you control; \
     send it to the GY, and if you do, Special Summon from hand, Deck or GY, \
-    1 "Neo-Spacian" monster with the same Attribute as the sent monster''s was on the field. \
+    1 "Neo-Spacian" monster with the same Attribute as the sent monster's was on the field. \
 """
 strings = ["Tribute Summon with 1 monster", "Summon via \"Neo-Space Multiverse\"", "Special Summon a \"Neo-Spacian\" monster"]
 
