@@ -557,7 +557,7 @@ You can only use the following effect of "Palladium Chaos Sorcerer Aknamkanon" o
 ● You can discard this card; \
     Add 1 Level 8 or lower LIGHT or DARK Spellcaster monster from your Deck or GY to your hand, \
     except "Palladium Chaos Sorcerer Aknamkanon".
-● When this card destroys an opponent's monster by battle: \
+● If this card destroys an opponent's monster by battle: \
     You can add 1 Spell/Trap from your Deck or GY to your hand.
 """
 strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
@@ -581,7 +581,7 @@ You can destroy this card, and if you do, add 1 Level 8 or lower LIGHT or DARK W
 effect = """\
 You can Ritual Summon this card with "Palladium Magic". \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
+If this card destroys an opponent's monster by battle: You can activate 1 of these effects;
 ● This card gains 1500 ATK.
 ● This card can make a second attack in a row.
 ● Banish 1 card your opponent controls.

@@ -93,7 +93,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         if #fields == 1 then
             tc = fields:GetFirst()
         else
-            tc = fields:Select(tp, 1, 1)
+            tc = fields:Select(tp, 1, 1, nil):GetFirst()
         end
         aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
     end

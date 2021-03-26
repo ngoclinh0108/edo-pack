@@ -4,6 +4,9 @@ code = 0x8
 [set.elemental-hero]
 code = 0x3008
 
+[set.evil-hero]
+code = 0x6008
+
 [set.neos]
 code = 0x9
 
@@ -34,7 +37,11 @@ One per turn, you can target 1 face-up Level 4 or lower "Elemental HERO" monster
     send it to the GY, and if you do, Special Summon from hand, Deck or GY, \
     1 "Neo-Spacian" monster with the same Attribute as the sent monster's was on the field. \
 """
-strings = ["Tribute Summon with 1 monster", "Summon via \"Neo-Space Multiverse\"", "Special Summon a \"Neo-Spacian\" monster"]
+strings = [
+    "Tribute Summon with 1 monster",
+    "Summon via \"Neo-Space Multiverse\"",
+    "Special Summon a \"Neo-Spacian\" monster",
+]
 
 [card.spacian-hero-neos]
 id = 410000401
@@ -47,13 +54,13 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-(This card is also always treated as "Elemental HERO Neos".)
+(This card is always treated as "Elemental HERO Neos".)
 If a Fusion Monster(s) you control that lists "Elemental HERO Neos" as material \
     is destroyed by battle or has left the field because of a card effect: \
     You Special Summon this card from your hand, Deck, or GY. \
     You can only use this effect of "Spacian HERO Neos" once per turn. \
 """
-strings = ["Normal Summon with 1 \"HERO\" monster"]
+strings = []
 
 [card.spacian-hero-neu]
 id = 410000402
@@ -228,3 +235,31 @@ Once per turn: You can target 1 face-up Effect Monster your opponent controls; \
     This is a Quick Effect if "Neo Space" is on the field. \
 """
 strings = ["Attack again", "Negate & copy effect"]
+
+[card.evil-hero-supreme-neos]
+id = 410000414
+name = "Evil HERO Supreme Neos"
+set = "evil-hero neos"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+(This card is also always treated as "Elemental HERO Neos".)
+You can Special Summon this card (from your hand or GY) by discarding 1 "HERO" monster. \
+While this card is in the GY or on the field: You can Fusion Summon Fusion Monsters that must be Special Summoned with "Dark Fusion", \
+    with effects other than "Dark Fusion". \
+    This effect cannot be negated. \
+Once per turn, if this card battles, during damage calculation: \
+    You can send 1 "HERO" monster from your hand or Deck to the GY; this card gains ATK equal to the Level of the monster sent to the GY x 200, \
+    until the end of this turn. \
+If this card destroys an opponent's monster by battle: \
+    You can add 1 "Polymerization" Spell or "Fusion" Spell from your Deck or GY to your hand. \
+    You can only use this effect of "Evil HERO Supreme Neos" once per turn. \
+"""
+strings = [
+    "Send a monster to GY then gain ATK",
+    "Add Fusion Spell",
+]

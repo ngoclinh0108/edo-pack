@@ -35,7 +35,7 @@ level = 8
 atk = 3000
 def = 2500
 effect = """\
-(This card is also always treated as "Blue-Eyes White Dragon")
+(This card is always treated as "Blue-Eyes White Dragon")
 You can Special Summon this card (from your hand or GY) by Tributing 1 Level 1 LIGHT Tuner in your hand or on your field. \
     You can only Special Summon "Blue-Eyes Sacred White Dragon" once per turn this way. \
 Once per turn: You can target 1 monster your opponent controls; destroy it. \
@@ -56,7 +56,7 @@ atk = 4500
 def = 3800
 effect = """\
 "Blue-Eyes White Dragon" + 2 "Blue-Eyes" monsters
-(This card is also always treated as "Blue-Eyes Ultimate Dragon")
+(This card is always treated as "Blue-Eyes Ultimate Dragon")
 Must be Fusion Summoned with the above Fusion Materials. \
 Your opponent cannot target or destroy this card with card effects. \
 This card can make a second and third attack during each Battle Phase, \

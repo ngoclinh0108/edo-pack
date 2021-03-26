@@ -33,6 +33,7 @@ function s.initial_effect(c)
     -- battle destroy
     local me2 = Effect.CreateEffect(c)
     me2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    me2:SetProperty(EFFECT_FLAG_DELAY)
     me2:SetCode(EVENT_BATTLE_DESTROYING)
     me2:SetCondition(aux.bdocon)
     me2:SetTarget(s.me2tg)
