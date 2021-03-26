@@ -12,7 +12,7 @@ function s.initial_effect(c)
     -- fusion material
     Neos.AddProc(c, {
         function(tc)
-            return tc:IsType(TYPE_EFFECT) and tc:IsLevelBelow(4) and
+            return tc:IsType(TYPE_EFFECT) and tc:IsLevelBelow(5) and
                        not tc:IsSetCard(0x1f)
         end
     }, function(g, tp, c)

@@ -94,7 +94,7 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-"Elemental HERO Neos" + 1 Level 4 or lower Effect Monster, except "Neo-Spacian" monster
+"Elemental HERO Neos" + 1 Level 5 or lower Effect Monster, except "Neo-Spacian" monster
 ${NEOS_SUMMON} \
 Gains 300 ATK for each "Neo-Spacian" and "HERO" monster in your GY. \
 If this card destroys a monster by battle: Inflict damage to your opponent equal to that monster's original ATK. \
@@ -249,6 +249,7 @@ def = 2000
 effect = """\
 (This card is also always treated as "Elemental HERO Neos".)
 You can Special Summon this card (from your hand or GY) by discarding 1 "HERO" monster. \
+    You can only Special Summon "Evil HERO Supreme Neos" once per turn this way. \
 While this card is in the GY or on the field: You can Fusion Summon Fusion Monsters that must be Special Summoned with "Dark Fusion", \
     with effects other than "Dark Fusion". \
     This effect cannot be negated. \
@@ -259,7 +260,4 @@ If this card destroys an opponent's monster by battle: \
     You can add 1 "Polymerization" Spell or "Fusion" Spell from your Deck or GY to your hand. \
     You can only use this effect of "Evil HERO Supreme Neos" once per turn. \
 """
-strings = [
-    "Send a monster to GY then gain ATK",
-    "Add Fusion Spell",
-]
+strings = ["Send a monster to GY then gain ATK", "Add Fusion Spell"]
