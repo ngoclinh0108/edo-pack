@@ -223,7 +223,7 @@ strings = ["Attack again", "Negate & copy effect"]
 [card.evil-hero-supreme-neos]
 id = 410000414
 name = "Evil HERO Supreme Neos"
-set = "evil-hero elemental-hero neos"
+set = "evil-hero neos"
 type = "monster effect"
 attribute = "dark"
 race = "fiend"
