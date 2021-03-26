@@ -72,8 +72,9 @@ While "Neo Space" is face-up on the field, this card’s name becomes "Elemental
 If this card is Normal or Special Summoned: You can add 1 Spell/Trap from your Deck to your hand \
     that specifically lists the card "Elemental HERO Neos" in its text. \
     You can only use this effect of "Spacian HERO Neu" once per turn. \
+Once per turn: You can declare 1 Attribute; this card becomes that Attribute until the end of this turn. \
 """
-strings = []
+strings = ["Change Attribute"]
 
 [card.elemental-hero-prime-neos]
 id = 410000403
