@@ -30,8 +30,11 @@ Fusion Monsters that list "Elemental HERO Neos" as a material \
 You can Tribute 1 monster to Tribute Summon a Level 7 or higher "HERO" monster. \
 During your Main Phase, you can Tribute Summon 1 "HERO" monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
+One per turn, you can target 1 face-up Level 4 or lower "Elemental HERO" monster you control; \
+    send it to the GY, and if you do, Special Summon from hand, Deck or GY, \
+    1 "Neo-Spacian" monster with the same Attribute as the sent monster''s was on the field. \
 """
-strings = ["Tribute Summon with 1 monster", "Summon via \"Neo-Space Multiverse\""]
+strings = ["Tribute Summon with 1 monster", "Summon via \"Neo-Space Multiverse\"", "Special Summon a \"Neo-Spacian\" monster"]
 
 [card.spacian-hero-neos]
 id = 410000401

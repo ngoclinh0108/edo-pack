@@ -3,7 +3,7 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 
 s.listed_names = {CARD_NEOS}
-s.listed_series = {0x8, 0x1f}
+s.listed_series = {0x8, 0x3008, 0x1f}
 
 function s.global_effect(c, tp)
     -- Elemental HERO Neos
@@ -81,6 +81,18 @@ function s.initial_effect(c)
     e5:SetValue(0x1)
     e5:SetTarget(aux.TargetBoolFunction(Card.IsSetCard, 0x8))
     c:RegisterEffect(e5)
+
+    -- special summon
+    local e6 = Effect.CreateEffect(c)
+    e6:SetDescription(aux.Stringid(id, 2))
+    e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e6:SetType(EFFECT_TYPE_IGNITION)
+    e6:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e6:SetRange(LOCATION_FZONE)
+    e6:SetCountLimit(1)
+    e6:SetTarget(s.e6tg)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
 function s.e4filter(c, tp) return c:IsControler(tp) or c:IsFaceup() end
@@ -118,4 +130,50 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp, c)
     c:SetMaterial(sg)
     Duel.Release(sg, REASON_SUMMON + REASON_MATERIAL)
     sg:DeleteGroup()
+end
+
+function s.e6filter1(c, e, tp)
+    return c:IsFaceup() and c:IsLevel(4) and c:IsSetCard(0x3008) and
+               c:IsAbleToGrave() and
+               Duel.IsExistingMatchingCard(s.e6filter2, tp, LOCATION_HAND +
+                                               LOCATION_DECK + LOCATION_GRAVE,
+                                           0, 1, nil, e, c:GetAttribute())
+end
+
+function s.e6tgfilter(c, e, tp, attr)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+               c:IsSetCard(0x1f) and c:IsAttribute(attr)
+end
+
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e4filter1, tp, LOCATION_MZONE, 0, 1, nil,
+                                     e, tp)
+    end
+
+    local g = Duel.SelectTarget(tp, s.e4filter1, tp, LOCATION_MZONE, 0, 1, 1,
+                                nil, e, tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0,
+                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
+end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    local tc = Duel.GetFirstTarget()
+    if not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
+
+    local attr = tc:GetAttribute()
+    if Duel.SendtoGrave(tc, REASON_EFFECT) > 0 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+        local g = Duel.SelectMatchingCard(tp, s.e4filter2, tp, LOCATION_HAND +
+                                              LOCATION_DECK + LOCATION_GRAVE, 0,
+                                          1, 1, nil, e, tp, attr)
+        if #g > 0 then
+            Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+        end
+    end
 end
