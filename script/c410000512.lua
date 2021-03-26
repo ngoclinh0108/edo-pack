@@ -122,8 +122,9 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(666005)
     ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
     ec1:SetTargetRange(1, 0)
     ec1:SetTarget(function(e, c)
@@ -131,7 +132,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
-    aux.RegisterClientHint(c, nil, tp, 1, 0, 666004, nil)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
     local g = Duel.SelectMatchingCard(tp, s.e4filter, tp, LOCATION_GRAVE, 0, 1,

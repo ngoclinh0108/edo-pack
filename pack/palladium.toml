@@ -244,7 +244,7 @@ set = "palladium"
 name = "The True Name of Palladium Ruler"
 type = "spell quick-play"
 effect = """\
-Neither player can activate cards or effects in response to this card's activation. \
+This card's activation and effect cannot be negated. \
 You can only activate or use effect of "The True Name of Palladium Ruler" once per turn. \
 During the Main Phase, activate 1 of these effect;
 ● Declare 1 card name; excavate the top card of your Deck, \

@@ -41,8 +41,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 0))
     ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
     ec1:SetTargetRange(1, 0)
     ec1:SetTarget(function(e, c)
@@ -51,7 +52,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
-    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 0), nil)
 
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or
         not c:IsRelateToEffect(e) then return end

@@ -6,7 +6,7 @@ function s.initial_effect(c)
     -- fusion
     local e1 = Fusion.CreateSummonEff({
         handler = c,
-        extrafil = s.e1exfilter,
+        extrafil = s.e1extramat,
         extraop = s.e1exop
     })
     e1:SetCost(s.e1cost)
@@ -47,7 +47,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e1exfilter(e, tp, mg)
+function s.e1extramat(e, tp, mg)
     if not Duel.IsPlayerAffectedByEffect(tp, 69832741) then
         local eg = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp,
                                          LOCATION_MZONE + LOCATION_GRAVE, 0, nil)

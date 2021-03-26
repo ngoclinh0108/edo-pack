@@ -9,6 +9,7 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SPECIAL_SUMMON +
                        CATEGORY_DECKDES)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE+EFFECT_FLAG_CANNOT_INACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetCountLimit(1, id)
     e1:SetCondition(function() return Duel.IsMainPhase() end)
@@ -21,6 +22,7 @@ function s.initial_effect(c)
     e2:SetDescription(aux.Stringid(id, 2))
     e2:SetCategory(CATEGORY_SUMMON)
     e2:SetType(EFFECT_TYPE_ACTIVATE)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE+EFFECT_FLAG_CANNOT_INACTIVATE)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetCountLimit(1, id)
     e2:SetCondition(function() return Duel.IsMainPhase() end)
@@ -59,7 +61,6 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.SetTargetParam(ac)
     Duel.SetOperationInfo(0, CATEGORY_ANNOUNCE, nil, 0, tp, ANNOUNCE_CARD_FILTER)
-    Duel.SetChainLimit(aux.FALSE)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -139,7 +140,6 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SUMMON, nil, 1, 0, 0)
-    Duel.SetChainLimit(aux.FALSE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
