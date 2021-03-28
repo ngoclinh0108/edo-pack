@@ -50,27 +50,26 @@ function s.e1sumop(e, tc, tp, mg, chk)
 
     if chk == 1 then
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3061)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-        ec1:SetValue(aux.tgoval)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec1)
+        ec1:SetDescription(666003)
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+        ec1:SetTargetRange(1, 0)
+        ec1:SetTarget(function(e, c) return c:IsLocation(LOCATION_EXTRA) end)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
     end
 
     if chk == 2 then
         local ec2 = Effect.CreateEffect(c)
-        ec2:SetDescription(3110)
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
-        ec2:SetCode(EFFECT_IMMUNE_EFFECT)
-        ec2:SetRange(LOCATION_MZONE)
-        ec2:SetValue(function(e, te)
-            return te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
-        end)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec2)
+        ec2:SetDescription(666003)
+        ec2:SetType(EFFECT_TYPE_FIELD)
+        ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+        ec2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+        ec2:SetTargetRange(1, 0)
+        ec2:SetTarget(function(e, c) return c:IsLocation(LOCATION_EXTRA) end)
+        ec2:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec2, tp)
     end
 end
 
