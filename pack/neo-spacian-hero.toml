@@ -268,7 +268,8 @@ set = "neos"
 name = "Neos Contact"
 type = "spell quick-play"
 effect = """\
-If "Neo Space" is on the field, this card's activation and effect cannot be negated. \
+If "Elemental HERO Neos" is Normal or Special Summoned, while "Neo Space" is on the field: You can add this card from your GY to your hand. \
+    You can only use this effect "Neos Contact" once per turn. \
 Activate 1 of these effect;
 ● During the Main Phase: Shuffle into the Deck, from your hand, field, GY or Banished Zones, \
     the Fusion Materials that are listed on an Fusion Monster that lists "Elemental HERO Neos" as Fusion Material, \
