@@ -255,7 +255,7 @@ effect = """\
 If "Neo Space" is on the field, this card's activation and effect cannot be negated. \
 Special Summon 1 Fusion Monster from your Extra Deck that lists exactly 2 monsters as material, including "Elemental HERO Neos", \
     by sending those monsters from your hand, Deck, or field, ignoring its Summoning conditions. \
-    Your opponent cannot target it with card effects this turn. \
+    The summoned monster is unaffected by your opponent's card effect this turn. \
     For the rest of this turn after this card resolves, you cannot Special Summon monsters from the Extra Deck. \
 If "Elemental HERO Neos" you control or a Fusion Monster(s) you control that lists "Elemental HERO Neos" as material would be destroyed by battle or card effect, \
     you can shuffle this card from the GY into the Deck instead. \
