@@ -50,14 +50,16 @@ function s.e1sumop(e, tc, tp, mg, chk)
 
     if chk == 1 then
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(666003)
-        ec1:SetType(EFFECT_TYPE_FIELD)
-        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-        ec1:SetTargetRange(1, 0)
-        ec1:SetTarget(function(e, c) return c:IsLocation(LOCATION_EXTRA) end)
-        ec1:SetReset(RESET_PHASE + PHASE_END)
-        Duel.RegisterEffect(ec1, tp)
+        ec1:SetDescription(3110)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_IMMUNE_EFFECT)
+        ec1:SetRange(LOCATION_MZONE)
+        ec1:SetValue(function(e, te)
+            return te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
+        end)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec1)
     end
 
     if chk == 2 then
