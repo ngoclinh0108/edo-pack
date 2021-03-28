@@ -58,7 +58,7 @@ function s.e1sumop(e, tc, tp, mg, chk)
         ec1:SetValue(function(e, te)
             return te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
         end)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 2)
         tc:RegisterEffect(ec1)
     end
 
