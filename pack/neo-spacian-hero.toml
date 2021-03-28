@@ -234,7 +234,7 @@ effect = """\
 (This card is also always treated as "Elemental HERO Neos".)
 You can Special Summon this card (from your hand or GY) by discarding 1 "HERO" monster. \
     You can only Special Summon "Evil HERO Supreme Neos" once per turn this way. \
-While this card is in the GY or on the field: You can Fusion Summon Fusion Monsters that must be Special Summoned with "Dark Fusion", \
+While this card that is banished or in the GY, on the field: You can Fusion Summon Fusion Monsters that must be Special Summoned with "Dark Fusion", \
     with effects other than "Dark Fusion". \
     This effect cannot be negated. \
 Once per turn, if this card battles, during damage calculation: \
@@ -271,7 +271,7 @@ effect = """\
 If "Elemental HERO Neos" is Normal or Special Summoned, while "Neo Space" is on the field: You can add this card from your GY to your hand. \
     You can only use this effect "Neos Contact" once per turn. \
 Activate 1 of these effect;
-● During the Main Phase: Shuffle into the Deck, from your hand, field, GY or Banished Zones, \
+● During the Main Phase: Shuffle into the Deck, from your hand, field, GY or banished, \
     the Fusion Materials that are listed on an Fusion Monster that lists "Elemental HERO Neos" as Fusion Material, \
     then Special Summon that Fusion Monster from your Extra Deck, ignoring its Summoning conditions.
 ● Target 1 Fusion Monster that lists "Elemental HERO Neos" as Fusion Material you control; shuffle it into the Extra Deck, \

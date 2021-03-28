@@ -32,7 +32,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE +
                        EFFECT_FLAG_UNCOPYABLE)
     e2:SetCode(72043279)
-    e2:SetRange(LOCATION_ONFIELD + LOCATION_GRAVE)
+    e2:SetRange(LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED)
     e2:SetTargetRange(1, 0)
     c:RegisterEffect(e2)
 
