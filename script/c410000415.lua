@@ -13,7 +13,7 @@ function s.initial_effect(c)
         extratg = s.e1extratg,
         stage2 = s.e1sumop,
         exactcount = 2,
-        chkf = FUSPROC_NOTFUSION | FUSPROC_LISTEDMATS,
+        chkf = FUSPROC_NOTFUSION | FUSPROC_LISTEDMATS
     })
     c:RegisterEffect(e1)
     if not AshBlossomTable then AshBlossomTable = {} end
@@ -74,10 +74,11 @@ end
 
 function s.e2filter(c, tp)
     return
-        c:IsFaceup() and c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and
-            c:IsType(TYPE_FUSION) and aux.IsMaterialListCode(c, CARD_NEOS) and
-            not c:IsReason(REASON_REPLACE) and
-            c:IsReason(REASON_EFFECT + REASON_BATTLE)
+        c:IsFaceup() and c:IsControler(tp) and not c:IsReason(REASON_REPLACE) and
+            c:IsLocation(LOCATION_MZONE) and
+            c:IsReason(REASON_EFFECT + REASON_BATTLE) and
+            (c:IsCode(CARD_NEOS) or
+                (c:IsType(TYPE_FUSION) and aux.IsMaterialListCode(c, CARD_NEOS)))
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
