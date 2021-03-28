@@ -189,7 +189,7 @@ effect = """\
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE} \
 Cannot be destroyed by card effects. \
-Once per turn, during the Main Phase: You can destroy 1 card your opponent controls, \
+Once per turn: You can destroy 1 card your opponent controls, \
     and if you do, apply the effect based on its type. \
     This is a Quick Effect if "Neo Space" is on the field.
 ● Monster: This card gains 500 ATK.
@@ -277,4 +277,8 @@ Activate 1 of these effect;
 ● Target 1 Fusion Monster that lists "Elemental HERO Neos" as Fusion Material you control; shuffle it into the Extra Deck, \
     then if all the Fusion Materials listed on that Fusion Monster are in your hand or Deck, you can Special Summon them.
 """
-strings = ["Contact Fusion", "Contact Out", "Special Summon all the Fusion Materials?"]
+strings = [
+    "Contact Fusion",
+    "Contact Out",
+    "Special Summon all the Fusion Materials?",
+]
