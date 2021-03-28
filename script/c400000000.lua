@@ -63,7 +63,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     -- deck edit & global effect
     local g = Duel.GetMatchingGroup(function(c)
         return c.deck_edit or c.global_effect
-    end, tp, LOCATION_DECK + LOCATION_EXTRA, 0, nil)
+    end, tp, LOCATION_ALL, 0, nil)
     local deck_edit = Group.CreateGroup()
     local global_effect = Group.CreateGroup()
     for tc in aux.Next(g) do

@@ -6,7 +6,7 @@ if not Utility then Utility = aux.UtilityProcedure end
 function Utility.RegisterGlobalEffect(c, eff, filter, param1, param2, param3,
                                       param4, param5)
     local g = Duel.GetMatchingGroup(filter, c:GetControler(),
-                                    LOCATION_DECK + LOCATION_EXTRA, 0, nil,
+                                    LOCATION_ALL, 0, nil,
                                     param1, param2, param3, param4, param5)
     for tc in aux.Next(g) do tc:RegisterEffect(eff:Clone()) end
 end

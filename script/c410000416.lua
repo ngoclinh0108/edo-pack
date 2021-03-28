@@ -78,9 +78,10 @@ function s.e3filter1(c)
                c:IsFaceup() and c:IsAbleToExtra()
 end
 
-function s.e3filter2(c, e, tp, fc)
-    return fc.material and c:IsCode(table.unpack(fc.material)) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e3filter2(c, e, tp, fc, mg)
+    return c:IsControler(tp) and c:GetReasonCard() == fc and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               fc:CheckFusionMaterial(mg, c, PLAYER_NONE | FUSPROC_NOTFUSION)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -95,17 +96,14 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    Debug.Message(1)
     local tc = Duel.GetFirstTarget()
     if not tc:IsRelateToEffect(e) or tc:IsFacedown() then return end
 
-    Debug.Message(2)
-    local mg = Duel.GetMatchingGroup(s.e3filter2, tp, LOCATION_DECK, 0, nil, e,
-                                     tp, tc)
+    local mg = tc:GetMaterial()
+    mg = mg:Filter(s.e3filter2, nil, e, tp, tc, mg)
     if (#mg >= 2 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)) or
         #mg == 0 then return end
 
-    Debug.Message(3)
     if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) ~= 0 and
         tc:IsLocation(LOCATION_EXTRA) and
         Duel.GetLocationCount(tp, LOCATION_MZONE) >= #mg and
