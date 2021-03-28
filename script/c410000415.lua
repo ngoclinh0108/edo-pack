@@ -14,7 +14,6 @@ function s.initial_effect(c)
         stage2 = s.e1sumop,
         exactcount = 2,
         chkf = FUSPROC_NOTFUSION | FUSPROC_LISTEDMATS,
-        value = 0
     })
     c:RegisterEffect(e1)
     if not AshBlossomTable then AshBlossomTable = {} end

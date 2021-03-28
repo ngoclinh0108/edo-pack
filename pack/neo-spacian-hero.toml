@@ -252,7 +252,7 @@ set = "neos fusion"
 name = "Neos Polymerization"
 type = "spell"
 effect = """\
-if "Neo Space" is on the field, this card's activation and effect cannot be negated. \
+If "Neo Space" is on the field, this card's activation and effect cannot be negated. \
 Special Summon 1 Fusion Monster from your Extra Deck that lists exactly 2 monsters as material, including "Elemental HERO Neos", \
     by sending those monsters from your hand, Deck, or field, ignoring its Summoning conditions. \
     Your opponent cannot target it with card effects this turn. \
@@ -261,3 +261,19 @@ If a Fusion Monster(s) you control that lists "Elemental HERO Neos" as material 
     you can shuffle this card from the GY into the Deck instead. \
 """
 strings = []
+
+[card.neos-contact]
+id = 410000416
+set = "neos"
+name = "Neos Contact"
+type = "spell quick-play"
+effect = """\
+If "Neo Space" is on the field, this card's activation and effect cannot be negated. \
+Activate 1 of these effect;
+● During the Main Phase: Shuffle into the Deck, from your hand, field, GY or Banished Zones, \
+    the Fusion Materials that are listed on an Fusion Monster that lists "Elemental HERO Neos" as Fusion Material, \
+    then Special Summon that Fusion Monster from your Extra Deck, ignoring its Summoning conditions.
+● Target 1 Fusion Monster that lists "Elemental HERO Neos" as Fusion Material you control; shuffle it into the Extra Deck, \
+    then if all the Fusion Materials listed on that Fusion Monster are in your hand or Deck, you can Special Summon them.
+"""
+strings = ["Contact Fusion", "Contact Out", "Special Summon all the Fusion Materials?"]
