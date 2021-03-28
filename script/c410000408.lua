@@ -82,6 +82,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetCode(EFFECT_UPDATE_ATTACK)
         ec1:SetRange(LOCATION_MZONE)
         ec1:SetValue(500)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         c:RegisterEffect(ec1)
     elseif tc:IsType(TYPE_SPELL) then
         local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
