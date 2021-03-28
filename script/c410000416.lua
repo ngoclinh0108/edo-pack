@@ -17,7 +17,7 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    local e1b=e1:Clone()
+    local e1b = e1:Clone()
     e1b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e1b)
 
@@ -51,7 +51,7 @@ function s.e1filter(c, tp)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e1filter, 1, nil, tp)
+    return Duel.IsEnvironment(42015635) and eg:IsExists(s.e1filter, 1, nil, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
