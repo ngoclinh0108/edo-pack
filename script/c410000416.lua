@@ -102,12 +102,11 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     local mg = tc:GetMaterial()
     mg = mg:Filter(s.e3filter2, nil, e, tp, tc, mg)
-    if (#mg >= 2 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)) or
-        #mg == 0 then return end
-
+    local ct = #mg
     if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) ~= 0 and
-        tc:IsLocation(LOCATION_EXTRA) and
-        Duel.GetLocationCount(tp, LOCATION_MZONE) >= #mg and
+        tc:IsLocation(LOCATION_EXTRA) and ct > 0 and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) >= ct and
+        (ct >= 2 and not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)) and
         Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
         Duel.BreakEffect()
         Duel.SpecialSummon(mg, 0, tp, tp, false, false, POS_FACEUP)
