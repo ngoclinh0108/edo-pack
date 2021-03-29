@@ -34,5 +34,5 @@ Must first be either Fusion Summoned, \
     or Special Summoned from your Extra Deck by shuffling the above cards you control into the Deck.\
 """
 NEOS_END_PHASE = """\
-During the End Phase: Shuffle this card into the Extra Deck.\
+Once per turn, during the End Phase: Shuffle this card into the Extra Deck\
 """

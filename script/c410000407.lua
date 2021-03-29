@@ -24,7 +24,7 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_HAND_LIMIT)
     e1:SetRange(LOCATION_MZONE)
     e1:SetTargetRange(0, 1)
-    e1:SetValue(5)
+    e1:SetValue(3)
     c:RegisterEffect(e1)
 
     -- to hand
