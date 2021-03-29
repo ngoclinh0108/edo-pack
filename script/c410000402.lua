@@ -1,4 +1,4 @@
--- Spacian HERO Neu
+-- Elemental HERO Neu
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 

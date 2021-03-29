@@ -46,10 +46,10 @@ If a Fusion Monster(s) you control that lists "Elemental HERO Neos" as material 
 """
 strings = []
 
-[card.spacian-hero-neu]
+[card.elemental-hero-neu]
 id = 410000402
 set = "elemental-hero"
-name = "Spacian HERO Neu"
+name = "Elemental HERO Neu"
 type = "monster effect"
 attribute = "light"
 race = "warrior"
@@ -57,12 +57,11 @@ level = 4
 atk = 1900
 def = 1300
 effect = """\
-(This card is always treated as an "Elemental HERO" card.)
 While "Neo Space" is face-up on the field, this card’s name becomes "Elemental HERO Neos" while on the field or in the GY. \
     This effect cannot be negated. \
 If this card is Normal or Special Summoned: You can add 1 Spell/Trap from your Deck to your hand \
     that specifically lists the card "Elemental HERO Neos" in its text. \
-    You can only use this effect of "Spacian HERO Neu" once per turn. \
+    You can only use this effect of "Elemental HERO Neu" once per turn. \
 Once per turn: You can declare 1 Attribute; this card becomes that Attribute until the end of this turn. \
 """
 strings = ["Change Attribute"]
@@ -221,7 +220,7 @@ Once per turn: You can target 1 face-up Effect Monster your opponent controls; \
 strings = ["Attack again", "Negate & copy effect"]
 
 [card.evil-hero-supreme-neos]
-id = 410000414
+id = 410000415
 name = "Evil HERO Supreme Neos"
 set = "evil-hero neos"
 type = "monster effect"
@@ -234,10 +233,12 @@ effect = """\
 (This card is also always treated as "Elemental HERO Neos".)
 You can Special Summon this card (from your hand or GY) by discarding 1 "HERO" monster. \
     You can only Special Summon "Evil HERO Supreme Neos" once per turn this way. \
-While this card that is banished or in the GY, on the field: You can Fusion Summon Fusion Monsters that must be Special Summoned with "Dark Fusion", \
+This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the "HERO" Fusion Monster, \
+    but the other Fusion material(s) must be correct. \
+While this card that is banished, in the GY or on the field: You can Fusion Summon Fusion Monsters that must be Special Summoned with "Dark Fusion", \
     with effects other than "Dark Fusion". \
     This effect cannot be negated. \
-Once per turn, if this card battles, during damage calculation: \
+Once per turn, during damage calculation, if your Fiend monster battles an opponent's monster: \
     You can send 1 "HERO" monster from your hand, Deck or that is banished to the GY; \
     this card gains ATK equal to the Level of the monster sent to the GY x 200, until the end of this turn. \
 If this card destroys an opponent's monster by battle: \
@@ -247,7 +248,7 @@ If this card destroys an opponent's monster by battle: \
 strings = ["Send a monster to GY then gain ATK", "Add Fusion Spell"]
 
 [card.neos-polymerization]
-id = 410000415
+id = 410000416
 set = "neos fusion"
 name = "Neos Polymerization"
 type = "spell"
@@ -263,7 +264,7 @@ If "Elemental HERO Neos" you control or a Fusion Monster(s) you control that lis
 strings = []
 
 [card.neos-contact]
-id = 410000416
+id = 410000417
 set = "neos"
 name = "Neos Contact"
 type = "spell quick-play"
@@ -284,7 +285,7 @@ strings = [
 ]
 
 [card.next-contact]
-id = 410000417
+id = 410000418
 name = "NEXT Contact"
 type = "spell quick-play"
 effect = """\

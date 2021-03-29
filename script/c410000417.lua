@@ -1,213 +1,114 @@
--- NEXT Contact
+-- Neos Contact
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 
-s.listed_names = {42015635, CARD_NEOS}
-s.listed_series = {0x1f, 0x8}
+s.listed_names = {CARD_NEOS, 42015635}
 
 function s.initial_effect(c)
-    -- send to GY & draw
+    -- salvage
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 1))
-    e1:SetCategory(CATEGORY_TOGRAVE + CATEGORY_DRAW)
-    e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetLabel(1)
-    e1:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
-    e1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()
-    end)
+    e1:SetCategory(CATEGORY_TOHAND)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
+    e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetRange(LOCATION_GRAVE)
+    e1:SetCountLimit(1, id)
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e1b)
 
-    -- special summon neo-spacian & neos
-    local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 2))
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_ACTIVATE)
-    e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetLabel(2)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    -- contact fusion
+    local e2 = Fusion.CreateSummonEff({
+        handler = c,
+        fusfilter = aux.FilterBoolFunction(aux.IsMaterialListCode, CARD_NEOS),
+        matfilter = Card.IsAbleToDeck,
+        extrafil = s.e2extramat,
+        extraop = Fusion.ShuffleMaterial,
+        chkf = FUSPROC_NOTFUSION
+    })
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
+    e2:SetCondition(function() return Duel.IsMainPhase() end)
     c:RegisterEffect(e2)
 
-    -- special summon HERO fustion monster
+    -- contact out
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 3))
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
     e3:SetType(EFFECT_TYPE_ACTIVATE)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetLabel(3)
-    e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.efftgcheck(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetFlagEffect(tp, id + e:GetLabel() * 1000000) == 0
+function s.e1filter(c, tp)
+    return c:IsFaceup() and c:IsControler(tp) and c:IsCode(CARD_NEOS)
 end
 
-function s.effop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.RegisterFlagEffect(tp, id + e:GetLabel() * 1000000,
-                            RESET_PHASE + PHASE_END, 0, 1)
-
-    if (Duel.IsEnvironment(42015635)) then
-        local c = e:GetHandler()
-        c:CancelToGrave()
-        Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
-    end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsEnvironment(42015635) and eg:IsExists(s.e1filter, 1, nil, tp)
 end
-
-function s.e1filter(c) return c:IsSetCard(0x1f) and c:IsAbleToGrave() end
-
-function s.e1check(g, e, tp) return g:GetClassCount(Card.GetLocation) == #g end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetMatchingGroup(s.e1filter, tp,
-                                    LOCATION_HAND + LOCATION_DECK, 0, nil)
-
-    if chk == 0 then
-        return s.efftgcheck(e, tp, eg, ep, ev, re, r, rp) and
-                   Duel.IsPlayerCanDraw(tp, 2) and
-                   Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) >= 3 and
-                   aux.SelectUnselectGroup(g, e, tp, 2, 2, s.e1check, 0)
-    end
-
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 2)
+    if chk == 0 then return e:GetHandler():IsAbleToHand() end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, e:GetHandler(), 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(s.e1filter, tp,
-                                    LOCATION_HAND + LOCATION_DECK, 0, nil)
-    g = aux.SelectUnselectGroup(g, e, tp, 2, 2, s.e1check, 1, tp,
-                                HINTMSG_TOGRAVE)
-
-    if Duel.SendtoGrave(g, REASON_EFFECT) == 2 and
-        Duel.GetOperatedGroup():FilterCount(Card.IsLocation, nil, LOCATION_GRAVE) ==
-        2 then
-        Duel.ShuffleDeck(tp)
-        Duel.BreakEffect()
-        Duel.Draw(tp, 2, REASON_EFFECT)
-    end
-
-    s.effop(e, tp, eg, ep, ev, re, r, rp)
-end
-
-function s.e2filter(c, e, tp)
-    return (c:IsSetCard(0x1f) or c:IsCode(CARD_NEOS)) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return s.efftgcheck(e, tp, eg, ep, ev, re, r, rp) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND +
-                                                   LOCATION_GRAVE +
-                                                   LOCATION_REMOVED, 0, 1, nil,
-                                               e, tp)
-    end
-
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
 
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    if ft <= 0 then
-        s.effop(e, tp, eg, ep, ev, re, r, rp)
-        return
-    end
+    Duel.SendtoHand(c, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, c)
+end
 
-    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then ft = 1 end
-    if ft > 5 then ft = 5 end
-
-    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e2filter), tp,
-                                    LOCATION_HAND + LOCATION_GRAVE +
-                                        LOCATION_REMOVED, 0, nil, e, tp)
-    g = aux.SelectUnselectGroup(g, e, tp, 1, ft, aux.dncheck, 1, tp,
-                                HINTMSG_SPSUMMON)
-    if #g > 0 then
-        for tc in aux.Next(g) do
-            Duel.SpecialSummonStep(tc, 0, tp, tp, false, false,
-                                   POS_FACEUP_DEFENSE)
-
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetDescription(3302)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-            ec1:SetCode(EFFECT_CANNOT_TRIGGER)
-            ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-            tc:RegisterEffect(ec1)
-            local ec2 = Effect.CreateEffect(c)
-            ec2:SetDescription(aux.Stringid(id, 0))
-            ec2:SetType(EFFECT_TYPE_FIELD)
-            ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
-            ec2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-            ec2:SetRange(LOCATION_MZONE)
-            ec2:SetAbsoluteRange(tp, 1, 0)
-            ec2:SetTarget(function(e, c)
-                return c:IsLocation(LOCATION_EXTRA) and
-                           not c:IsType(TYPE_FUSION)
-            end)
-            ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec2, true)
-        end
-        Duel.SpecialSummonComplete()
-    end
-
-    s.effop(e, tp, eg, ep, ev, re, r, rp)
+function s.e2extramat(e, tp, mg)
+    return Duel.GetMatchingGroup(aux.NecroValleyFilter(
+                                     Fusion.IsMonsterFilter(Card.IsAbleToDeck)),
+                                 tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, nil)
 end
 
 function s.e3filter1(c)
-    return c:IsFaceup() and c:IsType(TYPE_FUSION) and
-               aux.IsMaterialListCode(c, CARD_NEOS)
+    return c:IsType(TYPE_FUSION) and aux.IsMaterialListCode(c, CARD_NEOS) and
+               c:IsFaceup() and c:IsAbleToExtra()
 end
 
-function s.e3filter2(c, e, tp)
-    return c:IsSetCard(0x8) and c:IsType(TYPE_FUSION) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_MZONE, 0, 1,
-                                       nil)
+function s.e3filter2(c, e, tp, fc, mg)
+    return c:IsControler(tp) and c:GetReasonCard() == fc and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               fc:CheckFusionMaterial(mg, c, PLAYER_NONE | FUSPROC_NOTFUSION)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return s.efftgcheck(e, tp, eg, ep, ev, re, r, rp) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingTarget(s.e3filter2, tp,
-                                         LOCATION_GRAVE + LOCATION_REMOVED, 0,
-                                         1, nil, e, tp)
+        return Duel.IsExistingTarget(s.e3filter1, tp, LOCATION_MZONE, 0, 1, nil)
     end
 
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectTarget(tp, s.e3filter2, tp,
-                                LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil,
-                                e, tp)
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0,
-                          LOCATION_GRAVE + LOCATION_REMOVED)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g = Duel.SelectTarget(tp, s.e3filter1, tp, LOCATION_MZONE, 0, 1, 1,
+                                nil)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
-    if tc:IsRelateToEffect(e) then
-        Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
-    end
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() then return end
 
-    s.effop(e, tp, eg, ep, ev, re, r, rp)
+    local mg = tc:GetMaterial()
+    mg = mg:Filter(s.e3filter2, nil, e, tp, tc, mg)
+    local ct = #mg
+    if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) ~= 0 and
+        tc:IsLocation(LOCATION_EXTRA) and ct > 0 and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) >= ct and
+        (ct >= 2 and not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)) and
+        Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
+        Duel.BreakEffect()
+        Duel.SpecialSummon(mg, 0, tp, tp, false, false, POS_FACEUP)
+    end
 end
