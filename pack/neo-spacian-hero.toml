@@ -238,8 +238,8 @@ While this card that is banished or in the GY, on the field: You can Fusion Summ
     with effects other than "Dark Fusion". \
     This effect cannot be negated. \
 Once per turn, if this card battles, during damage calculation: \
-    You can send 1 "HERO" monster from your hand or Deck to the GY; this card gains ATK equal to the Level of the monster sent to the GY x 200, \
-    until the end of this turn. \
+    You can send 1 "HERO" monster from your hand, Deck or that is banished to the GY; \
+    this card gains ATK equal to the Level of the monster sent to the GY x 200, until the end of this turn. \
 If this card destroys an opponent's monster by battle: \
     You can add 1 "Polymerization" Spell or "Fusion" Spell from your Deck or GY to your hand. \
     You can only use this effect of "Evil HERO Supreme Neos" once per turn. \
@@ -286,9 +286,20 @@ strings = [
 [card.next-contact]
 id = 410000417
 name = "NEXT Contact"
-type = "spell"
+type = "spell quick-play"
 effect = """\
-Activate 1 of these effect. You cannot apply that same effect of "NEXT Contact" for the rest of this turn.
-● Send 2 "Neo-Spacian" monsters (1 from your hand and 1 from your Deck) to the GY, then draw 2 cards.
+Activate 1 of these effect, after that, if "Neo Space" is on the field, shuffle this card into the Deck. \
+    You cannot apply that same effect of "NEXT Contact" for the rest of this turn.
+● During your Main Phase: Send 2 "Neo-Spacian" monsters (1 from your hand and 1 from your Deck) to the GY, then draw 2 cards.
+● Special Summon any number of monsters with different names from your hand, GY and/or that is banished, in Defense Position, \
+    that are all "Neo-Spacian" monsters or "Elemental HERO Neos", but they cannot activate their effects this turn, \
+    and as long as you control any of those Special Summoned monsters face-up, you cannot Special Summon monsters from the Extra Deck, except Fusion Monsters.
+● If you control a Fusion Monster that lists "Elemental HERO Neos" as material: \
+    Target 1 "HERO" Fusion Monster in your GY or that is banished; Special Summon it, ignoring its Summoning conditions. 
 """
-strings = ["Send \"Neo-Spacian\" monsters to GY then draw"]
+strings = [
+    "You cannot Special Summon monsters from the Extra Deck, except Fusion Monsters",
+    "Send \"Neo-Spacian\" to GY then draw",
+    "Special Summon \"Neo-Spacian\" and \"Elemental HERO Neos\"",
+    "Special Summon \"HERO\" Fusion Monster",
+]
