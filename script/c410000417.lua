@@ -1,4 +1,4 @@
--- Space Contact
+-- NEXT Contact
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 
