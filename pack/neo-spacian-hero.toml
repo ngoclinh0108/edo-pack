@@ -288,5 +288,7 @@ id = 410000417
 name = "NEXT Contact"
 type = "spell"
 effect = """\
+Activate 1 of these effect. You cannot apply that same effect of "NEXT Contact" for the rest of this turn.
+● Send 2 "Neo-Spacian" monsters (1 from your hand and 1 from your Deck) to the GY, then draw 2 cards.
 """
-strings = []
+strings = ["Send \"Neo-Spacian\" monsters to GY then draw"]
