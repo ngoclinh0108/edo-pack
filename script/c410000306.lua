@@ -10,6 +10,7 @@ function s.initial_effect(c)
     local e1 = Fusion.CreateSummonEff(c, aux.FilterBoolFunction(
                                           aux.IsMaterialListSetCard, 0x3b), nil,
                                       s.e1fusextra, nil, nil, s.e1op)
+    e1:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
     e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e1:SetCondition(function() return Duel.IsMainPhase() end)
     e1:SetCost(s.e1cost)

@@ -31,6 +31,7 @@ function s.initial_effect(c)
         chkf = FUSPROC_NOTFUSION
     })
     e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
     e2:SetCondition(function() return Duel.IsMainPhase() end)
     c:RegisterEffect(e2)
 
