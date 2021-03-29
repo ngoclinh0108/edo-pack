@@ -282,3 +282,11 @@ strings = [
     "Contact Out",
     "Special Summon all the Fusion Materials?",
 ]
+
+[card.space-contact]
+id = 410000417
+name = "Space Contact"
+type = "spell"
+effect = """\
+"""
+strings = []
