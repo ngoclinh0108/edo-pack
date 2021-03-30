@@ -26,50 +26,41 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- fusion substitute
+    -- dark fusion ignore
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_FUSION_SUBSTITUTE)
-    e2:SetRange(LOCATION_HAND + LOCATION_ONFIELD + LOCATION_GRAVE)
-    e2:SetValue(function(e, c) return c:IsSetCard(0x8) end)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE +
+                       EFFECT_FLAG_UNCOPYABLE)
+    e2:SetCode(72043279)
+    e2:SetRange(LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED)
+    e2:SetTargetRange(1, 0)
     c:RegisterEffect(e2)
 
-    -- dark fusion ignore
+    -- atk up
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE +
-                       EFFECT_FLAG_UNCOPYABLE)
-    e3:SetCode(72043279)
-    e3:SetRange(LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED)
-    e3:SetTargetRange(1, 0)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_ATKCHANGE)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
+    e3:SetCondition(s.e3con)
+    e3:SetCost(s.e3cost)
+    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- atk up
+    -- search
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_ATKCHANGE)
-    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e4:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetCondition(s.e4con)
-    e4:SetCost(s.e4cost)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_DELAY)
+    e4:SetCode(EVENT_BATTLE_DESTROYING)
+    e4:SetCountLimit(1, id + 2 * 1000000)
+    e4:SetCondition(aux.bdocon)
+    e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-
-    -- search
-    local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 1))
-    e5:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e5:SetProperty(EFFECT_FLAG_DELAY)
-    e5:SetCode(EVENT_BATTLE_DESTROYING)
-    e5:SetCountLimit(1, id + 2 * 1000000)
-    e5:SetCondition(aux.bdocon)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
 end
 
 function s.e1filter(c)
@@ -106,12 +97,12 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e4filter(c)
+function s.e3filter(c)
     return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x8) and c:HasLevel() and
                c:IsAbleToGraveAsCost()
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetAttacker()
     local bc = Duel.GetAttackTarget()
     if not bc then return false end
@@ -121,15 +112,15 @@ function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return bc:IsFaceup() and bc:IsRace(RACE_FIEND)
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_HAND +
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
                                                LOCATION_DECK + LOCATION_REMOVED,
                                            0, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-    local tc = Duel.SelectMatchingCard(tp, s.e4filter, tp, LOCATION_HAND +
+    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_HAND +
                                            LOCATION_DECK + LOCATION_REMOVED, 0,
                                        1, 1, nil):GetFirst()
 
@@ -137,7 +128,7 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     e:SetLabel(tc:GetLevel())
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = e:GetLabelObject()
 
@@ -149,13 +140,13 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec1)
 end
 
-function s.e5filter(c)
+function s.e4filter(c)
     return c:IsAbleToHand() and c:IsType(TYPE_SPELL) and c:IsSetCard(0x46)
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e5filter, tp,
+        return Duel.IsExistingMatchingCard(s.e4filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
@@ -164,9 +155,9 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e5filter, tp,
+    local g = Duel.SelectMatchingCard(tp, s.e4filter, tp,
                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                       nil)
 
