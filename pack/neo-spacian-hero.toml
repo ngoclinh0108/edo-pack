@@ -216,6 +216,22 @@ ${NEOS_END_PHASE}. \
 """
 strings = ["Attack again", "Negate & copy effect"]
 
+[card.elemental-hero-deity-neos]
+id = 410000410
+set = "elemental-hero neos"
+name = "Elemental HERO Deity Neos"
+type = "monster fusion effect"
+attribute = "divine"
+race = "warrior"
+level = 12
+atk = 2500
+def = 2500
+effect = """\
+"Elemental HERO Neos" + 6 "HERO" and/or "Neo-Spacian" monsters with different Attributes
+Must be Fusion Summoned with the above Fusion Materials. \
+"""
+strings = []
+
 [card.elemental-hero-prime-neos]
 id = 410000414
 set = "elemental-hero neos"

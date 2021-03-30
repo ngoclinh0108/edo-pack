@@ -12,6 +12,14 @@ function s.initial_effect(c)
     Fusion.AddProcMixN(c, false, false, CARD_REDEYES_B_DRAGON, 1,
                        aux.FilterBoolFunctionEx(Card.IsSetCard, 0x3b), 2)
 
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(aux.fuslimit)
+    c:RegisterEffect(splimit)
+
     -- immune
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
