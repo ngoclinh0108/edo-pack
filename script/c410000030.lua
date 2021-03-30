@@ -144,6 +144,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     if Duel.SpecialSummon(g, 0, tp, tp, true, true, POS_FACEUP) ~= 0 then
-        Duel.SendtoDeck(c, tp, 2, REASON_EFFECT)
+        Duel.SendtoDeck(c, tp, SEQ_DECKSHUFFLE, REASON_EFFECT)
     end
 end

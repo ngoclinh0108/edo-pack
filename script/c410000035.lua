@@ -94,7 +94,7 @@ function s.initial_effect(c)
 
     -- to extra
     local e5 = Effect.CreateEffect(c)
-    e5:SetCategory(CATEGORY_TODECK)
+    e5:SetCategory(CATEGORY_TODECK + CATEGORY_TOHAND)
     e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e5:SetProperty(EFFECT_FLAG_DELAY)
     e5:SetCode(EVENT_LEAVE_FIELD)
@@ -226,7 +226,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.SendtoDeck(e:GetHandler(), tp, 2, REASON_EFFECT)
+    Duel.SendtoDeck(e:GetHandler(), tp, SEQ_DECKSHUFFLE, REASON_EFFECT)
 
     local g = Duel.GetMatchingGroup(s.e5filter, tp, LOCATION_GRAVE, 0, nil)
     if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 3)) then

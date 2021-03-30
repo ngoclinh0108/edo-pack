@@ -164,6 +164,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     if Duel.SpecialSummon(mg, 0, tp, tp, true, false, POS_FACEUP) ~= 0 then
-        Duel.SendtoDeck(c, tp, 2, REASON_EFFECT)
+        Duel.SendtoDeck(c, tp, SEQ_DECKSHUFFLE, REASON_EFFECT)
     end
 end

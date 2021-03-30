@@ -135,7 +135,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e4filter, tp, LOCATION_REMOVED, 0, nil)
 
-    if #g > 0 and Duel.SendtoDeck(c, nil, 2, REASON_EFFECT) > 0 then
+    if #g > 0 and Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
         Duel.BreakEffect()
 
         if #g > 1 then

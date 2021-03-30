@@ -92,7 +92,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         2 then
         Duel.ShuffleDeck(tp)
         Duel.BreakEffect()
-        Duel.Draw(tp, 2, REASON_EFFECT)
+        Duel.Draw(tp, SEQ_DECKSHUFFLE, REASON_EFFECT)
     end
 
     s.effop(e, tp, eg, ep, ev, re, r, rp)

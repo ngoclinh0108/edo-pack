@@ -229,8 +229,19 @@ def = 2500
 effect = """\
 "Elemental HERO Neos" + 6 "Neo-Spacian" monsters with different Attributes
 Must be Fusion Summoned with the above Fusion Materials. \
+This card's activation and effects cannot be negated. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+Cannot be flipped face-down. \
+Cannot be return to Extra Deck. \
+Possession of this card cannot be switched. \
+(Quick Effect): You can banish 1 "HERO" Fusion Monster from your Extra Deck or GY; \
+    this card gains 500 original ATK/DEF, and also it gains the banished monster's effects. \
+    Neither player can activate cards or effects in response to this effect's activation. \
+    You can only use this effect of "Elemental HERO Deity Neos" once per turn. \
+If this card leaves the field: Shuffle it into the Extra Deck, \
+    also, shuffle all banished cards into the Deck. \
 """
-strings = []
+strings = ["Banish \"HERO\" and gain its effect"]
 
 [card.elemental-hero-prime-neos]
 id = 410000414

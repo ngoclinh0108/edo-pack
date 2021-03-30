@@ -320,7 +320,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local opdraw = Duel.GetFieldGroupCount(tp, 0, LOCATION_HAND)
 
     local g = Duel.GetMatchingGroup(nil, tp, loc, loc, nil)
-    if #g > 0 then Duel.SendtoDeck(g, nil, 2, REASON_EFFECT) end
+    if #g > 0 then Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) end
 
     Duel.ShuffleDeck(tp)
     Duel.ShuffleDeck(1 - tp)
