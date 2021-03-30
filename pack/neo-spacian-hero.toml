@@ -227,7 +227,7 @@ level = 12
 atk = 2500
 def = 2500
 effect = """\
-"Elemental HERO Neos" + 6 "HERO" and/or "Neo-Spacian" monsters with different Attributes
+"Elemental HERO Neos" + 6 "Neo-Spacian" monsters with different Attributes
 Must be Fusion Summoned with the above Fusion Materials. \
 """
 strings = []

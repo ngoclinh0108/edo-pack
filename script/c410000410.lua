@@ -21,9 +21,11 @@ function s.initial_effect(c)
 end
 
 function s.fusfilter(c, fc, sumtype, tp, sub, mg, sg)
-    return (not sg or sg:FilterCount(aux.TRUE, c) == 0 or
-               not sg:IsExists(Card.IsAttribute, 1, c, c:GetAttribute(), fc,
-                               sumtype, tp)) and
-               (c:IsSetCard(0x8, fc, sumtype, tp) or
-                   c:IsSetCard(0x1f, fc, sumtype, tp))
+    return c:IsSetCard(0x1f, fc, sumtype, tp) and
+               c:GetAttribute(fc, sumtype, tp) ~= 0 and
+               (not sg or not sg:IsExists(
+                   function(tc, attr, fc, sumtype, tp)
+                return tc:IsSetCard(0x1f, fc, sumtype, tp) and
+                           tc:IsAttribute(attr, fc, sumtype, tp)
+            end, 1, c, c:GetAttribute(fc, sumtype, tp), fc, sumtype, tp))
 end
