@@ -192,7 +192,7 @@ Once per turn: You can destroy 1 card your opponent controls, \
 ● Spell: Banish 1 random monster from your opponent's Extra Deck.
 ● Trap: Banish 1 card from the your opponent's GY.
 """
-strings = ["Destroy 1 face-up card and apply effect"]
+strings = ["Destroy 1 card and apply effect"]
 
 [card.elemental-hero-void-neos]
 id = 410000409
