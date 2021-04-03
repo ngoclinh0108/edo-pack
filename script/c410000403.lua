@@ -12,7 +12,7 @@ function s.initial_effect(c)
     -- fusion material
     Neos.AddProc(c, {
         function(tc) return tc:IsLevelBelow(4) and tc:IsType(TYPE_EFFECT) end
-    }, function(g, tp, c)
+    }, nil, function(g, tp, c)
         c:RegisterFlagEffect(id,
                              RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD +
                                  RESET_PHASE + PHASE_END,

@@ -15,7 +15,7 @@ function s.initial_effect(c)
             return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_WATER) and
                        tc:IsRace(RACE_FISH)
         end
-    }, nil, true, true)
+    }, nil, nil, true, true)
 
     -- cannot remove
     local e1 = Effect.CreateEffect(c)

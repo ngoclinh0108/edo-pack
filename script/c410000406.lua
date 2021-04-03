@@ -15,7 +15,7 @@ function s.initial_effect(c)
             return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_WIND) and
                        tc:IsRace(RACE_WINGEDBEAST)
         end
-    }, nil, true, true)
+    }, nil, nil, true, true)
     
     -- cannot be target
     local e1 = Effect.CreateEffect(c)

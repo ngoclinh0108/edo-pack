@@ -243,6 +243,57 @@ If this card leaves the field: Shuffle it into the Extra Deck, \
 """
 strings = ["Banish \"HERO\" and gain its effect"]
 
+[card.elemental-hero-twilight-neos]
+id = 410000411
+set = "elemental-hero neos"
+name = "Elemental HERO Twilight Neos"
+type = "monster fusion effect"
+attribute = "light"
+race = "warrior"
+level = 9
+atk = 3000
+def = 2500
+effect = """\
+"Elemental HERO Neos" + "Neo-Spacian Dark Panther" + "Neo-Spacian Glow Moss"
+${NEOS_SUMMON} \
+${NEOS_END_PHASE}. \
+"""
+strings = []
+
+[card.elemental-hero-steam-neos]
+id = 410000412
+set = "elemental-hero neos"
+name = "Elemental HERO Steam Neos"
+type = "monster fusion effect"
+attribute = "water"
+race = "warrior"
+level = 9
+atk = 3000
+def = 2500
+effect = """\
+"Elemental HERO Neos" + "Neo-Spacian Flare Scarab" + "Neo-Spacian Aqua Dolphin"
+${NEOS_SUMMON} \
+${NEOS_END_PHASE}. \
+"""
+strings = []
+
+[card.elemental-hero-star-neos]
+id = 410000413
+set = "elemental-hero neos"
+name = "Elemental HERO Star Neos"
+type = "monster fusion effect"
+attribute = "earth"
+race = "warrior"
+level = 9
+atk = 3000
+def = 2500
+effect = """\
+"Elemental HERO Neos" + "Neo-Spacian Air Hummingbird" + "Neo-Spacian Grand Mole"
+${NEOS_SUMMON} \
+${NEOS_END_PHASE}. \
+"""
+strings = []
+
 [card.elemental-hero-prime-neos]
 id = 410000414
 set = "elemental-hero neos"

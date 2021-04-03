@@ -15,7 +15,7 @@ function s.initial_effect(c)
             return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_FIRE) and
                        tc:IsRace(RACE_INSECT)
         end
-    }, nil, true, true)
+    }, nil, nil, true, true)
 
     -- atk up
     local e1 = Effect.CreateEffect(c)
@@ -36,7 +36,7 @@ function s.initial_effect(c)
     e2:SetCondition(s.e2con)
     e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
-    
+
     -- indes
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)

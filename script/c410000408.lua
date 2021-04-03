@@ -15,7 +15,7 @@ function s.initial_effect(c)
             return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_LIGHT) and
                        tc:IsRace(RACE_PLANT)
         end
-    }, nil, true, true)
+    }, nil, nil, true, true)
 
     -- indes
     local e1 = Effect.CreateEffect(c)

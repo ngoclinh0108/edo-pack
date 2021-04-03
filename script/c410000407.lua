@@ -15,7 +15,7 @@ function s.initial_effect(c)
             return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_EARTH) and
                        tc:IsRace(RACE_ROCK)
         end
-    }, nil, true, true)
+    }, nil, nil, true, true)
 
     -- hand limit
     local e1 = Effect.CreateEffect(c)

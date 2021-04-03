@@ -15,7 +15,7 @@ function s.initial_effect(c)
             return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_DARK) and
                        tc:IsRace(RACE_BEAST)
         end
-    }, nil, true, true)
+    }, nil, nil, true, true)
 
     -- chain attack
     local e1 = Effect.CreateEffect(c)
