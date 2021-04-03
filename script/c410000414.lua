@@ -35,7 +35,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 
     -- neos return
-    aux.EnableNeosReturn(c, CATEGORY_ATKCHANGE, nil, s.shuffleop)
+    aux.EnableNeosReturn(c, CATEGORY_ATKCHANGE, nil, s.retop)
 end
 
 function s.e1filter(c)
@@ -75,7 +75,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Recover(tp, def, REASON_EFFECT)
 end
 
-function s.shuffleop(e, tp, eg, ep, ev, re, r, rp)
+function s.retop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
     for tc in aux.Next(g) do

@@ -94,14 +94,16 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Destroy(tc, REASON_EFFECT)
 
     if tc:IsType(TYPE_MONSTER) then
-        if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+        if c:IsFacedown() or not c:IsRelateToEffect(e) or tc:GetTextAttack() <=
+            0 then return end
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
         ec1:SetCode(EFFECT_UPDATE_ATTACK)
         ec1:SetRange(LOCATION_MZONE)
-        ec1:SetValue(500)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        ec1:SetValue(tc:GetTextAttack())
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE +
+                         PHASE_END)
         c:RegisterEffect(ec1)
     elseif tc:IsType(TYPE_SPELL) then
         local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,

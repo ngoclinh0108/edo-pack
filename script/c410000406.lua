@@ -1,4 +1,4 @@
--- Elemental HERO Celestial Neos
+-- Elemental HERO Sky Neos
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_neos.lua")

@@ -17,7 +17,7 @@ Fusion Monsters that list "Elemental HERO Neos" as a material \
 You can Tribute 1 monster to Tribute Summon a Level 7 or higher "HERO" monster. \
 During your Main Phase, you can Tribute Summon 1 "HERO" monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
-One per turn, you can target 1 face-up Level 4 or lower "Elemental HERO" monster you control; \
+Once per turn (Quick Effect): You can target 1 face-up Level 4 or lower "Elemental HERO" monster you control; \
     send it to the GY, and if you do, Special Summon from hand, Deck or GY, \
     1 "Neo-Spacian" monster with the same Attribute as the sent monster's was on the field. \
 """
@@ -132,10 +132,10 @@ ${NEOS_END_PHASE}. \
 """
 strings = ["Destroy card in your opponent's hand"]
 
-[card.elemental-hero-celestial-neos]
+[card.elemental-hero-sky-neos]
 id = 410000406
 set = "elemental-hero neos"
-name = "Elemental HERO Celestial Neos"
+name = "Elemental HERO Sky Neos"
 type = "monster fusion effect"
 attribute = "wind"
 race = "warrior"
@@ -190,7 +190,7 @@ Once per turn, if a card(s) your opponent controls is destroyed by battle or car
 Once per turn: You can destroy 1 card your opponent controls, \
     and if you do, apply the effect based on its type. \
     This is a Quick Effect if "Neo Space" is on the field.
-● Monster: This card gains 500 ATK.
+● Monster: This card gains ATK equal to the destroyed monster's original ATK until the end of this turn.
 ● Spell: Banish 1 random monster from your opponent's Extra Deck.
 ● Trap: Banish 1 card from the your opponent's GY.
 """
@@ -258,9 +258,13 @@ def = 2500
 effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Dark Panther" + "Neo-Spacian Glow Moss"
 ${NEOS_SUMMON} \
-${NEOS_END_PHASE}. \
+Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
+This card gains 500 ATK for each card destroyed by its effects. \
+Once per turn: You can negate the effects of all monsters your opponent currently controls, and also, destroy them. \
+    This is a Quick Effect if "Neo Space" is on the field. \
+${NEOS_END_PHASE}, and if you do, banish all cards on the field. \
 """
-strings = []
+strings = ["Negate the effect and destroy all monsters"]
 
 [card.elemental-hero-steam-neos]
 id = 410000412
@@ -275,14 +279,15 @@ def = 2500
 effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Flare Scarab" + "Neo-Spacian Aqua Dolphin"
 ${NEOS_SUMMON} \
+Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
 ${NEOS_END_PHASE}. \
 """
 strings = []
 
-[card.elemental-hero-star-neos]
+[card.elemental-hero-celestial-neos]
 id = 410000413
 set = "elemental-hero neos"
-name = "Elemental HERO Star Neos"
+name = "Elemental HERO Celestial Neos"
 type = "monster fusion effect"
 attribute = "earth"
 race = "warrior"
@@ -292,6 +297,7 @@ def = 2500
 effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Air Hummingbird" + "Neo-Spacian Grand Mole"
 ${NEOS_SUMMON} \
+Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
 ${NEOS_END_PHASE}. \
 """
 strings = []
