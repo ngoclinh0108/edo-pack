@@ -10,12 +10,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion material
-    Neos.AddProc(c, {
-        17955766, function(tc)
-            return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_WATER) and
-                       tc:IsRace(RACE_FISH)
-        end
-    }, nil, nil, true, true)
+    Neos.AddProc(c, 17955766, nil, nil, true, true)
 
     -- cannot remove
     local e1 = Effect.CreateEffect(c)
@@ -59,7 +54,18 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_HAND)
     if #g > 1 then g = g:RandomSelect(tp, 1) end
-    Duel.Destroy(g, REASON_EFFECT)
+    
+    if Duel.Destroy(g, REASON_EFFECT) > 0 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3205)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_DIRECT_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec1)
+    end
 end

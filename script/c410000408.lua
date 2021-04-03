@@ -10,20 +10,21 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion material
-    Neos.AddProc(c, {
-        17732278, function(tc)
-            return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_LIGHT) and
-                       tc:IsRace(RACE_PLANT)
-        end
-    }, nil, nil, true, true)
+    Neos.AddProc(c, 17732278, nil, nil, true, true)
 
-    -- indes
+    -- draw
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e1:SetDescription(1108)
+    e1:SetCategory(CATEGORY_DRAW)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP +
+                       EFFECT_FLAG_PLAYER_TARGET)
+    e1:SetCode(EVENT_DESTROYED)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(1)
+    e1:SetCountLimit(1)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
     -- destroy and apply effect
@@ -44,6 +45,28 @@ function s.initial_effect(c)
     e2b:SetCode(EVENT_FREE_CHAIN)
     e2b:SetCondition(function() return Duel.IsEnvironment(42015635) end)
     c:RegisterEffect(e2b)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(function(c, tp)
+        return c:IsPreviousLocation(LOCATION_ONFIELD) and
+                   c:IsPreviousControler(1 - tp) and
+                   c:IsReason(REASON_BATTLE + REASON_EFFECT)
+    end, 1, nil, tp)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
+
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(1)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Draw(p, d, REASON_EFFECT)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

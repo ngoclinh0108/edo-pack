@@ -10,12 +10,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion material
-    Neos.AddProc(c, {
-        80344569, function(tc)
-            return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_EARTH) and
-                       tc:IsRace(RACE_ROCK)
-        end
-    }, nil, nil, true, true)
+    Neos.AddProc(c, 80344569, nil, nil, true, true)
 
     -- hand limit
     local e1 = Effect.CreateEffect(c)

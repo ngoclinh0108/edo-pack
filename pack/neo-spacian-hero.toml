@@ -101,12 +101,13 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-"Elemental HERO Neos" + "Neo-Spacian Flare Scarab" or Level 4 or lower FIRE Insect monster
+"Elemental HERO Neos" + "Neo-Spacian Flare Scarab"
 ${NEOS_SUMMON} \
-${NEOS_END_PHASE}. \
 Gains 400 ATK for each Spell/Trap Cards on the field. \
 If this card attacks, your opponent cannot activate Spell/Trap Cards until the end of the Damage Step. \
-While "Neo Space" is on the field, this card cannot be destroyed by battle. \
+While "Neo Space" is on the field, your opponent must Set Spell Cards before activating them, \
+    and cannot activate them until their next turn after Setting them. \
+${NEOS_END_PHASE}. \
 """
 strings = []
 
@@ -121,10 +122,11 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-"Elemental HERO Neos" + "Neo-Spacian Aqua Dolphin" or Level 4 or lower WATER Fish monster
+"Elemental HERO Neos" + "Neo-Spacian Aqua Dolphin"
 ${NEOS_SUMMON} \
 Your opponent cannot banish cards from either GY. \
-Once per turn: You can destroy 1 random card in your opponent's hand. \
+Once per turn: You can destroy 1 random card in your opponent's hand, \
+    and if you do, this card can attack directly this turn. \
     This is a Quick Effect if "Neo Space" is on the field. \
 ${NEOS_END_PHASE}. \
 """
@@ -141,14 +143,14 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-"Elemental HERO Neos" + "Neo-Spacian Air Hummingbird" or Level 4 or lower WIND Winged-Beast monster
+"Elemental HERO Neos" + "Neo-Spacian Air Hummingbird"
 ${NEOS_SUMMON} \
-Your opponent cannot target this card with card effect. \
+Once per turn: You can gain 500 LP for each card in your hand. \
 While your LP is higher your opponent's, this card gains ATK equal to the difference. \
 While "Neo Space" is on the field, you take no effect damage. \
 ${NEOS_END_PHASE}. \
 """
-strings = []
+strings = ["Gain 500 LP for each card in your hand"]
 
 [card.elemental-hero-colossal-neos]
 id = 410000407
@@ -161,7 +163,7 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-"Elemental HERO Neos" + "Neo-Spacian Grand Mole" or Level 4 or lower EARTH Rock monster
+"Elemental HERO Neos" + "Neo-Spacian Grand Mole"
 ${NEOS_SUMMON} \
 Your opponent's hand size limit becomes 3. \
 Once per turn: You can target 1 card your opponent controls; return it to the hand. \
@@ -181,10 +183,10 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-"Elemental HERO Neos" + "Neo-Spacian Glow Moss" or Level 4 or lower LIGHT Plant monster
+"Elemental HERO Neos" + "Neo-Spacian Glow Moss"
 ${NEOS_SUMMON} \
 ${NEOS_END_PHASE}. \
-Cannot be destroyed by card effects. \
+Once per turn, if a card(s) your opponent controls is destroyed by battle or card effect: You can draw 1 card. \
 Once per turn: You can destroy 1 card your opponent controls, \
     and if you do, apply the effect based on its type. \
     This is a Quick Effect if "Neo Space" is on the field.
@@ -205,16 +207,16 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
-"Elemental HERO Neos" + "Neo-Spacian Dark Panther" or Level 4 or lower DARK Beast monster
+"Elemental HERO Neos" + "Neo-Spacian Dark Panther"
 ${NEOS_SUMMON} \
-When this attacking card destroys a monster by battle: \
-    You can activate this effect; this card can make a second attack in a row. \
+Once per turn, at the start of the Damage Step, if this card battles an opponent's monster, that its effects are negated: \
+    You can banish that opponent's monster, also, this card can make a second attack in a row. \
 Once per turn: You can target 1 face-up Effect Monster your opponent controls; \
     negate its effects, and if you do, this card gains that monster's effects until the End Phase. \
     This is a Quick Effect if "Neo Space" is on the field. \
 ${NEOS_END_PHASE}. \
 """
-strings = ["Attack again", "Negate & copy effect"]
+strings = ["Banish battling monster and attack again", "Negate & copy effect"]
 
 [card.elemental-hero-deity-neos]
 id = 410000410

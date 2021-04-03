@@ -10,19 +10,16 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion material
-    Neos.AddProc(c, {
-        43237273, function(tc)
-            return tc:IsLevelBelow(4) and tc:IsAttribute(ATTRIBUTE_DARK) and
-                       tc:IsRace(RACE_BEAST)
-        end
-    }, nil, nil, true, true)
+    Neos.AddProc(c, 43237273, nil, nil, true, true)
 
-    -- chain attack
+    -- repeat attack
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_REMOVE)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e1:SetCode(EVENT_BATTLE_DESTROYING)
-    e1:SetCondition(s.e1con)
+    e1:SetCode(EVENT_BATTLE_START)
+    e1:SetCountLimit(1)
+    e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
@@ -46,14 +43,34 @@ function s.initial_effect(c)
     c:RegisterEffect(e2b)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    return
-        Duel.GetAttacker() == c and aux.bdocon(e, tp, eg, ep, ev, re, r, rp) and
-            c:CanChainAttack()
+    local tc = c:GetBattleTarget()
+    if chk == 0 then
+        return tc and tc:IsControler(1 - tp) and tc:IsAbleToRemove() and
+                   tc:IsDisabled()
+    end
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, tc, 1, 0, 0)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp) Duel.ChainAttack() end
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetAttacker()
+    if c == tc then tc = Duel.GetAttackTarget() end
+    if tc and tc:IsRelateToBattle() then
+        Duel.Remove(tc, POS_FACEUP, REASON_EFFECT)
+    end
+
+    if c:IsRelateToEffect(e) and c:CanChainAttack() and c == Duel.GetAttacker() then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+        ec1:SetCode(EVENT_DAMAGE_STEP_END)
+        ec1:SetCountLimit(1)
+        ec1:SetOperation(function() Duel.ChainAttack() end)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_BATTLE)
+        c:RegisterEffect(ec1)
+    end
+end
 
 function s.e2filter(c)
     return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
