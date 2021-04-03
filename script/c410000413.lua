@@ -26,5 +26,20 @@ function s.initial_effect(c)
     c:RegisterEffect(e1b)
 
     -- neos return
-    aux.EnableNeosReturn(c, 0, nil, nil)
+    aux.EnableNeosReturn(c, CATEGORY_TODECK, s.retinfo, s.retop)
+end
+
+function s.retinfo(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(Card.IsAbleToDeck, tp, LOCATION_ONFIELD,
+                                    LOCATION_ONFIELD, 1, 1, c, tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
+end
+
+function s.retop(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(Card.IsAbleToDeck, tp, LOCATION_ONFIELD,
+                                    LOCATION_ONFIELD, 1, 1, nil, tp)
+    Duel.SendtoDeck(g, nil, SEQ_DECKBOTTOM, REASON_EFFECT)
 end

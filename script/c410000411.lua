@@ -34,10 +34,10 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- disable & destroy
+    -- destroy
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
+    e3:SetCategory(CATEGORY_DESTROY)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1)
@@ -72,16 +72,11 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:GetFlagEffect(id) == 0 and
-                   Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE,
-                                               1, nil)
-    end
+    local ct1 = Duel.GetMatchingGroupCount(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
+    local ct2 = Duel.GetMatchingGroupCount(aux.TRUE, tp, 0, LOCATION_SZONE, nil)
+    if chk == 0 then return c:GetFlagEffect(id) == 0 and (ct1 > 0 or ct2 > 0) end
 
-    local ng = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
-    local dg = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, ng, #ng, 0, 0)
+    local dg = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, dg, #dg, 0, 0)
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
                              PHASE_END, 0, 1)
@@ -89,35 +84,27 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local g1 = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
+    local g2 = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_SZONE, nil)
 
-    local ng = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
-    for tc in aux.Next(ng) do
-        Duel.NegateRelatedChain(tc, RESET_TURN_SET)
-
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_DISABLE)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec1)
-
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetCode(EFFECT_DISABLE_EFFECT)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec2)
-
-        if tc:IsType(TYPE_TRAPMONSTER) then
-            local ec3 = Effect.CreateEffect(c)
-            ec3:SetType(EFFECT_TYPE_SINGLE)
-            ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-            ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec3)
+    local g
+    if #g1 > 0 and #g2 > 0 then
+        local op = Duel.SelectOption(tp, aux.Stringid(id, 1),
+                                     aux.Stringid(id, 2))
+        if op == 0 then
+            g = g1
+        else
+            g = g2
         end
+    elseif #g1 > 0 then
+        g = g1
+    elseif #g2 > 0 then
+        g = g2
+    else
+        return
     end
 
-    Duel.AdjustInstantly()
-    local dg = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    Duel.Destroy(dg, REASON_EFFECT)
+    Duel.Destroy(g, REASON_EFFECT)
 end
 
 function s.retinfo(e, tp, eg, ep, ev, re, r, rp)

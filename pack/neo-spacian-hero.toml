@@ -260,11 +260,15 @@ effect = """\
 ${NEOS_SUMMON} \
 Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
 This card gains 500 ATK for each card destroyed by its effects. \
-Once per turn: You can negate the effects of all monsters your opponent currently controls, and also, destroy them. \
+Once per turn: You can destroy all monsters OR Spell/Trap your opponent controls. \
     This is a Quick Effect if "Neo Space" is on the field. \
 ${NEOS_END_PHASE}, and if you do, banish all cards on the field. \
 """
-strings = ["Negate the effect and destroy all monsters"]
+strings = [
+    "Destroy all monsters OR Spell/Trap",
+    "Destroy all monsters",
+    "Destroy all Spell/Trap",
+]
 
 [card.elemental-hero-steam-neos]
 id = 410000412
@@ -280,7 +284,8 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Flare Scarab" + "Neo-Spacian Aqua Dolphin"
 ${NEOS_SUMMON} \
 Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
-${NEOS_END_PHASE}. \
+This card gains 400 ATK for each card on the field. \
+${NEOS_END_PHASE}, and if you do, send all cards on the field to the GY. \
 """
 strings = []
 
@@ -298,7 +303,7 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Air Hummingbird" + "Neo-Spacian Grand Mole"
 ${NEOS_SUMMON} \
 Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
-${NEOS_END_PHASE}. \
+${NEOS_END_PHASE}, and if you do, return all cards on the field to bottom of the Deck. \
 """
 strings = []
 
