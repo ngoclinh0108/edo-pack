@@ -146,7 +146,7 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Air Hummingbird"
 ${NEOS_SUMMON} \
 Once per turn: You can gain 500 LP for each card in your hand. \
-While your LP is higher your opponent's, this card gains ATK equal to the difference. \
+While your LP is higher than your opponent's, this card gains ATK equal to the difference. \
 While "Neo Space" is on the field, you take no effect damage. \
 ${NEOS_END_PHASE}. \
 """
@@ -285,9 +285,11 @@ effect = """\
 ${NEOS_SUMMON} \
 Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
 This card gains 400 ATK for each card on the field. \
+When your opponent activates a card or effect: You can negate the activation, and if you do, destroy it,
+    and if you do that, this card gains 1000 ATK. \
 ${NEOS_END_PHASE}, and if you do, send all cards on the field to the GY. \
 """
-strings = []
+strings = ["negate the activation"]
 
 [card.elemental-hero-celestial-neos]
 id = 410000413
@@ -303,6 +305,7 @@ effect = """\
 "Elemental HERO Neos" + "Neo-Spacian Air Hummingbird" + "Neo-Spacian Grand Mole"
 ${NEOS_SUMMON} \
 Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
+While your LP is different than your opponent's, this card gains ATK equal to the difference. \
 ${NEOS_END_PHASE}, and if you do, return all cards on the field to bottom of the Deck. \
 """
 strings = []

@@ -34,12 +34,53 @@ function s.initial_effect(c)
     e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
 
+    -- negate
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e3:SetCode(EVENT_CHAINING)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+
     -- neos return
     aux.EnableNeosReturn(c, CATEGORY_TOGRAVE, s.retinfo, s.retop)
 end
 
 function s.e2val(e, c)
     return Duel.GetFieldGroupCount(0, LOCATION_ONFIELD, LOCATION_ONFIELD) * 400
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and
+               Duel.IsChainNegatable(ev) and ep == 1 - tp
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
+
+    if re:GetHandler():IsRelateToEffect(re) then
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, 1, 0, 0)
+    end
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) and
+        Duel.Destroy(eg, REASON_EFFECT) ~= 0 and c:IsRelateToEffect(e) and
+        c:IsFaceup() then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(1000)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
+        c:RegisterEffect(ec1)
+    end
 end
 
 function s.retinfo(e, tp, eg, ep, ev, re, r, rp)
