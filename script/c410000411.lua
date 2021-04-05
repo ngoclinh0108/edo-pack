@@ -34,23 +34,36 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- destroy
+    -- disable
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DESTROY)
-    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_DISABLE)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
-    e3:SetCondition(function() return not Duel.IsEnvironment(42015635) end)
+    e3:SetTargetRange(0, LOCATION_MZONE)
+    e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
-    e3b:SetType(EFFECT_TYPE_QUICK_O)
-    e3b:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
-    e3b:SetCode(EVENT_FREE_CHAIN)
-    e3b:SetCondition(function() return Duel.IsEnvironment(42015635) end)
+    e3b:SetCode(EFFECT_DISABLE_EFFECT)
     c:RegisterEffect(e3b)
+
+    -- destroy
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetCategory(CATEGORY_DESTROY)
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1)
+    e4:SetCondition(function() return not Duel.IsEnvironment(42015635) end)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetType(EFFECT_TYPE_QUICK_O)
+    e4b:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e4b:SetCode(EVENT_FREE_CHAIN)
+    e4b:SetCondition(function() return Duel.IsEnvironment(42015635) end)
+    c:RegisterEffect(e4b)
 
     -- neos return
     aux.EnableNeosReturn(c, CATEGORY_REMOVE, s.retinfo, s.retop)
@@ -70,7 +83,16 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3con(e)
+    local c = e:GetHandler()
+    return Duel.GetAttacker() == c and c:GetBattleTarget() and
+               (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() ==
+                   PHASE_DAMAGE_CAL)
+end
+
+function s.e3tg(e, c) return c == e:GetHandler():GetBattleTarget() end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local ct1 = Duel.GetMatchingGroupCount(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     local ct2 = Duel.GetMatchingGroupCount(aux.TRUE, tp, 0, LOCATION_SZONE, nil)
@@ -82,7 +104,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
                              PHASE_END, 0, 1)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g1 = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     local g2 = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_SZONE, nil)

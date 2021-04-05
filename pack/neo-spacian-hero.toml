@@ -260,6 +260,9 @@ effect = """\
 ${NEOS_SUMMON} \
 Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
 This card gains 500 ATK for each card destroyed by its effects. \
+If this card attacks an opponent's monster, during the Damage Step only, \
+        negate the effects of that monster while it is face-up on the field \
+        (but its effects can still be activated) \
 Once per turn: You can destroy all monsters OR Spell/Trap your opponent controls. \
     This is a Quick Effect if "Neo Space" is on the field. \
 ${NEOS_END_PHASE}, and if you do, banish all cards on the field. \
@@ -285,8 +288,10 @@ effect = """\
 ${NEOS_SUMMON} \
 Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
 This card gains 400 ATK for each card on the field. \
+If this card attacks, your opponent cannot activate cards or effect until the end of the Damage Step. \
 When your opponent activates a card or effect: You can negate the activation, and if you do, destroy it, \
-    and if you do that, this card gains 1000 ATK. \
+    also if you do that, this card gains 1000 ATK. \
+    You can only use this effect during your turn, unless "Neo Space" is on the field. \
 ${NEOS_END_PHASE}, and if you do, send all cards on the field to the GY. \
 """
 strings = ["negate the activation"]
