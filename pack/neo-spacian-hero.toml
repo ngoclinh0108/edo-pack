@@ -289,7 +289,8 @@ ${NEOS_SUMMON} \
 Cannot be destroyed by card effects, also your opponent cannot target this card with card effects. \
 This card gains 400 ATK for each card on the field. \
 If this card attacks, your opponent cannot activate cards or effect until the end of the Damage Step. \
-When your opponent activates a card or effect: You can negate the activation, and if you do, destroy it, \
+Once per turb, when your opponent activates a card or effect: \
+    You can negate the activation, and if you do, destroy it, \
     also if you do that, this card gains 1000 ATK. \
     You can only use this effect during your turn, unless "Neo Space" is on the field. \
 ${NEOS_END_PHASE}, and if you do, send all cards on the field to the GY. \
