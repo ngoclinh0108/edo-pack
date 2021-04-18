@@ -28,11 +28,3 @@ Possession of this card cannot be switched. \
 Unaffected by other cards' effects, except cards' effects with the same or higher Divine Hierarchy. \
 Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
 """
-
-NEOS_SUMMON = """\
-Must first be either Fusion Summoned, \
-    or Special Summoned from your Extra Deck by shuffling the above cards you control into the Deck.\
-"""
-NEOS_END_PHASE = """\
-Once per turn, during the End Phase: Shuffle this card into the Extra Deck\
-"""

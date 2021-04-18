@@ -4,11 +4,6 @@ recipe  = [
     "pack/_macro.toml",
     "pack/_setcard.toml",
     "pack/generic.toml",
-    "pack/palladium.toml",
-    "pack/blue-eyes.toml",
-    "pack/red-eyes.toml",
-    "pack/neo-spacian-hero.toml",
-    "pack/signer-dragon.toml",
 ]
 
 [picset.triplesix]
