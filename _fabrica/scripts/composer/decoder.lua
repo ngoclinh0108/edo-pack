@@ -15,7 +15,8 @@ local monster_types =
         types.TOKEN + types.XYZ + types.LINK
 local spellortrap = types.SPELL + types.TRAP + types.SKILL
 local spelltrap_types = types.CONTINUOUS + types.COUNTER + types.EQUIP +
-                            types.FIELD + types.QUICKPLAY + types.RITUAL
+                            types.FIELD + types.QUICKPLAY + types.RITUAL +
+                            types.LINK
 local frame_types = monster_types + spellortrap
 
 local function typef_ov(n, sfx) return ("type%u%s.png"):format(n, sfx or "") end
@@ -68,6 +69,7 @@ function automatons.anime(data)
         local st = Parser.match_lsb(data.type, spellortrap)
         insert(layers, MetaLayer.new("overlay", typef_ov(st)))
         return layers
+        
     end
 
     function states.monster()
