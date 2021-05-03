@@ -28,3 +28,13 @@ During your Main Phase, if this card is in your GY: \
     You can only use this effect of "Forbidden Fusion" once per turn. \
 """
 strings = ["Discard 1 card?"]
+
+[card.test]
+id = 400000002
+name = "Test"
+type = "spell link"
+link-arrows = "top-left top top-right"
+link-rating = 3
+effect = """\
+"""
+strings = []
