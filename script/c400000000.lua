@@ -272,7 +272,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoGrave(g, REASON_RULE)
 end
 
-function s.e4filter(c) return c:IsType(TYPE_FIELD + TYPE_CONTINUOUS) end
+function s.e4filter(c) return c:IsType(TYPE_FIELD) end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
