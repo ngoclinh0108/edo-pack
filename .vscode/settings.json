@@ -9,8 +9,8 @@
     "expansions": true,
     ".vscode": true,
     "ygofab.cmd": true,
-    "_fabrica": false,
-    "pics": false
+    "_fabrica": true,
+    "pics": true
   },
   "Lua.diagnostics.disable": [
     "undefined-global",
