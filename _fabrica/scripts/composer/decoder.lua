@@ -231,14 +231,21 @@ function automatons.proxy(data)
 
     function states.spelltrap()
         local st_type = Parser.match_lsb(data.type, spelltrap_types)
-        if st_type == 0 then
-            insert(layers, MetaLayer.new("overlay", st_ov(data.type)))
+        if Parser.bcheck(data.type, types.LINK) then
+            insert(layers, MetaLayer.new("overlay", "lka-base.png"))
+            for b in Parser.bits(Parser.get_link_arrows(data)) do
+                insert(layers, MetaLayer.new("overlay", linka_ov(b)))
+            end
         else
-            local st = Parser.match_lsb(data.type, spellortrap)
-            insert(layers, MetaLayer.new("overlay", st_ov(st, "p")))
-            insert(layers, MetaLayer.new("overlay", st_ov(st_type)))
+            if st_type == 0 then
+                insert(layers, MetaLayer.new("overlay", st_ov(data.type)))
+            else
+                local st = Parser.match_lsb(data.type, spellortrap)
+                insert(layers, MetaLayer.new("overlay", st_ov(st, "p")))
+                insert(layers, MetaLayer.new("overlay", st_ov(st_type)))
+            end
         end
-        insert(layers, MetaLayer.new("spelltrap_effect", data.desc))
+        insert(layers, MetaLayer.new("spelltrap_effect", data.desc))        
         return states.name()
     end
 
