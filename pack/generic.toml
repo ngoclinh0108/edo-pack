@@ -18,13 +18,12 @@ name = "Forbidden Fusion"
 type = "spell"
 effect = """\
 (This card's name is always treated as "Polymerization".)
-You can discard 1 card when activating this card, and if you do, \
-    neither player can activate cards or effects in response to this card's activation. \
 Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters from your hand or field as Fusion Material, \
-    you can also banish monster from your GY as Fusion Material. \
+    and if using 3 or more materials, that monster cannot be destroyed by card effects. \
+    Neither player can activate cards or effects in response to this card's activation. \
 During your Main Phase, if this card is in your GY: \
     You can discard 1 Spell; add this card to your hand. \
     You can only use this effect of "Forbidden Fusion" once per turn. \
 """
-strings = ["Discard 1 card?"]
+strings = []

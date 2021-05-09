@@ -6,21 +6,10 @@ function s.initial_effect(c)
     -- fusion
     local e1 = Fusion.CreateSummonEff({
         handler = c,
-        extrafil = s.e1extramat,
-        extraop = s.e1exop
+        extratg = s.e1extg,
+        stage2 = s.e1stage2
     })
-    e1:SetCost(s.e1cost)
-    local e1tg = e1:GetTarget()
-    e1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then return e1tg(e, tp, eg, ep, ev, re, r, rp, chk) end
-        e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-        if e:IsHasType(EFFECT_TYPE_ACTIVATE) and e1:GetLabel() ~= 0 then
-            Duel.SetChainLimit(aux.FALSE)
-        end
-    end)
     c:RegisterEffect(e1)
-    if not GhostBelleTable then GhostBelleTable = {} end
-    table.insert(GhostBelleTable, e1)
 
     -- to hand
     local e2 = Effect.CreateEffect(c)
@@ -33,35 +22,22 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1extg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if e:IsHasType(EFFECT_TYPE_ACTIVATE) then Duel.SetChainLimit(aux.FALSE) end
+end
+
+function s.e1stage2(e, tc, tp, sg, chk)
     local c = e:GetHandler()
-    if chk == 0 then return true end
-
-    e:SetLabel(0)
-    if Duel.IsExistingMatchingCard(Card.IsDiscardable, tp, LOCATION_HAND, 0, 1,
-                                   c) and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
-        Duel.DiscardHand(tp, Card.IsDiscardable, 1, 1,
-                         REASON_COST + REASON_DISCARD)
-        e:SetLabel(1)
-    end
-end
-
-function s.e1extramat(e, tp, mg)
-    if not Duel.IsPlayerAffectedByEffect(tp, 69832741) then
-        local eg = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp,
-                                         LOCATION_MZONE + LOCATION_GRAVE, 0, nil)
-        if #eg > 0 then return eg end
-    end
-    return nil
-end
-
-function s.e1exop(e, tc, tp, sg)
-    local rg = sg:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
-    if #rg > 0 then
-        Duel.Remove(rg, POS_FACEUP,
-                    REASON_EFFECT + REASON_MATERIAL + REASON_FUSION)
-        sg:Sub(rg)
+    if chk == 0 and tc:GetMaterialCount()>=3 then
+        -- cannot be destroyed by card effect
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3001)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+        ec1:SetValue(1)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1, true)
     end
 end
 
