@@ -1,0 +1,17 @@
+[card.pendulum-gate]
+id = 450000000
+name = "Pendulum Gate"
+type = "spell field"
+effect = """\
+"""
+strings = []
+
+[card.soul-supreme-dragon]
+id = 450000001
+name = "Soul of Supreme Dragon"
+type = "spell link"
+link-rating = 3
+link-arrow = "top-left top top-right"
+effect = """\
+"""
+strings = []

@@ -4,6 +4,7 @@ recipe  = [
     "pack/_macro.toml",
     "pack/_setcard.toml",
     "pack/generic.toml",
+    "pack/supreme-king-dragon.toml",
 ]
 
 [picset.triplesix]
