@@ -1,6 +1,6 @@
-[card.pendulum-gate]
+[card.supreme-gate]
 id = 450000000
-name = "Pendulum Gate"
+name = "Supreme Gate"
 type = "spell field"
 effect = """\
 """
