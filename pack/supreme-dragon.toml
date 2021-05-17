@@ -3,7 +3,7 @@ id = 450000000
 name = "Supreme Gate"
 type = "spell field"
 effect = """\
-Your opponent cannot target cards in your Pendulum Zones with card effects, also they cannot be destroyed by your opponent's card effects. \
+Your opponent cannot target cards in your Pendulum Zones with card effects. \
 You can target 1 other face-up card you control; destroy it, and if you do, add from your Deck or GY to your hand, \
     1 "Odd-Eyes" card or 1 card that specifically lists "Supreme King Z-ARC" in its text, except the destroyed card and "Supreme Gate". \
     You can only use this effect of "Supreme Gate" once per turn. \
@@ -28,7 +28,7 @@ type = "spell link"
 link-rating = 3
 link-arrows = "top-left top top-right"
 effect = """\
-You can only activate this card while you 2 cards in your Pendulum Zones. \
+You must have 2 cards in your Pendulum Zones to activate this card. \
 Pendulum Summons of your Pendulum Monsters cannot be negated. \
 If you have 2 cards in your Pendulum Zones: You can target 1 monster in your GY, \
     with a Level or Rank between (exclusive) the Pendulum Scales of the cards in your Pendulum Zones; \

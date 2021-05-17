@@ -21,10 +21,6 @@ function s.initial_effect(c)
     e1:SetTargetRange(LOCATION_PZONE, 0)
     e1:SetValue(aux.tgoval)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e1b:SetValue(aux.indoval)
-    c:RegisterEffect(e1b)
 
     -- destroy & search
     local e2 = Effect.CreateEffect(c)
