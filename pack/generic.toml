@@ -1,5 +1,5 @@
 [card.millennium-hieroglyph]
-id = 400000000
+id = 900000000
 name = "Millennium Hieroglyph"
 strings = [
     "Do nothing",
@@ -12,7 +12,7 @@ strings = [
 ]
 
 [card.forbidden-polymerization]
-id = 400000001
+id = 900000001
 alias = 24094653
 name = "Forbidden Fusion"
 type = "spell"

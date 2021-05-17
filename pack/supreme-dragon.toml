@@ -1,5 +1,5 @@
 [card.supreme-gate]
-id = 450000000
+id = 950000000
 name = "Supreme Gate"
 type = "spell field"
 effect = """\
@@ -21,7 +21,7 @@ strings = [
 ]
 
 [card.soul-supreme-king-dragon]
-id = 450000006
+id = 950000006
 set = "supreme-king-dragon"
 name = "Soul of Supreme King Dragon"
 type = "spell link"
