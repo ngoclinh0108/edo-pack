@@ -1,4 +1,4 @@
--- Soul of Supreme Dragon
+-- Supreme Soul
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -121,7 +121,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -143,7 +143,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
     if not tc:IsRelateToEffect(e) then return end
 
-    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
 end
 
 function s.e4filter(c) return c:IsFaceup() and c:IsType(TYPE_PENDULUM) end
