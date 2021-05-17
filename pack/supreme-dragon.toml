@@ -21,7 +21,7 @@ strings = [
 ]
 
 [card.soul-supreme-king-dragon]
-id = 450000001
+id = 450000006
 set = "supreme-king-dragon"
 name = "Soul of Supreme King Dragon"
 type = "spell link"
