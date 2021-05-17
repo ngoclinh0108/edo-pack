@@ -35,6 +35,7 @@ atk = 4000
 pendulum-effect = """\
 """
 effect = """\
+4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz, and 1 Pendulum)
 (This card is also always treated as "Supreme King Z-ARC".)
 """
 strings = []
