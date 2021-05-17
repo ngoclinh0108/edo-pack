@@ -3,12 +3,17 @@ id = 450000000
 name = "Supreme Gate"
 type = "spell field"
 effect = """\
+Your opponent cannot target cards in your Pendulum Zones with card effects, also they cannot be destroyed by your opponent's card effects. \
+You can target 1 other face-up card you control; destroy it, and if you do, add from your Deck or GY to your hand, \
+    1 Spell/Trap that specifically lists "Supreme King Z-ARC" in its text, except "Supreme Gate". \
+    You can only use this effect of "Sky Iris" once per turn. \
 """
-strings = []
+strings = ["Search & add card"]
 
-[card.soul-supreme-dragon]
+[card.soul-supreme-king-dragon]
 id = 450000001
-name = "Soul of Supreme Dragon"
+set = "supreme-king-dragon"
+name = "Soul of Supreme King Dragon"
 type = "spell link"
 link-rating = 3
 link-arrows = "top-left top top-right"
