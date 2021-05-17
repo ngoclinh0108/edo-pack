@@ -20,6 +20,25 @@ strings = [
     "Add or Special Summon a Tuner",
 ]
 
+[card.soul-supreme-king-zarc]
+id = 950000005
+alias = 13331639
+set = "supreme-king-dragon"
+name = "Supreme Dragonlord Z-ARC"
+type = "monster effect pendulum link"
+attribute = "divine"
+race = "dragon"
+pendulum-scale = 5
+link-rating = 4
+link-arrows = "top bottom-left bottom bottom-right"
+atk = 4000
+pendulum-effect = """\
+"""
+effect = """\
+(This card is also always treated as "Supreme King Z-ARC".)
+"""
+strings = []
+
 [card.soul-supreme-king-dragon]
 id = 950000006
 set = "supreme-king-dragon"
