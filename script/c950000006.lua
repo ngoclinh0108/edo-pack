@@ -83,7 +83,7 @@ end
 
 function s.e2filter(c, e, tp)
     return c:IsControler(tp) and c:IsType(TYPE_PENDULUM)
-        and (c:GetReasonCard() == nil or c:GetReasonCard() ~= e:GetHandler())
+        and (c:GetReasonEffect() == nil or c:GetReasonEffect():GetHandler() ~= e:GetHandler())
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
