@@ -17,7 +17,7 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
     e1:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
     e1:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    e1:SetRange(LOCATION_FZONE)
+    e1:SetRange(LOCATION_SZONE)
     e1:SetTargetRange(1, 0)
     e1:SetTarget(function(e, c)
         return c:IsSummonType(SUMMON_TYPE_PENDULUM) and c:IsType(TYPE_PENDULUM)
@@ -28,7 +28,7 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e2:SetCode(EVENT_TO_GRAVE)
-    e2:SetRange(LOCATION_MZONE)
+    e2:SetRange(LOCATION_SZONE)
     e2:SetCondition(s.e2con)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -84,7 +84,8 @@ end
 function s.e2filter(c, tp) return c:IsControler(tp) and c:IsType(TYPE_PENDULUM) end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return eg and eg:IsExists(s.e2filter, 1, nil, tp)
+    return eg and e:GetHandler() ~= re:GetHandler() and
+               eg:IsExists(s.e2filter, 1, nil, tp, re)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

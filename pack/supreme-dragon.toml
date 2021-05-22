@@ -65,7 +65,7 @@ link-arrows = "top-left top top-right"
 effect = """\
 You must have 2 cards in your Pendulum Zones to activate this card. \
 Pendulum Summons of your Pendulum Monsters cannot be negated. \
-Any your Pendulum Monster sent to the GY or banished is add to the Extra Deck face-up. \
+Any your Pendulum Monster sent to the GY or banished by other card effects is add to the Extra Deck face-up. \
 Once per turn (Quick Effect): You can target 1 card in your Pendulum Zone; Special Summon it, ignoring its Summoning conditions. \
 Once per turn (Quick Effect): You can target 1 Pendulum Monster in your Monster Zone; place that Pendulum Monster in your Pendulum Zone. \
 You can banish 4 monsters from your hand, field, and/or GY (1 each with "Pendulum Dragon", "Xyz Dragon", "Synchro Dragon", and "Fusion Dragon" in their names); \
