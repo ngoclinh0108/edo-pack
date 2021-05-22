@@ -5,10 +5,16 @@ if not Utility then Utility = aux.UtilityProcedure end
 -- function
 function Utility.RegisterGlobalEffect(c, eff, filter, param1, param2, param3,
                                       param4, param5)
-    local g = Duel.GetMatchingGroup(filter, c:GetControler(),
-                                    LOCATION_ALL, 0, nil,
-                                    param1, param2, param3, param4, param5)
+    local g = Duel.GetMatchingGroup(filter, c:GetControler(), LOCATION_ALL, 0,
+                                    nil, param1, param2, param3, param4, param5)
     for tc in aux.Next(g) do tc:RegisterEffect(eff:Clone()) end
+end
+
+function Utility.CountFreePendulumZones(tp)
+    local count = 0
+    if Duel.CheckLocation(tp, LOCATION_PZONE, 0) then count = count + 1 end
+    if Duel.CheckLocation(tp, LOCATION_PZONE, 1) then count = count + 1 end
+    return count
 end
 
 function Utility.IsSetCardListed(c, ...)

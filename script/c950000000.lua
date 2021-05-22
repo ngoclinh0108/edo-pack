@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {13331639}
-s.listed_series = {0x99, 0x46}
+s.listed_series = {0x20f8, 0x46}
 
 function s.initial_effect(c)
     -- activate
@@ -101,7 +101,7 @@ end
 
 function s.e3filter(c)
     return not c:IsCode(id) and c:IsAbleToHand() and
-               (c:IsSetCard(0x99) or aux.IsCodeListed(c, 13331639))
+               (c:IsSetCard(0x20f8) or aux.IsCodeListed(c, 13331639))
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -133,7 +133,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter), tp,
                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                       tc)
     if #g > 0 then
@@ -192,7 +192,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local tc = Duel.SelectMatchingCard(tp, s.e4filter, tp,
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter), tp,
                                        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                        nil, e, tp, sc):GetFirst()
     if tc and
@@ -232,7 +232,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e5filter, tp,
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e5filter), tp,
                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                       nil)
     if #g > 0 then
@@ -272,7 +272,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     if sc:IsFacedown() then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-    local tc = Duel.SelectMatchingCard(tp, s.e6filter, tp,
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e6filter), tp,
                                        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                        nil, e, tp, eg:GetFirst()):GetFirst()
     if not tc then return end

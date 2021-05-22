@@ -292,7 +292,7 @@ end
 function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.me3filter, tp, loc, 0, 1, 1, nil,
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.me3filter), tp, loc, 0, 1, 1, nil,
                                        e, tp, rp):GetFirst()
     if not tc then return end
 

@@ -12,7 +12,9 @@ function s.initial_effect(c)
     -- xyz summon
     Xyz.AddProcedure(c, nil, 7, 2, nil, 0, nil, nil, false, function(g, tp, sc)
         return g:IsExists(function(tc)
-            return tc:IsSetCard(0x99) and tc:IsRace(RACE_DRAGON)
+            return tc:IsSetCard(0x99, sc, SUMMON_TYPE_XYZ, tp) and
+                       tc:IsRace(RACE_DRAGON, sc, SUMMON_TYPE_XYZ, tp) and
+                       c:IsType(TYPE_PENDULUM, sc, SUMMON_TYPE_XYZ, tp)
         end, 1, nil)
     end)
 
