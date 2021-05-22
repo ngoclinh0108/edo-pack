@@ -139,7 +139,8 @@ end
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local mg = Duel.GetMatchingGroup(s.e4filter2, tp, LOCATION_HAND +
-                                         LOCATION_MZONE + LOCATION_GRAVE + LOCATION_EXTRA, 0, c)
+                                         LOCATION_MZONE + LOCATION_GRAVE +
+                                         LOCATION_EXTRA, 0, c)
     local checkfunc = aux.PropertyTableFilter(Card.GetSetCard, 0x10f2, 0x2073,
                                               0x2017, 0x1046)
 
@@ -156,6 +157,8 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
+
+    Duel.SetChainLimit(aux.FALSE)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 

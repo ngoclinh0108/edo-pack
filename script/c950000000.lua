@@ -30,9 +30,6 @@ function s.initial_effect(c)
     e2:SetCondition(s.e2con)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EVENT_REMOVE)
-    c:RegisterEffect(e2b)
 
     -- destroy & search
     local e3 = Effect.CreateEffect(c)
@@ -89,8 +86,7 @@ function s.initial_effect(c)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsControler(tp) and c:IsType(TYPE_PENDULUM) and
-               c:IsPreviousLocation(LOCATION_ONFIELD)
+    return c:IsControler(tp) and c:IsType(TYPE_PENDULUM)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
