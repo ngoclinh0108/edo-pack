@@ -108,13 +108,12 @@ function s.initial_effect(c)
 
     -- immune
     local pe1 = Effect.CreateEffect(c)
-    pe1:SetType(EFFECT_TYPE_SINGLE)
-    pe1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    pe1:SetType(EFFECT_TYPE_FIELD)
     pe1:SetCode(EFFECT_IMMUNE_EFFECT)
     pe1:SetRange(LOCATION_PZONE)
-    pe1:SetValue(function(e, re)
-        return e:GetOwnerPlayer() == 1 - re:GetOwnerPlayer()
-    end)
+    pe1:SetTargetRange(LOCATION_SZONE, 0)
+    pe1:SetTarget(function(e, c) return c:IsFaceup() end)
+    pe1:SetValue(aux.indoval)
     c:RegisterEffect(pe1)
 
     -- act limit
@@ -292,8 +291,8 @@ end
 function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.me3filter), tp, loc, 0, 1, 1, nil,
-                                       e, tp, rp):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.me3filter),
+                                       tp, loc, 0, 1, 1, nil, e, tp, rp):GetFirst()
     if not tc then return end
 
     if Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP) > 0 then
