@@ -69,12 +69,14 @@ link-rating = 3
 link-arrows = "top-left top top-right"
 effect = """\
 You must have 2 cards in your Pendulum Zones to activate this card. \
-Once per turn (Quick Effect): You can target 1 card in your Pendulum Zone; Special Summon it, ignoring its Summoning conditions. \
-Once per turn (Quick Effect): You can target 1 Pendulum Monster in your Monster Zone; place that Pendulum Monster in your Pendulum Zone. \
+Your opponent's cannot target monsters this card points to with card effects. \
 You can banish 4 monsters from your hand, field, GY and/or Extra Deck face-up (1 each with "Pendulum Dragon", "Xyz Dragon", "Synchro Dragon", and "Fusion Dragon" in their names); \
     Special Summon 1 "Supreme King Z-ARC" from your Extra Deck, ignoring its Summoning conditions. (This is treated as a Properly Summon.) \
     Neither player can activate cards or effects in response to this card's activation. \
     You can only use this effect of "Supreme Soul" once per turn. \
+You can only use each of the following effects of "Supreme Soul" twice per turn.
+● Target 1 card in your Pendulum Zone; Special Summon it, ignoring its Summoning conditions.
+● Target 1 Pendulum Monster in your Monster Zone; place that Pendulum Monster in your Pendulum Zone.
 """
 strings = [
     "Add monster to your hand",
