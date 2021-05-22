@@ -89,8 +89,8 @@ function s.initial_effect(c)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsControler(tp) and c:IsType(TYPE_PENDULUM)
-        and (c:GetReasonEffect() == nil or c:GetReasonEffect():GetHandler() ~= e:GetHandler())
+    return c:IsControler(tp) and c:IsType(TYPE_PENDULUM) and
+               c:IsPreviousLocation(LOCATION_ONFIELD)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
