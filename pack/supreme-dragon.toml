@@ -26,7 +26,7 @@ alias = 13331639
 set = "supreme-king-dragon"
 name = "Supreme Ruler Z-ARC"
 type = "monster effect pendulum link"
-attribute = "divine"
+attribute = "dark"
 race = "dragon"
 pendulum-scale = 13
 link-rating = 4
@@ -38,7 +38,7 @@ Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their e
 """
 effect = """\
 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz, and 1 Pendulum)
-(This card is also always treated as "Supreme King Z-ARC".)
+(This card is also always treated as "Supreme King Z-ARC")
 Must be Link Summoned. \
 This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
