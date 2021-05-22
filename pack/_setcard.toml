@@ -49,8 +49,8 @@ code = 0x1123
 [set.stardust]
 code = 0xa3
 
-[set.supreme-king-dragon]
-code = 0x20f8
+[set.supreme-king]
+code = 0xf8
 
 [set.synchron]
 code = 0x1017

@@ -21,11 +21,11 @@ strings = [
     "Add or Special Summon a Tuner",
 ]
 
-[card.soul-supreme-ruler-zarc]
-id = 950000005
+[card.soul-supreme-king-zarc]
+id = 950000001
 alias = 13331639
-set = "supreme-king-dragon"
-name = "Supreme Ruler Z-ARC"
+set = "supreme-king"
+name = "Supreme King Z-ARC - Overlord"
 type = "monster effect pendulum link"
 attribute = "dark"
 race = "dragon"
@@ -62,12 +62,16 @@ strings = [
 ]
 
 [card.supreme-soul]
-id = 950000006
+id = 950000005
 name = "Supreme Soul"
 type = "spell link"
 link-rating = 3
 link-arrows = "top-left top top-right"
 effect = """\
+[ \
+Add from Outside "Supreme King Dragon" versions of your Four Dimension Dragons to your Extra Deck. \
+]
+
 You must have 2 cards in your Pendulum Zones to activate this card. \
 Your opponent's cannot target monsters this card points to with card effects. \
 You can banish 4 monsters from your hand, field, GY and/or Extra Deck face-up (1 each with "Pendulum Dragon", "Xyz Dragon", "Synchro Dragon", and "Fusion Dragon" in their names); \

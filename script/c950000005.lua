@@ -1,299 +1,161 @@
---Supreme Ruler Z-ARC
+-- Supreme Soul
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0x20f8}
+s.listed_names = {13331639}
+s.listed_series = {0x10f2, 0x2073, 0x2017, 0x1046}
+
+function s.deck_edit(tp)
+    -- Supreme King Dragon Odd-Eyes
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp,
+                                   LOCATION_DECK + LOCATION_EXTRA, 0, 1, nil,
+                                   16178681) then
+        Duel.SendtoExtraP(Duel.CreateToken(tp, 96733134), tp, REASON_RULE)
+    end
+
+    -- Supreme King Dragon Dark Rebellion
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   16195942) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 42160203), tp, 2, REASON_RULE)
+    end
+
+    -- Supreme King Dragon Clear Wing
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   82044279) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 70771599), tp, 2, REASON_RULE)
+    end
+
+    -- Supreme King Dragon Starving Venom
+    if Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_EXTRA, 0, 1, nil,
+                                   41209827) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 43387895), tp, 2, REASON_RULE)
+    end
+end
 
 function s.initial_effect(c)
-    c:EnableReviveLimit()
+    -- activate
+    local act = Effect.CreateEffect(c)
+    act:SetType(EFFECT_TYPE_ACTIVATE)
+    act:SetCode(EVENT_FREE_CHAIN)
+    act:SetCondition(s.actcon)
+    c:RegisterEffect(act)
 
-    -- link summon
-    Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsRace, RACE_DRAGON), 4,
-                      4, s.lnkcheck)
-
-    -- pendulum
-    Pendulum.AddProcedure(c, false)
-
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(aux.lnklimit)
-    c:RegisterEffect(splimit)
-
-    -- summon cannot be negated
-    local nospnegate = Effect.CreateEffect(c)
-    nospnegate:SetType(EFFECT_TYPE_SINGLE)
-    nospnegate:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    nospnegate:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    c:RegisterEffect(nospnegate)
-
-    -- activation and effects cannot be negated
-    local inact = Effect.CreateEffect(c)
-    inact:SetType(EFFECT_TYPE_FIELD)
-    inact:SetCode(EFFECT_CANNOT_INACTIVATE)
-    inact:SetRange(LOCATION_MZONE)
-    inact:SetValue(function(e, ct)
-        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetHandler() == e:GetHandler()
+    -- cannot be target
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e1:SetRange(LOCATION_SZONE)
+    e1:SetTargetRange(LOCATION_MZONE, LOCATION_MZONE)
+    e1:SetTarget(function(e, c)
+        return e:GetHandler():GetLinkedGroup():IsContains(c)
     end)
-    c:RegisterEffect(inact)
-    local inact2 = inact:Clone()
-    inact2:SetCode(EFFECT_CANNOT_DISEFFECT)
-    c:RegisterEffect(inact2)
-    local nodis = Effect.CreateEffect(c)
-    nodis:SetType(EFFECT_TYPE_SINGLE)
-    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    nodis:SetCode(EFFECT_CANNOT_DISABLE)
-    nodis:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(nodis)
+    e1:SetValue(aux.tgoval)
+    c:RegisterEffect(e1)
 
-    -- indestructable by card effect
-    local indes = Effect.CreateEffect(c)
-    indes:SetType(EFFECT_TYPE_SINGLE)
-    indes:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    indes:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    indes:SetRange(LOCATION_MZONE)
-    indes:SetValue(1)
-    c:RegisterEffect(indes)
+    -- summon Z-Arc
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 3))
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_SZONE)
+    e2:SetCountLimit(1, id + 1 * 1000000)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 
-    -- cannot be targeted
-    local untarget = Effect.CreateEffect(c)
-    untarget:SetType(EFFECT_TYPE_SINGLE)
-    untarget:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    untarget:SetRange(LOCATION_MZONE)
-    untarget:SetValue(aux.tgoval)
-    c:RegisterEffect(untarget)
+    -- special summon from pendulum zone
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetRange(LOCATION_SZONE)
+    e3:SetHintTiming(0, TIMING_END_PHASE)
+    e3:SetCountLimit(2, id + 2 * 1000000)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 
-    -- cannot be tributed or be used as a material
-    local norelease = Effect.CreateEffect(c)
-    norelease:SetType(EFFECT_TYPE_FIELD)
-    norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    norelease:SetCode(EFFECT_CANNOT_RELEASE)
-    norelease:SetRange(LOCATION_MZONE)
-    norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc, tp, sumtp)
-        return tc == e:GetHandler()
-    end)
-    c:RegisterEffect(norelease)
-    local nofus = Effect.CreateEffect(c)
-    nofus:SetType(EFFECT_TYPE_SINGLE)
-    nofus:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    nofus:SetCode(EFFECT_CANNOT_BE_FUSION_MATERIAL)
-    nofus:SetRange(LOCATION_MZONE)
-    nofus:SetValue(function(e, tc)
-        if not tc then return false end
-        return tc:GetControler() ~= e:GetHandlerPlayer()
-    end)
-    c:RegisterEffect(nofus)
-    local nosync = nofus:Clone()
-    nosync:SetCode(EFFECT_CANNOT_BE_SYNCHRO_MATERIAL)
-    c:RegisterEffect(nosync)
-    local noxyz = nofus:Clone()
-    noxyz:SetCode(EFFECT_CANNOT_BE_XYZ_MATERIAL)
-    c:RegisterEffect(noxyz)
-    local nolnk = nofus:Clone()
-    nolnk:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
-    c:RegisterEffect(nolnk)
-
-    -- cannot be switch control
-    local noswitch = Effect.CreateEffect(c)
-    noswitch:SetType(EFFECT_TYPE_SINGLE)
-    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    noswitch:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(noswitch)
-
-    -- immune
-    local pe1 = Effect.CreateEffect(c)
-    pe1:SetType(EFFECT_TYPE_SINGLE)
-    pe1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    pe1:SetCode(EFFECT_IMMUNE_EFFECT)
-    pe1:SetRange(LOCATION_PZONE)
-    pe1:SetValue(function(e, re)
-        return e:GetOwnerPlayer() == 1 - re:GetOwnerPlayer()
-    end)
-    c:RegisterEffect(pe1)
-
-    -- act limit
-    local pe2 = Effect.CreateEffect(c)
-    pe2:SetType(EFFECT_TYPE_FIELD)
-    pe2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    pe2:SetCode(EFFECT_CANNOT_ACTIVATE)
-    pe2:SetRange(LOCATION_PZONE)
-    pe2:SetTargetRange(0, 1)
-    pe2:SetValue(function(e, re, rp)
-        local rc = re:GetHandler()
-        return rc:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ) and
-                   rc:IsLocation(LOCATION_MZONE) and
-                   re:IsActiveType(TYPE_MONSTER)
-    end)
-    c:RegisterEffect(pe2)
-
-    -- destroy all
-    local me1 = Effect.CreateEffect(c)
-    me1:SetDescription(aux.Stringid(id, 0))
-    me1:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
-    me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    me1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    me1:SetTarget(s.me1tg)
-    me1:SetOperation(s.me1op)
-    c:RegisterEffect(me1)
-
-    -- destroy drawn
-    local me2 = Effect.CreateEffect(c)
-    me2:SetDescription(aux.Stringid(id, 1))
-    me2:SetCategory(CATEGORY_DESTROY)
-    me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    me2:SetCode(EVENT_TO_HAND)
-    me2:SetRange(LOCATION_MZONE)
-    me2:SetCountLimit(1)
-    me2:SetCondition(s.me2con)
-    me2:SetTarget(s.me2tg)
-    me2:SetOperation(s.me2op)
-    c:RegisterEffect(me2)
-
-    -- summon dragon
-    local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 2))
-    me3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    me3:SetType(EFFECT_TYPE_IGNITION)
-    me3:SetCountLimit(1)
-    me3:SetRange(LOCATION_MZONE)
-    me3:SetTarget(s.me3tg)
-    me3:SetOperation(s.me3op)
-    c:RegisterEffect(me3)
-
-    -- place pendulum
-    local me4 = Effect.CreateEffect(c)
-    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    me4:SetProperty(EFFECT_FLAG_DELAY)
-    me4:SetCode(EVENT_DESTROYED)
-    me4:SetCondition(s.me4con)
-    me4:SetTarget(s.me4tg)
-    me4:SetOperation(s.me4op)
-    c:RegisterEffect(me4)
+    -- place in pendulum zone
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 2))
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetRange(LOCATION_SZONE)
+    e4:SetHintTiming(0, TIMING_END_PHASE)
+    e4:SetCountLimit(2, id + 2 * 1000000)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
-function s.lnkcheck(g, sc, sumtype, tp)
-    local mg = g:Clone()
-    if not g:IsExists(Card.IsType, 1, nil, TYPE_FUSION, sc, sumtype, tp) then
-        return false
-    end
-    mg:Remove(Card.IsType, nil, TYPE_FUSION, sc, sumtype, tp)
-    if not g:IsExists(Card.IsType, 1, nil, TYPE_SYNCHRO, sc, sumtype, tp) then
-        return false
-    end
-    mg:Remove(Card.IsType, nil, TYPE_SYNCHRO, sc, sumtype, tp)
-    if not g:IsExists(Card.IsType, 1, nil, TYPE_XYZ, sc, sumtype, tp) then
-        return false
-    end
-    mg:Remove(Card.IsType, nil, TYPE_XYZ, sc, sumtype, tp)
-    return mg:IsExists(Card.IsType, 1, nil, TYPE_PENDULUM, sc, sumtype, tp)
+function s.actcon(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetFieldCard(tp, LOCATION_PZONE, 0) and
+               Duel.GetFieldCard(tp, LOCATION_PZONE, 1)
 end
 
-function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-    local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, #g, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+function s.e2filter1(c, e, tp, sg)
+    return c:IsCode(13331639) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
+               Duel.GetLocationCountFromEx(tp, tp, sg or nil, c) > 0
 end
 
-function s.me1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
-    if #g == 0 then return end
-    local c = e:GetHandler()
+function s.e2filter2(c)
+    if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
+    return (c:IsSetCard(0x10f2) or c:IsSetCard(0x2073) or c:IsSetCard(0x2017) or
+               c:IsSetCard(0x1046)) and c:IsType(TYPE_MONSTER) and
+               c:IsAbleToRemoveAsCost() and
+               (not c:IsLocation(LOCATION_MZONE) or c:IsFaceup()) and
+               (c:IsLocation(LOCATION_HAND) or aux.SpElimFilter(c, true, true))
+end
 
-    local ng = g:Filter(function(tc)
-        return tc:IsFaceup() and not tc:IsDisabled()
-    end, nil)
-    for tc in aux.Next(ng) do
-        Duel.NegateRelatedChain(tc, RESET_TURN_SET)
-
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        ec1:SetCode(EFFECT_DISABLE)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec1)
-
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        ec2:SetCode(EFFECT_DISABLE_EFFECT)
-        ec2:SetValue(RESET_TURN_SET)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec2)
-
-        if tc:IsType(TYPE_TRAPMONSTER) then
-            local ec3 = Effect.CreateEffect(c)
-            ec3:SetType(EFFECT_TYPE_SINGLE)
-            ec3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-            ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-            ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec3)
+function s.e2rescon(checkfunc)
+    return function(sg, e, tp, mg)
+        if not sg:CheckDifferentProperty(checkfunc) then
+            return false, true
         end
 
-        Duel.AdjustInstantly(tc)
+        return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_EXTRA, 0,
+                                           1, nil, e, tp, sg)
     end
-
-    Duel.Destroy(g, REASON_EFFECT)
 end
 
-function s.me2filter(c, tp) return c:IsControler(1 - tp) end
-
-function s.me2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() ~= PHASE_DRAW
-end
-
-function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = eg:Filter(s.me2filter, nil, tp)
-    if chk == 0 then return #g > 0 end
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
-end
-
-function s.me2op(e, tp, eg, ep, ev, re, r, rp)
-    local g = eg:Filter(s.me2filter, nil, tp)
-    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
-end
-
-function s.me3filter(c, e, tp, rp)
-    if not c:IsLocation(LOCATION_EXTRA) and
-        Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return false end
-    if c:IsLocation(LOCATION_EXTRA) and
-        Duel.GetLocationCountFromEx(tp, rp, nil, c) <= 0 then return false end
-
-    return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
-               c:IsSetCard(0x20f8)
-end
-
-function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
+    local mg = Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_HAND +
+                                         LOCATION_MZONE + LOCATION_GRAVE +
+                                         LOCATION_EXTRA, 0, c)
+    local checkfunc = aux.PropertyTableFilter(Card.GetSetCard, 0x10f2, 0x2073,
+                                              0x2017, 0x1046)
+
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.me3filter, tp, loc, 0, 1, nil, e,
-                                           tp, rp)
+        return
+            aux.SelectUnselectGroup(mg, e, tp, 4, 4, s.e2rescon(checkfunc), 0)
     end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(3206)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_OATH +
-                        EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
+    local sg = aux.SelectUnselectGroup(mg, e, tp, 4, 4, s.e2rescon(checkfunc),
+                                       1, tp, HINTMSG_REMOVE,
+                                       s.e2rescon(checkfunc))
+    Duel.Remove(sg, POS_FACEUP, REASON_COST)
 end
 
-function s.me3op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    Duel.SetChainLimit(aux.FALSE)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.me3filter, tp, loc, 0, 1, 1, nil,
-                                       e, tp, rp):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, s.e2filter1, tp, LOCATION_EXTRA, 0,
+                                       1, 1, nil, e, tp):GetFirst()
     if not tc then return end
 
     if Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP) > 0 then
@@ -301,23 +163,54 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.me4con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:IsPreviousLocation(LOCATION_MZONE) and c:IsFaceup()
+function s.e3filter(c, e, tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
 end
 
-function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
-                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingTarget(s.e3filter, tp, LOCATION_PZONE, 0, 1,
+                                         nil, e, tp)
     end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_PZONE, 0, 1, 1,
+                                nil, e, tp)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, 0)
 end
 
-function s.me4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
-        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return false end
+    local tc = Duel.GetFirstTarget()
     if not c:IsRelateToEffect(e) then return end
+    if not tc:IsRelateToEffect(e) then return end
 
-    Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
+    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
+end
+
+function s.e4filter(c) return c:IsFaceup() and c:IsType(TYPE_PENDULUM) end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return (Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
+                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)) and
+                   Duel.IsExistingTarget(s.e4filter, tp, LOCATION_MZONE, 0, 1,
+                                         nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 2))
+    Duel.SelectTarget(tp, s.e4filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or
+        not (Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
+            Duel.CheckLocation(tp, LOCATION_PZONE, 1)) then return end
+
+    local tc = Duel.GetFirstTarget()
+    if not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
+
+    Duel.MoveToField(tc, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end
