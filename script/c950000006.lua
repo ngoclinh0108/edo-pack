@@ -12,18 +12,6 @@ function s.initial_effect(c)
     act:SetCondition(s.actcon)
     c:RegisterEffect(act)
 
-    -- cannot disable pendulum summon
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
-    e1:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    e1:SetRange(LOCATION_SZONE)
-    e1:SetTargetRange(1, 0)
-    e1:SetTarget(function(e, c)
-        return c:IsSummonType(SUMMON_TYPE_PENDULUM) and c:IsType(TYPE_PENDULUM)
-    end)
-    c:RegisterEffect(e1)
-
     -- special summon from pendulum zone
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 1))
