@@ -24,18 +24,17 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1)
 
-    -- return monster
+    -- add to extra deck
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_TOHAND)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e2:SetRange(LOCATION_SZONE)
-    e2:SetCountLimit(1, id + 2 * 1000000)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_TO_GRAVE)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EVENT_REMOVE)
+    c:RegisterEffect(e2b)
 
     -- special summon from pendulum zone
     local e3 = Effect.CreateEffect(c)
@@ -46,7 +45,7 @@ function s.initial_effect(c)
     e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_SZONE)
     e3:SetHintTiming(0, TIMING_END_PHASE)
-    e3:SetCountLimit(1, id + 3 * 1000000)
+    e3:SetCountLimit(1)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -59,7 +58,7 @@ function s.initial_effect(c)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_SZONE)
     e4:SetHintTiming(0, TIMING_END_PHASE)
-    e4:SetCountLimit(1, id + 4 * 1000000)
+    e4:SetCountLimit(1)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -70,6 +69,7 @@ function s.initial_effect(c)
     e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e5:SetType(EFFECT_TYPE_IGNITION)
     e5:SetRange(LOCATION_SZONE)
+    e5:SetCountLimit(1, id)
     e5:SetCost(s.e5cost)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
@@ -81,43 +81,16 @@ function s.actcon(e, tp, eg, ep, ev, re, r, rp)
                Duel.GetFieldCard(tp, LOCATION_PZONE, 1)
 end
 
-function s.e2filter(c, lsc, rsc)
-    if not c:IsAbleToHand() then return false end
-
-    local lv = c:GetLevel()
-    local rk = c:GetRank()
-    return (lsc < lv and lv < rsc) or (lsc < rk and rk < rsc)
-end
+function s.e2filter(c, tp) return c:IsControler(tp) and c:IsType(TYPE_PENDULUM) end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetFieldCard(tp, LOCATION_PZONE, 0) and
-               Duel.GetFieldCard(tp, LOCATION_PZONE, 1)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local lsc = Duel.GetFieldCard(tp, LOCATION_PZONE, 0):GetLeftScale()
-    local rsc = Duel.GetFieldCard(tp, LOCATION_PZONE, 1):GetRightScale()
-    if lsc > rsc then lsc, rsc = rsc, lsc end
-
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 1, nil,
-                                     lsc, rsc)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 1, 1,
-                                nil, lsc, rsc)
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, #g, 0, 0)
+    return eg and eg:IsExists(s.e2filter, 1, nil, tp)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if not c:IsRelateToEffect(e) then return end
-    if not tc or not tc:IsRelateToEffect(e) then return end
-
-    Duel.SendtoHand(tc, nil, REASON_EFFECT)
+    local g = eg:Filter(s.e2filter, nil, tp)
+    if #g == 0 then return end
+    Duel.SendtoExtraP(g, tp, REASON_EFFECT)
 end
 
 function s.e3filter(c, e, tp)
