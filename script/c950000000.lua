@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {13331639}
-s.listed_series = {0x20f8, 0x46}
+s.listed_series = {0x20f8, 0xf2, 0x46}
 
 function s.initial_effect(c)
     -- activate
@@ -100,8 +100,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c)
-    return not c:IsCode(id) and c:IsAbleToHand() and
-               (c:IsSetCard(0x20f8) or aux.IsCodeListed(c, 13331639))
+    if c:IsCode(id) or not c:IsAbleToHand() then return false end
+    return (c:IsSetCard(0x20f8) and c:IsType(TYPE_MONSTER)) or
+               (c:IsSetCard(0xf2) and c:IsType(TYPE_SPELL + TYPE_TRAP)) or
+               aux.IsCodeListed(c, 13331639)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -192,9 +194,9 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter), tp,
-                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                       nil, e, tp, sc):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter),
+                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                       1, nil, e, tp, sc):GetFirst()
     if tc and
         Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) then
         local ec1 = Effect.CreateEffect(c)
@@ -272,9 +274,9 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     if sc:IsFacedown() then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e6filter), tp,
-                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                       nil, e, tp, eg:GetFirst()):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e6filter),
+                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                       1, nil, e, tp, eg:GetFirst()):GetFirst()
     if not tc then return end
 
     aux.ToHandOrElse(tc, tp, function(c)
