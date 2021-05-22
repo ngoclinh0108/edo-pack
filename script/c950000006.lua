@@ -3,6 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {13331639}
+s.listed_series = {0x10f2, 0x2073, 0x2017, 0x1046}
 
 function s.initial_effect(c)
     -- activate
