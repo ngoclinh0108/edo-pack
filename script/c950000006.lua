@@ -84,7 +84,7 @@ end
 function s.e2filter(c, tp) return c:IsControler(tp) and c:IsType(TYPE_PENDULUM) end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return eg and e:GetHandler() ~= re:GetHandler() and
+    return eg and (re == nil or e:GetHandler() ~= re:GetHandler()) and
                eg:IsExists(s.e2filter, 1, nil, tp, re)
 end
 
