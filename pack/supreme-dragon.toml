@@ -4,7 +4,6 @@ name = "Supreme Gate"
 type = "spell field"
 effect = """\
 Your opponent cannot target cards in your Pendulum Zones with card effects. \
-Pendulum Summons of your Pendulum Monsters cannot be negated. \
 Any your Pendulum Monster sent to the GY or banished by other card effects is add to the Extra Deck face-up. \
 You can target 1 other face-up card you control; destroy it, and if you do, add from your Deck or GY to your hand, \
     1 "Odd-Eyes" card or 1 card that specifically lists "Supreme King Z-ARC" in its text, except the destroyed card and "Supreme Gate". \
