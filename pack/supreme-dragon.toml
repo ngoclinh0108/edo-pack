@@ -21,12 +21,12 @@ strings = [
     "Add or Special Summon a Tuner",
 ]
 
-[card.soul-supreme-king-zarc]
+[card.supreme-king-zarc]
 id = 950000001
 alias = 13331639
 set = "supreme-king"
 name = "Supreme King Z-ARC - Overlord"
-type = "monster effect pendulum link"
+type = "monster effect link pendulum"
 attribute = "dark"
 race = "dragon"
 pendulum-scale = 13
@@ -39,7 +39,7 @@ Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their e
 """
 effect = """\
 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz, and 1 Pendulum)
-(This card is also always treated as "Supreme King Z-ARC")
+(This card is always treated as "Supreme King Z-ARC".)
 Must be Link Summoned. \
 This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
@@ -60,6 +60,70 @@ strings = [
     "Destroy added cards",
     "Summon a Dragon",
 ]
+
+[card.odd-eyes-venom-dragon]
+id = 950000002
+set = "odd-eyes venom supreme-king-dragon"
+name = "Odd-Eyes Venom Dragon - Overlord"
+type = "monster effect fusion pendulum"
+attribute = "dark"
+race = "dragon"
+level = 9
+pendulum-scale = 0
+atk = 3000
+def = 2500
+pendulum-effect = """\
+"""
+effect = """\
+1 "Odd-Eyes" Dragon Pendulum Monster + 1 "Starving Venom" Monster
+(This card is always treated as "Supreme King Dragon" card.)
+Must be Fusion Summoned, and can then be Pendulum Summoned. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+"""
+strings = []
+
+[card.odd-eyes-wing-dragon]
+id = 950000003
+set = "odd-eyes supreme-king-dragon"
+name = "Odd-Eyes Wing Dragon - Overlord"
+type = "monster effect synchro pendulum"
+attribute = "dark"
+race = "dragon"
+level = 8
+pendulum-scale = 0
+atk = 3000
+def = 2500
+pendulum-effect = """\
+"""
+effect = """\
+1 "Odd-Eyes" Dragon Tuner + 1 non-Tuner "Clear Wing" Monster
+(This card is always treated as "Supreme King Dragon" card.)
+Must be Synchro Summoned, and can then be Pendulum Summoned. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+"""
+strings = []
+
+[card.odd-eyes-raging-dragon]
+id = 950000004
+set = "odd-eyes supreme-king-dragon"
+name = "Odd-Eyes Raging Dragon - Overlord"
+type = "monster effect xyz pendulum"
+attribute = "dark"
+race = "dragon"
+rank = 7
+pendulum-scale = 0
+atk = 3000
+def = 2500
+pendulum-effect = """\
+"""
+effect = """\
+2 Level 7 monsters, including 1 "Odd-Eyes" Dragon monster
+(This card is always treated as "Supreme King Dragon" card.)
+Must be Xyz Summoned, and can then be Pendulum Summoned. \
+If you can Pendulum Summon Level 7, you can Pendulum Summon this face-up card in your Extra Deck. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+"""
+strings = []
 
 [card.supreme-soul]
 id = 950000005

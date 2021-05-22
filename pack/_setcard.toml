@@ -40,6 +40,9 @@ code = 0x13a
 [set.pendulum]
 code = 0xf2
 
+[set.venom]
+code = 0x50
+
 [set.red-eyes]
 code = 0x3b
 
@@ -51,6 +54,9 @@ code = 0xa3
 
 [set.supreme-king]
 code = 0xf8
+
+[set.supreme-king-dragon]
+code = 0x20f8
 
 [set.synchron]
 code = 0x1017
