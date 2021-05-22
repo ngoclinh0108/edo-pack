@@ -81,15 +81,17 @@ function s.actcon(e, tp, eg, ep, ev, re, r, rp)
                Duel.GetFieldCard(tp, LOCATION_PZONE, 1)
 end
 
-function s.e2filter(c, tp) return c:IsControler(tp) and c:IsType(TYPE_PENDULUM) end
+function s.e2filter(c, e, tp)
+    return c:IsControler(tp) and c:IsType(TYPE_PENDULUM)
+        and (c:GetReasonCard() == nil or c:GetReasonCard() ~= e:GetHandler())
+end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return eg and (re == nil or e:GetHandler() ~= re:GetHandler()) and
-               eg:IsExists(s.e2filter, 1, nil, tp, re)
+    return eg and eg:IsExists(s.e2filter, 1, nil, e, tp)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local g = eg:Filter(s.e2filter, nil, tp)
+    local g = eg:Filter(s.e2filter, nil, e, tp)
     if #g == 0 then return end
     Duel.SendtoExtraP(g, tp, REASON_EFFECT)
 end
