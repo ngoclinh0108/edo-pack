@@ -35,7 +35,7 @@ link-rating = 4
 link-arrows = "top bottom-left bottom bottom-right"
 atk = 4000
 pendulum-effect = """\
-Face-up Spells/Traps you control are unaffected by your opponent's card effects. \
+Unaffected by your opponent's card effects. \
 Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their effects. \
 """
 effect = """\
@@ -134,7 +134,7 @@ link-rating = 3
 link-arrows = "top-left top top-right"
 effect = """\
 When this card is activated: Place in your Pendulum Zone 2 "Magician" Pendulum Monsters with different names from your hand, Deck, and/or GY, \
-Other face-up Spells/Traps you control cannot be destroyed by your opponent's card effects. \
+Face-up Spells/Traps you control cannot be destroyed by your opponent's card effects. \
 Your opponent's cannot target monsters this card points to with card effects. \
 Once per turn, you can banish 4 monsters from your hand, field, GY and/or Extra Deck face-up (1 each with "Pendulum Dragon", "Xyz Dragon", "Synchro Dragon", and "Fusion Dragon" in their names); \
     Special Summon 1 "Supreme King Z-ARC" from your Extra Deck, ignoring its Summoning conditions. (This is treated as a Properly Summon.) \

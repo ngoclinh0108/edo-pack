@@ -108,12 +108,13 @@ function s.initial_effect(c)
 
     -- immune
     local pe1 = Effect.CreateEffect(c)
-    pe1:SetType(EFFECT_TYPE_FIELD)
+    pe1:SetType(EFFECT_TYPE_SINGLE)
+    pe1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     pe1:SetCode(EFFECT_IMMUNE_EFFECT)
     pe1:SetRange(LOCATION_PZONE)
-    pe1:SetTargetRange(LOCATION_SZONE, 0)
-    pe1:SetTarget(function(e, c) return c:IsFaceup() end)
-    pe1:SetValue(aux.indoval)
+    pe1:SetValue(function(e, te)
+        return te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
+    end)
     c:RegisterEffect(pe1)
 
     -- act limit
