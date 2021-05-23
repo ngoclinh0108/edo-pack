@@ -152,3 +152,20 @@ strings = [
     "Special Summon monster from Pendulum Zone",
     "Place monster in Pendulum Zone",
 ]
+
+[card.supreme-wrath]
+id = 950000006
+name = "Supreme Wrath"
+type = "trap"
+effect = """\
+While this card is in your GY, you can target 1 "Supreme King Dragon" Xyz Monster you control; \
+    attach up to 2 "Supreme King Dragon" monsters to it as materials, from your GY and/or face-up from your Extra Deck. \
+    You can only use this effect of "Supreme Wrath" once per turn. \
+Activate 1 of these effects. You can only activate 1 "Supreme Wrath" once per turn.
+● Immediately after this effect resolves, Pendulum Summon a monster(s).
+● Destroy as many cards in the Pendulum Zones as possible, then Set 1 "Supreme Soul" directly from your hand, Deck, or GY.
+● If you control "Supreme King Z-ARC": Destroy as many monsters you control as possible, except "Supreme King Z-ARC", \
+    and if you do, Special Summon up to 4 "Supreme King Dragon" monsters with different names from your hand, Deck, Extra Deck, and/or GY, \
+    ignoring their Summoning conditions. (This is treated as a Properly Summon.)
+"""
+strings = ["Pendulum Summon", "Set \"Supreme Soul\"", "Special Summon a dragon(s)"]
