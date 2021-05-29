@@ -59,14 +59,11 @@ function s.initial_effect(c)
     local pe2 = Effect.CreateEffect(c)
     pe2:SetDescription(aux.Stringid(id, 1))
     pe2:SetCategory(CATEGORY_ATKCHANGE)
-    pe2:SetType(EFFECT_TYPE_QUICK_O)
-    pe2:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
-    pe2:SetCode(EVENT_FREE_CHAIN)
+    pe2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    pe2:SetCode(EVENT_BATTLE_CONFIRM)
     pe2:SetRange(LOCATION_PZONE)
-    pe2:SetHintTiming(TIMING_DAMAGE_STEP,
-                      TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
     pe2:SetCountLimit(1)
-    pe2:SetTarget(s.pe2tg)
+    pe2:SetCondition(s.pe2con)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
@@ -112,31 +109,33 @@ function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
     for tc in aux.Next(g) do tc:AddCounter(0x1149, 1) end
 end
 
-function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local ct = Duel.GetCounter(0, 1, 1, 0x1149)
-    if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE, 0, 1,
-                                     nil) and ct > 0
-    end
+function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
+    local ac = Duel.GetAttacker()
+    local bc = Duel.GetAttackTarget()
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    Duel.SelectTarget(tp, Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, 1, nil)
+    if not bc then return false end
+    if ac:IsControler(1 - tp) then bc, ac = ac, bc end
+    e:SetLabelObject(ac)
+
+    return ac:IsFaceup() and bc:IsFaceup() and ac:IsTYPE(TYPE_PENDULUM) and
+               Duel.GetCounter(0, 1, 1, 0x1149) > 0
 end
 
 function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    local ct = Duel.GetCounter(0, 1, 1, 0x1149)
+    if not c:IsRelateToEffect(e) then return end
 
-    if not c:IsRelateToEffect(e) or tc:IsFacedown() or
-        not tc:IsRelateToEffect(e) or ct <= 0 then return end
+    local ac = e:GetLabelObject()
+    if not ac:IsRelateToBattle() or ac:IsFacedown() or not ac:IsControler(tp) then
+        return
+    end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(200 * ct)
+    ec1:SetValue(1000 * Duel.GetCounter(0, 1, 1, 0x1149))
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    tc:RegisterEffect(ec1)
+    ac:RegisterEffect(ec1)
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)

@@ -78,7 +78,8 @@ def = 2500
 pendulum-effect = """\
 All monsters on the field, except DARK Dragon monsters, lose 200 ATK for each Venemy Counter on the field. \
 Once per turn, during the Standby Phase: Place 1 Venemy Counter on each face-up monster your opponent controls. \
-Once per turn (Quick Effect): You can target 1 monster you control; it gains 200 ATK for each Venemy Counter on the field, until the end of this turn. \
+Once per turn, if a Pendulum Monster you control battles an opponent's monster, before damage calculation: \
+    You can make that monster you control gains 1000 ATK for each Venemy Counter on the field, until the end of this turn. \
 """
 effect = """\
 1 "Odd-Eyes" Dragon Pendulum Monster + 1 "Starving Venom" Monster
