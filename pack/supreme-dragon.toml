@@ -160,7 +160,7 @@ If this card has a Dragon Xyz Monster as an Xyz Material, it gains these effects
 strings = [
     "Attack again",
     "Negate effect & halve ATK of a monster",
-    "Destroy 1 card on the field",
+    "Destroy card on the field",
 ]
 
 [card.supreme-soul]
