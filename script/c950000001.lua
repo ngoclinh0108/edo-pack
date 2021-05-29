@@ -197,48 +197,12 @@ end
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
     if #g == 0 then return end
-    local c = e:GetHandler()
-
-    local ng = g:Filter(function(tc)
-        return tc:IsFaceup() and not tc:IsDisabled()
-    end, nil)
-    for tc in aux.Next(ng) do
-        Duel.NegateRelatedChain(tc, RESET_TURN_SET)
-
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        ec1:SetCode(EFFECT_DISABLE)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec1)
-
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        ec2:SetCode(EFFECT_DISABLE_EFFECT)
-        ec2:SetValue(RESET_TURN_SET)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec2)
-
-        if tc:IsType(TYPE_TRAPMONSTER) then
-            local ec3 = Effect.CreateEffect(c)
-            ec3:SetType(EFFECT_TYPE_SINGLE)
-            ec3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-            ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-            ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec3)
-        end
-
-        Duel.AdjustInstantly(tc)
-    end
-
     Duel.Destroy(g, REASON_EFFECT)
 end
 
