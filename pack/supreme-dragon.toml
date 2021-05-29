@@ -213,7 +213,7 @@ If this card is Normal or Special Summoned: \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Supreme King Dragon" monster from your hand, Deck, GY or Extra Deck face-up, \
     except "Supreme King Dragon Oddwurm". \
-    You can only use this effect of "Supreme King Dragon Oddwurm" once per turn. \
+    You can only use each effect of "Supreme King Dragon Oddwurm" once per turn. \
 """
 strings = [
     "Add 1 \"Odd-Eyes\" Dragon Pendulum Monster to Extra Deck",
