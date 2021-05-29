@@ -170,14 +170,16 @@ type = "spell link"
 link-rating = 3
 link-arrows = "top-left top top-right"
 effect = """\
+This card's activation and effect cannot be negated. \
 When this card is activated: \
-    Place in your Pendulum Zone 2 "Magician", "Supreme King Dragon", "Supreme King Gate" Pendulum Monsters with different names \
-    from your hand, Deck, GY and/or Extra Deck face-up. \
+    Place in your Pendulum Zone 2 "Supreme King Dragon", "Supreme King Gate" Pendulum Monsters with different names \
+    from your hand, Deck, GY and/or Extra Deck face-up, \
+    and if you do, you can add to you hand from your Deck, GY or Extra Deck face-up, \
+    1 "Supreme King Dragon" monster that have Level between (exclusive) the Pendulum Scales of the cards in your Pendulum Zones. \
 Face-up Spells/Traps you control cannot be destroyed by your opponent's card effects. \
 Your opponent's cannot target monsters this card points to with card effects. \
 Once per turn, you can banish 4 monsters from your hand, field, GY and/or Extra Deck face-up (1 each with "Pendulum Dragon", "Xyz Dragon", "Synchro Dragon", and "Fusion Dragon" in their names); \
     Special Summon 1 "Supreme King Z-ARC" from your Extra Deck, ignoring its Summoning conditions. (This is treated as a Properly Summon.) \
-    Neither player can activate cards or effects in response to this card's activation. \
 You can only use each of the following effects of "Supreme Soul" twice per turn.
 ● Target 1 card in your Pendulum Zone; Special Summon it, ignoring its Summoning conditions.
 ● Target 1 Pendulum Monster in your Monster Zone; place that Pendulum Monster in your Pendulum Zone.
@@ -187,6 +189,7 @@ Add from Outside "Supreme Dragon" versions of your Four Dimension Dragons to you
 ] \
 """
 strings = [
+    "Add 1 \"Supreme King Dragon\" to your hand",
     "Summon Z-ARC",
     "Special Summon monster from Pendulum Zone",
     "Place monster in Pendulum Zone",

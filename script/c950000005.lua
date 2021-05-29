@@ -3,12 +3,14 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {13331639}
-s.listed_series = {0x98, 0x10f8, 0x20f8, 0x10f2, 0x2073, 0x2017, 0x1046}
+s.listed_series = {0x10f8, 0x20f8, 0x10f2, 0x2073, 0x2017, 0x1046}
 
 function s.initial_effect(c)
     -- activate
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE + EFFECT_FLAG_CANNOT_DISABLE +
+                       EFFECT_FLAG_CANNOT_NEGATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
@@ -17,6 +19,7 @@ function s.initial_effect(c)
     -- protect other spell/trap
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e2:SetRange(LOCATION_SZONE)
     e2:SetTargetRange(LOCATION_SZONE, 0)
@@ -27,6 +30,7 @@ function s.initial_effect(c)
     -- cannot be target
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e3:SetRange(LOCATION_SZONE)
     e3:SetTargetRange(LOCATION_MZONE, LOCATION_MZONE)
@@ -38,9 +42,11 @@ function s.initial_effect(c)
 
     -- summon Z-ARC
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetDescription(aux.Stringid(id, 1))
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE + EFFECT_FLAG_CANNOT_DISABLE +
+                       EFFECT_FLAG_CANNOT_NEGATE)
     e4:SetRange(LOCATION_SZONE)
     e4:SetCountLimit(1)
     e4:SetCost(s.e4cost)
@@ -50,10 +56,11 @@ function s.initial_effect(c)
 
     -- special summon from pendulum zone
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 1))
+    e5:SetDescription(aux.Stringid(id, 2))
     e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e5:SetType(EFFECT_TYPE_QUICK_O)
-    e5:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e5:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_CANNOT_INACTIVATE +
+                       EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
     e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetRange(LOCATION_SZONE)
     e5:SetHintTiming(0, TIMING_END_PHASE)
@@ -64,9 +71,10 @@ function s.initial_effect(c)
 
     -- place in pendulum zone
     local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 2))
+    e6:SetDescription(aux.Stringid(id, 3))
     e6:SetType(EFFECT_TYPE_QUICK_O)
-    e6:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e6:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_CANNOT_INACTIVATE +
+                       EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
     e6:SetCode(EVENT_FREE_CHAIN)
     e6:SetRange(LOCATION_SZONE)
     e6:SetHintTiming(0, TIMING_END_PHASE)
@@ -103,10 +111,15 @@ function s.deck_edit(tp)
     end
 end
 
-function s.e1filter(c)
+function s.e1filter1(c)
     if not c:IsType(TYPE_PENDULUM) or c:IsForbidden() then return false end
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
-    return c:IsSetCard(0x98) or c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
+    return c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
+end
+
+function s.e1filter2(c, lsc, rsc)
+    local lv = c:GetLevel()
+    return lsc < lv and lv < rsc and c:IsAbleToHand() and c:IsSetCard(0x20f8)
 end
 
 function s.e1check(sg, e, tp) return sg:GetClassCount(Card.GetCode) == 2 end
@@ -114,7 +127,7 @@ function s.e1check(sg, e, tp) return sg:GetClassCount(Card.GetCode) == 2 end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
-    local g = Duel.GetMatchingGroup(s.e1filter, tp, loc, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e1filter1, tp, loc, 0, nil)
     if chk == 0 then
         return Utility.CountFreePendulumZones(tp) >= 2 and
                    (Duel.GetLocationCount(tp, LOCATION_SZONE) >= 2 or
@@ -128,13 +141,29 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if Utility.CountFreePendulumZones(tp) < 2 then return end
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
-    local g = aux.SelectUnselectGroup(Duel.GetMatchingGroup(
-                                          aux.NecroValleyFilter(s.e1filter), tp,
-                                          loc, 0, nil), e, tp, 2, 2, s.e1check,
-                                      1, tp, HINTMSG_ATOHAND)
-    if #g < 2 then return end
-    for tc in aux.Next(g) do
+    local g1 = aux.SelectUnselectGroup(Duel.GetMatchingGroup(
+                                           aux.NecroValleyFilter(s.e1filter1),
+                                           tp, loc, 0, nil), e, tp, 2, 2,
+                                       s.e1check, 1, tp, HINTMSG_ATOHAND)
+    if #g1 < 2 then return end
+    for tc in aux.Next(g1) do
         Duel.MoveToField(tc, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
+    end
+
+    if Duel.GetFieldCard(tp, LOCATION_PZONE, 0) and
+        Duel.GetFieldCard(tp, LOCATION_PZONE, 1) then
+        local lsc = Duel.GetFieldCard(tp, LOCATION_PZONE, 0):GetLeftScale()
+        local rsc = Duel.GetFieldCard(tp, LOCATION_PZONE, 1):GetRightScale()
+        if lsc > rsc then lsc, rsc = rsc, lsc end
+        local g2 = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_DECK +
+                                             LOCATION_GRAVE + LOCATION_EXTRA, 0,
+                                         nil, lsc, rsc)
+        if #g2 > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+            local sg = g2:Select(tp, 1, 1, nil)
+            Duel.SendtoHand(sg, nil, REASON_EFFECT)
+            Duel.ConfirmCards(1 - tp, sg)
+        end
     end
 end
 
