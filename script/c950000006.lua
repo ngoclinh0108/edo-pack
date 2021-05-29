@@ -29,7 +29,7 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- set supreme soul
+    -- activate supreme soul
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_DESTROY)
@@ -96,15 +96,18 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.PendulumSummon(tp) end
 
-function s.e3filter(c) return c:IsCode(950000005) and c:IsSSetable() end
+function s.e3filter(c, tp)
+    return c:IsCode(950000005) and c:GetActivateEffect() and
+               c:GetActivateEffect():IsActivatable(tp, true, true)
+end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return
-            Duel.GetFieldGroupCount(tp, LOCATION_PZONE, LOCATION_PZONE) > 0 and
+            Duel.GetFieldGroupCount(tp, LOCATION_PZONE, LOCATION_PZONE) >= 2 and
                 Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
                                                 LOCATION_DECK + LOCATION_GRAVE,
-                                            0, 1, nil)
+                                            0, 1, nil, tp)
     end
 
     local g = Duel.GetFieldGroup(tp, LOCATION_PZONE, LOCATION_PZONE)
@@ -120,13 +123,24 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                     tp)
     local tc
     if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SET)
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
         tc = g:Select(tp, 1, 1):GetFirst()
     else
         tc = g:GetFirst()
     end
 
-    Duel.SSet(tp, tc)
+    local zone = 0xff
+    local te = tc:GetActivateEffect()
+    if te and te:GetValue() then
+        local val = te:GetValue()
+        if type(val) == "number" then
+            zone = val
+        else
+            zone = val(e, tp, eg, ep, ev, re, r, rp)
+        end
+    end
+
+    Duel.MoveToField(tc, tp, tp, LOCATION_SZONE, POS_FACEUP, true, zone)
 end
 
 function s.e4filter1(c) return c:IsFaceup() and c:IsCode(13331639) end
