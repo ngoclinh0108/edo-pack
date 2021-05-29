@@ -84,6 +84,7 @@ function s.initial_effect(c)
     me4:SetCategory(CATEGORY_DESTROY)
     me4:SetType(EFFECT_TYPE_IGNITION)
     me4:SetRange(LOCATION_MZONE)
+    me4:SetCountLimit(1)
     me4:SetCondition(s.meffcon)
     me4:SetCost(s.me4cost)
     me4:SetTarget(s.me4tg)
@@ -169,6 +170,8 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec2)
 
     if not tc:IsImmuneToEffect(e) then
+        Duel.AdjustInstantly(tc)
+
         local atk = tc:GetAttack()
         local ec3 = Effect.CreateEffect(c)
         ec3:SetType(EFFECT_TYPE_SINGLE)
@@ -196,8 +199,14 @@ end
 
 function s.me4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return c:CheckRemoveOverlayCard(tp, 1, REASON_COST) end
-    c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
+    if chk == 0 then
+        return #g > 0 and c:CheckRemoveOverlayCard(tp, 1, REASON_COST)
+    end
+
+    local rt = math.min(#g, c:GetOverlayCount())
+    c:RemoveOverlayCard(tp, 1, rt, REASON_COST)
+    e:SetLabel(Duel.GetOperatedGroup():GetCount())
 end
 
 function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -210,8 +219,9 @@ function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.me4op(e, tp, eg, ep, ev, re, r, rp)
+    local ct = e:GetLabel()
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1,
-                                      1, nil)
+                                      ct, nil)
     if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
 end
