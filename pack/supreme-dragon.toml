@@ -240,7 +240,7 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have a "Supreme King Gate" card or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
+Unless you have a "Magician", "Supreme King Gate" card or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
 """
 effect = """\
 """
@@ -258,7 +258,7 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have a "Supreme King Gate" card or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
+Unless you have a "Magician", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
 """
 effect = """\
 """
@@ -276,7 +276,7 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have a "Supreme King Gate" card or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
+Unless you have a "Magician", "Supreme King Gate" card or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
 """
 effect = """\
 """
