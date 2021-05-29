@@ -76,14 +76,21 @@ pendulum-scale = 0
 atk = 3000
 def = 2500
 pendulum-effect = """\
+All monsters on the field, except DARK Dragon monsters, lose 200 ATK for each Venemy Counter on the field. \
+Once per turn, during the Standby Phase: Place 1 Venemy Counter on each face-up monster your opponent controls. \
+Once per turn (Quick Effect): You can target 1 monster you control; it gains 200 ATK for each Venemy Counter on the field, until the end of this turn. \
 """
 effect = """\
 1 "Odd-Eyes" Dragon Pendulum Monster + 1 "Starving Venom" Monster
 (This card is always treated as "Supreme King Dragon" card.)
 Must be Fusion Summoned, and can then be Pendulum Summoned. \
+All monsters on the field, except DARK Dragon monsters, lose 200 ATK for each Venemy Counter on the field. \
+Each time a card(s) is sent from the field to the GY, place 1 Venemy Counter on this card for each sent card. \
+Once per turn (Qick Effect): You can target 1 face-up monster your opponent controls or in their GY; until the End Phase, \
+    that monster has its effects negated, and also, this card gains its effects and its original ATK. \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
-strings = []
+strings = ["Place Venemy Counter", "Make 1 monster gain ATK up by Venemy Counter", "Gain effect & ATK of 1 monster"]
 
 [card.odd-eyes-wing-dragon]
 id = 950000003
