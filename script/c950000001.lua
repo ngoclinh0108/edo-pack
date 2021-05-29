@@ -132,9 +132,19 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(pe2)
 
+    -- place pendulum monster
+    local pe3 = Effect.CreateEffect(c)
+    pe3:SetDescription(aux.Stringid(id, 0))
+    pe3:SetType(EFFECT_TYPE_IGNITION)
+    pe3:SetRange(LOCATION_PZONE)
+    pe3:SetCountLimit(1)
+    pe3:SetTarget(s.pe3tg)
+    pe3:SetOperation(s.pe3op)
+    c:RegisterEffect(pe3)
+
     -- destroy all
     local me1 = Effect.CreateEffect(c)
-    me1:SetDescription(aux.Stringid(id, 0))
+    me1:SetDescription(aux.Stringid(id, 1))
     me1:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
     me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     me1:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -144,7 +154,7 @@ function s.initial_effect(c)
 
     -- destroy drawn
     local me2 = Effect.CreateEffect(c)
-    me2:SetDescription(aux.Stringid(id, 1))
+    me2:SetDescription(aux.Stringid(id, 2))
     me2:SetCategory(CATEGORY_DESTROY)
     me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     me2:SetCode(EVENT_TO_HAND)
@@ -157,7 +167,7 @@ function s.initial_effect(c)
 
     -- summon dragon
     local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 2))
+    me3:SetDescription(aux.Stringid(id, 3))
     me3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     me3:SetType(EFFECT_TYPE_IGNITION)
     me3:SetCountLimit(1)
@@ -192,6 +202,35 @@ function s.lnkcheck(g, sc, sumtype, tp)
     end
     mg:Remove(Card.IsType, nil, TYPE_XYZ, sc, sumtype, tp)
     return mg:IsExists(Card.IsType, 1, nil, TYPE_PENDULUM, sc, sumtype, tp)
+end
+
+function s.pe3filter(c)
+    if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
+    return c:IsType(TYPE_PENDULUM) and not c:IsForbidden()
+end
+
+function s.pe3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return (Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
+                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)) and
+                   Duel.IsExistingMatchingCard(s.pe3filter, tp,
+                                               LOCATION_DECK + LOCATION_EXTRA,
+                                               0, 1, nil)
+    end
+end
+
+function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
+        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
+    local tc = Duel.SelectMatchingCard(tp, s.pe3filter, tp, LOCATION_DECK, 0, 1,
+                                       1, nil):GetFirst()
+    if not tc then return end
+
+    Duel.MoveToField(tc, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)

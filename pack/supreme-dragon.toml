@@ -37,6 +37,7 @@ atk = 4000
 pendulum-effect = """\
 Unaffected by your opponent's card effects. \
 Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their effects. \
+Once per turn, if you have no cards in your other Pendulum Zone: You can place 1 Pendulum Monster from your Deck or Extra Deck face-up in your Pendulum Zone. \
 """
 effect = """\
 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz, and 1 Pendulum)
@@ -57,6 +58,7 @@ Once per turn, you can Special Summon 1 "Supreme King Dragon" monster from your 
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
 strings = [
+    "Place pendulum monster",
     "Negate effect and destroy all card",
     "Destroy added cards",
     "Summon a Dragon",
