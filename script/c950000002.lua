@@ -86,6 +86,7 @@ function s.initial_effect(c)
     me2:SetHintTiming(TIMING_DAMAGE_STEP,
                       TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
     me2:SetCountLimit(1)
+    me2:SetCondition(s.me2con)
     me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
@@ -117,8 +118,8 @@ function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
     if ac:IsControler(1 - tp) then bc, ac = ac, bc end
     e:SetLabelObject(ac)
 
-    return ac:IsFaceup() and bc:IsFaceup() and ac:IsType(TYPE_PENDULUM) and
-               Duel.GetCounter(0, 1, 1, 0x1149) > 0
+    return ac:GetControler() ~= bc:GetControler() and ac:IsFaceup() and
+               bc:IsFaceup() and Duel.GetCounter(0, 1, 1, 0x1149) > 0
 end
 
 function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
@@ -134,7 +135,7 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_UPDATE_ATTACK)
     ec1:SetValue(500 * Duel.GetCounter(0, 1, 1, 0x1149))
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_DAMAGE_CAL)
     ac:RegisterEffect(ec1)
 end
 
@@ -142,6 +143,11 @@ function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ct = eg:FilterCount(Card.IsPreviousLocation, nil, LOCATION_ONFIELD)
     if ct > 0 then c:AddCounter(0x1149, ct) end
+end
+
+function s.me2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or
+               not Duel.IsDamageCalculated()
 end
 
 function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

@@ -79,8 +79,8 @@ def = 2500
 pendulum-effect = """\
 All monsters on the field, except DARK Dragon monsters, lose 200 ATK for each Venemy Counter on the field. \
 Once per turn, during the Standby Phase: Place 1 Venemy Counter on each face-up monster your opponent controls. \
-Once per turn, if a Pendulum Monster you control battles an opponent's monster, before damage calculation: \
-    You can make that monster you control gains 500 ATK for each Venemy Counter on the field, until the end of this turn. \
+Once per turn, if a monster you control battles an opponent's monster, before damage calculation: \
+    You can make that monster you control gains 500 ATK for each Venemy Counter on the field until the end of the Damage Step. \
 """
 effect = """\
 1 "Odd-Eyes" Dragon Pendulum Monster + 1 "Starving Venom" Monster
@@ -92,7 +92,11 @@ Once per turn (Qick Effect): You can target 1 face-up monster your opponent cont
     that monster has its effects negated, and also, this card gains its effects and its original ATK. \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
-strings = ["Place Venemy Counter", "Make 1 monster gain ATK up by Venemy Counter", "Gain effect & ATK of 1 monster"]
+strings = [
+    "Place Venemy Counter",
+    "Make 1 monster gain ATK up by Venemy Counter",
+    "Negate effect & gain effect, ATK",
+]
 
 [card.odd-eyes-wing-dragon]
 id = 950000003
@@ -106,14 +110,25 @@ pendulum-scale = 10
 atk = 3000
 def = 2500
 pendulum-effect = """\
+Once per turn, if your monster battles an opponent's monster, before damage calculation: \
+    You can make that monster you control gain ATK equal to the current ATK of the opponent's monster it is battling until the end of the Damage Step. \
 """
 effect = """\
 1 "Odd-Eyes" Dragon Pendulum Tuner + 1 non-Tuner "Clear Wing" Monster
 (This card is always treated as "Supreme King Dragon" card.)
 Must be Synchro Summoned, and can then be Pendulum Summoned. \
+Once per turn, at the start of the Damage Step, if this card battles an opponent's monster: \
+    You can destroy that opponent's monster, and if you do this card gains ATK equal to the destroyed monster's original ATK until the end of this turn, \
+    also, this card can make a second attack in a row. \
+Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; until the end of this turn, \
+    negate that monster's effects, also change its ATK to 0. \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
-strings = []
+strings = [
+    "Gain ATK of battling's ATK",
+    "Destroy battling monster",
+    "Negate effect & make attack become 0",
+]
 
 [card.odd-eyes-raging-dragon]
 id = 950000004
@@ -179,4 +194,8 @@ Activate 1 of these effects. You can only activate 1 "Supreme Wrath" once per tu
     and if you do, Special Summon up to 4 "Supreme King Dragon" monsters with different names from your hand, Deck, Extra Deck, and/or GY, \
     ignoring their Summoning conditions. (This is treated as a Properly Summon.)
 """
-strings = ["Pendulum Summon", "Activate \"Supreme Soul\"", "Special Summon a dragon(s)"]
+strings = [
+    "Pendulum Summon",
+    "Activate \"Supreme Soul\"",
+    "Special Summon a dragon(s)",
+]
