@@ -162,7 +162,7 @@ function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
         return Duel.IsExistingTarget(s.me2filter, tp, 0, LOCATION_MZONE, 1, nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     Duel.SelectTarget(tp, s.me2filter, tp, 0, LOCATION_MZONE, 1, 1, nil)
 end
 

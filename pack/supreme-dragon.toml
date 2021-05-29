@@ -95,7 +95,7 @@ If this card in the Monster Zone is destroyed by battle or card effect: You can 
 strings = [
     "Place Venemy Counter",
     "Make 1 monster gain ATK up by Venemy Counter",
-    "Negate effect & gain effect, ATK",
+    "Negate effect & gain effect, ATK of a monster",
 ]
 
 [card.odd-eyes-wing-dragon]
@@ -121,13 +121,13 @@ Once per turn, at the start of the Damage Step, if this card battles an opponent
     You can destroy that opponent's monster, and if you do this card gains ATK equal to the destroyed monster's original ATK until the end of this turn, \
     also, this card can make a second attack in a row. \
 Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; until the end of this turn, \
-    negate that monster's effects, also change its ATK to 0. \
+    that monster has its effects negated, and also change its ATK to 0. \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
 strings = [
     "Gain ATK of battling's ATK",
     "Destroy battling monster",
-    "Negate effect & make attack become 0",
+    "Negate effect & down attack of a monster",
 ]
 
 [card.odd-eyes-raging-dragon]
@@ -142,6 +142,8 @@ pendulum-scale = 10
 atk = 3000
 def = 2500
 pendulum-effect = """\
+Once per turn, at the end of the Damage Step, if your monster attacked an opponent's monster: \
+    You can activate this effect; it can attack again in a row. \
 """
 effect = """\
 2 Level 7 monsters, including 1 "Odd-Eyes" Dragon Pendulum Monster
@@ -149,8 +151,17 @@ effect = """\
 Must be Xyz Summoned, and can then be Pendulum Summoned. \
 If you can Pendulum Summon Level 7, you can Pendulum Summon this face-up card in your Extra Deck. \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; until the end of this turn, \
+    that monster has its effects negated, and also its ATK becomes half its current ATK, and if it does, this card gains that lost ATK. \
+If this card has a Xyz monster as an Xyz Material, it gains these effects.
+● This card can make a second attack during each Battle Phase.
+● You can detach 1 material from this card, then destroy 1 card your opponent controls.
 """
-strings = []
+strings = [
+    "Attack again",
+    "Negate effect & halve ATK of a monster",
+    "Destroy 1 card on the field",
+]
 
 [card.supreme-soul]
 id = 950000005

@@ -156,7 +156,7 @@ function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                      LOCATION_MZONE + LOCATION_GRAVE, 1, nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_MZONE + LOCATION_GRAVE,
                       1, 1, nil)
 end
