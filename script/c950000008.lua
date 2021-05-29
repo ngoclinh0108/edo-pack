@@ -1,4 +1,4 @@
--- Supreme King Dragon Venowurm
+-- Supreme King Dragon Wingwurm
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

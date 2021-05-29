@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {13331639}
-s.listed_series = {0x20f8, 0xf2, 0x46}
+s.listed_series = {0x10f8, 0x20f8, 0xf2, 0x46}
 
 function s.initial_effect(c)
     -- activate
@@ -101,7 +101,8 @@ end
 
 function s.e3filter(c)
     if c:IsCode(id) or not c:IsAbleToHand() then return false end
-    return (c:IsSetCard(0x20f8) and c:IsType(TYPE_MONSTER)) or
+    return (c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8) and
+               c:IsType(TYPE_MONSTER)) or
                (c:IsSetCard(0xf2) and c:IsType(TYPE_SPELL + TYPE_TRAP)) or
                aux.IsCodeListed(c, 13331639)
 end
@@ -111,9 +112,9 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_ONFIELD, 0, 1,
                                      c) and
-                   Duel.IsExistingMatchingCard(s.e3filter, tp,
-                                               LOCATION_DECK + LOCATION_GRAVE,
-                                               0, 1, nil)
+                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK +
+                                                   LOCATION_GRAVE +
+                                                   LOCATION_EXTRA, 0, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
@@ -122,7 +123,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+                          LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -136,8 +137,8 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter), tp,
-                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                      tc)
+                                      LOCATION_DECK + LOCATION_GRAVE +
+                                          LOCATION_EXTRA, 0, 1, 1, tc)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)

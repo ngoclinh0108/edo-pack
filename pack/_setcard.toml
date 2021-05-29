@@ -46,6 +46,9 @@ code = 0xf2
 [set.venom]
 code = 0x50
 
+[set.rebellion]
+code = 0x13b
+
 [set.red-eyes]
 code = 0x3b
 

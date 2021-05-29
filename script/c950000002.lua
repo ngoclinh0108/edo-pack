@@ -10,11 +10,14 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, true, true, function(c, sc, sumtype, tp)
+    Fusion.AddProcMix(c, false, false, function(c, sc, sumtype, tp)
         return c:IsSetCard(0x99, sc, sumtype, tp) and
                    c:IsRace(RACE_DRAGON, sc, sumtype, tp) and
-                   c:IsType(TYPE_PENDULUM, sc, sumtype, tp)
-    end, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x1050))
+                   c:IsType(TYPE_PENDULUM, sc, sumtype, tp) and c:IsOnField()
+    end, function(c, sc, sumtype, tp)
+        return c:IsSetCard(0x1050, sc, sumtype, tp) and
+                   c:IsType(TYPE_FUSION, sc, sumtype, tp) and c:IsOnField()
+    end)
 
     -- pendulum
     Pendulum.AddProcedure(c, false)
@@ -67,39 +70,52 @@ function s.initial_effect(c)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
-    -- place counter (monster)
+    -- fusion success
     local me1 = Effect.CreateEffect(c)
-    me1:SetType(EFFECT_TYPE_CONTINUOUS + EFFECT_TYPE_FIELD)
-    me1:SetCode(EVENT_TO_GRAVE)
-    me1:SetRange(LOCATION_MZONE)
+    me1:SetCategory(CATEGORY_ATKCHANGE)
+    me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    me1:SetProperty(EFFECT_FLAG_DELAY)
+    me1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    me1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION)
+    end)
+    me1:SetTarget(s.me1tg)
     me1:SetOperation(s.me1op)
     c:RegisterEffect(me1)
 
-    -- copy effect and atk
+    -- place counter (monster)
     local me2 = Effect.CreateEffect(c)
-    me2:SetDescription(aux.Stringid(id, 2))
-    me2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DISABLE)
-    me2:SetType(EFFECT_TYPE_QUICK_O)
-    me2:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
-    me2:SetCode(EVENT_FREE_CHAIN)
+    me2:SetType(EFFECT_TYPE_CONTINUOUS + EFFECT_TYPE_FIELD)
+    me2:SetCode(EVENT_TO_GRAVE)
     me2:SetRange(LOCATION_MZONE)
-    me2:SetHintTiming(TIMING_DAMAGE_STEP,
-                      TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
-    me2:SetCountLimit(1)
-    me2:SetCondition(s.me2con)
-    me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
 
-    -- place pendulum
+    -- negate & copy effect and atk
     local me3 = Effect.CreateEffect(c)
-    me3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    me3:SetProperty(EFFECT_FLAG_DELAY)
-    me3:SetCode(EVENT_DESTROYED)
+    me3:SetDescription(aux.Stringid(id, 2))
+    me3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DISABLE)
+    me3:SetType(EFFECT_TYPE_QUICK_O)
+    me3:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
+    me3:SetCode(EVENT_FREE_CHAIN)
+    me3:SetRange(LOCATION_MZONE)
+    me3:SetHintTiming(TIMING_DAMAGE_STEP,
+                      TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
+    me3:SetCountLimit(1)
     me3:SetCondition(s.me3con)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
+
+    -- place pendulum
+    local me4 = Effect.CreateEffect(c)
+    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    me4:SetProperty(EFFECT_FLAG_DELAY)
+    me4:SetCode(EVENT_DESTROYED)
+    me4:SetCondition(s.me4con)
+    me4:SetTarget(s.me4tg)
+    me4:SetOperation(s.me4op)
+    c:RegisterEffect(me4)
 end
 
 function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
@@ -139,18 +155,43 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     ac:RegisterEffect(ec1)
 end
 
+function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE,
+                                           1, nil)
+    end
+end
+
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
+    local atk = 0
+    for tc in aux.Next(g) do
+        if tc:GetAttack() > 0 then atk = atk + tc:GetAttack() end
+    end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(atk)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+end
+
+function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ct = eg:FilterCount(Card.IsPreviousLocation, nil, LOCATION_ONFIELD)
     if ct > 0 then c:AddCounter(0x1149, ct) end
 end
 
-function s.me2con(e, tp, eg, ep, ev, re, r, rp)
+function s.me3con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or
                not Duel.IsDamageCalculated()
 end
 
-function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingTarget(Card.IsFaceup, tp, 0,
                                      LOCATION_MZONE + LOCATION_GRAVE, 1, nil)
@@ -161,7 +202,7 @@ function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                       1, 1, nil)
 end
 
-function s.me2op(e, tp, eg, ep, ev, re, r, rp)
+function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
 
@@ -198,19 +239,19 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.me3con(e, tp, eg, ep, ev, re, r, rp)
+function s.me4con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsPreviousLocation(LOCATION_MZONE) and c:IsFaceup()
 end
 
-function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
                    Duel.CheckLocation(tp, LOCATION_PZONE, 1)
     end
 end
 
-function s.me3op(e, tp, eg, ep, ev, re, r, rp)
+function s.me4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
         not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return false end
