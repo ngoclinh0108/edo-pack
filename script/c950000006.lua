@@ -129,18 +129,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         tc = g:GetFirst()
     end
 
-    local zone = 0xff
-    local te = tc:GetActivateEffect()
-    if te and te:GetValue() then
-        local val = te:GetValue()
-        if type(val) == "number" then
-            zone = val
-        else
-            zone = val(e, tp, eg, ep, ev, re, r, rp)
-        end
-    end
-
-    Duel.MoveToField(tc, tp, tp, LOCATION_SZONE, POS_FACEUP, true, zone)
+    Duel.MoveToField(tc, tp, tp, LOCATION_SZONE, POS_FACEUP, true)
 end
 
 function s.e4filter1(c) return c:IsFaceup() and c:IsCode(13331639) end

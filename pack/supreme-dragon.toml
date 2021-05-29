@@ -168,4 +168,4 @@ Activate 1 of these effects. You can only activate 1 "Supreme Wrath" once per tu
     and if you do, Special Summon up to 4 "Supreme King Dragon" monsters with different names from your hand, Deck, Extra Deck, and/or GY, \
     ignoring their Summoning conditions. (This is treated as a Properly Summon.)
 """
-strings = ["Pendulum Summon", "Set \"Supreme Soul\"", "Special Summon a dragon(s)"]
+strings = ["Pendulum Summon", "Activate \"Supreme Soul\"", "Special Summon a dragon(s)"]
