@@ -135,7 +135,7 @@ type = "spell link"
 link-rating = 3
 link-arrows = "top-left top top-right"
 effect = """\
-When this card is activated: Place in your Pendulum Zone 2 "Magician" Pendulum Monsters with different names from your hand, Deck, and/or GY, \
+When this card is activated: Place in your Pendulum Zone 2 "Magician" Pendulum Monsters with different names from your hand, Deck, and/or GY. \
 Face-up Spells/Traps you control cannot be destroyed by your opponent's card effects. \
 Your opponent's cannot target monsters this card points to with card effects. \
 Once per turn, you can banish 4 monsters from your hand, field, GY and/or Extra Deck face-up (1 each with "Pendulum Dragon", "Xyz Dragon", "Synchro Dragon", and "Fusion Dragon" in their names); \
