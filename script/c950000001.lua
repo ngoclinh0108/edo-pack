@@ -213,9 +213,9 @@ function s.pe3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return (Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
                    Duel.CheckLocation(tp, LOCATION_PZONE, 1)) and
-                   Duel.IsExistingMatchingCard(s.pe3filter, tp,
-                                               LOCATION_DECK + LOCATION_EXTRA,
-                                               0, 1, nil)
+                   Duel.IsExistingMatchingCard(s.pe3filter, tp, LOCATION_DECK +
+                                                   LOCATION_GRAVE +
+                                                   LOCATION_EXTRA, 0, 1, nil)
     end
 end
 
@@ -226,8 +226,9 @@ function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
         not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
-    local tc = Duel.SelectMatchingCard(tp, s.pe3filter, tp, LOCATION_DECK, 0, 1,
-                                       1, nil):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, s.pe3filter, tp, LOCATION_DECK +
+                                           LOCATION_GRAVE + LOCATION_EXTRA, 0,
+                                       1, 1, nil):GetFirst()
     if not tc then return end
 
     Duel.MoveToField(tc, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
