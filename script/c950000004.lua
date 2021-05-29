@@ -192,7 +192,7 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.mefffilter(c) return c:IsType(TYPE_XYZ) and c:IsRace(RACE_DRAGON) end
+function s.mefffilter(c) return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_XYZ) end
 
 function s.meffcon(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():GetOverlayGroup():IsExists(s.mefffilter, 1, nil)
