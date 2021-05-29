@@ -117,30 +117,43 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(pe1)
 
-    -- act limit
+    -- scale
     local pe2 = Effect.CreateEffect(c)
     pe2:SetType(EFFECT_TYPE_FIELD)
-    pe2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    pe2:SetCode(EFFECT_CANNOT_ACTIVATE)
+    pe2:SetCode(EFFECT_CHANGE_LSCALE)
     pe2:SetRange(LOCATION_PZONE)
-    pe2:SetTargetRange(0, 1)
-    pe2:SetValue(function(e, re, rp)
+    pe2:SetTargetRange(LOCATION_PZONE, 0)
+    pe2:SetTarget(function(e, c) return e:GetHandler() ~= c end)
+    pe2:SetValue(0)
+    c:RegisterEffect(pe2)
+    local pe2b = pe2:Clone()
+    pe2b:SetCode(EFFECT_CHANGE_RSCALE)
+    c:RegisterEffect(pe2b)
+
+    -- act limit
+    local pe3 = Effect.CreateEffect(c)
+    pe3:SetType(EFFECT_TYPE_FIELD)
+    pe3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    pe3:SetCode(EFFECT_CANNOT_ACTIVATE)
+    pe3:SetRange(LOCATION_PZONE)
+    pe3:SetTargetRange(0, 1)
+    pe3:SetValue(function(e, re, rp)
         local rc = re:GetHandler()
         return rc:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ) and
                    rc:IsLocation(LOCATION_MZONE) and
                    re:IsActiveType(TYPE_MONSTER)
     end)
-    c:RegisterEffect(pe2)
+    c:RegisterEffect(pe3)
 
     -- place pendulum monster
-    local pe3 = Effect.CreateEffect(c)
-    pe3:SetDescription(aux.Stringid(id, 0))
-    pe3:SetType(EFFECT_TYPE_IGNITION)
-    pe3:SetRange(LOCATION_PZONE)
-    pe3:SetCountLimit(1)
-    pe3:SetTarget(s.pe3tg)
-    pe3:SetOperation(s.pe3op)
-    c:RegisterEffect(pe3)
+    local pe4 = Effect.CreateEffect(c)
+    pe4:SetDescription(aux.Stringid(id, 0))
+    pe4:SetType(EFFECT_TYPE_IGNITION)
+    pe4:SetRange(LOCATION_PZONE)
+    pe4:SetCountLimit(1)
+    pe4:SetTarget(s.pe4tg)
+    pe4:SetOperation(s.pe4op)
+    c:RegisterEffect(pe4)
 
     -- destroy all
     local me1 = Effect.CreateEffect(c)
@@ -204,29 +217,29 @@ function s.lnkcheck(g, sc, sumtype, tp)
     return mg:IsExists(Card.IsType, 1, nil, TYPE_PENDULUM, sc, sumtype, tp)
 end
 
-function s.pe3filter(c)
+function s.pe4filter(c)
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
     return c:IsType(TYPE_PENDULUM) and not c:IsForbidden()
 end
 
-function s.pe3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.pe4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return (Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
                    Duel.CheckLocation(tp, LOCATION_PZONE, 1)) and
-                   Duel.IsExistingMatchingCard(s.pe3filter, tp, LOCATION_DECK +
+                   Duel.IsExistingMatchingCard(s.pe4filter, tp, LOCATION_DECK +
                                                    LOCATION_GRAVE +
                                                    LOCATION_EXTRA, 0, 1, nil)
     end
 end
 
-function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
+function s.pe4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
     if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
         not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
-    local tc = Duel.SelectMatchingCard(tp, s.pe3filter, tp, LOCATION_DECK +
+    local tc = Duel.SelectMatchingCard(tp, s.pe4filter, tp, LOCATION_DECK +
                                            LOCATION_GRAVE + LOCATION_EXTRA, 0,
                                        1, 1, nil):GetFirst()
     if not tc then return end

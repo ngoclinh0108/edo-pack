@@ -36,6 +36,7 @@ link-arrows = "top bottom-left bottom bottom-right"
 atk = 4000
 pendulum-effect = """\
 Unaffected by your opponent's card effects. \
+Pendulum Scale of card in your other Pendulum Zone become 0. \
 Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their effects. \
 Once per turn, if you have no cards in your other Pendulum Zone: You can place 1 Pendulum Monster from your Deck, GY or Extra Deck face-up in your Pendulum Zone. \
 """
@@ -72,14 +73,14 @@ type = "monster effect fusion pendulum"
 attribute = "dark"
 race = "dragon"
 level = 9
-pendulum-scale = 0
+pendulum-scale = 10
 atk = 3000
 def = 2500
 pendulum-effect = """\
 All monsters on the field, except DARK Dragon monsters, lose 200 ATK for each Venemy Counter on the field. \
 Once per turn, during the Standby Phase: Place 1 Venemy Counter on each face-up monster your opponent controls. \
 Once per turn, if a Pendulum Monster you control battles an opponent's monster, before damage calculation: \
-    You can make that monster you control gains 1000 ATK for each Venemy Counter on the field, until the end of this turn. \
+    You can make that monster you control gains 500 ATK for each Venemy Counter on the field, until the end of this turn. \
 """
 effect = """\
 1 "Odd-Eyes" Dragon Pendulum Monster + 1 "Starving Venom" Monster
@@ -101,7 +102,7 @@ type = "monster effect synchro pendulum"
 attribute = "dark"
 race = "dragon"
 level = 8
-pendulum-scale = 0
+pendulum-scale = 10
 atk = 3000
 def = 2500
 pendulum-effect = """\
@@ -122,7 +123,7 @@ type = "monster effect xyz pendulum"
 attribute = "dark"
 race = "dragon"
 rank = 7
-pendulum-scale = 0
+pendulum-scale = 10
 atk = 3000
 def = 2500
 pendulum-effect = """\

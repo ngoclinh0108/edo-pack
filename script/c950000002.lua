@@ -117,7 +117,7 @@ function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
     if ac:IsControler(1 - tp) then bc, ac = ac, bc end
     e:SetLabelObject(ac)
 
-    return ac:IsFaceup() and bc:IsFaceup() and ac:IsTYPE(TYPE_PENDULUM) and
+    return ac:IsFaceup() and bc:IsFaceup() and ac:IsType(TYPE_PENDULUM) and
                Duel.GetCounter(0, 1, 1, 0x1149) > 0
 end
 
@@ -133,7 +133,7 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(1000 * Duel.GetCounter(0, 1, 1, 0x1149))
+    ec1:SetValue(500 * Duel.GetCounter(0, 1, 1, 0x1149))
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     ac:RegisterEffect(ec1)
 end
@@ -181,10 +181,12 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
                          1)
         end
 
+        local atk = tc:GetBaseAttack()
+        if atk < 0 then atk = 0 end
         local ec3 = Effect.CreateEffect(c)
         ec3:SetType(EFFECT_TYPE_SINGLE)
         ec3:SetCode(EFFECT_UPDATE_ATTACK)
-        ec3:SetValue(tc:GetBaseAttack())
+        ec3:SetValue(atk)
         ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         c:RegisterEffect(ec3)
     end
