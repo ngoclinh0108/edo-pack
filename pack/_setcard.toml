@@ -61,5 +61,8 @@ code = 0xf8
 [set.supreme-king-dragon]
 code = 0x20f8
 
-[set.synchron]
+[set.supreme-king-gate]
+code = 0x10f8
+
+[set.synchro]
 code = 0x1017

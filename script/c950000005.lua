@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {13331639}
-s.listed_series = {0x98, 0x10f2, 0x2073, 0x2017, 0x1046}
+s.listed_series = {0x98, 0x10f8, 0x20f8, 0x10f2, 0x2073, 0x2017, 0x1046}
 
 function s.initial_effect(c)
     -- activate
@@ -104,14 +104,16 @@ function s.deck_edit(tp)
 end
 
 function s.e1filter(c)
-    return c:IsSetCard(0x98) and c:IsType(TYPE_PENDULUM) and c:IsAbleToHand()
+    if not c:IsType(TYPE_PENDULUM) or c:IsForbidden() then return false end
+    if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
+    return c:IsSetCard(0x98) or c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
 end
 
 function s.e1check(sg, e, tp) return sg:GetClassCount(Card.GetCode) == 2 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     local g = Duel.GetMatchingGroup(s.e1filter, tp, loc, 0, nil)
     if chk == 0 then
         return Utility.CountFreePendulumZones(tp) >= 2 and
@@ -125,7 +127,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if Utility.CountFreePendulumZones(tp) < 2 then return end
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     local g = aux.SelectUnselectGroup(Duel.GetMatchingGroup(
                                           aux.NecroValleyFilter(s.e1filter), tp,
                                           loc, 0, nil), e, tp, 2, 2, s.e1check,
