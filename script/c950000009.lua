@@ -24,6 +24,6 @@ end
 
 function s.pe1con(e)
     return not Duel.IsExistingMatchingCard(function(c)
-        return c:IsSetCard(0x98) and c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
+        return c:IsSetCard(0x98) or c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
 end

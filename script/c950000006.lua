@@ -16,7 +16,7 @@ function s.initial_effect(c)
     e1:SetCondition(s.e1con)
     c:RegisterEffect(e1)
 
-    -- add extra deck & search
+    -- search
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
@@ -56,12 +56,13 @@ function s.e1con(e, c)
     return lsc < lv and lv < rsc
 end
 
-function s.e2filter1(c)
+function s.e2filter1(c) return c:IsCode(82768499) and c:IsAbleToHand() end
+
+function s.e2filter2(c)
+    if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
     return c:IsSetCard(0x99) and c:IsRace(RACE_DRAGON) and
                c:IsType(TYPE_PENDULUM) and not c:IsForbidden()
 end
-
-function s.e2filter2(c) return c:IsCode(82768499) and c:IsAbleToHand() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
@@ -73,23 +74,26 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
-    local g1 = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter1),
-                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                       1, nil)
-    local g2 = Duel.GetMatchingGroup(s.e2filter2, tp,
+    local g1 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e2filter1), tp,
                                      LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-    if #g1 > 0 and Duel.SendtoExtraP(g1, tp, REASON_EFFECT) > 0 and #g2 > 0 and
+    if #g1 == 0 then return end
+    if #g1 > 1 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+        g1 = g1:Select(tp, 1, 1, nil)
+    end
+    Duel.SendtoHand(g1, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, g1)
+
+    local g2 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e2filter2), tp,
+                                     LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    if g1:FilterCount(Card.IsLocation, nil, LOCATION_HAND) == #g1 and #g2 > 0 and
         Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
         Duel.BreakEffect()
-
-        local sg = g2
-        if #sg > 1 then
+        if #g2 > 1 then
             Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-            sg = g2:Select(tp, 1, 1, nil)
+            g2 = g2:Select(tp, 1, 1, nil)
         end
-
-        Duel.SendtoHand(sg, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, sg)
+        Duel.SendtoExtraP(g2, tp, REASON_EFFECT)
     end
 end
 

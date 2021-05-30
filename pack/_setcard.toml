@@ -13,6 +13,9 @@ code = 0x6008
 [set.fusion]
 code = 0x46
 
+[set.fusion-dragon]
+code = 0x1046
+
 [set.hero]
 code = 0x8
 
@@ -43,6 +46,12 @@ code = 0x13a
 [set.pendulum]
 code = 0xf2
 
+[set.pendulum-dragon]
+code = 0x10f2
+
+[set.predaplant]
+code = 0x10f3
+
 [set.venom]
 code = 0x50
 
@@ -69,3 +78,9 @@ code = 0x10f8
 
 [set.synchro]
 code = 0x1017
+
+[set.synchro-dragon]
+code = 0x2017
+
+[set.xyz-dragon]
+code = 0x2073
