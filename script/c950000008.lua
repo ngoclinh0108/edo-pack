@@ -51,16 +51,36 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(me2)
 
-    -- synchro summon
+    -- special summon
     local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(1172)
     me3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     me3:SetType(EFFECT_TYPE_IGNITION)
-    me3:SetRange(LOCATION_MZONE)
-    me3:SetCountLimit(1)
+    me3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    me3:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
+
+    -- synchro summon
+    local me4 = Effect.CreateEffect(c)
+    me4:SetDescription(1172)
+    me4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    me4:SetType(EFFECT_TYPE_IGNITION)
+    me4:SetRange(LOCATION_MZONE)
+    me4:SetCountLimit(1)
+    me4:SetTarget(s.me4tg)
+    me4:SetOperation(s.me4op)
+    c:RegisterEffect(me4)
+
+    -- change attribute
+    local me5 = Effect.CreateEffect(c)
+    me5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    me5:SetCode(EVENT_BE_MATERIAL)
+    me5:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return r == REASON_SYNCHRO
+    end)
+    me5:SetOperation(s.me5op)
+    c:RegisterEffect(me5)
 end
 
 function s.pe1con(e)
@@ -104,38 +124,85 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec2)
 end
 
-function s.me3filter1(c, e, tp, mc)
-    local mg = Group.FromCards(c, mc)
-    return c:IsCanBeSynchroMaterial() and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               Duel.IsExistingMatchingCard(s.me3filter2, tp, LOCATION_EXTRA, 0,
-                                           1, nil, tp, mg)
-end
-
-function s.me3filter2(c, tp, mg)
-    return Duel.GetLocationCountFromEx(tp, tp, mg, c) > 0 and
-               c:IsSynchroSummonable(nil, mg)
+function s.me3filter(c)
+    return
+        c:IsFaceup() and c:GetLevel() >= 7 and c:IsAttribute(ATTRIBUTE_DARK) and
+            (c:IsRace(RACE_DRAGON) or c:IsType(TYPE_PENDULUM))
 end
 
 function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
+        if c:IsLocation(LOCATION_EXTRA) then
+            if Duel.GetLocationCountFromEx(tp, tp, nil, c) == 0 then
+                return false
+            end
+        else
+            if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then
+                return false
+            end
+        end
+
+        return
+            Duel.IsExistingTarget(s.me3filter, tp, LOCATION_MZONE, 0, 1, nil) and
+                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.SelectTarget(tp, s.me3filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+end
+
+function s.me3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if tc:IsFacedown() or not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) or
+        tc:GetLevel() < 4 then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_LEVEL)
+    ec1:SetValue(-3)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec1)
+
+    if not c:IsRelateToEffect(e) then return end
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+end
+
+function s.me4filter1(c, e, tp, mc)
+    local mg = Group.FromCards(c, mc)
+    return c:IsCanBeSynchroMaterial() and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               Duel.IsExistingMatchingCard(s.me4filter2, tp, LOCATION_EXTRA, 0,
+                                           1, nil, tp, mg)
+end
+
+function s.me4filter2(c, tp, mg)
+    return Duel.GetLocationCountFromEx(tp, tp, mg, c) > 0 and
+               c:IsSynchroSummonable(nil, mg)
+end
+
+function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
         return Duel.IsPlayerCanSpecialSummonCount(tp, 2) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.me3filter1, tp, LOCATION_PZONE,
+                   Duel.IsExistingMatchingCard(s.me4filter1, tp, LOCATION_PZONE,
                                                0, 1, nil, e, tp, c)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
 end
 
-function s.me3op(e, tp, eg, ep, ev, re, r, rp)
+function s.me4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.me3filter1, tp, LOCATION_PZONE, 0,
-                                       1, 1, nil, e, tp, c):GetFirstTarget()
+    local tc = Duel.SelectMatchingCard(tp, s.me4filter1, tp, LOCATION_PZONE, 0,
+                                       1, 1, nil, e, tp, c):GetFirst()
     if not Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
         return
     end
@@ -145,7 +212,7 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCode(EFFECT_DISABLE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec1)
-    local ec1b = e1:Clone()
+    local ec1b = ec1:Clone()
     ec1b:SetCode(EFFECT_DISABLE_EFFECT)
     tc:RegisterEffect(ec1b)
     Duel.SpecialSummonComplete()
@@ -153,11 +220,23 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     local mg = Group.FromCards(c, tc)
-    local g = Duel.GetMatchingGroup(s.me3filter2, tp, LOCATION_EXTRA, 0, nil,
+    local g = Duel.GetMatchingGroup(s.me4filter2, tp, LOCATION_EXTRA, 0, nil,
                                     tp, mg)
     if #g > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         local sg = g:Select(tp, 1, 1, nil)
         Duel.SynchroSummon(tp, sg:GetFirst(), nil, mg)
     end
+end
+
+function s.me5op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = c:GetReasonCard()
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_CHANGE_ATTRIBUTE)
+    ec1:SetValue(ATTRIBUTE_DARK)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(c1)
 end

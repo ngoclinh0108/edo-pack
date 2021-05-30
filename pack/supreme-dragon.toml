@@ -276,8 +276,12 @@ effect = """\
 This card can be treated as a Level 3 monster when used for a Synchro Summon. \
     This effect cannot be negated. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a Dragon Synchro Monster. \
+If this card is in your hand, GY or Extra Deck: You can target 1 Level 7 or higher DARK Dragon or DARK Pendulum Monster you control; \
+    reduce its Level by 3, and if you do, Special Summon this card in Defense Position. \
+    You can only use this effect of "Supreme King Dragon Wingwurm" once per turn. \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
     and if you do, immediately after this effect resolves, Synchro Summon 1 Synchro Monster using only that monster and this card. \
+A Synchro Monster that used this card as material is treated as DARK monster while face-up on the field. \
 """
 strings = ["Make monster become Tuner"]
 
