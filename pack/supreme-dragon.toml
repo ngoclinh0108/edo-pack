@@ -240,7 +240,7 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have a "Magician", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
+Unless you have a "Magician", "Odd-Eyes", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
 Once per turn: You can Fusion Summon 1 Dragon Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Materials. \
 """
 effect = """\
@@ -267,7 +267,7 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have a "Magician", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
+Unless you have a "Magician", "Odd-Eyes", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
 Once per turn: You can target 1 Pendulum Monster you control; this turn, \
     that face-up monster is treated as a Tuner, also its Level becomes 1 (even if this card leaves the field). \
 """
@@ -275,7 +275,7 @@ effect = """\
 This card can be treated as a Level 3 monster when used for a Synchro Summon. \
     This effect cannot be negated. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a Dragon Synchro Monster. \
-If this card is in your hand, GY or Extra Deck: You can target 1 Level 7 or higher DARK Dragon or DARK Pendulum Monster you control; \
+If this card is in your hand, GY or Extra Deck: You can target 1 Level 7 or higher DARK Dragon or Pendulum Monster you control; \
     reduce its Level by 3, and if you do, Special Summon this card in Defense Position. \
     You can only use this effect of "Supreme King Dragon Wingwurm" once per turn. \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
@@ -297,11 +297,20 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have a "Magician", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
+Unless you have a "Magician", "Odd-Eyes", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
+Once per turn: You can target 1 face-up Xyz Monster you control, and 1 monster that has Level you control; until the end of this turn, \
+    that Xyz Monster's Rank becomes equal to the Level of the other, \
+    and also you can use it as an Xyz Material for an Xyz Summon using its Rank as if it were a Level. \
+    (even if this card leaves the field). \
 """
 effect = """\
+Cannot be used as Xyz Material, except for the Xyz Summon of a Dragon Xyz Monster. \
+Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
+    and if you do, immediately after this effect resolves, Xyz Summon 1 Xyz Monster using only that monster and this card. \
+A DARK Xyz Monster that has this card as material gains this effect.
+● You can detach all materials from this card; add 1 "Rank-Up-Magic" Spell from your Deck or GY to your hand.
 """
-strings = []
+strings = ["Make Xyz monster gain Level", "Add \"Rank-Up-Magic\" Spell"]
 
 [card.supreme-wrath]
 id = 950000010

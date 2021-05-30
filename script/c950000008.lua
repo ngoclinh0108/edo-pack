@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0x10f8, 0x20f8}
+s.listed_series = {0x98, 0x99, 0x10f8, 0x20f8}
 
 function s.initial_effect(c)
     -- pendulum summon
@@ -72,7 +72,7 @@ function s.initial_effect(c)
     me4:SetOperation(s.me4op)
     c:RegisterEffect(me4)
 
-    -- add attribute
+    -- effect gain
     local me5 = Effect.CreateEffect(c)
     me5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     me5:SetCode(EVENT_BE_MATERIAL)
@@ -85,7 +85,8 @@ end
 
 function s.pe1con(e)
     return not Duel.IsExistingMatchingCard(function(c)
-        return c:IsSetCard(0x98) or c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
+        return c:IsSetCard(0x98) or c:IsSetCard(0x99) or c:IsSetCard(0x10f8) or
+                   c:IsSetCard(0x20f8)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
 end
 
@@ -125,9 +126,9 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.me3filter(c)
-    return
-        c:IsFaceup() and c:GetLevel() >= 7 and c:IsAttribute(ATTRIBUTE_DARK) and
-            (c:IsRace(RACE_DRAGON) or c:IsType(TYPE_PENDULUM))
+    return c:IsFaceup() and c:GetLevel() >= 7 and
+               ((c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)) or
+                   c:IsType(TYPE_PENDULUM))
 end
 
 function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -224,8 +225,7 @@ function s.me4op(e, tp, eg, ep, ev, re, r, rp)
                                     tp, mg)
     if #g > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local sg = g:Select(tp, 1, 1, nil)
-        Duel.SynchroSummon(tp, sg:GetFirst(), nil, mg)
+        Duel.SynchroSummon(tp, g:Select(tp, 1, 1, nil), nil, mg)
     end
 end
 
