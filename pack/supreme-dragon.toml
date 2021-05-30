@@ -241,9 +241,6 @@ atk = 1500
 def = 1000
 pendulum-effect = """\
 Unless you have a "Magician", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
-If a DARK Fusion Monster you control is destroyed and sent to the GY: You can Special Summon that destroyed monster, \
-    and if you do, that monster cannot be destroyed by card effects, until the end of this turn. \
-    You can only use this effect of "Supreme King Dragon Venowurm" once per turn. \
 Once per turn: You can Fusion Summon 1 Dragon Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Materials. \
 """
 effect = """\
@@ -253,8 +250,10 @@ This card can be used as a substitute for any 1 Fusion Material whose name is sp
 Cannot be used as Fusion Material, except for the Fusion Summon of a Dragon Fusion Monster. \
 Once per turn: You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using this card you control as Fusion Material, as well as other monsters you control or cards in your Pendulum Zones. \
+If this card is used as Fusion Material: You can send up to 3 DARK monsters from your hand, Deck or Extra Deck to the GY, \
+    that have Level is lower than the Fusion Summoned Monster's Level. \
 """
-strings = []
+strings = ["Send monsters to the GY"]
 
 [card.supreme-king-dragon-wingwurm]
 id = 950000008
@@ -281,7 +280,8 @@ If this card is in your hand, GY or Extra Deck: You can target 1 Level 7 or high
     You can only use this effect of "Supreme King Dragon Wingwurm" once per turn. \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
     and if you do, immediately after this effect resolves, Synchro Summon 1 Synchro Monster using only that monster and this card. \
-A Synchro Monster that used this card as material is treated as DARK monster while face-up on the field. \
+A Synchro Monster that used this card as material is also treated as DARK monster while face-up on the field. \
+    This effect cannot be negated. \
 """
 strings = ["Make monster become Tuner"]
 

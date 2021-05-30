@@ -72,7 +72,7 @@ function s.initial_effect(c)
     me4:SetOperation(s.me4op)
     c:RegisterEffect(me4)
 
-    -- change attribute
+    -- add attribute
     local me5 = Effect.CreateEffect(c)
     me5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     me5:SetCode(EVENT_BE_MATERIAL)
@@ -235,8 +235,9 @@ function s.me5op(e, tp, eg, ep, ev, re, r, rp)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_CHANGE_ATTRIBUTE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
+    ec1:SetCode(EFFECT_ADD_ATTRIBUTE)
     ec1:SetValue(ATTRIBUTE_DARK)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    tc:RegisterEffect(c1)
+    tc:RegisterEffect(ec1)
 end

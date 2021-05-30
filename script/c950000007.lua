@@ -21,30 +21,17 @@ function s.initial_effect(c)
     pe1b:SetCode(EFFECT_CHANGE_RSCALE)
     c:RegisterEffect(pe1b)
 
-    -- special summon back your destroyed monster
-    local pe2 = Effect.CreateEffect(c)
-    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    pe2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    pe2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
-    pe2:SetCode(EVENT_TO_GRAVE)
-    pe2:SetRange(LOCATION_PZONE)
-    pe2:SetCountLimit(1, id)
-    pe2:SetCondition(s.pe2con)
-    pe2:SetTarget(s.pe2tg)
-    pe2:SetOperation(s.pe2op)
-    c:RegisterEffect(pe2)
-
     -- fusion summon (pendulum zone)
-    local pe3params = {aux.FilterBoolFunction(Card.IsRace, RACE_DRAGON)}
-    local pe3 = Effect.CreateEffect(c)
-    pe3:SetDescription(1170)
-    pe3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
-    pe3:SetType(EFFECT_TYPE_IGNITION)
-    pe3:SetRange(LOCATION_PZONE)
-    pe3:SetCountLimit(1)
-    pe3:SetTarget(Fusion.SummonEffTG(table.unpack(pe3params)))
-    pe3:SetOperation(Fusion.SummonEffOP(table.unpack(pe3params)))
-    c:RegisterEffect(pe3)
+    local pe2params = {aux.FilterBoolFunction(Card.IsRace, RACE_DRAGON)}
+    local pe2 = Effect.CreateEffect(c)
+    pe2:SetDescription(1170)
+    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    pe2:SetType(EFFECT_TYPE_IGNITION)
+    pe2:SetRange(LOCATION_PZONE)
+    pe2:SetCountLimit(1)
+    pe2:SetTarget(Fusion.SummonEffTG(table.unpack(pe2params)))
+    pe2:SetOperation(Fusion.SummonEffOP(table.unpack(pe2params)))
+    c:RegisterEffect(pe2)
 
     -- fusion substitute
     local me1 = Effect.CreateEffect(c)
@@ -83,6 +70,17 @@ function s.initial_effect(c)
     me3:SetTarget(Fusion.SummonEffTG(table.unpack(me3params)))
     me3:SetOperation(Fusion.SummonEffOP(table.unpack(me3params)))
     c:RegisterEffect(me3)
+
+    -- effect gain
+    local me4 = Effect.CreateEffect(c)
+    me4:SetDescription(aux.Stringid(id, 0))
+    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    me4:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
+    me4:SetCode(EVENT_BE_MATERIAL)
+    me4:SetCondition(s.me4con)
+    me4:SetTarget(s.me4tg)
+    me4:SetOperation(s.me4op)
+    c:RegisterEffect(me4)
 end
 
 function s.pe1con(e)
@@ -91,45 +89,31 @@ function s.pe1con(e)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
 end
 
-function s.pe2filter(c, e, tp)
-    return c:IsAttribute(ATTRIBUTE_DARK) and c:IsType(TYPE_FUSION) and
-               c:GetPreviousControler() == tp and c:IsReason(REASON_DESTROY) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.me4filter(c, sc)
+    return
+        c:IsAbleToGrave() and c:HasLevel() and c:GetLevel() < sc:GetLevel() and
+            c:IsAttribute(ATTRIBUTE_DARK)
 end
 
-function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.pe2filter, 1, nil, e, tp)
-end
+function s.me4con(e, tp, eg, ep, ev, re, r, rp) return (r & REASON_FUSION) ~= 0 end
 
-function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = eg:Filter(s.pe2filter, nil, e, tp)
-    if chk == 0 then return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 end
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, 0)
-end
-
-function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <=
-        0 then return end
-
-    local tc
-    local g = eg:Filter(s.pe2filter, nil, e, tp)
-    if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        tc = g:Select(tp, 1, 1, nil):GetFirst()
-    else
-        tc = g:GetFirst()
+    local tc = c:GetReasonCard()
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.me4filter, tp, LOCATION_HAND +
+                                               LOCATION_DECK + LOCATION_EXTRA,
+                                           0, 1, nil, tc)
     end
+end
 
-    if Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP) > 0 then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3001)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-        ec1:SetRange(LOCATION_MZONE)
-        ec1:SetValue(1)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec1)
-    end
+function s.me4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = c:GetReasonCard()
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+    local g = Duel.SelectMatchingCard(tp, s.me4filter, tp, LOCATION_HAND +
+                                          LOCATION_DECK + LOCATION_EXTRA, 0, 1,
+                                      3, nil, tc)
+    if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
 end
