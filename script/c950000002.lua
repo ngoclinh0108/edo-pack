@@ -186,6 +186,8 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     if ct > 0 then c:AddCounter(0x1149, ct) end
 end
 
+function s.me3filter(c) return c:IsFaceup() and c:IsType(TYPE_MONSTER) end
+
 function s.me3con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or
                not Duel.IsDamageCalculated()
@@ -193,12 +195,12 @@ end
 
 function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsFaceup, tp, 0,
+        return Duel.IsExistingTarget(s.me3filter, tp, 0,
                                      LOCATION_MZONE + LOCATION_GRAVE, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_MZONE + LOCATION_GRAVE,
+    Duel.SelectTarget(tp, s.me3filter, tp, 0, LOCATION_MZONE + LOCATION_GRAVE,
                       1, 1, nil)
 end
 
