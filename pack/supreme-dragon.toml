@@ -27,7 +27,7 @@ id = 950000001
 alias = 13331639
 set = "supreme-king"
 name = "Supreme King Z-ARC - Overlord"
-type = "monster effect link pendulum"
+type = "monster link pendulum effect"
 attribute = "dark"
 race = "dragon"
 pendulum-scale = 13
@@ -72,7 +72,7 @@ strings = [
 id = 950000002
 set = "odd-eyes venom supreme-king-dragon"
 name = "Odd-Eyes Venom Dragon - Overlord"
-type = "monster effect fusion pendulum"
+type = "monster fusion pendulum effect"
 attribute = "dark"
 race = "dragon"
 level = 9
@@ -107,7 +107,7 @@ strings = [
 id = 950000003
 set = "odd-eyes supreme-king-dragon"
 name = "Odd-Eyes Wing Dragon - Overlord"
-type = "monster effect synchro pendulum"
+type = "monster synchro pendulum effect"
 attribute = "dark"
 race = "dragon"
 level = 8
@@ -141,7 +141,7 @@ strings = [
 id = 950000004
 set = "odd-eyes supreme-king-dragon"
 name = "Odd-Eyes Raging Dragon - Overlord"
-type = "monster effect xyz pendulum"
+type = "monster xyz pendulum effect"
 attribute = "dark"
 race = "dragon"
 rank = 7
@@ -298,7 +298,11 @@ If this card is in your hand, GY or Extra Deck: \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
     and if you do, immediately after this effect resolves, Synchro Summon 1 Synchro Monster using only that monster and this card. \
 """
-strings = ["Special Summon a Dragon Synchro monster", "Make monster become Tuner", "Change Level"]
+strings = [
+    "Special Summon a Dragon Synchro monster",
+    "Make monster become Tuner",
+    "Change Level",
+]
 
 [card.supreme-king-dragon-rebelliwurm]
 id = 950000009
@@ -343,8 +347,25 @@ strings = [
     "Rank-Up DARK Dragon monster",
 ]
 
-[card.supreme-wrath]
+[card.sky-iris-magician]
 id = 950000010
+set = "magician"
+name = "Sky Iris Magician"
+type = "monster fusion pendulum effect"
+attribute = "light"
+race = "spellcaster"
+level = 7
+pendulum-scale = 8
+atk = 2000
+def = 2800
+pendulum-effect = """\
+"""
+effect = """\
+"""
+strings = []
+
+[card.supreme-wrath]
+id = 950000011
 name = "Supreme Wrath"
 type = "trap"
 effect = """\
