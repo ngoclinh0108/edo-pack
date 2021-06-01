@@ -361,6 +361,7 @@ def = 2800
 pendulum-effect = """\
 """
 effect = """\
+1 "Magician" Pendulum Monster + 1 monster that was Special Summoned from Extra Deck
 """
 strings = []
 
