@@ -141,16 +141,11 @@ function s.pe3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     Duel.SelectTarget(tp, s.pe3filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)
-    local lv = Duel.AnnounceLevel(tp, 1, 8)
-    Duel.SetTargetParam(lv)
 end
 
 function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    local lv = Duel.GetChainInfo(0, CHAININFO_TARGET_PARAM)
     if not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) or
         tc:IsFacedown() then return end
 
@@ -164,7 +159,7 @@ function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
     local ec2 = Effect.CreateEffect(c)
     ec2:SetType(EFFECT_TYPE_SINGLE)
     ec2:SetCode(EFFECT_CHANGE_LEVEL)
-    ec2:SetValue(lv)
+    ec2:SetValue(1)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec2)
 end
@@ -193,10 +188,6 @@ function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
     Duel.SelectTarget(tp, s.me3filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)
-    local lv = Duel.AnnounceLevel(tp, 1, 8)
-    Duel.SetTargetParam(lv)
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
@@ -233,7 +224,9 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
 
     if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) > 0 and
         tc:HasLevel() then
-        local lv = Duel.GetChainInfo(0, CHAININFO_TARGET_PARAM)
+        local lv = tc:GetLevel() - 3
+        if lv < 1 then lv = 1 end
+
         local ec2 = Effect.CreateEffect(c)
         ec2:SetType(EFFECT_TYPE_SINGLE)
         ec2:SetCode(EFFECT_CHANGE_LEVEL)

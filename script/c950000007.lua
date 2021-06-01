@@ -47,14 +47,14 @@ function s.initial_effect(c)
     pe3:SetOperation(Fusion.SummonEffOP(table.unpack(pe3params)))
     c:RegisterEffect(pe3)
 
-    -- fusion substitute
+    -- name change
     local me1 = Effect.CreateEffect(c)
-    me1:SetType(EFFECT_TYPE_SINGLE)
-    me1:SetCode(EFFECT_FUSION_SUBSTITUTE)
-    me1:SetCondition(function(e)
-        return e:GetHandler():IsLocation(
-                   LOCATION_HAND + LOCATION_ONFIELD + LOCATION_GRAVE)
-    end)
+    me1:SetDescription(aux.Stringid(id, 1))
+    me1:SetType(EFFECT_TYPE_IGNITION)
+    me1:SetRange(LOCATION_MZONE)
+    me1:SetCountLimit(1, id + 2 * 1000000)
+    me1:SetTarget(s.me1tg)
+    me1:SetOperation(s.me1op)
     c:RegisterEffect(me1)
 
     -- fusion limit
@@ -74,7 +74,7 @@ function s.initial_effect(c)
     me3:SetType(EFFECT_TYPE_IGNITION)
     me3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     me3:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
-    me3:SetCountLimit(1, id + 2 * 1000000)
+    me3:SetCountLimit(1, id + 3 * 1000000)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
@@ -136,6 +136,33 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
+end
+
+function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return true end
+
+    local ac = Duel.AnnounceCard(tp, table.unpack({
+        TYPE_MONSTER, OPCODE_ISTYPE, c:GetCode(), OPCODE_ISCODE, OPCODE_NOT,
+        OPCODE_AND, 13331639, OPCODE_ISCODE, OPCODE_NOT, OPCODE_AND
+    }))
+    Duel.SetTargetParam(ac)
+
+    Duel.SetOperationInfo(0, CATEGORY_ANNOUNCE, nil, 0, tp, ANNOUNCE_CARD_FILTER)
+end
+
+function s.me1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ac = Duel.GetChainInfo(0, CHAININFO_TARGET_PARAM)
+    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    ec1:SetCode(EFFECT_CHANGE_CODE)
+    ec1:SetValue(ac)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end
 
 function s.me3filter(c)
