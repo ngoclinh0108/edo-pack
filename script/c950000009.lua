@@ -22,25 +22,38 @@ function s.initial_effect(c)
     pe1b:SetCode(EFFECT_CHANGE_RSCALE)
     c:RegisterEffect(pe1b)
 
-    -- rank
+    -- summon dragon
     local pe2 = Effect.CreateEffect(c)
     pe2:SetDescription(aux.Stringid(id, 0))
+    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON)
     pe2:SetType(EFFECT_TYPE_IGNITION)
     pe2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    pe2:SetCountLimit(1, id + 1 * 1000000)
     pe2:SetRange(LOCATION_PZONE)
-    pe2:SetCountLimit(1)
+    pe2:SetCondition(s.pe2con)
     pe2:SetTarget(s.pe2tg)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
+    -- rank
+    local pe3 = Effect.CreateEffect(c)
+    pe3:SetDescription(aux.Stringid(id, 1))
+    pe3:SetType(EFFECT_TYPE_IGNITION)
+    pe3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    pe3:SetRange(LOCATION_PZONE)
+    pe3:SetCountLimit(1)
+    pe3:SetTarget(s.pe3tg)
+    pe3:SetOperation(s.pe3op)
+    c:RegisterEffect(pe3)
+
     -- rank-up
     local me1 = Effect.CreateEffect(c)
-    me1:SetDescription(aux.Stringid(id, 1))
+    me1:SetDescription(aux.Stringid(id, 2))
     me1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     me1:SetType(EFFECT_TYPE_IGNITION)
     me1:SetRange(LOCATION_MZONE + LOCATION_HAND)
     me1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    me1:SetCountLimit(1, id + 1 * 1000000)
+    me1:SetCountLimit(1, id + 2 * 1000000)
     me1:SetCost(s.me1cost)
     me1:SetTarget(s.me1tg)
     me1:SetOperation(s.me1op)
@@ -63,7 +76,7 @@ function s.initial_effect(c)
     me3:SetType(EFFECT_TYPE_IGNITION)
     me3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     me3:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
-    me3:SetCountLimit(1, id + 2 * 1000000)
+    me3:SetCountLimit(1, id + 3 * 1000000)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
@@ -87,31 +100,65 @@ function s.pe1con(e)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
 end
 
-function s.pe2filter1(c, tp)
-    return c:IsFaceup() and c:IsType(TYPE_XYZ) and
-               Duel.IsExistingTarget(s.pe2filter2, tp, LOCATION_MZONE, 0, 1, c)
+function s.pe2filter(c, e, tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
+               c:IsRace(RACE_DRAGON) and c:IsType(TYPE_XYZ)
 end
 
-function s.pe2filter2(c)
+function s.pe2con(e)
+    return Duel.IsExistingMatchingCard(function(c)
+        return c:IsFaceup() and c:IsCode(13331639)
+    end, e:GetHandlerPlayer(), LOCATION_ONFIELD, 0, 1, nil)
+end
+
+function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingTarget(s.pe2filter, tp, LOCATION_GRAVE, 0, 1,
+                                         nil, e, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    Duel.SelectTarget(tp, s.pe2filter, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, tp, LOCATION_GRAVE)
+end
+
+function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not c:IsRelateToEffect(e) or not tc or not tc:IsRelateToEffect(e) then
+        return
+    end
+
+    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
+end
+
+function s.pe3filter1(c, tp)
+    return c:IsFaceup() and c:IsType(TYPE_XYZ) and
+               Duel.IsExistingTarget(s.pe3filter2, tp, LOCATION_MZONE, 0, 1, c)
+end
+
+function s.pe3filter2(c)
     return c:IsFaceup() and c:IsType(TYPE_PENDULUM) and c:HasLevel()
 end
 
-function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.pe3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.pe2filter1, tp, LOCATION_MZONE, 0, 1,
+        return Duel.IsExistingTarget(s.pe3filter1, tp, LOCATION_MZONE, 0, 1,
                                      nil, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    local tc1 = Duel.SelectTarget(tp, s.pe2filter1, tp, LOCATION_MZONE, 0, 1, 1,
+    local tc1 = Duel.SelectTarget(tp, s.pe3filter1, tp, LOCATION_MZONE, 0, 1, 1,
                                   nil, tp):GetFirst()
     e:SetLabelObject(tc1)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    Duel.SelectTarget(tp, s.pe2filter2, tp, LOCATION_MZONE, 0, 1, 1, tc1)
+    Duel.SelectTarget(tp, s.pe3filter2, tp, LOCATION_MZONE, 0, 1, 1, tc1)
 end
 
-function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 

@@ -22,17 +22,30 @@ function s.initial_effect(c)
     pe1b:SetCode(EFFECT_CHANGE_RSCALE)
     c:RegisterEffect(pe1b)
 
-    -- fusion summon (pendulum zone)
-    local pe2params = {aux.FilterBoolFunction(Card.IsRace, RACE_DRAGON)}
+    -- summon dragon
     local pe2 = Effect.CreateEffect(c)
-    pe2:SetDescription(1170)
-    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    pe2:SetDescription(aux.Stringid(id, 0))
+    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON)
     pe2:SetType(EFFECT_TYPE_IGNITION)
+    pe2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    pe2:SetCountLimit(1, id + 1 * 1000000)
     pe2:SetRange(LOCATION_PZONE)
-    pe2:SetCountLimit(1)
-    pe2:SetTarget(Fusion.SummonEffTG(table.unpack(pe2params)))
-    pe2:SetOperation(Fusion.SummonEffOP(table.unpack(pe2params)))
+    pe2:SetCondition(s.pe2con)
+    pe2:SetTarget(s.pe2tg)
+    pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
+
+    -- fusion summon (pendulum zone)
+    local pe3params = {aux.FilterBoolFunction(Card.IsRace, RACE_DRAGON)}
+    local pe3 = Effect.CreateEffect(c)
+    pe3:SetDescription(1170)
+    pe3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    pe3:SetType(EFFECT_TYPE_IGNITION)
+    pe3:SetRange(LOCATION_PZONE)
+    pe3:SetCountLimit(1)
+    pe3:SetTarget(Fusion.SummonEffTG(table.unpack(pe3params)))
+    pe3:SetOperation(Fusion.SummonEffOP(table.unpack(pe3params)))
+    c:RegisterEffect(pe3)
 
     -- fusion substitute
     local me1 = Effect.CreateEffect(c)
@@ -61,7 +74,7 @@ function s.initial_effect(c)
     me3:SetType(EFFECT_TYPE_IGNITION)
     me3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     me3:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
-    me3:SetCountLimit(1, id)
+    me3:SetCountLimit(1, id + 2 * 1000000)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
@@ -89,6 +102,40 @@ function s.pe1con(e)
         return c:IsCode(13331639) or c:IsSetCard(0x98) or c:IsSetCard(0x99) or
                    c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
+end
+
+function s.pe2filter(c, e, tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
+               c:IsRace(RACE_DRAGON) and c:IsType(TYPE_FUSION)
+end
+
+function s.pe2con(e)
+    return Duel.IsExistingMatchingCard(function(c)
+        return c:IsFaceup() and c:IsCode(13331639)
+    end, e:GetHandlerPlayer(), LOCATION_ONFIELD, 0, 1, nil)
+end
+
+function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingTarget(s.pe2filter, tp, LOCATION_GRAVE, 0, 1,
+                                         nil, e, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    Duel.SelectTarget(tp, s.pe2filter, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, tp, LOCATION_GRAVE)
+end
+
+function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not c:IsRelateToEffect(e) or not tc or not tc:IsRelateToEffect(e) then
+        return
+    end
+
+    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
 end
 
 function s.me3filter(c)
