@@ -46,12 +46,14 @@ function s.initial_effect(c)
     pe3:SetOperation(s.pe3op)
     c:RegisterEffect(pe3)
 
-    -- synchro level
+    -- lv change
     local me1 = Effect.CreateEffect(c)
-    me1:SetType(EFFECT_TYPE_SINGLE)
-    me1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    me1:SetCode(EFFECT_SYNCHRO_LEVEL)
-    me1:SetValue(function(e, c) return 3 * 65536 + e:GetHandler():GetLevel() end)
+    me1:SetDescription(aux.Stringid(id, 2))
+    me1:SetType(EFFECT_TYPE_IGNITION)
+    me1:SetRange(LOCATION_MZONE)
+    me1:SetCountLimit(1, id + 2 * 1000000)
+    me1:SetTarget(s.me1tg)
+    me1:SetOperation(s.me1op)
     c:RegisterEffect(me1)
 
     -- synchro limit
@@ -71,7 +73,7 @@ function s.initial_effect(c)
     me3:SetType(EFFECT_TYPE_IGNITION)
     me3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     me3:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
-    me3:SetCountLimit(1, id + 2 * 1000000)
+    me3:SetCountLimit(1, id + 3 * 1000000)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
@@ -164,6 +166,24 @@ function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec2)
 end
 
+function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)
+    e:SetLabel(Duel.AnnounceLevel(tp, 1, 8, e:GetHandler():GetLevel()))
+end
+
+function s.me1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_CHANGE_LEVEL)
+    ec1:SetValue(e:GetLabel())
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+end
+
 function s.me3filter(c)
     if c:IsFacedown() or c:IsDisabled() or c:IsAttack(0) then return false end
     if not c:HasLevel() then return false end
@@ -224,7 +244,7 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
 
     if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) > 0 and
         tc:HasLevel() then
-        local lv = tc:GetLevel() - 3
+        local lv = tc:GetLevel() - c:GetLevel()
         if lv < 1 then lv = 1 end
 
         local ec2 = Effect.CreateEffect(c)
