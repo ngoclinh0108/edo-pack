@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {13331639}
 s.listed_series = {0x98, 0x99, 0x10f8, 0x20f8}
 
 function s.initial_effect(c)
@@ -69,7 +70,8 @@ end
 
 function s.pe1con(e)
     return not Duel.IsExistingMatchingCard(function(c)
-        return c:IsSetCard(0x98) or c:IsSetCard(0x99) or c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
+        return c:IsCode(13331639) or c:IsSetCard(0x98) or c:IsSetCard(0x99) or
+                   c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
 end
 
@@ -78,7 +80,9 @@ function s.pe2filter1(c, tp)
                Duel.IsExistingTarget(s.pe2filter2, tp, LOCATION_MZONE, 0, 1, c)
 end
 
-function s.pe2filter2(c) return c:IsFaceup() and c:HasLevel() end
+function s.pe2filter2(c)
+    return c:IsFaceup() and c:IsType(TYPE_PENDULUM) and c:HasLevel()
+end
 
 function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then

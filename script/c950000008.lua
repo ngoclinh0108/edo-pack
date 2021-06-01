@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {13331639}
 s.listed_series = {0x98, 0x99, 0x10f8, 0x20f8}
 
 function s.initial_effect(c)
@@ -86,14 +87,14 @@ end
 
 function s.pe1con(e)
     return not Duel.IsExistingMatchingCard(function(c)
-        return c:IsSetCard(0x98) or c:IsSetCard(0x99) or c:IsSetCard(0x10f8) or
-                   c:IsSetCard(0x20f8)
+        return c:IsCode(13331639) or c:IsSetCard(0x98) or c:IsSetCard(0x99) or
+                   c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
 end
 
 function s.pe2filter(c)
-    return c:IsFaceup() and (not c:IsType(TYPE_TUNER) or c:IsLevelAbove(2)) and
-               c:HasLevel() and c:IsType(TYPE_PENDULUM)
+    return c:IsFaceup() and not c:IsType(TYPE_TUNER) and c:HasLevel() and
+               c:IsType(TYPE_PENDULUM)
 end
 
 function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -103,11 +104,16 @@ function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     Duel.SelectTarget(tp, s.pe2filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)
+    local lv = Duel.AnnounceLevel(tp, 1, 8)
+    Duel.SetTargetParam(lv)
 end
 
 function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
+    local lv = Duel.GetChainInfo(0, CHAININFO_TARGET_PARAM)
     if not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) or
         tc:IsFacedown() then return end
 
@@ -121,7 +127,7 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     local ec2 = Effect.CreateEffect(c)
     ec2:SetType(EFFECT_TYPE_SINGLE)
     ec2:SetCode(EFFECT_CHANGE_LEVEL)
-    ec2:SetValue(1)
+    ec2:SetValue(lv)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec2)
 end

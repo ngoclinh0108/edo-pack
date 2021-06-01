@@ -38,7 +38,10 @@ pendulum-effect = """\
 Unaffected by your opponent's card effects. \
 Pendulum Scale of card in your other Pendulum Zone become 0. \
 Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their effects. \
-Once per turn, if you have no cards in your other Pendulum Zone: You can place 1 Pendulum Monster from your Deck, GY or Extra Deck face-up in your Pendulum Zone. \
+Once per turn, if you have a card in your other Pendulum Zone: \
+    You can destroy it, and if you do, \
+    place 1 Pendulum Monster from your hand, Deck, GY or Extra Deck face-up in your Pendulum Zone,
+    except the destroyed card. \
 """
 effect = """\
 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz, and 1 Pendulum)
@@ -240,7 +243,8 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have a "Magician", "Odd-Eyes", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
+Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King Gate", "Supreme King Dragon" card in your other Pendulum Zone,
+    this card's Pendulum Scale becomes 4. \
 Once per turn: You can Fusion Summon 1 Dragon Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Materials. \
 """
 effect = """\
@@ -267,9 +271,10 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have a "Magician", "Odd-Eyes", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
-Once per turn: You can target 1 Pendulum Monster you control; this turn, \
-    that face-up monster is treated as a Tuner, also its Level becomes 1 (even if this card leaves the field). \
+Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King Gate", "Supreme King Dragon" card in your other Pendulum Zone,
+    this card's Pendulum Scale becomes 4. \
+Once per turn: You can target 1 Pendulum Monster you control, and declare a Level from 1 to 8; this turn, \
+    that face-up monster is treated as a Tuner, also its Level becomes the declared (even if this card leaves the field). \
 """
 effect = """\
 This card can be treated as a Level 3 monster when used for a Synchro Summon. \
@@ -297,8 +302,9 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have a "Magician", "Odd-Eyes", "Supreme King Gate" or "Supreme King Dragon" card in your other Pendulum Zone, this card's Pendulum Scale becomes 4. \
-Once per turn: You can target 1 face-up Xyz Monster you control, and 1 monster that has Level you control; until the end of this turn, \
+Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King Gate", "Supreme King Dragon" card in your other Pendulum Zone,
+    this card's Pendulum Scale becomes 4. \
+Once per turn: You can target 1 face-up Xyz Monster you control, and 1 Pendulum Monster that has Level you control; until the end of this turn, \
     that Xyz Monster's Rank becomes equal to the Level of the other, \
     and also you can use it as an Xyz Material for an Xyz Summon using its Rank as if it were a Level. \
     (even if this card leaves the field). \

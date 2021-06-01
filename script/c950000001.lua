@@ -223,10 +223,12 @@ function s.pe4filter(c)
 end
 
 function s.pe4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
-        return (Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
-                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)) and
-                   Duel.IsExistingMatchingCard(s.pe4filter, tp, LOCATION_DECK +
+        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_PZONE, 0,
+                                           1, c) and
+                   Duel.IsExistingMatchingCard(s.pe4filter, tp,
+                                               LOCATION_HAND + LOCATION_DECK +
                                                    LOCATION_GRAVE +
                                                    LOCATION_EXTRA, 0, 1, nil)
     end
@@ -235,13 +237,15 @@ end
 function s.pe4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
-    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
-        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return end
+
+    local dc =
+        Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, c):GetFirst()
+    if not dc or Duel.Destroy(dc, REASON_EFFECT) == 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
-    local tc = Duel.SelectMatchingCard(tp, s.pe4filter, tp, LOCATION_DECK +
-                                           LOCATION_GRAVE + LOCATION_EXTRA, 0,
-                                       1, 1, nil):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, s.pe4filter, tp, LOCATION_HAND +
+                                           LOCATION_DECK + LOCATION_GRAVE +
+                                           LOCATION_EXTRA, 0, 1, 1, dc):GetFirst()
     if not tc then return end
 
     Duel.MoveToField(tc, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
