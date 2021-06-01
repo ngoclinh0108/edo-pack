@@ -124,7 +124,7 @@ end
 
 function s.me3filter(c)
     if c:IsFacedown() or c:IsDisabled() or c:IsAttack(0) then return false end
-    if not c:HasLevel() and not c:HasRank() then return false end
+    if not c:HasLevel() then return false end
     return (c:IsRace(RACE_DRAGON) and c:IsAttackAbove(2500)) or
                c:IsType(TYPE_PENDULUM)
 end
@@ -184,11 +184,12 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
         return false
     end
 
-    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) > 0 then
+    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) > 0 and
+        tc:HasLevel() then
         local lv = Duel.GetChainInfo(0, CHAININFO_TARGET_PARAM)
         local ec2 = Effect.CreateEffect(c)
         ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetCode(c:HasLevel() and EFFECT_CHANGE_LEVEL or EFFECT_CHANGE_RANK)
+        ec2:SetCode(EFFECT_CHANGE_LEVEL)
         ec2:SetValue(lv)
         ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec2)
