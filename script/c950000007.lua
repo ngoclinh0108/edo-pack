@@ -55,22 +55,33 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(me2)
 
+    -- special summon
+    local me3 = Effect.CreateEffect(c)
+    me3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    me3:SetType(EFFECT_TYPE_IGNITION)
+    me3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    me3:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
+    me3:SetCountLimit(1, id)
+    me3:SetTarget(s.me3tg)
+    me3:SetOperation(s.me3op)
+    c:RegisterEffect(me3)
+
     -- fusion summon (monster zone)
-    local me3params = {
+    local me4params = {
         nil, Fusion.CheckWithHandler(Fusion.OnFieldMat), function(e, tp, mg)
             return Duel.GetMatchingGroup(Card.IsAbleToGrave, tp, LOCATION_PZONE,
                                          0, nil)
         end, nil, Fusion.ForcedHandler
     }
-    local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(1170)
-    me3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
-    me3:SetType(EFFECT_TYPE_IGNITION)
-    me3:SetRange(LOCATION_MZONE)
-    me3:SetCountLimit(1)
-    me3:SetTarget(Fusion.SummonEffTG(table.unpack(me3params)))
-    me3:SetOperation(Fusion.SummonEffOP(table.unpack(me3params)))
-    c:RegisterEffect(me3)
+    local me4 = Effect.CreateEffect(c)
+    me4:SetDescription(1170)
+    me4:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    me4:SetType(EFFECT_TYPE_IGNITION)
+    me4:SetRange(LOCATION_MZONE)
+    me4:SetCountLimit(1)
+    me4:SetTarget(Fusion.SummonEffTG(table.unpack(me4params)))
+    me4:SetOperation(Fusion.SummonEffOP(table.unpack(me4params)))
+    c:RegisterEffect(me4)
 end
 
 function s.pe1con(e)
@@ -78,4 +89,71 @@ function s.pe1con(e)
         return c:IsCode(13331639) or c:IsSetCard(0x98) or c:IsSetCard(0x99) or
                    c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
+end
+
+function s.me3filter(c)
+    if c:IsFacedown() or c:IsDisabled() or c:IsAttack(0) then return false end
+    return (c:IsRace(RACE_DRAGON) and c:IsAttackAbove(2500)) or
+               c:IsType(TYPE_PENDULUM)
+end
+
+function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
+        if (not c:IsLocation(LOCATION_EXTRA) and
+            Duel.GetLocationCount(tp, LOCATION_MZONE) == 0) or
+            (c:IsLocation(LOCATION_EXTRA) and
+                Duel.GetLocationCountFromEx(tp, tp, nil, c) == 0) then
+            return false
+        end
+
+        return
+            Duel.IsExistingTarget(s.me3filter, tp, LOCATION_MZONE, 0, 1, nil) and
+                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.SelectTarget(tp, s.me3filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+end
+
+function s.me3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if tc:IsFacedown() or not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) or
+        tc:IsAttack(0) or tc:IsDisabled() then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec1:SetValue(0)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec1)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_DISABLE)
+    tc:RegisterEffect(ec1b)
+    local ec1c = ec1:Clone()
+    ec1c:SetCode(EFFECT_DISABLE_EFFECT)
+    tc:RegisterEffect(ec1c)
+
+    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec1b) or
+        tc:IsImmuneToEffect(ec1c) or not c:IsRelateToEffect(e) then return end
+    Duel.AdjustInstantly(tc)
+
+    if (not c:IsLocation(LOCATION_EXTRA) and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) == 0) or
+        (c:IsLocation(LOCATION_EXTRA) and
+            Duel.GetLocationCountFromEx(tp, tp, nil, c) == 0) then
+        return false
+    end
+
+    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) > 0 then
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetCode(EFFECT_CHANGE_ATTRIBUTE)
+        ec2:SetValue(ATTRIBUTE_DARK)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec2)
+    end
 end

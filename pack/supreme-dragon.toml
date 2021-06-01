@@ -251,10 +251,15 @@ effect = """\
 This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster, \
     but the other material(s) must be correct. \
 Cannot be used as Fusion Material, except for the Fusion Summon of a Dragon Fusion Monster. \
+If this card is in your hand, GY or Extra Deck: \
+    You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
+    its ATK become 0 and negate its effects, \
+    and if you do, Special Summon this card in Defense Position, then the targeted monster's Attribute become DARK. \
+    You can only use this effect of "Supreme King Dragon Venowurm" once per turn. \
 Once per turn: You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using this card you control as Fusion Material, as well as other monsters you control or cards in your Pendulum Zones. \
 """
-strings = ["Send monsters to the GY"]
+strings = []
 
 [card.supreme-king-dragon-wingwurm]
 id = 950000008
@@ -277,9 +282,11 @@ effect = """\
 This card can be treated as a Level 3 monster when used for a Synchro Summon. \
     This effect cannot be negated. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a Dragon Synchro Monster. \
-If this card is in your hand, GY or Extra Deck: You can target 1 Level 7 or higher DARK Dragon or Pendulum Monster you control; \
-    reduce its Level by 3, and if you do, Special Summon this card in Defense Position. \
-    You can only Special Summon "Supreme King Dragon Wingwurm" once per turn this way. \
+If this card is in your hand, GY or Extra Deck: \
+    You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control, and declare a Level/Rank from 1 to 8; \
+    its ATK become 0 and negate its effects, \
+    and if you do, Special Summon this card in Defense Position, then the targeted monster's Level/Rank becomes the declared. \
+    You can only use this effect of "Supreme King Dragon Wingwurm" once per turn. \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
     and if you do, immediately after this effect resolves, Synchro Summon 1 Synchro Monster using only that monster and this card. \
 """
@@ -305,11 +312,21 @@ Once per turn: You can target 1 face-up Xyz Monster you control, and 1 Pendulum 
     (even if this card leaves the field). \
 """
 effect = """\
+You can Tribute this card from your hand or face-up field, then target 1 Rank 4 DARK Dragon Xyz Monster you control; \
+    Special Summon from your Extra Deck, 1 DARK Dragon Xyz Monster that is 1 Rank higher than that monster you control, \
+    by using it as the Xyz Material. \
+    (This Special Summon is treated as an Xyz Summon. Xyz Materials attached to that target also become Xyz Materials on the Summoned monster.) \
+    You can only use this effect of "Supreme King Dragon Rebelliwurm" once per turn. \
 Cannot be used as Xyz Material, except for the Xyz Summon of a Dragon Xyz Monster. \
+If this card is in your hand, GY or Extra Deck: \
+    You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
+    its ATK become 0 and negate its effects, \
+    and if you do, Special Summon this card in Defense Position, then the targeted monster's Level/Rank becomes the same as this card's. \
+    You can only use this effect of "Supreme King Dragon Rebelliwurm" once per turn. \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
     and if you do, immediately after this effect resolves, Xyz Summon 1 Xyz Monster using only that monster and this card. \
 """
-strings = ["Make Xyz monster gain Level", "Add \"Rank-Up-Magic\" Spell"]
+strings = ["Make Xyz monster gain Level", "Rank-Up DARK Dragon monster"]
 
 [card.supreme-wrath]
 id = 950000010
