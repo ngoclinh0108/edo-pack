@@ -54,18 +54,6 @@ function s.initial_effect(c)
     me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
-
-    -- effect gain
-    local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 1))
-    me3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    me3:SetType(EFFECT_TYPE_XMATERIAL + EFFECT_TYPE_IGNITION)
-    me3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    me3:SetCondition(s.me3con)
-    me3:SetCost(s.me3cost)
-    me3:SetTarget(s.me3tg)
-    me3:SetOperation(s.me3op)
-    c:RegisterEffect(me3)
 end
 
 function s.pe1con(e)
@@ -180,39 +168,5 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     if #g > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         Duel.XyzSummon(tp, g:Select(tp, 1, 1, nil):GetFirst(), nil, mg)
-    end
-end
-
-function s.me3filter(c) return c:IsSetCard(0x95) and c:IsAbleToHand() end
-
-function s.me3con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsAttribute(ATTRIBUTE_DARK)
-end
-
-function s.me3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:CheckRemoveOverlayCard(tp, 1, REASON_COST) end
-    c:RemoveOverlayCard(tp, c:GetOverlayCount(), c:GetOverlayCount(),
-                        REASON_COST)
-end
-
-function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.me3filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
-    end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
-end
-
-function s.me3op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.me3filter),
-                                      tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                      1, nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
     end
 end

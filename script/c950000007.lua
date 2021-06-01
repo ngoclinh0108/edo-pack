@@ -71,17 +71,6 @@ function s.initial_effect(c)
     me3:SetTarget(Fusion.SummonEffTG(table.unpack(me3params)))
     me3:SetOperation(Fusion.SummonEffOP(table.unpack(me3params)))
     c:RegisterEffect(me3)
-
-    -- effect gain
-    local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(aux.Stringid(id, 0))
-    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    me4:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
-    me4:SetCode(EVENT_BE_MATERIAL)
-    me4:SetCondition(s.me4con)
-    me4:SetTarget(s.me4tg)
-    me4:SetOperation(s.me4op)
-    c:RegisterEffect(me4)
 end
 
 function s.pe1con(e)
@@ -89,33 +78,4 @@ function s.pe1con(e)
         return c:IsCode(13331639) or c:IsSetCard(0x98) or c:IsSetCard(0x99) or
                    c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
-end
-
-function s.me4filter(c, sc)
-    return
-        c:IsAbleToGrave() and c:HasLevel() and c:GetLevel() < sc:GetLevel() and
-            c:IsAttribute(ATTRIBUTE_DARK)
-end
-
-function s.me4con(e, tp, eg, ep, ev, re, r, rp) return (r & REASON_FUSION) ~= 0 end
-
-function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local tc = c:GetReasonCard()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.me4filter, tp, LOCATION_HAND +
-                                               LOCATION_DECK + LOCATION_EXTRA,
-                                           0, 1, nil, tc)
-    end
-end
-
-function s.me4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = c:GetReasonCard()
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-    local g = Duel.SelectMatchingCard(tp, s.me4filter, tp, LOCATION_HAND +
-                                          LOCATION_DECK + LOCATION_EXTRA, 0, 1,
-                                      3, nil, tc)
-    if #g > 0 then Duel.SendtoGrave(g, REASON_EFFECT) end
 end

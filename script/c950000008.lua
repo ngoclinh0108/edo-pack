@@ -73,16 +73,6 @@ function s.initial_effect(c)
     me4:SetTarget(s.me4tg)
     me4:SetOperation(s.me4op)
     c:RegisterEffect(me4)
-
-    -- effect gain
-    local me5 = Effect.CreateEffect(c)
-    me5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    me5:SetCode(EVENT_BE_MATERIAL)
-    me5:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return r == REASON_SYNCHRO
-    end)
-    me5:SetOperation(s.me5op)
-    c:RegisterEffect(me5)
 end
 
 function s.pe1con(e)
@@ -234,17 +224,4 @@ function s.me4op(e, tp, eg, ep, ev, re, r, rp)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         Duel.SynchroSummon(tp, g:Select(tp, 1, 1, nil), nil, mg)
     end
-end
-
-function s.me5op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = c:GetReasonCard()
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    ec1:SetCode(EFFECT_ADD_ATTRIBUTE)
-    ec1:SetValue(ATTRIBUTE_DARK)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    tc:RegisterEffect(ec1)
 end
