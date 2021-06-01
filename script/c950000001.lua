@@ -14,6 +14,12 @@ function s.initial_effect(c)
     -- pendulum
     Pendulum.AddProcedure(c, false)
 
+    -- overscale
+    local pensp = Effect.CreateEffect(c)
+    pensp:SetType(EFFECT_TYPE_SINGLE)
+    pensp:SetCode(511004423)
+    c:RegisterEffect(pensp)
+
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
