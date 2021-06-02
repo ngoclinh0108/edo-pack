@@ -25,7 +25,10 @@ function s.initial_effect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(aux.lnklimit)
+    splimit:SetValue(function(e, se, sp, st)
+        return (st & SUMMON_TYPE_LINK) == SUMMON_TYPE_LINK or
+                   (st & SUMMON_TYPE_PENDULUM) == SUMMON_TYPE_PENDULUM
+    end)
     c:RegisterEffect(splimit)
 
     -- summon cannot be negated
@@ -197,6 +200,7 @@ function s.initial_effect(c)
 
     -- place pendulum
     local me4 = Effect.CreateEffect(c)
+    me4:SetDescription(1160)
     me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     me4:SetProperty(EFFECT_FLAG_DELAY)
     me4:SetCode(EVENT_DESTROYED)

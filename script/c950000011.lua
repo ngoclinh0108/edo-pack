@@ -147,21 +147,17 @@ function s.e4filter2(c, e, tp)
     end
 end
 
-function s.e4filter3(c)
-    return c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() and
-               c:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ)
-end
-
-function s.e4filter4(c)
-    return c:IsLocation(LOCATION_EXTRA) and
-               (c:IsType(TYPE_LINK) or
-                   (c:IsFaceup() and c:IsType(TYPE_PENDULUM)))
-end
-
 function s.e4rescon(ft1, ft2, ft3, ft4, ft)
     return function(sg, e, tp, mg)
-        local exnpct = sg:FilterCount(s.e4filter3, nil, LOCATION_EXTRA)
-        local expct = sg:FilterCount(s.e4filter4, nil, LOCATION_EXTRA)
+        local exnpct = sg:FilterCount(function(c)
+            return c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() and
+                       c:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ)
+        end, nil, LOCATION_EXTRA)
+        local expct = sg:FilterCount(function(c)
+            return c:IsLocation(LOCATION_EXTRA) and
+                       (c:IsType(TYPE_LINK) or
+                           (c:IsFaceup() and c:IsType(TYPE_PENDULUM)))
+        end, nil, LOCATION_EXTRA)
         local mct =
             sg:FilterCount(aux.NOT(Card.IsLocation), nil, LOCATION_EXTRA)
         local groupcount = #sg

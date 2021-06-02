@@ -87,6 +87,7 @@ function s.initial_effect(c)
 
     -- place pendulum
     local me4 = Effect.CreateEffect(c)
+    me4:SetDescription(1160)
     me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     me4:SetProperty(EFFECT_FLAG_DELAY)
     me4:SetCode(EVENT_DESTROYED)

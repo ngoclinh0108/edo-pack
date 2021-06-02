@@ -247,25 +247,21 @@ def = 1000
 pendulum-effect = """\
 Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King Gate", "Supreme King Dragon" card in your other Pendulum Zone, \
     this card's Pendulum Scale becomes 4. \
-Once per turn, if you control "Supreme King Z-ARC": \
-    You can target 1 Dragon Fusion Monster in your GY; Special Summon it. \
-    You can only use this effect of "Supreme King Dragon Venowurm" once per turn. \
 Once per turn: You can Fusion Summon 1 Dragon Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Materials. \
 """
 effect = """\
-You can declare 1 monster's name, except "Supreme King Z-ARC"; \
-    until the End Phase, this card's name becomes that name. \
-    You can only use this effect of "Supreme King Dragon Venowurm" once per turn. \
 Cannot be used as Fusion Material, except for the Fusion Summon of a Dragon Fusion Monster. \
 If this card is in your hand, GY or Extra Deck: \
     You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
     its ATK become 0 and negate its effects, \
     and if you do, Special Summon this card in Defense Position, then the targeted monster's Attribute become DARK. \
-    You can only use this effect of "Supreme King Dragon Venowurm" once per turn. \
-Once per turn: You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
+You can declare 1 monster's name, except "Supreme King Z-ARC"; \
+    until the End Phase, this card's name becomes that name. \
+You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using this card you control as Fusion Material, as well as other monsters you control or cards in your Pendulum Zones. \
+You can only use each effect of "Supreme King Dragon Venowurm" once per turn. \
 """
-strings = ["Special Summon a Dragon Fusion monster", "Change a name"]
+strings = ["Change a name"]
 
 [card.supreme-king-dragon-wingwurm]
 id = 950000008
@@ -281,29 +277,21 @@ def = 1000
 pendulum-effect = """\
 Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King Gate", "Supreme King Dragon" card in your other Pendulum Zone, \
     this card's Pendulum Scale becomes 4. \
-Once per turn, if you control "Supreme King Z-ARC": \
-    You can target 1 Dragon Synchro Monster in your GY; Special Summon it. \
-    You can only use this effect of "Supreme King Dragon Wingwurm" once per turn. \
 Once per turn: You can target 1 Pendulum Monster you control; this turn, \
     that face-up monster is treated as a Tuner, also its Level becomes 1 (even if this card leaves the field). \
 """
 effect = """\
-You can declare a Level from 1 to 8; this card becomes that Level until the end of this turn. \
-    You can only use this effect of "Supreme King Dragon Wingwurm" once per turn. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a Dragon Synchro Monster. \
 If this card is in your hand, GY or Extra Deck: \
     You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
     its ATK become 0 and negate its effects, \
     and if you do, Special Summon this card in Defense Position, then reduce targeted monster's Level by this card' Level (min. 1). \
-    You can only use this effect of "Supreme King Dragon Wingwurm" once per turn. \
+You can declare a Level from 1 to 8; this card becomes that Level until the end of this turn. \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
     and if you do, immediately after this effect resolves, Synchro Summon 1 Synchro Monster using only that monster and this card. \
+You can only use each effect of "Supreme King Dragon Wingwurm" once per turn. \
 """
-strings = [
-    "Special Summon a Dragon Synchro monster",
-    "Make monster become Tuner",
-    "Change Level",
-]
+strings = ["Make monster become Tuner", "Change Level"]
 
 [card.supreme-king-dragon-rebelliwurm]
 id = 950000009
@@ -319,52 +307,60 @@ def = 1000
 pendulum-effect = """\
 Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King Gate", "Supreme King Dragon" card in your other Pendulum Zone, \
     this card's Pendulum Scale becomes 4. \
-Once per turn, if you control "Supreme King Z-ARC": \
-    You can target 1 Dragon Xyz Monster in your GY; Special Summon it. \
-    You can only use this effect of "Supreme King Dragon Rebelliwurm" once per turn. \
 Once per turn: You can target 1 face-up Xyz Monster you control, and 1 Pendulum Monster that has Level you control; until the end of this turn, \
     that Xyz Monster's Rank becomes equal to the Level of the other, \
     and also you can use it as an Xyz Material for an Xyz Summon using its Rank as if it were a Level. \
     (even if this card leaves the field). \
 """
 effect = """\
-You can Tribute this card from your hand or face-up field, then target 1 Rank 4 DARK Dragon Xyz Monster you control; \
-    Special Summon from your Extra Deck, 1 DARK Dragon Xyz Monster that is 1 Rank higher than that monster you control, \
-    by using it as the Xyz Material. \
-    (This Special Summon is treated as an Xyz Summon. Xyz Materials attached to that target also become Xyz Materials on the Summoned monster.) \
-    You can only use this effect of "Supreme King Dragon Rebelliwurm" once per turn. \
 Cannot be used as Xyz Material, except for the Xyz Summon of a Dragon Xyz Monster. \
 If this card is in your hand, GY or Extra Deck: \
     You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
     its ATK become 0 and negate its effects, \
     and if you do, Special Summon this card in Defense Position, then the targeted monster's Level becomes the same as this card's. \
-    You can only use this effect of "Supreme King Dragon Rebelliwurm" once per turn. \
+You can Tribute this card from your hand or face-up field, then target 1 Rank 4 DARK Dragon Xyz Monster you control; \
+    Special Summon from your Extra Deck, 1 DARK Dragon Xyz Monster that is 1 Rank higher than that monster you control, \
+    by using it as the Xyz Material. \
+    (This Special Summon is treated as an Xyz Summon. Xyz Materials attached to that target also become Xyz Materials on the Summoned monster.) \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
     and if you do, immediately after this effect resolves, Xyz Summon 1 Xyz Monster using only that monster and this card. \
+You can only use each effect of "Supreme King Dragon Rebelliwurm" once per turn. \
 """
-strings = [
-    "Special Summon a Dragon Xyz monster",
-    "Make Xyz monster gain Level",
-    "Rank-Up DARK Dragon monster",
-]
+strings = ["Make Xyz monster gain Level", "Rank-Up DARK Dragon monster"]
 
 [card.sky-iris-magician]
 id = 950000010
 set = "magician"
 name = "Sky Iris Magician"
 type = "monster fusion pendulum effect"
-attribute = "light"
+attribute = "wind"
 race = "spellcaster"
 level = 7
 pendulum-scale = 0
 atk = 2000
 def = 2800
 pendulum-effect = """\
+All monsters you control gain 100 ATK and DEF for each face-up Pendulum Monster with different names in your Extra Deck. \
+If a Pendulum Monster(s) you control is destroyed by battle or by card effect: \
+    You can Special Summon this card from your Pendulum Zone in Defense Position, \
+    then, you can place 1 of those monsters in your Pendulum Zone. \
+    You can only use this effect of "Sky Iris Magician" once per turn. \
 """
 effect = """\
 1 "Magician" Pendulum Monster + 1 monster that was Special Summoned from Extra Deck
+If this card is Fusion Summoned: You can add 1 Pendulum Monster form your Deck or Extra Deck face-up to your hand. \
+You can Special Summon 1 monster from your Pendulum Zone, ignoring their Summoning conditions, \
+    and if you do, you can place this card in your Pendulum Zone. \
+During the End Phase: \
+    You can Special Summon as many monsters as possible from your GY or Extra Deck face-up \
+    that were destroyed by battle or an opponent's card effect this turn. \
+You can only use each effect of "Sky Iris Magician" once per turn. \
 """
-strings = []
+strings = [
+    "Place 1 of destroyed monsters in Pendulum Zone",
+    "Special Summon monster from Pendulum Zone",
+    "Special Summon all the destroyed monster",
+]
 
 [card.supreme-wrath]
 id = 950000011
