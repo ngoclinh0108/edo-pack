@@ -56,6 +56,7 @@ end
 function s.e1con(e, c)
     if c == nil then return true end
     local tp = c:GetControler()
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return false end
     if not Duel.GetFieldCard(tp, LOCATION_PZONE, 0) or
         not Duel.GetFieldCard(tp, LOCATION_PZONE, 1) then return false end
 

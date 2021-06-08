@@ -46,6 +46,7 @@ function s.initial_effect(c)
 
     -- special summon
     local me2 = Effect.CreateEffect(c)
+    me2:SetDescription(2)
     me2:SetCategory(CATEGORY_SPECIAL_SUMMON)
     me2:SetType(EFFECT_TYPE_IGNITION)
     me2:SetProperty(EFFECT_FLAG_CARD_TARGET)
