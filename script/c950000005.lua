@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {13331639}
-s.listed_series = {0x10f8, 0x20f8, 0x10f2, 0x2073, 0x2017, 0x1046}
+s.listed_series = {0x98, 0x10f8, 0x20f8, 0x10f2, 0x2073, 0x2017, 0x1046}
 
 function s.initial_effect(c)
     -- activate
@@ -114,7 +114,7 @@ end
 function s.e1filter1(c)
     if not c:IsType(TYPE_PENDULUM) or c:IsForbidden() then return false end
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
-    return c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
+    return c:IsSetCard(0x98) or c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
 end
 
 function s.e1filter2(c, lsc, rsc)
