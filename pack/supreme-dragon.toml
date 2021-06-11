@@ -38,8 +38,8 @@ pendulum-effect = """\
 Unaffected by your opponent's card effects. \
 Pendulum Scale of card in your other Pendulum Zone become 0. \
 Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their effects. \
-Once per turn, if you have a card in your other Pendulum Zone: \
-    You can destroy it, and if you do, \
+Once per turn: \
+    You can destroy a card in your other Pendulum Zone (if any), then \
     place 1 Pendulum Monster from your hand, Deck, GY or Extra Deck face-up in your Pendulum Zone,
     except the destroyed card. \
 """
@@ -60,7 +60,9 @@ Once per turn, when a card(s) is added to your opponent's hand (except during th
 Once per turn, you can Special Summon 1 "Supreme King Dragon" monster from your hand, Deck, GY or Extra Deck, \
     ignoring its Summoning conditions. (This is treated as a Properly Summon.) \
     This card cannot declare an attack the turn this effect is activated. \
-If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+If this card in the Monster Zone is destroyed by battle or card effect: \
+    You can destroy all cards in your Pendulum Zones (if any), \
+    then place this card in your Pendulum Zone. \
 """
 strings = [
     "Place pendulum monster",
@@ -374,11 +376,16 @@ pendulum-scale = 8
 atk = 2500
 def = 2000
 pendulum-effect = """\
+If an "Odd-Eyes" card(s) you control is destroyed by battle or card effect: You can Special Summon 1 "Odd-Eyes" monster from your hand, Deck, or GY. \
+You can destroy this card, and if you do, add to your hand or Special Summon 1 Pendulum Monster with 1500 or less ATK from your Deck or GY. \
+You can only use each effect of "Odd-Eyes Magician" once per turn. \
 """
 effect = """\
 (This card is always treated as a "Pendulum Dragon" card.)
 """
 strings = [
+    "Special Summon a \"Odd-Eyes\" monster",
+    "Search Pendulum Monster"
 ]
 
 [card.starving-venom-magician]

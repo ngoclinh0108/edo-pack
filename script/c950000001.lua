@@ -201,6 +201,7 @@ function s.initial_effect(c)
     -- place pendulum
     local me4 = Effect.CreateEffect(c)
     me4:SetDescription(1160)
+    me4:SetCategory(CATEGORY_DESTROY)
     me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     me4:SetProperty(EFFECT_FLAG_DELAY)
     me4:SetCode(EVENT_DESTROYED)
@@ -235,22 +236,22 @@ end
 function s.pe4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_PZONE, 0,
-                                           1, c) and
-                   Duel.IsExistingMatchingCard(s.pe4filter, tp,
-                                               LOCATION_HAND + LOCATION_DECK +
-                                                   LOCATION_GRAVE +
-                                                   LOCATION_EXTRA, 0, 1, nil)
+        return Duel.IsExistingMatchingCard(s.pe4filter, tp, LOCATION_HAND +
+                                               LOCATION_DECK + LOCATION_GRAVE +
+                                               LOCATION_EXTRA, 0, 1, nil)
     end
+
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, c)
+    if #g > 0 then Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0) end
 end
 
 function s.pe4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
-    local dc =
-        Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, c):GetFirst()
-    if not dc or Duel.Destroy(dc, REASON_EFFECT) == 0 then return end
+    local dg = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, c)
+    if #dg > 0 then Duel.Destroy(dg, REASON_EFFECT) end
+    if Utility.CountFreePendulumZones(tp) == 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
     local tc = Duel.SelectMatchingCard(tp, s.pe4filter, tp, LOCATION_HAND +
@@ -338,17 +339,19 @@ function s.me4con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
-                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)
-    end
+    if chk == 0 then return true end
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, nil)
+    if #g > 0 then Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0) end
 end
 
 function s.me4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
-        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return false end
-    if not c:IsRelateToEffect(e) then return end
+
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, nil)
+    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
+    if not c:IsRelateToEffect(e) or Utility.CountFreePendulumZones(tp) == 0 then
+        return
+    end
 
     Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end
