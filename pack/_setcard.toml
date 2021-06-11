@@ -4,6 +4,9 @@ code = 0xdd
 [set.chaos]
 code = 0xcf
 
+[set.clear-wing]
+code = 0xff
+
 [set.elemental-hero]
 code = 0x3008
 
@@ -69,6 +72,9 @@ code = 0x1123
 
 [set.stardust]
 code = 0xa3
+
+[set.starving-venom]
+code = 0x1050
 
 [set.supreme-king]
 code = 0xf8
