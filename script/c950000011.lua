@@ -29,9 +29,23 @@ function s.initial_effect(c)
     pe2:SetType(EFFECT_TYPE_IGNITION)
     pe2:SetRange(LOCATION_PZONE)
     pe2:SetCountLimit(1, id + 2 * 1000000)
+    pe2:SetCondition(s.pe2con)
     pe2:SetTarget(s.pe2tg)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
+
+    -- atk up
+    local me1 = Effect.CreateEffect(c)
+    me1:SetDescription(aux.Stringid(id, 2))
+    me1:SetCategory(CATEGORY_ATKCHANGE)
+    me1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    me1:SetCode(EVENT_ATTACK_ANNOUNCE)
+    me1:SetRange(LOCATION_MZONE)
+    me1:SetCountLimit(1, id + 3 * 1000000)
+    me1:SetCondition(s.me1con)
+    me1:SetTarget(s.me1tg)
+    me1:SetOperation(s.me1op)
+    c:RegisterEffect(me1)
 end
 
 function s.pe1filter1(c, tp)
@@ -42,6 +56,11 @@ function s.pe1filter1(c, tp)
 end
 
 function s.pe1filter2(c, e, tp)
+    if not c:IsLocation(LOCATION_EXTRA) and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return false end
+    if c:IsLocation(LOCATION_EXTRA) and
+        Duel.GetLocationCountFromEx(tp, rp, nil, c) <= 0 then return false end
+
     return c:IsSetCard(0x99) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
@@ -52,26 +71,25 @@ end
 
 function s.pe1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.pe1filter2, tp,
-                                               LOCATION_HAND + LOCATION_DECK +
-                                                   LOCATION_GRAVE, 0, 1, nil, e,
-                                               tp)
+        return Duel.IsExistingMatchingCard(s.pe1filter2, tp, LOCATION_HAND +
+                                               LOCATION_DECK + LOCATION_GRAVE +
+                                               LOCATION_EXTRA, 0, 1, nil, e, tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
+                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
+                              LOCATION_EXTRA)
 end
 
 function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 or
-        not c:IsRelateToEffect(e) then return end
+    if not c:IsRelateToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.pe1filter2),
                                       tp, LOCATION_HAND + LOCATION_DECK +
-                                          LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+                                          LOCATION_GRAVE + LOCATION_EXTRA, 0, 1,
+                                      1, nil, e, tp)
 
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
@@ -84,6 +102,11 @@ function s.pe2filter(c, ft, e, tp)
     return c:IsAbleToHand() or
                (c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
                    ft > 0)
+end
+
+function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_PZONE, 0, 1,
+                                       e:GetHandler())
 end
 
 function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -119,4 +142,48 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     end, function(c)
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     end, 2)
+end
+
+function s.me1con(e, tp, eg, ep, ev, re, r, rp)
+    if not Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_PZONE, 0, 1,
+                                       nil) then return false end
+
+    local ac = Duel.GetAttacker()
+    local bc = Duel.GetAttackTarget()
+    if not bc or ac:GetControler() == bc:GetControler() then return false end
+    local sc
+    if ac:IsControler(tp) then
+        sc = ac
+    else
+        sc = bc
+    end
+
+    return sc:IsFaceup() and sc:IsSetCard(0x99) and sc:IsRace(RACE_DRAGON)
+end
+
+function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local tc = e:GetLabelObject()
+    if chk == 0 then return tc:IsOnField() end
+    Duel.SetTargetCard(tc)
+end
+
+function s.me1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not tc:IsRelateToEffect(e) and tc:IsFacedown() or not tc:IsControler(tp) then
+        return
+    end
+
+    local atk = 0
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, nil)
+    for pc in aux.Next(g) do
+        if pc:GetAttack() > 0 then atk = atk + pc:GetAttack() end
+    end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(atk)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_BATTLE)
+    tc:RegisterEffect(ec1)
 end
