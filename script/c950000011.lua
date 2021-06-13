@@ -146,15 +146,10 @@ function s.me1con(e, tp, eg, ep, ev, re, r, rp)
     local ac = Duel.GetAttacker()
     local bc = Duel.GetAttackTarget()
     if not bc or ac:GetControler() == bc:GetControler() then return false end
-    local sc
-    if ac:IsControler(tp) then
-        sc = ac
-    else
-        sc = bc
-    end
+    local sc = ac:IsControler(tp) and ac or bc
 
     if sc:IsFaceup() and sc:IsSetCard(0x99) and sc:IsRace(RACE_DRAGON) then
-        e:GetLabelObject(sc)
+        e:SetLabelObject(sc)
         return true
     end
     return false
