@@ -43,7 +43,9 @@ function s.initial_effect(c)
     me1:SetRange(LOCATION_MZONE)
     me1:SetHintTiming(0, TIMING_MAIN_END)
     me1:SetCountLimit(1, id + 3 * 1000000)
-    me1:SetCondition(s.me1con)
+    me1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return Duel.IsMainPhase()
+    end)
     me1:SetCost(s.me1cost)
     me1:SetTarget(s.me1tg)
     me1:SetOperation(s.me1op)
@@ -168,8 +170,6 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     end, 2)
 end
-
-function s.me1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
 
 function s.me1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsReleasable() end

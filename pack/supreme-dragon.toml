@@ -406,6 +406,9 @@ pendulum-effect = """\
 effect = """\
 2 Pendulum monsters
 (This card is always treated as a "Fusion Dragon" card.)
+This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster Card, \
+    but the other Fusion Material(s) must be correct. \
+    This effect cannot be negated. \
 """
 strings = []
 
@@ -421,17 +424,21 @@ pendulum-scale = 1
 atk = 2500
 def = 2000
 pendulum-effect = """\
+You can target 1 Dragon Synchro Monster you control; \
+    Special Summon this card in Defense Position, and if you do, immediately after this effect resolves, \
+     Synchro Summon 1 Synchro Monster using only that monster and this card. \
 """
 effect = """\
 1 Tuner + 1+ non-Tuner Pendulum Monsters
 (This card is always treated as a "Synchro Dragon" card.)
-During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
-    Special Summon 1 Dragon Synchro Monster that is banished or in your GY. \
-    (this Special Summon is treated as an Synchro Summon.) \
-You can only use this effect of "Clear Wing Magician" once per turn. \
+This card can be treated as a Level 3 monster when used for a Synchro Summon. \
+    This effect cannot be negated. \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+You can only use each of the following effects of "Clear Wing Magician" once per turn.
+● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
+    Special Summon 1 Dragon Synchro Monster that is banished or in your GY. \
 """
-strings = []
+strings = ["Summon a Dragon Synchro Monster"]
 
 [card.dark-rebellion-magician]
 id = 950000014

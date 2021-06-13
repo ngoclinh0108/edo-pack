@@ -21,15 +21,6 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     if c:IsPreviousLocation(LOCATION_HAND) then Duel.Draw(p, 1, REASON_RULE) end
     e:Reset()
 
-    -- complete summoned when summon
-    local sum = Effect.CreateEffect(c)
-    sum:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    sum:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
-    sum:SetCode(EVENT_SPSUMMON_SUCCESS)
-    sum:SetCondition(s.sumcon)
-    sum:SetOperation(s.sumop)
-    Duel.RegisterEffect(sum, tp)
-
     -- normal summon in defense
     local sumdef = Effect.CreateEffect(c)
     sumdef:SetType(EFFECT_TYPE_FIELD)
@@ -97,19 +88,6 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
         aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
     end
-end
-
-function s.sumfilter(c, tp) return c:GetSummonPlayer() == tp end
-
-function s.sumcon(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.sumfilter, 1, nil, tp)
-end
-
-function s.sumop(e, tp, eg, ep, ev, re, r, rp)
-    local tg = eg:Filter(s.sumfilter, nil, tp)
-    if #tg == 0 then return end
-
-    for tc in aux.Next(tg) do tc:CompleteProcedure() end
 end
 
 function s.diceop(e, tp, eg, ep, ev, re, r, rp)

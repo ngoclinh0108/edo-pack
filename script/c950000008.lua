@@ -236,6 +236,6 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
                                     tp, mg)
     if #g > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        Duel.SynchroSummon(tp, g:Select(tp, 1, 1, nil), nil, mg)
+        Duel.SynchroSummon(tp, g:Select(tp, 1, 1, nil):GetFIrst(), nil, mg)
     end
 end
