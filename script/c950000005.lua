@@ -13,6 +13,19 @@ function s.initial_effect(c)
 
     -- pendulum
     Pendulum.AddProcedure(c, false)
+    Utility.PlaceToPZoneWhenDestroyed(c,
+                                      function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then return true end
+        local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0,
+                                        nil)
+        if #g > 0 then
+            Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+        end
+    end, function(e, tp, eg, ep, ev, re, r, rp)
+        local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0,
+                                        nil)
+        if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
+    end)
 
     -- overscale
     local pensp = Effect.CreateEffect(c)
@@ -197,18 +210,6 @@ function s.initial_effect(c)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
-
-    -- place pendulum
-    local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(1160)
-    me4:SetCategory(CATEGORY_DESTROY)
-    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    me4:SetProperty(EFFECT_FLAG_DELAY)
-    me4:SetCode(EVENT_DESTROYED)
-    me4:SetCondition(s.me4con)
-    me4:SetTarget(s.me4tg)
-    me4:SetOperation(s.me4op)
-    c:RegisterEffect(me4)
 end
 
 function s.lnkcheck(g, sc, sumtype, tp)
@@ -331,27 +332,4 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP) > 0 then
         tc:CompleteProcedure()
     end
-end
-
-function s.me4con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:IsPreviousLocation(LOCATION_MZONE) and c:IsFaceup()
-end
-
-function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, nil)
-    if #g > 0 then Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0) end
-end
-
-function s.me4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
-    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, nil)
-    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
-    if not c:IsRelateToEffect(e) or Utility.CountFreePendulumZones(tp) == 0 then
-        return
-    end
-
-    Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end

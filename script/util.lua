@@ -17,7 +17,7 @@ function Utility.CountFreePendulumZones(tp)
     return count
 end
 
-function Utility.PlaceToPZoneWhenDestroyed(c)
+function Utility.PlaceToPZoneWhenDestroyed(c, tg, preop, postop)
     local eff = Effect.CreateEffect(c)
     eff:SetDescription(1160)
     eff:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
@@ -28,12 +28,18 @@ function Utility.PlaceToPZoneWhenDestroyed(c)
                    e:GetHandler():IsFaceup()
     end)
     eff:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then
-            return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
-                       Duel.CheckLocation(tp, LOCATION_PZONE, 1)
+        if tg then
+            return tg(e, tp, eg, ep, ev, re, r, rp, chk)
+        else
+            if chk == 0 then
+                return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
+                           Duel.CheckLocation(tp, LOCATION_PZONE, 1)
+            end
         end
     end)
     eff:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        if preop then preop(e, tp, eg, ep, ev, re, r, rp) end
+
         local c = e:GetHandler()
         if not c:IsRelateToEffect(e) then return end
         if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
@@ -41,6 +47,8 @@ function Utility.PlaceToPZoneWhenDestroyed(c)
             return false
         end
         Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
+
+        if postop then postop(e, tp, eg, ep, ev, re, r, rp) end
     end)
     c:RegisterEffect(eff)
 end
