@@ -158,7 +158,11 @@ function s.me1con(e, tp, eg, ep, ev, re, r, rp)
         sc = bc
     end
 
-    return sc:IsFaceup() and sc:IsSetCard(0x99) and sc:IsRace(RACE_DRAGON)
+    if sc:IsFaceup() and sc:IsSetCard(0x99) and sc:IsRace(RACE_DRAGON) then
+        e:GetLabelObject(sc)
+        return true
+    end
+    return false
 end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)

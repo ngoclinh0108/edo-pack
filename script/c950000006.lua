@@ -71,8 +71,8 @@ function s.e2filter1(c) return c:IsCode(82768499) and c:IsAbleToHand() end
 
 function s.e2filter2(c)
     if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
-    return c:IsSetCard(0x99) and c:IsRace(RACE_DRAGON) and
-               c:IsType(TYPE_PENDULUM) and not c:IsForbidden()
+    if not c:IsType(TYPE_PENDULUM) or c:IsForbidden() then return false end
+    return (c:IsSetCard(0x99) and c:IsRace(RACE_DRAGON)) or c:IsSetCard(0x20f8)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -96,7 +96,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.ConfirmCards(1 - tp, g1)
 
     local g2 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e2filter2), tp,
-                                     LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+                                     LOCATION_DECK + LOCATION_GRAVE +
+                                         LOCATION_REMOVED, 0, nil)
     if g1:FilterCount(Card.IsLocation, nil, LOCATION_HAND) == #g1 and #g2 > 0 and
         Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
