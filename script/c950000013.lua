@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0xff}
+
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
@@ -35,6 +37,21 @@ function s.initial_effect(c)
         return 3 * 65536 + e:GetHandler():GetLevel()
     end)
     c:RegisterEffect(me1)
+
+    -- damage
+    local me2 = Effect.CreateEffect(c)
+    me2:SetDescription(aux.Stringid(id, 0))
+    me2:SetCategory(CATEGORY_DAMAGE)
+    me2:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_FIELD)
+    me2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP +
+                        EFFECT_FLAG_PLAYER_TARGET)
+    me2:SetCode(EVENT_CHAINING)
+    me2:SetRange(LOCATION_MZONE)
+    me2:SetCountLimit(1, id)
+    me2:SetCondition(s.me2con)
+    me2:SetTarget(s.me2tg)
+    me2:SetOperation(s.me2op)
+    c:RegisterEffect(me2)
 end
 
 function s.pe1filter1(c, tp, mc)
@@ -83,4 +100,26 @@ function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         Duel.SynchroSummon(tp, g:Select(tp, 1, 1, nil):GetFirst(), nil, mg)
     end
+end
+
+function s.me2con(e, tp, eg, ep, ev, re, r, rp)
+    local rc = re:GetHandler()
+    return re:IsActiveType(TYPE_MONSTER) and rc:IsSetCard(0xff) and
+               rc:IsRace(RACE_DRAGON)
+end
+
+function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local rc = re:GetHandler()
+    if chk == 0 then return rc:IsOnField() and rc:IsFaceup() end
+
+    local dmg = rc:GetAttack()
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(dmg)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
+end
+
+function s.me2op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
 end

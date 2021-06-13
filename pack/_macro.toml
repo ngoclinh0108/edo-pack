@@ -28,3 +28,6 @@ Possession of this card cannot be switched. \
 Unaffected by other cards' effects, except cards' effects with the same or higher Divine Hierarchy. \
 Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
 """
+TO_PZONE_WHEN_DESTROYED = """\
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+"""
