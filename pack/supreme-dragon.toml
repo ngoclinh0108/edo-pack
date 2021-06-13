@@ -402,6 +402,7 @@ pendulum-scale = 1
 atk = 2500
 def = 2000
 pendulum-effect = """\
+Once per turn, You can target 1 Dragon Fusion Monster that is banished or in your GY; return it to the Extra Deck. \
 """
 effect = """\
 2 Pendulum monsters
@@ -409,8 +410,15 @@ effect = """\
 This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster Card, \
     but the other Fusion Material(s) must be correct. \
     This effect cannot be negated. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+You can only use each of the following effects of "Starving Venom Magician" once per turn.
+● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
+    Special Summon 1 Dragon Fusion Monster that is banished or in your GY. \
 """
-strings = []
+strings = [
+    "Return Dragon Fusion Monter to the Extra Deck",
+    "Summon a Dragon Fusion Monster",
+]
 
 [card.clear-wing-magician]
 id = 950000013
@@ -424,6 +432,7 @@ pendulum-scale = 1
 atk = 2500
 def = 2000
 pendulum-effect = """\
+Once per turn, You can target 1 Dragon Synchro Monster that is banished or in your GY; return it to the Extra Deck. \
 You can target 1 Dragon Synchro Monster you control; \
     Special Summon this card in Defense Position, and if you do, immediately after this effect resolves, \
      Synchro Summon 1 Synchro Monster using only that monster and this card. \
@@ -438,7 +447,10 @@ You can only use each of the following effects of "Clear Wing Magician" once per
 ● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
     Special Summon 1 Dragon Synchro Monster that is banished or in your GY. \
 """
-strings = ["Summon a Dragon Synchro Monster"]
+strings = [
+    "Return Dragon Synchro Monter to the Extra Deck",
+    "Summon a Dragon Synchro Monster",
+]
 
 [card.dark-rebellion-magician]
 id = 950000014
@@ -452,12 +464,22 @@ pendulum-scale = 8
 atk = 2000
 def = 2500
 pendulum-effect = """\
+Once per turn, You can target 1 Dragon Xyz Monster that is banished or in your GY; return it to the Extra Deck. \
 """
 effect = """\
 2 Level 4 Pendulum Monsters
 (This card is always treated as a "Xyz Dragon" card.)
+This card's Rank can be use as Level when used for a Xyz Summon. \
+    This effect cannot be negated. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+You can only use each of the following effects of "Dark Rebellion" once per turn.
+● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
+    Special Summon 1 Dragon Xyz Monster that is banished or in your GY. \
 """
-strings = []
+strings = [
+    "Return Dragon Xyz Monter to the Extra Deck",
+    "Summon a Dragon Xyz Monster",
+]
 
 [card.lethal-starving-venom-fusion-dragon]
 id = 950000015
