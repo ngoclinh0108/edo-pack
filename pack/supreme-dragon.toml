@@ -412,10 +412,10 @@ effect = """\
 This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster Card, \
     but the other Fusion Material(s) must be correct. \
     This effect cannot be negated. \
-If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-You can only use each of the following effects of "Starving Venom Magician" once per turn.
-● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
+During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
     Special Summon 1 Dragon Fusion Monster that is banished or in your GY. \
+    You can only use this effect of "Starving Venom Magician" once per turn. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
 strings = [
     "Return Dragon Fusion Monter to the Extra Deck",
@@ -444,10 +444,10 @@ effect = """\
 (This card is always treated as a "Synchro Dragon" card.)
 This card can be treated as a Level 3 monster when used for a Synchro Summon. \
     This effect cannot be negated. \
-If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-You can only use each of the following effects of "Clear Wing Magician" once per turn.
-● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
+During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
     Special Summon 1 Dragon Synchro Monster that is banished or in your GY. \
+    You can only use this effect of "Clear Wing Magician" once per turn. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
 strings = [
     "Return Dragon Synchro Monter to the Extra Deck",
@@ -477,10 +477,10 @@ effect = """\
 (This card is always treated as a "Xyz Dragon" card.)
 This card's Rank can be use as Level when used for a Xyz Summon. \
     This effect cannot be negated. \
-If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-You can only use each of the following effects of "Dark Rebellion" once per turn.
-● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
+During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
     Special Summon 1 Dragon Xyz Monster that is banished or in your GY. \
+    You can only use this effect of "Dark Rebellion Magician" once per turn. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
 strings = [
     "Return Dragon Xyz Monter to the Extra Deck",
