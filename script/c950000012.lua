@@ -24,6 +24,24 @@ function s.initial_effect(c)
     pe1:SetOperation(s.pe1op)
     c:RegisterEffect(pe1)
 
+    -- fusion summon
+    local pe2params = {
+        nil, Fusion.CheckWithHandler(function(c)
+            return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_FUSION) and
+                       c:IsOnField() and c:IsAbleToGrave()
+        end), function(e) return Group.FromCards(e:GetHandler()) end,
+        nil, Fusion.ForcedHandler
+    }
+    local pe2 = Effect.CreateEffect(c)
+    pe2:SetDescription(1170)
+    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    pe2:SetType(EFFECT_TYPE_IGNITION)
+    pe2:SetRange(LOCATION_PZONE)
+    pe2:SetCountLimit(1)
+    pe2:SetTarget(Fusion.SummonEffTG(table.unpack(pe2params)))
+    pe2:SetOperation(Fusion.SummonEffOP(table.unpack(pe2params)))
+    c:RegisterEffect(pe2)
+
     -- fusion substitute
     local me1 = Effect.CreateEffect(c)
     me1:SetType(EFFECT_TYPE_SINGLE)

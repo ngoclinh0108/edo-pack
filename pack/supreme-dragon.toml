@@ -402,7 +402,9 @@ pendulum-scale = 1
 atk = 2500
 def = 2000
 pendulum-effect = """\
-Once per turn, You can target 1 Dragon Fusion Monster that is banished or in your GY; return it to the Extra Deck. \
+Once per turn, you can target 1 Dragon Fusion Monster that is banished or in your GY; return it to the Extra Deck. \
+Once per turn, you can Fusion Summon 1 Fusion Monster from your Extra Deck, \
+    using this card you control as Fusion Material, as well as other Dragon Fusion Monsters you control. \
 """
 effect = """\
 2 Pendulum monsters
@@ -432,8 +434,8 @@ pendulum-scale = 1
 atk = 2500
 def = 2000
 pendulum-effect = """\
-Once per turn, You can target 1 Dragon Synchro Monster that is banished or in your GY; return it to the Extra Deck. \
-You can target 1 Dragon Synchro Monster you control; \
+Once per turn, you can target 1 Dragon Synchro Monster that is banished or in your GY; return it to the Extra Deck. \
+Once per turn, you can target 1 Dragon Synchro Monster you control; \
     Special Summon this card in Defense Position, and if you do, immediately after this effect resolves, \
      Synchro Summon 1 Synchro Monster using only that monster and this card. \
 """
@@ -464,7 +466,7 @@ pendulum-scale = 8
 atk = 2000
 def = 2500
 pendulum-effect = """\
-Once per turn, You can target 1 Dragon Xyz Monster that is banished or in your GY; return it to the Extra Deck. \
+Once per turn, you can target 1 Dragon Xyz Monster that is banished or in your GY; return it to the Extra Deck. \
 """
 effect = """\
 2 Level 4 Pendulum Monsters
