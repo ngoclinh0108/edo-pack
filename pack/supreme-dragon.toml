@@ -513,7 +513,7 @@ id = 950000016
 name = "Supreme Wrath"
 type = "trap"
 effect = """\
-While this card is in your GY, you can target 1 Pendulum Xyz Monster or "Supreme King Dragon" Xyz Monster you control; \
+While this card is in your GY, you can target 1 "Xyz Dragon" Xyz Monster or "Supreme King Dragon" Xyz Monster you control; \
     attach up to 2 "Supreme King Dragon" monsters to it as materials, from your GY and/or face-up from your Extra Deck. \
     You can only use this effect of "Supreme Wrath" once per turn. \
 If you control "Supreme Soul", you can activate this card from your hand. \

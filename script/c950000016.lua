@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {950000001, 13331639}
-s.listed_series = {0x20f8}
+s.listed_series = {0x2073, 0x20f8}
 
 function s.initial_effect(c)
     -- attach xyz materials
@@ -62,7 +62,7 @@ end
 
 function s.e1filter1(c)
     return c:IsFaceup() and c:IsType(TYPE_XYZ) and
-               (c:IsType(TYPE_PENDULUM) or c:IsSetCard(0x20f8))
+               (c:IsSetCard(0x2073) or c:IsSetCard(0x20f8))
 end
 
 function s.e1filter2(c)
