@@ -45,20 +45,20 @@ function s.initial_effect(c)
     c:RegisterEffect(me1)
 
     -- destroy & summon
-    local me2 = Effect.CreateEffect(c)
-    me2:SetDescription(aux.Stringid(id, 2))
-    me2:SetCategory(CATEGORY_DESTROY + CATEGORY_SPECIAL_SUMMON)
-    me2:SetType(EFFECT_TYPE_QUICK_O)
-    me2:SetCode(EVENT_FREE_CHAIN)
-    me2:SetRange(LOCATION_MZONE)
-    me2:SetHintTiming(0, TIMING_MAIN_END)
-    me2:SetCountLimit(1, id + 1 * 1000000)
-    me2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+    local me3 = Effect.CreateEffect(c)
+    me3:SetDescription(aux.Stringid(id, 2))
+    me3:SetCategory(CATEGORY_DESTROY + CATEGORY_SPECIAL_SUMMON)
+    me3:SetType(EFFECT_TYPE_QUICK_O)
+    me3:SetCode(EVENT_FREE_CHAIN)
+    me3:SetRange(LOCATION_MZONE)
+    me3:SetHintTiming(0, TIMING_MAIN_END)
+    me3:SetCountLimit(1, id + 1 * 1000000)
+    me3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return Duel.IsMainPhase()
     end)
-    me2:SetTarget(s.me2tg)
-    me2:SetOperation(s.me2op)
-    c:RegisterEffect(me2)
+    me3:SetTarget(s.me3tg)
+    me3:SetOperation(s.me3op)
+    c:RegisterEffect(me3)
 
     -- place pendulum
     local me4 = Effect.CreateEffect(c)
@@ -150,16 +150,16 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     sc:CompleteProcedure()
 end
 
-function s.me2filter(c, e, tp, rp)
+function s.me3filter(c, e, tp, rp)
     return c:IsFaceup() and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                c:IsRace(RACE_DRAGON) and c:IsType(TYPE_XYZ)
 end
 
-function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsDestructable() and
-                   Duel.IsExistingMatchingCard(s.me2filter, tp,
+                   Duel.IsExistingMatchingCard(s.me3filter, tp,
                                                LOCATION_GRAVE + LOCATION_REMOVED,
                                                0, 1, nil, e, tp)
     end
@@ -169,13 +169,13 @@ function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_GRAVE + LOCATION_REMOVED)
 end
 
-function s.me2op(e, tp, eg, ep, ev, re, r, rp)
+function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
     if Duel.Destroy(c, REASON_EFFECT) ~= 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local g = Duel.SelectMatchingCard(tp, s.me2filter, tp,
+        local g = Duel.SelectMatchingCard(tp, s.me3filter, tp,
                                           LOCATION_GRAVE + LOCATION_REMOVED, 0,
                                           1, 1, nil, e, tp)
         if #g > 0 then
