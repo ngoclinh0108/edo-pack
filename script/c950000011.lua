@@ -56,13 +56,9 @@ function s.pe1filter1(c, tp)
 end
 
 function s.pe1filter2(c, e, tp)
-    if not c:IsLocation(LOCATION_EXTRA) and
-        Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return false end
-    if c:IsLocation(LOCATION_EXTRA) and
-        Duel.GetLocationCountFromEx(tp, rp, nil, c) <= 0 then return false end
-
-    return c:IsSetCard(0x99) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               c:IsSetCard(0x99)
 end
 
 function s.pe1con(e, tp, eg, ep, ev, re, r, rp)
@@ -70,38 +66,40 @@ function s.pe1con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.pe1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.pe1filter2, tp, LOCATION_HAND +
-                                               LOCATION_DECK + LOCATION_GRAVE +
-                                               LOCATION_EXTRA, 0, 1, nil, e, tp)
+        return Duel.IsExistingMatchingCard(s.pe1filter2, tp, loc, 0, 1, nil, e,
+                                           tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
-                              LOCATION_EXTRA)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
 end
 
 function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
+    local loc = 0
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
+        loc = loc + LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    end
+    if Duel.GetLocationCountFromEx(tp, rp, nil) > 0 then
+        loc = loc + LOCATION_EXTRA
+    end
+    if loc == 0 then return end
+
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.pe1filter2),
-                                      tp, LOCATION_HAND + LOCATION_DECK +
-                                          LOCATION_GRAVE + LOCATION_EXTRA, 0, 1,
-                                      1, nil, e, tp)
-
+                                      tp, loc, 0, 1, 1, nil, e, tp, rp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
-function s.pe2filter(c, ft, e, tp)
-    if not c:IsType(TYPE_PENDULUM) or not c:IsAttackBelow(1500) then
+function s.pe2filter(c, e, tp, rp)
+    if not c:IsAbleToHand() and
+        not c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) then
         return false
     end
-
-    return c:IsAbleToHand() or
-               (c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
-                   ft > 0)
+    return c:IsType(TYPE_PENDULUM) and c:IsAttackBelow(1500)
 end
 
 function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
@@ -130,16 +128,13 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 1))
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.pe2filter),
-                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                       1, nil, ft, e, tp):GetFirst()
-    if not tc then return end
-
-    aux.ToHandOrElse(tc, tp, function(c)
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.pe2filter),
+                                      tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                      1, nil, e, tp)
+    aux.ToHandOrElse(g:GetFirst(), tp, function(tc)
         return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
-                   ft > 0
-    end, function(c)
+                   Duel.GetLocationCount(tp, LOCATION_MZONE)
+    end, function(tc)
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     end, 2)
 end

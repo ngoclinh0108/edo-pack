@@ -275,15 +275,15 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     if sc:IsFacedown() then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e6filter),
-                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                       1, nil, e, tp, eg:GetFirst()):GetFirst()
-    if not tc then return end
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e6filter), tp,
+                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+                                      nil, e, tp, eg:GetFirst())
+    if #g == 0 then return end
 
-    aux.ToHandOrElse(tc, tp, function(c)
+    aux.ToHandOrElse(g:GetFirst(), tp, function(tc)
         return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end, function(c)
+    end, function(tc)
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
     end, 2)
 end

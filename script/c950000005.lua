@@ -114,12 +114,16 @@ end
 function s.e1filter1(c)
     if not c:IsType(TYPE_PENDULUM) or c:IsForbidden() then return false end
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
-    return c:IsSetCard(0x98) or c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
+    return c:IsSetCard(0x98) or c:IsSetCard(0x10f8)
 end
 
 function s.e1filter2(c, lsc, rsc)
-    local lv = c:GetLevel()
-    return lsc < lv and lv < rsc and c:IsAbleToHand() and c:IsSetCard(0x20f8)
+    if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
+    if not c:IsAbleToHand() and
+        not c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) then
+        return false
+    end
+    return lsc < c:GetLevel() and c:GetLevel() < rsc and c:IsSetCard(0x20f8)
 end
 
 function s.e1check(sg, e, tp) return sg:GetClassCount(Card.GetCode) == 2 end
@@ -140,11 +144,12 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if Utility.CountFreePendulumZones(tp) < 2 then return end
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     local g1 = aux.SelectUnselectGroup(Duel.GetMatchingGroup(
                                            aux.NecroValleyFilter(s.e1filter1),
-                                           tp, loc, 0, nil), e, tp, 2, 2,
-                                       s.e1check, 1, tp, HINTMSG_ATOHAND)
+                                           tp, LOCATION_HAND + LOCATION_DECK +
+                                               LOCATION_GRAVE + LOCATION_EXTRA,
+                                           0, nil), e, tp, 2, 2, s.e1check, 1,
+                                       tp, HINTMSG_ATOHAND)
     if #g1 < 2 then return end
     for tc in aux.Next(g1) do
         Duel.MoveToField(tc, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
@@ -159,10 +164,15 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                              LOCATION_GRAVE + LOCATION_EXTRA, 0,
                                          nil, lsc, rsc)
         if #g2 > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
-            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-            local sg = g2:Select(tp, 1, 1, nil)
-            Duel.SendtoHand(sg, nil, REASON_EFFECT)
-            Duel.ConfirmCards(1 - tp, sg)
+            aux.ToHandOrElse(g2:GetFirst(), tp, function(tc)
+                local ft = tc:IsLocation(LOCATION_EXTRA) and
+                               Duel.GetLocationCountFromEx(tp, rp, nil) or
+                               Duel.GetLocationCount(tp, LOCATION_MZONE)
+                return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false,
+                                                 POS_FACEUP) and ft > 0
+            end, function(tc)
+                Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+            end, 2)
         end
     end
 end
