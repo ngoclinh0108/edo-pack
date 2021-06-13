@@ -63,12 +63,12 @@ function s.initial_effect(c)
         Duel.RegisterEffect(me1exclude, 0)
     end)
 
-    -- atk up
+    -- damage
     local me2 = Effect.CreateEffect(c)
     me2:SetDescription(aux.Stringid(id, 3))
-    me2:SetCategory(CATEGORY_ATKCHANGE)
+    me2:SetCategory(CATEGORY_DAMAGE)
     me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    me2:SetCode(EVENT_ATTACK_ANNOUNCE)
+    me2:SetCode(EVENT_BATTLE_DAMAGE)
     me2:SetRange(LOCATION_MZONE)
     me2:SetCountLimit(1, id + 4 * 1000000)
     me2:SetCondition(s.me2con)
@@ -203,44 +203,27 @@ function s.me1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.me2con(e, tp, eg, ep, ev, re, r, rp)
-    if not Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_PZONE, 0, 1,
-                                       nil) then return false end
-
     local ac = Duel.GetAttacker()
-    local bc = Duel.GetAttackTarget()
-    if not bc or ac:GetControler() == bc:GetControler() then return false end
-    local sc = ac:IsControler(tp) and ac or bc
-
-    if sc:IsFaceup() and sc:IsSetCard(0x99) and sc:IsRace(RACE_DRAGON) then
-        e:SetLabelObject(sc)
-        return true
-    end
-    return false
+    return ep ~= tp and ac:IsControler(tp) and ac:IsSetCard(0x99) and
+               ac:IsRace(RACE_DRAGON)
 end
 
 function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local tc = e:GetLabelObject()
-    if chk == 0 then return tc:IsOnField() end
-    Duel.SetTargetCard(tc)
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, nil)
+    if chk == 0 then return #g > 0 end
+
+    local dmg = 0
+    for pc in aux.Next(g) do
+        if pc:GetAttack() > 0 then dmg = dmg + pc:GetAttack() end
+    end
+
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(dmg)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
 end
 
 function s.me2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) and tc:IsFacedown() or not tc:IsControler(tp) then
-        return
-    end
-
-    local atk = 0
-    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, nil)
-    for pc in aux.Next(g) do
-        if pc:GetAttack() > 0 then atk = atk + pc:GetAttack() end
-    end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(atk)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_BATTLE)
-    tc:RegisterEffect(ec1)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
 end

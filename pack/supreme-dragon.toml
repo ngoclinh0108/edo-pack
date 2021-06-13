@@ -380,15 +380,15 @@ effect = """\
 (This card is always treated as a "Pendulum Dragon" card.)
 During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
     Pendulum Summon a Dragon Pendulum Monster(s), except "Odd-Eyes Magician". \
-When an attack is declared involving your "Odd-Eyes" Dragon monster and an opponent's monster, if you have an card in your other Pendulum Zone: \
-    You can make that monster you control gain ATK equal to the ATK of monsters in the Pendulum Zone until the end of the Battle Phase. \
+When your "Odd-Eyes" Dragon monster inflicts battle damage to your opponent by attacking: \
+    You can inflict damage to your opponent equal to combined ATK of the monsters in the Pendulum Zones. \
 You can only use each effect of "Odd-Eyes Magician" once per turn. \
 """
 strings = [
     "Special Summon a \"Odd-Eyes\" monster",
     "Search Pendulum Monster",
     "Destroy & Pendulum Summon",
-    "ATK Up by monsters in Pendulum Zone",
+    "Inflict damage equal to combined ATK of the monsters in the Pendulum Zones",
 ]
 
 [card.starving-venom-magician]
