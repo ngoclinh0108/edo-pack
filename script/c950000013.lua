@@ -47,6 +47,17 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(me1)
 
+    -- place pendulum
+    local me2 = Effect.CreateEffect(c)
+    me2:SetDescription(1160)
+    me2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    me2:SetProperty(EFFECT_FLAG_DELAY)
+    me2:SetCode(EVENT_DESTROYED)
+    me2:SetCondition(s.me2con)
+    me2:SetTarget(s.me2tg)
+    me2:SetOperation(s.me2op)
+    c:RegisterEffect(me2)
+
     -- destroy & summon
     local me3 = Effect.CreateEffect(c)
     me3:SetDescription(aux.Stringid(id, 1))
@@ -62,17 +73,6 @@ function s.initial_effect(c)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
-
-    -- place pendulum
-    local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(1160)
-    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    me4:SetProperty(EFFECT_FLAG_DELAY)
-    me4:SetCode(EVENT_DESTROYED)
-    me4:SetCondition(s.me4con)
-    me4:SetTarget(s.me4tg)
-    me4:SetOperation(s.me4op)
-    c:RegisterEffect(me4)
 end
 
 function s.pe1filter(c)
@@ -148,6 +148,27 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.me2con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsPreviousLocation(LOCATION_MZONE) and c:IsFaceup()
+end
+
+function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
+                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)
+    end
+end
+
+function s.me2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
+        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return false end
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
+end
+
 function s.me3filter(c, e, tp, rp)
     return c:IsFaceup() and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
@@ -180,26 +201,4 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
             Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
         end
     end
-end
-
-
-function s.me4con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:IsPreviousLocation(LOCATION_MZONE) and c:IsFaceup()
-end
-
-function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
-                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)
-    end
-end
-
-function s.me4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
-        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return false end
-    if not c:IsRelateToEffect(e) then return end
-
-    Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end

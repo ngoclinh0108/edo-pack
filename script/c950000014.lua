@@ -1,6 +1,9 @@
 -- Dark Rebellion Magician
 Duel.LoadScript("util.lua")
+Duel.LoadScript("c419.lua")
 local s, id = GetID()
+
+s.listed_series = {0x13b}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -44,6 +47,17 @@ function s.initial_effect(c)
     me1:SetValue(function(e, c) return c:GetRank() end)
     c:RegisterEffect(me1)
 
+    -- place pendulum
+    local me2 = Effect.CreateEffect(c)
+    me2:SetDescription(1160)
+    me2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    me2:SetProperty(EFFECT_FLAG_DELAY)
+    me2:SetCode(EVENT_DESTROYED)
+    me2:SetCondition(s.me2con)
+    me2:SetTarget(s.me2tg)
+    me2:SetOperation(s.me2op)
+    c:RegisterEffect(me2)
+
     -- destroy & summon
     local me3 = Effect.CreateEffect(c)
     me3:SetDescription(aux.Stringid(id, 2))
@@ -60,16 +74,19 @@ function s.initial_effect(c)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
 
-    -- place pendulum
+    -- damage
     local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(1160)
-    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    me4:SetProperty(EFFECT_FLAG_DELAY)
-    me4:SetCode(EVENT_DESTROYED)
+    me4:SetCategory(CATEGORY_DAMAGE + CATEGORY_RECOVER)
+    me4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    me4:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DAMAGE_STEP)
+    me4:SetCode(511001265)
+    me4:SetRange(LOCATION_MZONE)
+    me4:SetCountLimit(1, id + 2 * 1000000)
     me4:SetCondition(s.me4con)
+    me4:SetCost(s.me4cost)
     me4:SetTarget(s.me4tg)
     me4:SetOperation(s.me4op)
-    c:RegisterEffect(me4)
+    c:RegisterEffect(me4, false, REGISTER_FLAG_DETACH_XMAT)
 end
 
 function s.pe1filter(c)
@@ -150,6 +167,27 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     sc:CompleteProcedure()
 end
 
+function s.me2con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsPreviousLocation(LOCATION_MZONE) and c:IsFaceup()
+end
+
+function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
+                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)
+    end
+end
+
+function s.me2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
+        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return false end
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
+end
+
 function s.me3filter(c, e, tp, rp)
     return c:IsFaceup() and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                c:IsRace(RACE_DRAGON) and c:IsType(TYPE_XYZ)
@@ -184,24 +222,74 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.me4filter1(c, tp)
+    local preatk = 0
+    if c:GetFlagEffect(284) > 0 then preatk = c:GetFlagEffectLabel(284) end
+    return
+        c:IsControler(tp) and c:GetAttack() ~= preatk and c:IsSetCard(0x13b) and
+            c:IsRace(RACE_DRAGON)
+end
+
+function s.me4filter2(c, g)
+    local preatk = 0
+    if c:GetFlagEffect(284) > 0 then preatk = c:GetFlagEffectLabel(284) end
+
+    local dif = 0
+    if c:GetAttack() > preatk then
+        dif = c:GetAttack() - preatk
+    else
+        dif = preatk - c:GetAttack()
+    end
+    return g:IsExists(s.me4filter3, 1, c, dif)
+end
+
+function s.me4filter3(c, dif)
+    local preatk = 0
+    if c:GetFlagEffect(284) > 0 then preatk = c:GetFlagEffectLabel(284) end
+
+    local dif2 = 0
+    if c:GetAttack() > preatk then
+        dif2 = c:GetAttack() - preatk
+    else
+        dif2 = preatk - c:GetAttack()
+    end
+
+    return dif ~= dif2
+end
 
 function s.me4con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.me4filter1, 1, nil, tp)
+end
+
+function s.me4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    return c:IsPreviousLocation(LOCATION_MZONE) and c:IsFaceup()
+    if chk == 0 then return c:CheckRemoveOverlayCard(tp, 1, REASON_COST) end
+    c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
 end
 
 function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
-                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)
+    if chk == 0 then return true end
+
+    local sc = eg:GetFirst()
+    local sg = eg:Filter(s.me4filter2, nil, eg)
+    if #sg > 0 then sc = sg:Select(tp, 1, 1, nil):GetFirst() end
+
+    local val = 0
+    local preatk = 0
+    if sc:GetFlagEffect(284) > 0 then preatk = sc:GetFlagEffectLabel(284) end
+    if sc:GetAttack() > preatk then
+        val = sc:GetAttack() - preatk
+    else
+        val = preatk - sc:GetAttack()
     end
+
+    e:SetLabel(val)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, val)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, val)
 end
 
 function s.me4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
-        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return false end
-    if not c:IsRelateToEffect(e) then return end
-
-    Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
+    local val = e:GetLabel()
+    Duel.Damage(1 - tp, val, REASON_EFFECT)
+    Duel.Recover(tp, val, REASON_EFFECT)
 end

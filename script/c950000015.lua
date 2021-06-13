@@ -2,6 +2,9 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.material_setcode = {0x1050, 0x50}
+s.listed_series = {0x1050, 0x50}
+
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
