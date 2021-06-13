@@ -164,7 +164,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                              LOCATION_GRAVE + LOCATION_EXTRA, 0,
                                          nil, lsc, rsc)
         if #g2 > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
-            aux.ToHandOrElse(g2:GetFirst(), tp, function(tc)
+            local sc = g2:Select(tp, 1, 1):GetFirst()
+            aux.ToHandOrElse(sc, tp, function(tc)
                 local ft = tc:IsLocation(LOCATION_EXTRA) and
                                Duel.GetLocationCountFromEx(tp, rp, nil) or
                                Duel.GetLocationCount(tp, LOCATION_MZONE)

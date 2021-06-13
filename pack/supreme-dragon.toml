@@ -201,7 +201,7 @@ Add from Outside "Supreme Dragon" versions of your Four Dimension Dragons to you
 ] \
 """
 strings = [
-    "Add 1 \"Supreme King Dragon\" to your hand",
+    "Add or Special Summon 1 \"Supreme King Dragon\"",
     "Summon Z-ARC",
     "Special Summon monster from Pendulum Zone",
     "Place monster in Pendulum Zone",
