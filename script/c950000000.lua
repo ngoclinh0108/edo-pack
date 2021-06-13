@@ -198,15 +198,18 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter),
                                        tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                        1, nil, e, tp, sc):GetFirst()
-    if tc and
-        Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) then
+    if tc and Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3302)
+        ec1:SetDescription(3206)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_CANNOT_TRIGGER)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         tc:RegisterEffect(ec1)
+        local ec1b = ec1:Clone()
+        ec1b:SetDescription(3302)
+        ec1b:SetCode(EFFECT_CANNOT_TRIGGER)
+        tc:RegisterEffect(ec1b)
     end
     Duel.SpecialSummonComplete()
 end
