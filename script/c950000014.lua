@@ -74,7 +74,7 @@ function s.initial_effect(c)
 
     -- damage
     local me4 = Effect.CreateEffect(c)
-    me4:SetCategory(CATEGORY_DAMAGE + CATEGORY_RECOVER)
+    me4:SetCategory(CATEGORY_DAMAGE)
     me4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     me4:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DAMAGE_STEP)
     me4:SetCode(511001265)
@@ -269,22 +269,22 @@ function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local sg = eg:Filter(s.me4filter2, nil, eg)
     if #sg > 0 then sc = sg:Select(tp, 1, 1, nil):GetFirst() end
 
-    local val = 0
+    local dmg = 0
     local preatk = 0
     if sc:GetFlagEffect(284) > 0 then preatk = sc:GetFlagEffectLabel(284) end
     if sc:GetAttack() > preatk then
-        val = sc:GetAttack() - preatk
+        dmg = sc:GetAttack() - preatk
     else
-        val = preatk - sc:GetAttack()
+        dmg = preatk - sc:GetAttack()
     end
 
-    e:SetLabel(val)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, val)
-    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, val)
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(dmg)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
 end
 
 function s.me4op(e, tp, eg, ep, ev, re, r, rp)
-    local val = e:GetLabel()
-    Duel.Damage(1 - tp, val, REASON_EFFECT)
-    Duel.Recover(tp, val, REASON_EFFECT)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
 end

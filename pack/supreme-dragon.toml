@@ -482,14 +482,14 @@ If this card in the Monster Zone is destroyed by battle or card effect: You can 
 You can only use each of the following effects of "Dark Rebellion Magician" once per turn.
 ● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
     Special Summon 1 Dragon Xyz Monster that is banished or in your GY.
-● When "Rebellion" Dragon monster's ATK is changed: You can detach 1 material from this card; \
-    inflict damage to your opponent equal to the change in ATK, and gain LP equal to that same amount.
+● If "Rebellion" Dragon monster's ATK is changed: You can detach 1 material from this card; \
+    inflict damage to your opponent equal to the change in ATK.
 """
 strings = [
     "Return Dragon Xyz Monter to the Extra Deck",
     "Rank-Up Dragon Xyz Monster",
     "Destroy & Summon a Dragon Xyz Monster",
-    "inflict damage & recover LP equal to ATK's change"
+    "Inflict damage equal to ATK's change"
 ]
 
 [card.lethal-starving-venom-fusion-dragon]
