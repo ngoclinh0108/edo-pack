@@ -327,7 +327,7 @@ strings = ["Make Xyz monster gain Level"]
 [card.sky-iris-magician]
 id = 950000010
 set = "magician"
-name = "Sky Iris Magician"
+name = "Magician of Sky Iris"
 type = "monster fusion pendulum effect"
 attribute = "wind"
 race = "spellcaster"
@@ -340,7 +340,7 @@ All monsters you control gain 100 ATK and DEF for each face-up Pendulum Monster 
 If a Pendulum Monster(s) you control is destroyed by battle or by card effect: \
     You can Special Summon this card from your Pendulum Zone in Defense Position, \
     then, you can place 1 of those monsters in your Pendulum Zone. \
-    You can only use this effect of "Sky Iris Magician" once per turn. \
+    You can only use this effect of "Magician of Sky Iris" once per turn. \
 """
 effect = """\
 1 "Magician" Pendulum Monster + 1 monster that was Special Summoned from Extra Deck
@@ -350,7 +350,7 @@ You can Special Summon 1 monster from your Pendulum Zone, ignoring their Summoni
 During the End Phase: \
     You can Special Summon as many monsters as possible from your GY or Extra Deck face-up \
     that were destroyed by battle or an opponent's card effect this turn. \
-You can only use each effect of "Sky Iris Magician" once per turn. \
+You can only use each effect of "Magician of Sky Iris" once per turn. \
 """
 strings = [
     "Place 1 of destroyed monsters in Pendulum Zone",
@@ -403,7 +403,6 @@ pendulum-scale = 1
 atk = 2500
 def = 2000
 pendulum-effect = """\
-Once per turn, you can target 1 Dragon Fusion Monster that is banished or in your GY; return it to the Extra Deck. \
 Once per turn, you can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using this card you control as Fusion Material, as well as other Dragon Fusion Monsters you control. \
 """
@@ -414,14 +413,8 @@ This card can be used as a substitute for any 1 Fusion Material whose name is sp
     but the other Fusion Material(s) must be correct. \
     This effect cannot be negated. \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-You can only use each of the following effects of "Starving Venom Magician" once per turn.
-● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
-    Special Summon 1 Dragon Fusion Monster that is banished or in your GY.
 """
-strings = [
-    "Return Dragon Fusion Monter to the Extra Deck",
-    "Destroy & Summon a Dragon Fusion Monster",
-]
+strings = []
 
 [card.clear-wing-magician]
 id = 950000013
@@ -435,7 +428,6 @@ pendulum-scale = 1
 atk = 2500
 def = 2000
 pendulum-effect = """\
-Once per turn, you can target 1 Dragon Synchro Monster that is banished or in your GY; return it to the Extra Deck. \
 Once per turn, you can target 1 Dragon Synchro Monster you control; \
     Special Summon this card in Defense Position, and if you do, immediately after this effect resolves, \
      Synchro Summon 1 Synchro Monster using only that monster and this card. \
@@ -445,14 +437,13 @@ effect = """\
 (This card is always treated as a "Synchro Dragon" card.)
 This card can be treated as a Level 3 monster when used for a Synchro Summon. \
     This effect cannot be negated. \
+If an effect of a "Clear Wing" Dragon monster is activated: \
+    You can inflict damage to your opponent equal to the current ATK of that monster. \
+    You can only use this effects of "Clear Wing Magician" once per turn. \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-You can only use each of the following effects of "Clear Wing Magician" once per turn.
-● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
-    Special Summon 1 Dragon Synchro Monster that is banished or in your GY.
 """
 strings = [
-    "Return Dragon Synchro Monter to the Extra Deck",
-    "Destroy & Summon a Dragon Synchro Monster",
+    "Inflict damage equal to the ATK of \"Clear Wing\" dragon"
 ]
 
 [card.dark-rebellion-magician]
@@ -467,7 +458,6 @@ pendulum-scale = 8
 atk = 2500
 def = 2000
 pendulum-effect = """\
-Once per turn, you can target 1 Dragon Xyz Monster that is banished or in your GY; return it to the Extra Deck. \
 Once per turn, you can target 1 Dragon Xyz Monster you control; \
     Special Summon from your Extra Deck, 1 Xyz Monster that is 1 Rank higher than that monster you control, \
     by using it as material, and if you do, attach this card to it as additional material. \
@@ -476,21 +466,15 @@ Once per turn, you can target 1 Dragon Xyz Monster you control; \
 effect = """\
 2 Level 4 Pendulum Monsters
 (This card is always treated as a "Xyz Dragon" card.)
-This card's Rank can be use as Level when used for a Xyz Summon. \
+If an Xyz Monster you control would activate an effect by detaching an material(s), \
+    you can detach materials from this card instead of those materials. \
     This effect cannot be negated. \
+If "Rebellion" Dragon monster's ATK is changed: \
+    You can inflict damage to your opponent equal to the change in ATK. \
+    You can only use this effects of "Dark Rebellion Magician" once per turn. \
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-You can only use each of the following effects of "Dark Rebellion Magician" once per turn.
-● During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
-    Special Summon 1 Dragon Xyz Monster that is banished or in your GY.
-● If "Rebellion" Dragon monster's ATK is changed: You can detach 1 material from this card; \
-    inflict damage to your opponent equal to the change in ATK.
 """
-strings = [
-    "Return Dragon Xyz Monter to the Extra Deck",
-    "Rank-Up Dragon Xyz Monster",
-    "Destroy & Summon a Dragon Xyz Monster",
-    "Inflict damage equal to ATK's change"
-]
+strings = ["Rank-Up Dragon Xyz Monster", "Inflict damage equal to \"Rebellion\" ATK change"]
 
 [card.lethal-starving-venom-fusion-dragon]
 id = 950000015

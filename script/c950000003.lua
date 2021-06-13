@@ -21,6 +21,7 @@ function s.initial_effect(c)
 
     -- pendulum
     Pendulum.AddProcedure(c, false)
+    Utility.PlaceToPZoneWhenDestroyed(c)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -84,17 +85,6 @@ function s.initial_effect(c)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
-
-    -- place pendulum
-    local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(1160)
-    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    me4:SetProperty(EFFECT_FLAG_DELAY)
-    me4:SetCode(EVENT_DESTROYED)
-    me4:SetCondition(s.me4con)
-    me4:SetTarget(s.me4tg)
-    me4:SetOperation(s.me4op)
-    c:RegisterEffect(me4)
 end
 
 function s.pe1con(e, tp, eg, ep, ev, re, r, rp)
@@ -238,25 +228,4 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetValue(0)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec3)
-end
-
-function s.me4con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:IsPreviousLocation(LOCATION_MZONE) and c:IsFaceup()
-end
-
-function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
-                   Duel.CheckLocation(tp, LOCATION_PZONE, 1)
-    end
-end
-
-function s.me4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
-        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return false end
-    if not c:IsRelateToEffect(e) then return end
-
-    Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end

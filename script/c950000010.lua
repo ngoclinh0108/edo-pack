@@ -1,4 +1,4 @@
--- Sky Iris Magician
+-- Magician of Sky Iris
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
