@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {950000005, 13331639}
+s.listed_names = {950000001, 13331639}
 s.listed_series = {0x20f8}
 
 function s.initial_effect(c)
@@ -97,7 +97,7 @@ end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.IsExistingMatchingCard(function(c)
-        return c:IsFaceup() and c:IsCode(950000005)
+        return c:IsFaceup() and c:IsCode(950000001)
     end, e:GetHandlerPlayer(), LOCATION_ONFIELD, 0, 1, nil)
 end
 
@@ -110,7 +110,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp) Duel.PendulumSummon(tp) end
 
 function s.e4filter(c, tp)
-    return c:IsCode(950000005) and c:GetActivateEffect() and
+    return c:IsCode(950000001) and c:GetActivateEffect() and
                c:GetActivateEffect():IsActivatable(tp, true, true)
 end
 
