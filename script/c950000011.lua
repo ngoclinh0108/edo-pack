@@ -34,18 +34,48 @@ function s.initial_effect(c)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
-    -- atk up
+    -- pendulum summon
     local me1 = Effect.CreateEffect(c)
     me1:SetDescription(aux.Stringid(id, 2))
-    me1:SetCategory(CATEGORY_ATKCHANGE)
-    me1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    me1:SetCode(EVENT_ATTACK_ANNOUNCE)
+    me1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    me1:SetType(EFFECT_TYPE_QUICK_O)
+    me1:SetCode(EVENT_FREE_CHAIN)
     me1:SetRange(LOCATION_MZONE)
+    me1:SetHintTiming(0, TIMING_MAIN_END)
     me1:SetCountLimit(1, id + 3 * 1000000)
     me1:SetCondition(s.me1con)
+    me1:SetCost(s.me1cost)
     me1:SetTarget(s.me1tg)
     me1:SetOperation(s.me1op)
     c:RegisterEffect(me1)
+    aux.GlobalCheck(s, function()
+        s.should_check = false
+        local me1exclude = Effect.CreateEffect(c)
+        me1exclude:SetType(EFFECT_TYPE_FIELD)
+        me1exclude:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+        me1exclude:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+        me1exclude:SetTargetRange(1, 1)
+        me1exclude:SetTarget(function(e, c)
+            if s.should_check then
+                return c:IsCode(id) or not c:IsType(TYPE_PENDULUM)
+            end
+            return false
+        end)
+        Duel.RegisterEffect(me1exclude, 0)
+    end)
+
+    -- atk up
+    local me2 = Effect.CreateEffect(c)
+    me2:SetDescription(aux.Stringid(id, 3))
+    me2:SetCategory(CATEGORY_ATKCHANGE)
+    me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    me2:SetCode(EVENT_ATTACK_ANNOUNCE)
+    me2:SetRange(LOCATION_MZONE)
+    me2:SetCountLimit(1, id + 2 * 1000000)
+    me2:SetCondition(s.me2con)
+    me2:SetTarget(s.me2tg)
+    me2:SetOperation(s.me2op)
+    c:RegisterEffect(me2)
 end
 
 function s.pe1filter1(c, tp)
@@ -139,7 +169,39 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     end, 2)
 end
 
-function s.me1con(e, tp, eg, ep, ev, re, r, rp)
+function s.me1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
+
+function s.me1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsReleasable() end
+    Duel.Release(e:GetHandler(), REASON_COST)
+end
+
+function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        s.should_check = true
+        local res = Duel.IsPlayerCanPendulumSummon(tp)
+        s.should_check = false
+        return res
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
+                          LOCATION_EXTRA + LOCATION_HAND)
+end
+
+function s.me1op(e, tp, eg, ep, ev, re, r, rp)
+    local c=e:GetHandler()
+    
+    s.should_check = true
+    Duel.PendulumSummon(tp)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetCode(EVENT_CHAIN_END)
+    ec1:SetOperation(function(e) s.should_check = false end)
+    Duel.RegisterEffect(ec1, 0)
+end
+
+function s.me2con(e, tp, eg, ep, ev, re, r, rp)
     if not Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_PZONE, 0, 1,
                                        nil) then return false end
 
@@ -155,13 +217,13 @@ function s.me1con(e, tp, eg, ep, ev, re, r, rp)
     return false
 end
 
-function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local tc = e:GetLabelObject()
     if chk == 0 then return tc:IsOnField() end
     Duel.SetTargetCard(tc)
 end
 
-function s.me1op(e, tp, eg, ep, ev, re, r, rp)
+function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not tc:IsRelateToEffect(e) and tc:IsFacedown() or not tc:IsControler(tp) then

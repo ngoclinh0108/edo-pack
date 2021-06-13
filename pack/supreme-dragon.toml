@@ -378,13 +378,15 @@ You can only use each effect of "Odd-Eyes Magician" once per turn. \
 """
 effect = """\
 (This card is always treated as a "Pendulum Dragon" card.)
-Once per turn, when an attack is declared involving your "Odd-Eyes" Dragon monster and an opponent's monster, if you have an card in your other Pendulum Zone: \
+During the Main Phase (Quick Effect): You can Tribute this card; Pendulum Summon a Pendulum Monster(s), except "Odd-Eyes Magician". \
+When an attack is declared involving your "Odd-Eyes" Dragon monster and an opponent's monster, if you have an card in your other Pendulum Zone: \
     You can make that monster you control gain ATK equal to the ATK of monsters in the Pendulum Zone until the end of the Battle Phase. \
-    You can only use this effect of "Odd-Eyes Magician" once per turn. \
+You can only use each effect of "Odd-Eyes Magician" once per turn. \
 """
 strings = [
     "Special Summon a \"Odd-Eyes\" monster",
     "Search Pendulum Monster",
+    "Tribute to Pendulum Summon",
     "ATK Up by monsters in Pendulum Zone",
 ]
 
@@ -411,7 +413,7 @@ strings = []
 id = 950000013
 set = "clear-wing synchro-dragon magician"
 name = "Clear Wing Magician"
-type = "monster synchro pendulum effect"
+type = "monster synchro pendulum tuner effect"
 attribute = "wind"
 race = "spellcaster"
 level = 7

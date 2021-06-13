@@ -130,8 +130,10 @@ function s.e4filter(c, e, tp)
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
     if c:IsLocation(LOCATION_EXTRA) and
         Duel.GetLocationCountFromEx(tp, tp, nil, c) == 0 then return false end
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               (c:IsSetCard(0x99) or c:IsSetCard(0x20f8)) and not c:IsCode(id)
+    return
+        c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and not c:IsCode(id) and
+            ((c:IsSetCard(0x99) and c:IsRace(RACE_DRAGON)) or
+                c:IsSetCard(0x20f8))
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
