@@ -51,31 +51,21 @@ function s.initial_effect(c)
     me2:SetType(EFFECT_TYPE_IGNITION)
     me2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     me2:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
-    me2:SetCountLimit(1, id + 2 * 1000000)
+    me2:SetCountLimit(1, id)
     me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
 
-    -- lv change
+    -- synchro summon
     local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 1))
+    me3:SetDescription(1172)
+    me3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     me3:SetType(EFFECT_TYPE_IGNITION)
     me3:SetRange(LOCATION_MZONE)
-    me3:SetCountLimit(1, id + 1 * 1000000)
+    me3:SetCountLimit(1)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
-
-    -- synchro summon
-    local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(1172)
-    me4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    me4:SetType(EFFECT_TYPE_IGNITION)
-    me4:SetRange(LOCATION_MZONE)
-    me4:SetCountLimit(1)
-    me4:SetTarget(s.me4tg)
-    me4:SetOperation(s.me4op)
-    c:RegisterEffect(me4)
 end
 
 function s.pe1con(e)
@@ -193,55 +183,37 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)
-    e:SetLabel(Duel.AnnounceLevel(tp, 1, 8, e:GetHandler():GetLevel()))
-end
-
-function s.me3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_CHANGE_LEVEL)
-    ec1:SetValue(e:GetLabel())
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
-end
-
-function s.me4filter1(c, e, tp, mc)
+function s.me3filter1(c, e, tp, mc)
     local mg = Group.FromCards(c, mc)
     return c:IsCanBeSynchroMaterial() and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               Duel.IsExistingMatchingCard(s.me4filter2, tp, LOCATION_EXTRA, 0,
+               Duel.IsExistingMatchingCard(s.me3filter2, tp, LOCATION_EXTRA, 0,
                                            1, nil, tp, mg)
 end
 
-function s.me4filter2(c, tp, mg)
+function s.me3filter2(c, tp, mg)
     return Duel.GetLocationCountFromEx(tp, tp, mg, c) > 0 and
                c:IsSynchroSummonable(nil, mg)
 end
 
-function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsPlayerCanSpecialSummonCount(tp, 2) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.me4filter1, tp, LOCATION_PZONE,
+                   Duel.IsExistingMatchingCard(s.me3filter1, tp, LOCATION_PZONE,
                                                0, 1, nil, e, tp, c)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
 end
 
-function s.me4op(e, tp, eg, ep, ev, re, r, rp)
+function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.me4filter1, tp, LOCATION_PZONE, 0,
+    local tc = Duel.SelectMatchingCard(tp, s.me3filter1, tp, LOCATION_PZONE, 0,
                                        1, 1, nil, e, tp, c):GetFirst()
     if not Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
         return
@@ -260,7 +232,7 @@ function s.me4op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     local mg = Group.FromCards(c, tc)
-    local g = Duel.GetMatchingGroup(s.me4filter2, tp, LOCATION_EXTRA, 0, nil,
+    local g = Duel.GetMatchingGroup(s.me3filter2, tp, LOCATION_EXTRA, 0, nil,
                                     tp, mg)
     if #g > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)

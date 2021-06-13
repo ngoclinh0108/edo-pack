@@ -51,34 +51,21 @@ function s.initial_effect(c)
     me2:SetType(EFFECT_TYPE_IGNITION)
     me2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     me2:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
-    me2:SetCountLimit(1, id + 2 * 1000000)
+    me2:SetCountLimit(1, id)
     me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
 
-    -- rank-up
+    -- xyz summon
     local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 1))
+    me3:SetDescription(1173)
     me3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     me3:SetType(EFFECT_TYPE_IGNITION)
-    me3:SetRange(LOCATION_MZONE + LOCATION_HAND)
-    me3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    me3:SetCountLimit(1, id + 1 * 1000000)
-    me3:SetCost(s.me3cost)
+    me3:SetRange(LOCATION_MZONE)
+    me3:SetCountLimit(1)
     me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
-
-    -- xyz summon
-    local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(1173)
-    me4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    me4:SetType(EFFECT_TYPE_IGNITION)
-    me4:SetRange(LOCATION_MZONE)
-    me4:SetCountLimit(1)
-    me4:SetTarget(s.me4tg)
-    me4:SetOperation(s.me4op)
-    c:RegisterEffect(me4)
 end
 
 function s.pe1con(e)
@@ -214,95 +201,37 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.me3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsReleasable() end
-    Duel.Release(e:GetHandler(), REASON_COST)
-end
-
-function s.me3filter1(c, e, tp)
-    local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(c), tp, nil, nil,
-                                          REASON_XYZ)
-    return (#pg <= 0 or (#pg == 1 and pg:IsContains(c))) and c:IsFaceup() and
-               c:IsRank(4) and c:IsAttribute(ATTRIBUTE_DARK) and
-               c:IsRace(RACE_DRAGON) and
-               Duel.IsExistingMatchingCard(s.me3filter2, tp, LOCATION_EXTRA, 0,
-                                           1, nil, e, tp, c, pg)
-end
-
-function s.me3filter2(c, e, tp, mc, pg)
-    if c.rum_limit and not c.rum_limit(mc, e) then return false end
-    return mc:IsType(TYPE_XYZ, c, SUMMON_TYPE_XYZ, tp) and
-               Duel.GetLocationCountFromEx(tp, tp, mc, c) > 0 and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_XYZ, tp, false, false) and
-               c:IsRank(mc:GetRank() + 1) and c:IsAttribute(ATTRIBUTE_DARK) and
-               c:IsRace(RACE_DRAGON)
-end
-
-function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.me3filter1, tp, LOCATION_MZONE, 0, 1,
-                                     nil, e, tp)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    Duel.SelectTarget(tp, s.me3filter1, tp, LOCATION_MZONE, 0, 1, 1, nil, e, tp)
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
-end
-
-function s.me3op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(tc), tp, nil, nil,
-                                          REASON_XYZ)
-    if not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) or
-        tc:IsControler(1 - tp) or tc:IsImmuneToEffect(e) or #pg > 1 or
-        (#pg == 1 and not pg:IsContains(tc)) then return end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, s.me3filter2, tp, LOCATION_EXTRA, 0,
-                                      1, 1, nil, e, tp, tc, pg)
-    local sc = g:GetFirst()
-    if not sc then return end
-
-    local mg = tc:GetOverlayGroup()
-    if #mg ~= 0 then Duel.Overlay(sc, mg) end
-    sc:SetMaterial(Group.FromCards(tc))
-    Duel.Overlay(sc, Group.FromCards(tc))
-    Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
-    sc:CompleteProcedure()
-end
-
-function s.me4filter1(c, e, tp, mc)
+function s.me3filter1(c, e, tp, mc)
     local mg = Group.FromCards(c, mc)
     return c:IsCanBeXyzMaterial() and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               Duel.IsExistingMatchingCard(s.me4filter2, tp, LOCATION_EXTRA, 0,
+               Duel.IsExistingMatchingCard(s.me3filter2, tp, LOCATION_EXTRA, 0,
                                            1, nil, tp, mg)
 end
 
-function s.me4filter2(c, tp, mg)
+function s.me3filter2(c, tp, mg)
     return Duel.GetLocationCountFromEx(tp, tp, mg, c) > 0 and
                c:IsXyzSummonable(nil, mg)
 end
 
-function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsPlayerCanSpecialSummonCount(tp, 2) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.me4filter1, tp, LOCATION_PZONE,
+                   Duel.IsExistingMatchingCard(s.me3filter1, tp, LOCATION_PZONE,
                                                0, 1, nil, e, tp, c)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
 end
 
-function s.me4op(e, tp, eg, ep, ev, re, r, rp)
+function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.me4filter1, tp, LOCATION_PZONE, 0,
+    local tc = Duel.SelectMatchingCard(tp, s.me3filter1, tp, LOCATION_PZONE, 0,
                                        1, 1, nil, e, tp, c):GetFirst()
     if not Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
         return
@@ -321,7 +250,7 @@ function s.me4op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     local mg = Group.FromCards(c, tc)
-    local g = Duel.GetMatchingGroup(s.me4filter2, tp, LOCATION_EXTRA, 0, nil,
+    local g = Duel.GetMatchingGroup(s.me3filter2, tp, LOCATION_EXTRA, 0, nil,
                                     tp, mg)
     if #g > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)

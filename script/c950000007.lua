@@ -52,37 +52,27 @@ function s.initial_effect(c)
     me2:SetType(EFFECT_TYPE_IGNITION)
     me2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     me2:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
-    me2:SetCountLimit(1, id + 2 * 1000000)
+    me2:SetCountLimit(1, id)
     me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
 
-    -- name change
-    local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 0))
-    me3:SetType(EFFECT_TYPE_IGNITION)
-    me3:SetRange(LOCATION_MZONE)
-    me3:SetCountLimit(1, id + 1 * 1000000)
-    me3:SetTarget(s.me3tg)
-    me3:SetOperation(s.me3op)
-    c:RegisterEffect(me3)
-
     -- fusion summon (monster zone)
-    local me4params = {
+    local me3params = {
         nil, Fusion.CheckWithHandler(Fusion.OnFieldMat), function(e, tp, mg)
             return Duel.GetMatchingGroup(Card.IsAbleToGrave, tp, LOCATION_PZONE,
                                          0, nil)
         end, nil, Fusion.ForcedHandler
     }
-    local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(1170)
-    me4:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
-    me4:SetType(EFFECT_TYPE_IGNITION)
-    me4:SetRange(LOCATION_MZONE)
-    me4:SetCountLimit(1)
-    me4:SetTarget(Fusion.SummonEffTG(table.unpack(me4params)))
-    me4:SetOperation(Fusion.SummonEffOP(table.unpack(me4params)))
-    c:RegisterEffect(me4)
+    local me3 = Effect.CreateEffect(c)
+    me3:SetDescription(1170)
+    me3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    me3:SetType(EFFECT_TYPE_IGNITION)
+    me3:SetRange(LOCATION_MZONE)
+    me3:SetCountLimit(1)
+    me3:SetTarget(Fusion.SummonEffTG(table.unpack(me3params)))
+    me3:SetOperation(Fusion.SummonEffOP(table.unpack(me3params)))
+    c:RegisterEffect(me3)
 end
 
 function s.pe1con(e)
@@ -162,31 +152,4 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
         ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec2)
     end
-end
-
-function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return true end
-
-    local ac = Duel.AnnounceCard(tp, table.unpack({
-        TYPE_MONSTER, OPCODE_ISTYPE, c:GetCode(), OPCODE_ISCODE, OPCODE_NOT,
-        OPCODE_AND, 13331639, OPCODE_ISCODE, OPCODE_NOT, OPCODE_AND
-    }))
-    Duel.SetTargetParam(ac)
-
-    Duel.SetOperationInfo(0, CATEGORY_ANNOUNCE, nil, 0, tp, ANNOUNCE_CARD_FILTER)
-end
-
-function s.me3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ac = Duel.GetChainInfo(0, CHAININFO_TARGET_PARAM)
-    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    ec1:SetCode(EFFECT_CHANGE_CODE)
-    ec1:SetValue(ac)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
 end

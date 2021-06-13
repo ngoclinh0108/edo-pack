@@ -258,13 +258,11 @@ If this card is in your hand, GY or Extra Deck: \
     You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
     its ATK become 0 and negate its effects, \
     and if you do, Special Summon this card in Defense Position, then the targeted monster's Attribute become DARK. \
-You can declare 1 monster's name, except "Supreme King Z-ARC"; \
-    until the End Phase, this card's name becomes that name. \
-You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
+    You can only use this effect of "Supreme King Dragon Venowurm" once per turn. \
+Once per turn, you can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using this card you control as Fusion Material, as well as other monsters you control or cards in your Pendulum Zones. \
-You can only use each effect of "Supreme King Dragon Venowurm" once per turn. \
 """
-strings = ["Change a name"]
+strings = []
 
 [card.supreme-king-dragon-wingwurm]
 id = 950000008
@@ -289,12 +287,11 @@ If this card is in your hand, GY or Extra Deck: \
     You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
     its ATK become 0 and negate its effects, \
     and if you do, Special Summon this card in Defense Position, then reduce targeted monster's Level by this card' Level (min. 1). \
-You can declare a Level from 1 to 8; this card becomes that Level until the end of this turn. \
+    You can only use this effect of "Supreme King Dragon Wingwurm" once per turn. \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
     and if you do, immediately after this effect resolves, Synchro Summon 1 Synchro Monster using only that monster and this card. \
-You can only use each effect of "Supreme King Dragon Wingwurm" once per turn. \
 """
-strings = ["Make monster become Tuner", "Change Level"]
+strings = ["Make monster become Tuner"]
 
 [card.supreme-king-dragon-rebelliwurm]
 id = 950000009
@@ -321,15 +318,11 @@ If this card is in your hand, GY or Extra Deck: \
     You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
     its ATK become 0 and negate its effects, \
     and if you do, Special Summon this card in Defense Position, then the targeted monster's Level becomes the same as this card's. \
-You can Tribute this card from your hand or face-up field, then target 1 Rank 4 DARK Dragon Xyz Monster you control; \
-    Special Summon from your Extra Deck, 1 DARK Dragon Xyz Monster that is 1 Rank higher than that monster you control, \
-    by using it as the Xyz Material. \
-    (This Special Summon is treated as an Xyz Summon. Xyz Materials attached to that target also become Xyz Materials on the Summoned monster.) \
+    You can only use this effect of "Supreme King Dragon Rebelliwurm" once per turn. \
 Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has its effects negated (if any), \
     and if you do, immediately after this effect resolves, Xyz Summon 1 Xyz Monster using only that monster and this card. \
-You can only use each effect of "Supreme King Dragon Rebelliwurm" once per turn. \
 """
-strings = ["Make Xyz monster gain Level", "Rank-Up DARK Dragon monster"]
+strings = ["Make Xyz monster gain Level"]
 
 [card.sky-iris-magician]
 id = 950000010
@@ -440,8 +433,22 @@ effect = """\
 """
 strings = []
 
-[card.supreme-wrath]
+[card.lethal-starving-venom-fusion-dragon]
 id = 950000015
+set = "starving-venom fusion-dragon"
+name = "Lethal Starving Venom Fusion Dragon"
+type = "monster fusion effect"
+attribute = "dark"
+race = "dragon"
+level = 10
+atk = 3300
+def = 2500
+effect = """\
+"""
+strings = []
+
+[card.supreme-wrath]
+id = 950000016
 name = "Supreme Wrath"
 type = "trap"
 effect = """\
