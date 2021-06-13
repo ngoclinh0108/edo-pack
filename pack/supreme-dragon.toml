@@ -378,7 +378,8 @@ You can only use each effect of "Odd-Eyes Magician" once per turn. \
 """
 effect = """\
 (This card is always treated as a "Pendulum Dragon" card.)
-During the Main Phase (Quick Effect): You can Tribute this card; Pendulum Summon a Dragon Pendulum Monster(s), except "Odd-Eyes Magician". \
+During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
+    Pendulum Summon a Dragon Pendulum Monster(s), except "Odd-Eyes Magician". \
 When an attack is declared involving your "Odd-Eyes" Dragon monster and an opponent's monster, if you have an card in your other Pendulum Zone: \
     You can make that monster you control gain ATK equal to the ATK of monsters in the Pendulum Zone until the end of the Battle Phase. \
 You can only use each effect of "Odd-Eyes Magician" once per turn. \
@@ -386,7 +387,7 @@ You can only use each effect of "Odd-Eyes Magician" once per turn. \
 strings = [
     "Special Summon a \"Odd-Eyes\" monster",
     "Search Pendulum Monster",
-    "Tribute to Pendulum Summon",
+    "Destroy & Pendulum Summon",
     "ATK Up by monsters in Pendulum Zone",
 ]
 
@@ -419,7 +420,7 @@ You can only use each of the following effects of "Starving Venom Magician" once
 """
 strings = [
     "Return Dragon Fusion Monter to the Extra Deck",
-    "Summon a Dragon Fusion Monster",
+    "Destroy & Summon a Dragon Fusion Monster",
 ]
 
 [card.clear-wing-magician]
@@ -451,7 +452,7 @@ You can only use each of the following effects of "Clear Wing Magician" once per
 """
 strings = [
     "Return Dragon Synchro Monter to the Extra Deck",
-    "Summon a Dragon Synchro Monster",
+    "Destroy & Summon a Dragon Synchro Monster",
 ]
 
 [card.dark-rebellion-magician]
@@ -487,8 +488,8 @@ You can only use each of the following effects of "Dark Rebellion Magician" once
 strings = [
     "Return Dragon Xyz Monter to the Extra Deck",
     "Rank-Up Dragon Xyz Monster",
-    "Summon a Dragon Xyz Monster",
-    "inflict damage equal to ATK's change"
+    "Destroy & Summon a Dragon Xyz Monster",
+    "inflict damage & recover LP equal to ATK's change"
 ]
 
 [card.lethal-starving-venom-fusion-dragon]

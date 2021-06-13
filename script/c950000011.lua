@@ -34,7 +34,7 @@ function s.initial_effect(c)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
-    -- pendulum summon
+    -- destroy & pendulum summon
     local me1 = Effect.CreateEffect(c)
     me1:SetDescription(aux.Stringid(id, 2))
     me1:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -43,10 +43,7 @@ function s.initial_effect(c)
     me1:SetRange(LOCATION_MZONE)
     me1:SetHintTiming(0, TIMING_MAIN_END)
     me1:SetCountLimit(1, id + 3 * 1000000)
-    me1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return Duel.IsMainPhase()
-    end)
-    me1:SetCost(s.me1cost)
+    me1:SetCondition(function() return Duel.IsMainPhase() end)
     me1:SetTarget(s.me1tg)
     me1:SetOperation(s.me1op)
     c:RegisterEffect(me1)
@@ -177,19 +174,23 @@ function s.me1cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
         s.should_check = true
         local res = Duel.IsPlayerCanPendulumSummon(tp)
         s.should_check = false
-        return res
+        return c:IsDestructable() and res
     end
 
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, c, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
                           LOCATION_EXTRA + LOCATION_HAND)
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+    if Duel.Destroy(c, REASON_EFFECT) == 0 then return end
 
     s.should_check = true
     Duel.PendulumSummon(tp)
