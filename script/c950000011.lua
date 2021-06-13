@@ -57,7 +57,7 @@ function s.initial_effect(c)
         me1exclude:SetTargetRange(1, 1)
         me1exclude:SetTarget(function(e, c)
             if s.should_check then
-                return c:IsCode(id) or not c:IsType(TYPE_PENDULUM)
+                return not c:IsRace(RACE_DRAGON) or not c:IsType(TYPE_PENDULUM)
             end
             return false
         end)
@@ -71,7 +71,7 @@ function s.initial_effect(c)
     me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     me2:SetCode(EVENT_ATTACK_ANNOUNCE)
     me2:SetRange(LOCATION_MZONE)
-    me2:SetCountLimit(1, id + 2 * 1000000)
+    me2:SetCountLimit(1, id + 4 * 1000000)
     me2:SetCondition(s.me2con)
     me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
@@ -189,8 +189,8 @@ function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
-    local c=e:GetHandler()
-    
+    local c = e:GetHandler()
+
     s.should_check = true
     Duel.PendulumSummon(tp)
 

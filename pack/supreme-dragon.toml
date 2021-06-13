@@ -378,7 +378,7 @@ You can only use each effect of "Odd-Eyes Magician" once per turn. \
 """
 effect = """\
 (This card is always treated as a "Pendulum Dragon" card.)
-During the Main Phase (Quick Effect): You can Tribute this card; Pendulum Summon a Pendulum Monster(s), except "Odd-Eyes Magician". \
+During the Main Phase (Quick Effect): You can Tribute this card; Pendulum Summon a Dragon Pendulum Monster(s), except "Odd-Eyes Magician". \
 When an attack is declared involving your "Odd-Eyes" Dragon monster and an opponent's monster, if you have an card in your other Pendulum Zone: \
     You can make that monster you control gain ATK equal to the ATK of monsters in the Pendulum Zone until the end of the Battle Phase. \
 You can only use each effect of "Odd-Eyes Magician" once per turn. \
@@ -404,8 +404,8 @@ def = 2000
 pendulum-effect = """\
 """
 effect = """\
-(This card is always treated as a "Fusion Dragon" card.)
 2 Pendulum monsters
+(This card is always treated as a "Fusion Dragon" card.)
 """
 strings = []
 
@@ -423,8 +423,13 @@ def = 2000
 pendulum-effect = """\
 """
 effect = """\
-(This card is always treated as a "Synchro Dragon" card.)
 1 Tuner + 1+ non-Tuner Pendulum Monsters
+(This card is always treated as a "Synchro Dragon" card.)
+During the Main Phase (Quick Effect): You can destroy this card, and if you do, \
+    Special Summon 1 Dragon Synchro Monster that is banished or in your GY. \
+    (this Special Summon is treated as an Synchro Summon.) \
+You can only use this effect of "Clear Wing Magician" once per turn. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
 strings = []
 
@@ -442,8 +447,8 @@ def = 2500
 pendulum-effect = """\
 """
 effect = """\
-(This card is always treated as a "Xyz Dragon" card.)
 2 Level 4 Pendulum Monsters
+(This card is always treated as a "Xyz Dragon" card.)
 """
 strings = []
 
