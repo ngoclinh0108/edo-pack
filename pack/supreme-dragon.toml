@@ -392,12 +392,15 @@ strings = [
 id = 950000012
 set = "starving-venom fusion-dragon magician"
 name = "Starving Venom Magician"
-type = "monster fusion effect"
+type = "monster fusion pendulum effect"
 attribute = "dark"
 race = "spellcaster"
 level = 7
+pendulum-scale = 1
 atk = 2500
 def = 2000
+pendulum-effect = """\
+"""
 effect = """\
 (This card is always treated as a "Fusion Dragon" card.)
 2 Pendulum monsters
@@ -408,12 +411,15 @@ strings = []
 id = 950000013
 set = "clear-wing synchro-dragon magician"
 name = "Clear Wing Magician"
-type = "monster synchro effect"
+type = "monster synchro pendulum effect"
 attribute = "wind"
 race = "spellcaster"
 level = 7
+pendulum-scale = 1
 atk = 2500
 def = 2000
+pendulum-effect = """\
+"""
 effect = """\
 (This card is always treated as a "Synchro Dragon" card.)
 1 Tuner + 1+ non-Tuner Pendulum Monsters
@@ -424,12 +430,15 @@ strings = []
 id = 950000014
 set = "rebellion xyz-dragon magician"
 name = "Dark Rebellion Magician"
-type = "monster xyz effect"
+type = "monster xyz pendulum effect"
 attribute = "dark"
 race = "spellcaster"
 rank = 4
+pendulum-scale = 8
 atk = 2000
 def = 2500
+pendulum-effect = """\
+"""
 effect = """\
 (This card is always treated as a "Xyz Dragon" card.)
 2 Level 4 Pendulum Monsters
