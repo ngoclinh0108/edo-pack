@@ -37,7 +37,7 @@ When this card is activated: \
     1 "Supreme King Dragon" monster that have Level between (exclusive) the Pendulum Scales of the cards in your Pendulum Zones \
     from your Deck, GY or Extra Deck face-up \
 Face-up Spells/Traps you control cannot be destroyed by your opponent's card effects. \
-Your opponent's cannot target monsters this card points to with card effects. \
+Activation and effect of monsters this card points cannot be negated. \
 Once per turn, you can banish 4 monsters from your hand, field, GY and/or Extra Deck face-up (1 each with "Pendulum Dragon", "Xyz Dragon", "Synchro Dragon", and "Fusion Dragon" in their names); \
     Special Summon 1 "Supreme King Z-ARC" from your Extra Deck, ignoring its Summoning conditions. (This is treated as a Properly Summon.) \
 You can only use each of the following effects of "Supreme Soul" twice per turn.
@@ -484,6 +484,7 @@ You can only use each of the following effects of "Dark Rebellion" once per turn
 """
 strings = [
     "Return Dragon Xyz Monter to the Extra Deck",
+    "Rank-Up Dragon Xyz Monster",
     "Summon a Dragon Xyz Monster",
 ]
 

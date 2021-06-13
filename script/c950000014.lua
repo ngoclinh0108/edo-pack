@@ -26,6 +26,7 @@ function s.initial_effect(c)
 
     -- rank-up
     local pe2 = Effect.CreateEffect(c)
+    pe2:SetDescription(aux.Stringid(id, 1))
     pe2:SetCategory(CATEGORY_SPECIAL_SUMMON)
     pe2:SetType(EFFECT_TYPE_IGNITION)
     pe2:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -56,7 +57,7 @@ function s.initial_effect(c)
 
     -- destroy & summon
     local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 1))
+    me3:SetDescription(aux.Stringid(id, 2))
     me3:SetCategory(CATEGORY_DESTROY + CATEGORY_SPECIAL_SUMMON)
     me3:SetType(EFFECT_TYPE_QUICK_O)
     me3:SetCode(EVENT_FREE_CHAIN)
@@ -117,9 +118,8 @@ end
 
 function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return e:IsHasType(EFFECT_TYPE_ACTIVATE) and
-                   Duel.IsExistingTarget(s.pe2filter1, tp, LOCATION_MZONE, 0, 1,
-                                         nil, e, tp)
+        return Duel.IsExistingTarget(s.pe2filter1, tp, LOCATION_MZONE, 0, 1,
+                                     nil, e, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)

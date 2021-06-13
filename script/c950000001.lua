@@ -27,18 +27,23 @@ function s.initial_effect(c)
     e2:SetValue(aux.indoval)
     c:RegisterEffect(e2)
 
-    -- cannot be target
+    -- cannot negated
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
     e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e3:SetCode(EFFECT_CANNOT_INACTIVATE)
     e3:SetRange(LOCATION_SZONE)
     e3:SetTargetRange(LOCATION_MZONE, LOCATION_MZONE)
     e3:SetTarget(function(e, c)
         return e:GetHandler():GetLinkedGroup():IsContains(c)
     end)
-    e3:SetValue(aux.tgoval)
     c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_CANNOT_DISABLE)
+    c:RegisterEffect(e3b)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_CANNOT_DISEFFECT)
+    c:RegisterEffect(e3b)
 
     -- summon Z-ARC
     local e4 = Effect.CreateEffect(c)
