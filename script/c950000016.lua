@@ -61,7 +61,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter1(c)
-    return c:IsFaceup() and c:IsSetCard(0x20f8) and c:IsType(TYPE_XYZ)
+    return c:IsFaceup() and c:IsType(TYPE_XYZ) and
+               (c:IsType(TYPE_PENDULUM) or c:IsSetCard(0x20f8))
 end
 
 function s.e1filter2(c)
