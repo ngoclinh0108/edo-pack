@@ -40,7 +40,7 @@ function s.initial_effect(c)
     me1:SetCode(EFFECT_CANNOT_BE_XYZ_MATERIAL)
     me1:SetValue(function(e, c)
         if not c then return false end
-        return not c:IsRace(RACE_DRAGON)
+        return not c:IsRace(RACE_DRAGON) and not c:IsType(TYPE_PENDULUM)
     end)
     c:RegisterEffect(me1)
 

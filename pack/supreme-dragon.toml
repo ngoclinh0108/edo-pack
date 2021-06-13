@@ -253,7 +253,7 @@ Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King 
 Once per turn: You can Fusion Summon 1 Dragon Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Materials. \
 """
 effect = """\
-Cannot be used as Fusion Material, except for the Fusion Summon of a Dragon Fusion Monster. \
+Cannot be used as Fusion Material, except for the Fusion Summon of a Dragon Fusion Monster or Pendulum Fusion Monster. \
 If this card is in your hand, GY or Extra Deck: \
     You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
     its ATK become 0 and negate its effects, \
@@ -282,7 +282,7 @@ Once per turn: You can target 1 Pendulum Monster you control; this turn, \
     that face-up monster is treated as a Tuner, also its Level becomes 1 (even if this card leaves the field). \
 """
 effect = """\
-Cannot be used as Synchro Material, except for the Synchro Summon of a Dragon Synchro Monster. \
+Cannot be used as Synchro Material, except for the Synchro Summon of a Dragon Synchro Monster or Pendulum Synchro Monster. \
 If this card is in your hand, GY or Extra Deck: \
     You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
     its ATK become 0 and negate its effects, \
@@ -313,7 +313,7 @@ Once per turn: You can target 1 face-up Xyz Monster you control, and 1 Pendulum 
     (even if this card leaves the field). \
 """
 effect = """\
-Cannot be used as Xyz Material, except for the Xyz Summon of a Dragon Xyz Monster. \
+Cannot be used as Xyz Material, except for the Xyz Summon of a Dragon Xyz Monster or Pendulum Xyz Monster. \
 If this card is in your hand, GY or Extra Deck: \
     You can target 1 Pendulum Monster or Dragon monster with 2500 ATK more you control; \
     its ATK become 0 and negate its effects, \
