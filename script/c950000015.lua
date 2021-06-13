@@ -98,7 +98,7 @@ end
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.IsExistingMatchingCard(function(c)
         return c:IsFaceup() and c:IsCode(950000005)
-    end, tp, LOCATION_ONFIELD, 0, 1, nil)
+    end, e:GetHandlerPlayer(), LOCATION_ONFIELD, 0, 1, nil)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
