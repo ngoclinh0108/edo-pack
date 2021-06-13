@@ -24,6 +24,17 @@ function s.initial_effect(c)
     pe1:SetOperation(s.pe1op)
     c:RegisterEffect(pe1)
 
+    -- rank-up
+    local pe2 = Effect.CreateEffect(c)
+    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    pe2:SetType(EFFECT_TYPE_IGNITION)
+    pe2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    pe2:SetRange(LOCATION_PZONE)
+    pe2:SetCountLimit(1)
+    pe2:SetTarget(s.pe2tg)
+    pe2:SetOperation(s.pe2op)
+    c:RegisterEffect(pe2)
+
     -- xyz level
     local me1 = Effect.CreateEffect(c)
     me1:SetType(EFFECT_TYPE_SINGLE)
@@ -82,6 +93,61 @@ function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc:IsRelateToEffect(e) then return end
     Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT)
+end
+
+function s.pe2filter1(c, e, tp)
+    local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(c), tp, nil, nil,
+                                          REASON_XYZ)
+    return #pg <= 1 and c:IsFaceup() and c:IsRace(RACE_DRAGON) and
+               (c:GetRank() > 0 or c:IsStatus(STATUS_NO_LEVEL)) and
+               Duel.IsExistingMatchingCard(s.pe2filter2, tp, LOCATION_EXTRA, 0,
+                                           1, nil, e, tp, c, pg)
+end
+
+function s.pe2filter2(c, e, tp, mc, pg)
+    local rk = mc:GetRank()
+    if c.rum_limit and not c.rum_limit(mc, e) or
+        Duel.GetLocationCountFromEx(tp, tp, mc, c) <= 0 then return false end
+    return
+        c:IsType(TYPE_XYZ) and mc:IsType(TYPE_XYZ, c, SUMMON_TYPE_XYZ, tp) and
+            mc:IsRace(RACE_DRAGON, c, SUMMON_TYPE_XYZ, tp) and c:IsRank(rk + 1) and
+            mc:IsCanBeXyzMaterial(c, tp) and (#pg <= 0 or pg:IsContains(mc)) and
+            c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_XYZ, tp, false, false)
+end
+
+function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return e:IsHasType(EFFECT_TYPE_ACTIVATE) and
+                   Duel.IsExistingTarget(s.pe2filter1, tp, LOCATION_MZONE, 0, 1,
+                                         nil, e, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.SelectTarget(tp, s.pe2filter1, tp, LOCATION_MZONE, 0, 1, 1, nil, e, tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
+end
+
+function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not tc or tc:IsFacedown() or not c:IsRelateToEffect(e) or
+        not tc:IsRelateToEffect(e) or tc:IsControler(1 - tp) or
+        tc:IsImmuneToEffect(e) then return end
+
+    local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(tc), tp, nil, nil,
+                                          REASON_XYZ)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local sc = Duel.SelectMatchingCard(tp, s.pe2filter2, tp, LOCATION_EXTRA, 0,
+                                       1, 1, nil, e, tp, tc, pg):GetFirst()
+    if not sc then return end
+
+    local mg = tc:GetOverlayGroup()
+    if #mg ~= 0 then Duel.Overlay(sc, mg) end
+    sc:SetMaterial(Group.FromCards(tc))
+    Duel.Overlay(sc, Group.FromCards(tc, c))
+    Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
+    sc:CompleteProcedure()
 end
 
 function s.me2con(e, tp, eg, ep, ev, re, r, rp)

@@ -467,6 +467,10 @@ atk = 2000
 def = 2500
 pendulum-effect = """\
 Once per turn, you can target 1 Dragon Xyz Monster that is banished or in your GY; return it to the Extra Deck. \
+Once per turn, you can target 1 Dragon Xyz Monster you control; \
+    Special Summon from your Extra Deck, 1 Xyz Monster that is 1 Rank higher than that monster you control, \
+    by using it as material, and if you do, attach this card to it as additional material. \
+    (This is treated as an Xyz Summon. Transfer its materials to the Summoned monster.) \
 """
 effect = """\
 2 Level 4 Pendulum Monsters
