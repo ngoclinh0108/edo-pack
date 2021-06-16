@@ -491,7 +491,7 @@ atk = 3300
 def = 2500
 effect = """\
 1 "Starving Venom" Fusion Monster + 1 DARK monster whose original Level is 7 or higher
-Must first be Fusion Summoned with the above Fusion materials. \
+Must first be Fusion Summoned with the above Fusion materials on the field. \
 """
 strings = []
 

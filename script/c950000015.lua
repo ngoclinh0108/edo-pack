@@ -11,10 +11,11 @@ function s.initial_effect(c)
     -- fusion summon
     Fusion.AddProcMix(c, false, false, function(c, sc, sumtype, tp)
         return c:IsSetCard(0x1050, sc, sumtype, tp) and
-                   c:IsType(TYPE_FUSION, sc, sumtype, tp)
+                   c:IsType(TYPE_FUSION, sc, sumtype, tp) and c:IsOnField()
     end, function(c, fc, sumtype, tp)
         return c:GetOriginalLevel() >= 7 and
-                   c:IsAttribute(ATTRIBUTE_DARK, fc, sumtype, tp)
+                   c:IsAttribute(ATTRIBUTE_DARK, fc, sumtype, tp) and
+                   c:IsOnField()
     end)
 
     -- special summon limit
