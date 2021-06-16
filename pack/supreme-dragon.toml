@@ -492,8 +492,11 @@ def = 2500
 effect = """\
 1 "Starving Venom" Fusion Monster + 1 DARK monster whose original Level is 7 or higher
 Must first be Fusion Summoned with the above Fusion materials on the field. \
+If this card is Special Summoned, or a monster(s) is Special Summoned to your opponent's side of the field: \
+    Place 1 Predator Counter on each face-up monster your opponent controls, \
+    and if you do, any of those monsters that are Level 2 or higher become Level 1 as long as they have a Predator Counter. \
 """
-strings = []
+strings = ["Place Predator Counter"]
 
 [card.supreme-wrath]
 id = 950000016
