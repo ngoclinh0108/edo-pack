@@ -102,7 +102,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         if #g2 > 1 then
-            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+            Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
             g2 = g2:Select(tp, 1, 1, nil)
         end
         Duel.SendtoExtraP(g2, tp, REASON_EFFECT)
