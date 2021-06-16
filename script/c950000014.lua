@@ -109,12 +109,13 @@ function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.me1con(e, tp, eg, ep, ev, re, r, rp)
-    local oct = e:GetHandler():GetOverlayCount() +
-                    re:GetHandler():GetOverlayCount()
-    return (r & REASON_COST) ~= 0 and re:IsActivated(0x7e0) and
-               re:IsActiveType(TYPE_XYZ) and ep == e:GetOwnerPlayer() and
-               e:GetHandler():CheckRemoveOverlayCard(tp, 1, REASON_EFFECT) and
-               oct
+    local c = e:GetHandler()
+    local rc = re:GetHandler()
+    return (r & REASON_COST) ~= 0 and ep == e:GetOwnerPlayer() and
+               re:IsActivated(0x7e0) and
+               c:CheckRemoveOverlayCard(tp, 1, REASON_EFFECT) and
+               c:GetOverlayCount() + rc:GetOverlayCount() >= ev and
+               re:IsActiveType(TYPE_XYZ) and rc:IsAttribute(ATTRIBUTE_DARK)
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)

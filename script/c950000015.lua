@@ -1,4 +1,4 @@
--- Lethal Starving Venom Fusion Dragon
+-- Predator Starving Venom Fusion Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
