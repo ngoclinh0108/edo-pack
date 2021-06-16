@@ -412,6 +412,9 @@ effect = """\
 This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster Card, \
     but the other Fusion Material(s) must be correct. \
     This effect cannot be negated. \
+If a "Starving Venom" Dragon monster destroy monsters your opponent controls by battle or card effect: \
+    You can inflict damage to your opponent equal to the combined original ATK of destroyed monster(s). \
+    You can only use this effects of "Starving Venom Magician" once per turn. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """
 strings = []
