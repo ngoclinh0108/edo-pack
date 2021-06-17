@@ -54,34 +54,35 @@ function s.initial_effect(c)
     me2:SetDescription(aux.Stringid(id, 0))
     me2:SetCategory(CATEGORY_DAMAGE)
     me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    me2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP +
-                        EFFECT_FLAG_PLAYER_TARGET)
-    me2:SetCode(EVENT_DESTROYED)
+    me2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    me2:SetCode(EVENT_PHASE + PHASE_END)
     me2:SetRange(LOCATION_MZONE)
     me2:SetCountLimit(1, id)
-    me2:SetCondition(s.me2con)
     me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
 end
 
-function s.me2filter(c, tp)
-    return c:IsPreviousLocation(LOCATION_ONFIELD) and
-               not c:IsPreviousControler(tp) and
-               c:IsReason(REASON_BATTLE + REASON_EFFECT)
-end
+function s.me2filter(c, tid)
+    if c:GetReasonEffect() == nil and c:GetReasonCard() == nil then
+        return false
+    end
+    if not c:IsReason(REASON_DESTROY) or c:GetTurnID() ~= tid or
+        not c:IsType(TYPE_MONSTER) then return end
 
-function s.me2con(e, tp, eg, ep, ev, re, r, rp)
-    local rc = re:GetOwner()
-    return rc:IsOriginalSetCard(0x1050) and rc:IsRace(RACE_DRAGON) and
-               eg:IsExists(s.me2filter, 1, nil, tp)
+    local rc1 = c:GetReasonCard()
+    local rc2 = c:GetReasonEffect() and c:GetReasonEffect():GetHandler() or nil
+    return
+        (rc1 and rc1:IsRace(RACE_DRAGON) and rc1:IsOriginalSetCard(0x1050)) or
+            (rc2 and rc2:IsRace(RACE_DRAGON) and rc2:IsOriginalSetCard(0x1050))
 end
 
 function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
+    local g = Duel.GetMatchingGroup(s.me2filter, tp, LOCATION_ALL, LOCATION_ALL,
+                                    nil, Duel.GetTurnCount())
+    if chk == 0 then return #g > 0 end
 
     local dmg = 0
-    local g = eg:Filter(s.me2filter, nil, tp)
     for tc in aux.Next(g) do
         if tc:GetBaseAttack() > 0 then dmg = dmg + tc:GetBaseAttack() end
     end

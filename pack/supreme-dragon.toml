@@ -412,8 +412,8 @@ effect = """\
 This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster Card, \
     but the other Fusion Material(s) must be correct. \
     This effect cannot be negated. \
-If a "Starving Venom" Dragon monster destroy monsters your opponent controls by battle or card effect: \
-    You can inflict damage to your opponent equal to the combined original ATK of destroyed monster(s). \
+During the End Phase: \
+    You can inflict damage to your opponent equal to the combined original ATK of monsters destroyed this turn by "Starving Venom" Dragon monster. \
     You can only use this effects of "Starving Venom Magician" once per turn. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """
@@ -495,8 +495,12 @@ Must first be Fusion Summoned with the above Fusion materials on the field. \
 If this card is Special Summoned, or a monster(s) is Special Summoned to your opponent's side of the field: \
     Place 1 Predator Counter on each face-up monster your opponent controls, \
     and if you do, any of those monsters that are Level 2 or higher become Level 1 as long as they have a Predator Counter. \
+You can target 1 face-up monster your opponent controls; until the End Phase, \
+    this card's name becomes that monster's original name, and replace this effect with that monster's original effects, \
+    then change that monster's ATK to 0, its effects are negated, these changes last until the end of this turn. \
+    You can only use this effect of "Predator Starving Venom Fusion Dragon" once per turn. \
 """
-strings = ["Place Predator Counter"]
+strings = ["Place Predator Counter", "Copy effect & make ATK 0 and negate effect"]
 
 [card.supreme-wrath]
 id = 950000016

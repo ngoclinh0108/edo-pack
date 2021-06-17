@@ -48,6 +48,18 @@ function s.initial_effect(c)
     e1ev:SetCondition(s.e1evcon)
     e1ev:SetOperation(s.e1evop)
     c:RegisterEffect(e1ev)
+
+    -- drain effect
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_DISABLE + CATEGORY_ATKCHANGE)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1, id)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1evcon(e, tp, eg, ep, ev, re, r, rp)
@@ -75,5 +87,58 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
             tc:RegisterEffect(ec1)
         end
+    end
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(aux.disfilter1, tp, 0, LOCATION_MZONE, 1,
+                                     nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
+    local g = Duel.SelectTarget(tp, aux.disfilter1, tp, 0, LOCATION_MZONE, 1, 1,
+                                nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, 1, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not tc or not c:IsRelateToEffect(e) or c:IsFacedown() or
+        not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsType(TYPE_TOKEN) then
+        return
+    end
+
+    local code = tc:GetOriginalCodeRule()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    ec1:SetCode(EFFECT_CHANGE_CODE)
+    ec1:SetValue(code)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+    if c:CopyEffect(code,
+                    RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1) >
+        0 then
+        Duel.BreakEffect()
+        
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetCode(EFFECT_SET_ATTACK_FINAL)
+        ec2:SetValue(0)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec2)
+        
+        local ec3 = Effect.CreateEffect(c)
+        ec3:SetType(EFFECT_TYPE_SINGLE)
+        ec3:SetCode(EFFECT_DISABLE)
+        ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec3)
+        local ec3b = ec3:Clone()
+        ec3b:SetCode(EFFECT_DISABLE_EFFECT)
+        ec3b:SetValue(RESET_TURN_SET)
+        tc:RegisterEffect(ec3b)
     end
 end
