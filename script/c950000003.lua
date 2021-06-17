@@ -119,14 +119,14 @@ end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(aux.disfilter1, tp, 0,
+        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0,
                                            LOCATION_MZONE, 1, nil)
     end
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(aux.disfilter1, tp, 0, LOCATION_MZONE, nil)
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
     for tc in aux.Next(g) do
         Duel.NegateRelatedChain(tc, RESET_TURN_SET)
         local ec1 = Effect.CreateEffect(c)
