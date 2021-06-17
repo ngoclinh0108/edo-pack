@@ -60,6 +60,17 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- special summon & destroy
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DESTROY)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3:SetCode(EVENT_TO_GRAVE)
+    e3:SetCondition(s.e3con)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1evcon(e, tp, eg, ep, ev, re, r, rp)
@@ -123,14 +134,14 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
                     RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1) >
         0 then
         Duel.BreakEffect()
-        
+
         local ec2 = Effect.CreateEffect(c)
         ec2:SetType(EFFECT_TYPE_SINGLE)
         ec2:SetCode(EFFECT_SET_ATTACK_FINAL)
         ec2:SetValue(0)
         ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         tc:RegisterEffect(ec2)
-        
+
         local ec3 = Effect.CreateEffect(c)
         ec3:SetType(EFFECT_TYPE_SINGLE)
         ec3:SetCode(EFFECT_DISABLE)
@@ -140,5 +151,47 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec3b:SetCode(EFFECT_DISABLE_EFFECT)
         ec3b:SetValue(RESET_TURN_SET)
         tc:RegisterEffect(ec3b)
+    end
+end
+
+function s.e3filter(c, tp)
+    return c:GetCounter(COUNTER_PREDATOR) > 0 and c:IsControler(1 - tp)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsReason(REASON_DESTROY)
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.CheckReleaseGroup(tp, s.e3filter, 1, false, 1, true, c, tp,
+                                      nil, true, nil, tp)
+    end
+
+    local g = Duel.SelectReleaseGroup(tp, s.e3filter, 1, 1, false, true, true,
+                                      c, nil, nil, true, nil, tp)
+    Duel.Release(g, REASON_COST)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+    end
+
+    local dg = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, dg, #dg, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) > 0 then
+        Duel.BreakEffect()
+        local dg = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
+        Duel.Destroy(dg, REASON_EFFECT)
     end
 end
