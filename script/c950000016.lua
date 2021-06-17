@@ -153,7 +153,7 @@ end
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
-    Duel.SpecialSummon(tc, s.e4sumtype(c), tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(tc, s.e4sumtype(tc), tp, tp, false, false, POS_FACEUP)
 end
 
 function s.e5filter(c, tp)
