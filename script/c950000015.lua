@@ -101,14 +101,15 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.e2filter(c) return c:IsFaceup() and not c:IsType(TYPE_TOKEN) end
+
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.disfilter1, tp, 0, LOCATION_MZONE, 1,
-                                     nil)
+        return Duel.IsExistingTarget(s.e2filter, tp, 0, LOCATION_MZONE, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    local g = Duel.SelectTarget(tp, aux.disfilter1, tp, 0, LOCATION_MZONE, 1, 1,
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, 0, LOCATION_MZONE, 1, 1,
                                 nil)
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, 1, 0, 0)
