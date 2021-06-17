@@ -129,19 +129,15 @@ function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.disfilter1, tp, 0, LOCATION_MZONE, nil)
     for tc in aux.Next(g) do
         Duel.NegateRelatedChain(tc, RESET_TURN_SET)
-
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_DISABLE)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec1)
-
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetCode(EFFECT_DISABLE_EFFECT)
-        ec2:SetValue(RESET_TURN_SET)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec2)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_DISABLE_EFFECT)
+        ec1b:SetValue(RESET_TURN_SET)
+        tc:RegisterEffect(ec1b)
     end
 end
 
