@@ -4,6 +4,7 @@ Duel.LoadScript("c419.lua")
 local s, id = GetID()
 
 s.listed_series = {0x13b}
+s.pendulum_level = 4
 
 function s.initial_effect(c)
     c:EnableReviveLimit()

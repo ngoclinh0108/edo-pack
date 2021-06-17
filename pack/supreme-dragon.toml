@@ -469,6 +469,7 @@ Once per turn, you can target 1 Dragon Xyz Monster you control; \
 effect = """\
 2 Level 4 Pendulum Monsters
 (This card is always treated as a "Xyz Dragon" card.)
+If you can Pendulum Summon Level 4, you can Pendulum Summon this face-up card in your Extra Deck. \
 If an DARK Xyz Monster you control would activate an effect by detaching an material(s), \
     you can detach materials from this card instead of those materials. \
     This effect cannot be negated. \
