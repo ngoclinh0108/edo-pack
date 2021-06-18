@@ -413,6 +413,7 @@ def = 2000
 pendulum-effect = """\
 Once per turn, you can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using this card you control as Fusion Material, as well as other Dragon Fusion Monsters you control. \
+    Your opponent cannot activate cards or effects in response to this effect's activation. \
 """
 effect = """\
 2 Pendulum monsters

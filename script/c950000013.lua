@@ -17,11 +17,17 @@ function s.initial_effect(c)
 
     -- fusion summon
     local pe1params = {
-        nil, Fusion.CheckWithHandler(function(c)
+        nil,
+        Fusion.CheckWithHandler(function(c)
             return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_FUSION) and
                        c:IsOnField() and c:IsAbleToGrave()
-        end), function(e) return Group.FromCards(e:GetHandler()) end, nil,
-        Fusion.ForcedHandler
+        end),
+        function(e) return Group.FromCards(e:GetHandler()) end,
+        nil,
+        Fusion.ForcedHandler,
+        extratg = function(e, tp, eg, ep, ev, re, r, rp, chk)
+            Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
+        end
     }
     local pe1 = Effect.CreateEffect(c)
     pe1:SetDescription(1170)
