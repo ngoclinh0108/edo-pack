@@ -207,35 +207,6 @@ strings = [
     "Summon a Dragon",
 ]
 
-[card.supreme-king-dragon-oddwurm]
-id = 950000006
-set = "supreme-king-dragon odd-eyes"
-name = "Supreme King Dragon Oddwurm"
-type = "monster effect"
-attribute = "dark"
-race = "dragon"
-level = 7
-atk = 2500
-def = 2000
-effect = """\
-(This card is always treated as "Odd-Eyes" card.)
-If this card's Level between (exclusive) the Pendulum Scales of the cards in your Pendulum Zones: \
-    You can Special Summon this card from your hand or GY. \
-    You can only Special Summon "Supreme King Dragon Oddwurm" once per turn this way. \
-If this card is Normal or Special Summoned: \
-    You can add 1 "Spiral Flame Strike" from your Deck or GY to your hand, \
-    then you can add 1 "Odd-Eyes" Dragon Pendulum Monster or "Supreme King Dragon" Pendulum monster that is banished or in your Deck, GY to your Extra Deck face-up. \
-If this card destroys an opponent's monster by battle: Inflict damage to your opponent equal to the destroyed monster's original ATK. \
-If this card is destroyed by battle or card effect: \
-    You can Special Summon 1 "Odd-Eyes" Dragon monster or "Supreme King Dragon" monster from your hand, Deck, GY or Extra Deck face-up, \
-    except "Supreme King Dragon Oddwurm". \
-    You can only use each effect of "Supreme King Dragon Oddwurm" once per turn. \
-"""
-strings = [
-    "Add 1 Pendulum Monster to Extra Deck",
-    "Inflict damage equal to the destroyed monster's original ATK",
-]
-
 [card.supreme-king-dragon-venowurm]
 id = 950000007
 set = "supreme-king-dragon"
@@ -324,42 +295,63 @@ Once per turn: You can Special Summon 1 card from your Pendulum Zone; but it has
 """
 strings = ["Make Xyz monster gain Level"]
 
-[card.sky-iris-magician]
+[card.supreme-king-dragon-oddwurm]
 id = 950000010
-set = "magician"
-name = "Magician of Sky Iris"
-type = "monster fusion pendulum effect"
-attribute = "wind"
-race = "spellcaster"
-level = 8
-pendulum-scale = 0
-atk = 2800
-def = 2600
-pendulum-effect = """\
-All monsters you control gain 100 ATK and DEF for each face-up Pendulum Monster with different names in your Extra Deck. \
-If a Pendulum Monster(s) you control is destroyed by battle or by card effect: \
-    You can Special Summon this card from your Pendulum Zone in Defense Position, \
-    then, you can place 1 of those monsters in your Pendulum Zone. \
-    You can only use this effect of "Magician of Sky Iris" once per turn. \
-"""
+set = "supreme-king-dragon odd-eyes"
+name = "Supreme King Dragon Oddwurm"
+type = "monster effect"
+attribute = "dark"
+race = "dragon"
+level = 7
+atk = 2500
+def = 2000
 effect = """\
-1 "Magician" Pendulum Monster + 1 monster that was Special Summoned from Extra Deck
-If this card is Fusion Summoned: You can add 1 Pendulum Monster form your Deck or Extra Deck face-up to your hand. \
-You can Special Summon 1 monster from your Pendulum Zone, ignoring their Summoning conditions, \
-    and if you do, you can place this card in your Pendulum Zone. \
-During the End Phase: \
-    You can Special Summon as many monsters as possible from your GY or Extra Deck face-up \
-    that were destroyed by battle or an opponent's card effect this turn. \
-You can only use each effect of "Magician of Sky Iris" once per turn. \
+(This card is always treated as "Odd-Eyes" card.)
+If this card's Level between (exclusive) the Pendulum Scales of the cards in your Pendulum Zones: \
+    You can Special Summon this card from your hand or GY. \
+    You can only Special Summon "Supreme King Dragon Oddwurm" once per turn this way. \
+If this card is Normal or Special Summoned: \
+    You can add 1 "Spiral Flame Strike" from your Deck or GY to your hand, \
+    then you can add 1 "Odd-Eyes" Dragon Pendulum Monster or "Supreme King Dragon" Pendulum monster that is banished or in your Deck, GY to your Extra Deck face-up. \
+If this card destroys an opponent's monster by battle: Inflict damage to your opponent equal to the destroyed monster's original ATK. \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 "Odd-Eyes" Dragon monster or "Supreme King Dragon" monster from your hand, Deck, GY or Extra Deck face-up, \
+    except "Supreme King Dragon Oddwurm". \
+    You can only use each effect of "Supreme King Dragon Oddwurm" once per turn. \
 """
 strings = [
-    "Place 1 of destroyed monsters in Pendulum Zone",
-    "Special Summon monster from Pendulum Zone",
-    "Special Summon all the destroyed monster",
+    "Add 1 Pendulum Monster to Extra Deck",
+    "Inflict damage equal to the destroyed monster's original ATK",
 ]
 
-[card.odd-eyes-magician]
+[card.predator-starving-venom-fusion-dragon]
 id = 950000011
+set = "starving-venom fusion-dragon"
+name = "Predator Starving Venom Fusion Dragon"
+type = "monster fusion effect"
+attribute = "dark"
+race = "dragon"
+level = 10
+atk = 3300
+def = 2500
+effect = """\
+1 "Starving Venom" Fusion Monster + 1 DARK monster whose original Level is 7 or higher
+Must first be Fusion Summoned with the above Fusion materials on the field. \
+If this card is Special Summoned, or a monster(s) is Special Summoned to your opponent's side of the field: \
+    Place 1 Predator Counter on each face-up monster your opponent controls, \
+    and if you do, any of those monsters that are Level 2 or higher become Level 1 as long as they have a Predator Counter. \
+You can target 1 face-up monster your opponent controls; until the End Phase, \
+    this card's name becomes that monster's original name, and replace this effect with that monster's original effects, \
+    then that monster's ATK to 0 and its effects are negated. \
+    You can only use this effect of "Predator Starving Venom Fusion Dragon" once per turn. \
+If this card is destroyed and sent to the GY: \
+    You can Tribute 1 opponent's monster with a Predator Counter; \
+    Special Summon this card then destroy all monsters your opponent controls. \
+"""
+strings = ["Place Predator Counter", "Copy effect & make ATK 0 and negate effect"]
+
+[card.odd-eyes-magician]
+id = 950000012
 set = "odd-eyes pendulum-dragon magician"
 name = "Odd-Eyes Magician"
 type = "monster pendulum effect"
@@ -392,7 +384,7 @@ strings = [
 ]
 
 [card.starving-venom-magician]
-id = 950000012
+id = 950000013
 set = "starving-venom fusion-dragon magician"
 name = "Starving Venom Magician"
 type = "monster fusion pendulum effect"
@@ -420,7 +412,7 @@ ${TO_PZONE_WHEN_DESTROYED} \
 strings = []
 
 [card.clear-wing-magician]
-id = 950000013
+id = 950000014
 set = "clear-wing synchro-dragon magician"
 name = "Clear Wing Magician"
 type = "monster synchro pendulum tuner effect"
@@ -450,7 +442,7 @@ strings = [
 ]
 
 [card.dark-rebellion-magician]
-id = 950000014
+id = 950000015
 set = "rebellion xyz-dragon magician"
 name = "Dark Rebellion Magician"
 type = "monster xyz pendulum effect"
@@ -480,34 +472,42 @@ ${TO_PZONE_WHEN_DESTROYED} \
 """
 strings = ["Rank-Up Dragon Xyz Monster", "Inflict damage equal to \"Rebellion\" ATK change"]
 
-[card.predator-starving-venom-fusion-dragon]
-id = 950000015
-set = "starving-venom fusion-dragon"
-name = "Predator Starving Venom Fusion Dragon"
-type = "monster fusion effect"
-attribute = "dark"
-race = "dragon"
-level = 10
-atk = 3300
-def = 2500
-effect = """\
-1 "Starving Venom" Fusion Monster + 1 DARK monster whose original Level is 7 or higher
-Must first be Fusion Summoned with the above Fusion materials on the field. \
-If this card is Special Summoned, or a monster(s) is Special Summoned to your opponent's side of the field: \
-    Place 1 Predator Counter on each face-up monster your opponent controls, \
-    and if you do, any of those monsters that are Level 2 or higher become Level 1 as long as they have a Predator Counter. \
-You can target 1 face-up monster your opponent controls; until the End Phase, \
-    this card's name becomes that monster's original name, and replace this effect with that monster's original effects, \
-    then that monster's ATK to 0 and its effects are negated. \
-    You can only use this effect of "Predator Starving Venom Fusion Dragon" once per turn. \
-If this card is destroyed and sent to the GY: \
-    You can Tribute 1 opponent's monster with a Predator Counter; \
-    Special Summon this card then destroy all monsters your opponent controls. \
+[card.sky-iris-magician]
+id = 950000016
+set = "magician"
+name = "Magician of Sky Iris"
+type = "monster fusion pendulum effect"
+attribute = "wind"
+race = "spellcaster"
+level = 8
+pendulum-scale = 0
+atk = 2800
+def = 2600
+pendulum-effect = """\
+All monsters you control gain 100 ATK and DEF for each face-up Pendulum Monster with different names in your Extra Deck. \
+If a Pendulum Monster(s) you control is destroyed by battle or by card effect: \
+    You can Special Summon this card from your Pendulum Zone in Defense Position, \
+    then, you can place 1 of those monsters in your Pendulum Zone. \
+    You can only use this effect of "Magician of Sky Iris" once per turn. \
 """
-strings = ["Place Predator Counter", "Copy effect & make ATK 0 and negate effect"]
+effect = """\
+1 "Magician" Pendulum Monster + 1 monster that was Special Summoned from Extra Deck
+If this card is Fusion Summoned: You can add 1 Pendulum Monster form your Deck or Extra Deck face-up to your hand. \
+You can Special Summon 1 monster from your Pendulum Zone, ignoring their Summoning conditions, \
+    and if you do, you can place this card in your Pendulum Zone. \
+During the End Phase: \
+    You can Special Summon as many monsters as possible from your GY or Extra Deck face-up \
+    that were destroyed by battle or an opponent's card effect this turn. \
+You can only use each effect of "Magician of Sky Iris" once per turn. \
+"""
+strings = [
+    "Place 1 of destroyed monsters in Pendulum Zone",
+    "Special Summon monster from Pendulum Zone",
+    "Special Summon all the destroyed monster",
+]
 
 [card.supreme-wrath]
-id = 950000016
+id = 950000018
 name = "Supreme Wrath"
 type = "trap"
 effect = """\
@@ -517,8 +517,6 @@ While this card is in your GY, you can target 1 "Xyz Dragon" Xyz Monster or "Sup
 If you control "Supreme Soul", you can activate this card from your hand. \
 Activate 1 of these effects. You can only activate 1 "Supreme Wrath" once per turn.
 ● Immediately after this effect resolves, Pendulum Summon a monster(s).
-● Target 1 Dragon Fusion, Synchro, or Xyz Monster that is banished or in your GY; \
-    Special Summon it. (This is treated as a Fusion, Synchro, or Xyz Summon.)
 ● Destroy as many cards in the Pendulum Zones as possible (min 2.), then activate 1 "Supreme Soul" directly from your hand, Deck, or GY.
 ● If you control "Supreme King Z-ARC": Destroy as many monsters you control as possible, except "Supreme King Z-ARC", \
     and if you do, Special Summon up to 4 "Supreme King Dragon" monsters with different names from your hand, Deck, Extra Deck, and/or GY, \
@@ -526,7 +524,6 @@ Activate 1 of these effects. You can only activate 1 "Supreme Wrath" once per tu
 """
 strings = [
     "Pendulum Summon",
-    "Summon a Dragon",
     "Activate \"Supreme Soul\"",
     "Special Summon 4 \"Supreme King Dragon\"(s)",
 ]

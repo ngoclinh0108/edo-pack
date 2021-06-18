@@ -1,198 +1,190 @@
--- Predator Starving Venom Fusion Dragon
+-- Dark Rebellion Magician
 Duel.LoadScript("util.lua")
+Duel.LoadScript("c419.lua")
 local s, id = GetID()
 
-s.material_setcode = {0x1050, 0x50}
-s.listed_series = {0x1050, 0x50}
-s.counter_place_list = {COUNTER_PREDATOR}
+s.listed_series = {0x13b}
+s.pendulum_level = 4
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- fusion summon
-    Fusion.AddProcMix(c, false, false, function(c, sc, sumtype, tp)
-        return c:IsSetCard(0x1050, sc, sumtype, tp) and
-                   c:IsType(TYPE_FUSION, sc, sumtype, tp) and c:IsOnField()
-    end, function(c, fc, sumtype, tp)
-        return c:GetOriginalLevel() >= 7 and
-                   c:IsAttribute(ATTRIBUTE_DARK, fc, sumtype, tp) and
-                   c:IsOnField()
-    end)
+    -- xyz summon
+    Xyz.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsType, TYPE_PENDULUM), 4,
+                     2)
 
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(function(e, se, sp, st)
-        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or
-                   aux.fuslimit(e, se, sp, st)
-    end)
-    c:RegisterEffect(splimit)
+    -- pendulum
+    Pendulum.AddProcedure(c, false)
+    Utility.PlaceToPZoneWhenDestroyed(c)
 
-    -- counter
-    local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_COUNTER)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetOperation(s.e1op)
-    c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EVENT_CUSTOM + id)
-    c:RegisterEffect(e1b)
-    local e1ev = Effect.CreateEffect(c)
-    e1ev:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1ev:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1ev:SetRange(LOCATION_MZONE)
-    e1ev:SetCondition(s.e1evcon)
-    e1ev:SetOperation(s.e1evop)
-    c:RegisterEffect(e1ev)
+    -- rank-up
+    local pe1 = Effect.CreateEffect(c)
+    pe1:SetDescription(aux.Stringid(id, 0))
+    pe1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    pe1:SetType(EFFECT_TYPE_IGNITION)
+    pe1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    pe1:SetRange(LOCATION_PZONE)
+    pe1:SetCountLimit(1)
+    pe1:SetTarget(s.pe1tg)
+    pe1:SetOperation(s.pe1op)
+    c:RegisterEffect(pe1)
 
-    -- drain effect
-    local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetCategory(CATEGORY_DISABLE + CATEGORY_ATKCHANGE)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1, id)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
+    -- detach cost replacement
+    local me1 = Effect.CreateEffect(c)
+    me1:SetType(EFFECT_TYPE_CONTINUOUS + EFFECT_TYPE_FIELD)
+    me1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
+    me1:SetCode(EFFECT_OVERLAY_REMOVE_REPLACE)
+    me1:SetRange(LOCATION_MZONE)
+    me1:SetCondition(s.me1con)
+    me1:SetOperation(s.me1op)
+    c:RegisterEffect(me1)
 
-    -- special summon & destroy
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DESTROY)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetCode(EVENT_TO_GRAVE)
-    e3:SetCondition(s.e3con)
-    e3:SetCost(s.e3cost)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    -- damage
+    local me2 = Effect.CreateEffect(c)
+    me2:SetDescription(aux.Stringid(id, 1))
+    me2:SetCategory(CATEGORY_DAMAGE)
+    me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    me2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP +
+                        EFFECT_FLAG_PLAYER_TARGET)
+    me2:SetCode(511001265)
+    me2:SetRange(LOCATION_MZONE)
+    me2:SetCountLimit(1, id)
+    me2:SetCondition(s.me2con)
+    me2:SetTarget(s.me2tg)
+    me2:SetOperation(s.me2op)
+    c:RegisterEffect(me2)
 end
 
-function s.e1evcon(e, tp, eg, ep, ev, re, r, rp)
-    return not eg:IsContains(e:GetHandler()) and
-               eg:IsExists(Card.IsControler, 1, nil, 1 - tp)
+function s.pe1filter1(c, e, tp)
+    local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(c), tp, nil, nil,
+                                          REASON_XYZ)
+    return #pg <= 1 and c:IsFaceup() and c:IsRace(RACE_DRAGON) and
+               (c:GetRank() > 0 or c:IsStatus(STATUS_NO_LEVEL)) and
+               Duel.IsExistingMatchingCard(s.pe1filter2, tp, LOCATION_EXTRA, 0,
+                                           1, nil, e, tp, c, pg)
 end
 
-function s.e1evop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.RaiseSingleEvent(e:GetHandler(), EVENT_CUSTOM + id, re, r, rp, ep, ev)
+function s.pe1filter2(c, e, tp, mc, pg)
+    local rk = mc:GetRank()
+    if c.rum_limit and not c.rum_limit(mc, e) or
+        Duel.GetLocationCountFromEx(tp, tp, mc, c) <= 0 then return false end
+    return
+        c:IsType(TYPE_XYZ) and mc:IsType(TYPE_XYZ, c, SUMMON_TYPE_XYZ, tp) and
+            mc:IsRace(RACE_DRAGON, c, SUMMON_TYPE_XYZ, tp) and c:IsRank(rk + 1) and
+            mc:IsCanBeXyzMaterial(c, tp) and (#pg <= 0 or pg:IsContains(mc)) and
+            c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_XYZ, tp, false, false)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
-    for tc in aux.Next(g) do
-        tc:AddCounter(COUNTER_PREDATOR, 1)
-        if tc:GetLevel() > 1 then
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetCode(EFFECT_CHANGE_LEVEL)
-            ec1:SetCondition(function(e)
-                return e:GetHandler():GetCounter(COUNTER_PREDATOR) > 0
-            end)
-            ec1:SetValue(1)
-            ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec1)
-        end
-    end
-end
-
-function s.e2filter(c) return c:IsFaceup() and not c:IsType(TYPE_TOKEN) end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.pe1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, 0, LOCATION_MZONE, 1, nil)
+        return Duel.IsExistingTarget(s.pe1filter1, tp, LOCATION_MZONE, 0, 1,
+                                     nil, e, tp)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    local g = Duel.SelectTarget(tp, s.e2filter, tp, 0, LOCATION_MZONE, 1, 1,
-                                nil)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.SelectTarget(tp, s.pe1filter1, tp, LOCATION_MZONE, 0, 1, 1, nil, e, tp)
 
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not c:IsRelateToEffect(e) or c:IsFacedown() or
-        not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsType(TYPE_TOKEN) then
-        return
-    end
+    if not tc or tc:IsFacedown() or not c:IsRelateToEffect(e) or
+        not tc:IsRelateToEffect(e) or tc:IsControler(1 - tp) or
+        tc:IsImmuneToEffect(e) then return end
 
-    local code = tc:GetOriginalCodeRule()
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    ec1:SetCode(EFFECT_CHANGE_CODE)
-    ec1:SetValue(code)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
-    if c:CopyEffect(code,
-                    RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1) >
-        0 then
-        Duel.BreakEffect()
+    local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(tc), tp, nil, nil,
+                                          REASON_XYZ)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local sc = Duel.SelectMatchingCard(tp, s.pe1filter2, tp, LOCATION_EXTRA, 0,
+                                       1, 1, nil, e, tp, tc, pg):GetFirst()
+    if not sc then return end
 
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetCode(EFFECT_SET_ATTACK_FINAL)
-        ec2:SetValue(0)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec2)
-
-        local ec3 = Effect.CreateEffect(c)
-        ec3:SetType(EFFECT_TYPE_SINGLE)
-        ec3:SetCode(EFFECT_DISABLE)
-        ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec3)
-        local ec3b = ec3:Clone()
-        ec3b:SetCode(EFFECT_DISABLE_EFFECT)
-        ec3b:SetValue(RESET_TURN_SET)
-        tc:RegisterEffect(ec3b)
-    end
+    local mg = tc:GetOverlayGroup()
+    if #mg ~= 0 then Duel.Overlay(sc, mg) end
+    sc:SetMaterial(Group.FromCards(tc))
+    Duel.Overlay(sc, Group.FromCards(tc, c))
+    Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
+    sc:CompleteProcedure()
 end
 
-function s.e3filter(c, tp)
-    return c:GetCounter(COUNTER_PREDATOR) > 0 and c:IsControler(1 - tp)
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsReason(REASON_DESTROY)
-end
-
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.me1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.CheckReleaseGroup(tp, s.e3filter, 1, false, 1, true, c, tp,
-                                      nil, true, nil, tp)
-    end
-
-    local g = Duel.SelectReleaseGroup(tp, s.e3filter, 1, 1, false, true, true,
-                                      c, nil, nil, true, nil, tp)
-    Duel.Release(g, REASON_COST)
+    local rc = re:GetHandler()
+    return (r & REASON_COST) ~= 0 and ep == e:GetOwnerPlayer() and
+               re:IsActivated(0x7e0) and
+               c:CheckRemoveOverlayCard(tp, 1, REASON_EFFECT) and
+               c:GetOverlayCount() + rc:GetOverlayCount() >= ev and
+               re:IsActiveType(TYPE_XYZ) and rc:IsAttribute(ATTRIBUTE_DARK)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end
-
-    local dg = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, dg, #dg, 0, 0)
+function s.me1op(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():RemoveOverlayCard(tp, 1, ev, REASON_EFFECT)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
-    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) > 0 then
-        Duel.BreakEffect()
-        local dg = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
-        Duel.Destroy(dg, REASON_EFFECT)
+function s.me2filter1(c, tp)
+    local preatk = 0
+    if c:GetFlagEffect(284) > 0 then preatk = c:GetFlagEffectLabel(284) end
+    return
+        c:IsControler(tp) and c:GetAttack() ~= preatk and c:IsSetCard(0x13b) and
+            c:IsRace(RACE_DRAGON)
+end
+
+function s.me2filter2(c, g)
+    local preatk = 0
+    if c:GetFlagEffect(284) > 0 then preatk = c:GetFlagEffectLabel(284) end
+
+    local dif = 0
+    if c:GetAttack() > preatk then
+        dif = c:GetAttack() - preatk
+    else
+        dif = preatk - c:GetAttack()
     end
+    return g:IsExists(s.me2filter3, 1, c, dif)
+end
+
+function s.me2filter3(c, dif)
+    local preatk = 0
+    if c:GetFlagEffect(284) > 0 then preatk = c:GetFlagEffectLabel(284) end
+
+    local dif2 = 0
+    if c:GetAttack() > preatk then
+        dif2 = c:GetAttack() - preatk
+    else
+        dif2 = preatk - c:GetAttack()
+    end
+
+    return dif ~= dif2
+end
+
+function s.me2con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.me2filter1, 1, nil, tp)
+end
+
+function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    local sc = eg:GetFirst()
+    local sg = eg:Filter(s.me2filter2, nil, eg)
+    if #sg > 0 then sc = sg:Select(tp, 1, 1, nil):GetFirst() end
+
+    local dmg = 0
+    local preatk = 0
+    if sc:GetFlagEffect(284) > 0 then preatk = sc:GetFlagEffectLabel(284) end
+    if sc:GetAttack() > preatk then
+        dmg = sc:GetAttack() - preatk
+    else
+        dmg = preatk - sc:GetAttack()
+    end
+
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(dmg)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
+end
+
+function s.me2op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
 end

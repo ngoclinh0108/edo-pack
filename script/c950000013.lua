@@ -1,40 +1,51 @@
--- Clear Wing Magician
+-- Starving Venom Magician
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0xff}
+s.listed_series = {0x1050, 0x50}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- synchro summon
-    Synchro.AddProcedure(c, nil, 1, 1, Synchro.NonTunerEx(
-                             aux.FilterBoolFunctionEx(Card.IsType, TYPE_PENDULUM)),
-                         1, 99)
+    -- fusion summon procedure
+    Fusion.AddProcMixN(c, true, true,
+                       aux.FilterBoolFunctionEx(Card.IsType, TYPE_PENDULUM), 2)
 
     -- pendulum
     Pendulum.AddProcedure(c, false)
     Utility.PlaceToPZoneWhenDestroyed(c)
 
-    -- synchro summon
+    -- fusion summon
+    local pe1params = {
+        nil, Fusion.CheckWithHandler(function(c)
+            return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_FUSION) and
+                       c:IsOnField() and c:IsAbleToGrave()
+        end), function(e) return Group.FromCards(e:GetHandler()) end, nil,
+        Fusion.ForcedHandler
+    }
     local pe1 = Effect.CreateEffect(c)
-    pe1:SetDescription(1172)
-    pe1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    pe1:SetDescription(1170)
+    pe1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
     pe1:SetType(EFFECT_TYPE_IGNITION)
-    pe1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     pe1:SetRange(LOCATION_PZONE)
     pe1:SetCountLimit(1)
-    pe1:SetTarget(s.pe1tg)
-    pe1:SetOperation(s.pe1op)
+    pe1:SetTarget(Fusion.SummonEffTG(table.unpack(pe1params)))
+    pe1:SetOperation(Fusion.SummonEffOP(table.unpack(pe1params)))
     c:RegisterEffect(pe1)
 
-    -- synchro level
+    -- fusion substitute
     local me1 = Effect.CreateEffect(c)
     me1:SetType(EFFECT_TYPE_SINGLE)
     me1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    me1:SetCode(EFFECT_SYNCHRO_LEVEL)
-    me1:SetValue(function(e, sync)
-        return 3 * 65536 + e:GetHandler():GetLevel()
+    me1:SetCode(EFFECT_FUSION_SUBSTITUTE)
+    me1:SetCondition(function(e)
+        local c = e:GetHandler()
+        if c:IsLocation(LOCATION_REMOVED + LOCATION_EXTRA) and c:IsFacedown() then
+            return false
+        end
+        return c:IsLocation(
+                   LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED +
+                       LOCATION_EXTRA)
     end)
     c:RegisterEffect(me1)
 
@@ -42,77 +53,40 @@ function s.initial_effect(c)
     local me2 = Effect.CreateEffect(c)
     me2:SetDescription(aux.Stringid(id, 0))
     me2:SetCategory(CATEGORY_DAMAGE)
-    me2:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_FIELD)
-    me2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP +
-                        EFFECT_FLAG_PLAYER_TARGET)
-    me2:SetCode(EVENT_CHAINING)
+    me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    me2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    me2:SetCode(EVENT_PHASE + PHASE_END)
     me2:SetRange(LOCATION_MZONE)
     me2:SetCountLimit(1, id)
-    me2:SetCondition(s.me2con)
     me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
 end
 
-function s.pe1filter1(c, tp, mc)
-    local mg = Group.FromCards(c, mc)
-    return c:IsCanBeSynchroMaterial() and
-               Duel.IsExistingMatchingCard(s.pe1filter2, tp, LOCATION_EXTRA, 0,
-                                           1, nil, tp, mg) and
-               c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
-end
-
-function s.pe1filter2(c, tp, mg)
-    return Duel.GetLocationCountFromEx(tp, tp, mg, c) > 0 and
-               c:IsSynchroSummonable(nil, mg)
-end
-
-function s.pe1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsPlayerCanSpecialSummonCount(tp, 2) and
-                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.pe1filter1, tp, LOCATION_MZONE,
-                                               0, 1, nil, tp, c)
+function s.me2filter(c, tid)
+    if c:GetReasonEffect() == nil and c:GetReasonCard() == nil then
+        return false
     end
+    if not c:IsReason(REASON_DESTROY) or c:GetTurnID() ~= tid or
+        not c:IsType(TYPE_MONSTER) then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SMATERIAL)
-    Duel.SelectTarget(tp, s.pe1filter1, tp, LOCATION_MZONE, 0, 1, 1, c, tp, c)
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
-end
-
-function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if not c:IsRelateToEffect(e) then return end
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 or
-        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) == 0 then
-        return
-    end
-    if not tc:IsRelateToEffect(e) or tc:IsFacedown() then return end
-
-    local mg = Group.FromCards(c, tc)
-    local g = Duel.GetMatchingGroup(s.pe1filter2, tp, LOCATION_EXTRA, 0, nil,
-                                    tp, mg)
-    if #g > 0 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        Duel.SynchroSummon(tp, g:Select(tp, 1, 1, nil):GetFirst(), nil, mg)
-    end
-end
-
-function s.me2con(e, tp, eg, ep, ev, re, r, rp)
-    local rc = re:GetHandler()
-    return re:IsActiveType(TYPE_MONSTER) and rc:IsSetCard(0xff) and
-               rc:IsRace(RACE_DRAGON)
+    local rc1 = c:GetReasonCard()
+    local rc2 = c:GetReasonEffect() and c:GetReasonEffect():GetHandler() or nil
+    return
+        (rc1 and rc1:IsRace(RACE_DRAGON) and rc1:IsOriginalSetCard(0x1050)) or
+            (rc2 and rc2:IsRace(RACE_DRAGON) and rc2:IsOriginalSetCard(0x1050))
 end
 
 function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local rc = re:GetHandler()
-    if chk == 0 then return rc:IsOnField() and rc:IsFaceup() end
+    local g = Duel.GetMatchingGroup(s.me2filter, tp, LOCATION_ALL, LOCATION_ALL,
+                                    nil, Duel.GetTurnCount())
+    if chk == 0 then return #g > 0 end
 
-    local dmg = rc:GetAttack()
+    local dmg = 0
+    for tc in aux.Next(g) do
+        if tc:GetBaseAttack() > 0 then dmg = dmg + tc:GetBaseAttack() end
+    end
+
     Duel.SetTargetPlayer(1 - tp)
     Duel.SetTargetParam(dmg)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
