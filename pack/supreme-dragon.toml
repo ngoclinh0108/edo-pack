@@ -209,8 +209,6 @@ strings = [
 
 [card.genesis-omega-dragon-zarc]
 id = 950000006
-alias = 13331639
-set = "supreme-king"
 name = "Genesis Omega Dragon Z-ARC"
 type = "monster ritual pendulum effect"
 attribute = "dark"
@@ -222,7 +220,6 @@ def = 4000
 pendulum-effect = """\
 """
 effect = """\
-(This card is always treated as "Supreme King Z-ARC".)
 """
 strings = []
 
