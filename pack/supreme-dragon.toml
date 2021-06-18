@@ -417,7 +417,7 @@ Once per turn, you can Fusion Summon 1 Fusion Monster from your Extra Deck, \
 effect = """\
 2 Pendulum monsters
 (This card is always treated as a "Fusion Dragon" card.)
-This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster Card, \
+This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster, \
     but the other Fusion Material(s) must be correct. \
     This effect cannot be negated. \
 During the End Phase: \
