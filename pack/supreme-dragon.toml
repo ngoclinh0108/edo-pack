@@ -215,8 +215,8 @@ attribute = "dark"
 race = "dragon"
 level = 12
 pendulum-scale = 0
-atk = 4000
-def = 4000
+atk = "?"
+def = "?"
 pendulum-effect = """\
 """
 effect = """\
