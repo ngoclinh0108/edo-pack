@@ -58,19 +58,17 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     local deck_edit = Group.CreateGroup()
     local global_effect = Group.CreateGroup()
     for tc in aux.Next(g) do
-        if tc.deck_edit and not deck_edit:IsExists(
-            function(c)
-                return c:GetOriginalCode() == tc:GetOriginalCode()
-            end, 1, nil) then
+        if tc.deck_edit and not deck_edit:IsExists(function(c)
+            return c:GetOriginalCode() == tc:GetOriginalCode()
+        end, 1, nil) then
             tc.deck_edit(tp)
             deck_edit:AddCard(tc)
         end
     end
     for tc in aux.Next(g) do
-        if tc.global_effect and not global_effect:IsExists(
-            function(c)
-                return c:GetOriginalCode() == tc:GetOriginalCode()
-            end, 1, nil) then
+        if tc.global_effect and not global_effect:IsExists(function(c)
+            return c:GetOriginalCode() == tc:GetOriginalCode()
+        end, 1, nil) then
             tc.global_effect(tc, tp)
             global_effect:AddCard(tc)
         end
@@ -79,7 +77,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     -- activate field
     local fields = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_DECK, 0, nil,
                                          TYPE_FIELD)
-    if #fields > 0 and Duel.SelectYesNo(tp, 2204) then
+    if #fields > 0 then
         local tc
         if #fields == 1 then
             tc = fields:GetFirst()
