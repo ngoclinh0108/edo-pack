@@ -70,8 +70,8 @@ end
 
 function s.pe1con(e)
     return not Duel.IsExistingMatchingCard(function(c)
-        return c:IsCode(13331639) or c:IsSetCard(0x98) or c:IsSetCard(0x99) or
-                   c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8)
+        return Utility.IsSetCardListed(c, 0x98, 0x99, 0x10f8, 0x20f8) or
+                   c:IsCode(13331639)
     end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
 end
 
@@ -130,7 +130,6 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc1:RegisterEffect(ec2)
 end
-
 
 function s.me2filter(c)
     if c:IsFacedown() or c:IsDisabled() or c:IsAttack(0) then return false end

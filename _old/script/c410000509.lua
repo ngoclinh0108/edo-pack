@@ -229,6 +229,6 @@ function s.e4retop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4daop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_CARD, 0, id)
+    Utility.HintCard(id)
     Duel.NegateAttack()
 end

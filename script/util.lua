@@ -66,6 +66,11 @@ function Utility.IsSetCardListed(c, ...)
     return false
 end
 
+function Utility.HintCard(code)
+    Duel.Hint(HINT_CARD, 0, code)
+    Duel.Hint(HINT_CARD, 1, code)
+end
+
 function Utility.GainInfinityAtk(root, c)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)

@@ -101,7 +101,7 @@ end
 
 function s.e3filter(c)
     if c:IsCode(id) or not c:IsAbleToHand() then return false end
-    return (c:IsSetCard(0x10f8) or c:IsSetCard(0x20f8) and
+    return (Utility.IsSetCardListed(c, 0x10f8, 0x20f8) and
                c:IsType(TYPE_MONSTER)) or
                (c:IsSetCard(0xf2) and c:IsType(TYPE_SPELL + TYPE_TRAP)) or
                aux.IsCodeListed(c, 13331639)

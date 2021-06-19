@@ -23,6 +23,7 @@ function s.initial_effect(c)
         local c = e:GetHandler()
         if not c:IsRelateToEffect(e) and
             not c:IsLocation(LOCATION_HAND + LOCATION_DECK) then return end
+        Utility.HintCard(id)
         Duel.SendtoExtraP(c, tp, REASON_EFFECT)
     end)
     c:RegisterEffect(toextra)
@@ -34,7 +35,9 @@ function s.initial_effect(c)
     searchsoul:SetCode(EVENT_PREDRAW)
     searchsoul:SetRange(LOCATION_EXTRA)
     searchsoul:SetCountLimit(1)
-    searchsoul:SetCondition(function(e) return e:GetHandler():IsFaceup() end)
+    searchsoul:SetCondition(function(e, tp)
+        return e:GetHandler():IsFaceup() and Duel.IsTurnPlayer(tp)
+    end)
     searchsoul:SetTarget(s.searchsoultg)
     searchsoul:SetOperation(s.searchsoulop)
     c:RegisterEffect(searchsoul)
@@ -59,6 +62,7 @@ function s.searchsoulop(e, tp, eg, ep, ev, re, r, rp)
     if #g > 1 then g = g:Select(tp, 1, 1, nil) end
 
     if #g > 0 then
+        Utility.HintCard(id)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end

@@ -104,8 +104,8 @@ function s.deck_edit(tp)
     end
 
     -- Supreme King Dragon Dark Rebellion
-    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_EXTRA, 0, 1, nil,
-                                   16195942) and
+    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_EXTRA, 0,
+                                   1, nil, 16195942) and
         not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
                                         LOCATION_DECK + LOCATION_EXTRA, 0, 1,
                                         nil, 42160203) then
@@ -113,8 +113,8 @@ function s.deck_edit(tp)
     end
 
     -- Supreme King Dragon Clear Wing
-    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_EXTRA, 0, 1, nil,
-                                   82044279) and
+    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_EXTRA, 0,
+                                   1, nil, 82044279) and
         not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
                                         LOCATION_DECK + LOCATION_EXTRA, 0, 1,
                                         nil, 70771599) then
@@ -122,8 +122,8 @@ function s.deck_edit(tp)
     end
 
     -- Supreme King Dragon Starving Venom
-    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_EXTRA, 0, 1, nil,
-                                   41209827) and
+    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_EXTRA, 0,
+                                   1, nil, 41209827) and
         not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
                                         LOCATION_DECK + LOCATION_EXTRA, 0, 1,
                                         nil, 43387895) then
@@ -148,7 +148,7 @@ end
 function s.e1filter1(c)
     if not c:IsType(TYPE_PENDULUM) or c:IsForbidden() then return false end
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
-    return c:IsSetCard(0x98) or c:IsSetCard(0x10f8)
+    return Utility.IsSetCardListed(c, 0x98, 0x10f8)
 end
 
 function s.e1filter2(c, lsc, rsc)
@@ -220,9 +220,8 @@ end
 
 function s.e4filter2(c)
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
-    return (c:IsSetCard(0x10f2) or c:IsSetCard(0x2073) or c:IsSetCard(0x2017) or
-               c:IsSetCard(0x1046)) and c:IsType(TYPE_MONSTER) and
-               c:IsAbleToRemoveAsCost() and
+    return Utility.IsSetCardListed(c, 0x10f2, 0x2073, 0x2017, 0x1046) and
+               c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and
                (not c:IsLocation(LOCATION_MZONE) or c:IsFaceup()) and
                (c:IsLocation(LOCATION_HAND) or aux.SpElimFilter(c, true, true))
 end

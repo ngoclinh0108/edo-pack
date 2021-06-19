@@ -69,7 +69,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_CARD, 0, id)
+    Utility.HintCard(id)
     Duel.Damage(1 - tp, 500, REASON_EFFECT)
 end
 
