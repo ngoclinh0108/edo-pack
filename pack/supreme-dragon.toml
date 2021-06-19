@@ -186,7 +186,7 @@ Must be Link Summoned, and can then be Pendulum Summoned. \
 You can Pendulum Summon this card regardless of your Pendulum Scales. \
 This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
-Your opponent cannot target this card with card effects. \
+Negate your opponent's card effects that target this card. \
 Cannot be destroyed by card effects. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Possession of this card cannot be switched. \
@@ -226,15 +226,19 @@ Must be Special Summoned (from your hand or face-up Extra Deck) by Tributing 4 D
 You can only Special Summon "Genesis Omega Dragon(s)" once per turn. \
 This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
-Your opponent cannot target this card with card effects. \
+Once per turn, before the Draw Phase, add this card from your hand or Deck to the Extra Deck face-up, \
+    and also during your turn, while this card is in face-up Extra Deck, add 1 "Supreme Soul" from your Deck. \
+Negate your opponent's card effects that target this card. \
 Cannot be destroyed by card effects. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Possession of this card cannot be switched. \
-Once per turn, before the Draw Phase, add this card from your hand or Deck to the Extra Deck face-up, \
-    and also during your turn, while this card is in face-up Extra Deck, add 1 "Supreme Soul" from your Deck. \
+This card can attack all monsters your opponent controls, once each. \
+Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+Once per turn, during damage calculation, if this card battles an opponent's monster: \
+    Double this card's current ATK until the end of this turn. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """
-strings = []
+strings = ["Double ATK"]
 
 [card.supreme-king-dragon-venowurm]
 id = 950000007

@@ -58,6 +58,17 @@ function s.initial_effect(c)
     nodis:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nodis)
 
+    -- predraw
+    local predraw = Effect.CreateEffect(c)
+    predraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    predraw:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    predraw:SetCode(EVENT_PREDRAW)
+    predraw:SetRange(LOCATION_ALL)
+    predraw:SetCountLimit(1)
+    predraw:SetTarget(s.predrawtg)
+    predraw:SetOperation(s.predrawop)
+    c:RegisterEffect(predraw)
+
     -- indestructable by card effect
     local indes = Effect.CreateEffect(c)
     indes:SetType(EFFECT_TYPE_SINGLE)
@@ -115,17 +126,6 @@ function s.initial_effect(c)
     noswitch:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noswitch)
 
-    -- predraw
-    local predraw = Effect.CreateEffect(c)
-    predraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    predraw:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    predraw:SetCode(EVENT_PREDRAW)
-    predraw:SetRange(LOCATION_ALL)
-    predraw:SetCountLimit(1)
-    predraw:SetTarget(s.predrawtg)
-    predraw:SetOperation(s.predrawop)
-    c:RegisterEffect(predraw)
-
     -- immune
     local pe1 = Effect.CreateEffect(c)
     pe1:SetType(EFFECT_TYPE_SINGLE)
@@ -136,6 +136,33 @@ function s.initial_effect(c)
         return te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
     end)
     c:RegisterEffect(pe1)
+
+    -- attack all monsters
+    local me1 = Effect.CreateEffect(c)
+    me1:SetType(EFFECT_TYPE_SINGLE)
+    me1:SetCode(EFFECT_ATTACK_ALL)
+    me1:SetValue(1)
+    c:RegisterEffect(me1)
+
+    -- unstoppable attack
+    local me2 = Effect.CreateEffect(c)
+    me2:SetType(EFFECT_TYPE_SINGLE)
+    me2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    me2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+    me2:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(me2)
+
+    -- double ATK
+    local me3 = Effect.CreateEffect(c)
+    me3:SetDescription(aux.Stringid(id, 2))
+    me3:SetCategory(CATEGORY_ATKCHANGE)
+    me3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    me3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    me3:SetRange(LOCATION_MZONE)
+    me3:SetCountLimit(1)
+    me3:SetCondition(s.me3con)
+    me3:SetOperation(s.me3op)
+    c:RegisterEffect(me3)
 end
 
 function s.predrawfilter(c) return c:IsCode(950000001) and c:IsAbleToHand() end
@@ -253,4 +280,20 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
 
     Duel.Release(g, REASON_COST + REASON_MATERIAL)
     g:DeleteGroup()
+end
+
+function s.me3con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetBattleTarget() ~= nil
+end
+
+function s.me3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec1:SetValue(c:GetAttack() * 2)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end
