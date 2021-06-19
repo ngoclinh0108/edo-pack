@@ -136,6 +136,13 @@ function s.deck_edit(tp)
                                        nil, 950000005) then
         Duel.SendtoDeck(Duel.CreateToken(tp, 950000005), tp, 2, REASON_RULE)
     end
+
+    -- Genesis Omega Dragon Z-Arc
+    if not Duel.IsExistingMatchingCard(Card.IsCode, tp,
+                                       LOCATION_DECK + LOCATION_EXTRA, 0, 1,
+                                       nil, 950000006) then
+        Duel.SendtoExtraP(Duel.CreateToken(tp, 950000006), tp, REASON_RULE)
+    end
 end
 
 function s.e1filter1(c)
