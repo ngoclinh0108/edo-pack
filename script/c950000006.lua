@@ -132,6 +132,19 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(pe1)
 
+    -- chain attack
+    local pe2 = Effect.CreateEffect(c)
+    pe2:SetDescription(aux.Stringid(id, 0))
+    pe2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    pe2:SetCode(EVENT_DAMAGE_STEP_END)
+    pe2:SetRange(LOCATION_PZONE)
+    pe2:SetCountLimit(1)
+    pe2:SetCondition(s.pe2con)
+    pe2:SetCost(s.pe2cost)
+    pe2:SetTarget(s.pe2tg)
+    pe2:SetOperation(s.pe2op)
+    c:RegisterEffect(pe2)
+
     -- attack all monsters
     local me1 = Effect.CreateEffect(c)
     me1:SetType(EFFECT_TYPE_SINGLE)
@@ -275,6 +288,47 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
 
     Duel.Release(g, REASON_COST + REASON_MATERIAL)
     g:DeleteGroup()
+end
+
+function s.pe2filter1(c) return
+    c:IsType(TYPE_PENDULUM) and c:IsRace(RACE_DRAGON) end
+
+function s.pe2filter2(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
+
+function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
+    local ac = Duel.GetAttacker()
+    return ac and ac:IsFaceup() and ac:IsControler(tp) and s.pe2filter1(ac) and
+               Duel.GetAttackTarget() ~= nil and ac:CanChainAttack()
+end
+
+function s.pe2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    local ac = Duel.GetAttacker()
+    if chk == 0 then
+        return Duel.GetMatchingGroupCount(s.pe2filter2, tp, 0xff, 0xff, ac) == 0
+    end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_OATH + EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK)
+    ec1:SetTargetRange(LOCATION_MZONE, 0)
+    ec1:SetLabel(ac:GetFieldID())
+    ec1:SetTarget(function(e, c) return e:GetLabel() ~= c:GetFieldID() end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+end
+
+function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local ac = Duel.GetAttacker()
+    if chk == 0 then return ac and ac:CanChainAttack() end
+end
+
+function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+    local ac = Duel.GetAttacker()
+    if ac and ac:IsRelateToBattle() and ac:IsControler(tp) then
+        Duel.ChainAttack()
+    end
 end
 
 function s.me3con(e, tp, eg, ep, ev, re, r, rp)
