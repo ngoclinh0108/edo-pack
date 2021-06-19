@@ -110,7 +110,7 @@ effect = """\
 (This card is always treated as "Supreme King Dragon" card.)
 Must be Synchro Summoned, and can then be Pendulum Summoned. \
 If this card Is Synchro Summoned: \
-    Negate the effects of all face-up monsters your opponent currently controls. \
+    Negate the effects of all face-up monsters your opponent currently controls, and also change their ATK to 0. \
 Once per turn, at the start of the Damage Step, if this card battles an opponent's monster: \
     You can destroy that opponent's monster, and if you do this card gains ATK equal to the destroyed monster's original ATK until the end of this turn, \
     also, this card can make a second attack in a row. \
@@ -174,9 +174,12 @@ pendulum-effect = """\
 Unaffected by your opponent's card effects. \
 Pendulum Scale of card in your other Pendulum Zone become 0. \
 Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their effects. \
+You can Special Summon 1 Dragon Fusion, Synchro, or Xyz Monster that is banished or in your GY, Extra Deck face-up. \
+    Special Summon that target, ignoring its Summoning conditions. \
+    (This is also treated as an Fusion, Synchro or Xyz Summon.) \
 Once per turn: \
     You can destroy a card in your other Pendulum Zone (if any), then \
-    place 1 Pendulum Monster from your hand, Deck, GY or Extra Deck face-up in your Pendulum Zone,
+    place 1 Pendulum Monster from your hand, Deck, GY or Extra Deck face-up in your Pendulum Zone, \
     except the destroyed card. \
 """
 effect = """\
@@ -201,10 +204,10 @@ If this card in the Monster Zone is destroyed by battle or card effect: \
     then place this card in your Pendulum Zone. \
 """
 strings = [
+    "Summon a Dragon",
     "Place pendulum monster",
     "Negate effect and destroy all card",
     "Destroy added cards",
-    "Summon a Dragon",
 ]
 
 [card.genesis-omega-dragon]
@@ -231,7 +234,6 @@ This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
 Once per turn, before the Draw Phase, add this card from your hand or Deck to the Extra Deck face-up, \
     and also during your turn, while this card is in face-up Extra Deck, add 1 "Supreme Soul" from your Deck. \
-Negate your opponent's card effects that target this card. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Possession of this card cannot be switched. \
 Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \

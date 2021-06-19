@@ -119,8 +119,8 @@ end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0,
-                                           LOCATION_MZONE, 1, nil)
+        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE,
+                                           1, nil)
     end
 end
 
@@ -138,6 +138,13 @@ function s.me1op(e, tp, eg, ep, ev, re, r, rp)
         ec1b:SetCode(EFFECT_DISABLE_EFFECT)
         ec1b:SetValue(RESET_TURN_SET)
         tc:RegisterEffect(ec1b)
+
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetCode(EFFECT_SET_ATTACK_FINAL)
+        ec2:SetValue(0)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec2)
     end
 end
 
@@ -204,24 +211,20 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     if not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
 
     Duel.NegateRelatedChain(tc, RESET_TURN_SET)
-
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_DISABLE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec1)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_DISABLE_EFFECT)
+    ec1b:SetValue(RESET_TURN_SET)
+    tc:RegisterEffect(ec1b)
 
     local ec2 = Effect.CreateEffect(c)
     ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetCode(EFFECT_DISABLE_EFFECT)
-    ec2:SetValue(RESET_TURN_SET)
+    ec2:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec2:SetValue(0)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec2)
-
-    local ec3 = Effect.CreateEffect(c)
-    ec3:SetType(EFFECT_TYPE_SINGLE)
-    ec3:SetCode(EFFECT_SET_ATTACK_FINAL)
-    ec3:SetValue(0)
-    ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    tc:RegisterEffect(ec3)
 end

@@ -69,19 +69,6 @@ function s.initial_effect(c)
     predraw:SetOperation(s.predrawop)
     c:RegisterEffect(predraw)
 
-    -- disable target effect
-    local distarget = Effect.CreateEffect(c)
-    distarget:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    distarget:SetCode(EVENT_CHAIN_SOLVING)
-    distarget:SetRange(LOCATION_MZONE)
-    distarget:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        if rp == tp then return end
-        if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
-        local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-        if g and g:IsContains(e:GetHandler()) then Duel.NegateEffect(ev) end
-    end)
-    c:RegisterEffect(distarget)
-
     -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)

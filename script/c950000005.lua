@@ -167,9 +167,10 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(pe3)
 
-    -- place pendulum monster
+    -- summon dragon (pendulum)
     local pe4 = Effect.CreateEffect(c)
     pe4:SetDescription(aux.Stringid(id, 0))
+    pe4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     pe4:SetType(EFFECT_TYPE_IGNITION)
     pe4:SetRange(LOCATION_PZONE)
     pe4:SetCountLimit(1)
@@ -177,9 +178,19 @@ function s.initial_effect(c)
     pe4:SetOperation(s.pe4op)
     c:RegisterEffect(pe4)
 
+    -- place pendulum zone
+    local pe5 = Effect.CreateEffect(c)
+    pe5:SetDescription(aux.Stringid(id, 1))
+    pe5:SetType(EFFECT_TYPE_IGNITION)
+    pe5:SetRange(LOCATION_PZONE)
+    pe5:SetCountLimit(1)
+    pe5:SetTarget(s.pe5tg)
+    pe5:SetOperation(s.pe5op)
+    c:RegisterEffect(pe5)
+
     -- destroy all
     local me1 = Effect.CreateEffect(c)
-    me1:SetDescription(aux.Stringid(id, 1))
+    me1:SetDescription(aux.Stringid(id, 2))
     me1:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
     me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     me1:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -189,7 +200,7 @@ function s.initial_effect(c)
 
     -- destroy drawn
     local me2 = Effect.CreateEffect(c)
-    me2:SetDescription(aux.Stringid(id, 2))
+    me2:SetDescription(aux.Stringid(id, 3))
     me2:SetCategory(CATEGORY_DESTROY)
     me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     me2:SetCode(EVENT_TO_HAND)
@@ -200,9 +211,9 @@ function s.initial_effect(c)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
 
-    -- summon dragon
+    -- summon dragon (monster)
     local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 3))
+    me3:SetDescription(aux.Stringid(id, 0))
     me3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     me3:SetType(EFFECT_TYPE_IGNITION)
     me3:SetCountLimit(1)
@@ -229,15 +240,54 @@ function s.lnkcheck(g, sc, sumtype, tp)
     return mg:IsExists(Card.IsType, 1, nil, TYPE_PENDULUM, sc, sumtype, tp)
 end
 
-function s.pe4filter(c)
+function s.sumtype(c)
+    if c:IsType(TYPE_FUSION) then return SUMMON_TYPE_FUSION end
+    if c:IsType(TYPE_SYNCHRO) then return SUMMON_TYPE_SYNCHRO end
+    if c:IsType(TYPE_XYZ) then return SUMMON_TYPE_XYZ end
+    return 0
+end
+
+function s.pe4filter(c, e, tp)
+    if (c:IsLocation(LOCATION_REMOVED + LOCATION_EXTRA) and c:IsFacedown()) then
+        return false
+    end
+    return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
+               c:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ) and
+               c:IsRace(RACE_DRAGON)
+end
+
+function s.pe4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local loc = LOCATION_REMOVED + LOCATION_GRAVE + LOCATION_EXTRA
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingMatchingCard(s.pe4filter, tp, loc, 0, 1, nil,
+                                               e, tp)
+    end
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, loc)
+end
+
+function s.pe4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    local loc = LOCATION_REMOVED + LOCATION_GRAVE + LOCATION_EXTRA
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.pe4filter),
+                                       tp, loc, 0, 1, 1, nil, e, tp):GetFirst()
+    if tc then
+        Duel.SpecialSummon(tc, s.sumtype(tc), tp, tp, true, false, POS_FACEUP)
+    end
+end
+
+function s.pe5filter(c)
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
     return c:IsType(TYPE_PENDULUM) and not c:IsForbidden()
 end
 
-function s.pe4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.pe5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.pe4filter, tp, LOCATION_HAND +
+        return Duel.IsExistingMatchingCard(s.pe5filter, tp, LOCATION_HAND +
                                                LOCATION_DECK + LOCATION_GRAVE +
                                                LOCATION_EXTRA, 0, 1, nil)
     end
@@ -246,7 +296,7 @@ function s.pe4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if #g > 0 then Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0) end
 end
 
-function s.pe4op(e, tp, eg, ep, ev, re, r, rp)
+function s.pe5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
@@ -255,7 +305,7 @@ function s.pe4op(e, tp, eg, ep, ev, re, r, rp)
     if Utility.CountFreePendulumZones(tp) == 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
-    local tc = Duel.SelectMatchingCard(tp, s.pe4filter, tp, LOCATION_HAND +
+    local tc = Duel.SelectMatchingCard(tp, s.pe5filter, tp, LOCATION_HAND +
                                            LOCATION_DECK + LOCATION_GRAVE +
                                            LOCATION_EXTRA, 0, 1, 1, dc):GetFirst()
     if not tc then return end
