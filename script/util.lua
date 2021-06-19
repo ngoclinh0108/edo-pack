@@ -53,13 +53,22 @@ function Utility.PlaceToPZoneWhenDestroyed(c, tg, preop, postop)
     c:RegisterEffect(eff)
 end
 
+function Utility.IsSetCard(c, ...)
+    local setcodes = {...}
+    for _, setcode in ipairs(setcodes) do
+        if c:IsSetCard(setcode) then return true end
+    end
+
+    return false
+end
+
 function Utility.IsSetCardListed(c, ...)
     if not c.listed_series then return false end
 
-    local codes = {...}
-    for _, code in ipairs(codes) do
-        for _, ccode in ipairs(c.listed_series) do
-            if code == ccode then return true end
+    local setcodes = {...}
+    for _, setcode in ipairs(setcodes) do
+        for _, seriecode in ipairs(c.listed_series) do
+            if setcode == seriecode then return true end
         end
     end
 

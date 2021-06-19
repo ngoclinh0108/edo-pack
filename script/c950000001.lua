@@ -106,7 +106,7 @@ function s.deck_edit(tp)
                                        nil, 950000006) then
         Duel.SendtoExtraP(Duel.CreateToken(tp, 950000006), tp, REASON_RULE)
     end
-    
+
     -- Supreme King Dragon Odd-Eyes
     if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
                                    LOCATION_DECK + LOCATION_EXTRA, 0, 1, nil,
@@ -148,7 +148,7 @@ end
 function s.e1filter1(c)
     if not c:IsType(TYPE_PENDULUM) or c:IsForbidden() then return false end
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
-    return Utility.IsSetCardListed(c, 0x98, 0x10f8)
+    return Utility.IsSetCard(c, 0x98, 0x10f8)
 end
 
 function s.e1filter2(c, lsc, rsc)
@@ -220,7 +220,7 @@ end
 
 function s.e4filter2(c)
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
-    return Utility.IsSetCardListed(c, 0x10f2, 0x2073, 0x2017, 0x1046) and
+    return Utility.IsSetCard(c, 0x10f2, 0x2073, 0x2017, 0x1046) and
                c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and
                (not c:IsLocation(LOCATION_MZONE) or c:IsFaceup()) and
                (c:IsLocation(LOCATION_HAND) or aux.SpElimFilter(c, true, true))

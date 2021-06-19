@@ -1,4 +1,4 @@
--- Genesis Omega Dragon Z-ARC
+-- Genesis Omega Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -10,62 +10,56 @@ function s.initial_effect(c)
     -- pendulum summon
     Pendulum.AddProcedure(c)
 
-    -- to grave
-    local toextra = Effect.CreateEffect(c)
-    toextra:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    toextra:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    toextra:SetCode(EVENT_PREDRAW)
-    toextra:SetRange(LOCATION_HAND + LOCATION_DECK)
-    toextra:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then return not e:GetHandler():IsForbidden() end
-    end)
-    toextra:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        if not c:IsRelateToEffect(e) and
-            not c:IsLocation(LOCATION_HAND + LOCATION_DECK) then return end
-        Duel.SendtoExtraP(c, tp, REASON_EFFECT)
-        if s.searchsoultg(e, tp, eg, ep, ev, re, r, rp, 0) then
-            s.searchsoulop(e, tp, eg, ep, ev, re, r, rp)
-        end
-    end)
-    c:RegisterEffect(toextra)
-
-    -- search supreme soul
-    local searchsoul = Effect.CreateEffect(c)
-    searchsoul:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    searchsoul:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    searchsoul:SetCode(EVENT_PREDRAW)
-    searchsoul:SetRange(LOCATION_EXTRA)
-    searchsoul:SetCountLimit(1)
-    searchsoul:SetCondition(function(e, tp)
-        return e:GetHandler():IsFaceup() and Duel.IsTurnPlayer(tp)
-    end)
-    searchsoul:SetTarget(s.searchsoultg)
-    searchsoul:SetOperation(s.searchsoulop)
-    c:RegisterEffect(searchsoul)
+    -- predraw
+    local predraw = Effect.CreateEffect(c)
+    predraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    predraw:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    predraw:SetCode(EVENT_PREDRAW)
+    predraw:SetRange(LOCATION_ALL)
+    predraw:SetCountLimit(1)
+    predraw:SetTarget(s.predrawtg)
+    predraw:SetOperation(s.predrawop)
+    c:RegisterEffect(predraw)
 end
 
-function s.searchsoulfilter(c) return c:IsCode(950000001) and c:IsAbleToHand() end
+function s.predrawfilter(c) return c:IsCode(950000001) and c:IsAbleToHand() end
 
-function s.searchsoultg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.predrawtoextracheck(e)
+    local c = e:GetHandler()
+    return c:IsLocation(LOCATION_HAND + LOCATION_EXTRA) and not c:IsForbidden()
+end
+
+function s.predrawsearchcheck(tp)
+    return Duel.IsExistingMatchingCard(s.predrawfilter, tp,
+                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+end
+
+function s.predrawtg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.searchsoulfilter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
+        return s.predrawtoextracheck(e) or s.predrawsearchcheck(tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+    if s.predrawsearchcheck(tp) then
+        Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                              LOCATION_DECK + LOCATION_GRAVE)
+    end
 end
 
-function s.searchsoulop(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(s.searchsoulfilter, tp,
-                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-    if #g > 1 then g = g:Select(tp, 1, 1, nil) end
+function s.predrawop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
 
-    if #g > 0 then
-        Utility.HintCard(id)
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
+    if c:IsLocation(LOCATION_HAND + LOCATION_DECK) then
+        Duel.SendtoExtraP(c, tp, REASON_EFFECT)
+    end
+
+    if Duel.IsTurnPlayer(tp) then
+        local g = Duel.GetMatchingGroup(s.predrawfilter, tp,
+                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+        if #g > 1 then g = g:Select(tp, 1, 1, nil) end
+        if #g > 0 then
+            Utility.HintCard(id)
+            Duel.SendtoHand(g, nil, REASON_EFFECT)
+            Duel.ConfirmCards(1 - tp, g)
+        end
     end
 end

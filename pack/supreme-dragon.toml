@@ -207,10 +207,9 @@ strings = [
     "Summon a Dragon",
 ]
 
-[card.genesis-omega-dragon-zarc]
+[card.genesis-omega-dragon]
 id = 950000006
-alias = 13331639
-name = "Genesis Omega Dragon Z-ARC"
+name = "Genesis Omega Dragon"
 type = "monster ritual pendulum effect"
 attribute = "dark"
 race = "dragon"
@@ -221,9 +220,8 @@ def = "?"
 pendulum-effect = """\
 """
 effect = """\
-(This card is always treated as "Supreme King Z-ARC".)
-Before the Draw Phase, add this card from your hand or Deck to the Extra Deck face-up. \
-Once per turn, before your Draw Phase while this card is in face-up Extra Deck, add 1 "Supreme Soul" from your Deck. \
+Once per turn, before the Draw Phase, add this card from your hand or Deck to the Extra Deck face-up, \
+    and also during your turn, while this card is in face-up Extra Deck, add 1 "Supreme Soul" from your Deck. \
 """
 strings = []
 

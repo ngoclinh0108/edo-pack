@@ -61,7 +61,7 @@ end
 
 function s.e1filter1(c)
     return c:IsFaceup() and c:IsType(TYPE_XYZ) and
-               Utility.IsSetCardListed(c, 0x2073, 0x20f8)
+               Utility.IsSetCard(c, 0x2073, 0x20f8)
 end
 
 function s.e1filter2(c)
