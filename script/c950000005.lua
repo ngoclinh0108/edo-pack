@@ -6,7 +6,6 @@ s.listed_series = {0x20f8}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    c:SetSPSummonOnce(id)
 
     -- link summon
     Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsRace, RACE_DRAGON), 4,

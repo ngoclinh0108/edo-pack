@@ -31,17 +31,6 @@ function s.initial_effect(c)
     spr:SetOperation(s.sprop)
     c:RegisterEffect(spr)
 
-    -- predraw
-    local predraw = Effect.CreateEffect(c)
-    predraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    predraw:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    predraw:SetCode(EVENT_PREDRAW)
-    predraw:SetRange(LOCATION_ALL)
-    predraw:SetCountLimit(1)
-    predraw:SetTarget(s.predrawtg)
-    predraw:SetOperation(s.predrawop)
-    c:RegisterEffect(predraw)
-
     -- summon cannot be negated
     local nospnegate = Effect.CreateEffect(c)
     nospnegate:SetType(EFFECT_TYPE_SINGLE)
@@ -125,6 +114,17 @@ function s.initial_effect(c)
     noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
     noswitch:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noswitch)
+
+    -- predraw
+    local predraw = Effect.CreateEffect(c)
+    predraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    predraw:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    predraw:SetCode(EVENT_PREDRAW)
+    predraw:SetRange(LOCATION_ALL)
+    predraw:SetCountLimit(1)
+    predraw:SetTarget(s.predrawtg)
+    predraw:SetOperation(s.predrawop)
+    c:RegisterEffect(predraw)
 
     -- immune
     local pe1 = Effect.CreateEffect(c)
