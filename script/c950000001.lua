@@ -93,6 +93,20 @@ function s.initial_effect(c)
 end
 
 function s.deck_edit(tp)
+    -- Supreme King Z-Arc - Overlord
+    if not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
+                                       LOCATION_DECK + LOCATION_EXTRA, 0, 1,
+                                       nil, 950000005) then
+        Duel.SendtoDeck(Duel.CreateToken(tp, 950000005), tp, 2, REASON_RULE)
+    end
+
+    -- Genesis Omega Dragon Z-Arc
+    if not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
+                                       LOCATION_DECK + LOCATION_EXTRA, 0, 1,
+                                       nil, 950000006) then
+        Duel.SendtoExtraP(Duel.CreateToken(tp, 950000006), tp, REASON_RULE)
+    end
+    
     -- Supreme King Dragon Odd-Eyes
     if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
                                    LOCATION_DECK + LOCATION_EXTRA, 0, 1, nil,
@@ -128,20 +142,6 @@ function s.deck_edit(tp)
                                         LOCATION_DECK + LOCATION_EXTRA, 0, 1,
                                         nil, 43387895) then
         Duel.SendtoDeck(Duel.CreateToken(tp, 43387895), tp, 2, REASON_RULE)
-    end
-
-    -- Supreme King Z-Arc - Overlord
-    if not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
-                                       LOCATION_DECK + LOCATION_EXTRA, 0, 1,
-                                       nil, 950000005) then
-        Duel.SendtoDeck(Duel.CreateToken(tp, 950000005), tp, 2, REASON_RULE)
-    end
-
-    -- Genesis Omega Dragon Z-Arc
-    if not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
-                                       LOCATION_DECK + LOCATION_EXTRA, 0, 1,
-                                       nil, 950000006) then
-        Duel.SendtoExtraP(Duel.CreateToken(tp, 950000006), tp, REASON_RULE)
     end
 end
 
