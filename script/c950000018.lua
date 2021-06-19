@@ -98,9 +98,7 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp) Duel.PendulumSummon(tp) end
 
-function s.e4filter1(c) return c:IsFaceup() and c:IsCode(13331639) end
-
-function s.e4filter2(c, e, tp)
+function s.e4filter(c, e, tp)
     if not (c:IsSetCard(0x20f8) and
         c:IsCanBeSpecialSummoned(e, 0, tp, true, false)) then return false end
 
@@ -135,8 +133,9 @@ function s.e4rescon(ft1, ft2, ft3, ft4, ft)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e4filter1, tp, LOCATION_ONFIELD, 0, 1,
-                                       nil)
+    return Duel.IsExistingMatchingCard(function(c)
+        return c:IsFaceup() and c:IsCode(13331639)
+    end, tp, LOCATION_ONFIELD, 0, 1, nil)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -144,7 +143,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetMatchingGroup(aux.NOT(s.e4filter1), tp, LOCATION_MZONE, 0,
                                     nil)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e4filter2, tp, loc, 0, 1, nil, e,
+        return Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil, e,
                                            tp) and #g > 0
     end
 
@@ -186,7 +185,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
     if ft2 > 0 or ft3 > 0 or ft4 > 0 then loc = loc + LOCATION_EXTRA end
     if loc == 0 then return end
-    local sg = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e4filter2), tp,
+    local sg = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e4filter), tp,
                                      loc, 0, nil, e, tp)
     if #sg == 0 then return end
 
