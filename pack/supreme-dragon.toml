@@ -136,7 +136,7 @@ pendulum-scale = 10
 atk = 3000
 def = 2500
 pendulum-effect = """\
-Once per turn, at the end of the Damage Step, if your monster attacked an opponent's monster: \
+Once per turn, if your monster battles an opponent's monster, before damage calculation: \
     You can halve the ATK of the opponent's monster it is battling until the end of the Damage Step. \
 """
 effect = """\
@@ -222,8 +222,8 @@ atk = 4000
 def = 4000
 pendulum-effect = """\
 Unaffected by your opponent's card effects. \
-Once per turn, at the end of the Damage Step, if your Dragon Pendulum Monster attacked an opponent's monster: \
-    You can activate this effect; it can attack again in a row. \
+Once per turn, if your DARK Dragon Pendulum monster attacks an opponent's monster, before damage calculation: \
+    Until the end of this turn, double it's current ATK and it can attack all monsters your opponent controls, once each. \
     You cannot declare attacks the turn you activate this effect, except with that monster. \
 Once per turn, you can attach 1 Pendulum Monster from your Extra Deck face-up to this card. \
 This card gains the effect(s) of all Pendulum Monsters attached to this card, except "Genesis Omega Dragon". \
@@ -244,7 +244,7 @@ Once per turn, during damage calculation, if this card battles an opponent's mon
     Double this card's current ATK until the end of this turn. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """
-strings = ["Attack again", "Attach Pendulum Zone", "Double ATK"]
+strings = ["Double ATK & Attack all", "Attach Pendulum Zone", "Double ATK"]
 
 [card.supreme-king-dragon-venowurm]
 id = 950000007
@@ -570,7 +570,4 @@ Activate 1 of these effects. You can only activate 1 "Supreme Wrath" once per tu
     and if you do, Special Summon up to 4 "Supreme King Dragon" monsters with different names from your hand, Deck, Extra Deck, and/or GY, \
     ignoring their Summoning conditions. (This is treated as a Properly Summon.)
 """
-strings = [
-    "Pendulum Summon",
-    "Special Summon 4 \"Supreme King Dragon\"(s)",
-]
+strings = ["Pendulum Summon", "Special Summon 4 \"Supreme King Dragon\"(s)"]

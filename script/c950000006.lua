@@ -119,16 +119,16 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(pe1)
 
-    -- chain attack
+    -- double ATK & multi attack (pendulum)
     local pe2 = Effect.CreateEffect(c)
     pe2:SetDescription(aux.Stringid(id, 0))
+    pe2:SetCategory(CATEGORY_ATKCHANGE)
     pe2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    pe2:SetCode(EVENT_DAMAGE_STEP_END)
+    pe2:SetCode(EVENT_BATTLE_CONFIRM)
     pe2:SetRange(LOCATION_PZONE)
     pe2:SetCountLimit(1)
     pe2:SetCondition(s.pe2con)
     pe2:SetCost(s.pe2cost)
-    pe2:SetTarget(s.pe2tg)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
@@ -165,7 +165,7 @@ function s.initial_effect(c)
     me2:SetValue(1)
     c:RegisterEffect(me2)
 
-    -- double ATK
+    -- double ATK (monster)
     local me3 = Effect.CreateEffect(c)
     me3:SetDescription(aux.Stringid(id, 2))
     me3:SetCategory(CATEGORY_ATKCHANGE)
@@ -295,22 +295,23 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.pe2filter1(c) return
-    c:IsType(TYPE_PENDULUM) and c:IsRace(RACE_DRAGON) end
-
-function s.pe2filter2(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
+function s.pe2filter(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
 
 function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
     local ac = Duel.GetAttacker()
-    return ac and ac:IsFaceup() and ac:IsControler(tp) and s.pe2filter1(ac) and
-               Duel.GetAttackTarget() ~= nil and ac:CanChainAttack()
+    local bc = Duel.GetAttackTarget()
+
+    if not ac or not bc then return false end
+    return ac:IsFaceup() and ac:IsControler(tp) and
+               ac:IsAttribute(ATTRIBUTE_DARK) and ac:IsType(TYPE_PENDULUM) and
+               ac:IsRace(RACE_DRAGON)
 end
 
 function s.pe2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local ac = Duel.GetAttacker()
     if chk == 0 then
-        return Duel.GetMatchingGroupCount(s.pe2filter2, tp, 0xff, 0xff, ac) == 0
+        return Duel.GetMatchingGroupCount(s.pe2filter, tp, 0xff, 0xff, ac) == 0
     end
 
     local ec1 = Effect.CreateEffect(c)
@@ -324,16 +325,26 @@ function s.pe2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local ac = Duel.GetAttacker()
-    if chk == 0 then return ac and ac:CanChainAttack() end
-end
-
 function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
     local ac = Duel.GetAttacker()
-    if ac and ac:IsRelateToBattle() and ac:IsControler(tp) then
-        Duel.ChainAttack()
-    end
+    if not ac or not ac:IsRelateToBattle() or not ac:IsControler(tp) or
+        ac:IsFacedown() then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec1:SetValue(ac:GetAttack() * 2)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    ac:RegisterEffect(ec1)
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetCode(EFFECT_ATTACK_ALL)
+    ec2:SetValue(1)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    ac:RegisterEffect(ec2)
 end
 
 function s.pe3filter(c) return c:IsFaceup() and c:IsType(TYPE_PENDULUM) end
