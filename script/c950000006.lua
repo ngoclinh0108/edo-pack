@@ -145,19 +145,19 @@ function s.initial_effect(c)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
-    -- attack all monsters
+    -- unstoppable attack
     local me1 = Effect.CreateEffect(c)
     me1:SetType(EFFECT_TYPE_SINGLE)
-    me1:SetCode(EFFECT_ATTACK_ALL)
-    me1:SetValue(1)
+    me1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    me1:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+    me1:SetRange(LOCATION_MZONE)
     c:RegisterEffect(me1)
 
-    -- unstoppable attack
+    -- attack all monsters
     local me2 = Effect.CreateEffect(c)
     me2:SetType(EFFECT_TYPE_SINGLE)
-    me2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    me2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-    me2:SetRange(LOCATION_MZONE)
+    me2:SetCode(EFFECT_ATTACK_ALL)
+    me2:SetValue(1)
     c:RegisterEffect(me2)
 
     -- double ATK

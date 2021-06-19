@@ -234,8 +234,8 @@ Once per turn, before the Draw Phase, add this card from your hand or Deck to th
 Negate your opponent's card effects that target this card. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Possession of this card cannot be switched. \
-This card can attack all monsters your opponent controls, once each. \
 Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+This card can attack all monsters your opponent controls, once each. \
 Once per turn, during damage calculation, if this card battles an opponent's monster: \
     Double this card's current ATK until the end of this turn. \
 ${TO_PZONE_WHEN_DESTROYED} \
