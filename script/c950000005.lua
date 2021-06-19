@@ -307,7 +307,7 @@ function s.pe5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
     local tc = Duel.SelectMatchingCard(tp, s.pe5filter, tp, LOCATION_HAND +
                                            LOCATION_DECK + LOCATION_GRAVE +
-                                           LOCATION_EXTRA, 0, 1, 1, dc):GetFirst()
+                                           LOCATION_EXTRA, 0, 1, 1, dg):GetFirst()
     if not tc then return end
 
     Duel.MoveToField(tc, tp, tp, LOCATION_PZONE, POS_FACEUP, true)

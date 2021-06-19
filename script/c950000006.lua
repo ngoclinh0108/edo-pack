@@ -132,6 +132,24 @@ function s.initial_effect(c)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
+    -- attach
+    local pe3 = Effect.CreateEffect(c)
+    pe3:SetDescription(aux.Stringid(id, 1))
+    pe3:SetType(EFFECT_TYPE_IGNITION)
+    pe3:SetRange(LOCATION_PZONE)
+    pe3:SetCountLimit(1)
+    pe3:SetTarget(s.pe3tg)
+    pe3:SetOperation(s.pe3op)
+    c:RegisterEffect(pe3)
+
+    -- gain effect
+    local pe4 = Effect.CreateEffect(c)
+    pe4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    pe4:SetCode(EVENT_ADJUST)
+    pe4:SetRange(LOCATION_PZONE)
+    pe4:SetOperation(s.pe4op)
+    c:RegisterEffect(pe4)
+
     -- unstoppable attack
     local me1 = Effect.CreateEffect(c)
     me1:SetType(EFFECT_TYPE_SINGLE)
@@ -315,6 +333,63 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     local ac = Duel.GetAttacker()
     if ac and ac:IsRelateToBattle() and ac:IsControler(tp) then
         Duel.ChainAttack()
+    end
+end
+
+function s.pe3filter(c) return c:IsFaceup() and c:IsType(TYPE_PENDULUM) end
+
+function s.pe3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.pe3filter, tp, LOCATION_EXTRA, 0,
+                                           1, nil)
+    end
+end
+
+function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    local g = Duel.SelectMatchingCard(tp, s.pe3filter, tp, LOCATION_EXTRA, 0, 1,
+                                      1, nil)
+    if #g > 0 then Duel.Overlay(c, g) end
+end
+
+function s.pe4filter(c)
+    return not c:IsCode(id) and c:GetFlagEffect(id) == 0 and
+               c:IsType(TYPE_PENDULUM)
+end
+
+function s.pe4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = c:GetOverlayGroup():Filter(s.pe4filter, nil)
+    if #g <= 0 then return end
+
+    for tc in aux.Next(g) do
+        tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe0000, 0, 0)
+        local cid = c:CopyEffect(tc:GetOriginalCode(), RESET_EVENT + 0x1fe0000)
+
+        local reset = Effect.CreateEffect(c)
+        reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        reset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        reset:SetCode(EVENT_ADJUST)
+        reset:SetRange(LOCATION_PZONE)
+        reset:SetLabel(cid)
+        reset:SetLabelObject(tc)
+        reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+            local cid = e:GetLabel()
+            local c = e:GetHandler()
+            local tc = e:GetLabelObject()
+            local g = c:GetOverlayGroup():Filter(function(c)
+                return c:GetFlagEffect(id) > 0
+            end, nil)
+            if c:IsDisabled() or c:IsFacedown() or not g:IsContains(tc) then
+                c:ResetEffect(cid, RESET_COPY)
+                tc:ResetFlagEffect(id)
+            end
+        end)
+        reset:SetReset(RESET_EVENT + 0x1fe0000)
+        c:RegisterEffect(reset, true)
     end
 end
 
