@@ -28,7 +28,7 @@ function s.initial_effect(c)
     pe1:SetOperation(s.pe1op)
     c:RegisterEffect(pe1)
 
-    -- synchro level
+    -- synchro level and non-tuner
     local me1 = Effect.CreateEffect(c)
     me1:SetType(EFFECT_TYPE_SINGLE)
     me1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
@@ -37,6 +37,12 @@ function s.initial_effect(c)
         return 3 * 65536 + e:GetHandler():GetLevel()
     end)
     c:RegisterEffect(me1)
+    local me1b = me1:Clone()
+    me1b:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE +
+                         EFFECT_FLAG_CANNOT_NEGATE)
+    me1b:SetRange(LOCATION_MZONE)
+    me1b:SetCode(EFFECT_NONTUNER)
+    c:RegisterEffect(me1b)
 
     -- damage
     local me2 = Effect.CreateEffect(c)
