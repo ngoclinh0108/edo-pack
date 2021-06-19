@@ -69,23 +69,18 @@ function s.initial_effect(c)
     predraw:SetOperation(s.predrawop)
     c:RegisterEffect(predraw)
 
-    -- indestructable by card effect
-    local indes = Effect.CreateEffect(c)
-    indes:SetType(EFFECT_TYPE_SINGLE)
-    indes:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    indes:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    indes:SetRange(LOCATION_MZONE)
-    indes:SetValue(1)
-    c:RegisterEffect(indes)
-
-    -- cannot be targeted
-    local untarget = Effect.CreateEffect(c)
-    untarget:SetType(EFFECT_TYPE_SINGLE)
-    untarget:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    untarget:SetRange(LOCATION_MZONE)
-    untarget:SetValue(aux.tgoval)
-    c:RegisterEffect(untarget)
+    -- disable target effect
+    local distarget = Effect.CreateEffect(c)
+    distarget:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    distarget:SetCode(EVENT_CHAIN_SOLVING)
+    distarget:SetRange(LOCATION_MZONE)
+    distarget:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        if rp == tp then return end
+        if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
+        local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+        if g and g:IsContains(e:GetHandler()) then Duel.NegateEffect(ev) end
+    end)
+    c:RegisterEffect(distarget)
 
     -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
