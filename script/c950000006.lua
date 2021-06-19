@@ -23,8 +23,10 @@ function s.initial_effect(c)
         local c = e:GetHandler()
         if not c:IsRelateToEffect(e) and
             not c:IsLocation(LOCATION_HAND + LOCATION_DECK) then return end
-        Utility.HintCard(id)
         Duel.SendtoExtraP(c, tp, REASON_EFFECT)
+        if s.searchsoultg(e, tp, eg, ep, ev, re, r, rp, 0) then
+            s.searchsoulop(e, tp, eg, ep, ev, re, r, rp)
+        end
     end)
     c:RegisterEffect(toextra)
 
