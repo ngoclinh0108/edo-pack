@@ -184,6 +184,7 @@ effect = """\
 (This card is always treated as "Supreme King Z-ARC".)
 Must be Link Summoned, and can then be Pendulum Summoned. \
 You can Pendulum Summon this card regardless of your Pendulum Scales. \
+You can only Special Summon "Supreme King Z-ARC - Overlord(s)" once per turn. \
 This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
 Your opponent cannot target this card with card effects. \
@@ -215,13 +216,24 @@ attribute = "dark"
 race = "dragon"
 level = 12
 pendulum-scale = 0
-atk = "?"
-def = "?"
+atk = 4000
+def = 4000
 pendulum-effect = """\
+Unaffected by your opponent's card effects. \
 """
 effect = """\
 Once per turn, before the Draw Phase, add this card from your hand or Deck to the Extra Deck face-up, \
     and also during your turn, while this card is in face-up Extra Deck, add 1 "Supreme Soul" from your Deck. \
+Must be Special Summoned (from your hand or face-up Extra Deck) by Tributing 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz and 1 Pendulum), \
+    or be Pendulum Summoned. \
+You can only Special Summon "Genesis Omega Dragon(s)" once per turn. \
+This card's Special Summon cannot be negated. \
+This card's activation and effects cannot be negated. \
+Your opponent cannot target this card with card effects. \
+Cannot be destroyed by card effects. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+Possession of this card cannot be switched. \
+${TO_PZONE_WHEN_DESTROYED} \
 """
 strings = []
 
@@ -456,9 +468,7 @@ If an effect of a "Clear Wing" Dragon monster is activated: \
     You can only use this effects of "Clear Wing Magician" once per turn. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """
-strings = [
-    "Inflict damage equal to the ATK of \"Clear Wing\" dragon"
-]
+strings = ["Inflict damage equal to the ATK of \"Clear Wing\" dragon"]
 
 [card.dark-rebellion-magician]
 id = 950000015
@@ -489,7 +499,10 @@ If "Rebellion" Dragon monster's ATK is changed: \
     You can only use this effects of "Dark Rebellion Magician" once per turn. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """
-strings = ["Rank-Up Dragon Xyz Monster", "Inflict damage equal to \"Rebellion\" ATK change"]
+strings = [
+    "Rank-Up Dragon Xyz Monster",
+    "Inflict damage equal to \"Rebellion\" ATK change",
+]
 
 [card.sky-iris-magician]
 id = 950000016
