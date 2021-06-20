@@ -50,7 +50,6 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_BATTLE_DESTROYING)
     e2:SetRange(LOCATION_SZONE)
     e2:SetCondition(s.e2con)
-    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -81,13 +80,6 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local bc = ec:GetBattleTarget()
     return e:GetHandler():GetEquipTarget() == ec and ec:IsControler(tp) and
                bc:IsPreviousControler(1 - tp) and bc:IsReason(REASON_BATTLE)
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:GetFlagEffect(id) == 0 end
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                             PHASE_BATTLE, 0, 1)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
