@@ -51,13 +51,12 @@ function s.initial_effect(c)
     -- xyz success
     local me1 = Effect.CreateEffect(c)
     me1:SetCategory(CATEGORY_DISABLE)
-    me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    me1:SetProperty(EFFECT_FLAG_DELAY)
+    me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    me1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     me1:SetCode(EVENT_SPSUMMON_SUCCESS)
     me1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ)
     end)
-    me1:SetTarget(s.me1tg)
     me1:SetOperation(s.me1op)
     c:RegisterEffect(me1)
 
@@ -121,20 +120,15 @@ function s.pe1op(e, tp, ep, ev, re, r, rp)
     bc:RegisterEffect(ec1)
 end
 
-function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return not c:IsHasEffect(EFFECT_EXTRA_ATTACK) end
-end
-
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(aux.Stringid(id, 1))
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_EXTRA_ATTACK)
     ec1:SetValue(2)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
 end
 

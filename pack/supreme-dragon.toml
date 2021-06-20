@@ -144,8 +144,7 @@ effect = """\
 (This card is always treated as "Supreme King Dragon" card.)
 Must be Xyz Summoned, and can then be Pendulum Summoned. \
 If you can Pendulum Summon Level 7, you can Pendulum Summon this face-up card in your Extra Deck. \
-If this card Is Xyz Summoned: \
-    This turn, it can make a second and third attack during each Battle Phase. \
+If this card Is Xyz Summoned: It can make up to 3 attacks. \
 Once per turn, you can can detach any number of materials from this card, then destroy that many card your opponent controls. \
 Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; until the end of this turn, \
     that monster has its effects negated, and also its ATK becomes half its current ATK, and if it does, this card gains that lost ATK. \
@@ -442,7 +441,7 @@ effect = """\
 2 Pendulum monsters
 (This card is always treated as a "Fusion Dragon" card.)
 This card can be used as a substitute for any 1 Fusion Material whose name is specifically listed on the Fusion Monster, \
-    but the other Fusion Material(s) must be correct. \
+    but the other material(s) must be correct. \
     This effect cannot be negated. \
 During the End Phase: \
     You can inflict damage to your opponent equal to the combined original ATK of monsters destroyed this turn by "Starving Venom" Dragon monster. \
