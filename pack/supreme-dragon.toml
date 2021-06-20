@@ -554,14 +554,14 @@ type = "spell equip"
 effect = """\
 You can only control 1 "Supreme Presence". \
 Equip only to a Dragon monster that was Special Summoned from the Extra Deck. \
-This card and the equipped monster cannot be destroyed by card effects, \
-    also negate your opponent's card effects that target them. \
+Negate your opponent's card effects that target this card and the equipped monster, \
+    also them cannot be destroyed by card effects. \
 If the equipped monster destroys an opponent's monster by battle: \
-    You can inflict damage to your opponent equal to the original ATK the destroyed monster. \
+    Inflict damage to your opponent equal to the original ATK the destroyed monster. \
 If the equipped monster is destroyed by battle: \
-    You can destroy the monster that destroyed it, and if you do, \
+    Destroy the monster that destroyed it, and if you do, \
     inflict damage to your opponent equal to the ATK the destroyed monster had on the field. \
-If you control "Supreme King Z-ARC", the equipped monster gain ATK equal to the original ATK of Pendulum Monsters in the Pendulum Zones. \
+If you control "Supreme King Z-ARC", the equipped monster gain ATK equal to the combined original ATK of monsters in your Pendulum Zones. \
 """
 strings = [
     "inflict damage equal to the original ATK the destroyed monster",
