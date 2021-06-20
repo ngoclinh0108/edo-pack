@@ -80,7 +80,6 @@ function s.initial_effect(c)
     me1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION)
     end)
-    me1:SetTarget(s.me1tg)
     me1:SetOperation(s.me1op)
     c:RegisterEffect(me1)
 
@@ -146,13 +145,6 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     ac:RegisterEffect(ec1)
 end
 
-function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE,
-                                           1, nil)
-    end
-end
-
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
@@ -167,7 +159,7 @@ function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_UPDATE_ATTACK)
     ec1:SetValue(atk)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
     c:RegisterEffect(ec1)
 end
 
