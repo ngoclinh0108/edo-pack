@@ -173,8 +173,8 @@ pendulum-effect = """\
 Unaffected by your opponent's card effects. \
 Pendulum Scale of card in your other Pendulum Zone become 0. \
 Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their effects. \
-You can Special Summon 1 Dragon Fusion, Synchro, or Xyz Monster that is banished or in your GY, Extra Deck face-up. \
-    Special Summon that target, ignoring its Summoning conditions. \
+Once per turn: You can Special Summon 1 Dragon Fusion, Synchro, or Xyz Monster, ignoring its Summoning conditions \
+    that is banished or in your GY, Extra Deck face-up. \
     (This is also treated as an Fusion, Synchro or Xyz Summon.) \
 Once per turn: \
     You can destroy a card in your other Pendulum Zone (if any), then \
@@ -186,12 +186,11 @@ effect = """\
 (This card is always treated as "Supreme King Z-ARC".)
 Must be Link Summoned, and can then be Pendulum Summoned. \
 You can Pendulum Summon this card regardless of your Pendulum Scales. \
-This card's Special Summon cannot be negated. \
-This card's activation and effects cannot be negated. \
-Your opponent cannot target this card with card effects. \
-Cannot be destroyed by card effects. \
-Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+This card's Special Summon, activation and effects cannot be negated. \
 Possession of this card cannot be switched. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+Cannot be destroyed by card effects. \
+Your opponent cannot target this card with card effects. \
 If this card is Special Summoned: Destroy all cards your opponent controls. \
 Once per turn, when a card(s) is added to your opponent's hand (except during the Draw Phase or the Damage Step): \
     You can destroy that card(s). \
@@ -231,12 +230,11 @@ effect = """\
 Must be Special Summoned (from your hand or face-up Extra Deck) by Tributing 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz and 1 Pendulum), \
     and can then be Pendulum Summoned. \
 You can only Special Summon "Genesis Omega Dragon(s)" once per turn. \
-This card's Special Summon cannot be negated. \
-This card's activation and effects cannot be negated. \
+This card's Special Summon, activation and effects cannot be negated. \
 Once per turn, before the Draw Phase, add this card from your hand or Deck to the Extra Deck face-up, \
     and also during your turn, while this card is in face-up Extra Deck, add 1 "Supreme Soul" from your Deck. \
-Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Possession of this card cannot be switched. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 This card can attack all monsters your opponent controls, once each. \
 Once per turn, during damage calculation, if this card battles an opponent's monster: \

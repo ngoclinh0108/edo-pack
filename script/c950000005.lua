@@ -71,24 +71,14 @@ function s.initial_effect(c)
     nodis:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nodis)
 
-    -- indestructable by card effect
-    local indes = Effect.CreateEffect(c)
-    indes:SetType(EFFECT_TYPE_SINGLE)
-    indes:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    indes:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    indes:SetRange(LOCATION_MZONE)
-    indes:SetValue(1)
-    c:RegisterEffect(indes)
-
-    -- cannot be targeted
-    local untarget = Effect.CreateEffect(c)
-    untarget:SetType(EFFECT_TYPE_SINGLE)
-    untarget:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    untarget:SetRange(LOCATION_MZONE)
-    untarget:SetValue(aux.tgoval)
-    c:RegisterEffect(untarget)
-
+    -- cannot be switch control
+    local noswitch = Effect.CreateEffect(c)
+    noswitch:SetType(EFFECT_TYPE_SINGLE)
+    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    noswitch:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(noswitch)
+    
     -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
@@ -120,13 +110,23 @@ function s.initial_effect(c)
     nolnk:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
     c:RegisterEffect(nolnk)
 
-    -- cannot be switch control
-    local noswitch = Effect.CreateEffect(c)
-    noswitch:SetType(EFFECT_TYPE_SINGLE)
-    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    noswitch:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(noswitch)
+    -- indestructable by card effect
+    local indes = Effect.CreateEffect(c)
+    indes:SetType(EFFECT_TYPE_SINGLE)
+    indes:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    indes:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    indes:SetRange(LOCATION_MZONE)
+    indes:SetValue(1)
+    c:RegisterEffect(indes)
+
+    -- cannot be targeted
+    local untarget = Effect.CreateEffect(c)
+    untarget:SetType(EFFECT_TYPE_SINGLE)
+    untarget:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    untarget:SetRange(LOCATION_MZONE)
+    untarget:SetValue(aux.tgoval)
+    c:RegisterEffect(untarget)
 
     -- immune
     local pe1 = Effect.CreateEffect(c)

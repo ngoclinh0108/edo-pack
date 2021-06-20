@@ -58,16 +58,13 @@ function s.initial_effect(c)
     nodis:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nodis)
 
-    -- predraw
-    local predraw = Effect.CreateEffect(c)
-    predraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    predraw:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    predraw:SetCode(EVENT_PREDRAW)
-    predraw:SetRange(LOCATION_ALL)
-    predraw:SetCountLimit(1)
-    predraw:SetTarget(s.predrawtg)
-    predraw:SetOperation(s.predrawop)
-    c:RegisterEffect(predraw)
+    -- cannot be switch control
+    local noswitch = Effect.CreateEffect(c)
+    noswitch:SetType(EFFECT_TYPE_SINGLE)
+    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    noswitch:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(noswitch)
 
     -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
@@ -100,13 +97,16 @@ function s.initial_effect(c)
     nolnk:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
     c:RegisterEffect(nolnk)
 
-    -- cannot be switch control
-    local noswitch = Effect.CreateEffect(c)
-    noswitch:SetType(EFFECT_TYPE_SINGLE)
-    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    noswitch:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(noswitch)
+    -- predraw
+    local predraw = Effect.CreateEffect(c)
+    predraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    predraw:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    predraw:SetCode(EVENT_PREDRAW)
+    predraw:SetRange(LOCATION_ALL)
+    predraw:SetCountLimit(1)
+    predraw:SetTarget(s.predrawtg)
+    predraw:SetOperation(s.predrawop)
+    c:RegisterEffect(predraw)
 
     -- immune
     local pe1 = Effect.CreateEffect(c)
