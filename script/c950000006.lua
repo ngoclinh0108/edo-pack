@@ -100,7 +100,7 @@ function s.initial_effect(c)
     predraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     predraw:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     predraw:SetCode(EVENT_PREDRAW)
-    predraw:SetRange(LOCATION_ALL)
+    predraw:SetRange(LOCATION_HAND + LOCATION_DECK)
     predraw:SetCountLimit(1)
     predraw:SetTarget(s.predrawtg)
     predraw:SetOperation(s.predrawop)
@@ -178,9 +178,7 @@ end
 
 function s.predrawtg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsLocation(LOCATION_HAND + LOCATION_EXTRA) and not c:IsForbidden()
-    end
+    if chk == 0 then return not c:IsForbidden() end
 end
 
 function s.predrawop(e, tp, eg, ep, ev, re, r, rp)
