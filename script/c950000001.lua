@@ -99,12 +99,6 @@ function s.deck_edit(tp)
         Duel.SendtoDeck(Duel.CreateToken(tp, 950000005), tp, 2, REASON_RULE)
     end
 
-    -- Genesis Omega Dragon Z-Arc
-    if not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0,
-                                       1, nil, 950000006) then
-        Duel.SendtoExtraP(Duel.CreateToken(tp, 950000006), tp, REASON_RULE)
-    end
-
     -- Supreme King Dragon Odd-Eyes
     if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1,
                                    nil, 16178681) and

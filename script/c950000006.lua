@@ -178,46 +178,16 @@ function s.initial_effect(c)
     c:RegisterEffect(me3)
 end
 
-function s.predrawfilter(c) return c:IsCode(950000001) and c:IsAbleToHand() end
-
-function s.predrawtoextracheck(e)
-    local c = e:GetHandler()
-    return c:IsLocation(LOCATION_HAND + LOCATION_EXTRA) and not c:IsForbidden()
-end
-
-function s.predrawsearchcheck(tp)
-    return Duel.IsExistingMatchingCard(s.predrawfilter, tp,
-                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
-end
-
 function s.predrawtg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
-        return s.predrawtoextracheck(e) or s.predrawsearchcheck(tp)
-    end
-
-    if s.predrawsearchcheck(tp) then
-        Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                              LOCATION_DECK + LOCATION_GRAVE)
+        return c:IsLocation(LOCATION_HAND + LOCATION_EXTRA) and not c:IsForbidden()
     end
 end
 
 function s.predrawop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-
-    if c:IsLocation(LOCATION_HAND + LOCATION_DECK) then
-        Duel.SendtoExtraP(c, tp, REASON_EFFECT)
-    end
-
-    if Duel.IsTurnPlayer(tp) then
-        local g = Duel.GetMatchingGroup(s.predrawfilter, tp,
-                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-        if #g > 1 then g = g:Select(tp, 1, 1, nil) end
-        if #g > 0 then
-            Utility.HintCard(id)
-            Duel.SendtoHand(g, nil, REASON_EFFECT)
-            Duel.ConfirmCards(1 - tp, g)
-        end
-    end
+    Duel.SendtoExtraP(c, tp, REASON_EFFECT)
 end
 
 function s.sprfilter(c)

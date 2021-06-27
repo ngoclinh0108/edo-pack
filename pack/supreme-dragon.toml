@@ -3,6 +3,7 @@ id = 950000000
 name = "Supreme Gate"
 type = "spell field"
 effect = """\
+Once per turn, before the Draw Phase, add 1 "Supreme Soul" from your Deck or GY to your hand. \
 Your opponent cannot target cards in your Pendulum Zones with card effects. \
 Any your Pendulum Monster sent to the GY is add to the Extra Deck face-up. \
 You can target 1 other face-up card you control; destroy it, and if you do, add from your Deck, GY or Extra Deck to your hand, \
@@ -45,7 +46,7 @@ You can only use each of the following effects of "Supreme Soul" twice per turn.
 ● Target 1 Pendulum Monster in your Monster Zone; place that Pendulum Monster in your Pendulum Zone.
 
 [ \
-Add from Outside "Supreme King Z-ARC - Overlord", "Genesis Omega Dragon", and "Supreme Dragon" versions of your Four Dimension Dragons to your Extra Deck. \
+Add from Outside "Supreme King Z-ARC - Overlord", and "Supreme Dragon" versions of your Four Dimension Dragons to your Extra Deck. \
 ] \
 """
 strings = [
@@ -231,8 +232,7 @@ Must be Special Summoned (from your hand or face-up Extra Deck) by Tributing 4 D
     and can then be Pendulum Summoned. \
 You can only Special Summon "Genesis Omega Dragon(s)" once per turn. \
 This card's Special Summon, activation and effects cannot be negated. \
-Once per turn, before the Draw Phase, add this card from your hand or Deck to the Extra Deck face-up, \
-    and also during your turn, while this card is in face-up Extra Deck, add 1 "Supreme Soul" from your Deck. \
+Once per turn, before the Draw Phase, add this card from your hand or Deck to the Extra Deck face-up. \
 Possession of this card cannot be switched. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
