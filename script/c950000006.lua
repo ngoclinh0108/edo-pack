@@ -2,8 +2,6 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {950000001}
-
 function s.initial_effect(c)
     c:EnableReviveLimit()
     c:SetSPSummonOnce(id)
