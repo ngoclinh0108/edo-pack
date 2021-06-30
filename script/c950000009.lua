@@ -2,36 +2,20 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {13331639}
-s.listed_series = {0x98, 0x99, 0x10f8, 0x20f8}
-
 function s.initial_effect(c)
     -- pendulum summon
     Pendulum.AddProcedure(c)
 
-    -- scale
-    local pe1 = Effect.CreateEffect(c)
-    pe1:SetType(EFFECT_TYPE_SINGLE)
-    pe1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    pe1:SetCode(EFFECT_CHANGE_LSCALE)
-    pe1:SetRange(LOCATION_PZONE)
-    pe1:SetCondition(s.pe1con)
-    pe1:SetValue(4)
-    c:RegisterEffect(pe1)
-    local pe1b = pe1:Clone()
-    pe1b:SetCode(EFFECT_CHANGE_RSCALE)
-    c:RegisterEffect(pe1b)
-
     -- rank
-    local pe2 = Effect.CreateEffect(c)
-    pe2:SetDescription(aux.Stringid(id, 0))
-    pe2:SetType(EFFECT_TYPE_IGNITION)
-    pe2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    pe2:SetRange(LOCATION_PZONE)
-    pe2:SetCountLimit(1)
-    pe2:SetTarget(s.pe2tg)
-    pe2:SetOperation(s.pe2op)
-    c:RegisterEffect(pe2)
+    local pe1 = Effect.CreateEffect(c)
+    pe1:SetDescription(aux.Stringid(id, 0))
+    pe1:SetType(EFFECT_TYPE_IGNITION)
+    pe1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    pe1:SetRange(LOCATION_PZONE)
+    pe1:SetCountLimit(1)
+    pe1:SetTarget(s.pe1tg)
+    pe1:SetOperation(s.pe1op)
+    c:RegisterEffect(pe1)
 
     -- xyz limit
     local me1 = Effect.CreateEffect(c)
@@ -68,43 +52,36 @@ function s.initial_effect(c)
     c:RegisterEffect(me3)
 end
 
-function s.pe1con(e)
-    return not Duel.IsExistingMatchingCard(function(c)
-        return Utility.IsSetCard(c, 0x98, 0x99, 0x10f8, 0x20f8) or
-                   c:IsCode(13331639)
-    end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
-end
-
-function s.pe2filter(c, e, tp)
+function s.pe1filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
                c:IsRace(RACE_DRAGON) and c:IsType(TYPE_XYZ)
 end
 
-function s.pe2filter1(c, tp)
+function s.pe1filter1(c, tp)
     return c:IsFaceup() and c:IsType(TYPE_XYZ) and
-               Duel.IsExistingTarget(s.pe2filter2, tp, LOCATION_MZONE, 0, 1, c)
+               Duel.IsExistingTarget(s.pe1filter2, tp, LOCATION_MZONE, 0, 1, c)
 end
 
-function s.pe2filter2(c)
+function s.pe1filter2(c)
     return c:IsFaceup() and c:IsType(TYPE_PENDULUM) and c:HasLevel()
 end
 
-function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.pe1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.pe2filter1, tp, LOCATION_MZONE, 0, 1,
+        return Duel.IsExistingTarget(s.pe1filter1, tp, LOCATION_MZONE, 0, 1,
                                      nil, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    local tc1 = Duel.SelectTarget(tp, s.pe2filter1, tp, LOCATION_MZONE, 0, 1, 1,
+    local tc1 = Duel.SelectTarget(tp, s.pe1filter1, tp, LOCATION_MZONE, 0, 1, 1,
                                   nil, tp):GetFirst()
     e:SetLabelObject(tc1)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    Duel.SelectTarget(tp, s.pe2filter2, tp, LOCATION_MZONE, 0, 1, 1, tc1)
+    Duel.SelectTarget(tp, s.pe1filter2, tp, LOCATION_MZONE, 0, 1, 1, tc1)
 end
 
-function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 

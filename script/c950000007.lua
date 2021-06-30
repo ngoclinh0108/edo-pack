@@ -2,37 +2,21 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {13331639}
-s.listed_series = {0x98, 0x99, 0x10f8, 0x20f8}
-
 function s.initial_effect(c)
     -- pendulum summon
     Pendulum.AddProcedure(c)
 
-    -- scale
-    local pe1 = Effect.CreateEffect(c)
-    pe1:SetType(EFFECT_TYPE_SINGLE)
-    pe1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    pe1:SetCode(EFFECT_CHANGE_LSCALE)
-    pe1:SetRange(LOCATION_PZONE)
-    pe1:SetCondition(s.pe1con)
-    pe1:SetValue(4)
-    c:RegisterEffect(pe1)
-    local pe1b = pe1:Clone()
-    pe1b:SetCode(EFFECT_CHANGE_RSCALE)
-    c:RegisterEffect(pe1b)
-
     -- fusion summon (pendulum zone)
-    local pe2params = {aux.FilterBoolFunction(Card.IsRace, RACE_DRAGON)}
-    local pe2 = Effect.CreateEffect(c)
-    pe2:SetDescription(1170)
-    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
-    pe2:SetType(EFFECT_TYPE_IGNITION)
-    pe2:SetRange(LOCATION_PZONE)
-    pe2:SetCountLimit(1)
-    pe2:SetTarget(Fusion.SummonEffTG(table.unpack(pe2params)))
-    pe2:SetOperation(Fusion.SummonEffOP(table.unpack(pe2params)))
-    c:RegisterEffect(pe2)
+    local pe1params = {aux.FilterBoolFunction(Card.IsRace, RACE_DRAGON)}
+    local pe1 = Effect.CreateEffect(c)
+    pe1:SetDescription(1170)
+    pe1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    pe1:SetType(EFFECT_TYPE_IGNITION)
+    pe1:SetRange(LOCATION_PZONE)
+    pe1:SetCountLimit(1)
+    pe1:SetTarget(Fusion.SummonEffTG(table.unpack(pe1params)))
+    pe1:SetOperation(Fusion.SummonEffOP(table.unpack(pe1params)))
+    c:RegisterEffect(pe1)
 
     -- fusion limit
     local me1 = Effect.CreateEffect(c)
@@ -75,14 +59,7 @@ function s.initial_effect(c)
     c:RegisterEffect(me3)
 end
 
-function s.pe1con(e)
-    return not Duel.IsExistingMatchingCard(function(c)
-        return Utility.IsSetCard(c, 0x98, 0x99, 0x10f8, 0x20f8) or
-                   c:IsCode(13331639)
-    end, e:GetHandlerPlayer(), LOCATION_PZONE, 0, 1, e:GetHandler())
-end
-
-function s.pe2filter(c, e, tp)
+function s.pe1filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
                c:IsRace(RACE_DRAGON) and c:IsType(TYPE_FUSION)
 end

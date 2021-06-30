@@ -255,9 +255,8 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King Gate", "Supreme King Dragon" card in your other Pendulum Zone, \
-    this card's Pendulum Scale becomes 4. \
-Once per turn: You can Fusion Summon 1 Dragon Fusion Monster from your Extra Deck, using monsters from your hand or field as Fusion Materials. \
+Once per turn: You can Fusion Summon 1 Dragon Fusion Monster from your Extra Deck, \
+    using monsters from your hand or field as Fusion Materials. \
 """
 effect = """\
 Cannot be used as Fusion Material, except for the Fusion Summon of a Dragon Fusion Monster or Pendulum Fusion Monster. \
@@ -283,8 +282,6 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King Gate", "Supreme King Dragon" card in your other Pendulum Zone, \
-    this card's Pendulum Scale becomes 4. \
 Once per turn: You can target 1 Pendulum Monster you control; this turn, \
     that face-up monster is treated as a Tuner, also its Level becomes 1 (even if this card leaves the field). \
 """
@@ -312,8 +309,6 @@ pendulum-scale = 8
 atk = 1500
 def = 1000
 pendulum-effect = """\
-Unless you have "Supreme King Z-ARC" or a "Magician", "Odd-Eyes", "Supreme King Gate", "Supreme King Dragon" card in your other Pendulum Zone, \
-    this card's Pendulum Scale becomes 4. \
 Once per turn: You can target 1 face-up Xyz Monster you control, and 1 Pendulum Monster that has Level you control; until the end of this turn, \
     that Xyz Monster's Rank becomes equal to the Level of the other, \
     and also you can use it as an Xyz Material for an Xyz Summon using its Rank as if it were a Level. \
@@ -544,8 +539,44 @@ strings = [
     "Special Summon all the destroyed monster",
 ]
 
-[card.supreme-presence]
+[card.supreme-king-dragon-silvurm]
 id = 950000017
+set = "supreme-king-dragon"
+name = "Supreme King Dragon Silvurm"
+type = "monster pendulum effect"
+attribute = "dark"
+race = "dragon"
+level = 4
+pendulum-scale = 1
+atk = 1500
+def = 1500
+pendulum-effect = """\
+"""
+effect = """\
+"""
+strings = [
+]
+
+[card.supreme-king-dragon-goldwurm]
+id = 950000018
+set = "supreme-king-dragon"
+name = "Supreme King Dragon Goldwurm"
+type = "monster pendulum effect"
+attribute = "dark"
+race = "dragon"
+level = 4
+pendulum-scale = 8
+atk = 1500
+def = 1500
+pendulum-effect = """\
+"""
+effect = """\
+"""
+strings = [
+]
+
+[card.supreme-presence]
+id = 950000019
 name = "Supreme Presence"
 type = "spell equip"
 effect = """\
@@ -566,7 +597,7 @@ strings = [
 ]
 
 [card.supreme-wrath]
-id = 950000018
+id = 950000020
 name = "Supreme Wrath"
 type = "trap"
 effect = """\
