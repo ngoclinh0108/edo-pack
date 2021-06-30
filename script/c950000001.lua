@@ -147,7 +147,7 @@ function s.e1filter1(c)
     return Utility.IsSetCard(c, 0x98, 0x10f8)
 end
 
-function s.e1filter2(c, lsc, rsc)
+function s.e1filter2(c, lsc, rsc, e, tp)
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
     return lsc < c:GetLevel() and c:GetLevel() < rsc and c:IsSetCard(0x20f8) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)
@@ -189,7 +189,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         if lsc > rsc then lsc, rsc = rsc, lsc end
         local g2 = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_HAND +
                                              LOCATION_DECK + LOCATION_GRAVE +
-                                             LOCATION_EXTRA, 0, nil, lsc, rsc)
+                                             LOCATION_EXTRA, 0, nil, lsc, rsc, e, tp)
         if #g2 > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
             local sc = g2:Select(tp, 1, 1, nil):GetFirst()
             local ft = sc:IsLocation(LOCATION_EXTRA) and
