@@ -34,9 +34,9 @@ This card's activation and effect cannot be negated. \
 When this card is activated: \
     Place in your Pendulum Zone 2 "Magician", "Supreme King Gate" Pendulum Monsters with different names \
     from your hand, Deck, GY and/or Extra Deck face-up, \
-    and if you do, you can add to your hand or Special Summon, \
+    and if you do, you can Special Summon, \
     1 "Supreme King Dragon" monster that have Level between (exclusive) the Pendulum Scales of the cards in your Pendulum Zones \
-    from your Deck, GY or Extra Deck face-up \
+    from your hand, Deck, GY or Extra Deck face-up \
 Any your Pendulum Monster sent to the GY is add to the Extra Deck face-up. \
 Face-up Spells/Traps you control cannot be destroyed by your opponent's card effects. \
 Activation and effect of monsters this card points cannot be negated. \
@@ -51,7 +51,7 @@ Add from Outside "Supreme King Z-ARC - Overlord", and "Supreme Dragon" versions 
 ] \
 """
 strings = [
-    "Add or Special Summon 1 \"Supreme King Dragon\"",
+    "Special Summon 1 \"Supreme King Dragon\"",
     "Summon Z-ARC",
     "Special Summon monster from Pendulum Zone",
     "Place monster in Pendulum Zone",
