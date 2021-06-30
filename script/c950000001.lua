@@ -19,6 +19,8 @@ function s.initial_effect(c)
     -- to extra deck
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE + EFFECT_FLAG_CANNOT_DISABLE +
+                       EFFECT_FLAG_CANNOT_NEGATE)
     e2:SetCode(EVENT_TO_GRAVE)
     e2:SetRange(LOCATION_SZONE)
     e2:SetCondition(s.e2con)
