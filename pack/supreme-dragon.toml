@@ -12,7 +12,8 @@ You can target 1 other face-up card you control; destroy it, and if you do, add 
     You can only use this effect of "Supreme Gate" once per turn. \
 If you Special Summon any of these monsters using a Pendulum Monster(s) as material: You can activate the appropriate effect. \
     You cannot apply that same effect of "Supreme Gate" for the rest of this turn (even if this card leaves the field).
-● Fusion: Special Summon 1 monster from your Deck or GY with the same original Level as the Fusion Monster, but it cannot attack or activate its effects this turn.
+● Fusion: Special Summon 1 monster from your hand, Deck or GY with the same original Level as the Fusion Monster, \
+    but it cannot attack or activate its effects this turn.
 ● Synchro: Add 1 "Fusion" or "Polymerization" Spell from your Deck or GY to your hand.
 ● Xyz: Take 1 Tuner from your Deck or GY with an equal or lower Level than that Xyz Monster's Rank, and add it to your hand or Special Summon it in Defense Position.
 """
@@ -556,9 +557,12 @@ Once per turn, if you have a card in your other Pendulum Zone: \
     You can discard 1 Pendulum Monster, then target 1 Spell/Trap Card on the field; destroy it. \
 """
 effect = """\
+If this card is Normal or Special Summoned: You can add 1 Pendulum Monster from your Deck to your Extra Deck face-up. \
+You can only use each monster effect of "Supreme King Dragon Silvurm" once per turn. \
 """
 strings = [
-    "Discard to destroy Spell/Trap"
+    "Discard to destroy Spell/Trap",
+    "Add Pendulum Monster to Extra Deck"
 ]
 
 [card.supreme-king-dragon-goldwurm]
@@ -578,6 +582,7 @@ Once per turn, if you have a card in your other Pendulum Zone: \
     You can discard 1 Pendulum Monster, then target 1 face-up monster on the field; destroy it. \
 """
 effect = """\
+You can only use each monster effect of "Supreme King Dragon Goldwurm" once per turn. \
 """
 strings = [
     "Discard to destroy face-up monster"

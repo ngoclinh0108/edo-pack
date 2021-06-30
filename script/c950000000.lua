@@ -102,7 +102,6 @@ function s.e1filter(c) return c:IsCode(950000001) and c:IsAbleToHand() end
 function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e1filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
@@ -210,16 +209,15 @@ function s.e5filter(c, e, tp, sc)
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e5filter, tp,
-                                               LOCATION_DECK + LOCATION_GRAVE,
-                                               0, 1, nil, e, tp, eg:GetFirst()) and
+                   Duel.IsExistingMatchingCard(s.e5filter, tp, loc, 0, 1, nil,
+                                               e, tp, eg:GetFirst()) and
                    Duel.GetFlagEffect(tp, id + 1 * 1000000) == 0
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
@@ -233,9 +231,9 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
     local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e5filter),
-                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                       1, nil, e, tp, sc):GetFirst()
+                                       tp, loc, 0, 1, 1, nil, e, tp, sc):GetFirst()
     if tc and Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
         local ec1 = Effect.CreateEffect(c)
         ec1:SetDescription(3206)
