@@ -153,9 +153,9 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local dg = Duel.GetMatchingGroup(aux.NOT(s.e4filter1), tp, LOCATION_MZONE,
-                                     0, nil)
-    if Duel.Destroy(dg, REASON_EFFECT) == 0 then return end
+    Duel.Destroy(
+        Duel.GetMatchingGroup(aux.NOT(s.e4filter1), tp, LOCATION_MZONE, 0, nil),
+        REASON_EFFECT)
 
     local ft1 = Duel.GetLocationCount(tp, LOCATION_MZONE)
     local ft2 = Duel.GetLocationCountFromEx(tp)
