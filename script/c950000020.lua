@@ -145,7 +145,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                     nil)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e4filter2, tp, loc, 0, 1, nil, e,
-                                           tp) and #g > 0
+                                           tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
