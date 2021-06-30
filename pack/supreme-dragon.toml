@@ -551,10 +551,14 @@ pendulum-scale = 1
 atk = 1500
 def = 1500
 pendulum-effect = """\
+Your opponent cannot target Dragon monsters you control with Spell Cards or effects. \
+Once per turn, if you have a card in your other Pendulum Zone: \
+    You can discard 1 Pendulum Monster, then target 1 Spell/Trap Card on the field; destroy it. \
 """
 effect = """\
 """
 strings = [
+    "Discard to destroy Spell/Trap"
 ]
 
 [card.supreme-king-dragon-goldwurm]
@@ -569,10 +573,14 @@ pendulum-scale = 8
 atk = 1500
 def = 1500
 pendulum-effect = """\
+Your opponent cannot target Dragon monsters you control with Trap Cards or effects. \
+Once per turn, if you have a card in your other Pendulum Zone: \
+    You can discard 1 Pendulum Monster, then target 1 face-up monster on the field; destroy it. \
 """
 effect = """\
 """
 strings = [
+    "Discard to destroy face-up monster"
 ]
 
 [card.supreme-presence]
