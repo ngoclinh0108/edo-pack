@@ -7,7 +7,12 @@ function s.initial_effect(c)
     Pendulum.AddProcedure(c)
 
     -- fusion summon (pendulum zone)
-    local pe1params = {aux.FilterBoolFunction(Card.IsRace, RACE_DRAGON)}
+    local pe1params = {
+        aux.FilterBoolFunction(Card.IsRace, RACE_DRAGON),
+        extratg = function(e, tp, eg, ep, ev, re, r, rp, chk)
+            Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
+        end
+    }
     local pe1 = Effect.CreateEffect(c)
     pe1:SetDescription(1170)
     pe1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
