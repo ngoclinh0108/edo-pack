@@ -108,7 +108,7 @@ function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
+    Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 1))
     local g = Duel.SelectMatchingCard(tp, s.me1filter, tp, LOCATION_DECK, 0, 1,
                                       1, nil)
     if #g > 0 then Duel.SendtoExtraP(g, tp, REASON_EFFECT) end
