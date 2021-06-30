@@ -43,9 +43,21 @@ function s.initial_effect(c)
     me1:SetTarget(s.me1tg)
     me1:SetOperation(s.me1op)
     c:RegisterEffect(me1)
-    local me1b=me1:Clone()
+    local me1b = me1:Clone()
     me1b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(me1b)
+
+    -- special summon
+    local me2 = Effect.CreateEffect(c)
+    me2:SetDescription(2)
+    me2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    me2:SetType(EFFECT_TYPE_IGNITION)
+    me2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    me2:SetRange(LOCATION_HAND + LOCATION_GRAVE + LOCATION_EXTRA)
+    me2:SetCountLimit(1, id + 2 * 1000000)
+    me2:SetTarget(s.me2tg)
+    me2:SetOperation(s.me2op)
+    c:RegisterEffect(me2)
 end
 
 function s.pe2filter1(c) return c:IsType(TYPE_PENDULUM) and c:IsDiscardable() end
@@ -100,4 +112,43 @@ function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, s.me1filter, tp, LOCATION_DECK, 0, 1,
                                       1, nil)
     if #g > 0 then Duel.SendtoExtraP(g, tp, REASON_EFFECT) end
+end
+
+function s.me2filter(c) return c:IsFaceup() and c:IsType(TYPE_PENDULUM) end
+
+function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
+        if (not c:IsLocation(LOCATION_EXTRA) and
+            Duel.GetLocationCount(tp, LOCATION_MZONE) == 0) or
+            (c:IsLocation(LOCATION_EXTRA) and
+                Duel.GetLocationCountFromEx(tp, tp, nil, c) == 0) then
+            return false
+        end
+
+        return
+            Duel.IsExistingTarget(s.me2filter, tp, LOCATION_MZONE, 0, 1, nil) and
+                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.SelectTarget(tp, s.me2filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+end
+
+function s.me2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if tc:IsFacedown() or not tc:IsRelateToEffect(e) or
+        Duel.Destroy(tc, REASON_EFFECT) == 0 then return end
+
+    if (not c:IsLocation(LOCATION_EXTRA) and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) == 0) or
+        (c:IsLocation(LOCATION_EXTRA) and
+            Duel.GetLocationCountFromEx(tp, tp, nil, c) == 0) then
+        return false
+    end
+
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
 end
