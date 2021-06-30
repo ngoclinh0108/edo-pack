@@ -16,70 +16,65 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- protect other spell/trap
+    -- to extra deck
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e2:SetRange(LOCATION_SZONE)
-    e2:SetTargetRange(LOCATION_SZONE, 0)
-    e2:SetTarget(function(e, tc) return tc:IsFaceup() end)
-    e2:SetValue(aux.indoval)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_TO_GRAVE)
+    e2:SetRange(LOCATION_FZONE)
+    e2:SetCondition(s.e2con)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- cannot negated
+    -- protect other spell/trap
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
     e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e3:SetCode(EFFECT_CANNOT_INACTIVATE)
+    e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e3:SetRange(LOCATION_SZONE)
-    e3:SetTargetRange(LOCATION_MZONE, LOCATION_MZONE)
-    e3:SetValue(function(e, ct)
+    e3:SetTargetRange(LOCATION_SZONE, 0)
+    e3:SetTarget(function(e, tc) return tc:IsFaceup() end)
+    e3:SetValue(aux.indoval)
+    c:RegisterEffect(e3)
+
+    -- cannot negated
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e4:SetCode(EFFECT_CANNOT_INACTIVATE)
+    e4:SetRange(LOCATION_SZONE)
+    e4:SetTargetRange(LOCATION_MZONE, LOCATION_MZONE)
+    e4:SetValue(function(e, ct)
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
         return e:GetHandler():GetLinkedGroup():IsContains(te:GetHandler())
     end)
-    local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_CANNOT_DISEFFECT)
-    c:RegisterEffect(e3b)
-    local e3c = e3:Clone()
-    e3c:SetCode(EFFECT_CANNOT_DISABLE)
-    e3c:SetTarget(function(e, c)
+    local e4b = e4:Clone()
+    e4b:SetCode(EFFECT_CANNOT_DISEFFECT)
+    c:RegisterEffect(e4b)
+    local e4c = e4:Clone()
+    e4c:SetCode(EFFECT_CANNOT_DISABLE)
+    e4c:SetTarget(function(e, c)
         return e:GetHandler():GetLinkedGroup():IsContains(c)
     end)
-    c:RegisterEffect(e3c)
+    c:RegisterEffect(e4c)
 
     -- summon Z-ARC
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE + EFFECT_FLAG_CANNOT_DISABLE +
-                       EFFECT_FLAG_CANNOT_NEGATE)
-    e4:SetRange(LOCATION_SZONE)
-    e4:SetCountLimit(1)
-    e4:SetCost(s.e4cost)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
-
-    -- special summon from pendulum zone
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetDescription(aux.Stringid(id, 1))
     e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e5:SetType(EFFECT_TYPE_QUICK_O)
-    e5:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_CANNOT_INACTIVATE +
-                       EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetType(EFFECT_TYPE_IGNITION)
+    e5:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE + EFFECT_FLAG_CANNOT_DISABLE +
+                       EFFECT_FLAG_CANNOT_NEGATE)
     e5:SetRange(LOCATION_SZONE)
-    e5:SetHintTiming(0, TIMING_END_PHASE)
-    e5:SetCountLimit(2, id)
+    e5:SetCountLimit(1)
+    e5:SetCost(s.e5cost)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
 
-    -- place in pendulum zone
+    -- special summon from pendulum zone
     local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 3))
+    e6:SetDescription(aux.Stringid(id, 2))
+    e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e6:SetType(EFFECT_TYPE_QUICK_O)
     e6:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_CANNOT_INACTIVATE +
                        EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
@@ -90,6 +85,20 @@ function s.initial_effect(c)
     e6:SetTarget(s.e6tg)
     e6:SetOperation(s.e6op)
     c:RegisterEffect(e6)
+
+    -- place in pendulum zone
+    local e7 = Effect.CreateEffect(c)
+    e7:SetDescription(aux.Stringid(id, 3))
+    e7:SetType(EFFECT_TYPE_QUICK_O)
+    e7:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_CANNOT_INACTIVATE +
+                       EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
+    e7:SetCode(EVENT_FREE_CHAIN)
+    e7:SetRange(LOCATION_SZONE)
+    e7:SetHintTiming(0, TIMING_END_PHASE)
+    e7:SetCountLimit(2, id)
+    e7:SetTarget(s.e7tg)
+    e7:SetOperation(s.e7op)
+    c:RegisterEffect(e7)
 end
 
 function s.deck_edit(tp)
@@ -199,13 +208,27 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4filter1(c, e, tp, sg)
+function s.e2filter(c, e, tp)
+    return c:IsControler(tp) and c:IsType(TYPE_PENDULUM)
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return eg and eg:IsExists(s.e2filter, 1, nil, e, tp)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local g = eg:Filter(s.e2filter, nil, e, tp)
+    if #g == 0 then return end
+    Duel.SendtoExtraP(g, tp, REASON_EFFECT)
+end
+
+function s.e5filter1(c, e, tp, sg)
     return c:IsCode(13331639) and
                c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
                Duel.GetLocationCountFromEx(tp, tp, sg or nil, c) > 0
 end
 
-function s.e4filter2(c)
+function s.e5filter2(c)
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
     return Utility.IsSetCard(c, 0x10f2, 0x2073, 0x2017, 0x1046) and
                c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost() and
@@ -213,20 +236,20 @@ function s.e4filter2(c)
                (c:IsLocation(LOCATION_HAND) or aux.SpElimFilter(c, true, true))
 end
 
-function s.e4rescon(checkfunc)
+function s.e5rescon(checkfunc)
     return function(sg, e, tp, mg)
         if not sg:CheckDifferentProperty(checkfunc) then
             return false, true
         end
 
-        return Duel.IsExistingMatchingCard(s.e4filter1, tp, LOCATION_EXTRA, 0,
+        return Duel.IsExistingMatchingCard(s.e5filter1, tp, LOCATION_EXTRA, 0,
                                            1, nil, e, tp, sg)
     end
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local mg = Duel.GetMatchingGroup(s.e4filter2, tp, LOCATION_HAND +
+    local mg = Duel.GetMatchingGroup(s.e5filter2, tp, LOCATION_HAND +
                                          LOCATION_MZONE + LOCATION_GRAVE +
                                          LOCATION_EXTRA, 0, c)
     local checkfunc = aux.PropertyTableFilter(Card.GetSetCard, 0x10f2, 0x2073,
@@ -234,28 +257,28 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
 
     if chk == 0 then
         return
-            aux.SelectUnselectGroup(mg, e, tp, 4, 4, s.e4rescon(checkfunc), 0)
+            aux.SelectUnselectGroup(mg, e, tp, 4, 4, s.e5rescon(checkfunc), 0)
     end
 
-    local sg = aux.SelectUnselectGroup(mg, e, tp, 4, 4, s.e4rescon(checkfunc),
+    local sg = aux.SelectUnselectGroup(mg, e, tp, 4, 4, s.e5rescon(checkfunc),
                                        1, tp, HINTMSG_REMOVE,
-                                       s.e4rescon(checkfunc))
+                                       s.e5rescon(checkfunc))
     Duel.Remove(sg, POS_FACEUP, REASON_COST)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
     Duel.SetChainLimit(aux.FALSE)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, s.e4filter1, tp, LOCATION_EXTRA, 0,
+    local tc = Duel.SelectMatchingCard(tp, s.e5filter1, tp, LOCATION_EXTRA, 0,
                                        1, 1, nil, e, tp):GetFirst()
     if not tc then return end
 
@@ -264,24 +287,24 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e5filter(c, e, tp)
+function s.e6filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingTarget(s.e5filter, tp, LOCATION_PZONE, 0, 1,
+                   Duel.IsExistingTarget(s.e6filter, tp, LOCATION_PZONE, 0, 1,
                                          nil, e, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectTarget(tp, s.e5filter, tp, LOCATION_PZONE, 0, 1, 1,
+    local g = Duel.SelectTarget(tp, s.e6filter, tp, LOCATION_PZONE, 0, 1, 1,
                                 nil, e, tp)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, 0)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not c:IsRelateToEffect(e) then return end
@@ -290,21 +313,21 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
 end
 
-function s.e6filter(c) return c:IsFaceup() and c:IsType(TYPE_PENDULUM) end
+function s.e7filter(c) return c:IsFaceup() and c:IsType(TYPE_PENDULUM) end
 
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e7tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return (Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
                    Duel.CheckLocation(tp, LOCATION_PZONE, 1)) and
-                   Duel.IsExistingTarget(s.e6filter, tp, LOCATION_MZONE, 0, 1,
+                   Duel.IsExistingTarget(s.e7filter, tp, LOCATION_MZONE, 0, 1,
                                          nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 2))
-    Duel.SelectTarget(tp, s.e6filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
+    Duel.SelectTarget(tp, s.e7filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or
         not (Duel.CheckLocation(tp, LOCATION_PZONE, 0) or
