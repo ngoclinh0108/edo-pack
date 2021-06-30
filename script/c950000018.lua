@@ -32,6 +32,21 @@ function s.initial_effect(c)
     pe2:SetTarget(s.pe2tg)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
+
+    -- add to your hand
+    local me1 = Effect.CreateEffect(c)
+    me1:SetDescription(aux.Stringid(id, 1))
+    me1:SetCategory(CATEGORY_TOHAND)
+    me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    me1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
+    me1:SetCode(EVENT_SUMMON_SUCCESS)
+    me1:SetCountLimit(1, id + 1 * 1000000)
+    me1:SetTarget(s.me1tg)
+    me1:SetOperation(s.me1op)
+    c:RegisterEffect(me1)
+    local me1b = me1:Clone()
+    me1b:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(me1b)
 end
 
 function s.pe2filter1(c) return c:IsType(TYPE_PENDULUM) and c:IsDiscardable() end
@@ -70,4 +85,22 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     if not tc:IsRelateToEffect(e) then return end
 
     Duel.Destroy(tc, REASON_EFFECT)
+end
+
+function s.me1filter(c)
+    return c:IsType(TYPE_PENDULUM) and c:IsFaceup() and c:IsAbleToHand()
+end
+
+function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.me1filter, tp, LOCATION_EXTRA, 0,
+                                           1, nil)
+    end
+end
+
+function s.me1op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectMatchingCard(tp, s.me1filter, tp, LOCATION_EXTRA, 0, 1,
+                                      1, nil)
+    if #g > 0 then Duel.SendtoHand(g, nil, REASON_EFFECT) end
 end

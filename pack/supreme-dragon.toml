@@ -583,7 +583,7 @@ Once per turn, if you have a card in your other Pendulum Zone: \
     You can discard 1 Pendulum Monster, then target 1 face-up monster on the field; destroy it. \
 """
 effect = """\
-If this card is Normal or Special Summoned: You can add 1 Pendulum Monster from your Extra Deck face-up to your hand. \
+If this card is Normal or Special Summoned: You can add 1 face-up Pendulum Monster from your Extra Deck to your hand. \
 You can only use each monster effect of "Supreme King Dragon Goldwurm" once per turn. \
 """
 strings = [
