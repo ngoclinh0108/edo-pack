@@ -197,7 +197,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                            Duel.GetLocationCount(tp, LOCATION_MZONE)
             if sc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
                 ft > 0 then
-                Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+                Duel.SpecialSummon(sc, 0, tp, tp, false, false, POS_FACEUP)
             end
         end
     end
