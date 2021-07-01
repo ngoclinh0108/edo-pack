@@ -152,25 +152,17 @@ function s.initial_effect(c)
     pe2b:SetCode(EFFECT_CHANGE_RSCALE)
     c:RegisterEffect(pe2b)
 
-    -- act limit
+    -- gain effect
     local pe3 = Effect.CreateEffect(c)
-    pe3:SetType(EFFECT_TYPE_FIELD)
-    pe3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    pe3:SetCode(EFFECT_CANNOT_ACTIVATE)
+    pe3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    pe3:SetCode(EVENT_ADJUST)
     pe3:SetRange(LOCATION_PZONE)
-    pe3:SetTargetRange(0, 1)
-    pe3:SetValue(function(e, re, rp)
-        local rc = re:GetHandler()
-        return rc:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ) and
-                   rc:IsLocation(LOCATION_MZONE) and
-                   re:IsActiveType(TYPE_MONSTER)
-    end)
+    pe3:SetOperation(s.pe3op)
     c:RegisterEffect(pe3)
 
-    -- summon dragon (pendulum)
+    -- attach
     local pe4 = Effect.CreateEffect(c)
-    pe4:SetDescription(aux.Stringid(id, 0))
-    pe4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    pe4:SetDescription(aux.Stringid(id, 1))
     pe4:SetType(EFFECT_TYPE_IGNITION)
     pe4:SetRange(LOCATION_PZONE)
     pe4:SetCountLimit(1)
@@ -180,17 +172,28 @@ function s.initial_effect(c)
 
     -- place pendulum zone
     local pe5 = Effect.CreateEffect(c)
-    pe5:SetDescription(aux.Stringid(id, 1))
+    pe5:SetDescription(aux.Stringid(id, 2))
     pe5:SetType(EFFECT_TYPE_IGNITION)
     pe5:SetRange(LOCATION_PZONE)
     pe5:SetCountLimit(1)
     pe5:SetTarget(s.pe5tg)
     pe5:SetOperation(s.pe5op)
     c:RegisterEffect(pe5)
+    
+    -- summon dragon (pendulum)
+    local pe6 = Effect.CreateEffect(c)
+    pe6:SetDescription(aux.Stringid(id, 0))
+    pe6:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    pe6:SetType(EFFECT_TYPE_IGNITION)
+    pe6:SetRange(LOCATION_PZONE)
+    pe6:SetCountLimit(1)
+    pe6:SetTarget(s.pe6tg)
+    pe6:SetOperation(s.pe6op)
+    c:RegisterEffect(pe6)
 
     -- destroy all
     local me1 = Effect.CreateEffect(c)
-    me1:SetDescription(aux.Stringid(id, 2))
+    me1:SetDescription(aux.Stringid(id, 3))
     me1:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
     me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     me1:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -198,29 +201,16 @@ function s.initial_effect(c)
     me1:SetOperation(s.me1op)
     c:RegisterEffect(me1)
 
-    -- destroy drawn
+    -- summon dragon (monster)
     local me2 = Effect.CreateEffect(c)
-    me2:SetDescription(aux.Stringid(id, 3))
-    me2:SetCategory(CATEGORY_DESTROY)
-    me2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    me2:SetCode(EVENT_TO_HAND)
-    me2:SetRange(LOCATION_MZONE)
+    me2:SetDescription(aux.Stringid(id, 0))
+    me2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    me2:SetType(EFFECT_TYPE_IGNITION)
     me2:SetCountLimit(1)
-    me2:SetCondition(s.me2con)
+    me2:SetRange(LOCATION_MZONE)
     me2:SetTarget(s.me2tg)
     me2:SetOperation(s.me2op)
     c:RegisterEffect(me2)
-
-    -- summon dragon (monster)
-    local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 0))
-    me3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    me3:SetType(EFFECT_TYPE_IGNITION)
-    me3:SetCountLimit(1)
-    me3:SetRange(LOCATION_MZONE)
-    me3:SetTarget(s.me3tg)
-    me3:SetOperation(s.me3op)
-    c:RegisterEffect(me3)
 end
 
 function s.lnkcheck(g, sc, sumtype, tp)
@@ -247,36 +237,61 @@ function s.sumtype(c)
     return 0
 end
 
-function s.pe4filter(c, e, tp)
-    if (c:IsLocation(LOCATION_REMOVED + LOCATION_EXTRA) and c:IsFacedown()) then
-        return false
-    end
-    return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
-               c:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ) and
-               c:IsRace(RACE_DRAGON)
+function s.pe3filter(c)
+    return not c:IsCode(id) and c:GetFlagEffect(id) == 0 and
+               c:IsType(TYPE_PENDULUM)
 end
 
-function s.pe4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local loc = LOCATION_REMOVED + LOCATION_GRAVE + LOCATION_EXTRA
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.pe4filter, tp, loc, 0, 1, nil,
-                                               e, tp)
+function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = c:GetOverlayGroup():Filter(s.pe3filter, nil)
+    if #g <= 0 then return end
+
+    for tc in aux.Next(g) do
+        tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe0000, 0, 0)
+        local cid = c:CopyEffect(tc:GetOriginalCode(), RESET_EVENT + 0x1fe0000)
+
+        local reset = Effect.CreateEffect(c)
+        reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        reset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        reset:SetCode(EVENT_ADJUST)
+        reset:SetRange(LOCATION_PZONE)
+        reset:SetLabel(cid)
+        reset:SetLabelObject(tc)
+        reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+            local cid = e:GetLabel()
+            local c = e:GetHandler()
+            local tc = e:GetLabelObject()
+            local g = c:GetOverlayGroup():Filter(function(c)
+                return c:GetFlagEffect(id) > 0
+            end, nil)
+            if c:IsDisabled() or c:IsFacedown() or not g:IsContains(tc) then
+                c:ResetEffect(cid, RESET_COPY)
+                tc:ResetFlagEffect(id)
+            end
+        end)
+        reset:SetReset(RESET_EVENT + 0x1fe0000)
+        c:RegisterEffect(reset, true)
     end
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, loc)
+end
+
+function s.pe4filter(c) return c:IsFaceup() and c:IsType(TYPE_PENDULUM) end
+
+function s.pe4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.pe4filter, tp, LOCATION_EXTRA, 0,
+                                           1, nil)
+    end
 end
 
 function s.pe4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
-    local loc = LOCATION_REMOVED + LOCATION_GRAVE + LOCATION_EXTRA
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.pe4filter),
-                                       tp, loc, 0, 1, 1, nil, e, tp):GetFirst()
-    if tc then
-        Duel.SpecialSummon(tc, s.sumtype(tc), tp, tp, true, false, POS_FACEUP)
-    end
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    local g = Duel.SelectMatchingCard(tp, s.pe4filter, tp, LOCATION_EXTRA, 0, 1,
+                                      1, nil)
+    if #g > 0 then Duel.Overlay(c, g) end
 end
 
 function s.pe5filter(c)
@@ -313,6 +328,38 @@ function s.pe5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.MoveToField(tc, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end
 
+function s.pe6filter(c, e, tp)
+    if (c:IsLocation(LOCATION_REMOVED + LOCATION_EXTRA) and c:IsFacedown()) then
+        return false
+    end
+    return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
+               c:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ) and
+               c:IsRace(RACE_DRAGON)
+end
+
+function s.pe6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local loc = LOCATION_REMOVED + LOCATION_GRAVE + LOCATION_EXTRA
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingMatchingCard(s.pe6filter, tp, loc, 0, 1, nil,
+                                               e, tp)
+    end
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, loc)
+end
+
+function s.pe6op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    local loc = LOCATION_REMOVED + LOCATION_GRAVE + LOCATION_EXTRA
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.pe6filter),
+                                       tp, loc, 0, 1, 1, nil, e, tp):GetFirst()
+    if tc then
+        Duel.SpecialSummon(tc, s.sumtype(tc), tp, tp, true, false, POS_FACEUP)
+    end
+end
+
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
@@ -325,24 +372,7 @@ function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Destroy(g, REASON_EFFECT)
 end
 
-function s.me2filter(c, tp) return c:IsControler(1 - tp) end
-
-function s.me2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() ~= PHASE_DRAW
-end
-
-function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = eg:Filter(s.me2filter, nil, tp)
-    if chk == 0 then return #g > 0 end
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
-end
-
-function s.me2op(e, tp, eg, ep, ev, re, r, rp)
-    local g = eg:Filter(s.me2filter, nil, tp)
-    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
-end
-
-function s.me3filter(c, e, tp, rp)
+function s.me2filter(c, e, tp, rp)
     if not c:IsLocation(LOCATION_EXTRA) and
         Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return false end
     if c:IsLocation(LOCATION_EXTRA) and
@@ -352,11 +382,11 @@ function s.me3filter(c, e, tp, rp)
                c:IsSetCard(0x20f8)
 end
 
-function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.me3filter, tp, loc, 0, 1, nil, e,
+        return Duel.IsExistingMatchingCard(s.me2filter, tp, loc, 0, 1, nil, e,
                                            tp, rp)
     end
 
@@ -372,10 +402,10 @@ function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
 end
 
-function s.me3op(e, tp, eg, ep, ev, re, r, rp)
+function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.me3filter),
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.me2filter),
                                        tp, loc, 0, 1, 1, nil, e, tp, rp):GetFirst()
     if not tc then return end
 

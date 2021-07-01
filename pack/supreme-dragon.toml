@@ -174,14 +174,15 @@ atk = 4000
 pendulum-effect = """\
 Unaffected by your opponent's card effects. \
 Pendulum Scale of card in your other Pendulum Zone become 0. \
-Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their effects. \
+This card gains the effect(s) of all Pendulum Monsters attached to this card, except "Supreme King Z-ARC - Overlord". \
+Once per turn, you can attach 1 Pendulum Monster from your Extra Deck face-up to this card. \
+Once per turn: \
+    You can destroy a card in your other Pendulum Zone (if any), then \
+    place 1 Pendulum Monster from your hand, Deck, GY, Extra Deck face-up in your Pendulum Zone, \
+    except the destroyed card. \
 Once per turn: You can Special Summon 1 Dragon Fusion, Synchro, or Xyz Monster, ignoring its Summoning conditions \
     that is banished or in your GY, Extra Deck face-up. \
     (This is also treated as an Fusion, Synchro or Xyz Summon.) \
-Once per turn: \
-    You can destroy a card in your other Pendulum Zone (if any), then \
-    place 1 Pendulum Monster from your hand, Deck, GY or Extra Deck face-up in your Pendulum Zone, \
-    except the destroyed card. \
 """
 effect = """\
 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz, and 1 Pendulum)
@@ -194,8 +195,6 @@ Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Cannot be destroyed by card effects. \
 Your opponent cannot target this card with card effects. \
 If this card is Special Summoned: Destroy all cards your opponent controls. \
-Once per turn, when a card(s) is added to your opponent's hand (except during the Draw Phase or the Damage Step): \
-    You can destroy that card(s). \
 Once per turn, you can Special Summon 1 "Supreme King Dragon" monster from your hand, Deck, GY or Extra Deck, \
     ignoring its Summoning conditions. (This is treated as a Properly Summon.) \
     This card cannot declare an attack the turn this effect is activated. \
@@ -205,9 +204,9 @@ If this card in the Monster Zone is destroyed by battle or card effect: \
 """
 strings = [
     "Summon a Dragon",
-    "Place pendulum monster",
-    "Negate effect and destroy all card",
-    "Destroy added cards",
+    "Attach Pendulum Monster",
+    "Place Pendulum monster",
+    "Destroy all card",
 ]
 
 [card.genesis-omega-dragon]
@@ -221,12 +220,9 @@ pendulum-scale = 0
 atk = 4000
 def = 4000
 pendulum-effect = """\
-Unaffected by your opponent's card effects. \
 Once per turn, if your DARK Dragon Pendulum monster attacks an opponent's monster, before damage calculation: \
     Until the end of this turn, double it's current ATK and it can attack all monsters your opponent controls, once each. \
     You cannot declare attacks the turn you activate this effect, except with that monster. \
-Once per turn, you can attach 1 Pendulum Monster from your Extra Deck face-up to this card. \
-This card gains the effect(s) of all Pendulum Monsters attached to this card, except "Genesis Omega Dragon". \
 """
 effect = """\
 Must be Special Summoned (from your hand or face-up Extra Deck) by Tributing 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz and 1 Pendulum), \
@@ -242,7 +238,7 @@ Once per turn, during damage calculation, if this card battles an opponent's mon
     Double this card's current ATK until the end of this turn. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """
-strings = ["Double ATK & Attack all", "Attach Pendulum Zone", "Double ATK"]
+strings = ["Double ATK", "Double ATK"]
 
 [card.supreme-king-dragon-venowurm]
 id = 950000007
@@ -565,7 +561,7 @@ You can only use each monster effect of "Supreme King Dragon Silvurm" once per t
 """
 strings = [
     "Discard to destroy Spell/Trap",
-    "Add Pendulum Monster to Extra Deck"
+    "Add Pendulum Monster to Extra Deck",
 ]
 
 [card.supreme-king-dragon-goldwurm]
@@ -590,10 +586,7 @@ If this card is in your hand, GY or Extra Deck: You can target 1 Pendulum Monste
     destroy it, and if you do, Special Summon this card in Defense Position. \
 You can only use each monster effect of "Supreme King Dragon Goldwurm" once per turn. \
 """
-strings = [
-    "Discard to destroy face-up monster",
-    "Add Pendulum Monster to hand"
-]
+strings = ["Discard to destroy face-up monster", "Add Pendulum Monster to hand"]
 
 [card.supreme-presence]
 id = 950000019
