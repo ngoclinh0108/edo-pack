@@ -608,6 +608,10 @@ pendulum-scale = 5
 atk = 1800
 def = 1200
 pendulum-effect = """\
+Pendulum Summons of your Pendulum Monsters cannot be negated. \
+Once per turn, if you have a card in your other Pendulum Zone: \
+    You can discard 1 card; add 1 DARK Pendulum Monster from your GY or Extra Deck face-up to your hand. \
+    You can only use this effect of "Supreme King Dragon Grimwurm" once per turn. \
 """
 effect = """\
 If this card is Normal or Special Summoned: \
