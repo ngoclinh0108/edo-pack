@@ -5,23 +5,23 @@ local s, id = GetID()
 s.listed_names = {950000001, 13331639}
 s.listed_series = {0x2073, 0x20f8}
 
-function s.initial_effect(c)
-    -- attach xyz materials
+function s.initial_effect(c)    
+    -- act in hand
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_QUICK_O)
-    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetRange(LOCATION_GRAVE)
-    e1:SetCountLimit(1, id + 1 * 1000000)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_TRAP_ACT_IN_HAND)
+    e1:SetCondition(s.e1con)
     c:RegisterEffect(e1)
 
-    -- act in hand
+    -- attach xyz materials
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_TRAP_ACT_IN_HAND)
-    e2:SetCondition(s.e2con)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, id + 1 * 1000000)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
     -- pendulum summon
@@ -48,46 +48,46 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e1filter1(c)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(function(c)
+        return c:IsFaceup() and c:IsCode(950000001)
+    end, e:GetHandlerPlayer(), LOCATION_ONFIELD, 0, 1, nil)
+end
+
+function s.e2filter1(c)
     return c:IsFaceup() and c:IsType(TYPE_XYZ) and
                Utility.IsSetCard(c, 0x2073, 0x20f8)
 end
 
-function s.e1filter2(c)
+function s.e2filter2(c)
     return c:IsSetCard(0x20f8) and c:IsType(TYPE_MONSTER) and
                (c:IsFaceup() or not c:IsLocation(LOCATION_EXTRA))
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return
-            Duel.IsExistingTarget(s.e1filter1, tp, LOCATION_MZONE, 0, 1, nil) and
-                Duel.IsExistingMatchingCard(s.e1filter2, tp,
+            Duel.IsExistingTarget(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil) and
+                Duel.IsExistingMatchingCard(s.e2filter2, tp,
                                             LOCATION_GRAVE + LOCATION_EXTRA, 0,
                                             1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    Duel.SelectTarget(tp, s.e1filter1, tp, LOCATION_MZONE, 0, 1, 1, nil)
+    Duel.SelectTarget(tp, s.e2filter1, tp, LOCATION_MZONE, 0, 1, 1, nil)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) then
         return
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
-    local g = Duel.SelectMatchingCard(tp, s.e1filter2, tp,
+    local g = Duel.SelectMatchingCard(tp, s.e2filter2, tp,
                                       LOCATION_GRAVE + LOCATION_EXTRA, 0, 1, 2,
                                       nil)
     if #g > 0 then Duel.Overlay(tc, g) end
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(function(c)
-        return c:IsFaceup() and c:IsCode(950000001)
-    end, e:GetHandlerPlayer(), LOCATION_ONFIELD, 0, 1, nil)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
