@@ -307,7 +307,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
     if not tc:IsRelateToEffect(e) then return end
 
-    local og = c:GetOverlayGroup()
+    local og = tc:GetOverlayGroup()
     if #og > 0 then Duel.SendtoGrave(og, REASON_RULE) end
     Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
 end
