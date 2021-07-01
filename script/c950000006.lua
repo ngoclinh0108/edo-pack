@@ -120,28 +120,39 @@ function s.initial_effect(c)
     untarget:SetValue(aux.tgoval)
     c:RegisterEffect(untarget)
 
-    -- act limit
+    -- immune
     local pe1 = Effect.CreateEffect(c)
-    pe1:SetType(EFFECT_TYPE_FIELD)
-    pe1:SetCode(EFFECT_CANNOT_ACTIVATE)
-    pe1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    pe1:SetType(EFFECT_TYPE_SINGLE)
+    pe1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    pe1:SetCode(EFFECT_IMMUNE_EFFECT)
     pe1:SetRange(LOCATION_PZONE)
-    pe1:SetTargetRange(0, 1)
-    pe1:SetValue(s.pe1val)
+    pe1:SetValue(function(e, te)
+        return te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
+    end)
     c:RegisterEffect(pe1)
+    
+    -- act limit
+    local pe2 = Effect.CreateEffect(c)
+    pe2:SetType(EFFECT_TYPE_FIELD)
+    pe2:SetCode(EFFECT_CANNOT_ACTIVATE)
+    pe2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    pe2:SetRange(LOCATION_PZONE)
+    pe2:SetTargetRange(0, 1)
+    pe2:SetValue(s.pe2val)
+    c:RegisterEffect(pe2)
 
     -- double ATK (pendulum)
-    local pe2 = Effect.CreateEffect(c)
-    pe2:SetDescription(aux.Stringid(id, 1))
-    pe2:SetCategory(CATEGORY_ATKCHANGE)
-    pe2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    pe2:SetCode(EVENT_BATTLE_CONFIRM)
-    pe2:SetRange(LOCATION_PZONE)
-    pe2:SetCountLimit(1)
-    pe2:SetCondition(s.pe2con)
-    pe2:SetCost(s.pe2cost)
-    pe2:SetOperation(s.pe2op)
-    c:RegisterEffect(pe2)
+    local pe3 = Effect.CreateEffect(c)
+    pe3:SetDescription(aux.Stringid(id, 1))
+    pe3:SetCategory(CATEGORY_ATKCHANGE)
+    pe3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    pe3:SetCode(EVENT_BATTLE_CONFIRM)
+    pe3:SetRange(LOCATION_PZONE)
+    pe3:SetCountLimit(1)
+    pe3:SetCondition(s.pe3con)
+    pe3:SetCost(s.pe3cost)
+    pe3:SetOperation(s.pe3op)
+    c:RegisterEffect(pe3)
 
     -- unstoppable attack
     local me1 = Effect.CreateEffect(c)
@@ -201,15 +212,15 @@ function s.lnkcheck(g, sc, sumtype, tp)
     return mg:IsExists(Card.IsType, 1, nil, TYPE_PENDULUM, sc, sumtype, tp)
 end
 
-function s.pe1val(e, re, rp)
+function s.pe2val(e, re, rp)
     local rc = re:GetHandler()
     return rc:IsLocation(LOCATION_MZONE) and re:IsActiveType(TYPE_MONSTER) and
                rc:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ)
 end
 
-function s.pe2filter(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
+function s.pe3filter(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
 
-function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
+function s.pe3con(e, tp, eg, ep, ev, re, r, rp)
     local ac = Duel.GetAttacker()
     local bc = Duel.GetAttackTarget()
 
@@ -219,11 +230,11 @@ function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
                ac:IsRace(RACE_DRAGON)
 end
 
-function s.pe2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.pe3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local ac = Duel.GetAttacker()
     if chk == 0 then
-        return Duel.GetMatchingGroupCount(s.pe2filter, tp, 0xff, 0xff, ac) == 0
+        return Duel.GetMatchingGroupCount(s.pe3filter, tp, 0xff, 0xff, ac) == 0
     end
 
     local ec1 = Effect.CreateEffect(c)
@@ -237,7 +248,7 @@ function s.pe2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 

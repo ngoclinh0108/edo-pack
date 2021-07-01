@@ -221,6 +221,7 @@ link-rating = 4
 link-arrows = "top-left top-right bottom-left bottom-right"
 atk = 4000
 pendulum-effect = """\
+Unaffected by your opponent's card effects. \
 Fusion, Synchro, and Xyz Monsters your opponent controls cannot activate their effects. \
 Once per turn, if your DARK Dragon Pendulum monster attacks an opponent's monster, before damage calculation: \
     Until the end of this turn, double it's current ATK. \
