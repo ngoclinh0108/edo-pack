@@ -597,7 +597,7 @@ You can only use each monster effect of "Supreme King Dragon Goldwurm" once per 
 strings = ["Discard to destroy face-up monster", "Add Pendulum Monster to hand"]
 
 [card.supreme-presence]
-id = 950000019
+id = 950000021
 name = "Supreme Presence"
 type = "spell equip"
 effect = """\
@@ -618,7 +618,7 @@ strings = [
 ]
 
 [card.supreme-wrath]
-id = 950000020
+id = 950000022
 name = "Supreme Wrath"
 type = "trap"
 effect = """\
