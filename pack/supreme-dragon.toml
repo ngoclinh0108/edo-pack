@@ -613,6 +613,8 @@ effect = """\
 If this card is Normal or Special Summoned: \
     You can add 1 "Supreme King Gate" Pendulum Monster or "Supreme King Dragon" monster \
     from your Deck, GY or Extra Deck face-up to your hand. \
+If this card is in your hand, GY or Extra Deck: You can target 1 Pendulum Monster in your Pendulum Zone; \
+    destroy it, and if you do, Special Summon this card in Defense Position. \
 You can only use each monster effect of "Supreme King Dragon Grimwurm" once per turn. \
 """
 strings = ["Add Pendulum Monster to hand"]
