@@ -6,7 +6,7 @@ strings = [
     "Go to next turn",
     "Move monster",
     "Return banished cards to the GY",
-    "Search Field",
+    "Search Field or Continuous",
     "Return cards to Deck",
     "Reset game",
 ]
