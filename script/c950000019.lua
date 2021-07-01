@@ -28,7 +28,7 @@ function s.me1filter(c)
     if c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() then return false end
     return ((c:IsSetCard(0x10f8) and c:IsType(TYPE_PENDULUM)) or
                (c:IsSetCard(0x20f8) and c:IsType(TYPE_MONSTER))) and
-               c:IsFaceup() and c:IsAbleToHand()
+               c:IsAbleToHand()
 end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
