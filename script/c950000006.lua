@@ -25,6 +25,12 @@ function s.initial_effect(c)
         if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
     end)
 
+    -- overscale
+    local pensp = Effect.CreateEffect(c)
+    pensp:SetType(EFFECT_TYPE_SINGLE)
+    pensp:SetCode(511004423)
+    c:RegisterEffect(pensp)
+    
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
