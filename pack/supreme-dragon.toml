@@ -220,7 +220,7 @@ atk = 4000
 def = 4000
 pendulum-effect = """\
 Once per turn, if your DARK Dragon Pendulum monster attacks an opponent's monster, before damage calculation: \
-    Until the end of this turn, double it's current ATK and it can attack all monsters your opponent controls, once each. \
+    Until the end of this turn, double it's current ATK. \
     You cannot declare attacks the turn you activate this effect, except with that monster. \
 """
 effect = """\
