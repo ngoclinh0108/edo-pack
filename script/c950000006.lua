@@ -1,33 +1,40 @@
--- Genesis Omega Dragon
+-- Supreme Overlord Z-ARC
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    c:SetSPSummonOnce(id)
 
-    -- pendulum summon
-    Pendulum.AddProcedure(c)
-    Utility.PlaceToPZoneWhenDestroyed(c)
+    -- link summon
+    Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsRace, RACE_DRAGON), 4,
+                      4, s.lnkcheck)
+
+    -- pendulum
+    Pendulum.AddProcedure(c, false)
+    Utility.PlaceToPZoneWhenDestroyed(c,
+                                      function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then return true end
+        local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0,
+                                        nil)
+        if #g > 0 then
+            Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+        end
+    end, function(e, tp, eg, ep, ev, re, r, rp)
+        local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0,
+                                        nil)
+        if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
+    end)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(aux.penlimit)
+    splimit:SetValue(function(e, se, sp, st)
+        return (st & SUMMON_TYPE_LINK) == SUMMON_TYPE_LINK or
+                   (st & SUMMON_TYPE_PENDULUM) == SUMMON_TYPE_PENDULUM
+    end)
     c:RegisterEffect(splimit)
-
-    -- special summon rule
-    local spr = Effect.CreateEffect(c)
-    spr:SetType(EFFECT_TYPE_FIELD)
-    spr:SetCode(EFFECT_SPSUMMON_PROC)
-    spr:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-    spr:SetRange(LOCATION_HAND + LOCATION_EXTRA)
-    spr:SetCondition(s.sprcon)
-    spr:SetTarget(s.sprtg)
-    spr:SetOperation(s.sprop)
-    c:RegisterEffect(spr)
 
     -- summon cannot be negated
     local nospnegate = Effect.CreateEffect(c)
@@ -95,29 +102,46 @@ function s.initial_effect(c)
     nolnk:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
     c:RegisterEffect(nolnk)
 
-    -- predraw
-    local predraw = Effect.CreateEffect(c)
-    predraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    predraw:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    predraw:SetCode(EVENT_PREDRAW)
-    predraw:SetRange(LOCATION_HAND + LOCATION_DECK)
-    predraw:SetCountLimit(1)
-    predraw:SetTarget(s.predrawtg)
-    predraw:SetOperation(s.predrawop)
-    c:RegisterEffect(predraw)
+    -- indestructable by card effect
+    local indes = Effect.CreateEffect(c)
+    indes:SetType(EFFECT_TYPE_SINGLE)
+    indes:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    indes:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    indes:SetRange(LOCATION_MZONE)
+    indes:SetValue(1)
+    c:RegisterEffect(indes)
 
-    -- double ATK & multi attack (pendulum)
+    -- cannot be targeted
+    local untarget = Effect.CreateEffect(c)
+    untarget:SetType(EFFECT_TYPE_SINGLE)
+    untarget:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    untarget:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    untarget:SetRange(LOCATION_MZONE)
+    untarget:SetValue(aux.tgoval)
+    c:RegisterEffect(untarget)
+
+    -- act limit
     local pe1 = Effect.CreateEffect(c)
-    pe1:SetDescription(aux.Stringid(id, 0))
-    pe1:SetCategory(CATEGORY_ATKCHANGE)
-    pe1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    pe1:SetCode(EVENT_BATTLE_CONFIRM)
+    pe1:SetType(EFFECT_TYPE_FIELD)
+    pe1:SetCode(EFFECT_CANNOT_ACTIVATE)
+    pe1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     pe1:SetRange(LOCATION_PZONE)
-    pe1:SetCountLimit(1)
-    pe1:SetCondition(s.pe1con)
-    pe1:SetCost(s.pe1cost)
-    pe1:SetOperation(s.pe1op)
+    pe1:SetTargetRange(0, 1)
+    pe1:SetValue(s.pe1val)
     c:RegisterEffect(pe1)
+
+    -- double ATK (pendulum)
+    local pe2 = Effect.CreateEffect(c)
+    pe2:SetDescription(aux.Stringid(id, 1))
+    pe2:SetCategory(CATEGORY_ATKCHANGE)
+    pe2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    pe2:SetCode(EVENT_BATTLE_CONFIRM)
+    pe2:SetRange(LOCATION_PZONE)
+    pe2:SetCountLimit(1)
+    pe2:SetCondition(s.pe2con)
+    pe2:SetCost(s.pe2cost)
+    pe2:SetOperation(s.pe2op)
+    c:RegisterEffect(pe2)
 
     -- unstoppable attack
     local me1 = Effect.CreateEffect(c)
@@ -134,107 +158,58 @@ function s.initial_effect(c)
     me2:SetValue(1)
     c:RegisterEffect(me2)
 
-    -- double ATK (monster)
+    -- destroy drawn
     local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 2))
-    me3:SetCategory(CATEGORY_ATKCHANGE)
-    me3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    me3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    me3:SetDescription(aux.Stringid(id, 0))
+    me3:SetCategory(CATEGORY_DESTROY)
+    me3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    me3:SetCode(EVENT_TO_HAND)
     me3:SetRange(LOCATION_MZONE)
     me3:SetCountLimit(1)
     me3:SetCondition(s.me3con)
+    me3:SetTarget(s.me3tg)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
+
+    -- double ATK (monster)
+    local me4 = Effect.CreateEffect(c)
+    me4:SetDescription(aux.Stringid(id, 1))
+    me4:SetCategory(CATEGORY_ATKCHANGE)
+    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    me4:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    me4:SetRange(LOCATION_MZONE)
+    me4:SetCountLimit(1)
+    me4:SetCondition(s.me4con)
+    me4:SetOperation(s.me4op)
+    c:RegisterEffect(me4)
 end
 
-function s.predrawtg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return not c:IsForbidden() end
-end
-
-function s.predrawop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    Duel.SendtoExtraP(c, tp, REASON_EFFECT)
-end
-
-function s.sprfilter(c)
-    return c:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ + TYPE_PENDULUM) and
-               c:IsRace(RACE_DRAGON)
-end
-
-function s.sprcon(e, c)
-    if c == nil then return true end
-    local tp = c:GetControler()
-    local rg = Duel.GetReleaseGroup(tp):Filter(s.sprfilter, nil)
-    local g1 = rg:Filter(Card.IsType, nil, TYPE_FUSION)
-    local g2 = rg:Filter(Card.IsType, nil, TYPE_SYNCHRO)
-    local g3 = rg:Filter(Card.IsType, nil, TYPE_XYZ)
-    local g4 = rg:Filter(Card.IsType, nil, TYPE_PENDULUM)
-
-    if #g4 == 1 then
-        if #g1 == 1 and g1:FilterCount(Card.IsType, nil, TYPE_PENDULUM) == 1 then
-            return false
-        end
-        if #g2 == 1 and g2:FilterCount(Card.IsType, nil, TYPE_PENDULUM) == 1 then
-            return false
-        end
-        if #g3 == 1 and g3:FilterCount(Card.IsType, nil, TYPE_PENDULUM) == 1 then
-            return false
-        end
+function s.lnkcheck(g, sc, sumtype, tp)
+    local mg = g:Clone()
+    if not g:IsExists(Card.IsType, 1, nil, TYPE_FUSION, sc, sumtype, tp) then
+        return false
     end
-
-    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -4 and #g1 > 0 and #g2 >
-               0 and #g3 > 0 and #g4 > 0 and
-               aux.SelectUnselectGroup(g1, e, tp, 1, 1, aux.ChkfMMZ(1), 0) and
-               aux.SelectUnselectGroup(g2, e, tp, 1, 1, aux.ChkfMMZ(1), 0) and
-               aux.SelectUnselectGroup(g3, e, tp, 1, 1, aux.ChkfMMZ(1), 0) and
-               aux.SelectUnselectGroup(g4, e, tp, 1, 1, aux.ChkfMMZ(1), 0)
-end
-
-function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
-    local rg = Duel.GetReleaseGroup(tp):Filter(s.sprfilter, nil)
-    local mg = aux.SelectUnselectGroup(rg:Filter(Card.IsType, nil, TYPE_FUSION),
-                                       e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp,
-                                       HINTMSG_RELEASE, nil, nil, true)
-    if #mg > 0 then
-        mg:Merge(aux.SelectUnselectGroup(
-                     rg:Filter(Card.IsType, nil, TYPE_SYNCHRO), e, tp, 1, 1,
-                     aux.ChkfMMZ(1), 1, tp, HINTMSG_RELEASE, nil, nil, true))
-        if #mg > 1 then
-            mg:Merge(aux.SelectUnselectGroup(
-                         rg:Filter(Card.IsType, nil, TYPE_XYZ), e, tp, 1, 1,
-                         aux.ChkfMMZ(1), 1, tp, HINTMSG_RELEASE, nil, nil, true))
-            if #mg > 2 then
-                local pg = rg:Filter(Card.IsType, nil, TYPE_PENDULUM)
-                pg = pg:Filter(function(c)
-                    return not mg:IsContains(c)
-                end, nil)
-                mg:Merge(aux.SelectUnselectGroup(pg, e, tp, 1, 1,
-                                                 aux.ChkfMMZ(1), 1, tp,
-                                                 HINTMSG_RELEASE, nil, nil, true))
-            end
-        end
+    mg:Remove(Card.IsType, nil, TYPE_FUSION, sc, sumtype, tp)
+    if not g:IsExists(Card.IsType, 1, nil, TYPE_SYNCHRO, sc, sumtype, tp) then
+        return false
     end
-
-    if #mg == 4 then
-        mg:KeepAlive()
-        e:SetLabelObject(mg)
-        return true
+    mg:Remove(Card.IsType, nil, TYPE_SYNCHRO, sc, sumtype, tp)
+    if not g:IsExists(Card.IsType, 1, nil, TYPE_XYZ, sc, sumtype, tp) then
+        return false
     end
-    return false
+    mg:Remove(Card.IsType, nil, TYPE_XYZ, sc, sumtype, tp)
+    return mg:IsExists(Card.IsType, 1, nil, TYPE_PENDULUM, sc, sumtype, tp)
 end
 
-function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = e:GetLabelObject()
-    if not g then return end
-
-    Duel.Release(g, REASON_COST + REASON_MATERIAL)
-    g:DeleteGroup()
+function s.pe1val(e, re, rp)
+    local rc = re:GetHandler()
+    return rc:IsLocation(LOCATION_MZONE) and re:IsActiveType(TYPE_MONSTER) and
+               rc:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ)
 end
 
-function s.pe1filter(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
+function s.pe2filter(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
 
-function s.pe1con(e, tp, eg, ep, ev, re, r, rp)
+function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
     local ac = Duel.GetAttacker()
     local bc = Duel.GetAttackTarget()
 
@@ -244,11 +219,11 @@ function s.pe1con(e, tp, eg, ep, ev, re, r, rp)
                ac:IsRace(RACE_DRAGON)
 end
 
-function s.pe1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.pe2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local ac = Duel.GetAttacker()
     if chk == 0 then
-        return Duel.GetMatchingGroupCount(s.pe1filter, tp, 0xff, 0xff, ac) == 0
+        return Duel.GetMatchingGroupCount(s.pe2filter, tp, 0xff, 0xff, ac) == 0
     end
 
     local ec1 = Effect.CreateEffect(c)
@@ -262,7 +237,7 @@ function s.pe1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
+function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
@@ -278,11 +253,30 @@ function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
     ac:RegisterEffect(ec1)
 end
 
+function s.me3filter(c, tp)
+    return c:IsControler(1 - tp) and c:IsPreviousLocation(LOCATION_DECK)
+end
+
 function s.me3con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetBattleTarget() ~= nil
+    return Duel.GetCurrentPhase() ~= PHASE_DRAW
+end
+
+function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local g = eg:Filter(s.me3filter, nil, tp)
+    if chk == 0 then return #g > 0 end
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
 function s.me3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = eg:Filter(s.me3filter, nil, tp)
+    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
+end
+
+function s.me4con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetBattleTarget() ~= nil
+end
+
+function s.me4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 
