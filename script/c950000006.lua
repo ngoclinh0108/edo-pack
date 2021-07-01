@@ -1,6 +1,8 @@
--- Supreme Overlord Z-ARC
+-- Supreme Ruler Z-ARC
 Duel.LoadScript("util.lua")
 local s, id = GetID()
+
+s.listed_names = {13331639}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -30,7 +32,7 @@ function s.initial_effect(c)
     pensp:SetType(EFFECT_TYPE_SINGLE)
     pensp:SetCode(511004423)
     c:RegisterEffect(pensp)
-    
+
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
@@ -136,19 +138,30 @@ function s.initial_effect(c)
         return te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
     end)
     c:RegisterEffect(pe1)
-    
-    -- double ATK (pendulum)
+
+    -- search card
     local pe2 = Effect.CreateEffect(c)
-    pe2:SetDescription(aux.Stringid(id, 1))
-    pe2:SetCategory(CATEGORY_ATKCHANGE)
-    pe2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    pe2:SetCode(EVENT_BATTLE_CONFIRM)
+    pe2:SetDescription(aux.Stringid(id, 0))
+    pe2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    pe2:SetType(EFFECT_TYPE_IGNITION)
     pe2:SetRange(LOCATION_PZONE)
     pe2:SetCountLimit(1)
-    pe2:SetCondition(s.pe2con)
-    pe2:SetCost(s.pe2cost)
+    pe2:SetTarget(s.pe2tg)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
+
+    -- double ATK (pendulum)
+    local pe3 = Effect.CreateEffect(c)
+    pe3:SetDescription(aux.Stringid(id, 1))
+    pe3:SetCategory(CATEGORY_ATKCHANGE)
+    pe3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    pe3:SetCode(EVENT_BATTLE_CONFIRM)
+    pe3:SetRange(LOCATION_PZONE)
+    pe3:SetCountLimit(1)
+    pe3:SetCondition(s.pe3con)
+    pe3:SetCost(s.pe3cost)
+    pe3:SetOperation(s.pe3op)
+    c:RegisterEffect(pe3)
 
     -- act limit
     local me1 = Effect.CreateEffect(c)
@@ -177,7 +190,7 @@ function s.initial_effect(c)
 
     -- destroy drawn
     local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(aux.Stringid(id, 0))
+    me4:SetDescription(aux.Stringid(id, 2))
     me4:SetCategory(CATEGORY_DESTROY)
     me4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     me4:SetCode(EVENT_TO_HAND)
@@ -218,9 +231,40 @@ function s.lnkcheck(g, sc, sumtype, tp)
     return mg:IsExists(Card.IsType, 1, nil, TYPE_PENDULUM, sc, sumtype, tp)
 end
 
-function s.pe2filter(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
+function s.pe2filter(c)
+    return not c:IsCode(id) and c:IsAbleToHand() and
+               c:IsType(TYPE_SPELL + TYPE_TRAP) and
+               aux.IsCodeListed(c, 13331639)
+end
 
-function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
+function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.pe2filter, tp, LOCATION_DECK +
+                                               LOCATION_GRAVE + LOCATION_EXTRA,
+                                           0, 1, nil)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA)
+end
+
+function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.pe2filter),
+                                      tp, LOCATION_DECK + LOCATION_GRAVE +
+                                          LOCATION_EXTRA, 0, 1, 1, nil)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
+
+function s.pe3filter(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
+
+function s.pe3con(e, tp, eg, ep, ev, re, r, rp)
     local ac = Duel.GetAttacker()
     local bc = Duel.GetAttackTarget()
 
@@ -230,11 +274,11 @@ function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
                ac:IsRace(RACE_DRAGON)
 end
 
-function s.pe2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.pe3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local ac = Duel.GetAttacker()
     if chk == 0 then
-        return Duel.GetMatchingGroupCount(s.pe2filter, tp, 0xff, 0xff, ac) == 0
+        return Duel.GetMatchingGroupCount(s.pe3filter, tp, 0xff, 0xff, ac) == 0
     end
 
     local ec1 = Effect.CreateEffect(c)
@@ -248,7 +292,7 @@ function s.pe2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 

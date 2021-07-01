@@ -208,11 +208,11 @@ strings = [
     "Destroy all card",
 ]
 
-[card.supreme-overlord-zarc]
+[card.supreme-ruler-zarc]
 id = 950000006
 alias = 13331639
 set = "supreme-king"
-name = "Supreme Overlord Z-ARC"
+name = "Supreme Ruler Z-ARC"
 type = "monster link pendulum effect"
 attribute = "dark"
 race = "dragon"
@@ -222,6 +222,9 @@ link-arrows = "top-left top-right bottom-left bottom-right"
 atk = 4000
 pendulum-effect = """\
 Unaffected by your opponent's card effects. \
+Once per turn: You can add to your hand \
+    1 Spell/Trap Card that specifically lists "Supreme King Z-ARC" in its text is banished or in your Deck, GY, \
+    except "Supreme Ruler Z-ARC". \
 Once per turn, if your DARK Dragon Pendulum monster attacks an opponent's monster, before damage calculation: \
     Until the end of this turn, double it's current ATK, \
     also you cannot declare attacks this turn, except with that monster. \
@@ -247,7 +250,11 @@ If this card in the Monster Zone is destroyed by battle or card effect: \
     You can destroy all cards in your Pendulum Zones (if any), \
     then place this card in your Pendulum Zone. \
 """
-strings = ["Destroy drawn cards", "Double ATK"]
+strings = [
+    "Add card that lists \"Supreme King Z-ARC\" to your hand",
+    "Double ATK",
+    "Destroy drawn cards",
+]
 
 [card.supreme-king-dragon-venowurm]
 id = 950000007
@@ -649,11 +656,11 @@ id = 950000022
 name = "Supreme Wrath"
 type = "trap"
 effect = """\
+If you control "Supreme Soul", you can activate this card from your hand. \
+You can only activate and use each effect of "Supreme Wrath" once per turn. \
 While this card is in your GY, you can target 1 "Xyz Dragon" Xyz Monster or "Supreme King Dragon" Xyz Monster you control; \
     attach up to 2 "Supreme King Dragon" monsters to it as materials, from your GY and/or face-up from your Extra Deck. \
-    You can only use this effect of "Supreme Wrath" once per turn. \
-If you control "Supreme Soul", you can activate this card from your hand. \
-Activate 1 of these effects. You can only activate 1 "Supreme Wrath" once per turn.
+Activate 1 of these effects.
 ● Immediately after this effect resolves, Pendulum Summon a monster(s).
 ● If you control "Supreme King Z-ARC": Destroy all monsters you control (if any), except "Supreme King Z-ARC", \
     and if you do, Special Summon up to 4 "Supreme King Dragon" monsters with different names from your hand, Deck, Extra Deck, and/or GY, \
