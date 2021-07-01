@@ -631,7 +631,7 @@ You can only use each monster effect of "Supreme King Dragon Grimwurm" once per 
 strings = ["Add Pendulum Monster to hand"]
 
 [card.supreme-presence]
-id = 950000021
+id = 950000020
 name = "Supreme Presence"
 type = "spell equip"
 effect = """\
@@ -652,7 +652,7 @@ strings = [
 ]
 
 [card.supreme-wrath]
-id = 950000022
+id = 950000021
 name = "Supreme Wrath"
 type = "trap"
 effect = """\
