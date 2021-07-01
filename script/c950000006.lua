@@ -137,68 +137,68 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(pe1)
     
-    -- act limit
+    -- double ATK (pendulum)
     local pe2 = Effect.CreateEffect(c)
-    pe2:SetType(EFFECT_TYPE_FIELD)
-    pe2:SetCode(EFFECT_CANNOT_ACTIVATE)
-    pe2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    pe2:SetDescription(aux.Stringid(id, 1))
+    pe2:SetCategory(CATEGORY_ATKCHANGE)
+    pe2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    pe2:SetCode(EVENT_BATTLE_CONFIRM)
     pe2:SetRange(LOCATION_PZONE)
-    pe2:SetTargetRange(0, 1)
-    pe2:SetValue(s.pe2val)
+    pe2:SetCountLimit(1)
+    pe2:SetCondition(s.pe2con)
+    pe2:SetCost(s.pe2cost)
+    pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
 
-    -- double ATK (pendulum)
-    local pe3 = Effect.CreateEffect(c)
-    pe3:SetDescription(aux.Stringid(id, 1))
-    pe3:SetCategory(CATEGORY_ATKCHANGE)
-    pe3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    pe3:SetCode(EVENT_BATTLE_CONFIRM)
-    pe3:SetRange(LOCATION_PZONE)
-    pe3:SetCountLimit(1)
-    pe3:SetCondition(s.pe3con)
-    pe3:SetCost(s.pe3cost)
-    pe3:SetOperation(s.pe3op)
-    c:RegisterEffect(pe3)
-
-    -- unstoppable attack
+    -- act limit
     local me1 = Effect.CreateEffect(c)
-    me1:SetType(EFFECT_TYPE_SINGLE)
-    me1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    me1:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-    me1:SetRange(LOCATION_MZONE)
+    me1:SetType(EFFECT_TYPE_FIELD)
+    me1:SetCode(EFFECT_CANNOT_ACTIVATE)
+    me1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    me1:SetRange(LOCATION_PZONE)
+    me1:SetTargetRange(0, 1)
+    me1:SetValue(s.me1val)
     c:RegisterEffect(me1)
 
-    -- attack all monsters
+    -- unstoppable attack
     local me2 = Effect.CreateEffect(c)
     me2:SetType(EFFECT_TYPE_SINGLE)
-    me2:SetCode(EFFECT_ATTACK_ALL)
-    me2:SetValue(1)
+    me2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    me2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+    me2:SetRange(LOCATION_MZONE)
     c:RegisterEffect(me2)
 
-    -- destroy drawn
+    -- attack all monsters
     local me3 = Effect.CreateEffect(c)
-    me3:SetDescription(aux.Stringid(id, 0))
-    me3:SetCategory(CATEGORY_DESTROY)
-    me3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    me3:SetCode(EVENT_TO_HAND)
-    me3:SetRange(LOCATION_MZONE)
-    me3:SetCountLimit(1)
-    me3:SetCondition(s.me3con)
-    me3:SetTarget(s.me3tg)
-    me3:SetOperation(s.me3op)
+    me3:SetType(EFFECT_TYPE_SINGLE)
+    me3:SetCode(EFFECT_ATTACK_ALL)
+    me3:SetValue(1)
     c:RegisterEffect(me3)
 
-    -- double ATK (monster)
+    -- destroy drawn
     local me4 = Effect.CreateEffect(c)
-    me4:SetDescription(aux.Stringid(id, 1))
-    me4:SetCategory(CATEGORY_ATKCHANGE)
-    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    me4:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    me4:SetDescription(aux.Stringid(id, 0))
+    me4:SetCategory(CATEGORY_DESTROY)
+    me4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    me4:SetCode(EVENT_TO_HAND)
     me4:SetRange(LOCATION_MZONE)
     me4:SetCountLimit(1)
     me4:SetCondition(s.me4con)
+    me4:SetTarget(s.me4tg)
     me4:SetOperation(s.me4op)
     c:RegisterEffect(me4)
+
+    -- double ATK (monster)
+    local me5 = Effect.CreateEffect(c)
+    me5:SetDescription(aux.Stringid(id, 1))
+    me5:SetCategory(CATEGORY_ATKCHANGE)
+    me5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    me5:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    me5:SetRange(LOCATION_MZONE)
+    me5:SetCountLimit(1)
+    me5:SetCondition(s.me5con)
+    me5:SetOperation(s.me5op)
+    c:RegisterEffect(me5)
 end
 
 function s.lnkcheck(g, sc, sumtype, tp)
@@ -218,15 +218,9 @@ function s.lnkcheck(g, sc, sumtype, tp)
     return mg:IsExists(Card.IsType, 1, nil, TYPE_PENDULUM, sc, sumtype, tp)
 end
 
-function s.pe2val(e, re, rp)
-    local rc = re:GetHandler()
-    return rc:IsLocation(LOCATION_MZONE) and re:IsActiveType(TYPE_MONSTER) and
-               rc:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ)
-end
+function s.pe2filter(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
 
-function s.pe3filter(c) return c:IsFaceup() and c:GetFlagEffect(id) ~= 0 end
-
-function s.pe3con(e, tp, eg, ep, ev, re, r, rp)
+function s.pe2con(e, tp, eg, ep, ev, re, r, rp)
     local ac = Duel.GetAttacker()
     local bc = Duel.GetAttackTarget()
 
@@ -236,11 +230,11 @@ function s.pe3con(e, tp, eg, ep, ev, re, r, rp)
                ac:IsRace(RACE_DRAGON)
 end
 
-function s.pe3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.pe2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local ac = Duel.GetAttacker()
     if chk == 0 then
-        return Duel.GetMatchingGroupCount(s.pe3filter, tp, 0xff, 0xff, ac) == 0
+        return Duel.GetMatchingGroupCount(s.pe2filter, tp, 0xff, 0xff, ac) == 0
     end
 
     local ec1 = Effect.CreateEffect(c)
@@ -254,7 +248,7 @@ function s.pe3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
+function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
@@ -270,30 +264,36 @@ function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
     ac:RegisterEffect(ec1)
 end
 
-function s.me3filter(c, tp)
+function s.me1val(e, re, rp)
+    local rc = re:GetHandler()
+    return rc:IsLocation(LOCATION_MZONE) and re:IsActiveType(TYPE_MONSTER) and
+               rc:IsType(TYPE_FUSION + TYPE_SYNCHRO + TYPE_XYZ)
+end
+
+function s.me4filter(c, tp)
     return c:IsControler(1 - tp) and c:IsPreviousLocation(LOCATION_DECK)
 end
 
-function s.me3con(e, tp, eg, ep, ev, re, r, rp)
+function s.me4con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetCurrentPhase() ~= PHASE_DRAW
 end
 
-function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = eg:Filter(s.me3filter, nil, tp)
+function s.me4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local g = eg:Filter(s.me4filter, nil, tp)
     if chk == 0 then return #g > 0 end
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
-function s.me3op(e, tp, eg, ep, ev, re, r, rp)
-    local g = eg:Filter(s.me3filter, nil, tp)
+function s.me4op(e, tp, eg, ep, ev, re, r, rp)
+    local g = eg:Filter(s.me4filter, nil, tp)
     if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
 end
 
-function s.me4con(e, tp, eg, ep, ev, re, r, rp)
+function s.me5con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():GetBattleTarget() ~= nil
 end
 
-function s.me4op(e, tp, eg, ep, ev, re, r, rp)
+function s.me5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 
