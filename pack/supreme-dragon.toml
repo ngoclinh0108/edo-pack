@@ -348,7 +348,7 @@ effect = """\
 If this card's Level between (exclusive) the Pendulum Scales of the cards in your Pendulum Zones: \
     You can Special Summon this card from your hand or GY. \
     You can only Special Summon "Supreme King Dragon Oddwurm" once per turn this way. \
-If this card is Normal or Special Summoned: \
+If this card is Summoned: \
     You can add 1 "Spiral Flame Strike" from your Deck or GY to your hand, \
     then you can add 1 "Odd-Eyes" Dragon Pendulum Monster or "Supreme King Dragon" Pendulum monster that is banished or in your Deck, GY to your Extra Deck face-up. \
 If this card destroys an opponent's monster by battle: Inflict damage to your opponent equal to the destroyed monster's original ATK. \
@@ -562,7 +562,7 @@ Once per turn, if you have a card in your other Pendulum Zone: \
     You can discard 1 Pendulum Monster, then target 1 Spell/Trap Card on the field; destroy it. \
 """
 effect = """\
-If this card is Normal or Special Summoned: You can add 1 Pendulum Monster from your Deck to your Extra Deck face-up. \
+If this card is Summoned: You can add 1 DARK Pendulum Monster from your Deck to your Extra Deck face-up. \
 If this card is in your hand, GY or Extra Deck: You can target 1 Pendulum Monster you control; \
     destroy it, and if you do, Special Summon this card in Defense Position. \
 You can only use each monster effect of "Supreme King Dragon Silvurm" once per turn. \
@@ -589,7 +589,7 @@ Once per turn, if you have a card in your other Pendulum Zone: \
     You can discard 1 Pendulum Monster, then target 1 face-up monster on the field; destroy it. \
 """
 effect = """\
-If this card is Normal or Special Summoned: You can add 1 face-up Pendulum Monster from your Extra Deck to your hand. \
+If this card is Summoned: You can add 1 DARK Pendulum Monster from your Deck to your hand. \
 If this card is in your hand, GY or Extra Deck: You can target 1 Pendulum Monster you control; \
     destroy it, and if you do, Special Summon this card in Defense Position. \
 You can only use each monster effect of "Supreme King Dragon Goldwurm" once per turn. \
@@ -614,7 +614,7 @@ Once per turn, if you have a card in your other Pendulum Zone: \
     You can only use this effect of "Supreme King Dragon Grimwurm" once per turn. \
 """
 effect = """\
-If this card is Normal or Special Summoned: \
+If this card is Summoned: \
     You can add 1 "Supreme King Gate" Pendulum Monster or "Supreme King Dragon" monster \
     from your Deck, GY or Extra Deck face-up to your hand. \
 If this card is in your hand, GY or Extra Deck: You can target 1 Pendulum Monster in your Pendulum Zone; \

@@ -29,6 +29,9 @@ function s.initial_effect(c)
     local e2b = e2:Clone()
     e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e2b)
+    local e2c = e2:Clone()
+    e2c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e2c)
 
     -- damage
     local e3 = Effect.CreateEffect(c)

@@ -45,7 +45,10 @@ function s.initial_effect(c)
     c:RegisterEffect(me1)
     local me1b = me1:Clone()
     me1b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(me1b)
+    c:RegisterEffect(me1b)    
+    local me1c = me1:Clone()
+    me1c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(me1c)
 
     -- special summon
     local me2 = Effect.CreateEffect(c)
@@ -98,7 +101,10 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Destroy(tc, REASON_EFFECT)
 end
 
-function s.me1filter(c) return c:IsType(TYPE_PENDULUM) and not c:IsForbidden() end
+function s.me1filter(c)
+    return c:IsAttribute(ATTRIBUTE_DARK) and c:IsType(TYPE_PENDULUM) and
+               not c:IsForbidden()
+end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then

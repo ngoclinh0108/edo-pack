@@ -47,6 +47,9 @@ function s.initial_effect(c)
     local me1b = me1:Clone()
     me1b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(me1b)
+    local me1c = me1:Clone()
+    me1c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(me1c)
 
     -- special summon
     local me2 = Effect.CreateEffect(c)
@@ -100,19 +103,20 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.me1filter(c)
-    return c:IsType(TYPE_PENDULUM) and c:IsFaceup() and c:IsAbleToHand()
+    return c:IsAttribute(ATTRIBUTE_DARK) and c:IsType(TYPE_PENDULUM) and
+               c:IsAbleToHand()
 end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.me1filter, tp, LOCATION_EXTRA, 0,
+        return Duel.IsExistingMatchingCard(s.me1filter, tp, LOCATION_DECK, 0,
                                            1, nil)
     end
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.me1filter, tp, LOCATION_EXTRA, 0, 1,
+    local g = Duel.SelectMatchingCard(tp, s.me1filter, tp, LOCATION_DECK, 0, 1,
                                       1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
