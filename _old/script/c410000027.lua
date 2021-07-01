@@ -90,6 +90,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not tc or not tc:IsRelateToEffect(e) then return end
 
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, tc)
 end
 
 function s.e4filter(c)

@@ -80,6 +80,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     if not tc:IsAbleToHand() then return end
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, tc)
 
     local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND +
                                         LOCATION_DECK + LOCATION_GRAVE, 0, nil,

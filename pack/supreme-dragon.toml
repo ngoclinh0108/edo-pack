@@ -596,6 +596,27 @@ You can only use each monster effect of "Supreme King Dragon Goldwurm" once per 
 """
 strings = ["Discard to destroy face-up monster", "Add Pendulum Monster to hand"]
 
+[card.supreme-king-dragon-grimwurm]
+id = 950000019
+set = "supreme-king-dragon"
+name = "Supreme King Dragon Grimwurm"
+type = "monster pendulum effect"
+attribute = "dark"
+race = "dragon"
+level = 4
+pendulum-scale = 5
+atk = 1800
+def = 1200
+pendulum-effect = """\
+"""
+effect = """\
+If this card is Normal or Special Summoned: \
+    You can add 1 "Supreme King Gate" Pendulum Monster or "Supreme King Dragon" monster \
+    from your Deck, GY or Extra Deck face-up to your hand. \
+You can only use each monster effect of "Supreme King Dragon Grimwurm" once per turn. \
+"""
+strings = ["Add Pendulum Monster to hand"]
+
 [card.supreme-presence]
 id = 950000021
 name = "Supreme Presence"

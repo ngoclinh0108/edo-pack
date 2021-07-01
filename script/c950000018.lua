@@ -114,7 +114,10 @@ function s.me1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectMatchingCard(tp, s.me1filter, tp, LOCATION_EXTRA, 0, 1,
                                       1, nil)
-    if #g > 0 then Duel.SendtoHand(g, nil, REASON_EFFECT) end
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
 end
 
 function s.me2filter(c) return c:IsFaceup() and c:IsType(TYPE_PENDULUM) end
