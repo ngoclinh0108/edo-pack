@@ -173,16 +173,15 @@ link-arrows = "top bottom-left bottom bottom-right"
 atk = 4000
 pendulum-effect = """\
 Unaffected by your opponent's card effects. \
-Pendulum Scale of card in your other Pendulum Zone become 0. \
-This card gains the effect(s) of all Pendulum Monsters attached to this card, except "Supreme King Z-ARC - Overlord". \
+Your other Pendulum Zone's Pendulum Scale become 0. \
+Gains the effect(s) of all Pendulum Monsters attached to this card, except "Supreme King Z-ARC - Overlord". \
 Once per turn, you can attach 1 Pendulum Monster from your Extra Deck face-up to this card. \
 Once per turn: \
-    You can destroy a card in your other Pendulum Zone (if any), then \
+    You can destroy card in your other Pendulum Zone (if any), then \
     place 1 Pendulum Monster from your hand, Deck, GY, Extra Deck face-up in your Pendulum Zone, \
-    except the destroyed card. \
-Once per turn: You can Special Summon 1 Dragon Fusion, Synchro, or Xyz Monster, ignoring its Summoning conditions \
-    that is banished or in your GY, Extra Deck face-up. \
-    (This is also treated as an Fusion, Synchro or Xyz Summon.) \
+    except the destroyed. \
+Once per turn: You can Special Summon 1 Dragon Fusion, Synchro, or Xyz Monster that is banished or in your GY, Extra Deck face-up, \
+    ignoring its Summoning conditions (This is also treated as an Fusion, Synchro or Xyz Summon.) \
 """
 effect = """\
 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz, and 1 Pendulum)
@@ -197,7 +196,7 @@ Your opponent cannot target this card with card effects. \
 If this card is Special Summoned: Destroy all cards your opponent controls. \
 Once per turn, you can Special Summon 1 "Supreme King Dragon" monster from your hand, Deck, GY or Extra Deck, \
     ignoring its Summoning conditions. (This is treated as a Properly Summon.) \
-    This card cannot declare an attack the turn this effect is activated. \
+    Also, this card cannot attack this turn. \
 If this card in the Monster Zone is destroyed by battle or card effect: \
     You can destroy all cards in your Pendulum Zones (if any), \
     then place this card in your Pendulum Zone. \
