@@ -502,10 +502,9 @@ strings = [
     "Inflict damage equal to \"Rebellion\" ATK change",
 ]
 
-[card.sky-iris-magician]
+[card.sorcerer-sky-iris]
 id = 950000016
-set = "magician"
-name = "Magician of Sky Iris"
+name = "Sorcerer of Sky Iris"
 type = "monster fusion pendulum effect"
 attribute = "wind"
 race = "spellcaster"
@@ -518,7 +517,7 @@ All monsters you control gain 100 ATK and DEF for each face-up Pendulum Monster 
 If a Pendulum Monster(s) you control is destroyed by battle or by card effect: \
     You can Special Summon this card from your Pendulum Zone in Defense Position, \
     then, you can place 1 of those monsters in your Pendulum Zone. \
-    You can only use this effect of "Magician of Sky Iris" once per turn. \
+    You can only use this effect of "Sorcerer of Sky Iris" once per turn. \
 """
 effect = """\
 1 "Magician" Pendulum Monster + 1 monster that was Special Summoned from Extra Deck
@@ -528,7 +527,7 @@ You can Special Summon 1 monster from your Pendulum Zone, ignoring their Summoni
 During the End Phase: \
     You can Special Summon as many monsters as possible from your GY or Extra Deck face-up \
     that were destroyed by battle or an opponent's card effect this turn. \
-You can only use each effect of "Magician of Sky Iris" once per turn. \
+You can only use each effect of "Sorcerer of Sky Iris" once per turn. \
 """
 strings = [
     "Place 1 of destroyed monsters in Pendulum Zone",
