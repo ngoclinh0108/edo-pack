@@ -25,7 +25,7 @@ set = "rank-down-magic rank-up-magic"
 name = "Rank-Change-Magic Emperor Force"
 type = "spell"
 effect = """\
-(This card is always treated as a "Rank-Down-Magic" and "Rank-Up-Magic" card.)
+(This card is always treated as a "Rank-Up-Magic" and "Rank-Down-Magic" card.)
 
 [ \
 Add from Outside all versions of your "Number" Xyz monsters to your Extra Deck. \
