@@ -39,5 +39,5 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 85121942, 59627393) -- Number C105
     Utility.DeckEditAddCardToDeck(tp, 55888045, 63746411) -- Number C106
     Utility.DeckEditAddCardToDeck(tp, 68396121, 88177324) -- Number C107
-    
+    Utility.DeckEditAddCardToDeck(tp, 15862758, 89477759) -- Number iC1000
 end

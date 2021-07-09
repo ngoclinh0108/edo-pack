@@ -12,7 +12,7 @@ name = "Number Z100: Genesis Numeron Dragon"
 type = "monster xyz effect"
 attribute = "light"
 race = "dragon"
-rank = 1
+rank = 0
 atk = "?"
 def = "?"
 effect = """\
@@ -28,7 +28,7 @@ effect = """\
 (This card is always treated as a "Rank-Up-Magic" and "Rank-Down-Magic" card.)
 
 [ \
-Add from Outside all versions of your "Number" Xyz monsters to your Extra Deck. \
+Add from Outside all rank-changed versions of your "Number" Xyz monsters to your Extra Deck. \
 ] \
 """
 strings = []
