@@ -28,7 +28,7 @@ effect = """\
 (This card is always treated as a "Rank-Up-Magic" and "Rank-Down-Magic" card.)
 
 [ \
-Add from Outside all rank-changed versions of your "Number" Xyz monsters to your Extra Deck. \
+Add from Outside all Rank-Changed versions of your "Number" Xyz monsters. \
 ] \
 """
 strings = []
