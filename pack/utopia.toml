@@ -1,0 +1,20 @@
+[card.emperor-key]
+id = 940000000
+name = "Emperor Key"
+type = "spell field"
+effect = """\
+"""
+strings = []
+
+[card.number-S100]
+id = 940000001
+name = "Number S100: Genesis Numeron Dragon"
+type = "monster xyz effect"
+attribute = "light"
+race = "dragon"
+rank = 1
+atk = "?"
+def = "?"
+effect = """\
+"""
+strings = []
