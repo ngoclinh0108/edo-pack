@@ -1,9 +1,11 @@
--- Number S100: Genesis Numeron Dragon
-Duel.LoadScript("util.lua")
+-- The Last Hope
 local s, id = GetID()
-
-s.xyz_number = 100
+Duel.LoadScript("util.lua")
 
 function s.initial_effect(c)
-    c:EnableReviveLimit()
+    -- activate
+    local act = Effect.CreateEffect(c)
+    act:SetType(EFFECT_TYPE_ACTIVATE)
+    act:SetCode(EVENT_FREE_CHAIN)
+    c:RegisterEffect(act)
 end

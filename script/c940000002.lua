@@ -29,5 +29,15 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 96864105, 36076683) -- Number C73
     Utility.DeckEditAddCardToDeck(tp, 20563387, 93568288) -- Number C80
     Utility.DeckEditAddCardToDeck(tp, 6165656, 48995978) -- Number C88
-    Utility.DeckEditAddCardToDeck(tp, , ) -- Number 
+    Utility.DeckEditAddCardToDeck(tp, 47017574, 97403510) -- Number C92
+    Utility.DeckEditAddCardToDeck(tp, 77205367, 55727845) -- Number C96
+    Utility.DeckEditAddCardToDeck(tp, 940000000, 57314798) -- Number Z100
+    Utility.DeckEditAddCardToDeck(tp, 12744567, 48739166) -- Number C101
+    Utility.DeckEditAddCardToDeck(tp, 67173574, 49678559) -- Number C102
+    Utility.DeckEditAddCardToDeck(tp, 20785975, 94380860) -- Number C103
+    Utility.DeckEditAddCardToDeck(tp, 49456901, 2061963) -- Number C104
+    Utility.DeckEditAddCardToDeck(tp, 85121942, 59627393) -- Number C105
+    Utility.DeckEditAddCardToDeck(tp, 55888045, 63746411) -- Number C106
+    Utility.DeckEditAddCardToDeck(tp, 68396121, 88177324) -- Number C107
+    
 end

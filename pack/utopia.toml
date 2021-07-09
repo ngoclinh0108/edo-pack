@@ -1,5 +1,13 @@
-[card.number-Z100]
+[card.the-last-hope]
 id = 940000000
+name = "The Last Hope"
+type = "spell field"
+effect = """\
+"""
+strings = []
+
+[card.number-Z100]
+id = 940000001
 name = "Number Z100: Genesis Numeron Dragon"
 type = "monster xyz effect"
 attribute = "light"
