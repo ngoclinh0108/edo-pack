@@ -165,8 +165,9 @@ end
 function s.me2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
-    local sc = eg:GetFirst()
-    local sg = eg:Filter(s.me2filter2, nil, eg)
+    local g = eg:Filter(s.me2filter1, nil)
+    local sc = g:GetFirst()
+    local sg = g:Filter(s.me2filter2, nil, g)
     if #sg > 0 then sc = sg:Select(tp, 1, 1, nil):GetFirst() end
 
     local dmg = 0
