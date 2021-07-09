@@ -3,24 +3,14 @@ id = 940000000
 name = "The Last Hope Remain"
 type = "spell field"
 effect = """\
-"""
-strings = []
-
-[card.number-Z100]
-id = 940000001
-name = "Number Z100: Genesis Numeron Dragon"
-type = "monster xyz effect"
-attribute = "light"
-race = "dragon"
-rank = 0
-atk = "?"
-def = "?"
-effect = """\
+[ \
+Add from Outside all "ZW -" and "ZS -" Xyz monsters. \
+] \
 """
 strings = []
 
 [card.rank-change-magic-emperor-force]
-id = 940000002
+id = 940000001
 set = "rank-down-magic rank-up-magic"
 name = "Rank-Change-Magic Emperor Force"
 type = "spell"
@@ -30,5 +20,18 @@ effect = """\
 [ \
 Add from Outside all Rank-Changed versions of your "Number" Xyz monsters. \
 ] \
+"""
+strings = []
+
+[card.number-Z100]
+id = 940000002
+name = "Number Z100: Genesis Numeron Dragon"
+type = "monster xyz effect"
+attribute = "light"
+race = "dragon"
+rank = 0
+atk = "?"
+def = "?"
+effect = """\
 """
 strings = []
