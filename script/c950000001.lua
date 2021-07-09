@@ -104,49 +104,12 @@ function s.initial_effect(c)
 end
 
 function s.deck_edit(tp)
-    -- Supreme King Z-Arc - Overlord
-    if not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0,
-                                       1, nil, 950000005) then
-        Duel.SendtoDeck(Duel.CreateToken(tp, 950000005), tp, 2, REASON_RULE)
-    end
-
-    -- Supreme Ruler Z-Arc
-    if not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0,
-                                       1, nil, 950000006) then
-        Duel.SendtoDeck(Duel.CreateToken(tp, 950000006), tp, 2, REASON_RULE)
-    end
-
-    -- Supreme King Dragon Odd-Eyes
-    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1,
-                                   nil, 16178681) and
-        not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL,
-                                        0, 1, nil, 96733134) then
-        Duel.SendtoExtraP(Duel.CreateToken(tp, 96733134), tp, REASON_RULE)
-    end
-
-    -- Supreme King Dragon Dark Rebellion
-    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_EXTRA, 0,
-                                   1, nil, 16195942) and
-        not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL,
-                                        0, 1, nil, 42160203) then
-        Duel.SendtoDeck(Duel.CreateToken(tp, 42160203), tp, 2, REASON_RULE)
-    end
-
-    -- Supreme King Dragon Clear Wing
-    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_EXTRA, 0,
-                                   1, nil, 82044279) and
-        not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL,
-                                        0, 1, nil, 70771599) then
-        Duel.SendtoDeck(Duel.CreateToken(tp, 70771599), tp, 2, REASON_RULE)
-    end
-
-    -- Supreme King Dragon Starving Venom
-    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_EXTRA, 0,
-                                   1, nil, 41209827) and
-        not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL,
-                                        0, 1, nil, 43387895) then
-        Duel.SendtoDeck(Duel.CreateToken(tp, 43387895), tp, 2, REASON_RULE)
-    end
+    Utility.DeckEditAddCardToDeck(tp, 950000005) -- Supreme King Z-Arc - Overlord
+    Utility.DeckEditAddCardToDeck(tp, 950000006) -- Supreme Ruler Z-Arc
+    Utility.DeckEditAddCardToDeck(tp, 43387895, 41209827) -- Supreme King Dragon Starving Venom
+    Utility.DeckEditAddCardToDeck(tp, 70771599, 82044279) -- Supreme King Dragon Clear Wing
+    Utility.DeckEditAddCardToDeck(tp, 42160203, 16195942) -- Supreme King Dragon Dark Rebellion
+    Utility.DeckEditAddCardToExtraFaceup(tp, 96733134, 16178681) -- Supreme King Dragon Odd-Eyes
 end
 
 function s.e1filter1(c)

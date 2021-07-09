@@ -1,14 +1,6 @@
-[card.emperor-key]
+[card.number-Z100]
 id = 940000000
-name = "Emperor Key"
-type = "spell field"
-effect = """\
-"""
-strings = []
-
-[card.number-S100]
-id = 940000001
-name = "Number S100: Genesis Numeron Dragon"
+name = "Number Z100: Genesis Numeron Dragon"
 type = "monster xyz effect"
 attribute = "light"
 race = "dragon"
@@ -16,5 +8,17 @@ rank = 1
 atk = "?"
 def = "?"
 effect = """\
+"""
+strings = []
+
+[card.rank-change-magic-emperor-force]
+id = 940000002
+name = "Rank-Change-Magic Emperor Force"
+type = "spell"
+effect = """\
+
+[ \
+Add from Outside all versions of your "Number" Xyz monsters to your Extra Deck. \
+] \
 """
 strings = []

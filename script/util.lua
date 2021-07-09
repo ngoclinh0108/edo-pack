@@ -17,6 +17,30 @@ function Utility.CountFreePendulumZones(tp)
     return count
 end
 
+function Utility.DeckEditAddCardToDeck(tp, code, condition_code)
+    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1,
+                                   nil, code) then return end
+    if condition_code ~= nil and
+        not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL,
+                                        0, 1, nil, condition_code) then
+        return
+    end
+    
+    Duel.SendtoDeck(Duel.CreateToken(tp, code), tp, 2, REASON_RULE)
+end
+
+function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code)
+    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1,
+                                   nil, code) then return end
+    if condition_code ~= nil and
+        not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL,
+                                        0, 1, nil, condition_code) then
+        return
+    end
+    
+    Duel.SendtoExtraP(Duel.CreateToken(tp, code), tp, REASON_RULE)
+end
+
 function Utility.PlaceToPZoneWhenDestroyed(c, tg, preop, postop)
     local eff = Effect.CreateEffect(c)
     eff:SetDescription(1160)
@@ -75,9 +99,7 @@ function Utility.IsSetCardListed(c, ...)
     return false
 end
 
-function Utility.HintCard(code)
-    Duel.Hint(HINT_CARD, 0, code)
-end
+function Utility.HintCard(code) Duel.Hint(HINT_CARD, 0, code) end
 
 function Utility.GainInfinityAtk(root, c)
     local e1 = Effect.CreateEffect(c)
