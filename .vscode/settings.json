@@ -10,7 +10,7 @@
     ".vscode": true,
     "ygofab.cmd": true,
     "_fabrica": true,
-    "pics": true
+    "pics": false
   },
   "Lua.diagnostics.disable": [
     "undefined-global",
