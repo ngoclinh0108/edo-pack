@@ -58,6 +58,9 @@ code = 0x10f3
 [set.venom]
 code = 0x50
 
+[set.rank-down-magic]
+code = 0x15d
+
 [set.rank-up-magic]
 code = 0x95
 

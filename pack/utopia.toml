@@ -21,9 +21,11 @@ strings = []
 
 [card.rank-change-magic-emperor-force]
 id = 940000002
+set = "rank-down-magic rank-up-magic"
 name = "Rank-Change-Magic Emperor Force"
 type = "spell"
 effect = """\
+(This card is always treated as a "Rank-Down-Magic" and "Rank-Up-Magic" card.)
 
 [ \
 Add from Outside all versions of your "Number" Xyz monsters to your Extra Deck. \
