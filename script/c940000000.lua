@@ -23,7 +23,7 @@ function s.initial_effect(c)
     e1:SetTargetRange(LOCATION_MZONE, 0)
     e1:SetTarget(function(e, tc)
         return tc:IsFaceup() and
-                   (c:IsCode(69852487, 64591429) or
+                   (tc:IsCode(69852487, 64591429) or
                        Utility.IsSetCard(tc, 0x54, 0x59, 0x82, 0x8f))
     end)
     e1:SetValue(1)
