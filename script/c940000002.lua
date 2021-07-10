@@ -3,14 +3,22 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.xyz_number = 100
-s.listed_series = {0x48}
+s.listed_names = {57314798}
+s.listed_series = {0x48, 0x95}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- xyz summon
-    Xyz.AddProcedure(c, s.xyzfilter, nil, 5, nil, aux.Stringid(id, 0), nil, nil,
-                     false, s.xyzcheck)
+    Xyz.AddProcedure(c, s.xyzfilter, nil, 5, s.xyzovfilter, aux.Stringid(id, 0),
+                     nil, s.xyzop, false, s.xyzcheck)
+
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    c:RegisterEffect(splimit)
 
     -- summon cannot be negated
     local nospnegate = Effect.CreateEffect(c)
@@ -98,16 +106,39 @@ function s.xyzfilter(c, xyz, sumtype, tp)
                c:IsSetCard(0x48, xyz, sumtype, tp)
 end
 
+function s.xyzovfilter(c) return c:IsFaceup() and c:IsCode(57314798) end
+
 function s.xyzcheck(g, tp, xyz)
     local mg =
         g:Filter(function(c) return not c:IsHasEffect(511001175) end, nil)
     return mg:GetClassCount(Card.GetRank) == 1
 end
 
+function s.xyzcostfilter(c)
+    return c:IsSetCard(0x95) and c:GetType() == TYPE_SPELL and c:IsDiscardable()
+end
+
+function s.xyzop(e, tp, chk, mc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.xyzcostfilter, tp, LOCATION_HAND,
+                                           0, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DISCARD)
+    local tc =
+        Duel.GetMatchingGroup(s.xyzcostfilter, tp, LOCATION_HAND, 0, nil):SelectUnselect(
+            Group.CreateGroup(), tp, false, Xyz.ProcCancellable)
+    if tc then
+        Duel.SendtoGrave(tc, REASON_DISCARD + REASON_COST)
+        return true
+    else
+        return false
+    end
+end
+
 function s.e1filter(c)
-    return
-        not c:IsCode(id) and c:GetFlagEffect(id) == 0 and c:IsType(TYPE_XYZ) and
-            c:IsSetCard(0x48)
+    return not c:IsCode(id) and c:IsType(TYPE_XYZ) and c:IsSetCard(0x48) and
+               c:GetFlagEffect(id) == 0
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -117,28 +148,34 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     for tc in aux.Next(g) do
         tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe0000, 0, 0)
-        local cid = c:CopyEffect(tc:GetOriginalCode(), RESET_EVENT + 0x1fe0000)
 
-        local reset = Effect.CreateEffect(c)
-        reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        reset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        reset:SetCode(EVENT_ADJUST)
-        reset:SetRange(LOCATION_PZONE)
-        reset:SetLabel(cid)
-        reset:SetLabelObject(tc)
-        reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local cid = e:GetLabel()
-            local c = e:GetHandler()
-            local tc = e:GetLabelObject()
-            local g = c:GetOverlayGroup():Filter(function(c)
-                return c:GetFlagEffect(id) > 0
-            end, nil)
-            if c:IsDisabled() or c:IsFacedown() or not g:IsContains(tc) then
-                c:ResetEffect(cid, RESET_COPY)
-                tc:ResetFlagEffect(id)
-            end
-        end)
-        reset:SetReset(RESET_EVENT + 0x1fe0000)
-        c:RegisterEffect(reset, true)
+        local code = tc:GetOriginalCode()
+        if not g:IsExists(function(c, code)
+            return c:IsCode(code) and c:GetFlagEffect(id) > 0
+        end, 1, tc, code) then
+            local cid = c:CopyEffect(code, RESET_EVENT + 0x1fe0000)
+
+            local reset = Effect.CreateEffect(c)
+            reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+            reset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+            reset:SetCode(EVENT_ADJUST)
+            reset:SetRange(LOCATION_PZONE)
+            reset:SetLabel(cid)
+            reset:SetLabelObject(tc)
+            reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+                local cid = e:GetLabel()
+                local c = e:GetHandler()
+                local tc = e:GetLabelObject()
+                local g = c:GetOverlayGroup():Filter(function(c)
+                    return c:GetFlagEffect(id) > 0
+                end, nil)
+                if c:IsDisabled() or c:IsFacedown() or not g:IsContains(tc) then
+                    c:ResetEffect(cid, RESET_COPY)
+                    tc:ResetFlagEffect(id)
+                end
+            end)
+            reset:SetReset(RESET_EVENT + 0x1fe0000)
+            c:RegisterEffect(reset, true)
+        end
     end
 end

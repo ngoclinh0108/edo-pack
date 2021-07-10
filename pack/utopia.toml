@@ -42,10 +42,10 @@ Add from Outside all Rank-Changed versions of your "Number" Xyz monsters. \
 """
 strings = []
 
-[card.number-100]
+[card.number-S100]
 id = 940000002
-set = "number numeron"
-name = "Number 100: Genesis Numeron Dragon"
+set = "number zexal numeron"
+name = "Number S100: ZEXAL Numeron Dragon"
 type = "monster xyz effect"
 attribute = "light"
 race = "dragon"
@@ -54,10 +54,15 @@ atk = "?"
 def = "?"
 effect = """\
 5 "Number" Xyz Monsters with the same Rank
+You can also Xyz Summon this card by discarding 1 "Rank-Up-Magic" Spell Card, \
+    then using 1 "Number 100: Numeron Dragon" you control as the Xyz Material. \
+    (Transfer its Xyz Materials to this card.) \
+Must be Special Summoned by its own effect. \
 This card's Special Summon, activation and effects cannot be negated. \
 Possession of this card cannot be switched. \
 Cannot be flipped face-down. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
-This card gains the effects of all "Number" Xyz Monsters attached to it, except "Number 100: Genesis Numeron Dragon". \
+This card gains the effects of all "Number" Xyz Monsters attached to it, except "Number S100: ZEXAL Numeron Dragon". \
+
 """
-strings = []
+strings = ["Xyz Summon by discarding 1 \"Rank-Up-Magic\" Spell"]
