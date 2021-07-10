@@ -1,4 +1,4 @@
--- The Last Hope Remain
+-- The Last Hope
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 
