@@ -35,9 +35,9 @@ Add from Outside all Rank-Changed versions of your "Number" Xyz monsters. \
 """
 strings = []
 
-[card.number-Z100]
+[card.number-100]
 id = 940000002
-name = "Number Z100: Genesis Numeron Dragon"
+name = "Number 100: Genesis Numeron Dragon"
 type = "monster xyz effect"
 attribute = "light"
 race = "dragon"
