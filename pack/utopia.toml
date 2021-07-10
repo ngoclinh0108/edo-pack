@@ -4,7 +4,7 @@ name = "The Last Hope Remain"
 type = "spell field"
 effect = """\
 This card's activation and effect cannot be negated. \
-If your "Astral", "Zubaba", "Gagaga", "Gogogo", and "Dododo" monster is used as an material for an Xyz Summon, you can treat it as 2 monsters. \
+Your "Astral", "Zubaba", "Gagaga", "Gogogo", and "Dododo" monster can be treated as 2 monsters when used for an Xyz Summon. \
 Your opponent cannot activate cards or effects in response to the activation of your cards and effects that target an Xyz Monster(s) you control. \
 During your Draw Phase, instead of conducting your normal draw: \
     You can add 1 "Rank-Up-Magic" or "Rank-Down-Magic" Spell from your Deck or GY to your hand. \

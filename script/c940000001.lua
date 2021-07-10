@@ -58,7 +58,7 @@ function s.e1filter1(c, e, tp)
                                           REASON_XYZ)
     return (#pg <= 0 or (#pg == 1 and pg:IsContains(c))) and c:IsFaceup() and
                (c:GetRank() > 0 or c:IsStatus(STATUS_NO_LEVEL)) and
-               Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_EXTRA, 0,
+               Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_EXTRA, 0,
                                            1, nil, e, tp, c)
 end
 
@@ -95,7 +95,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         (#pg == 1 and not pg:IsContains(tc)) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local sc = Duel.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_EXTRA, 0,
+    local sc = Duel.SelectMatchingCard(tp, s.e1filter2, tp, LOCATION_EXTRA, 0,
                                        1, 1, nil, e, tp, tc):GetFirst()
     if not sc then return end
 
