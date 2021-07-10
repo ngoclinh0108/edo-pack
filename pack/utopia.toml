@@ -37,6 +37,7 @@ strings = []
 
 [card.number-100]
 id = 940000002
+set = "number numeron"
 name = "Number 100: Genesis Numeron Dragon"
 type = "monster xyz effect"
 attribute = "light"

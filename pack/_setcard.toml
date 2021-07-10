@@ -52,6 +52,9 @@ code = 0x9
 [set.number]
 code = 0x48
 
+[set.numeron]
+code = 0x14b
+
 [set.odd-eyes]
 code = 0x99
 
