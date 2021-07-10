@@ -40,7 +40,7 @@ function s.initial_effect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e4:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE + EFFECT_FLAG_CANNOT_DISABLE +
+    e3:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE + EFFECT_FLAG_CANNOT_DISABLE +
                        EFFECT_FLAG_CANNOT_NEGATE)
     e3:SetCode(EVENT_PREDRAW)
     e3:SetRange(LOCATION_FZONE)
@@ -160,11 +160,13 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    if (Duel.IsExistingMatchingCard(s.e4filter2, tp, LOCATION_DECK, 0, 1, nil) and
+    if (Duel.IsExistingMatchingCard(s.e4filter2, tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) and
         Duel.SelectYesNo(tp, 573)) then
         Duel.Hint(HINT_SELECTMSG, tp, 573)
-        local sg = Duel.SelectMatchingCard(tp, s.e4filter2, tp, LOCATION_DECK,
-                                           0, 1, 1, nil)
+        local sg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter2), tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           1, nil)
         if #sg > 0 then
             Duel.SendtoHand(sg, tp, REASON_EFFECT)
             Duel.ConfirmCards(1 - tp, sg)
