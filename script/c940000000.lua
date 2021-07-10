@@ -96,7 +96,7 @@ function s.deck_edit(tp)
 end
 
 function s.e2filter(c, tp)
-    return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsControler(tp)
+    return c:IsControler(tp) and c:IsFaceup() and c:IsType(TYPE_XYZ)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -107,14 +107,13 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter(c, e, tp)
-    return c:IsControler(tp) and c:IsFaceup() and c:IsType(TYPE_XYZ) and
-               c:IsSetCard(0x48)
+function s.e3filter(c, tp)
+    return c:IsControler(tp) and c:IsFaceup() and c:IsType(TYPE_XYZ)
 end
 
 function s.e3regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tg = eg:Filter(s.e3filter, nil, e, tp)
+    local tg = eg:Filter(s.e3filter, nil, tp)
     if #tg == 0 then return end
 
     for tc in aux.Next(tg) do tc:RegisterFlagEffect(id, RESET_CHAIN, 0, 1) end
@@ -128,7 +127,7 @@ function s.e3regop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local g = e:GetLabelObject():Filter(s.e3filter, nil, e, tp)
+    local g = e:GetLabelObject():Filter(s.e3filter, nil, tp)
     if chk == 0 then
         return #g > 0 and Duel.GetFlagEffect(tp, id) == 0 and
                    Duel.IsExistingMatchingCard(Card.IsType, tp,
@@ -144,7 +143,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     local tc
-    local g = e:GetLabelObject():Filter(s.e3filter, nil, e, tp)
+    local g = e:GetLabelObject():Filter(s.e3filter, nil, tp)
     if #g == 0 then return end
     if #g == 1 then
         tc = g:GetFirst()
