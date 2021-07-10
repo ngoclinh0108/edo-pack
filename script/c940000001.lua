@@ -11,6 +11,8 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(0, TIMING_MAIN_END)
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -73,6 +75,10 @@ function s.e1filter2(c, e, tp, mc)
                c.xyz_number <= 99 and
                (c:IsRank(rk + 1) or c:IsRank(rk + 2) or c:IsRank(rk + 3) or
                    c:IsRank(rk - 1) or c:IsRank(rk - 2) or c:IsRank(rk - 3))
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetCurrentPhase() & PHASE_MAIN1 + PHASE_MAIN2 > 0
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
