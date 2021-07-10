@@ -22,7 +22,9 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_FZONE)
     e1:SetTargetRange(LOCATION_MZONE, 0)
     e1:SetTarget(function(e, tc)
-        return tc:IsFaceup() and Utility.IsSetCard(tc, 0x54, 0x59, 0x82, 0x8f)
+        return tc:IsFaceup() and
+                   (c:IsCode(69852487, 64591429) or
+                       Utility.IsSetCard(tc, 0x54, 0x59, 0x82, 0x8f))
     end)
     e1:SetValue(1)
     c:RegisterEffect(e1)
@@ -139,7 +141,8 @@ end
 
 function s.e4filter2(c)
     return c:IsAbleToHand() and c:IsType(TYPE_MONSTER) and
-               Utility.IsSetCard(c, 0x54, 0x59, 0x82, 0x8f)
+               (c:IsCode(69852487, 64591429) or
+                   Utility.IsSetCard(c, 0x54, 0x59, 0x82, 0x8f))
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -164,9 +167,10 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
                                     LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) and
         Duel.SelectYesNo(tp, 573)) then
         Duel.Hint(HINT_SELECTMSG, tp, 573)
-        local sg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e4filter2), tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           1, nil)
+        local sg = Duel.SelectMatchingCard(tp,
+                                           aux.NecroValleyFilter(s.e4filter2),
+                                           tp, LOCATION_DECK + LOCATION_GRAVE,
+                                           0, 1, 1, nil)
         if #sg > 0 then
             Duel.SendtoHand(sg, tp, REASON_EFFECT)
             Duel.ConfirmCards(1 - tp, sg)
