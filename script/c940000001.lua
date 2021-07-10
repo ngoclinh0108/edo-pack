@@ -1,4 +1,4 @@
--- Rank-Change-Magic Emperor Force
+-- Rank-Change-Magic Numeron Force
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
