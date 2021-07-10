@@ -19,6 +19,15 @@ code = 0x46
 [set.fusion-dragon]
 code = 0x1046
 
+[set.dododo]
+code = 0x82
+
+[set.gagaga]
+code = 0x54
+
+[set.gogogo]
+code = 0x59
+
 [set.hero]
 code = 0x8
 
@@ -40,8 +49,14 @@ code = 0x1f
 [set.neos]
 code = 0x9
 
+[set.number]
+code = 0x48
+
 [set.odd-eyes]
 code = 0x99
+
+[set.onomat]
+code = 0x139
 
 [set.palladium]
 code = 0x13a
@@ -94,5 +109,20 @@ code = 0x1017
 [set.synchro-dragon]
 code = 0x2017
 
+[set.xyz]
+code = 0x73
+
 [set.xyz-dragon]
 code = 0x2073
+
+[set.zexal]
+code = 0x7e
+
+[set.zs]
+code = 0x207e
+
+[set.zubaba]
+code = 0x8f
+
+[set.zw]
+code = 0x107e

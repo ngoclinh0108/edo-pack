@@ -3,11 +3,16 @@ id = 940000000
 name = "The Last Hope Remain"
 type = "spell field"
 effect = """\
+This card's activation and effect cannot be negated. \
+If your "Zubaba", "Gagaga", "Gogogo", and "Dododo" monster is used as an material for an Xyz Summon, you can treat it as 2 monsters. \
+Once per turn: You can shuffle 1 "Double or Nothing" or "ZW -", "ZS -", "Zexal" in your hand or GY into your Deck; \
+    and if you do, you can add to your hand 1 "Zubaba", "Gagaga", "Gogogo", and "Dododo" monster from your Deck or GY. \
+
 [ \
 Add from Outside all "ZW -" and "ZS -" Xyz monsters. \
 ] \
 """
-strings = []
+strings = ["Shuffle card into the Deck"]
 
 [card.rank-change-magic-emperor-force]
 id = 940000001
