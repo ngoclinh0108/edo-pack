@@ -28,6 +28,9 @@ name = "Rank-Change-Magic Emperor Force"
 type = "spell"
 effect = """\
 (This card is always treated as a "Rank-Up-Magic" and "Rank-Down-Magic" card.)
+Target 1 Xyz Monster you control; Special Summon from your Extra Deck, \
+    1 "Number" monster that has a number between "1" and "99" and is 1, 2, 3 Rank higher or lower than that monster you control, \
+    by using it as material. (This is treated as an Xyz Summon. Transfer its materials to the Summoned monster.) \
 
 [ \
 Add from Outside all Rank-Changed versions of your "Number" Xyz monsters. \

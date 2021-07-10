@@ -2,7 +2,18 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0x48}
+
 function s.initial_effect(c)
+    -- rank-change
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
 end
 
 function s.deck_edit(tp)
@@ -40,4 +51,58 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 55888045, 63746411) -- Number C106
     Utility.DeckEditAddCardToDeck(tp, 68396121, 88177324) -- Number C107
     Utility.DeckEditAddCardToDeck(tp, 15862758, 89477759) -- Number iC1000
+end
+
+function s.e1filter1(c, e, tp)
+    local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(c), tp, nil, nil,
+                                          REASON_XYZ)
+    return (#pg <= 0 or (#pg == 1 and pg:IsContains(c))) and c:IsFaceup() and
+               (c:GetRank() > 0 or c:IsStatus(STATUS_NO_LEVEL)) and
+               Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_EXTRA, 0,
+                                           1, nil, e, tp, c)
+end
+
+function s.e1filter2(c, e, tp, mc)
+    if c.rum_limit and not c.rum_limit(mc, e) then return false end
+    local rk = mc:GetRank()
+    return mc:IsType(TYPE_XYZ, c, SUMMON_TYPE_XYZ, tp) and
+               mc:IsCanBeXyzMaterial(c, tp) and
+               Duel.GetLocationCountFromEx(tp, tp, mc, c) > 0 and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_XYZ, tp, false, false) and
+               c:IsSetCard(0x48) and c.xyz_number and c.xyz_number >= 1 and
+               c.xyz_number <= 99 and
+               (c:IsRank(rk + 1) or c:IsRank(rk + 2) or c:IsRank(rk + 3) or
+                   c:IsRank(rk - 1) or c:IsRank(rk - 2) or c:IsRank(rk - 3))
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e1filter1, tp, LOCATION_MZONE, 0, 1, nil,
+                                     e, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.SelectTarget(tp, s.e1filter1, tp, LOCATION_MZONE, 0, 1, 1, nil, e, tp)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(tc), tp, nil, nil,
+                                          REASON_XYZ)
+    if not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) or
+        tc:IsControler(1 - tp) or tc:IsImmuneToEffect(e) or #pg > 1 or
+        (#pg == 1 and not pg:IsContains(tc)) then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local sc = Duel.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_EXTRA, 0,
+                                       1, 1, nil, e, tp, tc):GetFirst()
+    if not sc then return end
+
+    local mg = tc:GetOverlayGroup()
+    if #mg ~= 0 then Duel.Overlay(sc, mg) end
+    sc:SetMaterial(Group.FromCards(tc))
+    Duel.Overlay(sc, Group.FromCards(tc))
+    Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
+    sc:CompleteProcedure()
 end
