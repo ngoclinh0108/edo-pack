@@ -25,14 +25,16 @@ strings = [
 
 [card.rank-change-magic-numeron-force]
 id = 940000001
-set = "rank-down-magic rank-up-magic numeron"
+set = "numeron rank-down-magic rank-up-magic"
 name = "Rank-Change-Magic Numeron Force"
 type = "spell quick-play"
 effect = """\
 (This card is always treated as a "Rank-Up-Magic" and "Rank-Down-Magic" card.)
 During the Main Phase: Target 1 Xyz Monster you control; Special Summon from your Extra Deck, \
     1 "Number" monster that has a number between "1" and "99" and is 1, 2, 3 Rank higher or lower than that monster you control, \
-    by using it as material. (This is treated as an Xyz Summon. Transfer its materials to the Summoned monster.)
+    by using it as material. (This is treated as an Xyz Summon. Transfer its materials to the Summoned monster.) \
+If this card is in your GY: You can draw 1 card, and if you do, shuffle this card into the Deck. \
+    You can only use this effect of "Rank-Change-Magic Numeron Force" once per turn.
 
 [ \
 Add from Outside all Rank-Changed versions of your "Number" Xyz monsters. \

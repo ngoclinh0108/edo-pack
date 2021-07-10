@@ -16,6 +16,17 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- draw
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_DRAW + CATEGORY_TODECK)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, id)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.deck_edit(tp)
@@ -111,4 +122,23 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Overlay(sc, Group.FromCards(tc))
     Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
     sc:CompleteProcedure()
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
+
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(1)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 0, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    if Duel.Draw(p, d, REASON_EFFECT) > 0 then
+        Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
+    end
 end
