@@ -33,7 +33,8 @@ effect = """\
 During the Main Phase: Target 1 Xyz Monster you control; Special Summon from your Extra Deck, \
     1 "Number" monster that has a number between "1" and "99" and is 1, 2, 3 Rank higher or lower than that monster you control, \
     by using it as material. (This is treated as an Xyz Summon. Transfer its materials to the Summoned monster.) \
-If this card is in your GY: You can draw 1 card, and if you do, shuffle this card into the Deck. \
+If this card is in your GY: \
+    You can add 1 "ZEXAL Construction" from your Deck or GY to your hand, then shuffle this card into the Deck. \
     You can only use this effect of "Rank-Change-Magic Numeron Force" once per turn.
 
 [ \

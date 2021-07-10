@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {62623659}
 s.listed_series = {0x48}
 
 function s.initial_effect(c)
@@ -17,9 +18,9 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- draw
+    -- search
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_DRAW + CATEGORY_TODECK)
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e2:SetRange(LOCATION_GRAVE)
@@ -124,21 +125,31 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     sc:CompleteProcedure()
 end
 
+function s.e2filter(c) return c:IsCode(62623659) and c:IsAbleToHand() end
+
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e2filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           nil)
+    end
 
-    Duel.SetTargetPlayer(tp)
-    Duel.SetTargetParam(1)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
+                          LOCATION_DECK + LOCATION_GRAVE)
     Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 0, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
-    if Duel.Draw(p, d, REASON_EFFECT) > 0 then
+
+    local g = Duel.GetMatchingGroup(s.e2filter, tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    if #g == 0 then return end
+    if #g > 1 then g = g:Select(tp, 1, 1, nil) end
+
+    if Duel.SendtoHand(g, tp, REASON_EFFECT) > 0 then
+        Duel.ConfirmCards(1 - tp, g)
         Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
     end
 end
