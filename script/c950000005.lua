@@ -78,7 +78,7 @@ function s.initial_effect(c)
     noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
     noswitch:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noswitch)
-    
+
     -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
@@ -86,9 +86,7 @@ function s.initial_effect(c)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc, tp, sumtp)
-        return tc == e:GetHandler()
-    end)
+    norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
     local nofus = Effect.CreateEffect(c)
     nofus:SetType(EFFECT_TYPE_SINGLE)
@@ -179,7 +177,7 @@ function s.initial_effect(c)
     pe5:SetTarget(s.pe5tg)
     pe5:SetOperation(s.pe5op)
     c:RegisterEffect(pe5)
-    
+
     -- summon dragon (pendulum)
     local pe6 = Effect.CreateEffect(c)
     pe6:SetDescription(aux.Stringid(id, 0))

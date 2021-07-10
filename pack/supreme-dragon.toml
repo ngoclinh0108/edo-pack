@@ -174,14 +174,14 @@ atk = 4000
 pendulum-effect = """\
 Unaffected by your opponent's card effects. \
 Your other Pendulum Zone's Pendulum Scale become 0. \
-Gains the effect(s) of all Pendulum Monsters attached to this card, except "Supreme King Z-ARC - Overlord". \
+This card gains the effects of all Pendulum Monsters attached to it, except "Supreme King Z-ARC - Overlord". \
 Once per turn, you can attach 1 Pendulum Monster from your Extra Deck face-up to this card. \
 Once per turn: \
     You can destroy card in your other Pendulum Zone (if any), then \
     place 1 Pendulum Monster from your hand, Deck, GY, Extra Deck face-up in your Pendulum Zone, \
     except the destroyed. \
 Once per turn: You can Special Summon 1 Dragon Fusion, Synchro, or Xyz Monster that is banished or in your GY, Extra Deck face-up, \
-    ignoring its Summoning conditions (This is also treated as an Fusion, Synchro or Xyz Summon.) \
+    ignoring its Summoning conditions (This is also treated as an Fusion, Synchro, or Xyz Summon.) \
 """
 effect = """\
 4 Dragon monsters (1 Fusion, 1 Synchro, 1 Xyz, and 1 Pendulum)

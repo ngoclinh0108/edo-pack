@@ -53,5 +53,11 @@ rank = 0
 atk = "?"
 def = "?"
 effect = """\
+5 "Number" Xyz Monsters with the same Rank
+This card's Special Summon, activation and effects cannot be negated. \
+Possession of this card cannot be switched. \
+Cannot be flipped face-down. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+This card gains the effects of all "Number" Xyz Monsters attached to it, except "Number 100: Genesis Numeron Dragon". \
 """
 strings = []
