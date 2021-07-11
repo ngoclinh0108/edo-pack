@@ -28,6 +28,7 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e1:SetCode(EVENT_BATTLED)
     e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
@@ -57,12 +58,12 @@ function s.initial_effect(c)
     end)
 
     -- extra attack
-	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_SINGLE)
-	e3:SetCode(EFFECT_EXTRA_ATTACK)
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_EXTRA_ATTACK)
     e3:SetCondition(s.effcon)
-	e3:SetValue(1)
-	c:RegisterEffect(e3)
+    e3:SetValue(1)
+    c:RegisterEffect(e3)
 
     -- atk down
     local e4 = Effect.CreateEffect(c)
@@ -105,6 +106,11 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local bc = c:GetBattleTarget()
     return not c:IsStatus(STATUS_BATTLE_DESTROYED) and bc and
                bc:IsStatus(STATUS_BATTLE_DESTROYED)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsType(TYPE_XYZ) end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)

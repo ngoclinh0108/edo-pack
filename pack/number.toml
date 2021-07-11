@@ -130,10 +130,10 @@ strings = [
     "Halve ATK all your opponent's monsters",
 ]
 
-[card.hope-heralder-dragon-tyrant-galaxy]
+[card.hope-keeper-dragon-tyrant-galaxy]
 id = 940000005
 set = "number-c chaos galaxy"
-name = "Number C38: Hope Heralder Dragon Tyrant Galaxy"
+name = "Number C38: Hope Keeper Dragon Tyrant Galaxy"
 type = "monster xyz effect"
 attribute = "light"
 race = "dragon"
@@ -143,13 +143,23 @@ def = 2500
 effect = """\
 3 Level 9 monsters
 Must first be Special Summoned with a "Rank-Up-Magic" Spell Card targeting "Number 38: Hope Harbinger Dragon Titanic Galaxy". \
-When your opponent activate card or effect that targets exactly 1 card on the field (Quick Effect): \
-    You can target another card on the field that would be an appropriate target for that card/effect; \
-    that card/effect now targets the new target. \
+Negate your opponent's card effects that target this card. \
+If a face-up Xyz Monster(s) you control is destroyed by battle or card effect: \
+    You can attach the destroyed monster(s) to this card as material. \
 Once per turn, when a Trap Card or effect is activated on the field (Quick Effect): \
-    You can negate that effect, and if you do, attach that card to this card as material. \
+    You can negate that effect, and if you do, attach it to this card as material. \
 If this card has a "Galaxy" Xyz Monster as material, it gains this effect.
-● Negate your opponent's card effects that target this card.
-● 
+● When your opponent activate card or effect that targets exactly 1 card on the field (Quick Effect): \
+    You can target another card on the field that would be an appropriate target for that card/effect; \
+    that card/effect now targets the new target.
+● You can Special Summon as many as monster attached to this card, \
+    and if you do, during the End Phase of the next turn, attach all monsters Summoned by this effect to this card as materials, or send them to the GY. \
+    You can only use this effect of "Number C38: Hope Keeper Dragon Tyrant Galaxy" once per turn.
 """
-strings = ["Redirect target", "Negate effect & attach"]
+strings = [
+    "Attach the destroyed monster",
+    "Negate effect then attach",
+    "Redirect target",
+    "Special Summon attached monsters",
+    "Special Summoned via \"Number C38: Hope Keeper Dragon Tyrant Galaxy\""
+]
