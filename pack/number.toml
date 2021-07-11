@@ -112,5 +112,6 @@ atk = 3000
 def = 2500
 effect = """\
 3 Level 5 WATER monsters
+You can also Xyz Summon this card by using a Rank 4 WATER Xyz Monster you control as material. (Transfer its materials to this card.)
 """
-strings = []
+strings = ["Xyz Summon by using 1 Rank 4 WATER monster"]

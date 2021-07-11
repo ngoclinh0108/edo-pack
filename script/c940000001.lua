@@ -38,6 +38,7 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 32559361, 1992816) -- Number C9
     Utility.DeckEditAddCardToDeck(tp, 33776843, 88120966) -- Number C15
     Utility.DeckEditAddCardToDeck(tp, 49221191, 65676461) -- Number C32
+    Utility.DeckEditAddCardToDeck(tp, 940000004, 37279508) -- Number C37
     Utility.DeckEditAddCardToDeck(tp, 84124261, 84013237) -- Number 39: Utopia Roots
     Utility.DeckEditAddCardToDeck(tp, 62517849, 84013237) -- Number 39: Utopia Double
     Utility.DeckEditAddCardToDeck(tp, 86532744, 84013237) -- Number S39: Utopia Prime
