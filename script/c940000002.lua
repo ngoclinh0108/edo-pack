@@ -100,6 +100,19 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
+    -- atk/def
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
+    e2:SetCode(EFFECT_SET_BASE_ATTACK)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetValue(function(e, c) return c:GetOverlayCount() * 1000 end)
+    c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_SET_BASE_DEFENSE)
+    c:RegisterEffect(e2b)
+
+    -- attach
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
     e3:SetType(EFFECT_TYPE_QUICK_O)
