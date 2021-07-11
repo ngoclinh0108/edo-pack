@@ -78,7 +78,7 @@ strings = [
 
 [card.utopia-beyond-the-shining]
 id = 940000003
-set = "number-c39 utopia"
+set = "number-c39 utopia chaos"
 name = "Number S39: Utopia Beyond the Shining"
 type = "monster xyz effect"
 attribute = "light"
