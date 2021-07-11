@@ -92,8 +92,8 @@ effect = """\
 Must be Xyz Summoned. \
 This card's Xyz Summon cannot be negated. \
 When Xyz Summoned, your opponent's cards and effects cannot be activated. \
-Once per turn (Quick Effect): You can equip 1 "ZW -" monster from your Deck or Extra Deck to this card, as if it were equipped by its own effect. \
-    This activation and effect cannot be negated. \
+Once per turn (Quick Effect): You can equip 1 "ZW -" monster from your Deck, GY or Extra Deck to this card, \
+    as if it were equipped by its own effect. This activation and effect cannot be negated. \
 If this card has "Number 39: Utopia Beyond" as an Xyz Material, it gains this effect.
 ● "Number" Xyz Monster you control are unaffected by your opponent's card effects.
 """
