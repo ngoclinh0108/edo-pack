@@ -112,9 +112,21 @@ atk = 3000
 def = 2500
 effect = """\
 3 Level 5 WATER monsters
-You can also Xyz Summon this card by using a Rank 4 WATER monster you control as material. (Transfer its materials to this card.)
+You can also Xyz Summon this card by using a Rank 4 WATER monster you control as material. (Transfer its materials to this card.) \
+When this card destroys an opponent's monster by battle: You can activate this effect; this card can make a second attack in a row. \
+Once per turn, during the End Phase, if this card was destroyed by battle or card effects and sent to the GY this turn: \
+    You can Special Summon as many monsters as possible from your GY that were sent to your GY this turn. \
+    except "Number C37: Hope Invented Dragon Abyss Shark". \
+    You can only use this effect of "Number C37: Hope Invented Dragon Abyss Shark" once per turn. \
+If this card has a Sea-Serpent Xyz Monster as material, it gains this effect.
+● Once per turn (Quick Effect): You can detach 1 material from this card; \
+    the ATK of all monsters your opponent currently controls become half. \
 """
-strings = ["Xyz Summon by using 1 Rank 4 WATER monster"]
+strings = [
+    "Xyz Summon by using 1 Rank 4 WATER monster",
+    "Attack again",
+    "Halve ATK all your opponent's monsters",
+]
 
 [card.hope-heralder-dragon-tyrant-galaxy]
 id = 940000005
@@ -128,6 +140,6 @@ atk = 3400
 def = 2900
 effect = """\
 3 Level 9 LIGHT monsters
-You can also Xyz Summon this card by using a Rank 8 "Galaxy" monster you control as material. (Transfer its materials to this card.)
+You can also Xyz Summon this card by using a Rank 8 "Galaxy" monster you control as material. (Transfer its materials to this card.) \
 """
 strings = ["Xyz Summon by using 1 Rank 8 \"Galaxy\" monster"]
