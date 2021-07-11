@@ -1,9 +1,9 @@
--- The Last Hope
+-- The Last Hope Remain
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 
 s.listed_names = {94770493}
-s.listed_series = {0x54, 0x59, 0x82, 0x8f, 0x7e, 0x107e, 0x207e}
+s.listed_series = {0x54, 0x59, 0x82, 0x8f, 0x7e, 0x107e, 0x207e, 0x48, 0x16c}
 
 function s.initial_effect(c)
     -- activate
@@ -69,7 +69,7 @@ function s.initial_effect(c)
                        EFFECT_FLAG_CANNOT_NEGATE)
     e4:SetCode(EVENT_PREDRAW)
     e4:SetRange(LOCATION_FZONE)
-    e4:SetCountLimit(1, id + 1 * 1000000)
+    e4:SetCountLimit(1)
     e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
@@ -83,7 +83,7 @@ function s.initial_effect(c)
     e5:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE + EFFECT_FLAG_CANNOT_DISABLE +
                        EFFECT_FLAG_CANNOT_NEGATE)
     e5:SetRange(LOCATION_FZONE)
-    e5:SetCountLimit(1, id + 2 * 1000000)
+    e5:SetCountLimit(1, id)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
@@ -136,22 +136,20 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     end
 
     Duel.RegisterFlagEffect(tp, id, RESET_CHAIN, 0, 1)
+    if #g == 1 then
+        Duel.SetTargetCard(g:GetFirst())
+    else
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
+        local tc = g:Select(tp, 1, 1, nil)
+        Duel.SetTargetCard(tc)
+    end
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
-
-    local tc
-    local g = e:GetLabelObject():Filter(s.e3filter, nil, tp)
-    if #g == 0 then return end
-    if #g == 1 then
-        tc = g:GetFirst()
-    else
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-        tc = g:Select(tp, 1, 1, nil)
-    end
-    if tc:IsImmuneToEffect(e) then return end
+    local tc = Duel.GetFirstTarget()
+    if not c:IsRelateToEffect(e) or tc:IsFacedown() or
+        not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
     local mg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(Card.IsType),
@@ -215,8 +213,10 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e5filter1(c)
+    if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
     if not c:IsAbleToDeck() then return false end
-    return c:IsCode(94770493) or Utility.IsSetCard(c, 0x7e, 0x107e, 0x207e)
+    return c:IsCode(94770493) or
+               Utility.IsSetCard(c, 0x7e, 0x107e, 0x207e, 0x48, 0x16c)
 end
 
 function s.e5filter2(c)
@@ -226,7 +226,7 @@ function s.e5filter2(c)
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local loc = LOCATION_HAND + LOCATION_GRAVE
+    local loc = LOCATION_REMOVED + LOCATION_HAND + LOCATION_GRAVE
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e5filter1, tp, loc, 0, 1, nil)
     end
@@ -236,9 +236,9 @@ end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectMatchingCard(tp, s.e5filter1, tp,
-                                      LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1,
-                                      nil)
+    local g = Duel.SelectMatchingCard(tp, s.e5filter1, tp, LOCATION_REMOVED +
+                                          LOCATION_HAND + LOCATION_GRAVE, 0, 1,
+                                      1, nil)
     if Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
         return
     end
@@ -246,6 +246,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     if (Duel.IsExistingMatchingCard(s.e5filter2, tp,
                                     LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) and
         Duel.SelectYesNo(tp, 573)) then
+        Duel.BreakEffect()
         Duel.Hint(HINT_SELECTMSG, tp, 573)
         local sg = Duel.SelectMatchingCard(tp,
                                            aux.NecroValleyFilter(s.e5filter2),

@@ -18,11 +18,10 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- search
+    -- shuffle
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
+    e2:SetCategory(CATEGORY_TODECK + CATEGORY_TOHAND + CATEGORY_SEARCH)
     e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e2:SetRange(LOCATION_GRAVE)
     e2:SetCountLimit(1, id)
     e2:SetTarget(s.e2tg)
@@ -129,27 +128,23 @@ function s.e2filter(c) return c:IsCode(62623659) and c:IsAbleToHand() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
-                          LOCATION_DECK + LOCATION_GRAVE)
+    if chk == 0 then return c:IsAbleToDeck() end
     Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 0, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or
+        Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
+        return
+    end
 
     local g = Duel.GetMatchingGroup(s.e2filter, tp,
                                     LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-    if #g == 0 then return end
-    if #g > 1 then g = g:Select(tp, 1, 1, nil) end
+    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
 
-    if Duel.SendtoHand(g, tp, REASON_EFFECT) > 0 then
-        Duel.ConfirmCards(1 - tp, g)
-        Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
-    end
+    Duel.BreakEffect()
+    if #g > 1 then g = g:Select(tp, 1, 1, nil) end
+    Duel.SendtoHand(g, tp, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, g)
 end

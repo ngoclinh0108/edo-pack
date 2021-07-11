@@ -1,4 +1,4 @@
--- Number Z100: Genesis Numeron Dragon
+-- Number S100: ZEXAL Numeron Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -99,6 +99,18 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- summon
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 2))
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.xyzfilter(c, xyz, sumtype, tp)
@@ -115,7 +127,7 @@ function s.xyzcheck(g, tp, xyz)
 end
 
 function s.xyzcostfilter(c)
-    return c:IsSetCard(0x95) and c:GetType() == TYPE_SPELL and c:IsDiscardable()
+    return c:IsSetCard(0x95) and c:IsType(TYPE_SPELL) and c:IsDiscardable()
 end
 
 function s.xyzop(e, tp, chk, mc)
@@ -178,4 +190,28 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
             c:RegisterEffect(reset, true)
         end
     end
+end
+
+function s.e3filter(c, e, tp)
+    return c:IsSetCard(0x48) and c:IsType(TYPE_XYZ) and not c:IsCode(id) and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_XYZ, tp, true, true)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingTarget(s.e3filter, tp, LOCATION_GRAVE, 0, 1,
+                                         nil, e, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_GRAVE, 0, 1, 1,
+                                nil, e, tp)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if not tc:IsRelateToEffect(e) then return end
+    Duel.SpecialSummon(tc, SUMMON_TYPE_XYZ, tp, tp, true, true, POS_FACEUP)
 end
