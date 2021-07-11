@@ -18,8 +18,8 @@ function s.initial_effect(c)
     e1:SetCode(EVENT_CHAIN_SOLVING)
     e1:SetRange(LOCATION_SZONE)
     e1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        if rp == tp then return end
         local c = e:GetHandler()
+        if rp == tp then return end
         if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
         local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
         if g and (g:IsContains(c) or g:IsContains(c:GetEquipTarget())) then
