@@ -79,7 +79,7 @@ strings = [
 [card.utopia-beyond-the-shining]
 id = 940000003
 set = "number-c39 utopia chaos"
-name = "Number S39: Utopia Beyond the Shining"
+name = "Number C39: Utopia Beyond the Shining"
 type = "monster xyz effect"
 attribute = "light"
 race = "warrior"
@@ -88,7 +88,6 @@ atk = 3500
 def = 3000
 effect = """\
 3 Level 8 LIGHT monsters
-(This card is always treated as a "Number C39" card.)
 Must be Xyz Summoned. \
 This card's Xyz Summon cannot be negated. \
 When Xyz Summoned, your opponent's cards and effects cannot be activated. \
@@ -100,3 +99,18 @@ If this card has "Number 39: Utopia Beyond" as an Xyz Material, it gains this ef
     You can detach 1 material from this card; double this card's current ATK until the end of this turn.
 """
 strings = ["Equip 1 \"ZW -\" monster", "Double this card's ATK"]
+
+[card.hope-buried-abyss-dragon-spider-shark]
+id = 940000004
+set = "number-c chaos"
+name = "Number C37: Hope Buried Abyss Dragon Spider Shark"
+type = "monster xyz effect"
+attribute = "light"
+race = "sea-serpent"
+rank = 5
+atk = 3000
+def = 2500
+effect = """\
+3 Level 5 WATER monsters
+"""
+strings = []

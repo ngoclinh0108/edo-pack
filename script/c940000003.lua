@@ -1,4 +1,4 @@
--- Number S39: Utopia Beyond the Shining
+-- Number C39: Utopia Beyond the Shining
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

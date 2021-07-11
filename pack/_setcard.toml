@@ -52,6 +52,9 @@ code = 0x9
 [set.number]
 code = 0x48
 
+[set.number-c]
+code = 0x1048
+
 [set.number-c39]
 code = 0x5048
 

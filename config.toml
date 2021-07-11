@@ -4,7 +4,7 @@ recipe  = [
     "pack/_macro.toml",
     "pack/_setcard.toml",
     "pack/generic.toml",
-    "pack/utopia.toml",
+    "pack/number.toml",
     "pack/supreme-dragon.toml",
 ]
 
