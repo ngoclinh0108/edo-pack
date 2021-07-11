@@ -34,8 +34,9 @@ function s.initial_effect(c)
     -- attach battle
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e2:SetCode(EVENT_BATTLED)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -149,9 +150,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
-    if not bc:IsRelateToBattle() or c:IsFacedown() or not c:IsRelateToEffect(e) then
-        return
-    end
+    if not bc:IsRelateToBattle() or c:IsFacedown() then return end
 
     Duel.Overlay(c, Group.FromCards(bc))
 end
