@@ -144,7 +144,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
 
     Duel.BreakEffect()
-    if #g > 1 then g = g:Select(tp, 1, 1, nil) end
+    if #g > 1 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+        g = g:Select(tp, 1, 1, nil)
+    end
     Duel.SendtoHand(g, tp, REASON_EFFECT)
     Duel.ConfirmCards(1 - tp, g)
 end
