@@ -39,26 +39,12 @@ function s.initial_effect(c)
 
     -- attach
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_CANNOT_INACTIVATE +
-                       EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    e3:SetCode(EVENT_CUSTOM + id)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
     e3:SetRange(LOCATION_FZONE)
-    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    local g = Group.CreateGroup()
-    g:KeepAlive()
-    e3:SetLabelObject(g)
-    local e3reg = Effect.CreateEffect(c)
-    e3reg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e3reg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e3reg:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e3reg:SetRange(LOCATION_FZONE)
-    e3reg:SetLabelObject(e3)
-    e3reg:SetOperation(s.e3regop)
-    c:RegisterEffect(e3reg)
 
     -- search
     local e4 = Effect.CreateEffect(c)
@@ -90,6 +76,7 @@ function s.initial_effect(c)
 end
 
 function s.deck_edit(tp)
+    Utility.DeckEditAddCardToDeck(tp, 52653092) -- Number S0: Utopic ZEXAL
     Utility.DeckEditAddCardToDeck(tp, 60992364) -- ZW - Leo Arms
     Utility.DeckEditAddCardToDeck(tp, 2896663) -- ZW - Dragonic Halberd
     Utility.DeckEditAddCardToDeck(tp, 31123642) -- ZS - Utopic Sage
@@ -111,45 +98,17 @@ function s.e3filter(c, tp)
     return c:IsControler(tp) and c:IsFaceup() and c:IsType(TYPE_XYZ)
 end
 
-function s.e3regop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tg = eg:Filter(s.e3filter, nil, tp)
-    if #tg == 0 then return end
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = eg:Filter(s.e3filter, nil, tp)
+    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
 
-    for tc in aux.Next(tg) do tc:RegisterFlagEffect(id, RESET_CHAIN, 0, 1) end
-    local g = e:GetLabelObject():GetLabelObject()
-    if Duel.GetCurrentChain() == 0 then g:Clear() end
-    g:Merge(tg)
-    g:Remove(function(c) return c:GetFlagEffect(id) == 0 end, nil)
-    e:GetLabelObject():SetLabelObject(g)
-
-    Duel.RaiseSingleEvent(c, EVENT_CUSTOM + id, e, 0, tp, tp, 0)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local g = e:GetLabelObject():Filter(s.e3filter, nil, tp)
-    if chk == 0 then
-        return #g > 0 and Duel.GetFlagEffect(tp, id) == 0 and
-                   Duel.IsExistingMatchingCard(Card.IsType, tp,
-                                               LOCATION_GRAVE + LOCATION_EXTRA,
-                                               0, 1, nil, TYPE_XYZ)
-    end
-
-    Duel.RegisterFlagEffect(tp, id, RESET_CHAIN, 0, 1)
+    local tc
     if #g == 1 then
-        Duel.SetTargetCard(g:GetFirst())
+        tc = g:GetFirst()
     else
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-        local tc = g:Select(tp, 1, 1, nil)
-        Duel.SetTargetCard(tc)
+        tc = g:Select(tp, 1, 1, nil)
     end
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if not c:IsRelateToEffect(e) or tc:IsFacedown() or
-        not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
     local mg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(Card.IsType),

@@ -112,6 +112,12 @@ code = 0x1017
 [set.synchro-dragon]
 code = 0x2017
 
+[set.utopia]
+code = 0x107f
+
+[set.utopic]
+code = 0x7f
+
 [set.xyz]
 code = 0x73
 

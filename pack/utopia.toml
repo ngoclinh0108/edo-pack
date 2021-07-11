@@ -6,7 +6,7 @@ effect = """\
 This card's activation and effect cannot be negated. \
 "Astral", "Zubaba", "Gagaga", "Gogogo", and "Dododo" monster you control can be treated as 2 monsters when used for an Xyz Summon. \
 Your opponent cannot activate cards or effects in response to the activation of your cards and effects that target an Xyz Monster(s) you control. \
-If an Xyz Monster(s) is Special Summoned to your field: You can target 1 of them; attach 1 Xyz Monster from your Extra Deck or GY to it as material. \
+If an Xyz Monster(s) is Special Summoned to your field, you can attach 1 Xyz Monster from your Extra Deck or GY to 1 of them as material. \
 Once per turn, during your Draw Phase, instead of conducting your normal draw: \
     You can add 1 "Rank-Up-Magic" or "Rank-Down-Magic" Spell from your Deck to your hand. \
 You can shuffle into your Deck, 1 "Double or Nothing" or "ZW -", "ZS -", "Zexal", "Number" card that is banished or in your hand or GY, \
@@ -14,7 +14,7 @@ You can shuffle into your Deck, 1 "Double or Nothing" or "ZW -", "ZS -", "Zexal"
     You can only use this effects of "The Last Hope Remain" once per turn.
 
 [ \
-Add from Outside all "ZW -" and "ZS -" Xyz monsters. \
+Add from Outside all "ZEXAL", "ZW -" and "ZS -" Xyz monsters. \
 ] \
 """
 strings = [
@@ -33,6 +33,8 @@ effect = """\
 During the Main Phase: Target 1 Xyz Monster you control; Special Summon from your Extra Deck, \
     1 "Number" monster with the same Type that has a number between "1" and "99" and is 1 to 3 Rank higher/lower than that monster, \
     by using it as material. (This is treated as an Xyz Summon. Transfer its materials to the Summoned monster.) \
+    The monster Xyz Summoned by this effect gains this effect.
+● Your opponent cannot target this card with card effects.
 If this card is in your GY: You can shuffle it into the Deck, \
     then, you can add 1 "ZEXAL Construction" from your Deck or GY to your hand. \
     You can only use this effect of "Rank-Change-Magic Numeron Force" once per turn.
@@ -43,16 +45,16 @@ Add from Outside all Rank-Changed versions of your "Number" Xyz monsters. \
 """
 strings = ["Add \"ZEXAL Construction\""]
 
-[card.number-S100]
+[card.genesis-numeron-dragon]
 id = 940000002
-set = "number zexal numeron"
-name = "Number S100: ZEXAL Numeron Dragon"
+set = "number numeron"
+name = "Number 100: Genesis Numeron Dragon"
 type = "monster xyz effect"
 attribute = "light"
 race = "dragon"
 rank = 1
-atk = "?"
-def = "?"
+atk = 0
+def = 0
 effect = """\
 5 "Number" Xyz Monsters with the same Rank
 You can also Xyz Summon this card by discarding 1 "Rank-Up-Magic" Spell Card, \
@@ -63,10 +65,9 @@ This card's Special Summon, activation and effects cannot be negated. \
 Possession of this card cannot be switched. \
 Cannot be flipped face-down. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
-This card gains the effects of all "Number" Xyz Monsters attached to it, except "Number S100: ZEXAL Numeron Dragon". \
-The original ATK/DEF of this card each become equal to the number of materials attached to it x 1000. \
+This card gains the effects of all "Number" Xyz Monsters attached to it, except "Number 100: Genesis Numeron Dragon". \
 Once per turn (Quick Effect): You can target 1 face-up card you control or is banished; attach it and its materials to this card as material. \
-Once per turn: You can target 1 "Number" Xyz Monster in your GY, except "Number S100: ZEXAL Numeron Dragon"; \
+Once per turn: You can target 1 "Number" Xyz Monster in your GY, except "Number 100: Genesis Numeron Dragon"; \
     Special Summon it, ignoring its Summoning conditions and rule (This is treated as an Xyz Summon.) \
 """
 strings = [
@@ -74,3 +75,23 @@ strings = [
     "Attach material",
     "Special Summon \"Number\" Xyz Monster in GY",
 ]
+
+[card.utopia-beyond-the-shining]
+id = 940000003
+set = "number utopia"
+name = "Number S39: Utopia Beyond the Shining"
+type = "monster xyz effect"
+attribute = "light"
+race = "warrior"
+rank = 8
+atk = 3500
+def = 3000
+effect = """\
+3 Level 8 LIGHT monsters
+Must be Xyz Summoned. \
+This card's Xyz Summon cannot be negated. \
+When Xyz Summoned, your opponent's cards and effects cannot be activated. \
+If this card has "Number 39: Utopia Beyond" as an Xyz Material, it gains this effect.
+● "Number" Xyz Monster you control are unaffected by your opponent's card effects.
+"""
+strings = []

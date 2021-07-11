@@ -13,48 +13,48 @@ function s.initial_effect(c)
     e1:SetCondition(s.e1con)
     c:RegisterEffect(e1)
 
-    -- attach xyz materials
+    -- pendulum summon (your turn)
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetType(EFFECT_TYPE_ACTIVATE)
     e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetRange(LOCATION_GRAVE)
-    e2:SetCountLimit(1, id + 1 * 1000000)
-    e2:SetTarget(s.e2tg)
+    e2:SetCountLimit(1, id + 2 * 1000000)
+    e2:SetCondition(s.e2con)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- pendulum summon (your turn)
+    -- pendulum summon (your opponent turn)
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e3:SetType(EFFECT_TYPE_ACTIVATE)
     e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetCountLimit(1, id + 2 * 1000000)
+    e3:SetCountLimit(1, id + 3 * 1000000)
     e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- pendulum summon (your opponent turn)
+    -- summon 4 supreme king dragon
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_DESTROY + CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_ACTIVATE)
     e4:SetCode(EVENT_FREE_CHAIN)
-    e4:SetCountLimit(1, id + 3 * 1000000)
+    e4:SetCountLimit(1, id + 4 * 1000000)
     e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
-    -- summon 4 supreme king dragon
+    -- attach xyz materials
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 1))
-    e5:SetCategory(CATEGORY_DESTROY + CATEGORY_SPECIAL_SUMMON)
-    e5:SetType(EFFECT_TYPE_ACTIVATE)
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e5:SetCode(EVENT_FREE_CHAIN)
-    e5:SetCountLimit(1, id + 4 * 1000000)
-    e5:SetCondition(s.e5con)
+    e5:SetRange(LOCATION_GRAVE)
+    e5:SetCountLimit(1, id + 1 * 1000000)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
@@ -66,47 +66,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     end, e:GetHandlerPlayer(), LOCATION_ONFIELD, 0, 1, nil)
 end
 
-function s.e2filter1(c)
-    return c:IsFaceup() and c:IsType(TYPE_XYZ) and
-               Utility.IsSetCard(c, 0x2073, 0x20f8)
-end
-
-function s.e2filter2(c)
-    return c:IsSetCard(0x20f8) and c:IsType(TYPE_MONSTER) and
-               (c:IsFaceup() or not c:IsLocation(LOCATION_EXTRA))
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return
-            Duel.IsExistingTarget(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil) and
-                Duel.IsExistingMatchingCard(s.e2filter2, tp,
-                                            LOCATION_GRAVE + LOCATION_EXTRA, 0,
-                                            1, nil)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    Duel.SelectTarget(tp, s.e2filter1, tp, LOCATION_MZONE, 0, 1, 1, nil)
-end
-
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) then
-        return
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter2, tp,
-                                      LOCATION_GRAVE + LOCATION_EXTRA, 0, 1, 2,
-                                      nil)
-    if #g > 0 then Duel.Overlay(tc, g) end
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetFlagEffect(tp, 29432356) == 0
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local eff = Effect.CreateEffect(e:GetHandler())
     eff:SetType(EFFECT_TYPE_CONTINUOUS + EFFECT_TYPE_FIELD)
     eff:SetCode(EVENT_ADJUST)
@@ -119,8 +79,8 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         effpen:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
         effpen:SetCode(EFFECT_SPSUMMON_PROC_G)
         effpen:SetRange(LOCATION_PZONE)
-        effpen:SetCondition(s.e3pencon)
-        effpen:SetOperation(s.e3penop)
+        effpen:SetCondition(s.e2pencon)
+        effpen:SetOperation(s.e2penop)
         effpen:SetValue(SUMMON_TYPE_PENDULUM)
         effpen:SetReset(RESET_PHASE + PHASE_END)
         lpz:RegisterEffect(effpen)
@@ -130,7 +90,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(eff, tp)
 end
 
-function s.e3pencon(e, c, og)
+function s.e2pencon(e, c, og)
     if c == nil then return true end
     local tp = c:GetControler()
 
@@ -158,7 +118,7 @@ function s.e3pencon(e, c, og)
     return g:IsExists(Pendulum.Filter, 1, nil, e, tp, lscale, rscale)
 end
 
-function s.e3penop(e, tp, eg, ep, ev, re, r, rp, c, sg, og)
+function s.e2penop(e, tp, eg, ep, ev, re, r, rp, c, sg, og)
     local rpz = Duel.GetFieldCard(tp, LOCATION_PZONE, 1)
     local lscale = c:GetLeftScale()
     local rscale = rpz:GetRightScale()
@@ -230,25 +190,25 @@ function s.e3penop(e, tp, eg, ep, ev, re, r, rp, c, sg, og)
     end
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == 1 - tp and Duel.IsMainPhase()
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsPlayerCanPendulumSummon(tp) end
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
                           LOCATION_EXTRA + LOCATION_HAND)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp) Duel.PendulumSummon(tp) end
+function s.e3op(e, tp, eg, ep, ev, re, r, rp) Duel.PendulumSummon(tp) end
 
-function s.e5filter1(c) return c:IsFaceup() and c:IsCode(13331639) end
+function s.e4filter1(c) return c:IsFaceup() and c:IsCode(13331639) end
 
-function s.e5filter2(c, e, tp)
+function s.e4filter2(c, e, tp)
     if not (c:IsSetCard(0x20f8) and
         c:IsCanBeSpecialSummoned(e, 0, tp, true, false)) then return false end
 
-    local g = Duel.GetMatchingGroup(aux.NOT(s.e5filter1), tp, LOCATION_MZONE, 0,
+    local g = Duel.GetMatchingGroup(aux.NOT(s.e4filter1), tp, LOCATION_MZONE, 0,
                                     nil)
     if c:IsLocation(LOCATION_EXTRA) then
         return Duel.GetLocationCountFromEx(tp, tp, g, c) > 0
@@ -257,7 +217,7 @@ function s.e5filter2(c, e, tp)
     end
 end
 
-function s.e5rescon(ft1, ft2, ft3, ft4, ft)
+function s.e4rescon(ft1, ft2, ft3, ft4, ft)
     return function(sg, e, tp, mg)
         local exnpct = sg:FilterCount(function(c)
             return c:IsLocation(LOCATION_EXTRA) and c:IsFacedown() and
@@ -278,17 +238,17 @@ function s.e5rescon(ft1, ft2, ft3, ft4, ft)
     end
 end
 
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e5filter1, tp, LOCATION_ONFIELD, 0, 1,
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e4filter1, tp, LOCATION_ONFIELD, 0, 1,
                                        nil)
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
-    local g = Duel.GetMatchingGroup(aux.NOT(s.e5filter1), tp, LOCATION_MZONE, 0,
+    local g = Duel.GetMatchingGroup(aux.NOT(s.e4filter1), tp, LOCATION_MZONE, 0,
                                     nil)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e5filter2, tp, loc, 0, 1, nil, e,
+        return Duel.IsExistingMatchingCard(s.e4filter2, tp, loc, 0, 1, nil, e,
                                            tp)
     end
 
@@ -296,9 +256,9 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Destroy(
-        Duel.GetMatchingGroup(aux.NOT(s.e5filter1), tp, LOCATION_MZONE, 0, nil),
+        Duel.GetMatchingGroup(aux.NOT(s.e4filter1), tp, LOCATION_MZONE, 0, nil),
         REASON_EFFECT)
 
     local ft1 = Duel.GetLocationCount(tp, LOCATION_MZONE)
@@ -330,13 +290,53 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     end
     if ft2 > 0 or ft3 > 0 or ft4 > 0 then loc = loc + LOCATION_EXTRA end
     if loc == 0 then return end
-    local sg = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e5filter2), tp,
+    local sg = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e4filter2), tp,
                                      loc, 0, nil, e, tp)
     if #sg == 0 then return end
 
     local rg = aux.SelectUnselectGroup(sg, e, tp, 1, ft,
-                                       s.e5rescon(ft1, ft2, ft3, ft4, ft), 1,
+                                       s.e4rescon(ft1, ft2, ft3, ft4, ft), 1,
                                        tp, HINTMSG_SPSUMMON)
     Duel.SpecialSummon(rg, 0, tp, tp, true, false, POS_FACEUP)
     for tc in aux.Next(rg) do tc:CompleteProcedure() end
+end
+
+function s.e5filter1(c)
+    return c:IsFaceup() and c:IsType(TYPE_XYZ) and
+               Utility.IsSetCard(c, 0x2073, 0x20f8)
+end
+
+function s.e5filter2(c)
+    return c:IsSetCard(0x20f8) and c:IsType(TYPE_MONSTER) and
+               (c:IsFaceup() or not c:IsLocation(LOCATION_EXTRA))
+end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return
+            Duel.IsExistingTarget(s.e5filter1, tp, LOCATION_MZONE, 0, 1, nil) and
+                Duel.IsExistingMatchingCard(s.e5filter2, tp,
+                                            LOCATION_GRAVE + LOCATION_EXTRA, 0,
+                                            1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
+    Duel.SelectTarget(tp, s.e5filter1, tp, LOCATION_MZONE, 0, 1, 1, nil)
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) then
+        return
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
+    local g = Duel.SelectMatchingCard(tp, s.e5filter2, tp,
+                                      LOCATION_GRAVE + LOCATION_EXTRA, 0, 1, 2,
+                                      nil)
+    if #g > 0 then Duel.Overlay(tc, g) end
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetFlagEffect(tp, 29432356) == 0
 end

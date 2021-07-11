@@ -48,6 +48,7 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 68679595, 84013237) -- Leo Utopia Ray
     Utility.DeckEditAddCardToDeck(tp, 75402014, 84013237) -- Dragonic Utopia Ray
     Utility.DeckEditAddCardToDeck(tp, 21521304, 84013237) -- Number 39: Utopia Beyond
+    Utility.DeckEditAddCardToDeck(tp, 940000003, 84013237) -- Number S39: Utopia Beyond the Shining
     Utility.DeckEditAddCardToDeck(tp, 69170557, 75433814) -- Number C40
     Utility.DeckEditAddCardToDeck(tp, 32446630, 56051086) -- Number C43
     Utility.DeckEditAddCardToDeck(tp, 96864105, 36076683) -- Number C73
@@ -104,6 +105,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(tc), tp, nil, nil,
                                           REASON_XYZ)
@@ -122,6 +124,24 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Overlay(sc, Group.FromCards(tc))
     Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
     sc:CompleteProcedure()
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(3061)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetRange(LOCATION_MZONE)
+    ec1:SetValue(aux.tgoval)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    sc:RegisterEffect(ec1)
+    if not sc:IsType(TYPE_EFFECT) then
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetCode(EFFECT_ADD_TYPE)
+        ec2:SetValue(TYPE_EFFECT)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+        sc:RegisterEffect(ec2)
+    end
 end
 
 function s.e2filter(c) return c:IsCode(62623659) and c:IsAbleToHand() end

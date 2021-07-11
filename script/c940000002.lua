@@ -1,4 +1,4 @@
--- Number S100: ZEXAL Numeron Dragon
+-- Number 100: Genesis Numeron Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -100,42 +100,30 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- atk/def
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
-    e2:SetCode(EFFECT_SET_BASE_ATTACK)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(function(e, c) return c:GetOverlayCount() * 1000 end)
-    c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_SET_BASE_DEFENSE)
-    c:RegisterEffect(e2b)
-
     -- attach
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+
+    -- summon
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetDescription(aux.Stringid(id, 2))
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-
-    -- summon
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 2))
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
 end
 
 function s.xyzfilter(c, xyz, sumtype, tp)
@@ -191,12 +179,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
             return c:IsCode(code) and c:GetFlagEffect(id) > 0
         end, 1, tc, code) then
             local cid = c:CopyEffect(code, RESET_EVENT + 0x1fe0000)
-
             local reset = Effect.CreateEffect(c)
             reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
             reset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
             reset:SetCode(EVENT_ADJUST)
-            reset:SetRange(LOCATION_PZONE)
+            reset:SetRange(LOCATION_MZONE)
             reset:SetLabel(cid)
             reset:SetLabelObject(tc)
             reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
@@ -217,26 +204,26 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter(c, tp)
+function s.e2filter(c, tp)
     return c:IsFaceup() and not c:IsType(TYPE_TOKEN) and
                (c:IsControler(tp) or c:IsAbleToChangeControler())
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsType(TYPE_XYZ) and
-                   Duel.IsExistingTarget(s.e3filter, tp,
+                   Duel.IsExistingTarget(s.e2filter, tp,
                                          LOCATION_ONFIELD + LOCATION_REMOVED, 0,
                                          1, c, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_ONFIELD + LOCATION_REMOVED,
+    Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_ONFIELD + LOCATION_REMOVED,
                       0, 1, 1, c, tp)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not c:IsRelateToEffect(e) or tc:IsFacedown() or
@@ -247,25 +234,25 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Overlay(c, Group.FromCards(tc))
 end
 
-function s.e4filter(c, e, tp)
+function s.e3filter(c, e, tp)
     return c:IsSetCard(0x48) and c:IsType(TYPE_XYZ) and not c:IsCode(id) and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_XYZ, tp, true, true)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingTarget(s.e4filter, tp, LOCATION_GRAVE, 0, 1,
+                   Duel.IsExistingTarget(s.e3filter, tp, LOCATION_GRAVE, 0, 1,
                                          nil, e, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectTarget(tp, s.e4filter, tp, LOCATION_GRAVE, 0, 1, 1,
+    local g = Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_GRAVE, 0, 1, 1,
                                 nil, e, tp)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, 0)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc:IsRelateToEffect(e) then return end
 
