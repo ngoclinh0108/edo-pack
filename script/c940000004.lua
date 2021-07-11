@@ -22,65 +22,74 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(splimit)
 
-    -- attach
+    -- attach special summoned
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e1:SetCode(EVENT_BATTLED)
-    e1:SetCondition(s.e1con)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- special summon
-    local e2desreg = Effect.CreateEffect(c)
-    e2desreg:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e2desreg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e2desreg:SetCode(EVENT_TO_GRAVE)
-    e2desreg:SetOperation(s.e2desregop)
-    c:RegisterEffect(e2desreg)
+    -- attach battle
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e2:SetCode(EVENT_PHASE + PHASE_END)
-    e2:SetRange(LOCATION_GRAVE)
-    e2:SetCountLimit(1, id)
-    e2:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) ~= 0 end)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e2:SetCode(EVENT_BATTLED)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- special summon
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e3:SetCode(EVENT_PHASE + PHASE_END)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCountLimit(1, id)
+    e3:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) ~= 0 end)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+    local e3desreg = Effect.CreateEffect(c)
+    e3desreg:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3desreg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e3desreg:SetCode(EVENT_TO_GRAVE)
+    e3desreg:SetOperation(s.e3desregop)
+    c:RegisterEffect(e3desreg)
     aux.GlobalCheck(s, function()
-        local e2globalreg = Effect.CreateEffect(c)
-        e2globalreg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        e2globalreg:SetCode(EVENT_TO_GRAVE)
-        e2globalreg:SetOperation(s.e2globalregop)
-        Duel.RegisterEffect(e2globalreg, 0)
+        local e3globalreg = Effect.CreateEffect(c)
+        e3globalreg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        e3globalreg:SetCode(EVENT_TO_GRAVE)
+        e3globalreg:SetOperation(s.e3globalregop)
+        Duel.RegisterEffect(e3globalreg, 0)
     end)
 
     -- extra attack
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetCode(EFFECT_EXTRA_ATTACK)
-    e3:SetCondition(s.effcon)
-    e3:SetValue(1)
-    c:RegisterEffect(e3)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetCode(EFFECT_EXTRA_ATTACK)
+    e4:SetCondition(s.effcon)
+    e4:SetValue(1)
+    c:RegisterEffect(e4)
 
     -- atk down
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 2))
-    e4:SetCategory(CATEGORY_ATKCHANGE)
-    e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCode(EVENT_FREE_CHAIN)
-    e4:SetHintTiming(TIMING_DAMAGE_STEP,
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetCategory(CATEGORY_ATKCHANGE)
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetHintTiming(TIMING_DAMAGE_STEP,
                      TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
-    e4:SetCountLimit(1)
-    e4:SetCondition(s.effcon)
-    e4:SetCost(s.e4cost)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4, false, REGISTER_FLAG_DETACH_XMAT)
+    e5:SetCountLimit(1)
+    e5:SetCondition(s.effcon)
+    e5:SetCost(s.e5cost)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5, false, REGISTER_FLAG_DETACH_XMAT)
 end
 
 s.rum_limit = function(c, e) return c:IsCode(37279508) end
@@ -101,19 +110,43 @@ s.rum_xyzsummon = function(c)
     return xyz
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1filter(c)
+    return (c:IsLocation(LOCATION_HAND) or c:IsFaceup()) and
+               not c:IsType(TYPE_TOKEN) and c:IsAttribute(ATTRIBUTE_WATER)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND +
+                                               LOCATION_GRAVE + LOCATION_MZONE,
+                                           0, 1, e:GetHandler())
+    end
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
+    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_HAND +
+                                          LOCATION_GRAVE + LOCATION_MZONE, 0, 1,
+                                      1, c)
+    if #g >= 0 then Duel.Overlay(c, g) end
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
     return not c:IsStatus(STATUS_BATTLE_DESTROYED) and bc and
                bc:IsStatus(STATUS_BATTLE_DESTROYED)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then return c:IsType(TYPE_XYZ) end
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
     if not bc:IsRelateToBattle() or c:IsFacedown() or not c:IsRelateToEffect(e) then
@@ -123,45 +156,29 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Overlay(c, Group.FromCards(bc))
 end
 
-function s.e2filter1(c, e, tp)
+function s.e3filter1(c, e, tp)
     return not c:IsCode(id) and c:GetFlagEffect(id) ~= 0 and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e2filter2(c)
+function s.e3filter2(c)
     return c:IsType(TYPE_XYZ) and c:IsAttribute(ATTRIBUTE_WATER)
 end
 
-function s.e2desregop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if c:IsReason(REASON_DESTROY) and c:IsReason(REASON_BATTLE + REASON_EFFECT) then
-        c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                                 PHASE_END, 0, 1)
-    end
-end
-
-function s.e2globalregop(e, tp, eg, ep, ev, re, r, rp)
-    local g = eg:Filter(function(c) return not c:IsCode(id) end, nil)
-    for tc in aux.Next(g) do
-        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                                  PHASE_END, 0, 0)
-    end
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_GRAVE,
+                   Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_GRAVE,
                                                0, 1, nil, e, tp)
     end
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    local tg = Duel.GetMatchingGroup(s.e2filter1, tp, LOCATION_GRAVE, 0, nil, e,
+    local tg = Duel.GetMatchingGroup(s.e3filter1, tp, LOCATION_GRAVE, 0, nil, e,
                                      tp)
     if ft <= 0 or #tg == 0 then return end
 
@@ -170,7 +187,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     tg = tg:Select(tp, ft, ft, nil)
     Duel.SpecialSummon(tg, 0, tp, tp, false, false, POS_FACEUP)
 
-    local sg = Duel.GetOperatedGroup():Filter(s.e2filter2, nil)
+    local sg = Duel.GetOperatedGroup():Filter(s.e3filter2, nil)
     if #sg == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
     if #sg > 1 then
         Duel.BreakEffect()
@@ -180,27 +197,43 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Overlay(sg:GetFirst(), Group.FromCards(c))
 end
 
+function s.e3desregop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsReason(REASON_DESTROY) and c:IsReason(REASON_BATTLE + REASON_EFFECT) then
+        c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                                 PHASE_END, 0, 1)
+    end
+end
+
+function s.e3globalregop(e, tp, eg, ep, ev, re, r, rp)
+    local g = eg:Filter(function(c) return not c:IsCode(id) end, nil)
+    for tc in aux.Next(g) do
+        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                                  PHASE_END, 0, 0)
+    end
+end
+
 function s.effcon(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():GetOverlayGroup():IsExists(function(c)
         return c:IsRace(RACE_SEASERPENT) and c:IsType(TYPE_XYZ)
     end, 1, nil)
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return e:GetHandler():CheckRemoveOverlayCard(tp, 1, REASON_COST)
     end
     e:GetHandler():RemoveOverlayCard(tp, 1, 1, REASON_COST)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE,
                                            1, nil)
     end
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
     for tc in aux.Next(g) do
