@@ -84,13 +84,13 @@ type = "monster xyz effect"
 attribute = "light"
 race = "warrior"
 rank = 8
-atk = 4000
+atk = 3300
 def = 2500
 effect = """\
 3 Level 8 monsters
 Must first be Special Summoned with a "Rank-Up-Magic" Spell Card targeting "Number 39: Utopia Beyond". \
-If this card battles a monster, during the Damage Step only, \
-    negate the effects of that monster while it is face-up on the field (but its effects can still be activated.) \
+If this card battles, your opponent cannot activate cards or effects until the end of the Damage Step, and also,
+    negate the effects of battling monster while it is face-up on the field, during the Damage Step only. \
 Once per turn (Quick Effect): You can equip 1 "ZW -" monster from your Deck, GY or Extra Deck to this card, \
     as if it were equipped by its own effect. This activation and effect cannot be negated. \
 If this card has a "Utopia" Xyz Monster as an material, it gains this effect.
@@ -162,5 +162,5 @@ strings = [
     "Negate effect then attach",
     "Redirect target",
     "Special Summon attached monsters",
-    "Special Summoned via \"Number C38: Hope Keeper Dragon Tyrant Galaxy\""
+    "Special Summoned via \"Number C38: Hope Keeper Dragon Tyrant Galaxy\"",
 ]
