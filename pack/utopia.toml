@@ -96,5 +96,7 @@ Once per turn (Quick Effect): You can equip 1 "ZW -" monster from your Deck, GY 
     as if it were equipped by its own effect. This activation and effect cannot be negated. \
 If this card has "Number 39: Utopia Beyond" as an Xyz Material, it gains this effect.
 ● "Number" Xyz Monster you control are unaffected by your opponent's card effects.
+● Once per Chain, during damage calculation, if this card battles an opponent's monster (Quick Effect): \
+    You can detach 1 material from this card; double this card's current ATK until the end of this turn.
 """
-strings = ["Equip 1 \"ZW -\" monster"]
+strings = ["Equip 1 \"ZW -\" monster", "Double this card's ATK"]
