@@ -78,7 +78,7 @@ strings = [
 
 [card.utopia-beyond-the-shining]
 id = 940000003
-set = "number utopia"
+set = "number-c39 utopia"
 name = "Number S39: Utopia Beyond the Shining"
 type = "monster xyz effect"
 attribute = "light"
@@ -88,10 +88,13 @@ atk = 3500
 def = 3000
 effect = """\
 3 Level 8 LIGHT monsters
+(This card is always treated as a "Number C39" card.)
 Must be Xyz Summoned. \
 This card's Xyz Summon cannot be negated. \
 When Xyz Summoned, your opponent's cards and effects cannot be activated. \
+Once per turn (Quick Effect): You can equip 1 "ZW -" monster from your Deck or Extra Deck to this card, as if it were equipped by its own effect. \
+    This activation and effect cannot be negated. \
 If this card has "Number 39: Utopia Beyond" as an Xyz Material, it gains this effect.
 ● "Number" Xyz Monster you control are unaffected by your opponent's card effects.
 """
-strings = []
+strings = ["Equip 1 \"ZW -\" monster"]
