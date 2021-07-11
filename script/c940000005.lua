@@ -1,8 +1,9 @@
--- Number C37: Hope Invented Dragon Abyss Shark
+-- Number C38: Hope Heralder Dragon Tyrant Galaxy
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.xyz_number = 37
+s.listed_series = {0x7b}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()

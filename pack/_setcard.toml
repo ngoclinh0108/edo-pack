@@ -25,6 +25,9 @@ code = 0x82
 [set.gagaga]
 code = 0x54
 
+[set.galaxy]
+code = 0x7b
+
 [set.gogogo]
 code = 0x59
 
@@ -75,6 +78,9 @@ code = 0xf2
 
 [set.pendulum-dragon]
 code = 0x10f2
+
+[set.photon]
+code = 0x55
 
 [set.predaplant]
 code = 0x10f3

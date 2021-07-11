@@ -100,18 +100,34 @@ If this card has "Number 39: Utopia Beyond" as an Xyz Material, it gains this ef
 """
 strings = ["Equip 1 \"ZW -\" monster", "Double this card's ATK"]
 
-[card.hope-buried-abyss-dragon-spider-shark]
+[card.hope-invented-dragon-abyss-shark]
 id = 940000004
 set = "number-c chaos"
-name = "Number C37: Hope Buried Abyss Dragon Spider Shark"
+name = "Number C37: Hope Invented Dragon Abyss Shark"
 type = "monster xyz effect"
-attribute = "light"
+attribute = "water"
 race = "sea-serpent"
 rank = 5
 atk = 3000
 def = 2500
 effect = """\
 3 Level 5 WATER monsters
-You can also Xyz Summon this card by using a Rank 4 WATER Xyz Monster you control as material. (Transfer its materials to this card.)
+You can also Xyz Summon this card by using a Rank 4 WATER monster you control as material. (Transfer its materials to this card.)
 """
 strings = ["Xyz Summon by using 1 Rank 4 WATER monster"]
+
+[card.hope-heralder-dragon-tyrant-galaxy]
+id = 940000005
+set = "number-c chaos galaxy"
+name = "Number C38: Hope Heralder Dragon Tyrant Galaxy"
+type = "monster xyz effect"
+attribute = "light"
+race = "dragon"
+rank = 9
+atk = 3400
+def = 2900
+effect = """\
+3 Level 9 LIGHT monsters
+You can also Xyz Summon this card by using a Rank 8 "Galaxy" monster you control as material. (Transfer its materials to this card.)
+"""
+strings = ["Xyz Summon by using 1 Rank 8 \"Galaxy\" monster"]
