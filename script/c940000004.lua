@@ -117,8 +117,8 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND +
-                                               LOCATION_GRAVE + LOCATION_MZONE,
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE +
+                                               LOCATION_HAND + LOCATION_GRAVE,
                                            0, 1, e:GetHandler())
     end
 end
@@ -128,8 +128,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
-    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_HAND +
-                                          LOCATION_GRAVE + LOCATION_MZONE, 0, 1,
+    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_MZONE +
+                                          LOCATION_HAND + LOCATION_GRAVE, 0, 1,
                                       1, c)
     if #g >= 0 then Duel.Overlay(c, g) end
 end

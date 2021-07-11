@@ -113,7 +113,7 @@ def = 2100
 effect = """\
 3 Level 5 WATER monsters
 Must first be Special Summoned with a "Rank-Up-Magic" Spell Card targeting "Number 37: Hope Woven Dragon Spider Shark". \
-If this card is Special Summoned: You can attach 1 WATER monster from your hand, GY or your side of the field to this card as an material. \
+If this card is Special Summoned: You can attach 1 WATER monster you control or from your hand, GY to this card as an material. \
 If this card destroys an opponent's monster by battle, after damage calculation: Attach that monster to this card as material. \
 During the End Phase, if this card was destroyed by battle or card effects and sent to the GY this turn: \
     You can Special Summon as many monsters as possible from your GY that were sent to your GY this turn, \
