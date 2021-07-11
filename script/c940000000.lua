@@ -175,13 +175,11 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e4filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_DECK, 0, 1,
                                            nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
-                          LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0, LOCATION_DECK)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
@@ -202,8 +200,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
     if _replace_count > _replace_max or not c:IsRelateToEffect(e) then return end
 
-    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e4filter), tp,
-                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e4filter, tp, LOCATION_DECK, 0, nil)
     if #g > 1 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
         g = g:Select(tp, 1, 1, nil)
