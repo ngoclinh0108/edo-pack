@@ -139,27 +139,25 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK +
-                                                   LOCATION_GRAVE +
-                                                   LOCATION_EXTRA, 0, 1, nil, c,
-                                               tp)
+                   Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
+                                               c, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_EQUIP, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA)
+    Duel.SetOperationInfo(0, CATEGORY_EQUIP, nil, 1, tp, loc)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     if Duel.GetLocationCount(tp, LOCATION_SZONE) <= 0 or c:IsFacedown() or
         not c:IsRelateToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_EQUIP)
     local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter), tp,
-                                      LOCATION_DECK + LOCATION_GRAVE +
-                                          LOCATION_EXTRA, 0, 1, 1, nil, c, tp)
+                                      loc, 0, 1, 1, nil, c, tp)
     local tc = g:GetFirst()
     if tc then
         local eff = tc:GetCardEffect(75402014)
