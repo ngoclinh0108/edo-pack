@@ -93,13 +93,18 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter(c, tp)
+function s.e3filter1(c, tp)
     return c:IsControler(tp) and c:IsFaceup() and c:IsType(TYPE_XYZ)
 end
 
+function s.e3filter2(c) return c:IsType(TYPE_XYZ) and c:IsSetCard(0x48) end
+
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local g = eg:Filter(s.e3filter, nil, tp)
-    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
+    local g = eg:Filter(s.e3filter1, nil, tp)
+    if #g == 0 or not Duel.IsExistingMatchingCard(s.e3filter2, tp,
+                                                  LOCATION_GRAVE +
+                                                      LOCATION_EXTRA, 0, 1, nil) or
+        not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
 
     local tc
     if #g == 1 then
@@ -110,9 +115,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
-    local mg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(Card.IsType),
+    local mg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter2),
                                        tp, LOCATION_GRAVE + LOCATION_EXTRA, 0,
-                                       1, 1, tc, TYPE_XYZ)
+                                       1, 1, tc)
     if #mg > 0 then
         local og = mg:GetFirst():GetOverlayGroup()
         if #og > 0 then Duel.SendtoGrave(og, REASON_RULE) end

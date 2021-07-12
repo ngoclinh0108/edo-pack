@@ -188,7 +188,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                          1, nil)
     end
 
-    local ct = c:GetEquipGroup():FilterCount(s.cfilter, nil)
+    local ct = c:GetEquipGroup():FilterCount(s.e4filter, nil)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
     local g = Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_ONFIELD, 1,
                                 ct, nil)
@@ -196,16 +196,15 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetTargetCards(e):Filter(function(c)
+    local g = Duel.GetTargetCards(e):Filter(function(c, e)
         return c:IsRelateToEffect(e)
-    end)
+    end, nil, e)
     Duel.Destroy(g, REASON_EFFECT)
 end
 
-function s.e5con(e)
-    local c = e:GetHandler()
-    return Duel.GetAttacker() == c or Duel.GetAttackTarget() == c and
-               c:GetBattleTarget() and s.effcon(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetBattleTarget() ~= nil and
+               s.effcon(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
