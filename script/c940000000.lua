@@ -22,9 +22,8 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_FZONE)
     e1:SetTargetRange(LOCATION_MZONE, 0)
     e1:SetTarget(function(e, tc)
-        return tc:IsFaceup() and
-                   (tc:IsCode(69852487, 64591429) or
-                       Utility.IsSetCard(tc, 0x54, 0x59, 0x82, 0x8f))
+        return tc:IsFaceup() and (tc:IsCode(69852487, 64591429, 940000006) or
+                   Utility.IsSetCard(tc, 0x54, 0x59, 0x82, 0x8f))
     end)
     e1:SetValue(1)
     c:RegisterEffect(e1)
@@ -179,7 +178,7 @@ end
 
 function s.e5filter2(c)
     return c:IsAbleToHand() and c:IsType(TYPE_MONSTER) and
-               (c:IsCode(69852487, 64591429) or
+               (c:IsCode(69852487, 64591429, 940000006) or
                    Utility.IsSetCard(c, 0x54, 0x59, 0x82, 0x8f))
 end
 

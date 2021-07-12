@@ -214,31 +214,33 @@ function s.e5filter(c, e, tp)
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local g = e:GetHandler():GetOverlayGroup()
-    local ct = 0
-    for tc in aux.Next(g) do if s.e5filter(tc, e, tp) then ct = ct + 1 end end
-
+    local c = e:GetHandler()
+    local g = c:GetOverlayGroup():Filter(s.e5filter, nil, e, tp)
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     if ft > 1 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then
         ft = 1
     end
+    local ct = #g
+    if ct > ft then ct = ft end
 
-    if chk == 0 then return ft > 0 and ft >= ct end
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
+    if chk == 0 then return ct > 0 end
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, ct, tp,
                           LOCATION_OVERLAY)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = c:GetOverlayGroup()
+    local g = c:GetOverlayGroup():Filter(s.e5filter, nil, e, tp)
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     if ft > 1 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then
         ft = 1
     end
-    if ft <= 0 or ft < #g then return end
+    local ct = #g
+    if ct > ft then ct = ft end
+    if ct <= 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local sg = g:FilterSelect(tp, s.e5filter, #g, #g, nil, e, tp)
+    local sg = g:Select(tp, ct, ct, nil)
     for tc in aux.Next(sg) do
         Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP)
 
@@ -266,7 +268,8 @@ function s.e5retop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local sc = e:GetLabelObject()
 
-    if not sc:IsLocation(LOCATION_MZONE) or sc:IsFacedown() or not sc:IsType(TYPE_XYZ) or Duel.Overlay(sc, c) == 0 then
+    if not sc:IsLocation(LOCATION_MZONE) or sc:IsFacedown() or
+        not sc:IsType(TYPE_XYZ) or Duel.Overlay(sc, c) == 0 then
         Duel.SendtoGrave(c, REASON_COST)
     end
 end

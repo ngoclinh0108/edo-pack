@@ -153,7 +153,7 @@ If this card has a "Galaxy" Xyz Monster as material, it gains this effect.
 ● When your opponent activate card or effect that targets exactly 1 card on the field (Quick Effect): \
     You can target another card on the field that would be an appropriate target for that card/effect; \
     that card/effect now targets the new target.
-● You can Special Summon as many as monster attached to this card, \
+● You can Special Summon as many as possible monster attached to this card, \
     and if you do, during the End Phase of the next turn, attach all monsters Summoned by this effect to this card as materials, or send them to the GY. \
     You can only use this effect of "Number C38: Hope Keeper Dragon Tyrant Galaxy" once per turn.
 """
@@ -164,3 +164,18 @@ strings = [
     "Special Summon attached monsters",
     "Special Summoned via \"Number C38: Hope Keeper Dragon Tyrant Galaxy\"",
 ]
+
+[card.astral-onomatopoeia]
+id = 940000006
+set = "onomat"
+name = "Astral Onomatopoeia"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+rank = 4
+atk = 1500
+def = 1500
+effect = """\
+(This card is always treated as a "Zubaba", "Gagaga", "Gogogo", and "Dododo" card.)
+"""
+strings = ["Change the Attributes"]
