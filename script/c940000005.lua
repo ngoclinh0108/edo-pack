@@ -268,6 +268,9 @@ function s.e5retop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local sc = e:GetLabelObject()
 
+    local og = c:GetOverlayGroup()
+    if #og > 0 then Duel.SendtoGrave(og, REASON_RULE) end
+
     if not sc:IsLocation(LOCATION_MZONE) or sc:IsFacedown() or
         not sc:IsType(TYPE_XYZ) or Duel.Overlay(sc, c) == 0 then
         Duel.SendtoGrave(c, REASON_COST)
