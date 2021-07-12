@@ -91,6 +91,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local rc = c:GetReasonCard()
 
     local ec1 = Effect.CreateEffect(rc)
+    ec1:SetDescription(aux.Stringid(id, 2))
     ec1:SetCategory(CATEGORY_DRAW)
     ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
