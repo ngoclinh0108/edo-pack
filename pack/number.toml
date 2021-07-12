@@ -177,7 +177,7 @@ atk = 1000
 def = 1000
 effect = """\
 (This card is always treated as a "Zubaba", "Gagaga", "Gogogo", and "Dododo" card.)
-During your Main Phase: You can reveal 1 "Number" Xyz Monster in your Extra Deck; \
+You can reveal 1 "Number" Xyz Monster in your Extra Deck; \
     the Levels and Attributes of all face-up "Zubaba", "Gagaga", "Gogogo", and "Dododo" monsters you currently control \
     become the same as the revealed monster's Rank and Attribute, \
     also you cannot Special Summon from the Extra Deck for the rest of this turn, except Xyz Monsters. \
@@ -185,4 +185,7 @@ During your Main Phase: You can reveal 1 "Number" Xyz Monster in your Extra Deck
 An Xyz Monster that was Summoned using this card on the field as material gains this effect.
 ● If it is Xyz Summoned: Draw 1 card.
 """
-strings = []
+strings = [
+    "Reveal the \"Number\" Xyz Monster",
+    "Affect by effect \"Utopic Astral Genesis\": cannot Special Summon from the Extra Deck, except Xyz Monsters",
+]
