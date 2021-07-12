@@ -165,17 +165,22 @@ strings = [
     "Special Summoned via \"Number C38: Hope Keeper Dragon Tyrant Galaxy\"",
 ]
 
-[card.astral-onomatopoeia]
+[card.utopic-astral-genesis]
 id = 940000006
-set = "onomat"
-name = "Astral Onomatopoeia"
+set = "utopic"
+name = "Utopic Astral Genesis"
 type = "monster effect"
 attribute = "light"
 race = "warrior"
 rank = 4
-atk = 1500
-def = 1500
+atk = 1000
+def = 1000
 effect = """\
 (This card is always treated as a "Zubaba", "Gagaga", "Gogogo", and "Dododo" card.)
+During your Main Phase: You can reveal 1 "Number" Xyz Monster in your Extra Deck; \
+    the Levels and Attributes of all face-up "Zubaba", "Gagaga", "Gogogo", and "Dododo" monsters you currently control \
+    become the same as the revealed monster's Rank and Attribute, \
+    also you cannot Special Summon from the Extra Deck for the rest of this turn, except Xyz Monsters.
+    You can only use this effect of "Utopic Astral Genesis" once per turn. \
 """
-strings = ["Change the Attributes"]
+strings = []
