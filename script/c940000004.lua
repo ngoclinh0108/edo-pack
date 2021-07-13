@@ -134,9 +134,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                        1, c):GetFirst()
     if not tc then return end
 
-    local og = tc:GetOverlayGroup()
-    if #og > 0 then Duel.SendtoGrave(og, REASON_RULE) end
-    Duel.Overlay(c, Group.FromCards(tc))
+    Utility.Overlay(c, tc)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
@@ -156,7 +154,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local bc = c:GetBattleTarget()
     if not bc:IsRelateToBattle() or c:IsFacedown() then return end
 
-    Duel.Overlay(c, Group.FromCards(bc))
+    Utility.Overlay(c, bc)
 end
 
 function s.e3filter1(c, e, tp)
@@ -198,7 +196,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         sg = sg:Select(tp, 1, 1, nil)
     end
     
-    Duel.Overlay(sg:GetFirst(), Group.FromCards(c))
+    Utility.Overlay(sg:GetFirst(), c)
 end
 
 function s.e3reg1op(e, tp, eg, ep, ev, re, r, rp)

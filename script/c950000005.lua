@@ -295,7 +295,7 @@ function s.pe4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
     local g = Duel.SelectMatchingCard(tp, s.pe4filter, tp, LOCATION_EXTRA, 0, 1,
                                       1, nil)
-    if #g > 0 then Duel.Overlay(c, g) end
+    if #g > 0 then Utility.Overlay(c, g) end
 end
 
 function s.pe5filter(c)

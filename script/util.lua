@@ -10,13 +10,6 @@ function Utility.RegisterGlobalEffect(c, eff, filter, param1, param2, param3,
     for tc in aux.Next(g) do tc:RegisterEffect(eff:Clone()) end
 end
 
-function Utility.CountFreePendulumZones(tp)
-    local count = 0
-    if Duel.CheckLocation(tp, LOCATION_PZONE, 0) then count = count + 1 end
-    if Duel.CheckLocation(tp, LOCATION_PZONE, 1) then count = count + 1 end
-    return count
-end
-
 function Utility.DeckEditAddCardToDeck(tp, code, condition_code)
     if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1,
                                    nil, code) then return end
@@ -25,7 +18,7 @@ function Utility.DeckEditAddCardToDeck(tp, code, condition_code)
                                         0, 1, nil, condition_code) then
         return
     end
-    
+
     Duel.SendtoDeck(Duel.CreateToken(tp, code), tp, 2, REASON_RULE)
 end
 
@@ -37,8 +30,29 @@ function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code)
                                         0, 1, nil, condition_code) then
         return
     end
-    
+
     Duel.SendtoExtraP(Duel.CreateToken(tp, code), tp, REASON_RULE)
+end
+
+function Utility.Overlay(sc, tg, attach_overlay)
+    for tc in aux.Next(tg) do
+        local og = tc:GetOverlayGroup()
+        if #og > 0 then
+            if attach_overlay then
+                Duel.Overlay(sc, og)
+            else
+                Duel.SendtoGrave(og, REASON_RULE)
+            end
+        end
+    end
+    Duel.Overlay(sc, tg)
+end
+
+function Utility.CountFreePendulumZones(tp)
+    local count = 0
+    if Duel.CheckLocation(tp, LOCATION_PZONE, 0) then count = count + 1 end
+    if Duel.CheckLocation(tp, LOCATION_PZONE, 1) then count = count + 1 end
+    return count
 end
 
 function Utility.PlaceToPZoneWhenDestroyed(c, tg, preop, postop)

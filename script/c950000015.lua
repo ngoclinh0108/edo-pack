@@ -101,10 +101,8 @@ function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
                                        1, 1, nil, e, tp, tc, pg):GetFirst()
     if not sc then return end
 
-    local mg = tc:GetOverlayGroup()
-    if #mg ~= 0 then Duel.Overlay(sc, mg) end
     sc:SetMaterial(Group.FromCards(tc))
-    Duel.Overlay(sc, Group.FromCards(tc, c))
+    Duel.Overlay(sc, Group.FromCards(tc, c), true)
     Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
     sc:CompleteProcedure()
 end

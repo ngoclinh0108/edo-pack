@@ -334,7 +334,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, s.e5filter2, tp,
                                       LOCATION_GRAVE + LOCATION_EXTRA, 0, 1, 2,
                                       nil)
-    if #g > 0 then Duel.Overlay(tc, g) end
+    if #g > 0 then Utility.Overlay(tc, g) end
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)

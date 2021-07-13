@@ -116,11 +116,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local mg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter2),
                                        tp, LOCATION_GRAVE + LOCATION_EXTRA, 0,
                                        1, 1, tc)
-    if #mg > 0 then
-        local og = mg:GetFirst():GetOverlayGroup()
-        if #og > 0 then Duel.SendtoGrave(og, REASON_RULE) end
-        Duel.Overlay(tc, mg)
-    end
+    if #mg > 0 then Utility.Overlay(tc, mg) end
 end
 
 function s.e4filter(c)
@@ -166,7 +162,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
         g = g:Select(tp, 1, 1, nil)
     end
-    
+
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)

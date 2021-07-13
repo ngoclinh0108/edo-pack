@@ -229,9 +229,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) or tc:IsFacedown() or
         not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) then return end
 
-    local og = tc:GetOverlayGroup()
-    if #og > 0 then Duel.Overlay(c, og) end
-    Duel.Overlay(c, Group.FromCards(tc))
+    Utility.Overlay(c, tc, true)
 end
 
 function s.e3filter(c, e, tp)

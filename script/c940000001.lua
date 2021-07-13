@@ -119,10 +119,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                        1, 1, nil, e, tp, tc):GetFirst()
     if not sc then return end
 
-    local mg = tc:GetOverlayGroup()
-    if #mg ~= 0 then Duel.Overlay(sc, mg) end
     sc:SetMaterial(Group.FromCards(tc))
-    Duel.Overlay(sc, Group.FromCards(tc))
+    Utility.Overlay(tc, tc, true)
     Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
     sc:CompleteProcedure()
 
@@ -169,7 +167,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
         g = g:Select(tp, 1, 1, nil)
     end
-    
+
     Duel.SendtoHand(g, tp, REASON_EFFECT)
     Duel.ConfirmCards(1 - tp, g)
 end
