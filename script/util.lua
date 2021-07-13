@@ -35,6 +35,7 @@ function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code)
 end
 
 function Utility.Overlay(sc, tg, attach_overlay)
+    if type(tg) == "Card" then tg = Group.FromCards(tg) end
     for tc in aux.Next(tg) do
         local og = tc:GetOverlayGroup()
         if #og > 0 then

@@ -120,7 +120,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not sc then return end
 
     sc:SetMaterial(Group.FromCards(tc))
-    Utility.Overlay(tc, tc, true)
+    Utility.Overlay(sc, tc, true)
     Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
     sc:CompleteProcedure()
 
