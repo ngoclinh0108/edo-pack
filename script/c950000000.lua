@@ -7,20 +7,9 @@ s.listed_series = {0x10f8, 0x20f8, 0xf2, 0x46}
 
 function s.initial_effect(c)
     -- activate
-    local act = Effect.CreateEffect(c)
-    act:SetType(EFFECT_TYPE_ACTIVATE)
-    act:SetCode(EVENT_FREE_CHAIN)
-    c:RegisterEffect(act)
-
-    -- predraw
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EVENT_PREDRAW)
-    e1:SetRange(LOCATION_FZONE)
-    e1:SetCountLimit(1)
-    e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
@@ -36,7 +25,7 @@ function s.initial_effect(c)
 
     -- destroy & search
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_DESTROY + CATEGORY_TOHAND + CATEGORY_SEARCH)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -48,7 +37,7 @@ function s.initial_effect(c)
 
     -- fusion: special summon
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetDescription(aux.Stringid(id, 2))
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e4:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -61,7 +50,7 @@ function s.initial_effect(c)
 
     -- synchro: add fusion spell
     local e5 = e4:Clone()
-    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetDescription(aux.Stringid(id, 3))
     e5:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e5:SetLabel(TYPE_SYNCHRO)
     e5:SetTarget(s.e5tg)
@@ -70,7 +59,7 @@ function s.initial_effect(c)
 
     -- xyz: add to hand or special summon
     local e6 = e4:Clone()
-    e6:SetDescription(aux.Stringid(id, 3))
+    e6:SetDescription(aux.Stringid(id, 4))
     e6:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_TOHAND + CATEGORY_SEARCH)
     e6:SetLabel(TYPE_XYZ)
     e6:SetTarget(s.e6tg)
@@ -90,27 +79,14 @@ end
 
 function s.e1filter(c) return c:IsCode(950000001) and c:IsAbleToHand() end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
-end
-
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(s.e1filter, tp,
-                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil)
+    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
     if #g > 1 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
         g = g:Select(tp, 1, 1, nil)
     end
-    
+
     if #g > 0 then
         Utility.HintCard(id)
         Duel.SendtoHand(g, nil, REASON_EFFECT)

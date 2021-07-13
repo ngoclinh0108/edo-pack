@@ -74,12 +74,12 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     skill:SetOperation(s.skillop)
     Duel.RegisterEffect(skill, tp)
 
-    -- search
+    -- search continuous
     local search = Effect.CreateEffect(c)
     search:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     search:SetCode(EVENT_PREDRAW)
     search:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp end)
-    search:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    search:SetOperation(function(e, tp)
         local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
         local g = Duel.GetMatchingGroup(Card.IsType, tp, loc, 0, nil,
                                         TYPE_CONTINUOUS)
@@ -100,9 +100,11 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     search:SetCode(EVENT_PREDRAW)
     search:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp end)
     search:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local g = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_HAND +
-                                            LOCATION_DECK + LOCATION_GRAVE +
-                                            LOCATION_REMOVED, 0, nil, TYPE_FIELD)
+        local g = Duel.GetMatchingGroup(function(c)
+            return c:IsType(TYPE_FIELD) and
+                       c:CheckActivateEffect(false, true, false) ~= nil
+        end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
+                                            LOCATION_REMOVED, 0, nil)
         if #g == 0 then return end
 
         local tc = g:GetFirst()
