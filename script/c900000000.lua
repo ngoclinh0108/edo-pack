@@ -84,6 +84,8 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(Card.IsType, tp, loc, 0, nil,
                                         TYPE_CONTINUOUS)
         if #g == 0 then return end
+        if Duel.GetTurnCount() > 2 and
+            not Duel.SelectYesNo(tp, aux.Stringid(id, 6)) then return end
 
         if #g > 1 then
             Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
@@ -96,10 +98,10 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
 
     -- activate field
     local field = Effect.CreateEffect(c)
-    search:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    search:SetCode(EVENT_PREDRAW)
-    search:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp end)
-    search:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    field:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    field:SetCode(EVENT_PREDRAW)
+    field:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp end)
+    field:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(function(c)
             return c:IsType(TYPE_FIELD) and
                        c:CheckActivateEffect(false, true, false) ~= nil
@@ -151,7 +153,6 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.diceop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
     local cc = Duel.GetCurrentChain()
     local cid = Duel.GetChainInfo(cc, CHAININFO_CHAIN_ID)
     if s[0] == cid or not Duel.SelectYesNo(tp, 553) then return end
@@ -169,7 +170,6 @@ function s.diceop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.coinop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
     local cc = Duel.GetCurrentChain()
     local cid = Duel.GetChainInfo(cc, CHAININFO_CHAIN_ID)
     if s[1] == cid or not Duel.SelectYesNo(tp, 552) then return end
