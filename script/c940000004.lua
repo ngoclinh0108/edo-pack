@@ -77,7 +77,7 @@ function s.initial_effect(c)
 
     -- atk down
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetDescription(aux.Stringid(id, 1))
     e5:SetCategory(CATEGORY_ATKCHANGE)
     e5:SetType(EFFECT_TYPE_QUICK_O)
     e5:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
@@ -189,13 +189,13 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(tg, 0, tp, tp, false, false, POS_FACEUP)
 
     local sg = Duel.GetOperatedGroup():Filter(s.e3filter2, nil)
-    if #sg == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
+    if #sg == 0 then return end
     if #sg > 1 then
         Duel.BreakEffect()
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
         sg = sg:Select(tp, 1, 1, nil)
     end
-    
+
     Utility.Overlay(sg:GetFirst(), c)
 end
 
