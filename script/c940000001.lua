@@ -85,8 +85,7 @@ function s.e1filter2(c, e, tp, mc)
                mc:IsCanBeXyzMaterial(c, tp) and
                Duel.GetLocationCountFromEx(tp, tp, mc, c) > 0 and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_XYZ, tp, false, false) and
-               c:IsSetCard(0x48) and c:IsRace(mc:GetRace()) and c.xyz_number and
-               c.xyz_number >= 1 and c.xyz_number <= 99 and
+               c:IsSetCard(0x48) and c:IsRace(mc:GetRace()) and
                (c:IsRank(rk + 1) or c:IsRank(rk + 2) or c:IsRank(rk + 3) or
                    c:IsRank(rk - 1) or c:IsRank(rk - 2) or c:IsRank(rk - 3))
 end
