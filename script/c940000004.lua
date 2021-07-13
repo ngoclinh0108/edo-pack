@@ -53,18 +53,18 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    local e3desreg = Effect.CreateEffect(c)
-    e3desreg:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3desreg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e3desreg:SetCode(EVENT_TO_GRAVE)
-    e3desreg:SetOperation(s.e3desregop)
-    c:RegisterEffect(e3desreg)
+    local e3reg1 = Effect.CreateEffect(c)
+    e3reg1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3reg1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e3reg1:SetCode(EVENT_TO_GRAVE)
+    e3reg1:SetOperation(s.e3reg1op)
+    c:RegisterEffect(e3reg1)
     aux.GlobalCheck(s, function()
-        local e3globalreg = Effect.CreateEffect(c)
-        e3globalreg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        e3globalreg:SetCode(EVENT_TO_GRAVE)
-        e3globalreg:SetOperation(s.e3globalregop)
-        Duel.RegisterEffect(e3globalreg, 0)
+        local e3reg2 = Effect.CreateEffect(c)
+        e3reg2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        e3reg2:SetCode(EVENT_TO_GRAVE)
+        e3reg2:SetOperation(s.e3reg2op)
+        Duel.RegisterEffect(e3reg2, 0)
     end)
 
     -- extra attack
@@ -196,15 +196,14 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Overlay(sg:GetFirst(), Group.FromCards(c))
 end
 
-function s.e3desregop(e, tp, eg, ep, ev, re, r, rp)
+function s.e3reg1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsReason(REASON_DESTROY) and c:IsReason(REASON_BATTLE + REASON_EFFECT) then
-        c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                                 PHASE_END, 0, 1)
-    end
+    if not c:IsReason(REASON_BATTLE + REASON_EFFECT) then return end
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                             PHASE_END, 0, 1)
 end
 
-function s.e3globalregop(e, tp, eg, ep, ev, re, r, rp)
+function s.e3reg2op(e, tp, eg, ep, ev, re, r, rp)
     local g = eg:Filter(function(c) return not c:IsCode(id) end, nil)
     for tc in aux.Next(g) do
         tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
