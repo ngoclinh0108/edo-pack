@@ -8,7 +8,6 @@ strings = [
     "Return banished cards to the GY",
     "Return cards to Deck",
     "Reset game",
-    "Search Continuous or Field",
 ]
 
 [card.forbidden-polymerization]

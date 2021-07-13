@@ -78,38 +78,74 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     local search = Effect.CreateEffect(c)
     search:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     search:SetCode(EVENT_PREDRAW)
-    search:SetCondition(function(e, tp)
-        local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
-        return Duel.GetTurnPlayer() == tp and
-                   Duel.IsExistingMatchingCard(Card.IsType, tp, loc, 0, 1, nil,
-                                               TYPE_CONTINUOUS + TYPE_FIELD)
-    end)
+    search:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp end)
     search:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
         local g = Duel.GetMatchingGroup(Card.IsType, tp, loc, 0, nil,
-                                        TYPE_CONTINUOUS + TYPE_FIELD)
-        if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 6)) then
-            return
-        end
+                                        TYPE_CONTINUOUS)
+        if #g == 0 then return end
 
-        if #g > 1 then g = g:Select(tp, 1, 5, nil) end
+        if #g > 1 then
+            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+            g = g:Select(tp, 1, 5, nil)
+        end
         Duel.SendtoHand(g, tp, REASON_RULE)
         Duel.ConfirmCards(1 - tp, g)
     end)
     Duel.RegisterEffect(search, tp)
 
     -- activate field
-    local g = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_DECK, 0, nil,
-                                    TYPE_FIELD)
-    if #g > 0 then
-        local tc
-        if #g == 1 then
-            tc = g:GetFirst()
-        else
+    local field = Effect.CreateEffect(c)
+    search:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    search:SetCode(EVENT_PREDRAW)
+    search:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp end)
+    search:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local g = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_HAND +
+                                            LOCATION_DECK + LOCATION_GRAVE +
+                                            LOCATION_REMOVED, 0, nil, TYPE_FIELD)
+        if #g == 0 then return end
+
+        local tc = g:GetFirst()
+        if #g > 1 then
+            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
             tc = g:Select(tp, 1, 1, nil):GetFirst()
         end
+
         aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
-    end
+
+        local te, ceg, cep, cev, cre, cr, crp =
+            tc:CheckActivateEffect(false, true, true)
+        if not te then return end
+
+        local tg = te:GetTarget()
+        if tg then
+            tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
+               PLAYER_NONE, 1)
+        end
+        Duel.BreakEffect()
+        tc:CreateEffectRelation(te)
+        Duel.BreakEffect()
+        local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+        if g ~= nill then
+            for etc in aux.Next(g) do etc:CreateEffectRelation(te) end
+        end
+
+        local op = te:GetOperation()
+        if op then
+            op(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
+               PLAYER_NONE, 1)
+        end
+        tc:ReleaseEffectRelation(te)
+        if g ~= nill then
+            for etc in aux.Next(g) do etc:ReleaseEffectRelation(te) end
+        end
+        Duel.BreakEffect()
+
+        if tc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
+            Duel.Draw(tp, 1, REASON_RULE)
+        end
+    end)
+    Duel.RegisterEffect(field, tp)
 end
 
 function s.diceop(e, tp, eg, ep, ev, re, r, rp)

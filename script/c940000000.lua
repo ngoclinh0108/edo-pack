@@ -106,12 +106,10 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                                       LOCATION_EXTRA, 0, 1, nil) or
         not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
 
-    local tc
-    if #g == 1 then
-        tc = g:GetFirst()
-    else
+    local tc = g:GetFirst()
+    if #g > 1 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-        tc = g:Select(tp, 1, 1, nil)
+        tc = g:Select(tp, 1, 1, nil):GetFirst()
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
@@ -168,6 +166,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
         g = g:Select(tp, 1, 1, nil)
     end
+    
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)

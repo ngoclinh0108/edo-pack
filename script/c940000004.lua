@@ -197,6 +197,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
         sg = sg:Select(tp, 1, 1, nil)
     end
+    
     Duel.Overlay(sg:GetFirst(), Group.FromCards(c))
 end
 
