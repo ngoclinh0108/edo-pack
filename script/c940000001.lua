@@ -160,7 +160,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     local g = Duel.GetMatchingGroup(s.e2filter, tp,
                                     LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
+    if #g == 0 then return end
     Duel.BreakEffect()
 
     if #g > 1 then

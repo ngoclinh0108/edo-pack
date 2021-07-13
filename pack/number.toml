@@ -36,14 +36,14 @@ During the Main Phase: Target 1 Xyz Monster you control; Special Summon from you
     The monster Xyz Summoned by this effect gains this effect.
 ● Your opponent cannot target this card with card effects.
 If this card is in your GY: You can shuffle it into the Deck, \
-    then, you can add 1 "ZEXAL Construction" from your Deck or GY to your hand. \
+    then, you can add 1 "ZEXAL Construction" from your Deck or GY to your hand, if able. \
     You can only use this effect of "Rank-Change-Magic Numeron Force" once per turn.
 
 [ \
 Add from Outside all Rank-Changed versions of your "Number" Xyz monsters. \
 ] \
 """
-strings = ["Add \"ZEXAL Construction\""]
+strings = []
 
 [card.genesis-numeron-dragon]
 id = 940000002
