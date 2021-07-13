@@ -129,10 +129,14 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
-    local g = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_MZONE +
-                                          LOCATION_HAND + LOCATION_GRAVE, 0, 1,
-                                      1, c)
-    if #g >= 0 then Duel.Overlay(c, g) end
+    local tc = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_MZONE +
+                                           LOCATION_HAND + LOCATION_GRAVE, 0, 1,
+                                       1, c):GetFirst()
+    if not tc then return end
+
+    local og = tc:GetOverlayGroup()
+    if #og > 0 then Duel.SendtoGrave(og, REASON_RULE) end
+    Duel.Overlay(c, Group.FromCards(tc))
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)

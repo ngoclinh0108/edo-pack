@@ -6,8 +6,8 @@ function s.initial_effect(c)
     local startup = Effect.CreateEffect(c)
     startup:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     startup:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
-    startup:SetCode(EVENT_STARTUP)
     startup:SetRange(LOCATION_ALL)
+    startup:SetCode(EVENT_STARTUP)
     startup:SetOperation(s.startup)
     c:RegisterEffect(startup)
 end
@@ -15,11 +15,34 @@ end
 function s.startup(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    -- outside duel
+    -- remove from duel
     Duel.DisableShuffleCheck(true)
     Duel.SendtoDeck(c, tp, -2, REASON_RULE)
     if c:IsPreviousLocation(LOCATION_HAND) then Duel.Draw(p, 1, REASON_RULE) end
     e:Reset()
+
+    -- deck edit & global effect
+    local g = Duel.GetMatchingGroup(function(c)
+        return c.deck_edit or c.global_effect
+    end, tp, LOCATION_ALL, 0, nil)
+    local deck_edit = Group.CreateGroup()
+    local global_effect = Group.CreateGroup()
+    for tc in aux.Next(g) do
+        if tc.deck_edit and not deck_edit:IsExists(function(c)
+            return c:GetOriginalCode() == tc:GetOriginalCode()
+        end, 1, nil) then
+            tc.deck_edit(tp)
+            deck_edit:AddCard(tc)
+        end
+    end
+    for tc in aux.Next(g) do
+        if tc.global_effect and not global_effect:IsExists(function(c)
+            return c:GetOriginalCode() == tc:GetOriginalCode()
+        end, 1, nil) then
+            tc.global_effect(tc, tp)
+            global_effect:AddCard(tc)
+        end
+    end
 
     -- normal summon in defense
     local sumdef = Effect.CreateEffect(c)
@@ -51,38 +74,39 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     skill:SetOperation(s.skillop)
     Duel.RegisterEffect(skill, tp)
 
-    -- deck edit & global effect
-    local g = Duel.GetMatchingGroup(function(c)
-        return c.deck_edit or c.global_effect
-    end, tp, LOCATION_ALL, 0, nil)
-    local deck_edit = Group.CreateGroup()
-    local global_effect = Group.CreateGroup()
-    for tc in aux.Next(g) do
-        if tc.deck_edit and not deck_edit:IsExists(function(c)
-            return c:GetOriginalCode() == tc:GetOriginalCode()
-        end, 1, nil) then
-            tc.deck_edit(tp)
-            deck_edit:AddCard(tc)
+    -- search
+    local search = Effect.CreateEffect(c)
+    search:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    search:SetCode(EVENT_PREDRAW)
+    search:SetCondition(function(e, tp)
+        local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
+        return Duel.GetTurnPlayer() == tp and
+                   Duel.IsExistingMatchingCard(Card.IsType, tp, loc, 0, 1, nil,
+                                               TYPE_CONTINUOUS + TYPE_FIELD)
+    end)
+    search:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
+        local g = Duel.GetMatchingGroup(Card.IsType, tp, loc, 0, nil,
+                                        TYPE_CONTINUOUS + TYPE_FIELD)
+        if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 6)) then
+            return
         end
-    end
-    for tc in aux.Next(g) do
-        if tc.global_effect and not global_effect:IsExists(function(c)
-            return c:GetOriginalCode() == tc:GetOriginalCode()
-        end, 1, nil) then
-            tc.global_effect(tc, tp)
-            global_effect:AddCard(tc)
-        end
-    end
+
+        if #g > 1 then g = g:Select(tp, 1, 5, nil) end
+        Duel.SendtoHand(g, tp, REASON_RULE)
+        Duel.ConfirmCards(1 - tp, g)
+    end)
+    Duel.RegisterEffect(search, tp)
 
     -- activate field
-    local fields = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_DECK, 0, nil,
-                                         TYPE_FIELD)
-    if #fields > 0 then
+    local g = Duel.GetMatchingGroup(Card.IsType, tp, LOCATION_DECK, 0, nil,
+                                    TYPE_FIELD)
+    if #g > 0 then
         local tc
-        if #fields == 1 then
-            tc = fields:GetFirst()
+        if #g == 1 then
+            tc = g:GetFirst()
         else
-            tc = fields:Select(tp, 1, 1, nil):GetFirst()
+            tc = g:Select(tp, 1, 1, nil):GetFirst()
         end
         aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
     end
@@ -149,10 +173,6 @@ function s.skillop(e, tp, eg, ep, ev, re, r, rp)
             desc = aux.Stringid(id, 5),
             check = s.e5con(e, tp, eg, ep, ev, re, r, rp),
             op = s.e5op
-        }, {
-            desc = aux.Stringid(id, 6),
-            check = s.e6con(e, tp, eg, ep, ev, re, r, rp),
-            op = s.e6op
         }
     }
 
@@ -248,33 +268,12 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoGrave(g, REASON_RULE)
 end
 
-function s.e4filter(c) return c:IsType(TYPE_FIELD+TYPE_CONTINUOUS) end
-
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
-    return Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil)
-end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
-    local g = Duel.GetMatchingGroup(s.e4filter, tp, loc, 0, nil)
-    if #g == 0 then return end
-
-    if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-        g = g:Select(tp, 1, 99, nil)
-    end
-
-    Duel.SendtoHand(g, nil, REASON_RULE)
-    Duel.ConfirmCards(1 - tp, g)
-end
-
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
     return Duel.IsExistingMatchingCard(aux.TRUE, tp, loc, 0, 1, nil)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
@@ -284,12 +283,12 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoDeck(g, nil, 2, REASON_RULE)
 end
 
-function s.e6con(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED
     return Duel.IsExistingMatchingCard(nil, tp, loc, loc, 1, nil)
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_GRAVE + LOCATION_REMOVED +
                     LOCATION_EXTRA
     local tpdraw = Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0)
