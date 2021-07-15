@@ -74,33 +74,12 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     skill:SetOperation(s.skillop)
     Duel.RegisterEffect(skill, tp)
 
-    -- search continuous
-    local search = Effect.CreateEffect(c)
-    search:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    search:SetCode(EVENT_PREDRAW)
-    search:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp end)
-    search:SetOperation(function(e, tp)
-        local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
-        local g = Duel.GetMatchingGroup(Card.IsType, tp, loc, 0, nil,
-                                        TYPE_CONTINUOUS)
-        if #g == 0 then return end
-        if Duel.GetTurnCount() > 2 and
-            not Duel.SelectYesNo(tp, aux.Stringid(id, 6)) then return end
-
-        if #g > 1 then
-            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-            g = g:Select(tp, 1, 5, nil)
-        end
-        Duel.SendtoHand(g, tp, REASON_RULE)
-        Duel.ConfirmCards(1 - tp, g)
-    end)
-    Duel.RegisterEffect(search, tp)
-
     -- activate field
     local field = Effect.CreateEffect(c)
     field:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    field:SetCode(EVENT_PREDRAW)
-    field:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp end)
+    field:SetCode(EVENT_ADJUST)
+    field:SetCountLimit(1)
+    field:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp and Duel.GetCurrentPhase() == PHASE_DRAW end)
     field:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(function(c)
             return c:IsType(TYPE_FIELD) and
@@ -150,6 +129,29 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
     end)
     Duel.RegisterEffect(field, tp)
+
+    -- search continuous
+    local continuous = Effect.CreateEffect(c)
+    continuous:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    continuous:SetCode(EVENT_ADJUST)
+    continuous:SetCountLimit(1)
+    continuous:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp and Duel.GetCurrentPhase() == PHASE_DRAW end)
+    continuous:SetOperation(function(e, tp)
+        local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
+        local g = Duel.GetMatchingGroup(Card.IsType, tp, loc, 0, nil,
+                                        TYPE_CONTINUOUS)
+        if #g == 0 then return end
+        if Duel.GetTurnCount() > 2 and
+            not Duel.SelectYesNo(tp, aux.Stringid(id, 6)) then return end
+
+        if #g > 1 then
+            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+            g = g:Select(tp, 1, 5, nil)
+        end
+        Duel.SendtoHand(g, tp, REASON_RULE)
+        Duel.ConfirmCards(1 - tp, g)
+    end)
+    Duel.RegisterEffect(continuous, tp)
 end
 
 function s.diceop(e, tp, eg, ep, ev, re, r, rp)
