@@ -28,6 +28,9 @@ code = 0x54
 [set.galaxy]
 code = 0x7b
 
+[set.galaxy-eyes]
+code = 0x107b
+
 [set.gogogo]
 code = 0x59
 

@@ -202,5 +202,18 @@ name = "Galaxy Nova"
 type = "spell field"
 effect = """\
 """
-strings = [
-]
+strings = []
+
+[card.galaxy-eyes-enchanter]
+id = 940000008
+set = "galaxy-eyes"
+name = "Galaxy-Eyes Enchanter"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 1
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
