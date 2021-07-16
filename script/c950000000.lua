@@ -276,10 +276,10 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
                                       nil, e, tp, eg:GetFirst())
     if #g == 0 then return end
 
-    aux.ToHandOrElse(g:GetFirst(), tp, function(tc)
+    aux.ToHandOrElse(g, tp, function(tc)
         return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end, function(tc)
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    end, function(g)
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
     end, 2)
 end

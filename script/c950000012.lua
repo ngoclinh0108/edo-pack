@@ -160,11 +160,11 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.pe2filter),
                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                       1, nil, e, tp)
-    aux.ToHandOrElse(g:GetFirst(), tp, function(tc)
+    aux.ToHandOrElse(g, tp, function(tc)
         return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE)
-    end, function(tc)
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    end, function(g)
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
     end, 2)
 end
 

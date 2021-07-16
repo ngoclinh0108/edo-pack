@@ -79,7 +79,10 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     field:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     field:SetCode(EVENT_ADJUST)
     field:SetCountLimit(1)
-    field:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp and Duel.GetCurrentPhase() == PHASE_DRAW end)
+    field:SetCondition(function(e, tp)
+        return Duel.GetTurnPlayer() == tp and Duel.GetCurrentPhase() ==
+                   PHASE_DRAW
+    end)
     field:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(function(c)
             return c:IsType(TYPE_FIELD) and
@@ -135,21 +138,35 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     continuous:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     continuous:SetCode(EVENT_ADJUST)
     continuous:SetCountLimit(1)
-    continuous:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == tp and Duel.GetCurrentPhase() == PHASE_DRAW end)
+    continuous:SetCondition(function(e, tp)
+        return Duel.GetTurnPlayer() == tp and Duel.GetCurrentPhase() ==
+                   PHASE_DRAW
+    end)
     continuous:SetOperation(function(e, tp)
         local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
+        if Duel.GetTurnCount() <= 2 then loc = loc + LOCATION_HAND end
         local g = Duel.GetMatchingGroup(Card.IsType, tp, loc, 0, nil,
                                         TYPE_CONTINUOUS)
         if #g == 0 then return end
         if Duel.GetTurnCount() > 2 and
             not Duel.SelectYesNo(tp, aux.Stringid(id, 6)) then return end
-
         if #g > 1 then
-            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
             g = g:Select(tp, 1, 5, nil)
         end
-        Duel.SendtoHand(g, tp, REASON_RULE)
-        Duel.ConfirmCards(1 - tp, g)
+
+        aux.ToHandOrElse(g, tp, function(tc) return tc:IsSSetable() end,
+                         function(g)
+            Duel.SSet(tp, g)
+            for tc in aux.Next(g) do
+                local ec1 = Effect.CreateEffect(c)
+                ec1:SetType(EFFECT_TYPE_SINGLE)
+                ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+                ec1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
+                ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+                tc:RegisterEffect(ec1)
+            end
+        end, 1601)
     end)
     Duel.RegisterEffect(continuous, tp)
 end
