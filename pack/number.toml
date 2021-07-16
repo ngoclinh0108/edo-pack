@@ -194,3 +194,13 @@ strings = [
     "Affect by effect \"Utopic Astral Genesis\": cannot Special Summon from the Extra Deck, except Xyz Monsters",
     "Draw 1 card",
 ]
+
+[card.galaxy-genesis]
+id = 940000007
+set = "galaxy"
+name = "Galaxy Genesis"
+type = "spell field"
+effect = """\
+"""
+strings = [
+]
