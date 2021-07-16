@@ -1,4 +1,4 @@
--- Galaxy Genesis
+-- Galaxy Nova
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

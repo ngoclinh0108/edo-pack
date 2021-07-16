@@ -195,10 +195,10 @@ strings = [
     "Draw 1 card",
 ]
 
-[card.galaxy-genesis]
+[card.galaxy-nova]
 id = 940000007
 set = "galaxy"
-name = "Galaxy Genesis"
+name = "Galaxy Nova"
 type = "spell field"
 effect = """\
 """
