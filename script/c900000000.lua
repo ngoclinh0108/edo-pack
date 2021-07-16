@@ -165,6 +165,9 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
                 ec1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
                 ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
                 tc:RegisterEffect(ec1)
+                if Duel.GetTurnCount() <= 2 then
+                    Duel.Draw(tp, #g, REASON_RULE)
+                end
             end
         end, 1601)
     end)
