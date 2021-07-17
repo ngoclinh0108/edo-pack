@@ -90,6 +90,9 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                                             LOCATION_REMOVED, 0, nil)
         if #g == 0 then return end
+        if #g > 1 and Duel.GetTurnCount() > 2 and not Duel.SelectYesNo(tp, 2204) then
+            return
+        end
 
         local tc = g:GetFirst()
         if #g > 1 then
