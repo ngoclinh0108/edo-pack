@@ -102,8 +102,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
 
         aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
 
-        local te, ceg, cep, cev, cre, cr, crp =
-            tc:CheckActivateEffect(false, true, true)
+        local te = tc:CheckActivateEffect(false, true, true)
         if not te then return end
 
         local tg = te:GetTarget()
@@ -136,7 +135,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     end)
     Duel.RegisterEffect(field, tp)
 
-    -- search continuous
+    -- activate continuous
     local continuous = Effect.CreateEffect(c)
     continuous:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     continuous:SetCode(EVENT_ADJUST)
@@ -146,37 +145,63 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
                    PHASE_DRAW
     end)
     continuous:SetOperation(function(e, tp)
+        local ft = Duel.GetLocationCount(tp, LOCATION_SZONE)
+        if ft == 0 then return end
+
         local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
         if Duel.GetTurnCount() <= 2 then loc = loc + LOCATION_HAND end
-        local g = Duel.GetMatchingGroup(Card.IsType, tp, loc, 0, nil,
-                                        TYPE_CONTINUOUS)
+        local g = Duel.GetMatchingGroup(function(c)
+            return c:IsType(TYPE_CONTINUOUS) and
+                       c:CheckActivateEffect(false, true, false) ~= nil
+        end, tp, loc, 0, nil)
         if #g == 0 then return end
+
         if Duel.GetTurnCount() > 2 and
             not Duel.SelectYesNo(tp, aux.Stringid(id, 6)) then return end
         if #g > 1 then
             Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-            g = g:Select(tp, 1, 5, nil)
+            g = g:Select(tp, 1, ft, nil)
         end
 
-        aux.ToHandOrElse(g, tp, function(tc) return tc:IsSSetable() end,
-                         function(g)
-            Duel.SSet(tp, g)
-            for tc in aux.Next(g) do
-                local ec1 = Effect.CreateEffect(c)
-                ec1:SetType(EFFECT_TYPE_SINGLE)
-                ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-                ec1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
-                ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-                tc:RegisterEffect(ec1)
-
-                local ct = g:FilterCount(function(c)
-                    return c:IsPreviousLocation(LOCATION_HAND)
-                end, nil)
-                if ct > 0 and Duel.GetTurnCount() <= 2 then
-                    Duel.Draw(tp, ct, REASON_RULE)
-                end
+        for tc in aux.Next(g) do
+            Duel.MoveToField(tc, tp, tp, LOCATION_SZONE, POS_FACEUP, true)
+            if tc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
+                Duel.Draw(tp, 1, REASON_RULE)
             end
-        end, 1601)
+        end
+
+        for tc in aux.Next(g) do
+            local te = tc:CheckActivateEffect(false, true, true)
+            if te then
+                local tg = te:GetTarget()
+                if tg then
+                    tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e,
+                       REASON_EFFECT, PLAYER_NONE, 1)
+                end
+                Duel.BreakEffect()
+                tc:CreateEffectRelation(te)
+                Duel.BreakEffect()
+                local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+                if g ~= nill then
+                    for etc in aux.Next(g) do
+                        etc:CreateEffectRelation(te)
+                    end
+                end
+
+                local op = te:GetOperation()
+                if op then
+                    op(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e,
+                       REASON_EFFECT, PLAYER_NONE, 1)
+                end
+                tc:ReleaseEffectRelation(te)
+                if g ~= nill then
+                    for etc in aux.Next(g) do
+                        etc:ReleaseEffectRelation(te)
+                    end
+                end
+                Duel.BreakEffect()
+            end
+        end
     end)
     Duel.RegisterEffect(continuous, tp)
 end
