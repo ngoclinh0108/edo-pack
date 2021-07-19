@@ -146,7 +146,8 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
-    if chk == 0 then return c:IsType(TYPE_XYZ) end
+    local bc = c:GetBattleTarget()
+    if chk == 0 then return c:IsType(TYPE_XYZ) and not bc:IsType(TYPE_TOKEN) end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
