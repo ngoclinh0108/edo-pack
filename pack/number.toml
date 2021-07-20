@@ -194,3 +194,16 @@ strings = [
     "Affect by effect \"Utopic Astral Genesis\": cannot Special Summon from the Extra Deck, except Xyz Monsters",
     "Draw 1 card",
 ]
+
+[card.rank-up-magic-barian-pride]
+id = 940000007
+set = "rank-up-magic"
+name = "Rank-Up-Magic Barian's Pride"
+type = "spell quick-play"
+effect = """\
+
+[ \
+Add from Outside all "Number 101" through "Number 107" Xyz monsters and their "Number C" version. \
+] \
+"""
+strings = []
