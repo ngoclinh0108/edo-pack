@@ -201,9 +201,14 @@ set = "rank-up-magic"
 name = "Rank-Up-Magic Barian's Pride"
 type = "spell quick-play"
 effect = """\
+During the Main Phase: Take 1 monster that has a number between "Number 101" and "Number 107" in its name, \
+    except "Number C" monsters, on your side of the field or in your GY, Extra Deck; \
+    if that monster is in your GY or Extra Deck, ignoring its Summoning conditions and rule (This is treated as an Xyz Summon), \
+    then Special Summon from your Extra Deck, 1 "Number C" monster with the same number in its name as that monster, \
+    by using it as material, (This is treated as an Xyz Summon. Transfer its materials to the Summoned monster.)
 
 [ \
-Add from Outside all "Number 101" through "Number 107" Xyz monsters and their "Number C" version. \
+If you have "Cyz Barian Hope", add from Outside all "Number 101" through "Number 107" Xyz monsters and their "Number C" version. \
 ] \
 """
 strings = []
