@@ -13,6 +13,7 @@ function s.initial_effect(c)
     e1:SetHintTiming(0, TIMING_MAIN_END)
     e1:SetCountLimit(1, id)
     e1:SetCondition(s.e1con)
+    e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -24,7 +25,6 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_PREDRAW)
     e2:SetRange(LOCATION_DECK + LOCATION_GRAVE)
     e2:SetCondition(s.e2con)
-    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -85,6 +85,24 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetCurrentPhase() & PHASE_MAIN1 + PHASE_MAIN2 > 0
 end
 
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return Duel.GetActivityCount(tp, ACTIVITY_SPSUMMON) == 0 end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetTarget(function(e, c) return not c:IsType(TYPE_XYZ) end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+    aux.addTempLizardCheck(c, tp, function(e, c)
+        return not c:IsOriginalType(TYPE_XYZ)
+    end)
+    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 0), nil)
+end
+
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local loc = LOCATION_MZONE + LOCATION_GRAVE + LOCATION_EXTRA
     if chk == 0 then
@@ -142,24 +160,6 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
                Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
                Duel.GetDrawCount(tp) > 0 and
                Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0) == 0
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return Duel.GetActivityCount(tp, ACTIVITY_SPSUMMON) == 0 end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
-    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetTarget(function(e, c) return not c:IsType(TYPE_XYZ) end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
-    aux.addTempLizardCheck(c, tp, function(e, c)
-        return not c:IsOriginalType(TYPE_XYZ)
-    end)
-    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 0), nil)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
