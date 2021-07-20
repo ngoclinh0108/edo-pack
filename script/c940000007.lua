@@ -11,10 +11,23 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetHintTiming(0, TIMING_MAIN_END)
+    e1:SetCountLimit(1, id)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- to hand
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TOHAND)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_PREDRAW)
+    e2:SetRange(LOCATION_DECK + LOCATION_GRAVE)
+    e2:SetCondition(s.e2con)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.deck_edit(tp)
@@ -88,6 +101,9 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     end
 
     Duel.SetTargetCard(tc)
+    if tc:IsLocation(LOCATION_ONFIELD) then
+        Duel.HintSelection(Group.FromCards(tc))
+    end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -96,7 +112,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local sc = Duel.SelectMatchingCard(tp, s.e1filter2, tp, LOCATION_EXTRA, 0,
-                                       1, 1, tc, e, tp, tc)
+                                       1, 1, tc, e, tp, tc):GetFirst()
     if not sc then return end
 
     if tc:IsLocation(LOCATION_GRAVE + LOCATION_EXTRA) then
@@ -119,4 +135,57 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Utility.Overlay(sc, tc, true)
     Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
     sc:CompleteProcedure()
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return tp == Duel.GetTurnPlayer() and
+               Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
+               Duel.GetDrawCount(tp) > 0
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return Duel.GetActivityCount(tp, ACTIVITY_SPSUMMON) == 0 end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetTarget(function(e, c, sump, sumtype, sumpos, targetp, se)
+        return not se:GetHandler():IsCode(id)
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 0), nil)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsAbleToHand() end
+
+    local dt = Duel.GetDrawCount(tp)
+    if dt ~= 0 then
+        _replace_count = 0
+        _replace_max = dt
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+        ec1:SetCode(EFFECT_DRAW_COUNT)
+        ec1:SetTargetRange(1, 0)
+        ec1:SetValue(0)
+        ec1:SetReset(RESET_PHASE + PHASE_DRAW)
+        Duel.RegisterEffect(ec1, tp)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    _replace_count = _replace_count + 1
+    if _replace_count <= _replace_max and c:IsRelateToEffect(e) then
+        Duel.SendtoHand(c, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, c)
+    end
 end
