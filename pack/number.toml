@@ -199,7 +199,7 @@ strings = [
 id = 940000007
 set = "rank-up-magic"
 name = "Rank-Up-Magic Barian's Pride"
-type = "spell quick-play"
+type = "spell"
 effect = """\
 During the Main Phase: Take 1 Xyz monster that has a number between "101" and "107" in its name, \
     except "Number C" monsters, that you control or in your GY, Extra Deck; \
