@@ -141,6 +141,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
             Duel.GetLocationCountFromEx(tp, tp, nil, tc) <= 0 then return end
         Duel.SpecialSummon(tc, SUMMON_TYPE_XYZ, tp, tp, true, true, POS_FACEUP)
         tc:CompleteProcedure()
+        Duel.BreakEffect()
     else
         local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(tc), tp, nil,
                                               nil, REASON_XYZ)
