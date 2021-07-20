@@ -84,8 +84,8 @@ type = "monster xyz effect"
 attribute = "light"
 race = "warrior"
 rank = 8
-atk = 3500
-def = 2800
+atk = 3000
+def = 3000
 effect = """\
 3 Level 8 monsters
 Must first be Special Summoned with a "Rank-Up-Magic" Spell Card targeting "Number 39: Utopia Beyond". \
@@ -113,7 +113,7 @@ type = "monster xyz effect"
 attribute = "water"
 race = "sea-serpent"
 rank = 5
-atk = 3000
+atk = 2800
 def = 2100
 effect = """\
 3 Level 5 WATER monsters
