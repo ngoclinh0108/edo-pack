@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0x48, 0x1048}
+s.listed_series = {0x1048}
 
 function s.initial_effect(c)
     -- rank-up
@@ -57,7 +57,7 @@ function s.e1filter1(c, e, tp)
     local pg = aux.GetMustBeMaterialGroup(tp, Group.FromCards(c), tp, nil, nil,
                                           REASON_XYZ)
     if not (#pg <= 0 or (#pg == 1 and pg:IsContains(c))) or not no or no < 101 or
-        no > 107 or not c:IsSetCard(0x48) or c:IsSetCard(0x1048) or
+        no > 107 or not c:IsType(TYPE_XYZ) or c:IsSetCard(0x1048) or
         not Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_EXTRA, 0, 1,
                                         nil, e, tp, c) then return false end
 
@@ -140,7 +140,8 @@ end
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return tp == Duel.GetTurnPlayer() and
                Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
-               Duel.GetDrawCount(tp) > 0
+               Duel.GetDrawCount(tp) > 0 and
+               Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0) == 0
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
