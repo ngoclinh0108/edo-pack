@@ -8,7 +8,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- link summon
-    Link.AddProcedure(c, nil, 2, nil, function(g, lc, sumtype, tp)
+    Link.AddProcedure(c, nil, 3, 3, function(g, lc, sumtype, tp)
         return g:IsExists(function(c, lc, sumtype, tp)
             return c:IsSetCard(0x42, lc, sumtype, tp) and
                        c:IsType(TYPE_TUNER, lc, sumtype, tp)
