@@ -25,8 +25,25 @@ When Summoned this way: You can add 1 card from your Deck to your hand. \
 """
 strings = []
 
+[card.frigga-mother-of-the-aesir]
+id = 930000002
+set = "aesir"
+name = "Frigga, Mother of the Aesir"
+type = "monster synchro effect"
+attribute = "divine"
+race = "creator-god"
+rank = 10
+atk = 3000
+def = 4000
+effect = """\
+1 "Nordic Champion" Tuner + 2+ non-Tuner monsters
+${AESIR_EFFECT} \
+"""
+strings = []
+
 [card.tyr-of-the-nordic-champions]
 id = 2333365
+ot = "ocg tcg"
 set = "nordic-champion"
 name = "Tyr of the Nordic Champions"
 type = "monster effect"
