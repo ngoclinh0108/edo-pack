@@ -133,7 +133,7 @@ rank = 12
 atk = 5000
 def = 0
 effect = """\
-3 DARK "Nordic" monsters whose ATK equals its own DEF
+3 Level 8 or higher DARK "Nordic" monsters whose ATK equals its own DEF
 ${NORDIC_GOD_EFFECT|Xyz} \
 """
 strings = []

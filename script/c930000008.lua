@@ -15,7 +15,8 @@ function s.initial_effect(c)
 end
 
 function s.xyzfilter(c, sc, sumtype, tp)
-    return c:IsSetCard(0x42, sc, sumtype, tp) and
+    return c:IsLevelAbove(8, sc, sumtype, tp) and
+               c:IsSetCard(0x42, sc, sumtype, tp) and
                c:IsAttribute(ATTRIBUTE_DARK, sc, sumtype, tp)
 end
 
