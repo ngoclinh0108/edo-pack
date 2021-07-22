@@ -90,6 +90,22 @@ ${NORDIC_GOD_REBORN} \
 """
 strings = []
 
+[card.laufey]
+id = 930000006
+set = "nordic"
+name = "Laufey the Nordic Giant"
+type = "monster link effect"
+attribute = "divine"
+race = "creator-god"
+link-rating = 4
+link-arrows = "top left right bottom"
+atk = 4000
+effect = """\
+4 "Nordic" monsters
+${NORDIC_GOD_EFFECT|Link} \
+"""
+strings = []
+
 [card.surtr]
 id = 930000007
 set = "nordic"
