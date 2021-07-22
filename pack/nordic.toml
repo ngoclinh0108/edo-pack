@@ -65,10 +65,10 @@ type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
 level = 10
-atk = 3000
-def = 3300
+atk = 3200
+def = 3100
 effect = """\
-1 "Nordic" Tuner + 2+ non-Tuner monsters
+1 LIGHT "Nordic" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
 """
 strings = []
@@ -84,7 +84,7 @@ link-rating = 3
 link-arrows = "top-left top-right bottom"
 atk = 3300
 effect = """\
-3 monsters whose total Levels equal 10, including an "Nordic Alfar" Tuner
+3 monsters whose total Levels equal 10, including an "Nordic Alfar" Tuner (substitute still accepted)
 ${NORDIC_GOD_EFFECT|Link} \
 ${NORDIC_GOD_REBORN} \
 """

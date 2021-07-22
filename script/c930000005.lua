@@ -16,8 +16,9 @@ end
 function s.lnkfilter1(c) return c:HasLevel() end
 
 function s.lnkfilter2(c, lc, sumtype, tp)
-    return c:IsSetCard(0xa042, lc, sumtype, tp) and
-               c:IsType(TYPE_TUNER, lc, sumtype, tp)
+    return c:IsType(TYPE_TUNER, lc, sumtype, tp) and
+               (c:IsSetCard(0xa042, lc, sumtype, tp) or
+                   c:IsHasEffect(EFFECT_SYNSUB_NORDIC))
 end
 
 function s.lnkcheck(g, lc, sumtype, tp)

@@ -10,8 +10,8 @@ function s.initial_effect(c)
     UtilNordic.AesirGodEffect(c)
 
     -- synchro summon
-    Synchro.AddProcedure(c, function(c, scard, sumtype, tp)
-        return c:IsSetCard(0x6042, scard, sumtype, tp) or
+    Synchro.AddProcedure(c, function(c, sc, sumtype, tp)
+        return c:IsSetCard(0x6042, sc, sumtype, tp) or
                    c:IsHasEffect(EFFECT_SYNSUB_NORDIC)
     end, 1, 1, Synchro.NonTuner(nil), 2, 99)
 end
