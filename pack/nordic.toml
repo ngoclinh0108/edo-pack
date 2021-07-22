@@ -81,10 +81,10 @@ type = "monster link effect"
 attribute = "divine"
 race = "creator-god"
 link-rating = 3
-link-arrows = "top bottom-left bottom-right"
+link-arrows = "top-left top-right bottom"
 atk = 3300
 effect = """\
-3 monsters, including an "Nordic Alfar" Tuner
+3 monsters whose total Levels equal 10, including an "Nordic Alfar" Tuner
 ${NORDIC_GOD_EFFECT|Link} \
 ${NORDIC_GOD_REBORN} \
 """

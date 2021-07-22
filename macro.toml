@@ -39,7 +39,7 @@ Once per turn, during the End Phase, if this card on the field was destroyed and
     You can Special Summon this card from the GY. \
 """
 AESIR_GOD_EFFECT = """\
-${NORDIC_GOD_EFFECT|Synchro}
+${NORDIC_GOD_EFFECT|Synchro} \
 ${NORDIC_GOD_REBORN} \
 """
 
