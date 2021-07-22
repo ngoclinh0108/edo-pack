@@ -101,7 +101,7 @@ link-rating = 4
 link-arrows = "top left right bottom"
 atk = "?"
 effect = """\
-4 "Nordic" monsters, except Tokens
+4 Level 4 or lower "Nordic" monsters, except Tokens
 ${NORDIC_GOD_EFFECT|Link} \
 """
 strings = []

@@ -11,7 +11,7 @@ function s.initial_effect(c)
 
     -- link summon
     Link.AddProcedure(c, function(c, sc, sumtype, tp)
-        return c:IsSetCard(0x42, sc, sumtype, tp) and
+        return c:IsLevelBelow(4) and c:IsSetCard(0x42, sc, sumtype, tp) and
                    not c:IsType(TYPE_TOKEN, sc, sumtype, tp)
     end, 4, 4, nil)
 end
