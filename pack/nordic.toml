@@ -117,7 +117,7 @@ rank = 9
 atk = 2800
 def = 2800
 effect = """\
-3+ "Nordic" monsters with different Types
+3 "Nordic" monsters with different Types
 ${NORDIC_GOD_EFFECT|Fusion} \
 """
 strings = []
@@ -133,7 +133,7 @@ rank = 12
 atk = 5000
 def = 0
 effect = """\
-3 Level 8 or higher DARK "Nordic" monsters whose ATK equals its own DEF
+3+ Level 8 or higher DARK "Nordic" monsters whose ATK equals its own DEF
 ${NORDIC_GOD_EFFECT|Xyz} \
 """
 strings = []
