@@ -1,8 +1,8 @@
 [expansion.triplesix]
 default = true
 recipe  = [
+    "macro.toml",
     "setcard.toml",
-    "pack/_macro.toml",
     "pack/generic.toml",
     "pack/nordic.toml",
     "pack/number.toml",

@@ -16,6 +16,16 @@ function UtilNordic.AesirEffect(c)
     splimit:SetValue(aux.synlimit)
     c:RegisterEffect(splimit)
 
+    -- synchro summon cannot be negated
+    local synsafe = Effect.CreateEffect(c)
+    synsafe:SetType(EFFECT_TYPE_SINGLE)
+    synsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    synsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    synsafe:SetCondition(function(e)
+        return e:GetHandler():GetSummonType() == SUMMON_TYPE_SYNCHRO
+    end)
+    c:RegisterEffect(synsafe)
+
     -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
@@ -59,24 +69,24 @@ function UtilNordic.AesirEffect(c)
     c:RegisterEffect(desreg)
 
     -- special summon itself from GY
-    local sp = Effect.CreateEffect(c)
-    sp:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    sp:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    sp:SetCode(EVENT_PHASE + PHASE_END)
-    sp:SetRange(LOCATION_GRAVE)
-    sp:SetCountLimit(1)
-    sp:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) ~= 0 end)
-    sp:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+    local reborn = Effect.CreateEffect(c)
+    reborn:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    reborn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    reborn:SetCode(EVENT_PHASE + PHASE_END)
+    reborn:SetRange(LOCATION_GRAVE)
+    reborn:SetCountLimit(1)
+    reborn:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) ~= 0 end)
+    reborn:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
         if chk == 0 then
             return c:IsCanBeSpecialSummoned(e, 1, tp, false, false)
         end
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
     end)
-    sp:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    reborn:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
         if not c:IsRelateToEffect(e) then return end
         Duel.SpecialSummon(c, 1, tp, tp, false, false, POS_FACEUP)
     end)
-    c:RegisterEffect(sp)
+    c:RegisterEffect(reborn)
 end
