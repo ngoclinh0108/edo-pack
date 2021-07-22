@@ -2,13 +2,11 @@
 
 HIERARCHY = """(This card's base Divine Hierarchy is $1.)"""
 HIERARCHY_ALIAS = """(This card's name is always treated as "$2". This card's base Divine Hierarchy is $1.)"""
-
 EGYPTIAN_SUMMON = """\
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated.\
 """
-
-DIVINE_IMMUNITY = """\
+EGYPTIAN_DIVINE_IMMUNITY = """\
 This card's activation and effects cannot be negated. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Cannot be flipped face-down. \
@@ -18,11 +16,10 @@ Unaffected by your opponent's monster effects and other cards' effects that woul
 Cannot be destroyed by battle with a monster has lower Divine Hierarchy, also you take no Battle Damage from that battle. \
 Cards' effects are only applied on this card for 1 turn.\
 """
-DIVINE_LIMIT = """\
+EGYPTIAN_DIVINE_LIMIT = """\
 During the End Phase, if this card was Special Summoned from the GY: Send it to the GY.\
 """
-
-GOD_IMMUNITY = """\
+EGYPTIAN_GOD_IMMUNITY = """\
 This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
@@ -32,12 +29,18 @@ Unaffected by other cards' effects, except cards' effects with the same or highe
 Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
 """
 
-AESIR_EFFECT = """\
-Must first be Synchro Summoned. \
-This card's Synchro Summon cannot be negated. \
+NORDIC_GOD_EFFECT = """\
+Must first be $1 Summoned. \
+This card's $1 Summon cannot be negated. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+"""
+NORDIC_GOD_REBORN = """\
 Once per turn, during the End Phase, if this card on the field was destroyed and sent to the GY: \
     You can Special Summon this card from the GY. \
+"""
+AESIR_GOD_EFFECT = """\
+${NORDIC_GOD_EFFECT|Synchro}
+${NORDIC_GOD_REBORN} \
 """
 
 TO_PZONE_WHEN_DESTROYED = """\

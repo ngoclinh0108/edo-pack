@@ -15,12 +15,12 @@ name = "Odin, Allfather of the Aesir"
 type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
-rank = 12
+level = 12
 atk = 4000
 def = 3500
 effect = """\
 1 "Nordic Ascendant" Tuner + 2+ non-Tuner monsters
-${AESIR_EFFECT} \
+${AESIR_GOD_EFFECT} \
 When Summoned this way: You can add 1 card from your Deck to your hand. \
 """
 strings = []
@@ -32,12 +32,12 @@ name = "Frigga, Mother of the Aesir"
 type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
-rank = 11
+level = 11
 atk = 3800
 def = 3200
 effect = """\
 1 "Nordic Champion" Tuner + 2+ non-Tuner monsters
-${AESIR_EFFECT} \
+${AESIR_GOD_EFFECT} \
 """
 strings = []
 
@@ -48,46 +48,45 @@ name = "Thor, Aesir of Thunder"
 type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
-rank = 10
+level = 10
 atk = 3500
 def = 2800
 effect = """\
 1 "Nordic Beast" Tuner + 2+ non-Tuner monsters
-${AESIR_EFFECT} \
+${AESIR_GOD_EFFECT} \
+"""
+strings = []
+
+[card.sif-lady-of-the-aesir]
+id = 930000004
+set = "aesir"
+name = "Sif, Lady of the Aesir"
+type = "monster synchro effect"
+attribute = "divine"
+race = "creator-god"
+level = 10
+atk = 3000
+def = 3300
+effect = """\
+1 "Nordic" Tuner + 2+ non-Tuner monsters
+${AESIR_GOD_EFFECT} \
 """
 strings = []
 
 [card.loki-aesir-of-mischief]
-id = 930000004
-set = "aesir"
-name = "Loki, Aesir of Mischief"
-type = "monster synchro effect"
-attribute = "divine"
-race = "creator-god"
-rank = 10
-atk = 3300
-def = 3000
-effect = """\
-1 "Nordic Alfar" Tuner + 2+ non-Tuner monsters
-${AESIR_EFFECT} \
-"""
-strings = []
-
-[card.freya-lady-of-the-aesir]
 id = 930000005
 set = "aesir"
-name = "Freya, Lady of the Aesir"
+name = "Loki, Aesir of Mischief"
 type = "monster link effect"
 attribute = "divine"
 race = "creator-god"
 link-rating = 3
-link-arrows = "bottom-left bottom bottom-right"
-atk = 3000
+link-arrows = "top bottom-left bottom-right"
+atk = 3300
 effect = """\
-3 monsters, including an "Nordic" Tuner
-Must first be Link Summoned. \
-This card's Link Summon cannot be negated. \
-Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+3 monsters, including an "Nordic Alfar" Tuner
+${NORDIC_GOD_EFFECT|Link} \
+${NORDIC_GOD_REBORN} \
 """
 strings = []
 
@@ -99,7 +98,7 @@ name = "Tyr of the Nordic Champions"
 type = "monster effect"
 attribute = "light"
 race = "warrior"
-rank = 4
+level = 4
 atk = 2000
 def = 2000
 effect = """\

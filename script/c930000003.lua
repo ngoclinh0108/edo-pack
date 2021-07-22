@@ -7,7 +7,7 @@ s.listed_series = {0x6042}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    UtilNordic.AesirEffect(c)
+    UtilNordic.AesirGodEffect(c)
 
     -- synchro summon
     Synchro.AddProcedure(c, function(c, scard, sumtype, tp)
