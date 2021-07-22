@@ -84,7 +84,7 @@ link-rating = 3
 link-arrows = "top-left top-right bottom"
 atk = 3300
 effect = """\
-3+ monsters whose total Levels equal 10, including an "Nordic Alfar" Tuner (substitute accepted)
+3 monsters whose total Levels equal 10, including an "Nordic Alfar" Tuner (substitute accepted)
 ${NORDIC_GOD_EFFECT|Link} \
 ${NORDIC_GOD_REBORN} \
 """
@@ -117,7 +117,7 @@ rank = 9
 atk = 2800
 def = 2800
 effect = """\
-3 "Nordic" monsters with different Types
+3+ "Nordic" monsters with different Types
 ${NORDIC_GOD_EFFECT|Fusion} \
 """
 strings = []
