@@ -1,5 +1,6 @@
 -- Number C37: Hope Invented Dragon Abyss Shark
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_xyz.lua")
 local s, id = GetID()
 
 s.xyz_number = 37
@@ -134,7 +135,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                        1, c):GetFirst()
     if not tc then return end
 
-    Utility.Overlay(c, tc)
+    UtilXyz.Overlay(c, tc)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
@@ -155,7 +156,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local bc = c:GetBattleTarget()
     if not bc:IsRelateToBattle() or c:IsFacedown() then return end
 
-    Utility.Overlay(c, bc)
+    UtilXyz.Overlay(c, bc)
 end
 
 function s.e3filter1(c, e, tp)
@@ -197,7 +198,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         sg = sg:Select(tp, 1, 1, nil)
     end
 
-    Utility.Overlay(sg:GetFirst(), c)
+    UtilXyz.Overlay(sg:GetFirst(), c)
 end
 
 function s.e3reg1op(e, tp, eg, ep, ev, re, r, rp)

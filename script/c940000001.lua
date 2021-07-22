@@ -1,5 +1,6 @@
 -- Rank-Change-Magic Numeron Force
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_xyz.lua")
 local s, id = GetID()
 
 s.listed_names = {62623659}
@@ -120,7 +121,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not sc then return end
 
     sc:SetMaterial(Group.FromCards(tc))
-    Utility.Overlay(sc, tc, true)
+    UtilXyz.Overlay(sc, tc, true)
     Duel.SpecialSummon(sc, SUMMON_TYPE_XYZ, tp, tp, false, false, POS_FACEUP)
     sc:CompleteProcedure()
 

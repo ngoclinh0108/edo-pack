@@ -1,5 +1,6 @@
 -- Number C38: Hope Keeper Dragon Tyrant Galaxy
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_xyz.lua")
 local s, id = GetID()
 
 s.xyz_number = 38
@@ -135,7 +136,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end, nil, e, tp)
     if #g == 0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
-    Utility.Overlay(c, eg)
+    UtilXyz.Overlay(c, eg)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -156,7 +157,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.NegateEffect(ev) and c:IsRelateToEffect(e) and
         rc:IsRelateToEffect(re) and c:IsType(TYPE_XYZ) then
         rc:CancelToGrave()
-        Utility.Overlay(c, rc)
+        UtilXyz.Overlay(c, rc)
     end
 end
 
@@ -272,7 +273,7 @@ function s.e5retop(e, tp, eg, ep, ev, re, r, rp)
     if #og > 0 then Duel.SendtoGrave(og, REASON_RULE) end
 
     if not sc:IsLocation(LOCATION_MZONE) or sc:IsFacedown() or
-        not sc:IsType(TYPE_XYZ) or Utility.Overlay(sc, c) == 0 then
+        not sc:IsType(TYPE_XYZ) or UtilXyz.Overlay(sc, c) == 0 then
         Duel.SendtoGrave(c, REASON_COST)
     end
 end

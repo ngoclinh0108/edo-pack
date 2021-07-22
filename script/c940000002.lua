@@ -1,5 +1,6 @@
 -- Number 100: Genesis Numeron Dragon
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_xyz.lua")
 local s, id = GetID()
 
 s.xyz_number = 100
@@ -229,7 +230,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) or tc:IsFacedown() or
         not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) then return end
 
-    Utility.Overlay(c, tc, true)
+    UtilXyz.Overlay(c, tc, true)
 end
 
 function s.e3filter(c, e, tp)

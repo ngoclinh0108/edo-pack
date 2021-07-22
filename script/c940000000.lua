@@ -1,6 +1,7 @@
 -- The Last Hope Remain
 local s, id = GetID()
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_xyz.lua")
 
 s.listed_names = {94770493}
 s.listed_series = {0x54, 0x59, 0x82, 0x8f, 0x7e, 0x107e, 0x207e, 0x48, 0x16c}
@@ -116,7 +117,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local mg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter2),
                                        tp, LOCATION_GRAVE + LOCATION_EXTRA, 0,
                                        1, 1, tc)
-    if #mg > 0 then Utility.Overlay(tc, mg) end
+    if #mg > 0 then UtilXyz.Overlay(tc, mg) end
 end
 
 function s.e4filter(c)
