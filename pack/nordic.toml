@@ -1,4 +1,4 @@
-[card.asgard-the-aesir-realm]
+[card.asgard]
 id = 930000000
 set = "aesir"
 name = "Asgard the Aesir Realm"
@@ -8,7 +8,7 @@ This card's activation and effect cannot be negated. \
 """
 strings = []
 
-[card.odin-allfather-of-the-aesir]
+[card.odin]
 id = 930000001
 set = "aesir"
 name = "Odin, Allfather of the Aesir"
@@ -25,7 +25,7 @@ When Summoned this way: You can add 1 card from your Deck to your hand. \
 """
 strings = []
 
-[card.frigga-mother-of-the-aesir]
+[card.frigga]
 id = 930000002
 set = "aesir"
 name = "Frigga, Mother of the Aesir"
@@ -41,7 +41,7 @@ ${AESIR_GOD_EFFECT} \
 """
 strings = []
 
-[card.thor-aesir-of-thunder]
+[card.thor]
 id = 930000003
 set = "aesir"
 name = "Thor, Aesir of Thunder"
@@ -57,7 +57,7 @@ ${AESIR_GOD_EFFECT} \
 """
 strings = []
 
-[card.sif-lady-of-the-aesir]
+[card.sif]
 id = 930000004
 set = "aesir"
 name = "Sif, Lady of the Aesir"
@@ -73,7 +73,7 @@ ${AESIR_GOD_EFFECT} \
 """
 strings = []
 
-[card.loki-aesir-of-mischief]
+[card.loki]
 id = 930000005
 set = "aesir"
 name = "Loki, Aesir of Mischief"
@@ -87,6 +87,22 @@ effect = """\
 3 monsters whose total Levels equal 10, including an "Nordic Alfar" Tuner
 ${NORDIC_GOD_EFFECT|Link} \
 ${NORDIC_GOD_REBORN} \
+"""
+strings = []
+
+[card.surtr]
+id = 930000007
+set = "nordic"
+name = "Surtr, Bringer of the Nordic Ragnarok"
+type = "monster xyz effect"
+attribute = "divine"
+race = "creator-god"
+rank = 10
+atk = 4000
+def = 3500
+effect = """\
+3 Level 10 "Nordic" monsters
+${NORDIC_GOD_EFFECT|Xyz} \
 """
 strings = []
 
