@@ -32,9 +32,9 @@ name = "Frigga, Mother of the Aesir"
 type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
-rank = 10
-atk = 3000
-def = 4000
+rank = 11
+atk = 3800
+def = 3200
 effect = """\
 1 "Nordic Champion" Tuner + 2+ non-Tuner monsters
 ${AESIR_EFFECT} \
@@ -70,6 +70,24 @@ def = 3000
 effect = """\
 1 "Nordic Alfar" Tuner + 2+ non-Tuner monsters
 ${AESIR_EFFECT} \
+"""
+strings = []
+
+[card.freya-lady-of-the-aesir]
+id = 930000005
+set = "aesir"
+name = "Freya, Lady of the Aesir"
+type = "monster link effect"
+attribute = "divine"
+race = "creator-god"
+link-rating = 3
+link-arrows = "bottom-left bottom bottom-right"
+atk = 3000
+effect = """\
+3+ monsters, including an "Nordic" Tuner
+Must first be Link Summoned. \
+This card's Link Summon cannot be negated. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 """
 strings = []
 
