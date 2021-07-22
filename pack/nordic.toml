@@ -95,8 +95,8 @@ id = 930000006
 set = "nordic"
 name = "Laufey the Nordic Giant"
 type = "monster link effect"
-attribute = "divine"
-race = "creator-god"
+attribute = "water"
+race = "rock"
 link-rating = 4
 link-arrows = "top left right bottom"
 atk = 4000
@@ -111,14 +111,29 @@ id = 930000007
 set = "nordic"
 name = "Surtr, Bringer of the Nordic Ragnarok"
 type = "monster xyz effect"
-attribute = "divine"
-race = "creator-god"
+attribute = "fire"
+race = "pyro"
 rank = 10
 atk = 4000
 def = 3500
 effect = """\
 3 Level 10 "Nordic" monsters
 ${NORDIC_GOD_EFFECT|Xyz} \
+"""
+strings = []
+
+[card.hel]
+id = 930000008
+set = "nordic"
+name = "Hela, Ruler of the Nordic Underworld"
+type = "monster fusion effect"
+attribute = "dark"
+race = "zombie"
+rank = 9
+atk = 800
+def = 2800
+effect = """\
+${NORDIC_GOD_EFFECT|Fusion} \
 """
 strings = []
 
