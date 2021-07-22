@@ -133,7 +133,7 @@ rank = 12
 atk = 5000
 def = 0
 effect = """\
-3+ DARK "Nordic" monsters whose original Level is 8 or higher with different names
+3 DARK "Nordic" monsters whose original Level is 8 or higher, with different names
 ${NORDIC_GOD_EFFECT|Xyz} \
 """
 strings = []
