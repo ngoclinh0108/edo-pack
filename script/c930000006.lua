@@ -10,7 +10,8 @@ function s.initial_effect(c)
     UtilNordic.NordicGodEffect(c, SUMMON_TYPE_LINK)
 
     -- link summon
-    Link.AddProcedure(c, function(c, lc, sumtype, tp)
-        return c:IsSetCard(0x42, lc, sumtype, tp)
+    Link.AddProcedure(c, function(c, sc, sumtype, tp)
+        return c:IsSetCard(0x42, sc, sumtype, tp) and
+                   not c:IsType(TYPE_TOKEN, sc, sumtype, tp)
     end, 4, 4, nil)
 end
