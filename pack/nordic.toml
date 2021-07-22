@@ -1,0 +1,9 @@
+[card.asgard-the-aesir-realm]
+id = 930000000
+set = "aesir"
+name = "Asgard the Aesir Realm"
+type = "spell field"
+effect = """\
+This card's activation and effect cannot be negated. \
+"""
+strings = []
