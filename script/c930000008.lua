@@ -10,7 +10,7 @@ function s.initial_effect(c)
     UtilNordic.NordicGodEffect(c, SUMMON_TYPE_XYZ)
 
     -- xyz summon
-    Xyz.AddProcedure(c, s.xyzfilter, nil, 3, nil, nil, nil, nil, false,
+    Xyz.AddProcedure(c, s.xyzfilter, nil, 3, nil, nil, 99, nil, false,
                      s.xyzcheck)
 end
 
