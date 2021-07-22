@@ -2,10 +2,12 @@
 
 HIERARCHY = """(This card's base Divine Hierarchy is $1.)"""
 HIERARCHY_ALIAS = """(This card's name is always treated as "$2". This card's base Divine Hierarchy is $1.)"""
+
 EGYPTIAN_SUMMON = """\
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated.\
 """
+
 DIVINE_IMMUNITY = """\
 This card's activation and effects cannot be negated. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
@@ -19,6 +21,7 @@ Cards' effects are only applied on this card for 1 turn.\
 DIVINE_LIMIT = """\
 During the End Phase, if this card was Special Summoned from the GY: Send it to the GY.\
 """
+
 GOD_IMMUNITY = """\
 This card's Special Summon cannot be negated. \
 This card's activation and effects cannot be negated. \
@@ -28,13 +31,15 @@ Possession of this card cannot be switched. \
 Unaffected by other cards' effects, except cards' effects with the same or higher Divine Hierarchy. \
 Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
 """
+
 AESIR_EFFECT = """\
 Must first be Synchro Summoned. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
-Once per turn, during the End Phase, if this card on the field was destroyed and sent to the GY this turn: \
+Once per turn, during the End Phase, if this card on the field was destroyed and sent to the GY: \
     You can Special Summon this card from the GY. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
 """
+
 TO_PZONE_WHEN_DESTROYED = """\
 If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
 """
