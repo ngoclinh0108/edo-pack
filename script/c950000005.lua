@@ -1,5 +1,6 @@
 -- Supreme King Z-ARC - Overlord
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_pendulum.lua")
 local s, id = GetID()
 
 s.listed_series = {0x20f8}
@@ -321,7 +322,7 @@ function s.pe5op(e, tp, eg, ep, ev, re, r, rp)
 
     local dg = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0, c)
     if #dg > 0 then Duel.Destroy(dg, REASON_EFFECT) end
-    if Utility.CountFreePendulumZones(tp) == 0 then return end
+    if UtilPendulum.CountFreePendulumZones(tp) == 0 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
     local tc = Duel.SelectMatchingCard(tp, s.pe5filter, tp, LOCATION_HAND +

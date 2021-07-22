@@ -1,5 +1,6 @@
 -- Sorcerer of Sky Iris
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_pendulum.lua")
 local s, id = GetID()
 
 s.listed_series = {0x98}
@@ -119,7 +120,7 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) > 0 and
-        Utility.CountFreePendulumZones(tp) > 0 and
+        UtilPendulum.CountFreePendulumZones(tp) > 0 and
         Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
@@ -181,7 +182,7 @@ function s.me2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, s.me2filter, tp, LOCATION_PZONE, 0, 1,
                                       1, nil, e, tp)
     if #g > 0 and Duel.SpecialSummon(g, 0, tp, tp, true, false, POS_FACEUP) > 0 and
-        Utility.CountFreePendulumZones(tp) > 0 and c:IsRelateToEffect(e) and
+        UtilPendulum.CountFreePendulumZones(tp) > 0 and c:IsRelateToEffect(e) and
         c:IsFaceup() and Duel.SelectYesNo(tp, 1160) then
         Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
     end

@@ -8,6 +8,23 @@ This card's activation and effect cannot be negated. \
 """
 strings = []
 
+[card.odin-allfather-of-the-aesir]
+id = 930000001
+set = "aesir"
+name = "Odin, Allfather of the Aesir"
+type = "monster synchro effect"
+attribute = "divine"
+race = "creator-god"
+rank = 12
+atk = 4000
+def = 3500
+effect = """\
+1 "Nordic Ascendant" Tuner + 2+ non-Tuner monsters
+${AESIR_EFFECT} \
+When Summoned this way: You can add 1 card from your Deck to your hand. \
+"""
+strings = []
+
 [card.tyr-of-the-nordic-champions]
 id = 2333365
 set = "nordic-champion"

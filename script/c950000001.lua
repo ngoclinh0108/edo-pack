@@ -1,5 +1,6 @@
 -- Supreme Soul
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_pendulum.lua")
 local s, id = GetID()
 
 s.listed_names = {13331639}
@@ -131,7 +132,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     local g = Duel.GetMatchingGroup(s.e1filter1, tp, loc, 0, nil)
     if chk == 0 then
-        return Utility.CountFreePendulumZones(tp) >= 2 and
+        return UtilPendulum.CountFreePendulumZones(tp) >= 2 and
                    (Duel.GetLocationCount(tp, LOCATION_SZONE) >= 2 or
                        c:IsLocation(LOCATION_SZONE)) and
                    aux.SelectUnselectGroup(g, e, tp, 2, 2, s.e1check, 0)
@@ -141,7 +142,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    if Utility.CountFreePendulumZones(tp) < 2 then return end
+    if UtilPendulum.CountFreePendulumZones(tp) < 2 then return end
     local g1 = aux.SelectUnselectGroup(Duel.GetMatchingGroup(
                                            aux.NecroValleyFilter(s.e1filter1),
                                            tp, LOCATION_HAND + LOCATION_DECK +
