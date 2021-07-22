@@ -1,5 +1,6 @@
 -- Dark Rebellion Magician
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_pendulum.lua")
 Duel.LoadScript("c419.lua")
 local s, id = GetID()
 
@@ -15,7 +16,7 @@ function s.initial_effect(c)
 
     -- pendulum
     Pendulum.AddProcedure(c, false)
-    Utility.PlaceToPZoneWhenDestroyed(c)
+    UtilPendulum.PlaceToPZoneWhenDestroyed(c)
 
     -- rank-up
     local pe1 = Effect.CreateEffect(c)

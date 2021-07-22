@@ -1,5 +1,6 @@
 -- Starving Venom Magician
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_pendulum.lua")
 local s, id = GetID()
 
 s.listed_series = {0x1050, 0x50}
@@ -13,7 +14,7 @@ function s.initial_effect(c)
 
     -- pendulum
     Pendulum.AddProcedure(c, false)
-    Utility.PlaceToPZoneWhenDestroyed(c)
+    UtilPendulum.PlaceToPZoneWhenDestroyed(c)
 
     -- fusion summon
     local pe1params = {

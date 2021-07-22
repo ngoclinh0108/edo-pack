@@ -14,7 +14,7 @@ function s.initial_effect(c)
 
     -- pendulum
     Pendulum.AddProcedure(c, false)
-    Utility.PlaceToPZoneWhenDestroyed(c,
+    UtilPendulum.PlaceToPZoneWhenDestroyed(c,
                                       function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then return true end
         local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0,

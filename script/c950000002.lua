@@ -1,5 +1,6 @@
 -- Odd-Eyes Venom Dragon - Overlord
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_pendulum.lua")
 local s, id = GetID()
 
 s.material_setcode = {0x99, 0x1050, 0x50}
@@ -21,7 +22,7 @@ function s.initial_effect(c)
 
     -- pendulum
     Pendulum.AddProcedure(c, false)
-    Utility.PlaceToPZoneWhenDestroyed(c)
+    UtilPendulum.PlaceToPZoneWhenDestroyed(c)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
