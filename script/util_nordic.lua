@@ -72,7 +72,6 @@ function UtilNordic.AesirEffect(c)
             return c:IsCanBeSpecialSummoned(e, 1, tp, false, false)
         end
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
-        Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
     end)
     sp:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
