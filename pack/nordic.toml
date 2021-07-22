@@ -7,3 +7,19 @@ effect = """\
 This card's activation and effect cannot be negated. \
 """
 strings = []
+
+[card.tyr-of-the-nordic-champions]
+id = 2333365
+set = "nordic-champion"
+name = "Tyr of the Nordic Champions"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+rank = 4
+atk = 2000
+def = 2000
+effect = """\
+Your opponent's monsters cannot target "Nordic" monsters for attacks, except "Tyr of the Nordic Champions". \
+If there is no other "Nordic" monster on the field, destroy this card. \
+"""
+strings = []

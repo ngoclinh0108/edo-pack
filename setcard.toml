@@ -58,6 +58,24 @@ code = 0x1f
 [set.neos]
 code = 0x9
 
+[set.nordic]
+code = 0x42
+
+[set.nordic-ascendant]
+code = 0x3042
+
+[set.nordic-alfar]
+code = 0xa042
+
+[set.nordic-champion]
+code = 0x4042
+
+[set.nordic-beast]
+code = 0x6042
+
+[set.nordic-relic]
+code = 0x5042
+
 [set.number]
 code = 0x48
 
