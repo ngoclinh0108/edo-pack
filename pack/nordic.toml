@@ -41,6 +41,38 @@ ${AESIR_EFFECT} \
 """
 strings = []
 
+[card.thor-aesir-of-thunder]
+id = 930000003
+set = "aesir"
+name = "Thor, Aesir of Thunder"
+type = "monster synchro effect"
+attribute = "divine"
+race = "creator-god"
+rank = 10
+atk = 3500
+def = 2800
+effect = """\
+1 "Nordic Beast" Tuner + 2+ non-Tuner monsters
+${AESIR_EFFECT} \
+"""
+strings = []
+
+[card.loki-aesir-of-mischief]
+id = 930000004
+set = "aesir"
+name = "Loki, Aesir of Mischief"
+type = "monster synchro effect"
+attribute = "divine"
+race = "creator-god"
+rank = 10
+atk = 3300
+def = 3000
+effect = """\
+1 "Nordic Alfar" Tuner + 2+ non-Tuner monsters
+${AESIR_EFFECT} \
+"""
+strings = []
+
 [card.tyr-of-the-nordic-champions]
 id = 2333365
 ot = "ocg tcg"
