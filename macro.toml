@@ -32,16 +32,16 @@ Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, 
 NORDIC_GOD_EFFECT = """\
 Must first be $1 Summoned. \
 This card's $1 Summon cannot be negated. \
-Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+Cannot be Tributed, or be used as a material for a Summon by your opponent.\
 """
 NORDIC_GOD_REBORN = """\
 Once per turn, during the End Phase, if this card on the field was destroyed and sent to the GY: \
-    You can Special Summon this card from the GY. \
+    You can Special Summon this card from the GY.\
 """
 AESIR_GOD_EFFECT = """\
-${NORDIC_GOD_EFFECT|Synchro} \
+${NORDIC_GOD_EFFECT|Synchro}\
 """
 
 TO_PZONE_WHEN_DESTROYED = """\
-If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
+If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone.\
 """

@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 local s, id = GetID()
 
-s.listed_series = {0x42}
+s.listed_series = {0x42, 0x4b}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
