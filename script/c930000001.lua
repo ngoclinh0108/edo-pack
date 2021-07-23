@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 local s, id = GetID()
 
-s.listed_series = {0x3042}
+s.listed_series = {0x3042, 0x4b}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -15,6 +15,17 @@ function s.initial_effect(c)
                    c:IsHasEffect(EFFECT_SYNSUB_NORDIC)
     end, 1, 1, Synchro.NonTuner(nil), 2, 99)
 
+    -- unaffected
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCountLimit(1, id)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
     -- draw card
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_DRAW)
@@ -24,6 +35,33 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetChainLimit(function(e, lp, tp)
+        return lp == tp or not e:IsHasType(EFFECT_TYPE_ACTIVATE)
+    end)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetCode(EFFECT_IMMUNE_EFFECT)
+    ec1:SetTargetRange(LOCATION_MZONE, 0)
+    ec1:SetTarget(function(e, c) return c:IsFaceup() and c:IsSetCard(0x4b) end)
+    ec1:SetValue(function(e, re)
+        local c = e:GetHandler()
+        if c:IsFacedown() or not c:IsLocation(LOCATION_ONFIELD) then
+            return false
+        end
+        return re:IsActiveType(TYPE_SPELL + TYPE_TRAP)
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+    c:RegisterFlagEffect(id, RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT,
+                         1, 0, aux.Stringid(id, 0))
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
