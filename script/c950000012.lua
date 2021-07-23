@@ -148,6 +148,8 @@ function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, c, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
                           LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.pe2op(e, tp, eg, ep, ev, re, r, rp)

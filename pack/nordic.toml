@@ -21,7 +21,9 @@ def = 3500
 effect = """\
 1 "Nordic Ascendant" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
-When Summoned this way: You can add 1 card from your Deck to your hand. \
+${NORDIC_GOD_REBORN} \
+When Summoned this way: You can look at up to 5 cards from the top of your Deck, \
+    then place them on the top of the Deck in any order, and draw 1 card. \
 """
 strings = []
 
@@ -38,6 +40,8 @@ def = 3200
 effect = """\
 1 "Nordic Champion" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
+${NORDIC_GOD_REBORN} \
+When Summoned this way: You can add to your hand, or Special Summon, 1 "Nordic" monster from your Deck or GY. \
 """
 strings = []
 
@@ -54,6 +58,8 @@ def = 2800
 effect = """\
 1 "Nordic Beast" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
+${NORDIC_GOD_REBORN} \
+When Summoned this way: You can inflict 800 damage to your opponent for each "Aesir" monster you control. \
 """
 strings = []
 
@@ -70,6 +76,8 @@ def = 3100
 effect = """\
 1 LIGHT "Nordic" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
+${NORDIC_GOD_REBORN} \
+When Summoned this way: You can gain 1000 LP for each "Aesir" monster you control. \
 """
 strings = []
 

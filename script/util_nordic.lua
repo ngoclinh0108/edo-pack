@@ -107,6 +107,10 @@ function UtilNordic.NordicGodEffect(c, sumtype, reborn)
     end
 end
 
+function UtilNordic.RebornCondition(e)
+    return e:GetHandler():GetSummonType() == SUMMON_TYPE_SPECIAL + 1
+end
+
 function UtilNordic.AesirGodEffect(c)
     UtilNordic.NordicGodEffect(c, SUMMON_TYPE_SYNCHRO, true)
 end
