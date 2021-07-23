@@ -365,7 +365,7 @@ strings = []
 [card.idun]
 id = 930000025
 set = "nordic"
-name = "Idun, Keeper of the Nordic Immortality"
+name = "Idun the Nordic Young"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
@@ -379,7 +379,7 @@ strings = []
 [card.huginn-muninn]
 id = 930000026
 set = "nordic"
-name = "Huginn and Muninn, Eyes of the Nordic Allfather"
+name = "Huginn and Muninn the Nordic Eyes"
 type = "monster effect"
 attribute = "light"
 race = "winged-beast"

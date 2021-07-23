@@ -1,4 +1,4 @@
--- Idun, Keeper of the Nordic Immortality
+-- Idun the Nordic Young
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
