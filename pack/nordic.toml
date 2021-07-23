@@ -138,7 +138,7 @@ ${NORDIC_GOD_EFFECT|Xyz} \
 """
 strings = []
 
-[card.Brunhild]
+[card.brunhild]
 id = 930000009
 set = "nordic-ascendant"
 name = "Brunhild of the Nordic Ascendant"
@@ -376,6 +376,101 @@ effect = """\
 """
 strings = []
 
+[card.gungnir]
+id = 930000026
+set = "nordic-relic"
+name = "Divine Nordic Relic Gungnir"
+type = "spell equip"
+effect = """\
+"""
+strings = []
+
+[card.brisingamen]
+id = 930000027
+set = "nordic-relic"
+name = "Divine Nordic Relic Brisingamen"
+type = "spell equip"
+effect = """\
+"""
+strings = []
+
+[card.mjollnir]
+id = 930000028
+set = "nordic-relic"
+name = "Divine Nordic Relic Mjollnir"
+type = "spell equip"
+effect = """\
+"""
+strings = []
+
+[card.andvaranaut]
+id = 930000029
+set = "nordic-relic"
+name = "Divine Nordic Relic Andvaranaut"
+type = "spell equip"
+effect = """\
+"""
+strings = []
+
+[card.laevateinn]
+id = 930000030
+set = "nordic-relic"
+name = "Divine Nordic Relic Laevateinn"
+type = "spell equip"
+effect = """\
+"""
+strings = []
+
+[card.yule]
+id = 930000031
+name = "Yule"
+type = "spell quick-play"
+effect = """\
+"""
+
+[card.nordic-valhalla]
+id = 930000032
+name = "Valhalla, Nordic Celestial Haven"
+type = "spell"
+effect = """\
+"""
+
+[card.nordic-sessrumnir]
+id = 930000033
+name = "Sessrumnir, Nordic Celestial Hall"
+type = "spell"
+effect = """\
+"""
+
+[card.nordic-feast]
+id = 930000034
+name = "Feast for the Nordic Lords"
+type = "spell"
+effect = """\
+"""
+
+[card.bifrost]
+id = 930000035
+name = "Bifrost, Nordic Bridge"
+type = "spell quick-play"
+effect = """\
+"""
+
+[card.fiery-armageddon]
+id = 930000036
+name = "Nordic Horror - Fiery Armageddon"
+type = "trap counter"
+effect = """\
+"""
+
+[card.ouroboros-break]
+id = 930000037
+name = "Nordic Horror - Ouroboros Break"
+type = "trap counter"
+effect = """\
+"""
+
+strings = []
 [card.tyr-of-the-nordic-champions]
 id = 2333365
 ot = "ocg tcg"
