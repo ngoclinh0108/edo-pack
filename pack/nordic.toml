@@ -348,22 +348,8 @@ effect = """\
 """
 strings = []
 
-[card.baldr]
-id = 930000024
-set = "nordic"
-name = "Baldr the Nordic Light"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 10
-atk = 0
-def = 0
-effect = """\
-"""
-strings = []
-
 [card.idun]
-id = 930000025
+id = 930000024
 set = "nordic"
 name = "Idun the Nordic Young"
 type = "monster effect"
@@ -377,7 +363,7 @@ effect = """\
 strings = []
 
 [card.huginn-muninn]
-id = 930000026
+id = 930000025
 set = "nordic"
 name = "Huginn and Muninn the Nordic Eyes"
 type = "monster effect"
