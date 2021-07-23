@@ -95,6 +95,7 @@ effect = """\
 3 monsters whose total Levels equal 10, including an "Nordic Alfar" Tuner (substitute accepted)
 ${NORDIC_GOD_EFFECT|Link} \
 ${NORDIC_GOD_REBORN} \
+When Summoned this way: You can add to your hand, or Set, 1 Trap from your GY. \
 """
 strings = []
 
@@ -425,7 +426,7 @@ strings = []
 id = 930000030
 set = "nordic-relic"
 name = "Divine Nordic Relic Laevateinn"
-type = "spell equip"
+type = "trap"
 effect = """\
 """
 strings = []
@@ -433,7 +434,7 @@ strings = []
 [card.yule]
 id = 930000031
 name = "Yule"
-type = "spell quick-play"
+type = "spell"
 effect = """\
 """
 strings = []
@@ -460,7 +461,7 @@ strings = []
 id = 930000034
 set = "nordic"
 name = "Feast for the Nordic Lords"
-type = "spell"
+type = "spell quick-play"
 effect = """\
 """
 strings = []
