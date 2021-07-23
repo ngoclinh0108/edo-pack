@@ -138,6 +138,48 @@ ${NORDIC_GOD_EFFECT|Xyz} \
 """
 strings = []
 
+[card.Brunhild]
+id = 930000009
+set = "nordic-ascendant"
+name = "Brunhild, Valkyria of the Nordic Ascendant"
+type = "monster effect"
+attribute = "light"
+race = "fairy"
+rank = 4
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.hildr]
+id = 930000010
+set = "nordic-ascendant"
+name = "Hildr, Valkyria of the Nordic Ascendant"
+type = "monster effect"
+attribute = "light"
+race = "fairy"
+rank = 4
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.sigrdrifa]
+id = 930000011
+set = "nordic-ascendant"
+name = "Sigrdrifa, Valkyria of the Nordic Ascendant"
+type = "monster effect"
+attribute = "light"
+race = "fairy"
+rank = 4
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
 [card.tyr-of-the-nordic-champions]
 id = 2333365
 ot = "ocg tcg"
