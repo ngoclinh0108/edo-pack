@@ -1,4 +1,4 @@
--- Sigrdrifa, Valkyria of the Nordic Ascendant
+-- Sigrdrifa of the Nordic Ascendant
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")

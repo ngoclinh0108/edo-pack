@@ -141,7 +141,7 @@ strings = []
 [card.Brunhild]
 id = 930000009
 set = "nordic-ascendant"
-name = "Brunhild, Valkyria of the Nordic Ascendant"
+name = "Brunhild of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
@@ -155,7 +155,7 @@ strings = []
 [card.hildr]
 id = 930000010
 set = "nordic-ascendant"
-name = "Hildr, Valkyria of the Nordic Ascendant"
+name = "Hildr of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
@@ -169,11 +169,179 @@ strings = []
 [card.sigrdrifa]
 id = 930000011
 set = "nordic-ascendant"
-name = "Sigrdrifa, Valkyria of the Nordic Ascendant"
+name = "Sigrdrifa of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
 rank = 4
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.frey]
+id = 930000012
+set = "nordic-champion"
+name = "Frey of the Nordic Champions"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+rank = 5
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.beyla]
+id = 930000013
+set = "nordic-champion"
+name = "Beyla of the Nordic Champions"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+rank = 4
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.hervor]
+id = 930000014
+set = "nordic-champion"
+name = "Hervor of the Nordic Champions"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+rank = 3
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.eir]
+id = 930000015
+set = "nordic-champion"
+name = "Eir of the Nordic Champions"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+rank = 3
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.eikthyrnir]
+id = 930000016
+set = "nordic-beast"
+name = "Eikthyrnir of the Nordic Beasts"
+type = "monster effect"
+attribute = "earth"
+race = "beast"
+rank = 4
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.alsvid]
+id = 930000017
+set = "nordic-beast"
+name = "Alsvid of the Nordic Beasts"
+type = "monster effect"
+attribute = "earth"
+race = "beast"
+rank = 4
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.hildisvini]
+id = 930000018
+set = "nordic-beast"
+name = "Hildisvini of the Nordic Beasts"
+type = "monster effect"
+attribute = "earth"
+race = "beast"
+rank = 3
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.ratatoskr]
+id = 930000019
+set = "nordic-beast"
+name = "Ratatoskr of the Nordic Beasts"
+type = "monster effect"
+attribute = "earth"
+race = "beast"
+rank = 3
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.moros]
+id = 930000020
+set = "nordic-alfar"
+name = "Moros of the Nordic Alfar"
+type = "monster effect"
+attribute = "dark"
+race = "spellcaster"
+rank = 5
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.narfi]
+id = 930000021
+set = "nordic-alfar"
+name = "Narfi of the Nordic Alfar"
+type = "monster effect"
+attribute = "dark"
+race = "spellcaster"
+rank = 4
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.dvalinn]
+id = 930000022
+set = "nordic-alfar"
+name = "Dvalinn of The Nordic Alfar"
+type = "monster effect"
+attribute = "dark"
+race = "spellcaster"
+rank = 2
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.alp]
+id = 930000023
+set = "nordic-alfar"
+name = "Alp of the Nordic Alfar"
+type = "monster effect"
+attribute = "dark"
+race = "spellcaster"
+rank = 1
 atk = 0
 def = 0
 effect = """\

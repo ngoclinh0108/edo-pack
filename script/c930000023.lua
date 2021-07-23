@@ -1,4 +1,4 @@
--- Brunhild of the Nordic Ascendant
+-- Alp of the Nordic Alfar
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
