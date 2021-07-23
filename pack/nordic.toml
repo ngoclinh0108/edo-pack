@@ -427,50 +427,62 @@ name = "Yule"
 type = "spell quick-play"
 effect = """\
 """
+strings = []
 
 [card.nordic-valhalla]
 id = 930000032
+set = "nordic"
 name = "Valhalla, Nordic Celestial Haven"
 type = "spell"
 effect = """\
 """
+strings = []
 
 [card.nordic-sessrumnir]
 id = 930000033
+set = "nordic"
 name = "Sessrumnir, Nordic Celestial Hall"
 type = "spell"
 effect = """\
 """
+strings = []
 
 [card.nordic-feast]
 id = 930000034
+set = "nordic"
 name = "Feast for the Nordic Lords"
 type = "spell"
 effect = """\
 """
+strings = []
 
 [card.bifrost]
 id = 930000035
-name = "Bifrost, Nordic Bridge"
+set = "nordic"
+name = "Bifrost the Nordic Bridge"
 type = "spell quick-play"
 effect = """\
 """
+strings = []
 
 [card.fiery-armageddon]
 id = 930000036
+set = "nordic"
 name = "Nordic Horror - Fiery Armageddon"
 type = "trap counter"
 effect = """\
 """
+strings = []
 
 [card.ouroboros-break]
 id = 930000037
+set = "nordic"
 name = "Nordic Horror - Ouroboros Break"
 type = "trap counter"
 effect = """\
 """
-
 strings = []
+
 [card.tyr-of-the-nordic-champions]
 id = 2333365
 ot = "ocg tcg"
