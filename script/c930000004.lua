@@ -33,7 +33,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local ct =
         Duel.GetMatchingGroupCount(s.e2filter, tp, LOCATION_MZONE, 0, nil)
     if chk == 0 then return ct > 0 end
-    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetPlayer(tp)
     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, ct * 1000)
 end
 
