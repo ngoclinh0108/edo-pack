@@ -22,6 +22,7 @@ function s.initial_effect(c)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCountLimit(1, id)
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -35,6 +36,11 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    local tgp = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_PLAYER)
+    return tgp ~= tp
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -76,8 +82,10 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) == 0 then return end
+    Duel.SortDecktop(tp, tp, 5)
+
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
                                    CHAININFO_TARGET_PARAM)
-    Duel.SortDecktop(tp, tp, 5)
     Duel.Draw(p, d, REASON_EFFECT)
 end
