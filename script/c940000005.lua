@@ -23,17 +23,21 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(splimit)
 
-    -- negate effect target
+    -- transfer material
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1:SetCode(EVENT_CHAIN_SOLVING)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e1:SetRange(LOCATION_MZONE)
+    e1:SetCountLimit(1)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
     -- attach the destroyed
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetDescription(aux.Stringid(id, 1))
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_DESTROYED)
@@ -45,7 +49,7 @@ function s.initial_effect(c)
 
     -- negate effect & attach
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetDescription(aux.Stringid(id, 2))
     e3:SetCategory(CATEGORY_DISABLE)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetCode(EVENT_CHAINING)
@@ -57,18 +61,18 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 
     -- indes
-	local e4=Effect.CreateEffect(c)
-	e4:SetType(EFFECT_TYPE_SINGLE)
-	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e4:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e4:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e4:SetRange(LOCATION_MZONE)
-	e4:SetCondition(s.effcon)
-	e4:SetValue(1)
-	c:RegisterEffect(e4)
+    e4:SetCondition(s.effcon)
+    e4:SetValue(1)
+    c:RegisterEffect(e4)
 
     -- special summon attached monsters
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetDescription(aux.Stringid(id, 3))
     e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e5:SetType(EFFECT_TYPE_IGNITION)
     e5:SetRange(LOCATION_MZONE)
@@ -96,15 +100,36 @@ s.rum_xyzsummon = function(c)
     return xyz
 end
 
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetOverlayCount() > 0
+end
+
+function s.e1filter(c)
+    return c:IsFaceup() and not c:IsCode(id) and c:IsType(TYPE_XYZ)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    local g =
+        Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
+end
+
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if rp == tp then return end
-    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
-    local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    if g and g:IsContains(c) then
-        Utility.HintCard(id)
-        Duel.NegateEffect(ev)
-    end
+    local tc = Duel.GetFirstTarget()
+    if not c:IsRelateToEffect(e) or c:GetOverlayCount() == 0 or
+        not tc:IsRelateToEffect(e) then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
+    local mg = c:GetOverlayGroup():Select(tp, 1, 1, nil)
+    UtilXyz.Overlay(tc, mg)
+
+    local oc = mg:GetFirst():GetOverlayTarget()
+    Duel.RaiseSingleEvent(oc, EVENT_DETACH_MATERIAL, e, 0, 0, 0, 0)
 end
 
 function s.e2filter(c, tp)
@@ -202,7 +227,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP)
 
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(aux.Stringid(id, 3))
+        ec1:SetDescription(aux.Stringid(id, 4))
         ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_CLIENT_HINT)
         ec1:SetCode(EVENT_PHASE + PHASE_END)

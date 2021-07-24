@@ -148,7 +148,9 @@ def = 2500
 effect = """\
 3 Level 9 monsters
 Must first be Special Summoned with a "Rank-Up-Magic" Spell Card targeting "Number 38: Hope Harbinger Dragon Titanic Galaxy". \
-Negate your opponent's card effects that target this card. \
+Once per turn, if this card has material (Quick Effect): \
+    You can target 1 Xyz Monster you control, except "Number C38: Hope Keeper Dragon Tyrant Galaxy"; \
+    attach 1 material from this card to it. \
 If a face-up Xyz Monster(s) you control is destroyed by battle or card effect: \
     You can attach the destroyed monster(s) to this card as material. \
 Once per turn, when a Trap Card or effect is activated on the field (Quick Effect): \
@@ -160,6 +162,7 @@ If this card has a "Galaxy" Xyz Monster as material, it gains this effect.
     You can only use this effect of "Number C38: Hope Keeper Dragon Tyrant Galaxy" once per turn.
 """
 strings = [
+    "Transfer material",
     "Attach the destroyed monster",
     "Negate effect then attach",
     "Special Summon attached monsters",
