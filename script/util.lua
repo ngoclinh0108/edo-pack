@@ -36,8 +36,7 @@ end
 
 function Utility.CheckActivateEffect(ec, e, tp, neglect_con, neglect_cost,
                                      copy_info)
-    local te = ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info) ~=
-                   nil
+    local te = ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
     return Utility.CheckEffectTarget(te, e, tp)
 end
 
@@ -70,14 +69,18 @@ function Utility.ApplyEffect(te, e, tp, rc)
     Duel.BreakEffect()
 
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    for etc in aux.Next(g) do etc:CreateEffectRelation(te) end
+    if g ~= nil then
+        for etc in aux.Next(g) do etc:CreateEffectRelation(te) end
+    end
     if op then
         op(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
            PLAYER_NONE, 1)
     end
 
     rc:ReleaseEffectRelation(te)
-    for etc in aux.Next(g) do etc:ReleaseEffectRelation(te) end
+    if g ~= nil then
+        for etc in aux.Next(g) do etc:ReleaseEffectRelation(te) end
+    end
     Duel.BreakEffect()
     return true
 end
