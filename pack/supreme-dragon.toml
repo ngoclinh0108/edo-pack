@@ -84,7 +84,7 @@ If this card is Fusion Summoned: \
 Each time a card(s) is sent from the field to the GY, place 1 Venemy Counter on this card for each sent card. \
 All monsters on the field, except DARK Dragon monsters, lose 200 ATK for each Venemy Counter on the field. \
 Once per turn (Qick Effect): You can target 1 face-up monster your opponent controls or in their GY; until the End Phase, \
-    that monster has its effects negated, also this card gains its effects and its original ATK. \
+    that monster has its effects negated, also this card gains its original effects and its original ATK. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """
 strings = [
@@ -175,7 +175,7 @@ atk = 4000
 pendulum-effect = """\
 Unaffected by your opponent's card effects. \
 Your other Pendulum Zone's Pendulum Scale become 0. \
-This card gains the effects of all Pendulum Monsters attached to it, except "Supreme King Z-ARC - Overlord". \
+This card gains the original effects of all Pendulum Monsters attached to it, except "Supreme King Z-ARC - Overlord". \
 Once per turn, you can attach 1 Pendulum Monster from your Extra Deck face-up to this card. \
 Once per turn: \
     You can destroy card in your other Pendulum Zone (if any), then \
@@ -387,8 +387,8 @@ If this card is Special Summoned, or a monster(s) is Special Summoned to your op
     Place 1 Predator Counter on each face-up monster your opponent controls, \
     and if you do, any of those monsters that are Level 2 or higher become Level 1 as long as they have a Predator Counter. \
 You can target 1 face-up monster your opponent controls; until the End Phase, \
-    this card's name becomes that monster's original name, and replace this effect with that monster's original effects, \
-    then that monster's ATK to 0 and its effects are negated. \
+    that monster's ATK to 0 and its effects are negated, \
+    also, this card's name becomes that monster's original name, and replace this effect with that monster's original effects, \
     You can only use this effect of "Predator Starving Venom Fusion Dragon" once per turn. \
 If this card is destroyed and sent to the GY: \
     You can Tribute 1 opponent's monster with a Predator Counter; \

@@ -65,10 +65,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         tc:RegisterEffect(ec1b)
     end
 
+
     if not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
     local sc = Utility.GroupSelect(g, tp, 1):GetFirst()
     if sc then
-        c:CopyEffect(sc:GetOriginalCode(),
+        c:CopyEffect(sc:GetOriginalCodeRule(),
                      RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1)
     end
 end

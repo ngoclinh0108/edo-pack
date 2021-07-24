@@ -250,7 +250,7 @@ function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
     for tc in aux.Next(g) do
         tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe0000, 0, 0)
 
-        local code = tc:GetOriginalCode()
+        local code = tc:GetOriginalCodeRule()
         if not g:IsExists(function(c, code)
             return c:IsCode(code) and c:GetFlagEffect(id) > 0
         end, 1, tc, code) then

@@ -208,7 +208,7 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec2)
 
     if c:IsRelateToEffect(e) and c:IsFaceup() then
-        if not tc:IsType(TYPE_TRAPMONSTER) then
+        if not tc:IsType(TYPE_TOKEN) then
             c:CopyEffect(tc:GetOriginalCodeRule(),
                          RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END,
                          1)

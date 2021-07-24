@@ -15,6 +15,17 @@ function s.initial_effect(c)
                    c:IsSetCard(0x42, sc, sumtype, tp)
     end, 1, 1, Synchro.NonTuner(nil), 2, 99)
 
+    -- apply negated effect
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e1:SetCode(EVENT_CHAIN_NEGATED)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
     -- recover
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_RECOVER)
@@ -25,6 +36,34 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return re:IsActiveType(TYPE_MONSTER) and rp == tp
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local rc = re:GetHandler()
+    if chk == 0 then return rc and Utility.CheckEffectTarget(re, e, tp) end
+
+    if rc:IsPreviousLocation(LOCATION_MZONE) and rc:IsLocation(LOCATION_GRAVE) and
+        rc:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
+        Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, rc, 1, 0, 0)
+    end
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local rc = re:GetHandler()
+    if c:IsFacedown() or not c:IsRelateToEffect(e) or not rc then return end
+
+    if rc:IsPreviousLocation(LOCATION_MZONE) and rc:IsLocation(LOCATION_GRAVE) and
+        rc:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
+        Duel.SpecialSummon(rc, 0, tp, tp, false, false, rc:GetPreviousPosition())
+    end
+
+    Utility.HintCard(rc:GetCode())
+    Utility.ApplyEffect(re, e, tp)
 end
 
 function s.e2filter(c) return c:IsFaceup() and c:IsSetCard(0x4b) end
