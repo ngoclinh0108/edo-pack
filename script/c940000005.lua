@@ -196,33 +196,26 @@ function s.e5filter(c, e, tp)
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
-    local g = c:GetOverlayGroup():Filter(s.e5filter, nil, e, tp)
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    if ft > 1 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then
-        ft = 1
+    if chk == 0 then
+        return e:GetHandler():GetOverlayGroup():FilterCount(s.e5filter, nil, e,
+                                                            tp) > 0
     end
-    local ct = #g
-    if ct > ft then ct = ft end
 
-    if chk == 0 then return ct > 0 end
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, ct, tp,
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
                           LOCATION_OVERLAY)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = c:GetOverlayGroup():Filter(s.e5filter, nil, e, tp)
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     if ft > 1 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then
         ft = 1
     end
-    local ct = #g
-    if ct > ft then ct = ft end
-    if ct <= 0 then return end
+    if ft < 1 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local sg = g:Select(tp, ct, ct, nil)
+    local sg = c:GetOverlayGroup():FilterSelect(tp, s.e5filter, 1, ft, nil, e,
+                                                tp)
     for tc in aux.Next(sg) do
         Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP)
 
