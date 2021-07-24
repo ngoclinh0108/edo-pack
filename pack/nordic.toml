@@ -65,10 +65,15 @@ def = 2800
 effect = """\
 1 "Nordic Beast" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
+Once per turn, during your turn (Quick Effect): \
+    You can negate the effects of all face-up monsters your opponent currently controls, \
+    also this card gains the effects of 1 face-up monster they control (your choice). \
 ${NORDIC_GOD_REBORN} \
 When Summoned this way: You can inflict 800 damage to your opponent for each "Aesir" monster you control. \
 """
-strings = []
+strings = [
+    "Negate effects of face-up monsters your opponent currently controls",
+]
 
 [card.sif]
 id = 930000004

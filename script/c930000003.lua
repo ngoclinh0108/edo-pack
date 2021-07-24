@@ -15,6 +15,19 @@ function s.initial_effect(c)
                    c:IsHasEffect(EFFECT_SYNSUB_NORDIC)
     end, 1, 1, Synchro.NonTuner(nil), 2, 99)
 
+    -- negate
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_DISABLE)
+    e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCountLimit(1)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
     -- damage
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_DAMAGE)
@@ -25,6 +38,32 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() == tp end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE,
+                                           1, nil)
+    end
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
+    if #g == 0 then return end
+
+    for tc in aux.Next(g) do
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_DISABLE)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec1)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_DISABLE_EFFECT)
+        tc:RegisterEffect(ec1b)
+    end
 end
 
 function s.e2filter(c) return c:IsFaceup() and c:IsSetCard(0x4b) end
