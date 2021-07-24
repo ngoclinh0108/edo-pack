@@ -144,7 +144,7 @@ attribute = "light"
 race = "dragon"
 rank = 9
 atk = 4500
-def = 2500
+def = 3000
 effect = """\
 3 Level 9 monsters
 Must first be Special Summoned with a "Rank-Up-Magic" Spell Card targeting "Number 38: Hope Harbinger Dragon Titanic Galaxy". \
