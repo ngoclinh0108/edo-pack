@@ -94,12 +94,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
             return
         end
 
-        local tc = g:GetFirst()
-        if #g > 1 then
-            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOFIELD)
-            tc = g:Select(tp, 1, 1, nil):GetFirst()
-        end
-
+        local tc = Utility.GroupSelect(g, tp, 1, nil, HINTMSG_TOFIELD):GetFirst()
         aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
         Utility.ApplyActivateEffect(tc, e, tp, false, true, false)
         if tc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
@@ -128,14 +123,10 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
                        Utility.CheckActivateEffect(c, e, tp, false, true, false)
         end, tp, loc, 0, nil)
         if #g == 0 then return end
-
         if Duel.GetTurnCount() > 2 and
             not Duel.SelectYesNo(tp, aux.Stringid(id, 6)) then return end
-        if #g > 1 then
-            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-            g = g:Select(tp, 1, ft, nil)
-        end
 
+        g = Utility.GroupSelect(g, tp, 1, ft, HINTMSG_TOFIELD)
         for tc in aux.Next(g) do
             Duel.MoveToField(tc, tp, tp, LOCATION_SZONE, POS_FACEUP, true)
             if tc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
@@ -294,13 +285,8 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(nil, tp, LOCATION_REMOVED, 0, nil)
+    g = Utility.GroupSelect(g, tp, 1, 99, HINTMSG_TOGRAVE)
     if #g == 0 then return end
-
-    if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-        g = g:Select(tp, 1, 99, nil)
-    end
-
     Duel.SendtoGrave(g, REASON_RULE)
 end
 

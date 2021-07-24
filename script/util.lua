@@ -109,6 +109,19 @@ end
 
 function Utility.HintCard(code) Duel.Hint(HINT_CARD, 0, code) end
 
+function Utility.GroupSelect(g, tp, min, max, hintmsg)
+    if #g < min then return Group.CreateGroup() end
+    if not max then max = min end
+    if not hintmsg then hintmsg = HINTMSG_SELECT end
+
+    if #g > min then
+        Duel.Hint(HINT_SELECTMSG, tp, hintmsg)
+        return g:Select(tp, min, max, nil)
+    else
+        return g
+    end
+end
+
 function Utility.GainInfinityAtk(root, c)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)

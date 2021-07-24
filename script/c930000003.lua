@@ -66,13 +66,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     if not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
-    local sc
-    if #g == 1 then
-        sc = g:GetFirst()
-    else
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-        sc = g:Select(tp, 1, 1, nil)
-    end
+    local sc = Utility.GroupSelect(g, tp, 1):GetFirst()
     if sc then
         c:CopyEffect(sc:GetOriginalCode(),
                      RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1)

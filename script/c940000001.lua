@@ -162,13 +162,11 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(s.e2filter, tp,
                                     LOCATION_DECK + LOCATION_GRAVE, 0, nil)
     if #g == 0 then return end
+
     Duel.BreakEffect()
-
-    if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-        g = g:Select(tp, 1, 1, nil)
+    g = Utility.GroupSelect(g, tp, 1, nil, HINTMSG_ATOHAND)
+    if #g > 0 then
+        Duel.SendtoHand(g, tp, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
     end
-
-    Duel.SendtoHand(g, tp, REASON_EFFECT)
-    Duel.ConfirmCards(1 - tp, g)
 end

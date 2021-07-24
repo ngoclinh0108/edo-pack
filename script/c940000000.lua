@@ -107,12 +107,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                                       LOCATION_EXTRA, 0, 1, nil) or
         not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
 
-    local tc = g:GetFirst()
-    if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-        tc = g:Select(tp, 1, 1, nil):GetFirst()
-    end
-
+    local tc = Utility.GroupSelect(g, tp, 1, nil, HINTMSG_FACEUP):GetFirst()
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_XMATERIAL)
     local mg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter2),
                                        tp, LOCATION_GRAVE + LOCATION_EXTRA, 0,
@@ -159,11 +154,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     if _replace_count > _replace_max or not c:IsRelateToEffect(e) then return end
 
     local g = Duel.GetMatchingGroup(s.e4filter, tp, LOCATION_DECK, 0, nil)
-    if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-        g = g:Select(tp, 1, 1, nil)
-    end
-
+    g = Utility.GroupSelect(g, tp, 1, nil, HINTMSG_ATOHAND)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
