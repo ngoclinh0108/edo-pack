@@ -22,7 +22,7 @@ effect = """\
 1 "Nordic Ascendant" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
 (Quick Effect): You can activate this effect; until the end of this turn, while this card is on the field, \
-    face-up "Aesir" monsters you control are unaffected by Spell/Trap effects. \
+    monsters whose original Attribute is DIVINE you control, are unaffected by Spell/Trap effects. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
     You cannot activate this effect if your cards or effects are in that Chain. \
     You can only use this effect of "Odin, Allfather of the Aesir" once per turn. \
