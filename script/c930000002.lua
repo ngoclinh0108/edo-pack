@@ -15,6 +15,20 @@ function s.initial_effect(c)
                    c:IsHasEffect(EFFECT_SYNSUB_NORDIC)
     end, 1, 1, Synchro.NonTuner(nil), 2, 99)
 
+    -- negate
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_DISABLE)
+    e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e1:SetCode(EVENT_CHAINING)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCountLimit(1)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
     -- take monster
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SPECIAL_SUMMON)
@@ -24,6 +38,28 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    if not Duel.IsChainNegatable(ev) then return false end
+    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
+    if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
+    local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+    return tg and tg:IsExists(Card.IsOnField, 1, nil)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local rc = re:GetHandler()
+    if not Duel.NegateEffect(ev) then return end
+    if not rc or not Utility.CheckActivateEffect(rc, false, true, true) or
+        not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
+    Utility.ActivateEffect(rc, false, true, true)
 end
 
 function s.e2filter(c, e, tp)

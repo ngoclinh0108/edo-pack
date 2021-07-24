@@ -86,7 +86,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     field:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(function(c)
             return c:IsType(TYPE_FIELD) and
-                       c:CheckActivateEffect(false, true, false) ~= nil
+                       Utility.CheckActivateEffect(c, false, true, false)
         end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                                             LOCATION_REMOVED, 0, nil)
         if #g == 0 then return end
@@ -101,34 +101,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
 
         aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
-
-        local te = tc:CheckActivateEffect(false, true, true)
-        if not te then return end
-
-        local tg = te:GetTarget()
-        if tg then
-            tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
-               PLAYER_NONE, 1)
-        end
-        Duel.BreakEffect()
-        tc:CreateEffectRelation(te)
-        Duel.BreakEffect()
-        local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-        if g ~= nill then
-            for etc in aux.Next(g) do etc:CreateEffectRelation(te) end
-        end
-
-        local op = te:GetOperation()
-        if op then
-            op(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
-               PLAYER_NONE, 1)
-        end
-        tc:ReleaseEffectRelation(te)
-        if g ~= nill then
-            for etc in aux.Next(g) do etc:ReleaseEffectRelation(te) end
-        end
-        Duel.BreakEffect()
-
+        Utility.ActivateEffect(tc, false, true, false)
         if tc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
             Duel.Draw(tp, 1, REASON_RULE)
         end
@@ -152,7 +125,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         if Duel.GetTurnCount() <= 2 then loc = loc + LOCATION_HAND end
         local g = Duel.GetMatchingGroup(function(c)
             return c:IsType(TYPE_CONTINUOUS) and
-                       c:CheckActivateEffect(false, true, false) ~= nil
+                       Utility.CheckActivateEffect(c, false, true, false)
         end, tp, loc, 0, nil)
         if #g == 0 then return end
 
@@ -171,36 +144,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
 
         for tc in aux.Next(g) do
-            local te = tc:CheckActivateEffect(false, true, true)
-            if te then
-                local tg = te:GetTarget()
-                if tg then
-                    tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e,
-                       REASON_EFFECT, PLAYER_NONE, 1)
-                end
-                Duel.BreakEffect()
-                tc:CreateEffectRelation(te)
-                Duel.BreakEffect()
-                local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-                if g ~= nill then
-                    for etc in aux.Next(g) do
-                        etc:CreateEffectRelation(te)
-                    end
-                end
-
-                local op = te:GetOperation()
-                if op then
-                    op(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e,
-                       REASON_EFFECT, PLAYER_NONE, 1)
-                end
-                tc:ReleaseEffectRelation(te)
-                if g ~= nill then
-                    for etc in aux.Next(g) do
-                        etc:ReleaseEffectRelation(te)
-                    end
-                end
-                Duel.BreakEffect()
-            end
+            Utility.ActivateEffect(tc, false, true, false)
         end
     end)
     Duel.RegisterEffect(continuous, tp)

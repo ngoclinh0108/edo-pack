@@ -34,6 +34,41 @@ function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code)
     Duel.SendtoExtraP(Duel.CreateToken(tp, code), tp, REASON_RULE)
 end
 
+function Utility.CheckActivateEffect(ec, neglect_con, neglect_cost, copy_info)
+    local te, ceg, cep, cev, cre, cr, crp =
+        ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
+    return te ~= nil
+end
+
+function Utility.ActivateEffect(ec, neglect_con, neglect_cost, copy_info)
+    local te, ceg, cep, cev, cre, cr, crp =
+        ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
+    if not te then return false end
+
+    local tg = te:GetTarget()
+    local op = te:GetOperation()
+    if tg then
+        tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
+           PLAYER_NONE, 1)
+    end
+
+    Duel.BreakEffect()
+    ec:CreateEffectRelation(te)
+    Duel.BreakEffect()
+
+    local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+    for etc in aux.Next(g) do etc:CreateEffectRelation(te) end
+    if op then
+        op(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
+           PLAYER_NONE, 1)
+    end
+
+    ec:ReleaseEffectRelation(te)
+    for etc in aux.Next(g) do etc:ReleaseEffectRelation(te) end
+    Duel.BreakEffect()
+    return true
+end
+
 function Utility.IsSetCard(c, ...)
     local setcodes = {...}
     for _, setcode in ipairs(setcodes) do
