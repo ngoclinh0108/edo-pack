@@ -41,11 +41,11 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    if rp == tp or not Duel.IsChainNegatable(ev) then return false end
-    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
     if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
+    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
     local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    return tg and tg:IsExists(Card.IsOnField, 1, nil)
+    return tg and tg:IsExists(Card.IsOnField, 1, nil) and rp ~= tp and
+               Duel.IsChainDisablable(ev)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

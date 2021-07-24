@@ -113,10 +113,13 @@ atk = 3300
 effect = """\
 3 monsters whose total Levels equal 10, including an "Nordic Alfar" Tuner (substitute accepted)
 ${NORDIC_GOD_EFFECT|Link} \
+Once per turn, when your opponent activates a card or effect (Quick Effect): \
+    You can negate the activation, and if you do, destroy it. \
+    Then, if it was a Spell/Trap Card, you can Set it to your field. \
 ${NORDIC_GOD_REBORN} \
 When Summoned this way: You can add to your hand, or Set, 1 Trap from your GY. \
 """
-strings = []
+strings = ["Negate activation", "Set the destroyed card"]
 
 [card.laufey]
 id = 930000006

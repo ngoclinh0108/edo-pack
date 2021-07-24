@@ -12,6 +12,20 @@ function s.initial_effect(c)
     -- link summon
     Link.AddProcedure(c, s.lnkfilter1, 3, 3, s.lnkcheck)
 
+    -- negate
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY)
+    e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e1:SetCode(EVENT_CHAINING)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCountLimit(1)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
     -- take trap
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_TOHAND)
@@ -35,6 +49,37 @@ function s.lnkcheck(g, lc, sumtype, tp)
     local mg = g:Filter(s.lnkfilter1, nil, lc, sumtype, tp)
     return mg:CheckWithSumEqual(Card.GetLevel, 10, 3, 3) and
                mg:IsExists(s.lnkfilter2, 1, nil, lc, sumtype, tp)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
+    return rp ~= tp and Duel.IsChainNegatable(ev)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local rc = re:GetHandler()
+    if chk == 0 then return true end
+
+    Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
+    if rc:IsDestructable() and rc:IsRelateToEffect(re) then
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, 1, 0, 0)
+    end
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local rc = re:GetHandler()
+    if not Duel.NegateActivation(ev) then return end
+    if not rc:IsRelateToEffect(re) or Duel.Destroy(eg, REASON_EFFECT) == 0 then
+        return
+    end
+
+    if rc:IsType(TYPE_SPELL + TYPE_TRAP) and
+        not rc:IsLocation(LOCATION_HAND + LOCATION_DECK) and aux.nvfilter(rc) and
+        (rc:IsType(TYPE_FIELD) or Duel.GetLocationCount(tp, LOCATION_SZONE) > 0) and
+        rc:IsSSetable() and Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
+        Duel.BreakEffect()
+        Duel.SSet(tp, rc)
+    end
 end
 
 function s.e2filter(c)
