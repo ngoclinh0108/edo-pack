@@ -101,7 +101,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
 
         aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
-        Utility.ActivateEffect(tc, false, true, false)
+        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)
         if tc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
             Duel.Draw(tp, 1, REASON_RULE)
         end
@@ -144,7 +144,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
 
         for tc in aux.Next(g) do
-            Utility.ActivateEffect(tc, false, true, false)
+            Utility.ApplyActivateEffect(tc, e, tp, false, true, false)
         end
     end)
     Duel.RegisterEffect(continuous, tp)

@@ -41,7 +41,7 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    if not Duel.IsChainNegatable(ev) then return false end
+    if rp == tp or not Duel.IsChainNegatable(ev) then return false end
     if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
     if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
     local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
@@ -54,12 +54,9 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local rc = re:GetHandler()
-    if not Duel.NegateEffect(ev) then return end
-    if not rc or not Utility.CheckActivateEffect(rc, false, true, true) or
-        not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
-    Utility.ActivateEffect(rc, false, true, true)
+    if Duel.NegateEffect(ev) and Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
+        Utility.ApplyEffect(re, e, tp)
+    end
 end
 
 function s.e2filter(c, e, tp)

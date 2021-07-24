@@ -35,25 +35,26 @@ function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code)
 end
 
 function Utility.CheckActivateEffect(ec, neglect_con, neglect_cost, copy_info)
-    local te, ceg, cep, cev, cre, cr, crp =
-        ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
-    return te ~= nil
+    return ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info) ~= nil
 end
 
-function Utility.ActivateEffect(ec, neglect_con, neglect_cost, copy_info)
-    local te, ceg, cep, cev, cre, cr, crp =
-        ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
-    if not te then return false end
+function Utility.ApplyActivateEffect(ec, e, tp, neglect_con, neglect_cost, copy_info)
+    local te = ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
+    return Utility.ApplyEffect(te, e, tp, ec)
+end
 
+function Utility.ApplyEffect(te, e, tp, rc)
+    if not te then return false end
+    if not rc then rc = e:GetHandler() end
     local tg = te:GetTarget()
     local op = te:GetOperation()
+
     if tg then
         tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
            PLAYER_NONE, 1)
     end
-
     Duel.BreakEffect()
-    ec:CreateEffectRelation(te)
+    rc:CreateEffectRelation(te)
     Duel.BreakEffect()
 
     local g = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
@@ -63,7 +64,7 @@ function Utility.ActivateEffect(ec, neglect_con, neglect_cost, copy_info)
            PLAYER_NONE, 1)
     end
 
-    ec:ReleaseEffectRelation(te)
+    rc:ReleaseEffectRelation(te)
     for etc in aux.Next(g) do etc:ReleaseEffectRelation(te) end
     Duel.BreakEffect()
     return true
