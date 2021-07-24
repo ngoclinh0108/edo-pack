@@ -45,9 +45,7 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
-    Duel.SetChainLimit(function(e, lp, tp)
-        return lp == tp or not e:IsHasType(EFFECT_TYPE_ACTIVATE)
-    end)
+    Duel.SetChainLimit(function(e, lp, tp) return lp == tp end)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
