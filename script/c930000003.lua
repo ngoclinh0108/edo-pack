@@ -51,10 +51,8 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
-    if #g == 0 then return end
-
-    for tc in aux.Next(g) do
+    local ng = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
+    for tc in aux.Next(ng) do
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_DISABLE)
@@ -65,9 +63,12 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         tc:RegisterEffect(ec1b)
     end
 
-
-    if not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
-    local sc = Utility.GroupSelect(g, tp, 1):GetFirst()
+    local g = Duel.GetMatchingGroup(function(c)
+        return c:IsFaceup() and not c:IsType(TYPE_TOKEN)
+    end, tp, 0, LOCATION_MZONE, nil)
+    if not c:IsRelateToEffect(e) or c:IsFacedown() or #g == 0 or
+        not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
+    local sc = Utility.GroupSelect(g, tp, 1,nil, HINTMSG_FACEUP):GetFirst()
     if sc then
         c:CopyEffect(sc:GetOriginalCodeRule(),
                      RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1)
