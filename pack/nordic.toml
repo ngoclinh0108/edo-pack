@@ -67,7 +67,7 @@ effect = """\
 ${AESIR_GOD_EFFECT} \
 Once per turn, during your turn (Quick Effect): You can activate this effect; until the end of this turn, \
     negate the effects of all face-up monsters your opponent currently controls, \
-    also can gains the effects of 1 monster they control (your choice). \
+    also this card can gains the effects of 1 monster they control (your choice). \
 ${NORDIC_GOD_REBORN} \
 When Summoned this way: You can inflict 800 damage to your opponent for each "Aesir" monster you control. \
 """
