@@ -22,6 +22,7 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetRange(LOCATION_MZONE)
+    e1:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
     e1:SetCountLimit(1)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
@@ -68,7 +69,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end, tp, 0, LOCATION_MZONE, nil)
     if not c:IsRelateToEffect(e) or c:IsFacedown() or #g == 0 or
         not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
-    local sc = Utility.GroupSelect(g, tp, 1,nil, HINTMSG_FACEUP):GetFirst()
+    local sc = Utility.GroupSelect(g, tp, 1, nil, HINTMSG_FACEUP):GetFirst()
     if sc then
         c:CopyEffect(sc:GetOriginalCodeRule(),
                      RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1)
