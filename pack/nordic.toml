@@ -119,7 +119,7 @@ Once per turn, when your opponent activates a card or effect during your turn (Q
 ${NORDIC_GOD_REBORN} \
 When Summoned this way: You can add to your hand, or Set, 1 Trap from your GY. \
 """
-strings = ["Negate activation", "Set the destroyed card"]
+strings = ["Negate activation", "Set the destroyed card to your field"]
 
 [card.laufey]
 id = 930000006
