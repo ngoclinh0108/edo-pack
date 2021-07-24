@@ -64,7 +64,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SpecialSummon(rc, 0, tp, tp, false, false, rc:GetPreviousPosition())
     end
 
-    Utility.HintCard(rc:GetCode())
+    Utility.HintCard(rc)
     Utility.ApplyEffect(re, e, tp)
 end
 

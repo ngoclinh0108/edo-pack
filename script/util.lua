@@ -109,7 +109,11 @@ function Utility.IsSetCardListed(c, ...)
     return false
 end
 
-function Utility.HintCard(code) Duel.Hint(HINT_CARD, 0, code) end
+function Utility.HintCard(target)
+    local code = target
+    if type(target) == "Card" then code = target:GetCode() end
+    Duel.Hint(HINT_CARD, 0, code)
+end
 
 function Utility.GroupSelect(g, tp, min, max, hintmsg)
     if #g < min then return Group.CreateGroup() end
