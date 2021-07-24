@@ -5,27 +5,7 @@ if not UtilNordic then UtilNordic = aux.UtilNordicProcedure end
 -- function
 function UtilNordic.NordicGodEffect(c, sumtype, reborn)
     local id = c:GetOriginalCodeRule()
-    local splimitval
-    if sumtype == SUMMON_TYPE_FUSION then
-        splimitval = aux.fuslimit
-    elseif sumtype == SUMMON_TYPE_SYNCHRO then
-        splimitval = aux.synlimit
-    elseif sumtype == SUMMON_TYPE_XYZ then
-        splimitval = aux.xyzlimit
-    elseif sumtype == SUMMON_TYPE_LINK then
-        splimitval = aux.lnklimit
-    end
-
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE +
-                            EFFECT_FLAG_SINGLE_RANGE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetRange(LOCATION_EXTRA)
-    splimit:SetValue(splimitval)
-    c:RegisterEffect(splimit)
-
+    
     -- summon cannot be negated
     local sumsafe = Effect.CreateEffect(c)
     sumsafe:SetType(EFFECT_TYPE_SINGLE)

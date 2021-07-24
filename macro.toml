@@ -30,7 +30,6 @@ Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, 
 """
 
 NORDIC_GOD_EFFECT = """\
-Must first be $1 Summoned. \
 This card's $1 Summon cannot be negated. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent.\
 """

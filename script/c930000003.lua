@@ -64,6 +64,19 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1b:SetCode(EFFECT_DISABLE_EFFECT)
         tc:RegisterEffect(ec1b)
     end
+
+    if not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
+    local sc
+    if #g == 1 then
+        sc = g:GetFirst()
+    else
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
+        sc = g:Select(tp, 1, 1, nil)
+    end
+    if sc then
+        c:CopyEffect(sc:GetOriginalCode(),
+                     RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1)
+    end
 end
 
 function s.e2filter(c) return c:IsFaceup() and c:IsSetCard(0x4b) end
