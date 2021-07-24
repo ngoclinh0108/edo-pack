@@ -166,7 +166,8 @@ end
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local loc = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION)
     return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and
-               (loc & LOCATION_SZONE) ~= 0 and re:IsActiveType(TYPE_TRAP) and
+               (loc & LOCATION_SZONE) ~= 0 and
+               re:IsActiveType(TYPE_TRAP + TYPE_SPELL) and
                Duel.IsChainDisablable(ev)
 end
 
