@@ -45,8 +45,7 @@ effect = """\
 1 "Nordic Champion" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
 Once per turn, when your opponent's card or effect is activated that targets a card(s) on the field (Quick Effect): \
-    You can negate the effect, \
-    and if the negated effect that targets exactly 1 card on the field (and no other cards), you can apply that negated effect. \
+    You can negate the effect, and if you do, you can apply that negated effect at your own. \
 ${NORDIC_GOD_REBORN} \
 When Summoned this way: You can add to your hand, or Special Summon, 1 "Nordic" monster from your Deck or GY. \
 """

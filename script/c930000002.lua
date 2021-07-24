@@ -54,9 +54,10 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.NegateEffect(ev) and Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
-        Utility.ApplyEffect(re, e, tp)
-    end
+    if not Duel.NegateEffect(ev) then return end
+    if not Utility.CheckEffectTarget(re, e, tp) or
+        not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
+    Utility.ApplyEffect(re, e, tp)
 end
 
 function s.e2filter(c, e, tp)

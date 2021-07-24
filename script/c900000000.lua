@@ -86,7 +86,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     field:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(function(c)
             return c:IsType(TYPE_FIELD) and
-                       Utility.CheckActivateEffect(c, false, true, false)
+                       Utility.CheckActivateEffect(c, e, tp, false, true, false)
         end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                                             LOCATION_REMOVED, 0, nil)
         if #g == 0 then return end
@@ -125,7 +125,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         if Duel.GetTurnCount() <= 2 then loc = loc + LOCATION_HAND end
         local g = Duel.GetMatchingGroup(function(c)
             return c:IsType(TYPE_CONTINUOUS) and
-                       Utility.CheckActivateEffect(c, false, true, false)
+                       Utility.CheckActivateEffect(c, e, tp, false, true, false)
         end, tp, loc, 0, nil)
         if #g == 0 then return end
 

@@ -34,13 +34,25 @@ function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code)
     Duel.SendtoExtraP(Duel.CreateToken(tp, code), tp, REASON_RULE)
 end
 
-function Utility.CheckActivateEffect(ec, neglect_con, neglect_cost, copy_info)
-    return ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info) ~= nil
+function Utility.CheckActivateEffect(ec, e, tp, neglect_con, neglect_cost,
+                                     copy_info)
+    local te = ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info) ~=
+                   nil
+    return Utility.CheckEffectTarget(te, e, tp)
 end
 
-function Utility.ApplyActivateEffect(ec, e, tp, neglect_con, neglect_cost, copy_info)
+function Utility.ApplyActivateEffect(ec, e, tp, neglect_con, neglect_cost,
+                                     copy_info)
     local te = ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
     return Utility.ApplyEffect(te, e, tp, ec)
+end
+
+function Utility.CheckEffectTarget(te, e, tp)
+    if not te then return false end
+    local tg = te:GetTarget()
+    if not tg then return true end
+    return tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
+              PLAYER_NONE, 0)
 end
 
 function Utility.ApplyEffect(te, e, tp, rc)
