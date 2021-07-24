@@ -154,9 +154,7 @@ If a face-up Xyz Monster(s) you control is destroyed by battle or card effect: \
 Once per turn, when a Trap Card or effect is activated on the field (Quick Effect): \
     You can negate that effect, and if you do, attach it to this card as material. \
 If this card has a "Galaxy" Xyz Monster as material, it gains this effect.
-● When your opponent activate card or effect that targets exactly 1 card on the field (Quick Effect): \
-    You can target another card on the field that would be an appropriate target for that card/effect; \
-    that card/effect now targets the new target.
+● This card cannot be destroyed by card effects
 ● You can Special Summon as many as possible monster attached to this card, \
     and if you do, during the End Phase of the next turn, attach all monsters Summoned by this effect to this card as materials, or send them to the GY. \
     You can only use this effect of "Number C38: Hope Keeper Dragon Tyrant Galaxy" once per turn.
@@ -164,7 +162,6 @@ If this card has a "Galaxy" Xyz Monster as material, it gains this effect.
 strings = [
     "Attach the destroyed monster",
     "Negate effect then attach",
-    "Redirect target",
     "Special Summon attached monsters",
     "Special Summoned via \"Number C38: Hope Keeper Dragon Tyrant Galaxy\"",
 ]

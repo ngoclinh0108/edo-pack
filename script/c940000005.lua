@@ -56,25 +56,24 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- redirect target
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 2))
-    e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e4:SetCode(EVENT_CHAINING)
+    -- indes
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e4:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetCondition(s.e4con)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+	e4:SetCondition(s.effcon)
+	e4:SetValue(1)
+	c:RegisterEffect(e4)
 
     -- special summon attached monsters
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 3))
+    e5:SetDescription(aux.Stringid(id, 2))
     e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e5:SetType(EFFECT_TYPE_IGNITION)
     e5:SetRange(LOCATION_MZONE)
     e5:SetCountLimit(1, id)
+    e5:SetCondition(s.effcon)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
@@ -167,49 +166,6 @@ function s.effcon(e, tp, eg, ep, ev, re, r, rp)
     end, 1, nil)
 end
 
-function s.e4filter(c, ct) return Duel.CheckChainTarget(ct, c) end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    if re == e or rp == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
-        return false
-    end
-
-    local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    if not g or #g ~= 1 then return false end
-    local tc = g:GetFirst()
-    e:SetLabelObject(tc)
-    return tc:IsOnField() and s.effcon(e, tp, eg, ep, ev, re, r, rp)
-end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local ct = ev
-    local label = Duel.GetFlagEffectLabel(0, id)
-    if label then if ev == (label >> 16) then ct = (label & 0xffff) end end
-
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e4filter, tp, LOCATION_ONFIELD,
-                                     LOCATION_ONFIELD, 1, e:GetLabelObject(), ct)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    Duel.SelectTarget(tp, s.e4filter, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1,
-                      1, e:GetLabelObject(), ct)
-
-    local val = ct + (ev + 1 << 16)
-    if label then
-        Duel.SetFlagEffectLabel(0, 21501505, val)
-    else
-        Duel.RegisterFlagEffect(0, 21501505, RESET_CHAIN, 0, 1, val)
-    end
-end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
-
-    Duel.ChangeTargetCard(ev, Group.FromCards(tc))
-end
-
 function s.e5filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
@@ -246,7 +202,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP)
 
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(aux.Stringid(id, 4))
+        ec1:SetDescription(aux.Stringid(id, 3))
         ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_CLIENT_HINT)
         ec1:SetCode(EVENT_PHASE + PHASE_END)
