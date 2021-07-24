@@ -40,8 +40,11 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    local loc = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION)
-    return re:IsActiveType(TYPE_MONSTER) and loc == LOCATION_MZONE and rp == tp
+    local loc, de, dp = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION,
+                                          CHAININFO_DISABLE_REASON,
+                                          CHAININFO_DISABLE_PLAYER)
+    return de and dp ~= tp and rp == tp and re:IsActiveType(TYPE_MONSTER) and
+               loc == LOCATION_MZONE
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

@@ -89,7 +89,7 @@ def = 3100
 effect = """\
 1 LIGHT "Nordic" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
-Once per turn, if the effect activation of a monster you control is negated (except during the Damage Step): \
+Once per turn, if the effect activation of a monster you control is negated by your opponent's card effect (except during the Damage Step): \
     You can activate this effect; if the negated monster is in the GY, \
     Special Summon it in the same position it was in when on the field, \
     also, apply the negated effect. \
