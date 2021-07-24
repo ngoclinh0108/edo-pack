@@ -143,7 +143,7 @@ Once per turn, if your monster battles an opponent's monster, before damage calc
     You can halve the ATK of the opponent's monster it is battling until the end of the Damage Step. \
 """
 effect = """\
-2+ Level 7 monsters, including 1 "Odd-Eyes" Dragon Pendulum Monster and 1 "Rebellion" Xyz Monster
+2 Level 7 monsters (1 "Odd-Eyes" Dragon Pendulum Monster, 1 "Rebellion" Xyz Monster)
 (This card is always treated as "Supreme King Dragon" card.)
 Must be Xyz Summoned, and can then be Pendulum Summoned. \
 If you can Pendulum Summon Level 7, you can Pendulum Summon this face-up card in your Extra Deck. \
