@@ -37,7 +37,7 @@ end
 function Utility.CheckActivateEffect(ec, e, tp, neglect_con, neglect_cost,
                                      copy_info)
     local te = ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
-    return Utility.CheckEffect(te, e, tp)
+    return Utility.CheckEffectCanApply(te, e, tp)
 end
 
 function Utility.ApplyActivateEffect(ec, e, tp, neglect_con, neglect_cost,
@@ -46,16 +46,12 @@ function Utility.ApplyActivateEffect(ec, e, tp, neglect_con, neglect_cost,
     return Utility.ApplyEffect(te, e, tp)
 end
 
-function Utility.CheckEffect(te, e, tp)
+function Utility.CheckEffectCanApply(te, e, tp)
     if not te then return false end
     local tg = te:GetTarget()
-    local con = te:GetCondition()
-
-    return (not con or
-               con(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e,
-                   REASON_EFFECT, PLAYER_NONE)) and (not tg or
-               tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
-                  PLAYER_NONE, 0))
+    if not tg then return true end
+    return tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
+              PLAYER_NONE, 0)
 end
 
 function Utility.ApplyEffect(te, e, tp, rc)
