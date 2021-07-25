@@ -66,7 +66,7 @@ function s.initial_effect(c)
 
     -- special summon
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_TOEXTRA)
+    e2:SetCategory(CATEGORY_TOEXTRA + CATEGORY_SPECIAL_SUMMON)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DELAY +
                        EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
@@ -126,12 +126,15 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
             Duel.IsExistingMatchingCard(s.e2filter, tp, loc, 0, 1, nil, e, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, loc)
     Duel.SetOperationInfo(0, CATEGORY_TOEXTRA, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, loc)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or
+        not Duel.SendtoDeck(c, nil, 2, REASON_EFFECT) then return end
+
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     if ft > 4 then ft = 4 end
     if ft > 1 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then
@@ -144,8 +147,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     g = aux.SelectUnselectGroup(g, e, tp, 1, ft, aux.dncheck, 1, tp,
                                 HINTMSG_SPSUMMON)
     if #g == 0 then return end
-
-    local res = 0
     for tc in aux.Next(g) do
         if Duel.SpecialSummonStep(tc, 0, tp, tp, false, false,
                                   POS_FACEUP_DEFENSE) then
@@ -156,14 +157,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
             ec1:SetCode(EFFECT_CANNOT_TRIGGER)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
             tc:RegisterEffect(ec1)
-            res = res + 1
         end
     end
     Duel.SpecialSummonComplete()
-
-    if res > 0 and c:IsRelateToEffect(e) then
-        Duel.BreakEffect()
-        Duel.SendtoDeck(c, nil, 2, REASON_EFFECT)
-    end
 end
 

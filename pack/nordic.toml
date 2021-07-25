@@ -107,7 +107,7 @@ type = "monster link effect"
 attribute = "divine"
 race = "creator-god"
 link-rating = 3
-link-arrows = "top-left top-right bottom"
+link-arrows = "7top-left top-right bottom"
 atk = 3300
 effect = """\
 3 monsters whose total Levels equal 10, including an "Nordic Alfar" Tuner (substitute accepted)
@@ -138,8 +138,9 @@ You can also use DARK monsters in your hand as material to Link Summon this card
 ${NORDIC_GOD_EFFECT|Link} \
 This card's original ATK becomes equal 200 x combined Levels of Link Materials used for its Link Summon. \
 If this card is destroyed by battle or card effect: \
-    You can Special Summon up to 4 Level 5 or lower "Nordic" monsters with different names in Defense Position, from your hand, Deck or GY, \
-    but it cannot activate its effect this turn, then shuffle this card into the Extra Deck. \
+    You can shuffle this card into the Extra Deck, and if you do, \
+    Special Summon up to 4 Level 5 or lower "Nordic" monsters with different names in Defense Position, \
+    from your hand, Deck or GY, but it cannot activate its effect this turn. \
     You can only use this effect of "Laufey the Nordic Giant" once per turn. \
 """
 strings = []
