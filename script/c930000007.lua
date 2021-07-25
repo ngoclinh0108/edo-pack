@@ -11,7 +11,7 @@ function s.initial_effect(c)
     UtilNordic.NordicGodEffect(c, SUMMON_TYPE_FUSION)
 
     -- fusion material
-    Fusion.AddProcMixN(c, true, true, s.fusfilter, 3)
+    Fusion.AddProcMixN(c, true, true, s.fusfilter, 2)
 end
 
 function s.fusfilter(c, fc, sumtype, tp, sub, mg, sg)
