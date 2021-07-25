@@ -31,7 +31,7 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_RECOVER)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_PLAYER_TARGET)
     e2:SetCode(EVENT_SPSUMMON_SUCCESS)
     e2:SetCondition(UtilNordic.RebornCondition)
     e2:SetTarget(s.e2tg)
@@ -39,10 +39,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1check(c, e, tp)
-    return
-        c:IsPreviousLocation(LOCATION_GRAVE) and c:IsLocation(LOCATION_GRAVE) and
-            c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e1check(c, e, tp, ev)
+    local loc = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION)
+    return loc == LOCATION_MZONE and c:IsLocation(LOCATION_GRAVE) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -55,7 +55,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local rc = re:GetHandler()
     if chk == 0 then return rc and Utility.CheckEffectCanApply(re, e, tp) end
 
-    if s.e1check(rc, e, tp) then
+    if s.e1check(rc, e, tp, ev) then
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, rc, 1, 0, 0)
     end
 end
@@ -66,7 +66,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if c:IsFacedown() or not c:IsRelateToEffect(e) or not rc then return end
 
     Utility.ApplyEffect(re, e, tp)
-    if s.e1check(rc, e, tp) then
+    if s.e1check(rc, e, tp, ev) then
         Duel.SpecialSummon(rc, 0, tp, tp, false, false, rc:GetPreviousPosition())
     end
 end

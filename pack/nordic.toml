@@ -22,12 +22,12 @@ effect = """\
 1 "Nordic Ascendant" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
 (Quick Effect): You can activate this effect; until the end of this turn, while this card is on the field, \
-    monsters whose original Attribute is DIVINE you control, are unaffected by Spell/Trap effects. \
-    Your opponent cannot activate cards or effects in response to this effect's activation. \
+    original "Aesir" monsters you control are unaffected by Spell/Trap effects. \
+    Your opponent cannot activate Spell/Trap Cards in response to this effect's activation. \
     You cannot activate this effect if your cards or effects are in that Chain. \
     You can only use this effect of "Odin, Allfather of the Aesir" once per turn. \
 ${NORDIC_GOD_REBORN} \
-When Summoned this way: You can look at up to 5 cards from the top of your Deck, \
+If Summoned this way: You can look at up to 5 cards from the top of your Deck, \
     then place them on the top of the Deck in any order, and if you do, draw 1 card. \
 """
 strings = ["\"Aesir\" monsters unaffected by Spell/Trap"]
@@ -48,7 +48,7 @@ ${AESIR_GOD_EFFECT} \
 Once per turn, when your opponent's card or effect is activated that targets a card(s) on the field (Quick Effect): \
     You can negate the effect, and if you do, you can apply that negated effect at your own. \
 ${NORDIC_GOD_REBORN} \
-When Summoned this way: You can add to your hand, or Special Summon, 1 "Nordic" monster from your Deck or GY. \
+If Summoned this way: You can add to your hand, or Special Summon, 1 "Nordic" monster from your Deck or GY. \
 """
 strings = ["Negate the effect", "Use the negated effect"]
 
@@ -67,9 +67,9 @@ effect = """\
 ${AESIR_GOD_EFFECT} \
 Once per turn, during your turn (Quick Effect): You can activate this effect; until the end of this turn, \
     negate the effects of all face-up monsters your opponent currently controls, \
-    also this card can gains the original effects of 1 monster they control while it is face-up on the field (your choice). \
+    also this card can gains the original effects of 1 monster they control while this card is face-up on the field (your choice). \
 ${NORDIC_GOD_REBORN} \
-When Summoned this way: You can inflict 800 damage to your opponent for each "Aesir" monster you control. \
+If Summoned this way: You can inflict 800 damage to your opponent for each "Aesir" monster you control. \
 """
 strings = [
     "Negate effects of face-up monsters your opponent currently controls",
@@ -95,7 +95,7 @@ Once per turn, if the effect activation of your monster is negated by your oppon
     This effect's activation cannot be negated. \
     This card must be face-up on the field to activate and to resolve this effect. \
 ${NORDIC_GOD_REBORN} \
-When Summoned this way: You can gain 1000 LP for each "Aesir" monster you control. \
+If Summoned this way: You can gain 1000 LP for each "Aesir" monster you control. \
 """
 strings = ["Apply the negated monster's effect"]
 
@@ -116,7 +116,7 @@ Once per turn, when your opponent activates a card or effect during your turn (Q
     You can negate the activation, and if you do, destroy it. \
     Then, if it was a Spell/Trap, you can Set it to your field. \
 ${NORDIC_GOD_REBORN} \
-When Summoned this way: You can add to your hand, or Set, 1 Trap from your GY. \
+If Summoned this way: You can add to your hand, or Set, 1 Trap from your GY. \
 """
 strings = ["Negate activation", "Set the destroyed card to your field"]
 
