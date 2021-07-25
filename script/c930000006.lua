@@ -9,6 +9,7 @@ s.curgroup = nil
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    c:SetSPSummonOnce(id)
     UtilNordic.NordicGodEffect(c, SUMMON_TYPE_LINK)
 
     -- link summon
@@ -63,26 +64,18 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- redirect
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e2:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
-    e2:SetValue(LOCATION_DECK)
-    c:RegisterEffect(e2)
-
     -- special summon
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DELAY +
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_TOEXTRA)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DELAY +
                        EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e3:SetCode(EVENT_DESTROYED)
-    e3:SetCountLimit(1, id)
-    e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    e2:SetCode(EVENT_DESTROYED)
+    e2:SetCountLimit(1, id)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.lnkfilter(c, sc, sumtype, tp)
@@ -114,49 +107,63 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 end
 
-function s.e3filter(c, e, tp)
+function s.e2filter(c, e, tp)
     return c:IsSetCard(0x42) and c:IsLevelBelow(5) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsPreviousLocation(LOCATION_MZONE) and
                c:IsReason(REASON_BATTLE + REASON_EFFECT)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
-    local g = Duel.GetMatchingGroup(s.e3filter, tp, loc, 0, nil, e, tp)
     if chk == 0 then
-        local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-        if c:GetSequence() < 5 then ft = ft + 1 end
-        return ft >= 3 and g:GetClassCount(Card.GetCode) >= 2 and
-                   not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)
+        return
+            Duel.IsExistingMatchingCard(s.e2filter, tp, loc, 0, 1, nil, e, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 3, 0, loc)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, loc)
+    Duel.SetOperationInfo(0, CATEGORY_TOEXTRA, c, 1, 0, 0)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_HAND +
-                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil,
-                                    e, tp)
-    g = aux.SelectUnselectGroup(g, e, tp, 3, 3, aux.dncheck, 1, tp,
-                                HINTMSG_SPSUMMON)
-    if ft <= 0 or #g == 0 or
-        (#g > 1 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)) then
-        return
+    if ft > 4 then ft = 4 end
+    if ft > 1 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then
+        ft = 1
     end
 
-    if #g <= ft then
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
-    else
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local sg = g:Select(tp, ft, ft, nil)
-        Duel.SpecialSummon(sg, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_HAND +
+                                        LOCATION_DECK + LOCATION_GRAVE, 0, nil,
+                                    e, tp)
+    g = aux.SelectUnselectGroup(g, e, tp, 1, ft, aux.dncheck, 1, tp,
+                                HINTMSG_SPSUMMON)
+    if #g == 0 then return end
+
+    local res = 0
+    for tc in aux.Next(g) do
+        if Duel.SpecialSummonStep(tc, 0, tp, tp, false, false,
+                                  POS_FACEUP_DEFENSE) then
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetDescription(3302)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+            ec1:SetCode(EFFECT_CANNOT_TRIGGER)
+            ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+            tc:RegisterEffect(ec1)
+            res = res + 1
+        end
+    end
+    Duel.SpecialSummonComplete()
+
+    if res > 0 and c:IsRelateToEffect(e) then
+        Duel.BreakEffect()
+        Duel.SendtoDeck(c, nil, 2, REASON_EFFECT)
     end
 end
 

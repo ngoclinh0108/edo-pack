@@ -132,13 +132,14 @@ link-arrows = "top left right bottom"
 atk = "?"
 effect = """\
 4 "Nordic" monsters that have Level with different names, except Tokens
+You can only Special Summon "Laufey the Nordic Giant(s)" once per turn. \
 Must be Link Summoned. \
 You can also use DARK monsters in your hand as material to Link Summon this card. \
 ${NORDIC_GOD_EFFECT|Link} \
 This card's original ATK becomes equal 200 x combined Levels of Link Materials used for its Link Summon. \
-If this card leaves the field, shuffle it into the Extra Deck. \
 If this card is destroyed by battle or card effect: \
-    You can Special Summon 3 Level 5 or lower "Nordic" monsters with different names in Defense Position, from your hand, Deck or GY. \
+    You can Special Summon up to 4 Level 5 or lower "Nordic" monsters with different names in Defense Position, from your hand, Deck or GY, \
+    but it cannot activate its effect this turn, then shuffle this card into the Extra Deck. \
     You can only use this effect of "Laufey the Nordic Giant" once per turn. \
 """
 strings = []
