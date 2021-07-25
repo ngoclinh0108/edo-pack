@@ -49,7 +49,7 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local rc = re:GetHandler()
-    if chk == 0 then return rc and Utility.CheckEffectTarget(re, e, tp) end
+    if chk == 0 then return rc and Utility.CheckEffect(re, e, tp) end
 
     if rc:IsLocation(LOCATION_GRAVE) and
         rc:IsCanBeSpecialSummoned(e, 0, tp, false, false) then

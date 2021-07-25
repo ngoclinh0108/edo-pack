@@ -55,7 +55,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not Duel.NegateEffect(ev) then return end
-    if not Utility.CheckEffectTarget(re, e, tp) or
+    if not Utility.CheckEffect(re, e, tp) or
         not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
     Utility.ApplyEffect(re, e, tp)
 end
