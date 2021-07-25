@@ -67,8 +67,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(function(c)
         return c:IsFaceup() and not c:IsType(TYPE_TOKEN)
     end, tp, 0, LOCATION_MZONE, nil)
-    if not c:IsRelateToEffect(e) or c:IsFacedown() or #g == 0 or
-        not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
+    if not c:IsRelateToEffect(e) or c:IsFacedown() or not c:IsOnField() or #g ==
+        0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
     local sc = Utility.GroupSelect(g, tp, 1, nil, HINTMSG_FACEUP):GetFirst()
     if sc then
         Duel.HintSelection(Group.FromCards(sc))

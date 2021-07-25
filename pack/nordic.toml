@@ -67,7 +67,7 @@ effect = """\
 ${AESIR_GOD_EFFECT} \
 Once per turn, during your turn (Quick Effect): You can activate this effect; until the end of this turn, \
     negate the effects of all face-up monsters your opponent currently controls, \
-    also you can gains the original effects of 1 monster they control (your choice). \
+    also this card can gains the original effects of 1 monster they control while it is face-up on the field (your choice). \
 ${NORDIC_GOD_REBORN} \
 When Summoned this way: You can inflict 800 damage to your opponent for each "Aesir" monster you control. \
 """
@@ -89,10 +89,9 @@ def = 3100
 effect = """\
 1 LIGHT "Nordic" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
-Once per turn, if the effect activation of a monster you control is negated by your opponent's card effect (except during the Damage Step): \
-    You can activate this effect; if the negated monster is in the GY, \
+Once per turn, if the effect activation of your monster is negated by your opponent's card effect (except during the Damage Step): \
+    You can apply the negated effect, then, if that effect was activated on the field and the monster now in the GY, \
     Special Summon it in the same position it was in when on the field, \
-    also, apply the negated effect. \
     This effect's activation cannot be negated. \
     This card must be face-up on the field to activate and to resolve this effect. \
 ${NORDIC_GOD_REBORN} \
