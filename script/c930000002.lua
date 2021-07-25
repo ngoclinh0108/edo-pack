@@ -4,6 +4,7 @@ Duel.LoadScript("util_nordic.lua")
 local s, id = GetID()
 
 s.listed_series = {0x4042, 0x42}
+s.material_setcode = {0x4042}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
