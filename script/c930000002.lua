@@ -46,8 +46,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
     if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
     local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    return tg and tg:IsExists(Card.IsOnField, 1, nil) and rp ~= tp and
-               Duel.IsChainDisablable(ev)
+    return tg and rp ~= tp and Duel.IsChainDisablable(ev)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -62,38 +61,28 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Utility.ApplyEffect(re, e, tp)
 end
 
-function s.e2filter(c, e, tp)
-    if not c:IsAbleToHand() and
-        not c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
-        return false
-    end
-    return c:IsSetCard(0x42) and c:IsType(TYPE_MONSTER)
+function s.e2filter(c)
+    return c:IsAbleToHand() and c:IsSetCard(0x42) and c:IsType(TYPE_MONSTER)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e2filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil, e, tp)
+                                           nil)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
                           LOCATION_DECK + LOCATION_GRAVE)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter), tp,
                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-                                      nil, e, tp)
-    if #g == 0 then return end
-
-    aux.ToHandOrElse(g, tp, function(tc)
-        return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end, function(g)
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
-    end, 2)
+                                      nil)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
 end

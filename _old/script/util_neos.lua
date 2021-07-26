@@ -4,7 +4,7 @@ if not Neos then Neos = aux.NeosProcedure end
 
 -- function
 function Neos.AddProc(c, insf1, insf2, op, splimit, return_extra)
-    -- fusion material
+    -- fusion summon
     Fusion.AddProcMix(c, true, true, CARD_NEOS, insf1, insf2)
     Fusion.AddContactProc(c, function(tp)
         return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost, tp,
