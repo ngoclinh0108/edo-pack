@@ -164,7 +164,7 @@ Once per turn, during the Standby Phase, if this card is in your GY: \
 While this card is face-up on the field, "Nordic" monsters that have Level in your GY, except "Hela the Nordic Death", gain the following effect.
 ● You can Special Summon this card (from your GY), \
     but its effects are negated, cannot activate its effects, and your opponent takes no battle damage from attacks involving it, \
-    also you cannot Special Summon monsters for the rest of this turn, except "Nordic" monsters. \
+    also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except "Nordic" monsters. \
     You can only Special Summon this card once per turn this ways.
 """
 strings = [
