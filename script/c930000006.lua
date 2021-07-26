@@ -132,14 +132,15 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or
-        not Duel.SendtoDeck(c, nil, 2, REASON_EFFECT) then return end
+    if not c:IsRelateToEffect(e) or Duel.SendtoDeck(c, nil, 2, REASON_EFFECT) ==
+        0 then return end
 
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     if ft > 4 then ft = 4 end
     if ft > 1 and Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then
         ft = 1
     end
+    if ft == 0 then return end
 
     local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_HAND +
                                         LOCATION_DECK + LOCATION_GRAVE, 0, nil,
@@ -150,15 +151,14 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     for tc in aux.Next(g) do
         if Duel.SpecialSummonStep(tc, 0, tp, tp, false, false,
                                   POS_FACEUP_DEFENSE) then
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetDescription(3302)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-            ec1:SetCode(EFFECT_CANNOT_TRIGGER)
-            ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-            tc:RegisterEffect(ec1)
+            local ec2 = Effect.CreateEffect(c)
+            ec2:SetDescription(3302)
+            ec2:SetType(EFFECT_TYPE_SINGLE)
+            ec2:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+            ec2:SetCode(EFFECT_CANNOT_TRIGGER)
+            ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+            tc:RegisterEffect(ec2)
         end
     end
     Duel.SpecialSummonComplete()
 end
-

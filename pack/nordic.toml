@@ -140,7 +140,7 @@ This card's original ATK becomes equal 200 x combined Levels of Link Materials u
 If this card is destroyed by battle or card effect: \
     You can shuffle this card into the Extra Deck, and if you do, \
     Special Summon up to 4 Level 5 or lower "Nordic" monsters with different names in Defense Position, \
-    from your hand, Deck or GY, but it cannot activate its effect this turn. \
+    from your hand, Deck or GY, but they cannot activate their effect this turn. \
     You can only use this effect of "Laufey the Nordic Giant" once per turn. \
 """
 strings = []
@@ -163,13 +163,14 @@ Once per turn, during the Standby Phase, if this card is in your GY: \
     and if you do, Special Summon this card in Defense Position. \
 While this card is face-up on the field, "Nordic" monsters that have Level in your GY, except "Hela the Nordic Death", gain the following effect.
 ● You can Special Summon this card (from your GY), \
-    but its effects are negated, cannot activate its effects, \
-    and your opponent takes no battle damage from attacks involving it. \
+    but its effects are negated, cannot activate its effects, and your opponent takes no battle damage from attacks involving it, \
+    also you cannot Special Summon monsters for the rest of this turn, except "Nordic" monsters. \
     You can only Special Summon this card once per turn this ways.
 """
 strings = [
     "Special Summon via \"Hela the Nordic Death\"",
     "Deal no battle damage",
+    "Affected by effect \"Hela the Nordic Death\": cannot Special Summon from the Extra Deck, except \"Nordic\" monsters",
 ]
 
 [card.surtr]

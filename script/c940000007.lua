@@ -90,8 +90,10 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetActivityCount(tp, ACTIVITY_SPSUMMON) == 0 end
 
     local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 0))
     ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT +
+                        EFFECT_FLAG_OATH)
     ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
     ec1:SetTargetRange(1, 0)
     ec1:SetTarget(function(e, c) return not c:IsType(TYPE_XYZ) end)
@@ -100,7 +102,6 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     aux.addTempLizardCheck(c, tp, function(e, c)
         return not c:IsOriginalType(TYPE_XYZ)
     end)
-    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 0), nil)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

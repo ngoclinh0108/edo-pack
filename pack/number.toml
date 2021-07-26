@@ -191,7 +191,7 @@ An Xyz Monster that was Summoned using this card on the field as material gains 
 """
 strings = [
     "Reveal the \"Number\" Xyz Monster",
-    "Affect by effect \"Utopic Astral Genesis\": cannot Special Summon from the Extra Deck, except Xyz Monsters",
+    "Affected by effected \"Utopic Astral Genesis\": cannot Special Summon from the Extra Deck, except Xyz Monsters",
     "Draw 1 card",
 ]
 
@@ -216,5 +216,5 @@ If you have "Cyz Barian Hope", add from Outside all "Number 101" through "Number
 ] \
 """
 strings = [
-    "Affect by effect \"Rank-Up-Magic Barian's Pride\": cannot Special Summon, except Xyz Monsters",
+    "Affected by effected \"Rank-Up-Magic Barian's Pride\": cannot Special Summon, except Xyz Monsters",
 ]
