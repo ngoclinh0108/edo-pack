@@ -41,11 +41,12 @@ function s.initial_effect(c)
     e2:SetValue(1)
     c:RegisterEffect(e2)
 
-    -- disable
+    -- negate (destroyed)
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_BATTLED)
-    e3:SetRange(LOCATION_MZONE)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_DESTROYED)
+    e3:SetRange(LOCATION_ALL)
+    e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
@@ -91,23 +92,32 @@ function s.e1val(e, te)
     return te:GetOwner() ~= e:GetOwner() and te:IsActiveType(TYPE_MONSTER)
 end
 
+function s.e3filter(c, tc)
+    local rc = c:GetReasonCard()
+    if not rc then rc = c:GetReasonEffect():GetHandler() end
+    return c:IsType(TYPE_EFFECT) and rc and rc == tc
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.e3filter, 1, nil, e:GetHandler())
+end
+
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local bc = c:GetBattleTarget()
-    if not bc or not bc:IsType(TYPE_EFFECT) or
-        not bc:IsStatus(STATUS_BATTLE_DESTROYED) then return end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_DISABLE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_EXC_GRAVE)
-    bc:RegisterEffect(ec1)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_DISABLE_EFFECT)
-    bc:RegisterEffect(ec1b)
-    local ec2 = ec1:Clone()
-    ec2:SetCode(EFFECT_CANNOT_TRIGGER)
-    bc:RegisterEffect(ec2)
+    local g = eg:Filter(s.e3filter, nil, c)
+    for tc in aux.Next(g) do
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_DISABLE)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_EXC_GRAVE)
+        tc:RegisterEffect(ec1)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_DISABLE_EFFECT)
+        tc:RegisterEffect(ec1b)
+        local ec2 = ec1:Clone()
+        ec2:SetCode(EFFECT_CANNOT_TRIGGER)
+        tc:RegisterEffect(ec2)
+    end
 end
 
 function s.e4filter1(c)
