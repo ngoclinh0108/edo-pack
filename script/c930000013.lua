@@ -3,7 +3,7 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
-s.listed_series = {0x4b}
+s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
     -- synchro substitute

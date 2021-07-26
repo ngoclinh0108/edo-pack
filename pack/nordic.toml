@@ -323,9 +323,11 @@ type = "monster effect"
 attribute = "wind"
 race = "warrior"
 level = 2
-atk = 0
+atk = 600
 def = 0
 effect = """\
+If this card is added to your hand, except by drawing it: You can Special Summon it. \
+You can only use each effect of "Eir of the Nordic Champions" once per turn. \
 """
 strings = []
 
@@ -348,8 +350,8 @@ id = 930000017
 set = "nordic-beast"
 name = "Alsvid of the Nordic Beasts"
 type = "monster tuner effect"
-attribute = "earth"
-race = "light"
+attribute = "light"
+race = "beast"
 level = 4
 atk = 0
 def = 0
