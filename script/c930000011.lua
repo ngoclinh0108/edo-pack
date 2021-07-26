@@ -12,7 +12,10 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
     e1:SetCode(EFFECT_SYNCHRO_LEVEL)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(s.e1val)
+    e1:SetValue(function(e, sc)
+        if not sc:IsSetCard(0x4b) then return e:GetHandler():GetLevel() end
+        return 4 * 65536 + e:GetHandler():GetLevel()
+    end)
     c:RegisterEffect(e1)
 
     -- special summon
@@ -28,15 +31,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1val(e, sc)
-    local lv = e:GetHandler():GetLevel()
-    if not sc:IsSetCard(0x4b) then return lv end
-    return 4 * 65536 + lv
-end
-
-function s.e2filter(c)
-    return c:IsFaceup() and c:IsSetCard(0x42) and c:IsType(TYPE_TUNER)
-end
+function s.e2filter(c) return c:IsFaceup() and c:IsSetCard(0x42) end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():IsPreviousLocation(LOCATION_DECK)
@@ -62,8 +57,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
-        not Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1,
-                                        nil) or
+        not Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1, c) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, 930000038, 0, TYPES_TOKEN,
                                                  0, 0, 4, RACE_FAIRY,

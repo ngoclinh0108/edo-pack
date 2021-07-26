@@ -225,12 +225,13 @@ name = "Hildr of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
-level = 4
+level = 3
 atk = 1400
 def = 1000
 effect = """\
-If you control a "Nordic" monster other than "Hildr of the Nordic Ascendant", you can Special Summon this card (from your hand). \
-If this card was Special Summoned by the effect of an "Nordic" card other than "Hildr of the Nordic Ascendant": \
+If this card you control is used as Synchro Material for a "Aesir" monster, \
+    You can treat it as a Level 4 monster. This effect cannot be negated. \
+If this card was Special Summoned by the effect of an "Nordic" card: \
     You can Special Summon 1 Level 6 or lower "Nordic" monster from your hand or Deck in Defense Position, except "Hildr of the Nordic Ascendant". \
     You can only use this effect of "Hildr of the Nordic Ascendant" once per turn. \
 """
@@ -247,11 +248,10 @@ level = 2
 atk = 800
 def = 400
 effect = """\
-If this card you control is used for the Synchro Summon of a "Aesir" monster, \
-    it can be treated as a Level 4 monster. \
-    This effect cannot be negated. \
+If this card you control is used as Synchro Material for a "Aesir" monster, \
+    You can treat it as a Level 4 monster. This effect cannot be negated. \
 If this card is sent from the Deck to the GY: You can Special Summon it in Defense Position, \
-    then, if you control a "Nordic" Tuner monster, \
+    then, if you control another "Nordic" monster, \
     you can Special Summon 2 "Nordic Ascendant Tokens" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
     You can only use this effect of "Sigrun of the Nordic Ascendant" once per turn. \
 """
@@ -268,6 +268,7 @@ level = 6
 atk = 0
 def = 0
 effect = """\
+If you control a "Nordic" monster other than "Frey of the Nordic Champions", you can Special Summon this card (from your hand). \
 """
 strings = []
 
