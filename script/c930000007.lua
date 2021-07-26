@@ -1,4 +1,4 @@
--- Hela, Ruler of the Nordic Underworld
+-- Hela the Nordic Death
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 local s, id = GetID()

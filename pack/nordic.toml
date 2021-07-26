@@ -148,7 +148,7 @@ strings = []
 [card.hela]
 id = 930000007
 set = "nordic"
-name = "Hela, Ruler of the Nordic Underworld"
+name = "Hela the Nordic Death"
 type = "monster fusion effect"
 attribute = "dark"
 race = "zombie"
