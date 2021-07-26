@@ -1,9 +1,9 @@
--- Sigrdrifa of the Nordic Ascendant
+-- Sigrun of the Nordic Ascendant
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
-s.listed_series = {0x4b}
+s.listed_series = {0x42, 0x4b}
 
 function s.initial_effect(c)
     -- synchro level
@@ -34,6 +34,10 @@ function s.e1val(e, sc)
     return lv
 end
 
+function s.e2filter(c)
+    return c:IsFaceup() and c:IsSetCard(0x42) and c:IsType(TYPE_TUNER)
+end
+
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():IsPreviousLocation(LOCATION_DECK)
 end
@@ -58,6 +62,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
+        not Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1,
+                                        nil) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, 930000038, 0, TYPES_TOKEN,
                                                  0, 0, 4, RACE_FAIRY,

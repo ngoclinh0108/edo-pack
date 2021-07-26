@@ -236,10 +236,10 @@ If this card was Special Summoned by the effect of an "Nordic" card other than "
 """
 strings = []
 
-[card.sigrdrifa]
+[card.Sigrun]
 id = 930000011
 set = "nordic-ascendant"
-name = "Sigrdrifa of the Nordic Ascendant"
+name = "Sigrun of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
@@ -247,11 +247,12 @@ level = 2
 atk = 800
 def = 400
 effect = """\
-This card on the field can be treated as a Level 4 monster when used for a Synchro Summon of a "Aesir" monster. \
+If this card you control is used as Synchro Material for a "Aesir" monster, you can treat it as a Level 4 monster. \
     This effect cannot be negated. \
-If this card is sent from the Deck to the GY: You can Special Summon this card in Defense Position, \
-    then, you can Special Summon 2 "Nordic Ascendant Tokens" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
-    You can only use this effect of "Sigrdrifa of the Nordic Ascendant" once per turn.
+If this card is sent from the Deck to the GY: You can Special Summon it in Defense Position, \
+    then, if you control a "Nordic" Tuner monster, \
+    you can Special Summon 2 "Nordic Ascendant Tokens" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
+    You can only use this effect of "Sigrun of the Nordic Ascendant" once per turn.
 """
 strings = ["Special Summon \"Nordic Ascendant Token\""]
 
@@ -587,6 +588,6 @@ level = 4
 atk = 0
 def = 0
 effect = """\
-Special Summoned with the effect of "Sigrdrifa of the Nordic Ascendant"
+Special Summoned with the effect of "Sigrun of the Nordic Ascendant"
 """
 strings = []
