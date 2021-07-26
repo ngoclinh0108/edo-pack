@@ -247,12 +247,13 @@ level = 2
 atk = 800
 def = 400
 effect = """\
-If this card you control is used as Synchro Material for a "Aesir" monster, you can treat it as a Level 4 monster. \
+If this card you control is used for the Synchro Summon of a "Aesir" monster, \
+    it can be treated as a Level 4 monster. \
     This effect cannot be negated. \
 If this card is sent from the Deck to the GY: You can Special Summon it in Defense Position, \
     then, if you control a "Nordic" Tuner monster, \
     you can Special Summon 2 "Nordic Ascendant Tokens" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
-    You can only use this effect of "Sigrun of the Nordic Ascendant" once per turn.
+    You can only use this effect of "Sigrun of the Nordic Ascendant" once per turn. \
 """
 strings = ["Special Summon \"Nordic Ascendant Token\""]
 

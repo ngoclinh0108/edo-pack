@@ -30,8 +30,8 @@ end
 
 function s.e1val(e, sc)
     local lv = e:GetHandler():GetLevel()
-    if sc:IsSetCard(0x4b) then return 4 * 65536 + lv end
-    return lv
+    if not sc:IsSetCard(0x4b) then return lv end
+    return 4 * 65536 + lv
 end
 
 function s.e2filter(c)
