@@ -11,9 +11,7 @@ function s.initial_effect(c)
 
     -- fusion summon
     Fusion.AddProcMixN(c, true, true, s.fusfilter, 2)
-    Fusion.AddContactProc(c, s.contactfilter, s.contactop, function(e)
-        return not e:GetHandler():IsLocation(LOCATION_EXTRA)
-    end)
+    Fusion.AddContactProc(c, s.contactfilter, s.contactop, s.splimit)
 
     -- special summon (self)
     local e1 = Effect.CreateEffect(c)
@@ -42,6 +40,10 @@ function s.initial_effect(c)
     e2grant:SetTarget(s.e2granttg)
     e2grant:SetLabelObject(e2)
     c:RegisterEffect(e2grant)
+end
+
+function s.splimit(e, se, sp, st)
+    return e:GetHandler():GetLocation() ~= LOCATION_EXTRA
 end
 
 function s.fusfilter(c, fc, sumtype, tp, sub, mg, sg)
