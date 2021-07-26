@@ -89,7 +89,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2granttg(e, c) return c:IsSetCard(0x42) and c:HasLevel() end
+function s.e2granttg(e, c)
+    return not c:IsCode(id) and c:IsSetCard(0x42) and c:HasLevel()
+end
 
 function s.e2con(e, c)
     if c == nil then return true end
