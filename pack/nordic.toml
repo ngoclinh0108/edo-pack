@@ -161,11 +161,16 @@ Must first be Special Summoned (from your Extra Deck) by sending the above cards
 Once per turn, during the Standby Phase, if this card is in your GY: \
     You can target 1 face-up monster you control, except "Hela the Nordic Death"; destroy it, \
     and if you do, Special Summon this card in Defense Position. \
-While this card is face-up on the field, Level 10 or lower "Nordic" monsters in your GY, except "Hela the Nordic Death", gain the following effect.
-● You can Special Summon this card (from your GY), but its effects are negated, also it cannot activate its effects. \
-    You can only Special Summon a monster once per turn this ways.
+While this card is face-up on the field, "Nordic" monsters that have Level in your GY, except "Hela the Nordic Death", gain the following effect.
+● You can Special Summon this card (from your GY), \
+    but its effects are negated, cannot activate its effects, \
+    and your opponent takes no battle damage from attacks involving it. \
+    You can only Special Summon this card once per turn this ways.
 """
-strings = ["Special Summon via \"Hela the Nordic Death\""]
+strings = [
+    "Special Summon via \"Hela the Nordic Death\"",
+    "Deal no battle damage",
+]
 
 [card.surtr]
 id = 930000008

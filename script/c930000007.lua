@@ -33,7 +33,6 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     e2:SetCode(EFFECT_SPSUMMON_PROC)
     e2:SetRange(LOCATION_GRAVE)
-    e2:SetCountLimit(1, id)
     e2:SetCondition(s.e2con)
     e2:SetOperation(s.e2op)
     local e2grant = Effect.CreateEffect(c)
@@ -88,6 +87,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.e2granttg(e, c) return c:IsSetCard(0x42) and c:HasLevel() end
+
 function s.e2con(e, c)
     if c == nil then return true end
     local eff = {c:GetCardEffect(EFFECT_NECRO_VALLEY)}
@@ -95,10 +96,12 @@ function s.e2con(e, c)
         local op = te:GetOperation()
         if not op or op(e, c) then return false end
     end
-    return true
+    return c:GetFlagEffect(id) == 0
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
+    c:RegisterFlagEffect(id, RESET_PHASE + PHASE_END, 0, 1)
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
@@ -109,13 +112,15 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
     ec1b:SetCode(EFFECT_DISABLE_EFFECT)
     c:RegisterEffect(ec1b)
 
-    local ec2 = Effect.CreateEffect(c)
+    local ec2 = ec1:Clone()
     ec2:SetDescription(3302)
-    ec2:SetType(EFFECT_TYPE_SINGLE)
     ec2:SetProperty(EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_CANNOT_DISABLE)
     ec2:SetCode(EFFECT_CANNOT_TRIGGER)
-    ec2:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
     c:RegisterEffect(ec2)
-end
 
-function s.e2granttg(e, c) return c:IsSetCard(0x42) and c:IsLevelBelow(10) end
+    local ec3 = ec1:Clone()
+    ec3:SetDescription(aux.Stringid(id, 1))
+    ec3:SetProperty(EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_CANNOT_DISABLE)
+    ec3:SetCode(EFFECT_NO_BATTLE_DAMAGE)
+    c:RegisterEffect(ec3)
+end
