@@ -264,7 +264,7 @@ name = "Frey of the Nordic Champions"
 type = "monster tuner effect"
 attribute = "light"
 race = "warrior"
-level = 6
+level = 5
 atk = 2200
 def = 1000
 effect = """\
@@ -287,9 +287,9 @@ name = "Beyla of the Nordic Champions"
 type = "monster tuner effect"
 attribute = "wind"
 race = "warrior"
-level = 4
-atk = 1700
-def = 1300
+level = 3
+atk = 1500
+def = 800
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
@@ -303,17 +303,14 @@ name = "Hervor of the Nordic Champions"
 type = "monster effect"
 attribute = "wind"
 race = "warrior"
-level = 3
-atk = 1500
+level = 4
+atk = 1700
 def = 1000
 effect = """\
-If you control a "Nordic Relic" card, you can Special Summon this card (from your hand). \
-You can target 1 "Nordic Relic" card you control; destroy it, and if you do, \
-    Special Summon 1 "Nordic" with a Level monster from your hand, Deck, or GY, except "Hervor of the Nordic Champions", \
-    but it cannot activate its effects this turn. \
-    You can only use this effect of "Frey of the Nordic Champions" once per turn. \
+If this card you control is used as Synchro Material for a "Aesir" monster, \
+    You can treat it as a Level 3 monster. This effect cannot be negated. \
 """
-strings = ["Destroy \"Nordic Relic\" to Special Summon \"Nordic\" monster"]
+strings = []
 
 [card.eir]
 id = 930000015
@@ -326,10 +323,14 @@ level = 2
 atk = 600
 def = 0
 effect = """\
-If this card is added to your hand, except by drawing it: You can Special Summon it. \
-You can only use each effect of "Eir of the Nordic Champions" once per turn. \
+If this card you control is used as Synchro Material for a "Aesir" monster, \
+    You can treat it as a Level 3 monster. This effect cannot be negated. \
+You can target 1 "Nordic Relic" card you control; destroy it, and if you do, \
+    Special Summon 1 "Nordic" with a Level monster from your hand, Deck, or GY, except "Eir of the Nordic Champions", \
+    but it cannot activate its effects this turn. \
+    You can only use this effect of "Eir of the Nordic Champions" once per turn. \
 """
-strings = []
+strings = ["Destroy \"Nordic Relic\" to Special Summon \"Nordic\" monster"]
 
 [card.eikthyrnir]
 id = 930000016
