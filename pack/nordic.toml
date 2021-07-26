@@ -186,8 +186,16 @@ effect = """\
 3 DARK "Nordic" monsters whose original Level is 8 or higher, with different names
 Must be Xyz Summoned. \
 ${NORDIC_GOD_EFFECT|Xyz} \
+This Xyz Summoned card is unaffected by other monster effects. \
+This card can attack all monsters your opponent controls, once each. \
+Negate the effects of monsters destroyed by this card (by battle or card effect), also they cannot activate its effect. \
+Once per Battle Phase, at the start of your Battle Phase: You can detach 1 material from this card; \
+    negate the effects of all face-up monsters your opponent currently controls, \
+    also this card and their ATK/DEF become their original ATK/DEF. \
+    Your opponent cannot activate monster effects in response to this effect's activation. \
+If this Xyz Summoned card is destroyed: Destroy all monsters your opponent controls. \
 """
-strings = []
+strings = ["Negate effect & reset ATK/DEF"]
 
 [card.brunhild]
 id = 930000009

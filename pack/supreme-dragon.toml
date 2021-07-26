@@ -84,7 +84,7 @@ If this card is Fusion Summoned: \
 Each time a card(s) is sent from the field to the GY, place 1 Venemy Counter on this card for each sent card. \
 All monsters on the field, except DARK Dragon monsters, lose 200 ATK for each Venemy Counter on the field. \
 Once per turn (Qick Effect): You can target 1 face-up monster your opponent controls or in their GY; until the End Phase, \
-    that monster has its effects negated, also this card gains its original effects and its original ATK. \
+    that monster has its effects negated, also this card gains its original ATK and effects. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """
 strings = [
@@ -148,7 +148,7 @@ effect = """\
 Must be Xyz Summoned, and can then be Pendulum Summoned. \
 If you can Pendulum Summon Level 7, you can Pendulum Summon this face-up card in your Extra Deck. \
 If this card Is Xyz Summoned, it can make up to 3 attacks. \
-Once per turn, you can can detach any number of materials from this card, then destroy that many card your opponent controls. \
+Once per turn, you can can detach any number of materials from this card, then destroy that many cards your opponent controls. \
 Once per turn (Quick Effect): You can target 1 face-up monster your opponent controls; until the end of this turn, \
     that monster has its effects negated, also its ATK becomes half its current ATK, and if it does, this card gains that lost ATK. \
 ${TO_PZONE_WHEN_DESTROYED} \
@@ -198,7 +198,7 @@ If this card is Special Summoned: Destroy all cards your opponent controls. \
 Once per turn, you can Special Summon 1 "Supreme King Dragon" monster from your hand, Deck, GY or Extra Deck, \
     ignoring its Summoning conditions. (This is treated as a Properly Summon.) \
     Also, this card cannot attack this turn. \
-If this card in the Monster Zone is destroyed by battle or card effect: \
+If this card in the Monster Zone is destroyed: \
     You can destroy all cards in your Pendulum Zones (if any), \
     then place this card in your Pendulum Zone. \
 """
@@ -247,7 +247,7 @@ Once per turn, when a card(s) is added from the Main Deck to your opponent's han
     You can destroy that card(s). \
 Once per turn, during damage calculation, if this card battles an opponent's monster: \
     Double this card's current ATK until the end of this turn. \
-If this card in the Monster Zone is destroyed by battle or card effect: \
+If this card in the Monster Zone is destroyed: \
     You can destroy all cards in your Pendulum Zones (if any), \
     then place this card in your Pendulum Zone. \
 """
@@ -514,7 +514,7 @@ If an DARK Xyz Monster you control would activate an effect by detaching an mate
     you can detach materials from this card instead of those materials. \
     This effect cannot be negated. \
 If "Rebellion" Dragon monster's ATK is changed: \
-    You can inflict damage to your opponent equal to the change in ATK. \
+    You can inflict damage to your opponent equal to the changed amount. \
     You can only use this effects of "Dark Rebellion Magician" once per turn. \
 ${TO_PZONE_WHEN_DESTROYED} \
 """

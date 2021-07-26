@@ -208,12 +208,6 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec2)
 
     if c:IsRelateToEffect(e) and c:IsFaceup() then
-        if not tc:IsType(TYPE_TOKEN) then
-            c:CopyEffect(tc:GetOriginalCodeRule(),
-                         RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END,
-                         1)
-        end
-
         local atk = tc:GetBaseAttack()
         if atk < 0 then atk = 0 end
         local ec3 = Effect.CreateEffect(c)
@@ -222,5 +216,11 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
         ec3:SetValue(atk)
         ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         c:RegisterEffect(ec3)
+
+        if not tc:IsType(TYPE_TOKEN) then
+            c:CopyEffect(tc:GetOriginalCodeRule(),
+                         RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END,
+                         1)
+        end
     end
 end

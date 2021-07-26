@@ -42,5 +42,5 @@ ${NORDIC_GOD_EFFECT|Synchro}\
 """
 
 TO_PZONE_WHEN_DESTROYED = """\
-If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone.\
+If this card in the Monster Zone is destroyed: You can place it in your Pendulum Zone.\
 """

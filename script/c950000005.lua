@@ -16,7 +16,8 @@ function s.initial_effect(c)
     -- pendulum
     Pendulum.AddProcedure(c, false)
     UtilPendulum.PlaceToPZoneWhenDestroyed(c,
-                                      function(e, tp, eg, ep, ev, re, r, rp, chk)
+                                           function(e, tp, eg, ep, ev, re, r,
+                                                    rp, chk)
         if chk == 0 then return true end
         local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0,
                                         nil)
@@ -194,7 +195,7 @@ function s.initial_effect(c)
     -- destroy all
     local me1 = Effect.CreateEffect(c)
     me1:SetDescription(aux.Stringid(id, 3))
-    me1:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
+    me1:SetCategory(CATEGORY_DESTROY)
     me1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     me1:SetCode(EVENT_SPSUMMON_SUCCESS)
     me1:SetTarget(s.me1tg)
