@@ -93,9 +93,15 @@ function s.e1val(e, te)
 end
 
 function s.e3filter(c, tc)
-    local rc = c:GetReasonCard()
-    if not rc then rc = c:GetReasonEffect():GetHandler() end
-    return c:IsType(TYPE_EFFECT) and rc and rc == tc
+    local rc
+    if c:IsReason(REASON_BATTLE) then
+        rc = c:GetReasonCard()
+    elseif c:IsReason(REASON_EFFECT) then
+        rc = c:GetReasonEffect():GetHandler()
+    end
+
+    if not rc then return false end
+    return c:IsType(TYPE_EFFECT) and rc == tc
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
