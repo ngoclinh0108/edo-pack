@@ -32,8 +32,9 @@ function s.initial_effect(c)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsLevelBelow(6) and c:IsSetCard(0x42) and not c:IsCode(id) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               not c:IsType(TYPE_TUNER) and c:IsSetCard(0x42) and
+               not c:IsCode(id)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
@@ -58,6 +59,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectMatchingCard(tp, s.e2filter, tp,
                                       LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
                                       nil, e, tp)
-    if #g == 0 then return end
-    Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    if #g > 0 then
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    end
 end

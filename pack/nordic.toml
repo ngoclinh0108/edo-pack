@@ -48,7 +48,7 @@ ${AESIR_GOD_EFFECT} \
 Once per turn, when your opponent's card or effect is activated that targets a card(s) (Quick Effect): \
     You can negate the effect, and if you do, you can apply that negated effect at your own. \
 ${NORDIC_GOD_REBORN} \
-If Summoned this way: You can add to your hand 1 "Nordic" monster from your Deck or GY. \
+If Summoned this way: You can add to your hand, or Special Summon, 1 "Nordic" monster from your GY. \
 """
 strings = ["Negate the effect", "Use the negated effect"]
 
@@ -131,7 +131,7 @@ link-rating = 4
 link-arrows = "top left right bottom"
 atk = "?"
 effect = """\
-4 "Nordic" monsters that have Level with different names, except Tokens
+4 "Nordic" monsters with a Level and different names, except Tokens
 You can only Special Summon "Laufey the Nordic Giant(s)" once per turn. \
 Must be Link Summoned. \
 You can also use DARK monsters in your hand as material to Link Summon this card. \
@@ -140,7 +140,7 @@ This card's original ATK becomes equal 200 x combined Levels of Link Materials u
 If this card is destroyed by battle or card effect: \
     You can shuffle this card into the Extra Deck, and if you do, \
     Special Summon up to 4 Level 5 or lower "Nordic" monsters with different names in Defense Position, \
-    from your hand, Deck or GY, but they cannot activate their effect this turn. \
+    from your hand, Deck, or GY, but they cannot activate their effect this turn. \
     You can only use this effect of "Laufey the Nordic Giant" once per turn. \
 """
 strings = []
@@ -161,7 +161,7 @@ Must first be Special Summoned (from your Extra Deck) by sending the above cards
 Once per turn, during the Standby Phase, if this card is in your GY: \
     You can target 1 face-up monster you control, except "Hela the Nordic Death"; destroy it, \
     and if you do, Special Summon this card in Defense Position. \
-While this card is face-up on the field, "Nordic" monsters that have Level in your GY, except "Hela the Nordic Death", gain the following effect.
+While this card is face-up on the field, "Nordic" monsters with a Level in your GY, except "Hela the Nordic Death", gain the following effect.
 ● You can Special Summon this card (from your GY), \
     but its effects are negated, cannot activate its effects, and your opponent takes no battle damage from attacks involving it, \
     also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Nordic" monsters. \
@@ -232,12 +232,12 @@ effect = """\
 If this card you control is used as Synchro Material for a "Aesir" monster, \
     You can treat it as a Level 4 monster. This effect cannot be negated. \
 If this card was Special Summoned by the effect of an "Nordic" card: \
-    You can Special Summon 1 Level 6 or lower "Nordic" monster from your hand or Deck in Defense Position, except "Hildr of the Nordic Ascendant". \
+    You can Special Summon 1 non-Tuner "Nordic" monster from your hand or Deck in Defense Position, except "Hildr of the Nordic Ascendant", \
     You can only use this effect of "Hildr of the Nordic Ascendant" once per turn. \
 """
 strings = []
 
-[card.Sigrun]
+[card.sigrun]
 id = 930000011
 set = "nordic-ascendant"
 name = "Sigrun of the Nordic Ascendant"
@@ -265,12 +265,20 @@ type = "monster tuner effect"
 attribute = "light"
 race = "warrior"
 level = 6
-atk = 0
-def = 0
+atk = 2200
+def = 1000
 effect = """\
-If you control a "Nordic" monster other than "Frey of the Nordic Champions", you can Special Summon this card (from your hand). \
+If you control no monsters, you can Normal Summon this card without Tributing. \
+If this card is Summoned: \
+    You can send 1 "Nordic" monster from your Deck to the GY, and if you do, \
+    add 1 "Nordic Relic" card from your Deck to your hand. \
+If a "Nordic Relic" card or effect is activated on the field: \
+    You can add 1 "Nordic" monster from your GY to your hand, \
+    except "Frey of the Nordic Champions". \
+    This card must be face-up on the field to activate and to resolve this effect. \
+You can only use each effect of "Frey of the Nordic Champions" once per turn. \
 """
-strings = []
+strings = ["Normal Summon without Tributing", "Seach \"Nordic\" monster"]
 
 [card.beyla]
 id = 930000013
@@ -294,11 +302,16 @@ type = "monster effect"
 attribute = "light"
 race = "warrior"
 level = 3
-atk = 0
-def = 0
+atk = 1500
+def = 1000
 effect = """\
+If you control a "Nordic Relic" card, you can Special Summon this card (from your hand). \
+You can target 1 "Nordic Relic" card you control; destroy it, and if you do, \
+    Special Summon 1 "Nordic" with a Level monster from your hand, Deck, or GY, except "Hervor of the Nordic Champions", \
+    but it cannot activate its effects this turn. \
+    You can only use this effect of "Frey of the Nordic Champions" once per turn. \
 """
-strings = []
+strings = ["Destroy \"Nordic Relic\" to Special Summon \"Nordic\" monster"]
 
 [card.eir]
 id = 930000015

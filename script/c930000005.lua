@@ -105,6 +105,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     aux.ToHandOrElse(g, tp, function(tc)
         return tc:IsSSetable(false) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+                   Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
     end, function(g) Duel.SSet(tp, g) end, 1159)
 end
