@@ -47,7 +47,8 @@ end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     if not re then return false end
-    return re:GetHandler():IsSetCard(0x42)
+    local rc = re:GetHandler()
+    return rc:IsSetCard(0x42) and rc ~= e:GetHandler()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
