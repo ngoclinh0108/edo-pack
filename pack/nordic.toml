@@ -40,8 +40,8 @@ type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
 level = 10
-atk = 3800
-def = 3200
+atk = 3300
+def = 3800
 effect = """\
 1 "Nordic Champion" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
@@ -86,8 +86,8 @@ type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
 level = 10
-atk = 3200
-def = 3100
+atk = 2800
+def = 3500
 effect = """\
 1 LIGHT "Nordic" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
@@ -216,7 +216,7 @@ The Special Summon of your "Nordic" monster cannot be negated. \
 Your opponent cannot activate cards or effects in response to the activation of \
     your "Nordic" cards and effects that includes Special Summons a monster(s). \
 You can discard 1 card; \
-    Special Summon 1 Level 4 or lower non-Tuner "Nordic" monster from your Deck in Defense Position, \
+    Special Summon 1 Level 4 or lower non-Tuner "Nordic" monster from your Deck, \
     also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Aesir" monsters. \
     You can only use this effect of "Brunhild of the Nordic Ascendant" once per turn. \
 """
@@ -238,7 +238,7 @@ def = 0
 effect = """\
 If you control a "Nordic" Tuner monster, you can Special Summon this card (from your hand). \
 If this card was Special Summoned by the effect of another "Nordic" card: \
-    You can Special Summon 1 "Nordic Ascendant Token" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
+    You can Special Summon 1 "Nordic Ascendant Token" (Fairy/LIGHT/Level 4/ATK 0/DEF 0). \
     You can only use this effect of "Hildr of the Nordic Ascendant" once per turn. \
 """
 strings = []
@@ -254,9 +254,10 @@ level = 3
 atk = 800
 def = 400
 effect = """\
-If this card is sent to the GY to activate, or by a "Nordic" card's effect: \
-    You can Special Summon 1 "Nordic Ascendant Token" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
-If this card is in your GY: You can Special Summon this card in Defense Position. \
+If this card is sent to the GY to activate a "Nordic" monster's effect: \
+    You can Special Summon 1 "Nordic Ascendant Token" \
+    (Fairy/LIGHT/Level ?/ATK 0/DEF 0, this Token's Level becomes that monster's original Level.) \
+If this card is in your GY: You can Special Summon this card. \
     You must control a "Nordic" Tuner monster to activate and to resolve this effect. \
 You can only use each effect of "Sigrun of the Nordic Ascendant" once per turn. \
 """
@@ -329,17 +330,17 @@ name = "Eir of the Nordic Champions"
 type = "monster tuner effect"
 attribute = "wind"
 race = "warrior"
-level = 3
-atk = 1000
-def = 700
+level = 2
+atk = 800
+def = 0
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
-Once per turn: You can send 1 "Nordic" monster from your hand or Deck to the GY, then activate 1 of these effects;
+Once per turn: You can send 1 "Nordic" monster from your Deck to the GY, then activate 1 of these effects;
 ● Increase this card's Level by the Level of the sent monster.
 ● Reduce this card's Level by the Level of the sent monster.
 """
-strings = ["Increase or decrease Level", "Increase Level", "Decrease Level"]
+strings = ["Change Level", "Increase Level", "Decrease Level"]
 
 [card.eikthyrnir]
 id = 930000016
@@ -613,7 +614,6 @@ name = "Nordic Ascendant Token"
 type = "monster normal token"
 attribute = "light"
 race = "fairy"
-level = 4
 atk = 0
 def = 0
 effect = """\

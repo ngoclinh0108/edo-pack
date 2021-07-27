@@ -66,6 +66,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, UtilNordic.ASCENDANT_TOKEN,
                                                  0x3042, TYPES_TOKEN, 0, 0, 4,
@@ -74,5 +75,11 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     local token = Duel.CreateToken(tp, UtilNordic.ASCENDANT_TOKEN)
-    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_CHANGE_LEVEL)
+    ec1:SetValue(4)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
+    token:RegisterEffect(ec1)
+    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
 end

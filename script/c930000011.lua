@@ -32,17 +32,18 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsReason(REASON_COST + REASON_EFFECT) and
+    return e:GetHandler():IsReason(REASON_COST) and
                re:GetHandler():IsSetCard(0x42)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
+    local rc = re:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsPlayerCanSpecialSummonMonster(tp,
                                                         UtilNordic.ASCENDANT_TOKEN,
-                                                        0, TYPES_TOKEN, 0, 0, 4,
+                                                        0, TYPES_TOKEN, 0, 0,
+                                                        rc:GetOriginalLevel(),
                                                         RACE_FAIRY,
                                                         ATTRIBUTE_LIGHT)
     end
@@ -52,15 +53,24 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c=e:GetHandler()
+    local rc = re:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, UtilNordic.ASCENDANT_TOKEN,
-                                                 0, TYPES_TOKEN, 0, 0, 4,
+                                                 0, TYPES_TOKEN, 0, 0,
+                                                 rc:GetOriginalLevel(),
                                                  RACE_FAIRY, ATTRIBUTE_LIGHT) then
         return
     end
 
     local token = Duel.CreateToken(tp, UtilNordic.ASCENDANT_TOKEN)
-    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_CHANGE_LEVEL)
+    ec1:SetValue(rc:GetOriginalLevel())
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
+    token:RegisterEffect(ec1)
+    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
 end
 
 function s.e2filter(c)
@@ -88,5 +98,5 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
         not c:IsRelateToEffect(e) then return end
 
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end

@@ -77,7 +77,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
                                           1, nil, e, tp)
         if #g > 0 then
-            Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+            Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
         end
     end
 

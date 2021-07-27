@@ -43,14 +43,12 @@ end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp,
-                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK, 0, 1,
                                            nil)
     end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
-                                      LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-                                      nil)
+    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_DECK, 0, 1,
+                                      1, nil)
     Duel.SendtoGrave(g, REASON_COST)
     e:SetLabelObject(g:GetFirst())
 end
