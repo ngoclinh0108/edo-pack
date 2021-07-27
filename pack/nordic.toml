@@ -15,7 +15,7 @@ name = "Odin, Allfather of the Aesir"
 type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
-level = 12
+level = 10
 atk = 4000
 def = 3500
 effect = """\
@@ -39,7 +39,7 @@ name = "Frigga, Mother of the Aesir"
 type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
-level = 11
+level = 10
 atk = 3800
 def = 3200
 effect = """\
@@ -156,7 +156,7 @@ level = 9
 atk = 800
 def = 2800
 effect = """\
-2 "Nordic" monsters with different Types
+3 "Nordic" monsters with different Types
 Must first be Special Summoned (from your Extra Deck) by sending the above cards you control to the GY. (You do not use "Polymerization".) \
 Once per turn, during the Standby Phase, if this card is in your GY: \
     You can target 1 face-up monster you control, except "Hela the Nordic Death"; destroy it, \
@@ -209,13 +209,15 @@ level = 4
 atk = 1800
 def = 1500
 effect = """\
-The Special Summon of your "Nordic" monster cannot be negated. \
+Your opponent cannot activate cards or effects in response to the activation of \
+    your "Nordic" cards and effects that includes an effect that Special Summons a monster(s). \
 You can discard 1 card; \
-    Special Summon 1 Level 4 or lower "Nordic" monster from your hand or Deck in Defense Position, except "Brunhild of the Nordic Ascendant", \
+    Special Summon 1 Level 4 or lower non-Tuner "Nordic" monster from your Deck in Defense Position, \
     also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Aesir" monsters. \
     You can only use this effect of "Brunhild of the Nordic Ascendant" once per turn. \
 """
 strings = [
+    "Special Summon non-Tuner \"Nordic\" monster from the Deck",
     "Affected by effect \"Brunhild of the Nordic Ascendant\": cannot Special Summon, except \"Aesir\" and \"Nordic\" monsters",
 ]
 
@@ -226,14 +228,13 @@ name = "Hildr of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
-level = 4
-atk = 1300
-def = 1900
+level = 2
+atk = 600
+def = 0
 effect = """\
+If you control a "Nordic" Tuner monster, you can Special Summon this card (from your hand). \
 If this card was Special Summoned by the effect of an "Nordic" card: \
-    You can declare a Level from 1 to 5; \
-    Special Summon 1 non-Tuner "Nordic" monster from your hand or Deck in Defense Position, except "Hildr of the Nordic Ascendant", \
-    then, the Summoned monster becomes the declared Level until the end of this turn. \
+    You can Special Summon 1 "Nordic Ascendant Token" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
     You can only use this effect of "Hildr of the Nordic Ascendant" once per turn. \
 """
 strings = []
@@ -245,14 +246,14 @@ name = "Sigrun of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
-level = 2
+level = 3
 atk = 800
 def = 400
 effect = """\
 If this card is sent to the GY to activate a "Nordic" card's effect: \
     You can Special Summon it in Defense Position, \
     then if the activated effect is "Nordic" monster's, \
-    you can Special Summon 2 "Nordic Ascendant Tokens" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
+    you can Special Summon 1 "Nordic Ascendant Token" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
     You can only use this effect of "Sigrun of the Nordic Ascendant" once per turn. \
 """
 strings = ["Special Summon \"Nordic Ascendant Token\""]
@@ -269,12 +270,12 @@ atk = 2200
 def = 1000
 effect = """\
 If you control no monsters, you can Normal Summon this card without Tributing. \
-The Normal Summon of your "Nordic" monster cannot be negated. \
-Once per turn: You can send 1 "Nordic" monster from your hand or Deck to the GY; \
-    add 1 "Nordic Relic" card from your Deck to your hand. \
+The Normal Summon of this card and your "Nordic" monster cannot be negated. \
+Your opponent cannot activate cards or effects when you Summon a "Nordic" monster(s). \
+If this card is Summoned: You can add 1 "Nordic" card from your Deck to your hand, except "Frey of the Nordic Champions". \
     You can only use this effect of "Frey of the Nordic Champions" once per turn. \
 """
-strings = ["Normal Summon without Tributing", "Seach \"Nordic Relic\""]
+strings = ["Normal Summon without Tributing"]
 
 [card.beyla]
 id = 930000013
@@ -283,9 +284,9 @@ name = "Beyla of the Nordic Champions"
 type = "monster effect"
 attribute = "wind"
 race = "warrior"
-level = 4
-atk = 1700
-def = 1000
+level = 3
+atk = 1400
+def = 1200
 effect = """\
 You can target 1 "Aesir" monster or "Nordic Relic" card you control; destroy it, and if you do, \
     add 1 "Nordic" monster from your GY, except "Beyla of the Nordic Champions", \
@@ -609,6 +610,6 @@ level = 4
 atk = 0
 def = 0
 effect = """\
-Special Summoned with the effect of "Sigrun of the Nordic Ascendant"
+Special Summoned with the effect of "Nordic" cards
 """
 strings = []

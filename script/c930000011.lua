@@ -4,6 +4,7 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
 s.listed_series = {0x42}
+s.listed_names = {UtilNordic.ASCENDANT_TOKEN}
 
 function s.initial_effect(c)
     -- special summon
@@ -45,16 +46,12 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     if not re:GetHandler():IsType(TYPE_MONSTER) or
         Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
-        Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
-        not Duel.IsPlayerCanSpecialSummonMonster(tp, 930000038, 0, TYPES_TOKEN,
-                                                 0, 0, 4, RACE_FAIRY,
-                                                 ATTRIBUTE_LIGHT) or
+        Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
+        not Duel.IsPlayerCanSpecialSummonMonster(tp, UtilNordic.ASCENDANT_TOKEN,
+                                                 0, TYPES_TOKEN, 0, 0, 4,
+                                                 RACE_FAIRY, ATTRIBUTE_LIGHT) or
         not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
 
-    for i = 1, 2 do
-        local token = Duel.CreateToken(tp, 930000038)
-        Duel.SpecialSummonStep(token, 0, tp, tp, false, false,
-                               POS_FACEUP_DEFENSE)
-    end
-    Duel.SpecialSummonComplete()
+    local token = Duel.CreateToken(tp, UtilNordic.ASCENDANT_TOKEN)
+    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
 end

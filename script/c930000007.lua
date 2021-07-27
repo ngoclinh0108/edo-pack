@@ -10,7 +10,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMixN(c, true, true, s.fusfilter, 2)
+    Fusion.AddProcMixN(c, true, true, s.fusfilter, 3)
     Fusion.AddContactProc(c, s.contactfilter, s.contactop, s.splimit)
 
     -- special summon (self)

@@ -2,6 +2,9 @@
 if not aux.UtilNordicProcedure then aux.UtilNordicProcedure = {} end
 if not UtilNordic then UtilNordic = aux.UtilNordicProcedure end
 
+-- constant
+UtilNordic.ASCENDANT_TOKEN = 930000038
+
 -- function
 function UtilNordic.NordicGodEffect(c, sumtype, reborn)
     local id = c:GetOriginalCodeRule()
