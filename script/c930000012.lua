@@ -16,12 +16,14 @@ function s.initial_effect(c)
     e1:SetCondition(s.e1con)
     c:RegisterEffect(e1)
 
-    -- act limit
+    -- cannot disable summon
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_CHAINING)
-    e2:SetRange(LOCATION_MZONE + LOCATION_GRAVE)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(1, 0)
+    e2:SetTarget(function(e, c) return c:IsSetCard(0x42) end)
     c:RegisterEffect(e2)
 
     -- search relic
@@ -42,12 +44,6 @@ function s.e1con(e, c)
     local tp = c:GetControler()
     return Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0) == 0 and
                Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    if ep == tp and re:GetHandler():IsSetCard(0x5042) then
-        Duel.SetChainLimit(function(e, rp, tp) return tp == rp end)
-    end
 end
 
 function s.e3filter1(c)

@@ -209,7 +209,8 @@ level = 4
 atk = 1800
 def = 1500
 effect = """\
-Once per turn: You can discard 1 card; \
+The Special Summon of your "Nordic" monster cannot be negated. \
+You can discard 1 card; \
     Special Summon 1 Level 4 or lower "Nordic" monster from your hand or Deck in Defense Position, except "Brunhild of the Nordic Ascendant", \
     also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Aesir" monsters. \
     You can only use this effect of "Brunhild of the Nordic Ascendant" once per turn. \
@@ -250,7 +251,7 @@ def = 400
 effect = """\
 If this card is sent to the GY to activate a "Nordic" card's effect: \
     You can Special Summon it in Defense Position, \
-    then if the activated effect is "Nordic Ascendant" monster's, \
+    then if the activated effect is "Nordic" monster's, \
     you can Special Summon 2 "Nordic Ascendant Tokens" (Fairy/LIGHT/Level 4/ATK 0/DEF 0) in Defense Position. \
     You can only use this effect of "Sigrun of the Nordic Ascendant" once per turn. \
 """
@@ -268,8 +269,7 @@ atk = 2200
 def = 1000
 effect = """\
 If you control no monsters, you can Normal Summon this card without Tributing. \
-While this card is on the field or in GY, \
-    your opponent cannot activate cards or effects in response to the activation of your "Nordic Relic" cards and effects. \
+The Normal Summon of your "Nordic" monster cannot be negated. \
 Once per turn: You can send 1 "Nordic" monster from your hand or Deck to the GY; \
     add 1 "Nordic Relic" card from your Deck to your hand. \
     You can only use this effect of "Frey of the Nordic Champions" once per turn. \
@@ -280,17 +280,19 @@ strings = ["Normal Summon without Tributing", "Seach \"Nordic Relic\""]
 id = 930000013
 set = "nordic-champion"
 name = "Beyla of the Nordic Champions"
-type = "monster tuner effect"
+type = "monster effect"
 attribute = "wind"
 race = "warrior"
-level = 3
-atk = 1500
-def = 800
+level = 4
+atk = 1700
+def = 1000
 effect = """\
-For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
-Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
+You can target 1 "Aesir" monster or "Nordic Relic" card you control; destroy it, and if you do, \
+    add 1 "Nordic" monster from your GY, except "Beyla of the Nordic Champions", \
+    then, if you control a "Nordic" Tuner monster, you can Normal Summon it. \
+    You can only use this effect of "Beyla of the Nordic Champions" once per turn. \
 """
-strings = []
+strings = ["Return \"Nordic\" monster to hand"]
 
 [card.hervor]
 id = 930000014
@@ -299,13 +301,13 @@ name = "Hervor of the Nordic Champions"
 type = "monster effect"
 attribute = "wind"
 race = "warrior"
-level = 4
-atk = 1700
-def = 1000
+level = 2
+atk = 700
+def = 600
 effect = """\
 If this card is sent to the GY to activate a "Nordic" card's effect: \
-    You can add 1 "Nordic" monster from your Deck to your hand, except "Hervor of the Nordic Champions", \
-    then, if the activated effect is "Nordic Champion" monster's, \
+    Add 1 non-Tuner "Nordic" monster from your Deck to your hand, except "Hervor of the Nordic Champions", \
+    then, if the activated effect is "Nordic" monster's, \
     you can Normal Summon 1 "Nordic" monster in addition to your Normal Summon/Set this turn. \
     (You can only gain this effect once per turn.) \
     You can only use this effect of "Hervor of the Nordic Champions" once per turn. \
@@ -316,19 +318,20 @@ strings = ["Normal Summon via \"Hervor of the Nordic Champions\""]
 id = 930000015
 set = "nordic-champion"
 name = "Eir of the Nordic Champions"
-type = "monster effect"
+type = "monster tuner effect"
 attribute = "wind"
 race = "warrior"
-level = 2
-atk = 600
-def = 0
+level = 3
+atk = 1000
+def = 700
 effect = """\
-You can target 1 "Nordic Relic" card you control; destroy it, and if you do, \
-    Special Summon 1 "Nordic" with a Level monster from your hand, Deck, or GY, except "Eir of the Nordic Champions", \
-    but it cannot activate its effects this turn. \
-    You can only use this effect of "Eir of the Nordic Champions" once per turn. \
+For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
+Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
+Once per turn: You can send 1 "Nordic" monster from your hand or Deck to the GY, then activate 1 of these effects;
+● Increase this card's Level by the Level of the sent monster.
+● Reduce this card's Level by the Level of the sent monster.
 """
-strings = ["Destroy \"Nordic Relic\" to Special Summon \"Nordic\" monster"]
+strings = ["Increase or decrease Level", "Increase Level", "Decrease Level"]
 
 [card.eikthyrnir]
 id = 930000016

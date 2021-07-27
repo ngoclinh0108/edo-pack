@@ -3,72 +3,85 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
-s.listed_series = {0x42, 0x5042}
+s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
-    -- special summon
+    -- synchro substitute
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_DESTROY + CATEGORY_SPECIAL_SUMMON)
-    e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetCountLimit(1, id)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e1:SetCode(61777313)
     c:RegisterEffect(e1)
+
+    -- synchro limit
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e2:SetCode(EFFECT_CANNOT_BE_SYNCHRO_MATERIAL)
+    e2:SetValue(function(e, c)
+        if not c then return false end
+        return not c:IsSetCard(0x4b)
+    end)
+    c:RegisterEffect(e2)
+
+    -- level change
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
-function s.e1filter1(c) return c:IsFaceup() and c:IsSetCard(0x5042) end
-
-function s.e1filter2(c, e, tp)
-    return c:IsSetCard(0x42) and c:HasLevel() and not c:IsCode(id) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e3filter(c)
+    return c:HasLevel() and c:HasLevel() and c:IsSetCard(0x42) and
+               c:IsAbleToGraveAsCost()
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-        if ft < -1 then return false end
-        local loc = LOCATION_ONFIELD
-        if ft == 0 then loc = LOCATION_MZONE end
-        e:SetLabel(loc)
-
-        return Duel.IsExistingTarget(s.e1filter1, tp, LOCATION_ONFIELD, 0, 1,
-                                     nil) and
-                   Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND +
-                                                   LOCATION_DECK +
-                                                   LOCATION_GRAVE, 0, 1, nil, e,
-                                               tp)
+        return Duel.IsExistingMatchingCard(s.e3filter, tp,
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+                                           nil)
     end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, s.e1filter1, tp, e:GetLabel(), 0, 1, 1, nil)
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp,
+                                      LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
+                                      nil)
+    Duel.SendtoGrave(g, REASON_COST)
+    e:SetLabelObject(g:GetFirst())
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) or Duel.Destroy(tc, REASON_EFFECT) == 0 then
-        return
-    end
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
+    if chk == 0 then return c:HasLevel() end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter2),
-                                       tp, LOCATION_HAND + LOCATION_DECK +
-                                           LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
-    if tc and Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3302)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_CANNOT_TRIGGER)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec1)
+    local lv = c:GetLevel()
+    local opt
+    if e:GetLabelObject():GetLevel() < lv then
+        opt = Duel.SelectOption(tp, aux.Stringid(id, 1), aux.Stringid(id, 2))
+    else
+        opt = Duel.SelectOption(tp, aux.Stringid(id, 1))
     end
-    Duel.SpecialSummonComplete()
+    e:SetLabel(opt)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local lv = e:GetLabelObject():GetLevel()
+    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_LEVEL)
+    if e:GetLabel() == 0 then
+        ec1:SetValue(lv)
+    else
+        ec1:SetValue(-lv)
+    end
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
+    c:RegisterEffect(ec1)
 end

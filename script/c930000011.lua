@@ -3,7 +3,7 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
-s.listed_series = {0x42, 0x3042}
+s.listed_series = {0x42}
 
 function s.initial_effect(c)
     -- special summon
@@ -43,9 +43,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local rc = re:GetHandler()
-    if not (rc:IsSetCard(0x3042) and rc:IsType(TYPE_MONSTER)) then return end
-    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
+    if not re:GetHandler():IsType(TYPE_MONSTER) or
+        Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, 930000038, 0, TYPES_TOKEN,
                                                  0, 0, 4, RACE_FAIRY,
