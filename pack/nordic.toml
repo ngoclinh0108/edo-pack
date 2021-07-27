@@ -48,7 +48,9 @@ ${AESIR_GOD_EFFECT} \
 Once per turn, when your opponent's card or effect is activated that targets a card(s) (Quick Effect): \
     You can negate the effect, and if you do, you can apply that negated effect at your own. \
 ${NORDIC_GOD_REBORN} \
-If Summoned this way: You can add to your hand, or Special Summon, 1 "Nordic" monster from your GY. \
+If Summoned this way: You can look at all cards in your opponent's hand and all Set cards they control. \
+    Your opponent cannot activate those cards in response to this effect's activation. \
+    This card must be face-up on the field to activate and to resolve this effect. \
 """
 strings = ["Negate the effect", "Use the negated effect"]
 
@@ -271,11 +273,12 @@ atk = 2200
 def = 1800
 effect = """\
 If you control no monsters, you can Normal Summon this card without Tributing. \
-If this card is Summoned: \
-    You can add 2 "Nordic" monsters with different names \
+If this card is Normal Summoned: \
+    You can add 2 "Nordic" monsters with different names, \
+    except "Frey of the Nordic Champions", \
     from your Deck to your hand, except "Frey of the Nordic Champions". \
     You can only use this effect of "Frey of the Nordic Champions" once per turn. \
-The Normal Summon your "Nordic" monster cannot be negated. \
+The Normal Summon of this card and your other "Nordic" monster cannot be negated. \
 Your opponent cannot activate cards or effects when you Summon a "Nordic" monster(s). \
 """
 strings = []
@@ -291,12 +294,18 @@ level = 3
 atk = 1400
 def = 1200
 effect = """\
-If you Summon a "Nordic" monster, you can: \
-    Immediately after this effect resolves, Normal Summon this card. \
+If this card is added to your hand during your turn, reveal it (until the end of this turn), \
+    then, while this card is revealed by this effect, \
+    you can Normal Summon 1 "Nordic" monster in addition to your Normal Summon/Set during your Main Phase. \
+    (You can only gain this effect once per turn.) \
+When you Summon a "Nordic" monster(s), you can: Immediately after this effect resolves, Summon this card from your hand, \
     also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Aesir" monsters. \
-    You can only use this effect of "Beyla of the Nordic Champions" once per turn. \
+You can only use each effect of "Beyla of the Nordic Champions" once per turn. \
 """
-strings = []
+strings = [
+    "Summon via \"Beyla of the Nordic Champions\"",
+    "Affected by effected \"Beyla of the Nordic Champions\": cannot Special Summon from the Extra Deck, except \"Aesir\" monsters",
+]
 
 [card.hervor]
 id = 930000014

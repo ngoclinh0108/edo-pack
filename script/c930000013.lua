@@ -6,36 +6,77 @@ Duel.LoadScript("util_nordic.lua")
 s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
-    -- summon
+    -- extra summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e1:SetProperty(EFFECT_FLAG_DELAY)
-    e1:SetCode(EVENT_SUMMON_SUCCESS)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetCountLimit(1, id)
+    e1:SetCode(EVENT_TO_HAND)
+    e1:SetCountLimit(1, id + 1 * 1000000)
     e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e1b)
-    local e1c = e1:Clone()
-    e1c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e1c)
+
+    -- summon
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_SUMMON)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_SUMMON_SUCCESS)
+    e2:SetRange(LOCATION_HAND)
+    e2:SetCountLimit(1, id + 2 * 1000000)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e2b)
+    local e2c = e2:Clone()
+    e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e2c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(aux.FilterFaceupFunction(Card.IsSetCard, 0x42), 1, nil)
+    return Duel.GetTurnPlayer() == tp and not e:GetHandler():IsPublic()
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                             PHASE_END, 0, 1)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_PUBLIC)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1)
+    c:RegisterEffect(ec1)
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 0))
+    ec2:SetType(EFFECT_TYPE_FIELD)
+    ec2:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+    ec2:SetRange(LOCATION_HAND)
+    ec2:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
+    ec2:SetCondition(function(e)
+        return e:GetHandler():GetFlagEffect(id) ~= 0 and
+                   e:GetHandler():IsPublic()
+    end)
+    ec2:SetTarget(aux.TargetBoolFunction(Card.IsSetCard, 0x42))
+    c:RegisterEffect(ec2)
+end
+
+function s.e2filter(c, tp) return c:IsSummonPlayer(tp) and c:IsSetCard(0x42) end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return ep == tp and eg:IsExists(s.e2filter, 1, nil, tp)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:IsSummonable(true, nil) end
     Duel.SetOperationInfo(0, CATEGORY_SUMMON, c, 1, 0, 0)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsRelateToEffect(e) then Duel.Summon(tp, c, true, nil) end
 
