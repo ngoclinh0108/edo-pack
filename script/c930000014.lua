@@ -25,8 +25,8 @@ function s.e1filter(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsReason(REASON_COST) and re:IsActivated() and
-               re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0x42)
+    return e:GetHandler():IsReason(REASON_COST) and
+               re:GetHandler():IsSetCard(0x42)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -48,7 +48,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.ConfirmCards(1 - tp, g)
     end
 
-    if not re:GetHandler():IsSetCard(0x4042) then return end
+    local rc = re:GetHandler()
+    if not (rc:IsSetCard(0x4042) and rc:IsType(TYPE_MONSTER)) then return end
     if Duel.GetFlagEffect(tp, id) ~= 0 then return end
     Duel.RegisterFlagEffect(tp, id, RESET_PHASE + PHASE_END, 0, 1)
 

@@ -20,8 +20,8 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsReason(REASON_COST) and re:IsActivated() and
-               re:IsActiveType(TYPE_MONSTER) and re:GetHandler():IsSetCard(0x42)
+    return e:GetHandler():IsReason(REASON_COST) and
+               re:GetHandler():IsSetCard(0x42)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -43,7 +43,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    if not re:GetHandler():IsSetCard(0x3042) then return end
+    local rc = re:GetHandler()
+    if not (rc:IsSetCard(0x3042) and rc:IsType(TYPE_MONSTER)) then return end
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, 930000038, 0, TYPES_TOKEN,
