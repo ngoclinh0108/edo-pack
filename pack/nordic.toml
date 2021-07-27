@@ -160,9 +160,10 @@ def = 2800
 effect = """\
 3 "Nordic" monsters with different Types
 Must first be Special Summoned (from your Extra Deck) by sending the above cards you control to the GY. (You do not use "Polymerization".) \
-Once per turn, during the Standby Phase, if this card is in your GY: \
+During the Standby Phase, if this card is in your GY: \
     You can target 1 face-up monster you control, except "Hela the Nordic Death"; destroy it, \
     and if you do, Special Summon this card in Defense Position. \
+    You can only use this effect of "Hela the Nordic Death" once per turn. \
 While this card is face-up on the field, "Nordic" monsters with a Level in your GY, except "Hela the Nordic Death", gain the following effect.
 ● You can Special Summon this card (from your GY), \
     but its effects are negated, cannot activate its effects, and your opponent takes no battle damage from attacks involving it, \
