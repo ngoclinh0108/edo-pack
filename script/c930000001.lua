@@ -42,7 +42,7 @@ end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local tgp = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_PLAYER)
-    return tgp ~= tp
+    return Duel.GetTurnPlayer() == tp and tgp ~= tp
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
