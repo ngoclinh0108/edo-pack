@@ -1,4 +1,4 @@
--- Narfi of the Nordic Alfar
+-- Moros of the Nordic Alfar
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")

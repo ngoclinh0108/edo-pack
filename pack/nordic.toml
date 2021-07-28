@@ -362,8 +362,12 @@ level = 4
 atk = 1700
 def = 900
 effect = """\
+If you control no monsters, you can Special Summon this card (from your hand). \
+You can target 1 other face-up monster you control; destroy it, and if you do, \
+    Special Summon 1 "Nordic Beast Token" (Beast/EARTH/Level 3/ATK 0/DEF 0) \
+You can only use this effect of "Alsvid of the Nordic Beasts" once per turn. \
 """
-strings = []
+strings = ["Destroy & Special Summon 1 \"Nordic Beast Token\""]
 
 [card.hildisvini]
 id = 930000017
@@ -407,39 +411,13 @@ level = 3
 atk = 1600
 def = 1000
 effect = """\
-"""
-strings = []
-
-[card.moros]
-id = 930000020
-set = "nordic-alfar"
-name = "Moros of the Nordic Alfar"
-type = "monster effect"
-attribute = "dark"
-race = "spellcaster"
-level = 5
-atk = 0
-def = 0
-effect = """\
-"""
-strings = []
-
-[card.narfi]
-id = 930000021
-set = "nordic-alfar"
-name = "Narfi of the Nordic Alfar"
-type = "monster tuner effect"
-attribute = "dark"
-race = "spellcaster"
-level = 4
-atk = 0
-def = 0
-effect = """\
+For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
+Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
 """
 strings = []
 
 [card.dvalinn]
-id = 930000022
+id = 930000020
 set = "nordic-alfar"
 name = "Dvalinn of The Nordic Alfar"
 type = "monster tuner effect"
@@ -452,8 +430,22 @@ effect = """\
 """
 strings = []
 
+[card.moros]
+id = 930000021
+set = "nordic-alfar"
+name = "Moros of the Nordic Alfar"
+type = "monster effect"
+attribute = "dark"
+race = "spellcaster"
+level = 5
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
 [card.alp]
-id = 930000023
+id = 930000022
 set = "nordic-alfar"
 name = "Alp of the Nordic Alfar"
 type = "monster effect"
@@ -463,6 +455,22 @@ level = 1
 atk = 0
 def = 0
 effect = """\
+"""
+strings = []
+
+[card.narfi]
+id = 930000023
+set = "nordic-alfar"
+name = "Narfi of the Nordic Alfar"
+type = "monster tuner effect"
+attribute = "dark"
+race = "spellcaster"
+level = 4
+atk = 0
+def = 0
+effect = """\
+For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
+Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
 """
 strings = []
 
