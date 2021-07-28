@@ -349,22 +349,8 @@ Once per turn: You can send 1 "Nordic" monster from your Deck to the GY, then ac
 """
 strings = ["Change Level", "Increase Level", "Decrease Level"]
 
-[card.eikthyrnir]
-id = 930000016
-set = "nordic-beast"
-name = "Eikthyrnir of the Nordic Beasts"
-type = "monster tuner effect"
-attribute = "earth"
-race = "beast"
-level = 4
-atk = 0
-def = 0
-effect = """\
-"""
-strings = []
-
 [card.alsvid]
-id = 930000017
+id = 930000016
 set = "nordic-beast"
 name = "Alsvid of the Nordic Beasts"
 type = "monster tuner effect"
@@ -378,7 +364,7 @@ effect = """\
 strings = []
 
 [card.hildisvini]
-id = 930000018
+id = 930000017
 set = "nordic-beast"
 name = "Hildisvini of the Nordic Beasts"
 type = "monster effect"
@@ -392,10 +378,24 @@ effect = """\
 strings = []
 
 [card.ratatoskr]
-id = 930000019
+id = 930000018
 set = "nordic-beast"
 name = "Ratatoskr of the Nordic Beasts"
 type = "monster effect"
+attribute = "earth"
+race = "beast"
+level = 3
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[card.eikthyrnir]
+id = 930000019
+set = "nordic-beast"
+name = "Eikthyrnir of the Nordic Beasts"
+type = "monster tuner effect"
 attribute = "earth"
 race = "beast"
 level = 3
