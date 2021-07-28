@@ -137,8 +137,6 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
                        c:IsLocation(LOCATION_SZONE)) and
                    aux.SelectUnselectGroup(g, e, tp, 2, 2, s.e1check, 0)
     end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 2, tp, loc)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -161,7 +159,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         if lsc > rsc then lsc, rsc = rsc, lsc end
         local g2 = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_HAND +
                                              LOCATION_DECK + LOCATION_GRAVE +
-                                             LOCATION_EXTRA, 0, nil, lsc, rsc, e, tp)
+                                             LOCATION_EXTRA, 0, nil, lsc, rsc,
+                                         e, tp)
         if #g2 > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
             local sc = g2:Select(tp, 1, 1, nil):GetFirst()
             local ft = sc:IsLocation(LOCATION_EXTRA) and

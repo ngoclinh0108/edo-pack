@@ -61,8 +61,8 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                                         ATTRIBUTE_LIGHT)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 1, tp, 0)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 1, tp, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

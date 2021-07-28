@@ -15,7 +15,8 @@ function s.initial_effect(c)
     -- pendulum
     Pendulum.AddProcedure(c, false)
     UtilPendulum.PlaceToPZoneWhenDestroyed(c,
-                                      function(e, tp, eg, ep, ev, re, r, rp, chk)
+                                           function(e, tp, eg, ep, ev, re, r,
+                                                    rp, chk)
         if chk == 0 then return true end
         local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_PZONE, 0,
                                         nil)
@@ -237,14 +238,12 @@ function s.pe2filter(c)
 end
 
 function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.pe2filter, tp, LOCATION_DECK +
-                                               LOCATION_GRAVE + LOCATION_EXTRA,
-                                           0, 1, nil)
+        return Duel.IsExistingMatchingCard(s.pe2filter, tp, loc, 0, 1, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, loc)
 end
 
 function s.pe2op(e, tp, eg, ep, ev, re, r, rp)

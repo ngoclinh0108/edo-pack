@@ -115,13 +115,20 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local tc = Duel.SelectMatchingCard(tp, s.e1filter1, tp, loc, 0, 1, 1, nil,
                                        e, tp):GetFirst()
     if not tc:IsLocation(LOCATION_MZONE) then
-        Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, tc, 1, tp,
-                              tc:GetLocation())
+        Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, tc, 1, tp, nil)
     end
 
     Duel.SetTargetCard(tc)
     if tc:IsLocation(LOCATION_ONFIELD) then
         Duel.HintSelection(Group.FromCards(tc))
+    end
+
+    if tc:IsLocation(LOCATION_EXTRA) then
+        Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp,
+                              LOCATION_EXTRA)
+    else
+        Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
+                              LOCATION_EXTRA)
     end
 end
 

@@ -321,12 +321,14 @@ level = 2
 atk = 700
 def = 300
 effect = """\
-If the effect activation of your "Nordic" monster is negated by your opponent's card effect (except during the Damage Step): \
-    You can add that monster and 1 "Nordic" card from your Deck to your hand, except "Hervor of the Nordic Champions", \
-    and if you do, send this card to the GY. \
+If the effect activation of your "Nordic" card is negated by your opponent's card effect (except during the Damage Step): \
+    You can send this card to the GY, then, add the negated card your hand, \
+    and if you do, you can Set 1 "Nordic Relic" directly from your Deck. \
+If this card is in your GY: You can destroy 1 "Nordic Relic" card you control, \
+    and if you do, add this card to your hand. \
 You can only use each effect of "Hervor of the Nordic Champions" once per turn. \
 """
-strings = []
+strings = ["Set 1 \"Nordic Relic\""]
 
 [card.eir]
 id = 930000015

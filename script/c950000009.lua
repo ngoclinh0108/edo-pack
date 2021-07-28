@@ -199,7 +199,8 @@ function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                                0, 1, nil, e, tp, c)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_PZONE)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
 function s.me3op(e, tp, eg, ep, ev, re, r, rp)

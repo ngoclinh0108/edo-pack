@@ -109,9 +109,11 @@ end
 
 function s.me1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.me1filter, tp, LOCATION_DECK, 0,
-                                           1, nil)
+        return Duel.IsExistingMatchingCard(s.me1filter, tp, LOCATION_DECK, 0, 1,
+                                           nil)
     end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0, LOCATION_DECK)
 end
 
 function s.me1op(e, tp, eg, ep, ev, re, r, rp)

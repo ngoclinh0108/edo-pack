@@ -87,7 +87,8 @@ function s.pe1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SMATERIAL)
     Duel.SelectTarget(tp, s.pe1filter1, tp, LOCATION_MZONE, 0, 1, 1, c, tp, c)
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
 function s.pe1op(e, tp, eg, ep, ev, re, r, rp)
