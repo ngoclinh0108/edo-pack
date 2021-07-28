@@ -8,9 +8,8 @@ s.listed_series = {0x4b, 0x42}
 function s.initial_effect(c)
     -- extra summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e1:SetProperty(EFFECT_FLAG_DELAY)
-    e1:SetCode(EVENT_TO_HAND)
+    e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetRange(LOCATION_HAND)
     e1:SetCountLimit(1, id + 1 * 1000000)
     e1:SetCondition(s.e1con)
     e1:SetOperation(s.e1op)
@@ -60,7 +59,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return e:GetHandler():GetFlagEffect(id) ~= 0 and
                    e:GetHandler():IsPublic()
     end)
-    ec2:SetTarget(aux.TargetBoolFunction(Card.IsSetCard, 0x42))
+    ec2:SetTarget(function(e, c)
+        return c:IsSetCard(0x42) and c ~= e:GetHandler()
+    end)
     c:RegisterEffect(ec2)
 end
 

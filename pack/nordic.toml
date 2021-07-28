@@ -296,9 +296,9 @@ level = 3
 atk = 1400
 def = 1200
 effect = """\
-If this card is added to your hand during your turn, reveal it (until the end of this turn), \
+During your Main Phase: You can reveal it (until the end of this turn), \
     then, while this card is revealed by this effect, \
-    you can Normal Summon 1 "Nordic" monster in addition to your Normal Summon/Set during your Main Phase. \
+    you can Normal Summon 1 other "Nordic" monster in addition to your Normal Summon/Set during your Main Phase. \
     (You can only gain this effect once per turn.) \
 When you Summon a "Nordic" monster(s), you can: Immediately after this effect resolves, Summon this card from your hand, \
     also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Aesir" monsters. \
