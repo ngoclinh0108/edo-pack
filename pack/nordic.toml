@@ -338,8 +338,8 @@ type = "monster tuner effect"
 attribute = "wind"
 race = "warrior"
 level = 2
-atk = 1000
-def = 0
+atk = 500
+def = 500
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
