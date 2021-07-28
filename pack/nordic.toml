@@ -338,7 +338,7 @@ type = "monster tuner effect"
 attribute = "wind"
 race = "warrior"
 level = 2
-atk = 800
+atk = 1000
 def = 0
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
@@ -357,8 +357,8 @@ type = "monster tuner effect"
 attribute = "light"
 race = "beast"
 level = 4
-atk = 0
-def = 0
+atk = 1700
+def = 900
 effect = """\
 """
 strings = []
@@ -371,8 +371,8 @@ type = "monster effect"
 attribute = "earth"
 race = "beast"
 level = 3
-atk = 0
-def = 0
+atk = 1100
+def = 800
 effect = """\
 """
 strings = []
@@ -385,8 +385,8 @@ type = "monster effect"
 attribute = "earth"
 race = "beast"
 level = 3
-atk = 0
-def = 0
+atk = 900
+def = 900
 effect = """\
 """
 strings = []
@@ -399,8 +399,8 @@ type = "monster tuner effect"
 attribute = "earth"
 race = "beast"
 level = 3
-atk = 0
-def = 0
+atk = 1600
+def = 1000
 effect = """\
 """
 strings = []
