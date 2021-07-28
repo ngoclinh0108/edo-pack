@@ -235,7 +235,7 @@ attribute = "light"
 race = "fairy"
 level = 2
 atk = 600
-def = 0
+def = 400
 effect = """\
 If you control a "Nordic" Tuner monster, you can Special Summon this card (from your hand). \
 If this card was Special Summoned by the effect of another "Nordic" card: \
@@ -386,7 +386,7 @@ attribute = "earth"
 race = "beast"
 level = 3
 atk = 900
-def = 900
+def = 1800
 effect = """\
 """
 strings = []
