@@ -135,8 +135,7 @@ end
 function s.e2filter(c, tp)
     return c:IsReason(REASON_BATTLE + REASON_EFFECT) and
                c:IsPreviousControler(tp) and
-               c:IsPreviousLocation(LOCATION_MZONE) and
-               c:IsPreviousPosition(POS_FACEUP) and c:IsType(TYPE_XYZ)
+               c:IsPreviousLocation(LOCATION_MZONE) and c:IsType(TYPE_XYZ)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)

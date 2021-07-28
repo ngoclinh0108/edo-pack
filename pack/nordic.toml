@@ -376,7 +376,7 @@ level = 3
 atk = 1100
 def = 800
 effect = """\
-If a "Nordic" monster you control is destroyed by your opponent's card (by battle or card effect): \
+If a "Nordic" monster you control is destroyed (by battle or card effect): \
     You can Special Summon this card from your hand or Deck. \
 You can only use each effect of "Hildisvini of the Nordic Beasts" once per turn. \
 """

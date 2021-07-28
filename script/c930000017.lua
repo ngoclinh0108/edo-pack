@@ -23,8 +23,7 @@ end
 function s.e1filter(c, tp)
     return c:IsReason(REASON_BATTLE + REASON_EFFECT) and
                c:IsPreviousControler(tp) and
-               c:IsPreviousLocation(LOCATION_MZONE) and
-               c:IsPreviousPosition(POS_FACEUP) and c:IsSetCard(0x42)
+               c:IsPreviousLocation(LOCATION_MZONE) and c:IsSetCard(0x42)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
