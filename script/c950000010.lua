@@ -12,7 +12,7 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_PROC)
     e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
-    e1:SetCountLimit(1, id + 1 * 1000000)
+    e1:SetCountLimit(1, id + 1 * 1000000, EFFECT_COUNT_CODE_OATH)
     e1:SetCondition(s.e1con)
     c:RegisterEffect(e1)
 

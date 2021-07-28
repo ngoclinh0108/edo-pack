@@ -660,7 +660,7 @@ id = 950000021
 name = "Supreme Wrath"
 type = "trap"
 effect = """\
-You can only activate and use each effect of "Supreme Wrath" once per turn. \
+You can only activate each effect of "Supreme Wrath" once per turn. \
 If you control "Supreme Soul", you can activate this card from your hand. \
 Activate 1 of these effects.
 ● During your Main Phase: You can conduct 1 Pendulum Summon of a monster(s) in addition to your Pendulum Summon. \

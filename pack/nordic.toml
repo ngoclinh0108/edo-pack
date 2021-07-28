@@ -302,7 +302,7 @@ During your Main Phase: You can reveal it (until the end of this turn), \
     (You can only gain this effect once per turn.) \
 When you Summon a "Nordic" monster(s), you can: Immediately after this effect resolves, Summon this card from your hand, \
     also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Aesir" monsters. \
-You can only use each effect of "Beyla of the Nordic Champions" once per turn. \
+You can only activate each effect of "Beyla of the Nordic Champions" once per turn. \
 """
 strings = [
     "Summon via \"Beyla of the Nordic Champions\"",
