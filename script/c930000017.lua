@@ -55,7 +55,7 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
-    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) > 0 then
+    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) > 0 then
         local ec1 = Effect.CreateEffect(c)
         ec1:SetDescription(3000)
         ec1:SetType(EFFECT_TYPE_SINGLE)
