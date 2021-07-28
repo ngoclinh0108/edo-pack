@@ -217,7 +217,7 @@ The Special Summon of your "Nordic" monster cannot be negated. \
 Your opponent cannot activate cards or effects in response to the activation of \
     your "Nordic" cards and effects that includes Special Summons a monster(s). \
 You can discard 1 card; \
-    Special Summon 1 Level 4 or lower non-Tuner "Nordic" monster from your Deck, \
+    Special Summon 1 Level 5 or lower non-Tuner "Nordic" monster from your hand or Deck, \
     also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Aesir" monsters. \
     You can only use this effect of "Brunhild of the Nordic Ascendant" once per turn. \
 """
@@ -233,13 +233,15 @@ name = "Hildr of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
-level = 2
-atk = 600
-def = 400
+level = 3
+atk = 1300
+def = 800
 effect = """\
 If you control a "Nordic" Tuner monster, you can Special Summon this card (from your hand). \
-If this card was Special Summoned by the effect of "Nordic" card: \
-    You can Special Summon 1 "Nordic Ascendant Token" (Fairy/LIGHT/Level 4/ATK 0/DEF 0). \
+If this card was Special Summoned by the effect of another "Nordic" card: \
+    You can Special Summon 1 Level 5 or lower non-Tuner "Nordic" monster from your Deck or GY, \
+    except "Hildr of the Nordic Ascendant", \
+    but it cannot activate its effects this turn. \
     You can only use this effect of "Hildr of the Nordic Ascendant" once per turn. \
 """
 strings = []
@@ -374,6 +376,9 @@ level = 3
 atk = 1100
 def = 800
 effect = """\
+If a "Nordic" monster you control is destroyed by your opponent's card (by battle or card effect): \
+    You can Special Summon this card from your hand or Deck. \
+You can only use each effect of "Hildisvini of the Nordic Beasts" once per turn. \
 """
 strings = []
 
