@@ -168,15 +168,15 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil,
                                                e, tp, eg:GetFirst()) and
-                   Duel.GetFlagEffect(tp, id + 1 * 1000000) == 0
+                   Duel.GetFlagEffect(tp, id + 1000000) == 0
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetFlagEffect(tp, id + 1 * 1000000) ~= 0 then return end
-    Duel.RegisterFlagEffect(tp, id + 1 * 1000000, RESET_PHASE + PHASE_END, 0, 1)
+    if Duel.GetFlagEffect(tp, id + 1000000) ~= 0 then return end
+    Duel.RegisterFlagEffect(tp, id + 1000000, RESET_PHASE + PHASE_END, 0, 1)
 
     local c = e:GetHandler()
     local sc = eg:GetFirst()
@@ -213,7 +213,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.IsExistingMatchingCard(s.e5filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil) and
-                   Duel.GetFlagEffect(tp, id + 2 * 1000000) == 0
+                   Duel.GetFlagEffect(tp, id + 2000000) == 0
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
@@ -221,8 +221,8 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetFlagEffect(tp, id + 2 * 1000000) ~= 0 then return end
-    Duel.RegisterFlagEffect(tp, id + 2 * 1000000, RESET_PHASE + PHASE_END, 0, 1)
+    if Duel.GetFlagEffect(tp, id + 2000000) ~= 0 then return end
+    Duel.RegisterFlagEffect(tp, id + 2000000, RESET_PHASE + PHASE_END, 0, 1)
 
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
@@ -249,7 +249,7 @@ function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.IsExistingMatchingCard(s.e6filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil, e, tp, eg:GetFirst()) and
-                   Duel.GetFlagEffect(tp, id + 3 * 1000000) == 0
+                   Duel.GetFlagEffect(tp, id + 3000000) == 0
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
@@ -259,8 +259,8 @@ function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetFlagEffect(tp, id + 3 * 1000000) ~= 0 then return end
-    Duel.RegisterFlagEffect(tp, id + 3 * 1000000, RESET_PHASE + PHASE_END, 0, 1)
+    if Duel.GetFlagEffect(tp, id + 3000000) ~= 0 then return end
+    Duel.RegisterFlagEffect(tp, id + 3000000, RESET_PHASE + PHASE_END, 0, 1)
 
     local c = e:GetHandler()
     local sc = eg:GetFirst()

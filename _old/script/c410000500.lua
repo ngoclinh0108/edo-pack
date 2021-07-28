@@ -340,7 +340,7 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e7sptg(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetFlagEffect(tp, id + 1 * 1000000) > 0 then return false end
+    if Duel.GetFlagEffect(tp, id + 1000000) > 0 then return false end
     return eg:Filter(s.e7confilter, nil, r, rp, tp):IsExists(s.e7spfilter, 1,
                                                              nil, e, tp)
 end
@@ -355,7 +355,7 @@ end
 function s.e7thfilter(c) return c:IsCode(10723472) and c:IsAbleToHand() end
 
 function s.e7thtg(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetFlagEffect(tp, id + 2 * 1000000) > 0 then return false end
+    if Duel.GetFlagEffect(tp, id + 2000000) > 0 then return false end
     return Duel.IsExistingMatchingCard(s.e7thfilter, tp,
                                        LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
 end
@@ -375,7 +375,7 @@ function s.e7thop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e7dmgtg(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetFlagEffect(tp, id + 3 * 1000000) > 0 then return false end
+    if Duel.GetFlagEffect(tp, id + 3000000) > 0 then return false end
     return true
 end
 

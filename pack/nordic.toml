@@ -321,6 +321,10 @@ level = 2
 atk = 700
 def = 300
 effect = """\
+If the effect activation of your "Nordic" monster is negated by your opponent's card effect (except during the Damage Step): \
+    You can add that monster and 1 "Nordic" card from your Deck to your hand, except "Hervor of the Nordic Champions", \
+    and if you do, send this card to the GY. \
+You can only use each effect of "Hervor of the Nordic Champions" once per turn. \
 """
 strings = []
 
