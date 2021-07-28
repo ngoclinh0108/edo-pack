@@ -46,7 +46,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_PUBLIC)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 1)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
 
     local ec2 = Effect.CreateEffect(c)
@@ -62,6 +62,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetTarget(function(e, c)
         return c:IsSetCard(0x42) and c ~= e:GetHandler()
     end)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec2)
 end
 
