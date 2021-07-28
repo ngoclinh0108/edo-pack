@@ -3,8 +3,8 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
-s.listed_series = {0x42}
 s.listed_names = {UtilNordic.ASCENDANT_TOKEN}
+s.listed_series = {0x42}
 
 function s.initial_effect(c)
     -- special summon token
