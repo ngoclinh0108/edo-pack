@@ -55,7 +55,8 @@ end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-    return rp ~= tp and Duel.GetTurnPlayer() == tp and Duel.IsChainNegatable(ev)
+    return rp ~= tp and Duel.GetTurnPlayer() == tp and
+               re:IsHasType(EFFECT_TYPE_ACTIVATE) and Duel.IsChainNegatable(ev)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
