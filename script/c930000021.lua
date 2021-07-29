@@ -13,7 +13,7 @@ function s.initial_effect(c)
     e1:SetValue(TYPE_SPELL)
     c:RegisterEffect(e1)
 
-    -- to deck & draw
+    -- to deck & search
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_TODECK + CATEGORY_TOHAND + CATEGORY_SEARCH)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
@@ -80,7 +80,8 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c)
-    return c:IsSetCard(0x42) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+    return not c:IsCode(id) and c:IsSetCard(0x42) and c:IsType(TYPE_MONSTER) and
+               c:IsAbleToHand()
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
