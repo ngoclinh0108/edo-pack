@@ -425,8 +425,8 @@ type = "monster tuner effect"
 attribute = "earth"
 race = "beast"
 level = 3
-atk = 1600
-def = 1000
+atk = 1500
+def = 1100
 effect = """\
 You can Special Summon this card (from your hand) by sending 1 "Nordic" monster from your hand or Deck to the GY. \
     You can only Special Summon "Eikthyrnir of the Nordic Beasts" once per turn this way. \
@@ -446,8 +446,8 @@ type = "monster tuner effect"
 attribute = "light"
 race = "spellcaster"
 level = 2
-atk = 0
-def = 0
+atk = 1000
+def = 100
 effect = """\
 """
 strings = []
@@ -460,8 +460,8 @@ type = "monster effect"
 attribute = "dark"
 race = "spellcaster"
 level = 5
-atk = 0
-def = 0
+atk = 1600
+def = 1400
 effect = """\
 """
 strings = []
@@ -474,8 +474,8 @@ type = "monster effect"
 attribute = "dark"
 race = "spellcaster"
 level = 1
-atk = 0
-def = 0
+atk = 100
+def = 100
 effect = """\
 """
 strings = []
@@ -488,8 +488,8 @@ type = "monster tuner effect"
 attribute = "dark"
 race = "spellcaster"
 level = 4
-atk = 0
-def = 0
+atk = 1200
+def = 1400
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro or Link Material, except for the Summon of a "Aesir" monster. \
@@ -505,8 +505,8 @@ type = "monster spirit effect"
 attribute = "light"
 race = "fairy"
 level = 5
-atk = 0
-def = 0
+atk = "?"
+def = "?"
 effect = """\
 Cannot be Special Summoned. During the End Phase of the turn this card is Normal Summoned or flipped face-up: Return it to the hand. \
 """
