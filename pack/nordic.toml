@@ -296,8 +296,8 @@ type = "monster effect"
 attribute = "wind"
 race = "warrior"
 level = 3
-atk = 1400
-def = 1200
+atk = 1000
+def = 1800
 effect = """\
 During your Main Phase: You can reveal it (until the end of this turn), \
     then, while this card is revealed by this effect, \
@@ -446,8 +446,8 @@ type = "monster tuner effect"
 attribute = "light"
 race = "spellcaster"
 level = 2
-atk = 1000
-def = 100
+atk = 600
+def = 500
 effect = """\
 """
 strings = []
@@ -488,8 +488,8 @@ type = "monster tuner effect"
 attribute = "dark"
 race = "spellcaster"
 level = 4
-atk = 1200
-def = 1400
+atk = 1400
+def = 1200
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro or Link Material, except for the Summon of a "Aesir" monster. \
