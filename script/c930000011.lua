@@ -42,7 +42,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsPlayerCanSpecialSummonMonster(tp,
                                                         UtilNordic.ASCENDANT_TOKEN,
-                                                        0x42, TYPES_TOKEN, 0, 0,
+                                                        0x3042, TYPES_TOKEN, 0,
+                                                        0,
                                                         rc:GetOriginalLevel(),
                                                         RACE_FAIRY,
                                                         ATTRIBUTE_LIGHT)
@@ -53,11 +54,11 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c=e:GetHandler()
+    local c = e:GetHandler()
     local rc = re:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, UtilNordic.ASCENDANT_TOKEN,
-                                                 0x42, TYPES_TOKEN, 0, 0,
+                                                 0x3042, TYPES_TOKEN, 0, 0,
                                                  rc:GetOriginalLevel(),
                                                  RACE_FAIRY, ATTRIBUTE_LIGHT) then
         return

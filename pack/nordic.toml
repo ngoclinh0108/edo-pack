@@ -324,7 +324,7 @@ atk = 700
 def = 300
 effect = """\
 If the effect activation of your "Nordic" card is negated by your opponent's card effect (except during the Damage Step): \
-    You can send this card to the GY, then, add the negated card your hand, \
+    You can discard this card; add the negated card your hand, \
     and if you do, you can Set 1 "Nordic Relic" directly from your Deck. \
 If this card is in your GY: You can destroy 1 "Nordic Relic" card you control, \
     and if you do, add this card to your hand. \
@@ -403,6 +403,13 @@ level = 3
 atk = 900
 def = 1800
 effect = """\
+If this card in your possession is destroyed (by battle or card effect): \
+    You can Special Summon 1 "Nordic Beast Token" (Beast/EARTH/Level 3/ATK 0/DEF 0). \
+While this card is in the GY, except the turn this card was sent to the GY: \
+    You can target up to 5 other "Nordic" cards in your GY; \
+    shuffle this card and the targeted cards into the Deck, \
+    then draw 1 card. \
+You can only use each effect of "Ratatoskr of the Nordic Beasts" once per turn. \
 """
 strings = []
 

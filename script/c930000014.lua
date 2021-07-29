@@ -14,6 +14,7 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_HAND)
     e1:SetCountLimit(1, id + 1000000)
     e1:SetCondition(s.e1con)
+    e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -37,22 +38,27 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return de and dp ~= tp and rp == tp and re:GetHandler():IsSetCard(0x42)
 end
 
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsDiscardable() end
+    Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
+end
+
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local rc = re:GetHandler()
     if chk == 0 then return c:IsAbleToGrave() and rc:IsAbleToHand() end
 
     Duel.SetTargetCard(rc)
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, c, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, rc, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
     local rc = re:GetHandler()
-    if not c:IsRelateToEffect(e) or not rc:IsRelateToEffect(e) or
-        Duel.SendtoGrave(c, REASON_EFFECT) == 0 or
-        Duel.SendtoHand(rc, tp, REASON_EFFECT) == 0 then return end
+    if not rc:IsRelateToEffect(e) or Duel.SendtoHand(rc, tp, REASON_EFFECT) == 0 then
+        return
+    end
+    
     if not Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1, nil) or
         Duel.GetLocationCount(tp, LOCATION_SZONE) == 0 or
         not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end

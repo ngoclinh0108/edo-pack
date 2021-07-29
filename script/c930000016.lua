@@ -24,7 +24,7 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- destroy
+    -- destroy & token
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_DESTROY + CATEGORY_SPECIAL_SUMMON + CATEGORY_TOKEN)
@@ -61,8 +61,9 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
         return
             Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, c) and
                 Duel.IsPlayerCanSpecialSummonMonster(tp, UtilNordic.BEAST_TOKEN,
-                                                     0x42, TYPES_TOKEN, 0, 0, 3,
-                                                     RACE_BEAST, ATTRIBUTE_EARTH)
+                                                     0x6042, TYPES_TOKEN, 0, 0,
+                                                     3, RACE_BEAST,
+                                                     ATTRIBUTE_EARTH)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
@@ -81,7 +82,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
     if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, UtilNordic.BEAST_TOKEN,
-                                                 0x42, TYPES_TOKEN, 0, 0, 3,
+                                                 0x6042, TYPES_TOKEN, 0, 0, 3,
                                                  RACE_BEAST, ATTRIBUTE_EARTH) then
         return
     end
