@@ -76,14 +76,12 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsPlayerCanDraw(tp, 1) and
+        return c:IsAbleToDeck() and
                    Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 5, c)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
     local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 5, 5, c)
-    g:AddCard(c)
-
     Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
 end
@@ -91,20 +89,16 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    tg:AddCard(c)
-    if not tg or tg:FilterCount(Card.IsRelateToEffect, nil, e) ~= 6 then
-        return
-    end
+    local g = Group.FromCards(c)
+    g:Merge(tg)
+    if g:FilterCount(Card.IsRelateToEffect, nil, e) ~= 6 then return end
+    Duel.SendtoDeck(g, nil, 0, REASON_EFFECT)
 
-    Duel.SendtoDeck(tg, nil, 0, REASON_EFFECT)
-    local g = Duel.GetOperatedGroup()
+    g = Duel.GetOperatedGroup()
     if g:IsExists(Card.IsLocation, 1, nil, LOCATION_DECK) then
         Duel.ShuffleDeck(tp)
     end
     local ct = g:FilterCount(Card.IsLocation, nil,
                              LOCATION_DECK + LOCATION_EXTRA)
-    if ct == 6 then
-        Duel.BreakEffect()
-        Duel.Draw(tp, 1, REASON_EFFECT)
-    end
+    if ct == 6 then Duel.Draw(tp, 1, REASON_EFFECT) end
 end
