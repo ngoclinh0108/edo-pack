@@ -13,17 +13,52 @@ function s.initial_effect(c)
     e1:SetValue(TYPE_SPELL)
     c:RegisterEffect(e1)
 
+    -- to deck & draw
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TODECK + CATEGORY_DRAW)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_DELAY)
+    e2:SetCode(EVENT_TO_GRAVE)
+    e2:SetCountLimit(1, id + 1000000)
+    e2:SetCondition(s.e2con)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+
     -- search
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_DELAY)
     e3:SetCode(EVENT_TO_HAND)
-    e3:SetCountLimit(1, id + 1000000)
+    e3:SetCountLimit(1, id + 2000000)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return
+        c:IsReason(REASON_DESTROY) and c:IsPreviousLocation(LOCATION_ONFIELD) and
+            c:IsPreviousPosition(POS_FACEDOWN)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) and c:IsAbleToDeck() end
+
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+    if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
+        Duel.BreakEffect()
+        Duel.Draw(tp, 1, REASON_EFFECT)
+    end
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)

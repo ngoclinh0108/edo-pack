@@ -471,8 +471,8 @@ atk = 1400
 def = 1200
 effect = """\
 You can Set this card from your hand to your S/T Zone as a Spell. \
-If this Set card in the S/T Zone is destroyed and sent to the GY: \
-    You can shuffle it into the Deck, and if you do, draw 1 cards. \
+If this Set card is destroyed and sent to the GY: \
+    You can shuffle it into the Deck, then draw 1 cards. \
 If this card is added to your hand by the effect of an "Nordic" card: \
     You can add 1 "Nordic" monster from your Deck or GY to your hand, except "Narfi of the Nordic Alfar", \
     but for the rest of this turn, you cannot Normal Summon/Set or Special Summon monsters with that name. \
