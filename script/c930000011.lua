@@ -32,8 +32,9 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsReason(REASON_COST) and
-               re:GetHandler():IsSetCard(0x42)
+    local rc = re:GetHandler()
+    return e:GetHandler():IsReason(REASON_COST) and rc:IsSetCard(0x42) and
+               rc:IsType(TYPE_MONSTER)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -104,5 +105,5 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
         not c:IsRelateToEffect(e) then return end
 
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
 end

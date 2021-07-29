@@ -4,6 +4,7 @@ if not UtilNordic then UtilNordic = aux.UtilNordicProcedure end
 
 -- constant
 UtilNordic.ASCENDANT_TOKEN = 930000038
+UtilNordic.EINHERJAR_TOKEN = 40844553
 UtilNordic.BEAST_TOKEN = 15394084
 
 -- function
