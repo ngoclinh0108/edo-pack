@@ -345,7 +345,7 @@ def = 500
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
-Once per turn: You can send 1 "Nordic" monster from your Deck to the GY, then activate 1 of these effects;
+Once per turn: You can send 1 "Nordic" monster with a Level from your Deck to the GY, then activate 1 of these effects;
 ● Increase this card's Level by the Level of the sent monster.
 ● Reduce this card's Level by the Level of the sent monster.
 """
@@ -428,11 +428,9 @@ level = 3
 atk = 1500
 def = 1100
 effect = """\
-You can Special Summon this card (from your hand) by sending 1 "Nordic" monster from your hand or Deck to the GY. \
-    You can only Special Summon "Eikthyrnir of the Nordic Beasts" once per turn this way. \
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
-Once per turn: You can activate 1 of these effects.
+Once per turn: You can send 1 "Nordic" monster from your Deck to the GY, then activate 1 of these effects.
 ● Increase this card's Level by 1, until the End Phase.
 ● Reduce this card's Level by 1, until the End Phase.
 """

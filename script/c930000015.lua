@@ -37,7 +37,7 @@ function s.initial_effect(c)
 end
 
 function s.e3filter(c)
-    return c:HasLevel() and c:HasLevel() and c:IsSetCard(0x42) and
+    return c:IsSetCard(0x42) and c:IsType(TYPE_MONSTER) and c:HasLevel() and
                c:IsAbleToGraveAsCost()
 end
 
