@@ -170,7 +170,7 @@ While this card is face-up on the field, "Nordic" monsters with a Level in your 
     but its effects are negated, cannot activate its effects, \
     your opponent takes no battle damage from attacks involving it, \
     send it to the GY during the End Phase, \
-    also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Nordic" monsters. \
+    also you cannot Special Summon monsters for the rest of this turn, except "Nordic" monsters. \
     You can only Special Summon this card once per turn this ways.
 """
 strings = [
