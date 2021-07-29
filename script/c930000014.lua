@@ -4,7 +4,7 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
 s.listed_names = {UtilNordic.EINHERJAR_TOKEN}
-s.listed_series = {0x42}
+s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
     -- special summon token
@@ -84,16 +84,26 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if tc:IsFacedown() or not tc:IsRelateToEffect(e) or tc:IsImmuneToEffect(e) or
-        tc:GetLevel() < 2 then return end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_UPDATE_LEVEL)
-    ec1:SetValue(-2)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    tc:RegisterEffect(ec1)
-    if c:IsRelateToEffect(e) then
-        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    if tc:IsFaceup() and tc:IsRelateToEffect(e) and not tc:IsImmuneToEffect(e) and
+        tc:GetLevel() >= 2 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_LEVEL)
+        ec1:SetValue(-2)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1)
+        if c:IsRelateToEffect(e) then
+            Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+        end
     end
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 0))
+    ec2:SetType(EFFECT_TYPE_FIELD)
+    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+    ec2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec2:SetTargetRange(1, 0)
+    ec2:SetTarget(function(e, c) return not c:IsSetCard(0x4b) end)
+    ec2:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec2, tp)
 end

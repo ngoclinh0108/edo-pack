@@ -6,6 +6,7 @@ if not UtilNordic then UtilNordic = aux.UtilNordicProcedure end
 UtilNordic.ASCENDANT_TOKEN = 930000038
 UtilNordic.EINHERJAR_TOKEN = 40844553
 UtilNordic.BEAST_TOKEN = 15394084
+UtilNordic.MALUS_TOKEN = 42671152
 
 -- function
 function UtilNordic.NordicGodEffect(c, sumtype, reborn)

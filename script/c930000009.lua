@@ -3,7 +3,7 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
-s.listed_series = {0x4b, 0x42}
+s.listed_series = {0x42}
 
 function s.initial_effect(c)
     -- cannot disable summon
@@ -78,7 +78,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                                1, nil, e, tp)
         end
     end
-    
+
     if e:GetLabel() ~= 0 then
         e:SetLabel(0)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DISCARD)
@@ -102,16 +102,4 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
             Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
         end
     end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 1))
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetTarget(function(e, c)
-        return c:IsLocation(LOCATION_EXTRA) and not c:IsSetCard(0x4b)
-    end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
 end

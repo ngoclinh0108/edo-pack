@@ -219,14 +219,10 @@ The Special Summon of your "Nordic" monster cannot be negated. \
 Your opponent cannot activate cards or effects in response to the activation of \
     your "Nordic" cards and effects that includes Special Summons a monster(s). \
 You can discard 1 card; \
-    Special Summon 1 Level 5 or lower non-Tuner "Nordic" monster from your hand or Deck, \
-    also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Aesir" monsters. \
+    Special Summon 1 Level 5 or lower non-Tuner "Nordic" monster from your hand or Deck. \
     You can only use this effect of "Brunhild of the Nordic Ascendant" once per turn. \
 """
-strings = [
-    "Special Summon non-Tuner \"Nordic\" monster from the Deck",
-    "Affected by effect \"Brunhild of the Nordic Ascendant\": cannot Special Summon, except \"Aesir\" and \"Nordic\" monsters",
-]
+strings = ["Special Summon non-Tuner \"Nordic\" monster from the Deck"]
 
 [card.hildr]
 id = 930000010
@@ -262,11 +258,14 @@ effect = """\
 If this card is sent to the GY to activate a "Nordic" monster's effect: \
     You can Special Summon 2 "Nordic Ascendant Tokens" \
     (Fairy/LIGHT/Level ?/ATK 0/DEF 0, this Token's Level becomes that monster's original Level.) \
-If this card is in your GY: You can Special Summon this card in Defense Position. \
+If this card is in your GY: You can Special Summon this card in Defense Position, \
+    also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
     You must control a "Nordic" Tuner monster to activate and to resolve this effect. \
 You can only use each effect of "Sigrun of the Nordic Ascendant" once per turn. \
 """
-strings = []
+strings = [
+    "Affected by effect \"Sigrun of the Nordic Ascendant\": cannot Special Summon monsters, except \"Aesir\" monsters",
+]
 
 [card.frey]
 id = 930000012
@@ -276,8 +275,8 @@ type = "monster tuner effect"
 attribute = "light"
 race = "warrior"
 level = 5
-atk = 2200
-def = 1800
+atk = 2000
+def = 2000
 effect = """\
 If you control no monsters, you can Normal Summon this card without Tributing. \
 If this card is Normal Summoned: \
@@ -305,14 +304,10 @@ During your Main Phase: You can reveal it (until the end of this turn), \
     then, while this card is revealed by this effect, \
     you can Normal Summon 1 other "Nordic" monster in addition to your Normal Summon/Set during your Main Phase. \
     (You can only gain this effect once per turn.) \
-When you Summon a "Nordic" monster, you can: Immediately after this effect resolves, Summon this card from your hand, \
-    also you cannot Special Summon from the Extra Deck for the rest of this turn, except "Aesir" monsters. \
+When you Summon a "Nordic" monster, you can: Immediately after this effect resolves, Summon this card from your hand. \
 You can only activate each effect of "Beyla of the Nordic Champions" once per turn. \
 """
-strings = [
-    "Summon via \"Beyla of the Nordic Champions\"",
-    "Affected by effected \"Beyla of the Nordic Champions\": cannot Special Summon from the Extra Deck, except \"Aesir\" monsters",
-]
+strings = ["Summon via \"Beyla of the Nordic Champions\""]
 
 [card.hervor]
 id = 930000014
@@ -328,10 +323,13 @@ effect = """\
 If this card is sent to the GY to activate a "Nordic" monster's effect: \
     You can Special Summon 1 "Einherjar Token" (Warrior/EARTH/Level 4/ATK 1000/DEF 1000). \
 If this card is in your GY: You can target 1 Level 3 or higher "Nordic" monster you control; \
-    reduce its Level by 2, and if you do, Special Summon this card in Defense Position. \
+    reduce its Level by 2, and if you do, Special Summon this card in Defense Position, \
+    also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
 You can only use each effect of "Hervor of the Nordic Champions" once per turn. \
 """
-strings = []
+strings = [
+    "Affected by effect \"Hervor of the Nordic Champions\": cannot Special Summon monsters, except \"Aesir\" monsters",
+]
 
 [card.eir]
 id = 930000015
@@ -411,10 +409,13 @@ effect = """\
 If this card is sent to the GY to activate a "Nordic" monster's effect: \
     You can Special Summon 1 "Nordic Beast Token" (Beast/EARTH/Level 3/ATK 0/DEF 0). \
 If this card is in your GY: You can shuffle 1 "Nordic" card from your hand into the Deck; \
-    Special Summon this card in Defense Position. \
+    Special Summon this card in Defense Position, \
+    also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
 You can only use each effect of "Ratatoskr of the Nordic Beasts" once per turn. \
 """
-strings = []
+strings = [
+    "Affected by effect \"Ratatoskr of the Nordic Beasts\": cannot Special Summon monsters, except \"Aesir\" monsters",
+]
 
 [card.eikthyrnir]
 id = 930000019
@@ -472,14 +473,21 @@ set = "nordic-alfar"
 name = "Dvalinn of The Nordic Alfar"
 type = "monster effect"
 attribute = "earth"
-race = "spellcaster"
+race = "warrior"
 level = 2
 atk = 600
 def = 900
 effect = """\
-
+If this card is sent to the GY to activate a "Nordic" monster's effect: \
+    You can Special Summon 1 "Malus Token" (Fiend/DARK/Level 1/ATK 0/DEF 0). \
+If this card is in your GY: You can shuffle 1 other "Aesir" or "Nordic" card from your GY into the Deck; \
+    Special Summon this card in Defense Position, \
+    also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
+You can only use each effect of "Dvalinn of The Nordic Alfar" once per turn. \
 """
-strings = []
+strings = [
+    "Affected by effect \"Dvalinn of The Nordic Alfar\": cannot Special Summon monsters, except \"Aesir\" monsters",
+]
 
 [card.alp]
 id = 930000023
@@ -487,7 +495,7 @@ set = "nordic-alfar"
 name = "Alp of the Nordic Alfar"
 type = "monster tuner effect"
 attribute = "dark"
-race = "spellcaster"
+race = "fiend"
 level = 1
 atk = 500
 def = 500

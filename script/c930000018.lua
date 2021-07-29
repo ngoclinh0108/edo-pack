@@ -4,7 +4,7 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
 s.listed_names = {UtilNordic.BEAST_TOKEN}
-s.listed_series = {0x42}
+s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
     -- special summon token
@@ -89,9 +89,17 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1, nil) or
-        Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
-        not c:IsRelateToEffect(e) then return end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) >= 1 and c:IsRelateToEffect(e) then
+        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    end
 
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 0))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetTarget(function(e, c) return not c:IsSetCard(0x4b) end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end
