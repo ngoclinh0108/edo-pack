@@ -48,8 +48,7 @@ effect = """\
 ${AESIR_GOD_EFFECT} \
 Once per turn, if the effect activation of your monster is negated by your opponent's card effect (except during the Damage Step): \
     You can apply the negated effect, then, if that effect was activated on the field and the monster now in the GY, \
-    Special Summon it in the same position it was in when on the field, \
-    This effect's activation cannot be negated. \
+    Special Summon it in the same position it was in when on the field, this effect's activation cannot be negated. \
     This card must be face-up on the field to activate and to resolve this effect. \
 ${NORDIC_GOD_REBORN} \
 If Summoned this way: You can add to your hand, or Set, 1 Spell from your GY. \
