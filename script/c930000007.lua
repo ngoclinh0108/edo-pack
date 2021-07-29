@@ -95,6 +95,7 @@ end
 
 function s.e2con(e, c)
     if c == nil then return true end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) < 0 then return false end
     local eff = {c:GetCardEffect(EFFECT_NECRO_VALLEY)}
     for _, te in ipairs(eff) do
         local op = te:GetOperation()
