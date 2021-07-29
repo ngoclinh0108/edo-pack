@@ -76,6 +76,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c=e:GetHandler()
     local tc = Duel.GetFirstTarget()
 
     local ec1 = Effect.CreateEffect(c)
