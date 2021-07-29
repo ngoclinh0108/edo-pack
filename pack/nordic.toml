@@ -255,12 +255,12 @@ name = "Sigrun of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
-level = 3
+level = 2
 atk = 800
 def = 400
 effect = """\
 If this card is sent to the GY to activate a "Nordic" monster's effect: \
-    You can Special Summon 1 "Nordic Ascendant Token" \
+    You can Special Summon 2 "Nordic Ascendant Tokens" \
     (Fairy/LIGHT/Level ?/ATK 0/DEF 0, this Token's Level becomes that monster's original Level.) \
 If this card is in your GY: You can Special Summon this card. \
     You must control a "Nordic" Tuner monster to activate and to resolve this effect. \
@@ -325,12 +325,6 @@ level = 2
 atk = 700
 def = 300
 effect = """\
-If the effect activation of your "Nordic" card is negated by your opponent's card effect (except during the Damage Step): \
-    You can discard this card; add the negated card your hand, \
-    and if you do, you can Set 1 "Nordic Relic" directly from your Deck. \
-If this card is in your GY: You can destroy 1 "Nordic Relic" card you control, \
-    and if you do, add this card to your hand. \
-You can only use each effect of "Hervor of the Nordic Champions" once per turn. \
 """
 strings = ["Set 1 \"Nordic Relic\""]
 
@@ -462,7 +456,7 @@ name = "Narfi of the Nordic Alfar"
 type = "monster effect"
 attribute = "dark"
 race = "spellcaster"
-level = 4
+level = 3
 atk = 1400
 def = 1200
 effect = """\
@@ -476,9 +470,9 @@ name = "Dvalinn of The Nordic Alfar"
 type = "monster effect"
 attribute = "earth"
 race = "spellcaster"
-level = 1
-atk = 100
-def = 1000
+level = 2
+atk = 600
+def = 900
 effect = """\
 
 """
@@ -510,7 +504,7 @@ name = "Idun the Nordic Young"
 type = "monster spirit effect"
 attribute = "light"
 race = "fairy"
-level = 5
+level = 2
 atk = "?"
 def = "?"
 effect = """\

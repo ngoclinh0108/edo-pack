@@ -39,7 +39,8 @@ end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local rc = re:GetHandler()
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+        return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) >= 2 and
                    Duel.IsPlayerCanSpecialSummonMonster(tp,
                                                         UtilNordic.ASCENDANT_TOKEN,
                                                         0x3042, TYPES_TOKEN, 0,
@@ -49,14 +50,15 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                                         ATTRIBUTE_LIGHT)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, 0)
-    Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 2, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = re:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
+    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
+        Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, UtilNordic.ASCENDANT_TOKEN,
                                                  0x3042, TYPES_TOKEN, 0, 0,
                                                  rc:GetOriginalLevel(),
@@ -64,14 +66,17 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local token = Duel.CreateToken(tp, UtilNordic.ASCENDANT_TOKEN)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_CHANGE_LEVEL)
-    ec1:SetValue(rc:GetOriginalLevel())
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
-    token:RegisterEffect(ec1)
-    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
+    for i = 1, 2 do
+        local token = Duel.CreateToken(tp, UtilNordic.ASCENDANT_TOKEN)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_CHANGE_LEVEL)
+        ec1:SetValue(rc:GetOriginalLevel())
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
+        token:RegisterEffect(ec1)
+        Duel.SpecialSummonStep(token, 0, tp, tp, false, false, POS_FACEUP)
+    end
+    Duel.SpecialSummonComplete()
 end
 
 function s.e2filter(c)
