@@ -1,4 +1,4 @@
--- Alp of the Nordic Alfar
+-- Dvalinn of The Nordic Alfar
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")

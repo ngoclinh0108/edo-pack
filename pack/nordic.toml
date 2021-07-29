@@ -438,62 +438,64 @@ Once per turn: You can activate 1 of these effects.
 """
 strings = ["Change Level", "Increase Level", "Decrease Level"]
 
-[card.dvalinn]
+[card.moros]
 id = 930000020
 set = "nordic-alfar"
-name = "Dvalinn of The Nordic Alfar"
+name = "Moros of the Nordic Alfar"
 type = "monster tuner effect"
 attribute = "light"
-race = "spellcaster"
-level = 2
-atk = 600
-def = 500
-effect = """\
-"""
-strings = []
-
-[card.moros]
-id = 930000021
-set = "nordic-alfar"
-name = "Moros of the Nordic Alfar"
-type = "monster effect"
-attribute = "dark"
 race = "spellcaster"
 level = 5
 atk = 1600
 def = 1400
 effect = """\
-"""
-strings = []
-
-[card.alp]
-id = 930000022
-set = "nordic-alfar"
-name = "Alp of the Nordic Alfar"
-type = "monster effect"
-attribute = "dark"
-race = "spellcaster"
-level = 1
-atk = 100
-def = 100
-effect = """\
+If this card you control is used as Synchro or Link Material for a "Aesir" monster, \
+    non-Tuner "Nordic" monsters in your hand can be used as the other materials. \
 """
 strings = []
 
 [card.narfi]
-id = 930000023
+id = 930000021
 set = "nordic-alfar"
 name = "Narfi of the Nordic Alfar"
-type = "monster tuner effect"
+type = "monster effect"
 attribute = "dark"
 race = "spellcaster"
 level = 4
 atk = 1400
 def = 1200
 effect = """\
+"""
+strings = []
+
+[card.dvalinn]
+id = 930000022
+set = "nordic-alfar"
+name = "Dvalinn of The Nordic Alfar"
+type = "monster effect"
+attribute = "dark"
+race = "spellcaster"
+level = 1
+atk = 300
+def = 800
+effect = """\
+
+"""
+strings = []
+
+[card.alp]
+id = 930000023
+set = "nordic-alfar"
+name = "Alp of the Nordic Alfar"
+type = "monster tuner effect"
+attribute = "dark"
+race = "spellcaster"
+level = 1
+atk = 100
+def = 100
+effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
-Cannot be used as Synchro or Link Material, except for the Summon of a "Aesir" monster. \
-If this card you control is used as Synchro or Link Material, non-Tuner "Nordic" monsters in your hand can be used as the other materials. \
+Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
 """
 strings = []
 
