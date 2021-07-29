@@ -492,7 +492,8 @@ atk = 0
 def = 0
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
-Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
+Cannot be used as Synchro or Link Material, except for the Summon of a "Aesir" monster. \
+If this card you control is used as Synchro or Link Material, "Nordic" monsters in your hand can be used as the other materials. \
 """
 strings = []
 
