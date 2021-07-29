@@ -388,6 +388,9 @@ effect = """\
 If a "Nordic" monster you control is destroyed (by battle or card effect): \
     You can Special Summon this card from your hand or Deck in Defense Position, \
     and if you do, this card cannot be destroyed by battle this turn. \
+If this card is in your GY, except the turn this card was sent to the GY: \
+    You can target 5 other "Aesir" and/or "Nordic" monsters in your GY; \
+    shuffle this card and all the targeted cards into the Deck, then draw 1 card. \
 You can only use each effect of "Hildisvini of the Nordic Beasts" once per turn. \
 """
 strings = []

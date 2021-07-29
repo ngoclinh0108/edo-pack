@@ -3,7 +3,7 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
-s.listed_series = {0x42}
+s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
     -- special summon
@@ -18,6 +18,18 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- shuffle
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TODECK + CATEGORY_DRAW)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, id + 2000000)
+    e2:SetCondition(aux.exccon)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter(c, tp)
@@ -53,5 +65,46 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetValue(1)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         c:RegisterEffect(ec1)
+    end
+end
+
+function s.e2filter(c)
+    return Utility.IsSetCard(c, 0x4b, 0x42) and c:IsType(TYPE_MONSTER) and
+               c:IsAbleToDeck()
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.IsPlayerCanDraw(tp, 1) and
+                   Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 5, c)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 5, 5, c)
+    g:AddCard(c)
+
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+    tg:AddCard(c)
+    if not tg or tg:FilterCount(Card.IsRelateToEffect, nil, e) ~= 6 then
+        return
+    end
+
+    Duel.SendtoDeck(tg, nil, 0, REASON_EFFECT)
+    local g = Duel.GetOperatedGroup()
+    if g:IsExists(Card.IsLocation, 1, nil, LOCATION_DECK) then
+        Duel.ShuffleDeck(tp)
+    end
+    local ct = g:FilterCount(Card.IsLocation, nil,
+                             LOCATION_DECK + LOCATION_EXTRA)
+    if ct == 6 then
+        Duel.BreakEffect()
+        Duel.Draw(tp, 1, REASON_EFFECT)
     end
 end
