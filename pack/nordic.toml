@@ -474,11 +474,11 @@ id = 930000022
 set = "nordic-alfar"
 name = "Dvalinn of The Nordic Alfar"
 type = "monster effect"
-attribute = "dark"
+attribute = "earth"
 race = "spellcaster"
 level = 1
-atk = 300
-def = 800
+atk = 100
+def = 1000
 effect = """\
 
 """
@@ -523,8 +523,8 @@ type = "monster union effect"
 attribute = "light"
 race = "winged-beast"
 level = 1
-atk = 100
-def = 100
+atk = 0
+def = 0
 effect = """\
 """
 strings = []
