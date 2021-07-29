@@ -41,6 +41,25 @@ function s.initial_effect(c)
     e2lnkgrant:SetLabelObject(e2lnk)
     c:RegisterEffect(e2lnkgrant)
     aux.GlobalCheck(s, function() s.flagmap = {} end)
+
+    -- act limit
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_CHAINING)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+
+    -- shuffle
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetCategory(CATEGORY_TODECK + CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1, id)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e1filter(c) return c:IsSetCard(0x42) end
@@ -149,4 +168,55 @@ end
 function s.e2lnkgranttg(e, c)
     return c:IsCanBeLinkMaterial() and c:IsSetCard(0x42) and
                (not c:IsType(TYPE_TUNER) or c:IsHasEffect(EFFECT_NONTUNER))
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local ex1, g1, gc1, dp1, dv1 = Duel.GetOperationInfo(ev, CATEGORY_TOHAND)
+    if ep == tp and re:GetHandler():IsSetCard(0x42) and ex1 and
+        (dv1 & LOCATION_DECK) == LOCATION_DECK then
+        Duel.SetChainLimit(function(e, rp, tp) return tp == rp end)
+    end
+end
+
+function s.e4filter1(c, tp)
+    return c:IsSetCard(0x42) and c:IsAbleToDeck() and
+               Duel.IsExistingMatchingCard(s.e4filter2, tp, LOCATION_DECK, 0, 1,
+                                           nil, c)
+end
+
+function s.e4filter2(c, sc)
+    return
+        not c:IsCode(id) and not c:IsCode(sc:GetCode()) and c:IsSetCard(0x42) and
+            c:IsAbleToHand()
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter1, tp, LOCATION_HAND, 0, 1,
+                                           nil, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g = Duel.SelectMatchingCard(tp, s.e4filter1, tp, LOCATION_HAND, 0, 1,
+                                      1, nil, tp)
+    Duel.ConfirmCards(1 - tp, g)
+    Duel.SetTargetCard(g)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0, LOCATION_DECK)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) or
+        not Duel.IsExistingMatchingCard(s.e4filter2, tp, LOCATION_DECK, 0, 1,
+                                        nil, tc) then return end
+    if Duel.SendtoDeck(tc, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+        local g = Duel.SelectMatchingCard(tp, s.e4filter2, tp, LOCATION_DECK, 0,
+                                          1, 1, nil, tc)
+        if #g > 0 then
+            Duel.SendtoHand(g, nil, REASON_EFFECT)
+            Duel.ConfirmCards(1 - tp, g)
+        end
+    end
 end

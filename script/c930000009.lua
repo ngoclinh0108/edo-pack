@@ -38,8 +38,8 @@ function s.initial_effect(c)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    if ep == tp and re:IsHasCategory(CATEGORY_SPECIAL_SUMMON) and
-        re:GetHandler():IsSetCard(0x42) then
+    if ep == tp and re:GetHandler():IsSetCard(0x42) and
+        re:IsHasCategory(CATEGORY_SPECIAL_SUMMON) then
         Duel.SetChainLimit(function(e, rp, tp) return tp == rp end)
     end
 end
@@ -91,8 +91,6 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
     if Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         local g = Duel.SelectMatchingCard(tp, s.e3filter2, tp,
