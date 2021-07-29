@@ -9,6 +9,7 @@ function s.initial_effect(c)
     -- special summon
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetCategory(CATEGORY_DESTROY)
     e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_SPSUMMON_PROC)
     e1:SetRange(LOCATION_HAND)
@@ -62,21 +63,21 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e1filter(c) return c:IsSetCard(0x42) end
-
 function s.e1con(e, c)
     if c == nil then return true end
     local tp = c:GetControler()
-    return Duel.CheckReleaseGroup(tp, s.e1filter, 1, false, 1, true, c, tp, nil,
-                                  false, e:GetHandler())
+    return Duel.IsExistingMatchingCard(Card.IsDestructable, tp,
+                                       LOCATION_ONFIELD, 0, 1, nil)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = Duel.SelectReleaseGroup(tp, s.e1filter, 1, 1, false, true, true,
-                                      c, nil, nil, false, e:GetHandler())
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
+    local g = Duel.SelectMatchingCard(tp, Card.IsDestructable, tp,
+                                      LOCATION_ONFIELD, 0, 1, 1, nil)
     if g then
         g:KeepAlive()
         e:SetLabelObject(g)
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, #g, tp, LOCATION_ONFIELD)
         return true
     end
     return false
@@ -85,7 +86,7 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
     if not g then return end
-    Duel.Release(g, REASON_COST)
+    Duel.Destroy(g, REASON_EFFECT)
     g:DeleteGroup()
 end
 

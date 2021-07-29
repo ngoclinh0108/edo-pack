@@ -33,13 +33,13 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, tp)
-    return c:IsReason(REASON_BATTLE + REASON_EFFECT) and
-               c:IsPreviousControler(tp) and
-               c:IsPreviousLocation(LOCATION_MZONE) and c:IsSetCard(0x42)
+    return
+        c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_MZONE) and
+            c:GetReasonPlayer() ~= tp and c:IsSetCard(0x42)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return rp ~= tp and eg:IsExists(s.e1filter, 1, nil, tp)
+    return eg:IsExists(s.e1filter, 1, nil, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

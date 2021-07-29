@@ -6,31 +6,38 @@ Duel.LoadScript("util_nordic.lua")
 s.listed_series = {0x42}
 
 function s.initial_effect(c)
-    -- special summon
+    -- set itself as a spell
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e1:SetProperty(EFFECT_FLAG_DELAY)
-    e1:SetCode(EVENT_TO_HAND)
-    e1:SetCountLimit(1, id + 1000000)
-    e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_MONSTER_SSET)
+    e1:SetValue(TYPE_SPELL)
     c:RegisterEffect(e1)
+
+    -- search
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_TO_HAND)
+    e3:SetCountLimit(1, id + 1000000)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return r & REASON_EFFECT > 0 and re:GetHandler():IsSetCard(0x42) and
                e:GetHandler():GetPreviousControler() == tp
 end
 
-function s.e1filter(c)
+function s.e3filter(c)
     return c:IsSetCard(0x42) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+        return Duel.IsExistingMatchingCard(s.e3filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
@@ -38,10 +45,10 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local tc = Duel.SelectMatchingCard(tp, s.e1filter, tp,
+    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp,
                                        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
                                        nil):GetFirst()
     if not tc then return end
@@ -56,16 +63,16 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetCode(EFFECT_CANNOT_SUMMON)
         ec1:SetTargetRange(1, 0)
         ec1:SetLabel(tc:GetCode())
-        ec1:SetTarget(s.e1sumlimit)
+        ec1:SetTarget(s.e3sumlimit)
         ec1:SetReset(RESET_PHASE + PHASE_END)
         Duel.RegisterEffect(ec1, tp)
-        local e1b = ec1:Clone()
-        e1b:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-        Duel.RegisterEffect(e1b, tp)
-        local e1c = ec1:Clone()
-        e1c:SetCode(EFFECT_CANNOT_MSET)
-        Duel.RegisterEffect(e1c, tp)
+        local e3b = ec1:Clone()
+        e3b:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+        Duel.RegisterEffect(e3b, tp)
+        local e3c = ec1:Clone()
+        e3c:SetCode(EFFECT_CANNOT_MSET)
+        Duel.RegisterEffect(e3c, tp)
     end
 end
 
-function s.e1sumlimit(e, c) return c:IsCode(e:GetLabel()) end
+function s.e3sumlimit(e, c) return c:IsCode(e:GetLabel()) end
