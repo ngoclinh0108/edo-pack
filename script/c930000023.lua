@@ -55,18 +55,18 @@ end
 
 function s.e3synval(e, tc, sc)
     local c = e:GetHandler()
-    if (tc:IsType(TYPE_TUNER) or not tc:IsHasEffect(EFFECT_NONTUNER)) or
-        not tc:IsSetCard(0x42) or not tc:IsLocation(LOCATION_HAND) then
+    if (not tc:IsType(TYPE_TUNER) or tc:IsHasEffect(EFFECT_NONTUNER)) and
+        tc:IsSetCard(0x42) and tc:IsLocation(LOCATION_HAND) then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK)
+        ec1:SetLabel(id)
+        ec1:SetTarget(s.e3syntg)
+        tc:RegisterEffect(ec1)
+        return true
+    else
         return false
     end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK)
-    ec1:SetLabel(id)
-    ec1:SetTarget(s.e3syntg)
-    tc:RegisterEffect(ec1)
-    return true
 end
 
 function s.e3syntg(e, tc, sg, tg, ntg, tsg, ntsg)
