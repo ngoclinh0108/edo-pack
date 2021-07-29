@@ -491,8 +491,8 @@ type = "monster tuner effect"
 attribute = "dark"
 race = "spellcaster"
 level = 1
-atk = 100
-def = 100
+atk = 400
+def = 400
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
@@ -522,8 +522,8 @@ type = "monster union effect"
 attribute = "light"
 race = "winged-beast"
 level = 1
-atk = 0
-def = 0
+atk = 100
+def = 100
 effect = """\
 """
 strings = []
