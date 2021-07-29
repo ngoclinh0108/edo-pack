@@ -15,12 +15,13 @@ function s.initial_effect(c)
 
     -- to deck & draw
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_TODECK + CATEGORY_DRAW)
+    e2:SetCategory(CATEGORY_TODECK + CATEGORY_TOHAND + CATEGORY_SEARCH)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_TO_GRAVE)
     e2:SetCountLimit(1, id + 1000000)
     e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
@@ -37,27 +38,39 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
+function s.e2filter(c)
+    return not c:IsCode(id) and c:IsSetCard(0x42) and c:IsAbleToHand()
+end
+
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return
-        c:IsReason(REASON_DESTROY) and c:IsPreviousLocation(LOCATION_ONFIELD) and
-            c:IsPreviousPosition(POS_FACEDOWN)
+    return c:IsPreviousLocation(LOCATION_ONFIELD) and
+               c:IsPreviousPosition(POS_FACEDOWN) and c:IsReason(REASON_DESTROY) and
+               not c:IsReason(REASON_BATTLE) and re
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) and c:IsAbleToDeck() end
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, 1,
+                                           nil) and c:IsAbleToDeck()
+    end
 
     Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
+    local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_DECK, 0, nil)
+    if not c:IsRelateToEffect(e) or #g == 0 then return end
+
     if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
         Duel.BreakEffect()
-        Duel.Draw(tp, 1, REASON_EFFECT)
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+        local sg = g:Select(tp, 1, 1, nil)
+        Duel.SendtoHand(sg, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, sg)
     end
 end
 
