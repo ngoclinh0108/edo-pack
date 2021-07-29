@@ -404,7 +404,7 @@ atk = 900
 def = 1800
 effect = """\
 If this card in your possession is destroyed (by battle or card effect): \
-    You can Special Summon 1 "Nordic Beast Token" (Beast/EARTH/Level 3/ATK 0/DEF 0). \
+    You can Special Summon 2 "Nordic Beast Tokens" (Beast/EARTH/Level 3/ATK 0/DEF 0). \
 While this card is in the GY, except the turn this card was sent to the GY: \
     You can target up to 5 other "Nordic" cards in your GY; \
     shuffle this card and the targeted cards into the Deck, \
