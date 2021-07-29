@@ -24,7 +24,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2)
     local e2b = e2:Clone()
-    e2:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
+    e2b:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
     c:RegisterEffect(e2b)
 
     -- extra material
@@ -55,7 +55,8 @@ end
 
 function s.e3synval(e, tc, sc)
     local c = e:GetHandler()
-    if not tc:IsSetCard(0x42) or not tc:IsLocation(LOCATION_HAND) then
+    if (tc:IsType(TYPE_TUNER) or not tc:IsHasEffect(EFFECT_NONTUNER)) or
+        not tc:IsSetCard(0x42) or not tc:IsLocation(LOCATION_HAND) then
         return false
     end
 
@@ -127,5 +128,6 @@ function s.e3lnkval(chk, summon_type, e, ...)
 end
 
 function s.e3lnkgranttg(e, c)
-    return c:IsSetCard(0x42) and c:IsCanBeLinkMaterial()
+    return c:IsCanBeLinkMaterial() and c:IsSetCard(0x42) and
+               (not c:IsType(TYPE_TUNER) or c:IsHasEffect(EFFECT_NONTUNER))
 end
