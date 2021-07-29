@@ -39,7 +39,7 @@ function s.e1filter(c, tp)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e1filter, 1, nil, tp)
+    return rp ~= tp and eg:IsExists(s.e1filter, 1, nil, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

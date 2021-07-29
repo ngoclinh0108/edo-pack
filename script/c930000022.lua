@@ -21,11 +21,11 @@ function s.initial_effect(c)
 
     -- special summon (self)
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetCategory(CATEGORY_DESTROY + CATEGORY_SPECIAL_SUMMON)
     e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e2:SetRange(LOCATION_GRAVE)
     e2:SetCountLimit(1, id + 2000000)
-    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -63,36 +63,30 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e2filter(c)
-    return Utility.IsSetCard(c, 0x4b, 0x42) and c:IsAbleToDeckAsCost()
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_GRAVE, 0, 1,
-                                           c)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 1,
-                                      1, c)
-    Duel.HintSelection(g)
-    Duel.SendtoDeck(g, nil, 0, REASON_COST)
-end
+function s.e2filter(c) return c:IsFaceup() and c:IsType(TYPE_MONSTER) end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+        return
+            Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, 0, 1, nil) and
+                Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 and
+                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
     end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
+    local g =
+        Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) >= 1 and c:IsRelateToEffect(e) then
+    local tc = Duel.GetFirstTarget()
+    if tc and tc:IsRelateToEffect(e) and Duel.Destroy(tc, REASON_EFFECT) > 0 and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) >= 1 and c:IsRelateToEffect(e) then
         Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
     end
 
