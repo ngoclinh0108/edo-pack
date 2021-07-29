@@ -176,7 +176,7 @@ While this card is face-up on the field, "Nordic" monsters with a Level in your 
 strings = [
     "Special Summon via \"Hela the Nordic Death\"",
     "Deal no battle damage",
-    "Affected by effect \"Hela the Nordic Death\": cannot Special Summon from the Extra Deck, except \"Nordic\" monsters",
+    "Affected by effect \"Hela the Nordic Death\": cannot Special Summon monsters, except \"Nordic\" monsters",
 ]
 
 [card.surtr]
