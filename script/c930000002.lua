@@ -28,8 +28,9 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- check card
+    -- return spell
     local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TOHAND)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -75,24 +76,27 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.e2filter(c)
+    return c:IsType(TYPE_SPELL) and (c:IsAbleToHand() or c:IsSSetable(false))
+end
+
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then return true end
-
-    local g = Duel.GetFieldGroup(tp, 0, LOCATION_HAND)
-    g:Merge(Duel.GetMatchingGroup(Card.IsFacedown, tp, 0, LOCATION_ONFIELD, nil))
-    g:KeepAlive()
-    e:SetLabelObject(g)
-
-    Duel.SetChainLimit(function(e) return not g:IsContains(e:GetHandler()) end)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_GRAVE, 0, 1,
+                                           nil)
+    end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0, LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, nil, 1, 0, LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    e:GetLabelObject():DeleteGroup()
-    local c = e:GetHandler()
-    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
+    local g =
+        Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
+    if #g == 0 then return end
 
-    local g = Duel.GetFieldGroup(tp, 0, LOCATION_HAND)
-    g:Merge(Duel.GetMatchingGroup(Card.IsFacedown, tp, 0, LOCATION_ONFIELD, nil))
-    Duel.ConfirmCards(tp, g)
-    Duel.ShuffleHand(1 - tp)
+    aux.ToHandOrElse(g, tp, function(tc)
+        return tc:IsSSetable(false) and
+                   Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
+    end, function(g) Duel.SSet(tp, g) end, 1159)
 end

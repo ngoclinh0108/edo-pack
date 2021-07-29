@@ -52,9 +52,7 @@ Once per turn, if the effect activation of your monster is negated by your oppon
     This effect's activation cannot be negated. \
     This card must be face-up on the field to activate and to resolve this effect. \
 ${NORDIC_GOD_REBORN} \
-If Summoned this way: You can look at all cards in your opponent's hand and all Set cards they control. \
-    Your opponent cannot activate those cards in response to this effect's activation. \
-    This card must be face-up on the field to activate and to resolve this effect. \
+If Summoned this way: You can add to your hand, or Set, 1 Spell from your GY. \
 """
 strings = ["Apply the negated monster's effect"]
 
