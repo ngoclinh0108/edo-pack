@@ -31,7 +31,7 @@ Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, 
 
 NORDIC_GOD_EFFECT = """\
 This card's $1 Summon cannot be negated. \
-Cannot be Tributed, or be used as a material for a Summon by your opponent.\
+Cannot be Tributed, or be used as a material for a Summon.\
 """
 NORDIC_GOD_REBORN = """\
 Once per turn, during the End Phase, if this card on the field was destroyed and sent to the GY: \
