@@ -95,7 +95,8 @@ end
 
 function s.e2con(e, c)
     if c == nil then return true end
-    if Duel.GetLocationCount(e:GetHandler(), LOCATION_MZONE) < 0 then return false end
+    local tp = c:GetControler()
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) < 0 then return false end
     local eff = {c:GetCardEffect(EFFECT_NECRO_VALLEY)}
     for _, te in ipairs(eff) do
         local op = te:GetOperation()
@@ -105,7 +106,8 @@ function s.e2con(e, c)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
-    c:RegisterFlagEffect(id, RESET_PHASE + PHASE_END, 0, 1)
+    local fid = c:GetFieldID()
+    c:RegisterFlagEffect(id, RESET_PHASE + PHASE_END, 0, 1, fid)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -130,14 +132,34 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
     c:RegisterEffect(ec3)
 
     local ec4 = Effect.CreateEffect(c)
-    ec4:SetDescription(aux.Stringid(id, 2))
-    ec4:SetType(EFFECT_TYPE_FIELD)
-    ec4:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
-    ec4:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec4:SetTargetRange(1, 0)
-    ec4:SetTarget(function(e, c)
+    ec4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec4:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    ec4:SetCode(EVENT_PHASE + PHASE_END)
+    ec4:SetLabel(fid)
+    ec4:SetLabelObject(c)
+    ec4:SetCountLimit(1)
+    ec4:SetCondition(function(e)
+        if e:GetLabelObject():GetFlagEffectLabel(id) == e:GetLabel() then
+            return true
+        else
+            e:Reset()
+            return false
+        end
+    end)
+    ec4:SetOperation(function(e)
+        Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT)
+    end)
+    Duel.RegisterEffect(ec4, tp)
+
+    local ec5 = Effect.CreateEffect(c)
+    ec5:SetDescription(aux.Stringid(id, 2))
+    ec5:SetType(EFFECT_TYPE_FIELD)
+    ec5:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+    ec5:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec5:SetTargetRange(1, 0)
+    ec5:SetTarget(function(e, c)
         return c:IsLocation(LOCATION_EXTRA) and not c:IsSetCard(0x42)
     end)
-    ec4:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec4, tp)
+    ec5:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec5, tp)
 end
