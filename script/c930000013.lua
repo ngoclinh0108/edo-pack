@@ -19,7 +19,6 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_SUMMON)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_SUMMON_SUCCESS)
     e2:SetRange(LOCATION_HAND)
     e2:SetCountLimit(1, id + 2000000, EFFECT_COUNT_CODE_OATH)
@@ -27,12 +26,6 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e2b)
-    local e2c = e2:Clone()
-    e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e2c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -67,10 +60,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec2)
 end
 
-function s.e2filter(c, tp) return c:IsSummonPlayer(tp) and c:IsSetCard(0x42) end
-
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return ep == tp and eg:IsExists(s.e2filter, 1, nil, tp)
+    local ec = eg:GetFirst()
+    return ep == tp and ec:IsSetCard(0x42)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)

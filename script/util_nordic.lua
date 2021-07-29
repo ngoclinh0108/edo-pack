@@ -9,7 +9,7 @@ UtilNordic.BEAST_TOKEN = 15394084
 -- function
 function UtilNordic.NordicGodEffect(c, sumtype, reborn)
     local id = c:GetOriginalCodeRule()
-    
+
     -- summon cannot be negated
     local sumsafe = Effect.CreateEffect(c)
     sumsafe:SetType(EFFECT_TYPE_SINGLE)
@@ -74,8 +74,10 @@ function UtilNordic.NordicGodEffect(c, sumtype, reborn)
         end)
         reborn:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
             local c = e:GetHandler()
+            local tp = c:GetControler()
             if chk == 0 then
-                return c:IsCanBeSpecialSummoned(e, 1, tp, false, false)
+                return c:IsCanBeSpecialSummoned(e, 1, tp, false, false) and
+                           Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
             end
             Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
         end)
