@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0x42}
+
 function s.initial_effect(c)
     -- activate
     local act = Effect.CreateEffect(c)
@@ -10,4 +12,64 @@ function s.initial_effect(c)
                         EFFECT_FLAG_CANNOT_NEGATE)
     act:SetCode(EVENT_FREE_CHAIN)
     c:RegisterEffect(act)
+
+    -- search
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_INACTIVATE + EFFECT_FLAG_CANNOT_DISABLE +
+                       EFFECT_FLAG_CANNOT_NEGATE)
+    e1:SetCode(EVENT_PREDRAW)
+    e1:SetRange(LOCATION_FZONE)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+end
+
+function s.e1filter(c)
+    return c:IsSetCard(0x42) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() == tp and
+               Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
+               Duel.GetDrawCount(tp) > 0
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1,
+                                           nil)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    local dt = Duel.GetDrawCount(tp)
+    if dt == 0 then return false end
+    _replace_count = 1
+    _replace_max = dt
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_DRAW_COUNT)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(0)
+    ec1:SetReset(RESET_PHASE + PHASE_DRAW)
+    Duel.RegisterEffect(ec1, tp)
+    if _replace_count > _replace_max or not c:IsRelateToEffect(e) then return end
+
+    local g =
+        Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil):RandomSelect(
+            tp, 1)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
 end
