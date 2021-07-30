@@ -523,14 +523,19 @@ strings = ["Change Level"]
 id = 930000024
 set = "nordic"
 name = "Idun the Nordic Young"
-type = "monster spirit effect"
+type = "monster tuner effect"
 attribute = "light"
 race = "fairy"
-level = 1
-atk = "?"
+level = 5
+atk = 0
 def = "?"
 effect = """\
-Cannot be Special Summoned. During the End Phase of the turn this card is Normal Summoned or flipped face-up: Return it to the hand. \
+Cannot Normal Summon/Set. \
+When you take damage from a card in your opponent's possession while you control no monsters and this card is in your hand: \
+    You can gain LP equal to the total damage you took this turn, and if you do, \
+    Special Summon this card in Defense Position. \
+    If Summoned this way, the original DEF of this card card becomes that amount LP you gained. \
+You can only use this effect of "Idun the Nordic Young" once per turn. \
 """
 strings = []
 
