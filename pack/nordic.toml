@@ -9,8 +9,7 @@ During your Draw phase, if you do not control a "Aesir" monster, \
     instead of conducting your normal draw: \
     You can randomly add 1 "Nordic" Tuner monster from your Deck to your hand. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
-Your opponent cannot target "Aesir" cards in your GY with card effects. \
-"Aesir" cards you control and in your GY cannot be banished. \
+"Aesir" cards in your GY cannot be banished, also your opponent cannot target them with card effects. \
 """
 strings = []
 

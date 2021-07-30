@@ -32,26 +32,20 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    
-    -- cannot be target
+
+    -- cannot banish & cannot be target
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e3:SetCode(EFFECT_CANNOT_REMOVE)
     e3:SetRange(LOCATION_FZONE)
     e3:SetTargetRange(LOCATION_GRAVE, 0)
     e3:SetTarget(function(e, c) return c:IsSetCard(0x4b) end)
-    e3:SetValue(aux.tgoval)
     c:RegisterEffect(e3)
-
-    -- cannot banish
-    local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_FIELD)
-    e4:SetCode(EFFECT_CANNOT_REMOVE)
-    e4:SetRange(LOCATION_FZONE)
-    e4:SetTargetRange(LOCATION_ONFIELD + LOCATION_GRAVE, 0)
-    e4:SetTarget(function(e, c) return c:IsSetCard(0x4b) end)
-    c:RegisterEffect(e4)
+    local e3b = e3:Clone()
+    e3b:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    e3b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e3b:SetValue(aux.tgoval)
+    c:RegisterEffect(e3b)
 end
 
 function s.e1con(e)
