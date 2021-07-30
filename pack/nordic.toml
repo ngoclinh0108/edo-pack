@@ -554,7 +554,7 @@ level = 1
 atk = 100
 def = 100
 effect = """\
-During your turn (Quick Effect): \
+During your Standby Phase or your Main Phase (Quick Effect): \
     You can discard this card, then target 1 "Aesir" monster you control; \
     if you not targeted "Odin, Father of the Aesir" negate its effects until the end of this turn, \
     and if you do, look at all cards in your opponent's hand and all Set cards they control. \

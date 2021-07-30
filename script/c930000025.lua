@@ -36,7 +36,11 @@ end
 
 function s.e1filter(c) return c:IsFaceup() and c:IsSetCard(0x4b) end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() == tp end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetTurnPlayer() ~= tp then return false end
+    local ph = Duel.GetCurrentPhase()
+    return ph == PHASE_STANDBY or ph == PHASE_MAIN1 or ph == PHASE_MAIN2
+end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsDiscardable() end
