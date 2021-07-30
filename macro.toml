@@ -35,7 +35,7 @@ Cannot be Tributed, or be used as a material for a Summon.\
 """
 NORDIC_GOD_REBORN = """\
 Once per turn, during the End Phase, if this card on the field was destroyed and sent to the GY: \
-    You can Special Summon this card from the GY.\
+    You can Special Summon it from the GY.\
 """
 AESIR_GOD_EFFECT = """\
 ${NORDIC_GOD_EFFECT|Synchro}\

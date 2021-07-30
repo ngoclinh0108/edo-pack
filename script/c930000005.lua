@@ -91,17 +91,18 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_GRAVE, 0, 1,
-                                           nil)
+        return Duel.IsExistingMatchingCard(s.e2filter, tp,
+                                           LOCATION_GRAVE + LOCATION_REMOVED, 0,
+                                           1, nil)
     end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0, LOCATION_GRAVE)
-    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, nil, 1, 0, LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
+                          LOCATION_GRAVE + LOCATION_REMOVED)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-    local g =
-        Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp,
+                                LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil)
     if #g == 0 then return end
 
     aux.ToHandOrElse(g, tp, function(tc)
