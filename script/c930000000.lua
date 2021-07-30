@@ -29,7 +29,7 @@ function s.e1filter1(c)
 end
 
 function s.e1filter2(c)
-    return c:IsSetCard(0x42) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+    return c:IsSetCard(0x42) and c:IsType(TYPE_TUNER) and c:IsAbleToHand()
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
