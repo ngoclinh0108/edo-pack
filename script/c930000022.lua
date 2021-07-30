@@ -66,15 +66,15 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return
-            Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD, 0, 1, nil) and
-                Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 and
-                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+        return Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE, 0, 1,
+                                     nil) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 and
+                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g =
-        Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD, 0, 1, 1, nil)
+    local g = Duel.SelectTarget(tp, Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, 1,
+                                nil)
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)

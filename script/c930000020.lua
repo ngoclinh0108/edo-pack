@@ -66,18 +66,18 @@ end
 function s.e1con(e, c)
     if c == nil then return true end
     local tp = c:GetControler()
-    return Duel.IsExistingMatchingCard(Card.IsDestructable, tp,
-                                       LOCATION_ONFIELD, 0, 1, nil)
+    return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_MZONE, 0, 1,
+                                       nil)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectMatchingCard(tp, Card.IsDestructable, tp,
-                                      LOCATION_ONFIELD, 0, 1, 1, nil)
+    local g = Duel.SelectMatchingCard(tp, Card.IsFaceup, tp, LOCATION_MZONE, 0,
+                                      1, 1, nil)
     if g then
         g:KeepAlive()
         e:SetLabelObject(g)
-        Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, #g, tp, LOCATION_ONFIELD)
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, #g, tp, LOCATION_MZONE)
         return true
     end
     return false

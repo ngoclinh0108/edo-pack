@@ -442,7 +442,7 @@ level = 5
 atk = 1600
 def = 1400
 effect = """\
-You can Special Summon this card (from your hand) by destroying 1 card you control. \
+You can Special Summon this card (from your hand) by destroying 1 face-up monster you control. \
 If this card you control is used as Synchro or Link Material for a "Aesir" monster, \
     non-Tuner "Nordic" monsters in your hand can be used as the other materials. \
 Your opponent cannot activate cards or effects in response to the activation of \
@@ -465,8 +465,7 @@ level = 3
 atk = 1400
 def = 1200
 effect = """\
-You can Set this card from your hand to your S/T Zone as a Spell. \
-If this Set card is destroyed by a card effect and sent to the GY: \
+If this face-up card you control is destroyed by a card effect and sent to the GY: \
     You can shuffle it into the Deck, then add 1 "Nordic" cards from your Deck to your hand, \
     except "Narfi of the Nordic Alfar". \
 If this card is added to your hand by the effect of an "Nordic" card: \
@@ -489,7 +488,7 @@ def = 900
 effect = """\
 If this card is sent to the GY to activate a "Nordic" card's effect: \
     You can Special Summon 1 "Malus Token" (Fiend/DARK/Level 1/ATK 0/DEF 0). \
-If this card is in your GY: You can target card you control; \
+If this card is in your GY: You can target 1 face-up monster you control; \
     destroy it, and if you do, Special Summon this card in Defense Position, \
     also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
 You can only use each effect of "Dvalinn of The Nordic Alfar" once per turn. \
