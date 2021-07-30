@@ -29,7 +29,6 @@ end
 function s.e1stage2(e, tc, tp, sg, chk)
     local c = e:GetHandler()
     if chk == 0 and tc:GetMaterialCount()>=3 then
-        -- cannot be destroyed by card effect
         local ec1 = Effect.CreateEffect(c)
         ec1:SetDescription(3001)
         ec1:SetType(EFFECT_TYPE_SINGLE)
