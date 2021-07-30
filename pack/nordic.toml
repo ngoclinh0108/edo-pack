@@ -383,7 +383,7 @@ atk = 1100
 def = 800
 effect = """\
 If a "Nordic" monster you control is destroyed by your opponent's card (either by battle or by card effect): \
-    You can Special Summon this card from your hand or Deck. \
+    You can Special Summon this card from your hand. \
     You can only use this effect of "Hildisvini of the Nordic Beasts" once per turn. \
 Once per turn, this face-up Defense Position card cannot be destroyed by battle or by card effects. \
 """
@@ -531,6 +531,7 @@ Cannot Normal Summon/Set. \
 When you take damage from a card in your opponent's possession while you control no monsters: \
     You can gain LP equal to the total damage you took this turn, and if you do, \
     Special Summon this card from your hand in Defense Position. \
+    If you have a "Aesir" card in your GY, you can activate this effect from your Deck. \
     If Summoned this way, this card's original DEF becomes that amount LP you gained. \
 If this card is in your GY, except the turn this card was sent to the GY: \
     You can target 5 other "Aesir" and/or "Nordic" monsters in your GY; \

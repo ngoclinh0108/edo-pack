@@ -14,7 +14,7 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e1:SetCode(EVENT_DAMAGE)
-    e1:SetRange(LOCATION_HAND)
+    e1:SetRange(LOCATION_HAND + LOCATION_DECK)
     e1:SetCountLimit(1, id + 1000000)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
@@ -57,6 +57,10 @@ end
 function s.e1filter(c) return not c:IsStatus(STATUS_LEAVE_CONFIRMED) end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsLocation(LOCATION_DECK) and
+        not Duel.IsExistingMatchingCard(Card.IsSetCard, tp, LOCATION_GRAVE, 0,
+                                        1, nil, 0x4b) then return false end
     return ep == tp and tp ~= rp and
                not Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE,
                                                0, 1, nil)
