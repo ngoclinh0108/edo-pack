@@ -103,11 +103,14 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsAbleToDeck() and
-                   Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 5, c)
+                   Duel.IsExistingTarget(s.e2filter, tp,
+                                         LOCATION_REMOVED + LOCATION_GRAVE, 0,
+                                         5, c)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 5, 5, c)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp,
+                                LOCATION_REMOVED + LOCATION_GRAVE, 0, 5, 5, c)
 
     Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
