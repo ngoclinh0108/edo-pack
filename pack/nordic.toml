@@ -10,8 +10,9 @@ strings = []
 
 [card.odin]
 id = 930000001
+alias = 93483212
 set = "aesir"
-name = "Odin, Allfather of the Aesir"
+name = "Odin, Father of the Aesir"
 type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
@@ -551,6 +552,15 @@ level = 1
 atk = 100
 def = 100
 effect = """\
+During your turn (Quick Effect): \
+    You can discard this card, then target 1 "Aesir" monster you control; \
+    if you not targeted "Odin, Father of the Aesir" negate its effects until the end of this turn, \
+    and if you do, look at all cards in your opponent's hand and all Set cards they control. \
+    Your opponent cannot activate cards or effects in response to this effect's activation. \
+If a "Aesir" monster is Special Summoned to your field (except during the Damage Step): \
+    You can add this card from the GY to your hand. \
+    If you Special Summoned "Odin, Father of the Aesir", you can also add this card from your Deck to your hand. \
+You can only use each effect of "Huginn and Muninn the Nordic Eyes" once per turn. \
 """
 strings = []
 
