@@ -528,14 +528,14 @@ atk = 0
 def = "?"
 effect = """\
 Cannot Normal Summon/Set. \
-When you take damage from a card in your opponent's possession while you control no monsters and this card is in your hand: \
+When you take damage from a card in your opponent's possession while you control no monsters: \
     You can gain LP equal to the total damage you took this turn, and if you do, \
-    Special Summon this card in Defense Position. \
-    If Summoned this way, the original DEF of this card card becomes that amount LP you gained. \
+    Special Summon this card from your hand in Defense Position. \
+    If Summoned this way, this card's original DEF becomes that amount LP you gained. \
 If this card is in your GY, except the turn this card was sent to the GY: \
     You can target 5 other "Aesir" and/or "Nordic" monsters in your GY; \
     shuffle this card and all the targeted cards into the Deck, and if you do, draw 1 card. \
-You can only use this effect of "Idun the Nordic Young" once per turn. \
+You can only use each effect of "Idun the Nordic Young" once per turn. \
 """
 strings = []
 
