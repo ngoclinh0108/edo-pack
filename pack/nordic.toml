@@ -383,12 +383,9 @@ atk = 1100
 def = 800
 effect = """\
 If a "Nordic" monster you control is destroyed by your opponent's card (either by battle or by card effect): \
-    You can Special Summon this card from your hand or Deck in Defense Position, \
-    and if you do, this card cannot be destroyed by battle this turn. \
-If this card is in your GY, except the turn this card was sent to the GY: \
-    You can target 5 other "Aesir" and/or "Nordic" monsters in your GY; \
-    shuffle this card and all the targeted cards into the Deck, and if you do, draw 1 card. \
-You can only use each effect of "Hildisvini of the Nordic Beasts" once per turn. \
+    You can Special Summon this card from your hand or Deck. \
+    You can only use this effect of "Hildisvini of the Nordic Beasts" once per turn. \
+Once per turn, this face-up Defense Position card cannot be destroyed by battle or by card effects. \
 """
 strings = []
 
@@ -535,6 +532,9 @@ When you take damage from a card in your opponent's possession while you control
     You can gain LP equal to the total damage you took this turn, and if you do, \
     Special Summon this card in Defense Position. \
     If Summoned this way, the original DEF of this card card becomes that amount LP you gained. \
+If this card is in your GY, except the turn this card was sent to the GY: \
+    You can target 5 other "Aesir" and/or "Nordic" monsters in your GY; \
+    shuffle this card and all the targeted cards into the Deck, and if you do, draw 1 card. \
 You can only use this effect of "Idun the Nordic Young" once per turn. \
 """
 strings = []
