@@ -75,7 +75,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_HAND, 0, 1,
                                       1, nil)
     Duel.ConfirmCards(1 - tp, g)
-    Duel.SendtoDeck(g, nil, 0, REASON_COST)
+    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
