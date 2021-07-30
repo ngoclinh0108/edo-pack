@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0x42}
+s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
     -- activate
@@ -22,6 +22,21 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- cannot banish & negate
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetCode(EFFECT_CANNOT_REMOVE)
+    e2:SetRange(LOCATION_FZONE)
+    e2:SetTargetRange(LOCATION_MZONE + LOCATION_GRAVE, 0)
+    e2:SetTarget(s.e2tg)
+    c:RegisterEffect(e2)
+    local e2b = Effect.CreateEffect(c)
+    e2b:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2b:SetCode(EVENT_CHAIN_SOLVING)
+    e2b:SetRange(LOCATION_FZONE)
+    e2b:SetOperation(s.e2op)
+    c:RegisterEffect(e2b)
 end
 
 function s.e1filter1(c)
@@ -76,3 +91,35 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.ConfirmCards(1 - tp, g)
     end
 end
+
+function s.e2tg(e, c) return c:IsSetCard(0x4b) end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    if not Duel.IsChainDisablable(ev) or rp == tp then return end
+    local res = false
+    if not res and s.e2check(ev, CATEGORY_SPECIAL_SUMMON, re) then res = true end
+    if not res and s.e2check(ev, CATEGORY_REMOVE, re) then res = true end
+    if not res and s.e2check(ev, CATEGORY_TOHAND, re) then res = true end
+    if not res and s.e2check(ev, CATEGORY_TODECK, re) then res = true end
+    if not res and s.e2check(ev, CATEGORY_TOEXTRA, re) then res = true end
+    if not res and s.e2check(ev, CATEGORY_LEAVE_GRAVE, re) then res = true end
+    if res then Duel.NegateEffect(ev) end
+end
+
+function s.e2check(ev, category, re)
+    local ex, tg, ct, p, v = Duel.GetOperationInfo(ev, category)
+    if not ex then return false end
+    if (category == CATEGORY_LEAVE_GRAVE or v == LOCATION_GRAVE) and ct > 0 and
+        not tg then return false end
+    if tg and #tg > 0 then
+        return tg:IsExists(function(c, re)
+            if c:IsControler(0) then
+                return c:IsRelateToEffect(re)
+            else
+                return c:IsRelateToEffect(re)
+            end
+        end, 1, nil, re)
+    end
+    return false
+end
+
