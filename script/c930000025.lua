@@ -14,6 +14,7 @@ function s.initial_effect(c)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetRange(LOCATION_HAND)
     e1:SetCountLimit(1, id + 1000000)
+    e1:SetCondition(s.e1con)
     e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
@@ -34,6 +35,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c) return c:IsFaceup() and c:IsSetCard(0x4b) end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() == tp end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsDiscardable() end
