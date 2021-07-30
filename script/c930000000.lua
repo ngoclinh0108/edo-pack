@@ -23,29 +23,35 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- cannot banish
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetCode(EFFECT_CANNOT_REMOVE)
+    -- immune
+    local e2 = Effect.CreateEffect(tc)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_IMMUNE_EFFECT)
     e2:SetRange(LOCATION_FZONE)
-    e2:SetTargetRange(LOCATION_ONFIELD + LOCATION_GRAVE, 0)
-    e2:SetTarget(s.efftg)
+    e2:SetCondition(s.e2con)
+    e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
 
-    -- cannot be target
+    -- cannot banish
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e3:SetCode(EFFECT_CANNOT_REMOVE)
     e3:SetRange(LOCATION_FZONE)
-    e3:SetTargetRange(LOCATION_GRAVE, 0)
-    e3:SetTarget(s.efftg)
-    e3:SetValue(aux.tgoval)
+    e3:SetTargetRange(LOCATION_ONFIELD + LOCATION_GRAVE, 0)
+    e3:SetTarget(function(e, c) return c:IsSetCard(0x4b) end)
     c:RegisterEffect(e3)
-end
 
-function s.e1filter1(c)
-    return c:IsFaceup() and c:IsSetCard(0x4b) and c:IsType(TYPE_MONSTER)
+    -- cannot be target
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    e4:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e4:SetRange(LOCATION_FZONE)
+    e4:SetTargetRange(LOCATION_GRAVE, 0)
+    e4:SetTarget(function(e, c) return c:IsSetCard(0x4b) end)
+    e4:SetValue(aux.tgoval)
+    c:RegisterEffect(e4)
 end
 
 function s.e1filter2(c)
@@ -56,8 +62,9 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp and
                Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
                Duel.GetDrawCount(tp) > 0 and
-               not Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_MZONE,
-                                               0, 1, nil)
+               not Duel.IsExistingMatchingCard(
+                   aux.FilterFaceupFunction(Card.IsSetCard, 0x4b), tp,
+                   LOCATION_MZONE, 0, 1, nil)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -97,4 +104,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.efftg(e, c) return c:IsSetCard(0x4b) end
+function s.e2con(e)
+    local tp = e:GetHandlerPlayer()
+    return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,
+                                                                0x4b), tp,
+                                       LOCATION_MZONE, 0, 1, nil)
+end
+
+function s.e2val(e, re) return e:GetOwnerPlayer() == 1 - re:GetOwnerPlayer() end
