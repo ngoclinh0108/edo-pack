@@ -3,6 +3,7 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
+s.listed_names = {93483212}
 s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
@@ -59,11 +60,13 @@ function s.e1filter(c) return not c:IsStatus(STATUS_LEAVE_CONFIRMED) end
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsLocation(LOCATION_DECK) and
-        not Duel.IsExistingMatchingCard(Card.IsSetCard, tp, LOCATION_GRAVE, 0,
-                                        1, nil, 0x4b) then return false end
+        not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_GRAVE, 0, 1,
+                                        nil, 93483212) then return false end
     return ep == tp and tp ~= rp and
                not Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE,
-                                               0, 1, nil)
+                                               0, 1, nil) and
+               Duel.IsExistingMatchingCard(Card.IsSetCard, tp, LOCATION_GRAVE,
+                                           0, 1, nil, 0x4b)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
