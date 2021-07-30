@@ -317,7 +317,7 @@ level = 2
 atk = 700
 def = 300
 effect = """\
-If this card is sent to the GY to activate a "Nordic" monster's effect: \
+If this card is sent to the GY to activate a "Nordic" card's effect: \
     You can Special Summon 1 "Einherjar Token" (Warrior/EARTH/Level 4/ATK 1000/DEF 1000). \
 If this card is in your GY: You can target 1 Level 3 or higher "Nordic" monster you control; \
     reduce its Level by 2, and if you do, Special Summon this card in Defense Position, \
@@ -403,7 +403,7 @@ level = 3
 atk = 900
 def = 1100
 effect = """\
-If this card is sent to the GY to activate a "Nordic" monster's effect: \
+If this card is sent to the GY to activate a "Nordic" card's effect: \
     You can Special Summon 1 "Nordic Beast Token" (Beast/EARTH/Level 3/ATK 0/DEF 0). \
 If this card is in your GY: You can shuffle 1 "Nordic" card from your hand into the Deck; \
     Special Summon this card in Defense Position, \
@@ -489,7 +489,7 @@ level = 2
 atk = 600
 def = 900
 effect = """\
-If this card is sent to the GY to activate a "Nordic" monster's effect: \
+If this card is sent to the GY to activate a "Nordic" card's effect: \
     You can Special Summon 1 "Malus Token" (Fiend/DARK/Level 1/ATK 0/DEF 0). \
 If this card is in your GY: You can target card you control; \
     destroy it, and if you do, Special Summon this card in Defense Position, \

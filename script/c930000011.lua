@@ -32,6 +32,7 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    if not re then return false end
     local rc = re:GetHandler()
     return e:GetHandler():IsReason(REASON_COST) and rc:IsSetCard(0x42) and
                rc:IsType(TYPE_MONSTER)
