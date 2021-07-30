@@ -233,9 +233,9 @@ name = "Hildr of the Nordic Ascendant"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
-level = 3
-atk = 1300
-def = 800
+level = 4
+atk = 1500
+def = 1800
 effect = """\
 If you control a "Nordic" Tuner monster, you can Special Summon this card (from your hand). \
 If this card was Special Summoned by the effect of another "Nordic" card: \
@@ -341,8 +341,8 @@ type = "monster tuner effect"
 attribute = "wind"
 race = "warrior"
 level = 4
-atk = 1500
-def = 1000
+atk = 1300
+def = 1200
 effect = """\
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
