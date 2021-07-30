@@ -11,26 +11,26 @@ function s.initial_effect(c)
     act:SetCode(EVENT_FREE_CHAIN)
     c:RegisterEffect(act)
 
-    -- search
-    local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e1:SetCode(EVENT_PREDRAW)
+    -- immune
+    local e1 = Effect.CreateEffect(tc)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_IMMUNE_EFFECT)
     e1:SetRange(LOCATION_FZONE)
     e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetValue(s.e1val)
     c:RegisterEffect(e1)
 
-    -- immune
-    local e2 = Effect.CreateEffect(tc)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_IMMUNE_EFFECT)
+    -- search
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_PREDRAW)
     e2:SetRange(LOCATION_FZONE)
     e2:SetCondition(s.e2con)
-    e2:SetValue(s.e2val)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
     
     -- cannot be target
@@ -54,11 +54,20 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e1filter2(c)
+function s.e1con(e)
+    local tp = e:GetHandlerPlayer()
+    return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,
+                                                                0x4b), tp,
+                                       LOCATION_MZONE, 0, 1, nil)
+end
+
+function s.e1val(e, re) return e:GetOwnerPlayer() == 1 - re:GetOwnerPlayer() end
+
+function s.e2filter2(c)
     return c:IsSetCard(0x42) and c:IsType(TYPE_TUNER) and c:IsAbleToHand()
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp and
                Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
                Duel.GetDrawCount(tp) > 0 and
@@ -67,9 +76,9 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
                    LOCATION_MZONE, 0, 1, nil)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_DECK, 0, 1,
                                            nil)
     end
 
@@ -77,7 +86,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
@@ -96,19 +105,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if _replace_count > _replace_max or not c:IsRelateToEffect(e) then return end
 
     local g =
-        Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_DECK, 0, nil):RandomSelect(
+        Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_DECK, 0, nil):RandomSelect(
             tp, 1)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
 end
-
-function s.e2con(e)
-    local tp = e:GetHandlerPlayer()
-    return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,
-                                                                0x4b), tp,
-                                       LOCATION_MZONE, 0, 1, nil)
-end
-
-function s.e2val(e, re) return e:GetOwnerPlayer() == 1 - re:GetOwnerPlayer() end
