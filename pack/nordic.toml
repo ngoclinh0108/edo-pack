@@ -643,7 +643,7 @@ strings = []
 id = 930000033
 set = "nordic"
 name = "Sessrumnir the Nordic Hall"
-type = "spell"
+type = "trap"
 effect = """\
 """
 strings = []
