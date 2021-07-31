@@ -492,7 +492,7 @@ atk = 600
 def = 900
 effect = """\
 If this card is sent to the GY to activate a "Nordic" card's effect: \
-    You can Special Summon 1 "Malus Token" (Fiend/DARK/Level 1/ATK 0/DEF 0). \
+    You can Special Summon 2 "Malus Tokens" (Fiend/DARK/Level 1/ATK 0/DEF 0). \
 If this card is in your GY: You can target 1 face-up monster you control; \
     destroy it, and if you do, Special Summon this card in Defense Position, \
     also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
@@ -513,6 +513,7 @@ level = 1
 atk = 500
 def = 500
 effect = """\
+You can Special Summon this card (from your hand) by sending 1 "Nordic" monster
 For a Synchro Summon, you can substitute this card for any 1 "Nordic" Tuner. \
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Aesir" monster. \
 Once per turn: You can send 1 "Nordic" monster from your Deck to the GY, \

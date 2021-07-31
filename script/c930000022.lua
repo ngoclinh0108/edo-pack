@@ -39,7 +39,8 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) >= 1 and
+        return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) >= 2 and
                    Duel.IsPlayerCanSpecialSummonMonster(tp,
                                                         UtilNordic.MALUS_TOKEN,
                                                         0, TYPES_TOKEN, 0, 0, 1,
@@ -47,20 +48,24 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                                         ATTRIBUTE_DARK)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, 0)
-    Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 2, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 or
+    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
+        Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 or
         not Duel.IsPlayerCanSpecialSummonMonster(tp, UtilNordic.MALUS_TOKEN, 0,
                                                  TYPES_TOKEN, 0, 0, 1,
                                                  RACE_FIEND, ATTRIBUTE_DARK) then
         return
     end
 
-    local token = Duel.CreateToken(tp, UtilNordic.MALUS_TOKEN)
-    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
+    for i = 1, 2 do
+        local token = Duel.CreateToken(tp, UtilNordic.MALUS_TOKEN)
+        Duel.SpecialSummonStep(token, 0, tp, tp, false, false, POS_FACEUP)
+    end
+    Duel.SpecialSummonComplete()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
