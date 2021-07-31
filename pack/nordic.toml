@@ -617,10 +617,17 @@ strings = []
 [card.yule]
 id = 930000031
 name = "Yule"
-type = "spell"
+type = "spell quick-play"
 effect = """\
+During the Main Phase: Target 1 "Aesir" or "Nordic" monster in your GY; Special Summon it, but destroy it during the End Phase. \
+    If you target a "Aesir" monster with this effect, your opponent cannot activate cards or effects in response to this effect's activation. \
+During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: \
+    You can banish this card from your GY; Shuffle into the Deck \
+    1 your "Nordic" Tuner monster and 2 your non-Tuner "Nordic" monsters whose total Levels equal 10, that is banished or in your GY; \
+    shuffle them into the Deck, and if you do, Special Summon 1 "Aesir" monster from your Extra Deck (This is treated as a Properly Summon). \
+You can only use each effect of "Yule" once per turn. \
 """
-strings = []
+strings = ["Self destroy by effect of \"Yule\""]
 
 [card.nordic-valhalla]
 id = 930000032
