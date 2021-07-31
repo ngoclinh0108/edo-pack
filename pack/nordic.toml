@@ -653,8 +653,13 @@ set = "nordic"
 name = "Strike of the Nordic Lord"
 type = "spell quick-play"
 effect = """\
+Target 1 "Aesir" or "Nordic" monster you control; until the end of this turn, that face-up monster is unaffected by your opponent's card effects, \
+    then if you targeted a "Aesir" monster with this effect, you can destroy 1 card on the field. \
+If this card is in your GY (Quick Effect): You can target 1 "Aesir" monster you control; \
+    destroy it, and if you do, add this card from the GY to your hand. \
+    You can only use this effect of "Strike of the Nordic Lord" effect per turn. \
 """
-strings = []
+strings = ["Destroy 1 card on the field"]
 
 [card.bifrost]
 id = 930000035
