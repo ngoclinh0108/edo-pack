@@ -1,4 +1,4 @@
--- Sessrumnir, Nordic Celestial Hall
+-- Sessrumnir the Nordic Hall
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")

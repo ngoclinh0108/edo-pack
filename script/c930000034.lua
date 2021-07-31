@@ -1,4 +1,4 @@
--- Feast for the Nordic Lords
+-- Strike of the Nordic Lord
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")

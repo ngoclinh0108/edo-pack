@@ -647,10 +647,10 @@ effect = """\
 """
 strings = []
 
-[card.nordic-feast]
+[card.nordic-strike]
 id = 930000034
 set = "nordic"
-name = "Feast for the Nordic Lords"
+name = "Strike of the Nordic Lord"
 type = "spell quick-play"
 effect = """\
 """
