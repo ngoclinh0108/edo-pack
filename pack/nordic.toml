@@ -625,7 +625,7 @@ strings = []
 [card.nordic-valhalla]
 id = 930000032
 set = "nordic"
-name = "Valhalla, Nordic Celestial Haven"
+name = "Valhalla the Nordic Haven"
 type = "spell"
 effect = """\
 """
@@ -634,7 +634,7 @@ strings = []
 [card.nordic-sessrumnir]
 id = 930000033
 set = "nordic"
-name = "Sessrumnir, Nordic Celestial Hall"
+name = "Sessrumnir the Nordic Hall"
 type = "spell"
 effect = """\
 """
