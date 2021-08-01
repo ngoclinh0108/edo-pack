@@ -638,11 +638,11 @@ set = "nordic"
 name = "Match for the Nordic Artifacts"
 type = "spell quick-play"
 effect = """\
-If you control a "Aesir" monster, your opponent cannot activate cards or effects in response to this card's activation. \
 Add to your hand, or Set directly from your Deck, \
     1 "Gotterdammerung" or 1 "Nordic" Spell/Trap Card, \
     except "Match for the Nordic Artifacts". \
     If you Set it, it can be activated this turn. \
+    If you control a "Aesir" monster, your opponent cannot activate cards or effects in response to this card's activation. \
 If "Frigga, Mother of the Aesir" is Special Summoned to your field (except during the Damage Step): \
     You can add this card from your Deck to your hand. \
 You can only use each effect of "Match for the Nordic Artifacts" once per turn. \
