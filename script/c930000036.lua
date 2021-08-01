@@ -1,4 +1,4 @@
--- Nordic Horror - Fiery Armageddon
+-- Nordic Horror - Ouroboros Break
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")

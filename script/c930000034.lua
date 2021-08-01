@@ -1,4 +1,4 @@
--- Strike of the Nordic Lord
+-- Way the Nordic Realm
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
@@ -6,11 +6,12 @@ Duel.LoadScript("util_nordic.lua")
 s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
-    -- unaffected
+    -- indes
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(0, TIMING_BATTLE_START + TIMING_END_PHASE)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -47,22 +48,24 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
 
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(3110)
+    ec1:SetDescription(3066)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_IMMUNE_EFFECT)
-    ec1:SetValue(function(e, re)
-        return e:GetOwnerPlayer() == 1 - re:GetOwnerPlayer()
-    end)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    ec1:SetRange(LOCATION_MZONE)
+    ec1:SetValue(1)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec1)
-
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD,
-                                    LOCATION_ONFIELD, c)
-    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    g = g:Select(tp, 1, 1, nil)
-    Duel.Destroy(g, REASON_EFFECT)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    ec1b:SetValue(function(e, re, tp) return e:GetHandlerPlayer() == 1 - tp end)
+    tc:RegisterEffect(ec1b)
+    if tc:IsSetCard(0x4b) then
+        local ec2 = ec1:Clone()
+        ec2:SetDescription(3210)
+        ec2:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+        tc:RegisterEffect(ec2)
+    end
 end
 
 function s.e2filter(c) return c:IsFaceup() and c:IsSetCard(0x4b) end

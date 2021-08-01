@@ -617,9 +617,10 @@ effect = """\
 """
 strings = []
 
-[card.yule]
+[card.nordic-hall]
 id = 930000031
-name = "Yule"
+set = "nordic"
+name = "Hall of the Nordic Fallen"
 type = "spell quick-play"
 effect = """\
 During the Main Phase: Target 1 "Aesir" or "Nordic" monster in your GY; Special Summon it, but destroy it during the End Phase. \
@@ -628,31 +629,24 @@ During your Main Phase, if this card is in your GY: \
     You can banish this card from your GY; Shuffle into the Deck \
     1 your "Nordic" Tuner monster and 2 your non-Tuner "Nordic" monsters whose total Levels equal 10, that is banished or in your GY; \
     shuffle them into the Deck, and if you do, Special Summon 1 "Aesir" monster from your Extra Deck (This is treated as a Synchro Summon). \
-You can only use 1 "Yule" effect per turn, and only once that turn. \
+You can only use 1 "Hall of the Nordic Fallen" effect per turn, and only once that turn. \
 """
-strings = ["Self destroy by effect of \"Yule\""]
+strings = ["Self destroy by effect of \"Hall of the Nordic Fallen\""]
 
-[card.nordic-valhalla]
+[card.nordic-war]
 id = 930000032
 set = "nordic"
-name = "Valhalla the Nordic Heaven"
-type = "spell"
-effect = """\
-"""
-strings = []
-
-[card.nordic-sessrumnir]
-id = 930000033
-set = "nordic"
-name = "Sessrumnir the Nordic Hall"
+name = "War for the Nordic Artifacts"
 type = "trap"
 effect = """\
-Add 1 "Nordic Relic" from your Deck to your hand. \
+If you control a "Aesir" monster, you can activate this card from your hand. \
+Add to your hand, or Set, 1 "Nordic Relic" Spell/Trap Card from your Deck. \
+    If you Set it, it can be activated this turn. \
 """
 strings = []
 
 [card.nordic-strike]
-id = 930000034
+id = 930000033
 set = "nordic"
 name = "Strike of the Nordic Lord"
 type = "spell quick-play"
@@ -666,7 +660,7 @@ If this card is in your GY (Quick Effect): You can target 1 "Aesir" monster you 
 strings = ["Destroy 1 card on the field"]
 
 [card.nordic-way]
-id = 930000035
+id = 930000034
 set = "nordic"
 name = "Way to the Nordic Realm"
 type = "spell quick-play"
@@ -680,7 +674,7 @@ If this card is in your GY (Quick Effect): You can target 1 "Aesir" monster you 
 strings = []
 
 [card.fiery-armageddon]
-id = 930000036
+id = 930000035
 set = "nordic"
 name = "Nordic Horror - Fiery Armageddon"
 type = "trap counter"
@@ -689,7 +683,7 @@ effect = """\
 strings = []
 
 [card.ouroboros-break]
-id = 930000037
+id = 930000036
 set = "nordic"
 name = "Nordic Horror - Ouroboros Break"
 type = "trap counter"
