@@ -95,7 +95,13 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:IsAbleToHand() end
+
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
+    if Duel.IsExistingMatchingCard(
+        aux.FilterFaceupFunction(Card.IsSetCard, 0x4b), tp, LOCATION_MZONE, 0,
+        1, nil) then
+        Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
+    end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
