@@ -3,7 +3,8 @@ local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
-s.listed_series = {0x4b, 0x5042}
+s.listed_names = {91148083}
+s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
     -- act in hand
@@ -31,8 +32,9 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c)
-    return c:IsSetCard(0x5042) and c:IsType(TYPE_SPELL + TYPE_TRAP) and
-               (c:IsAbleToHand() and c:IsSSetable(false))
+    if not c:IsAbleToHand() or not c:IsSSetable(false) then return false end
+    return (c:IsSetCard(0x42) and c:IsType(TYPE_SPELL + TYPE_TRAP)) or
+               c:IsCode(91148083)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -42,6 +44,11 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+    if Duel.IsExistingMatchingCard(
+        aux.FilterFaceupFunction(Card.IsSetCard, 0x4b), tp, LOCATION_MZONE, 0,
+        1, nil) then
+        Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
+    end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

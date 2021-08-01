@@ -639,8 +639,11 @@ set = "nordic"
 name = "War for the Nordic Artifacts"
 type = "trap"
 effect = """\
-If you control a "Aesir" monster, you can activate this card from your hand. \
-Add to your hand, or Set, 1 "Nordic Relic" Spell/Trap Card from your Deck. \
+If you control a "Aesir" monster, you can activate this card from your hand, \
+    and your opponent cannot activate cards or effects in response to this card's activation. \
+Add to your hand, or Set directly from your Deck, \
+    1 "Gotterdammerung" or 1 "Nordic" Spell/Trap Card, \
+    except "War for the Nordic Artifacts". \
     If you Set it, it can be activated this turn. \
 """
 strings = []
