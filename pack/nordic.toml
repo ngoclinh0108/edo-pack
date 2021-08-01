@@ -593,10 +593,18 @@ strings = []
 id = 930000028
 set = "nordic-relic"
 name = "Divine Nordic Relic Mjollnir"
-type = "spell equip"
+type = "spell quick-play"
 effect = """\
+This card's activation and effect cannot be negated. \
+Target 1 "Aesir" monster you control; this turn, it can make a second attack during each Battle Phase, \
+    also each time that monster destroys an opponent's monster by battle: \
+    Inflict 1000 damage to your opponent. \
+During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
+    and you control "Thor, Lord of the Aesir": \
+    You can add this card from the GY to your hand. \
+You can only use each effect of "Divine Nordic Relic Mjollnir" once per turn. \
 """
-strings = []
+strings = ["Affected by effect \"Divine Nordic Relic Mjollnir\""]
 
 [card.andvaranaut]
 id = 930000029
@@ -611,7 +619,7 @@ strings = []
 id = 930000030
 set = "nordic-relic"
 name = "Divine Nordic Relic Laevateinn"
-type = "spell equip"
+type = "trap"
 effect = """\
 """
 strings = []
@@ -639,10 +647,8 @@ name = "Match for the Nordic Artifacts"
 type = "spell quick-play"
 effect = """\
 If you control a "Aesir" monster, your opponent cannot activate cards or effects in response to this card's effect activation. \
-Add to your hand, or Set directly from your Deck, \
-    1 "Nordic" Spell/Trap Card or 1 "Gotterdammerung", \
-    except "Match for the Nordic Artifacts". \
-    If you Set it, it can be activated this turn. \
+Take 1 "Nordic" Spell/Trap Card or 1 "Gotterdammerung" from your Deck, except "Match for the Nordic Artifacts", \
+and either add it to your hand, or Set it then it can be activated this turn. \
 If "Frigga, Mother of the Aesir" is Special Summoned to your field (except during the Damage Step): \
     You can add this card from your Deck to your hand. \
 You can only use each effect of "Match for the Nordic Artifacts" once per turn. \
