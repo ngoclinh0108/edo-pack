@@ -38,8 +38,7 @@ end
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsReason(REASON_DESTROY) and c:IsReason(REASON_EFFECT) and
-               not c:IsLocation(LOCATION_DECK) and c:IsPreviousControler(tp) and
-               c:IsPreviousPosition(POS_FACEUP)
+               not c:IsLocation(LOCATION_DECK)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

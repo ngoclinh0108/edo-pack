@@ -186,9 +186,9 @@ function s.e4filter1(c, tp)
 end
 
 function s.e4filter2(c, sc)
-    return
-        not c:IsCode(id) and not c:IsCode(sc:GetCode()) and c:IsSetCard(0x42) and
-            c:IsAbleToHand()
+    return c:IsSetCard(0x42) and c:IsType(TYPE_MONSTER) and
+               not c:IsCode(sc:GetCode()) and not c:IsCode(id) and
+               c:IsAbleToHand()
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

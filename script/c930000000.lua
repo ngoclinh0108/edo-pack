@@ -21,30 +21,33 @@ function s.initial_effect(c)
     e1:SetValue(s.e1val)
     c:RegisterEffect(e1)
 
-    -- search
-    local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e2:SetCode(EVENT_PREDRAW)
-    e2:SetRange(LOCATION_FZONE)
-    e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
-
     -- cannot banish & cannot be target
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetCode(EFFECT_CANNOT_REMOVE)
+    e2:SetRange(LOCATION_FZONE)
+    e2:SetTargetRange(LOCATION_GRAVE, 0)
+    e2:SetTarget(function(e, c) return c:IsSetCard(0x4b) end)
+    c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    e2b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e2b:SetValue(aux.tgoval)
+    c:RegisterEffect(e2b)
+
+    -- search
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_CANNOT_REMOVE)
+    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e3:SetCode(EVENT_PREDRAW)
     e3:SetRange(LOCATION_FZONE)
-    e3:SetTargetRange(LOCATION_GRAVE, 0)
-    e3:SetTarget(function(e, c) return c:IsSetCard(0x4b) end)
+    e3:SetLabel(1)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
-    e3b:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    e3b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e3b:SetValue(aux.tgoval)
+    e3b:SetLabel(2)
     c:RegisterEffect(e3b)
 end
 
@@ -57,35 +60,47 @@ end
 
 function s.e1val(e, re) return e:GetOwnerPlayer() == 1 - re:GetOwnerPlayer() end
 
-function s.e2filter2(c)
-    return c:IsSetCard(0x42) and c:IsType(TYPE_TUNER) and c:IsAbleToHand()
+function s.e3filter(c, label)
+    if not c:IsAbleToHand() or not c:IsSetCard(0x42) then return false end
+    if label == 1 then
+        return c:IsType(TYPE_TUNER)
+    else
+        return c:IsType(TYPE_SPELL + TYPE_TRAP)
+    end
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp and
-               Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
-               Duel.GetDrawCount(tp) > 0 and
-               not Duel.IsExistingMatchingCard(
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetTurnPlayer() ~= tp or
+        Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) <= 0 or
+        Duel.GetDrawCount(tp) <= 0 then return false end
+
+    if e:GetLabel() == 1 then
+        return not Duel.IsExistingMatchingCard(
                    aux.FilterFaceupFunction(Card.IsSetCard, 0x4b), tp,
                    LOCATION_MZONE, 0, 1, nil)
+    else
+        return Duel.IsExistingMatchingCard(
+                   aux.FilterFaceupFunction(Card.IsSetCard, 0x4b), tp,
+                   LOCATION_MZONE, 0, 1, nil)
+    end
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_DECK, 0, 1,
-                                           nil)
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK, 0, 1,
+                                           nil, e:GetLabel())
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
     Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
     local dt = Duel.GetDrawCount(tp)
-    if dt == 0 then return false end
+    if dt == 0 then return end
     _replace_count = 1
     _replace_max = dt
     local ec1 = Effect.CreateEffect(c)
@@ -96,11 +111,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetValue(0)
     ec1:SetReset(RESET_PHASE + PHASE_DRAW)
     Duel.RegisterEffect(ec1, tp)
-    if _replace_count > _replace_max or not c:IsRelateToEffect(e) then return end
+    if _replace_count > _replace_max then return end
 
-    local g =
-        Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_DECK, 0, nil):RandomSelect(
-            tp, 1)
+    local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_DECK, 0, nil,
+                                    e:GetLabel()):RandomSelect(tp, 1)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
