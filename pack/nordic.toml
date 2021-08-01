@@ -640,7 +640,7 @@ type = "spell quick-play"
 effect = """\
 If you control a "Aesir" monster, your opponent cannot activate cards or effects in response to this card's effect activation. \
 Add to your hand, or Set directly from your Deck, \
-    1 "Gotterdammerung" or 1 "Nordic" Spell/Trap Card, \
+    1 "Nordic" Spell/Trap Card or 1 "Gotterdammerung", \
     except "Match for the Nordic Artifacts". \
     If you Set it, it can be activated this turn. \
 If "Frigga, Mother of the Aesir" is Special Summoned to your field (except during the Damage Step): \
