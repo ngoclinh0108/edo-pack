@@ -60,7 +60,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD,
                                     LOCATION_ONFIELD, c)
-    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
+    if not tc:IsSetCard(0x4b) or #g == 0 or
+        not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     g = g:Select(tp, 1, 1, nil)
     Duel.Destroy(g, REASON_EFFECT)
