@@ -57,7 +57,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local ec2 = Effect.CreateEffect(c)
     ec2:SetCategory(CATEGORY_DAMAGE)
     ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
-    ec2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_PLAYER_TARGET)
+    ec2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_PLAYER_TARGET +
+                        EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
+                        EFFECT_FLAG_CANNOT_INACTIVATE)
     ec2:SetCode(EVENT_BATTLE_DESTROYING)
     ec2:SetLabelObject(tc)
     ec2:SetCondition(s.e1dmgcon)
