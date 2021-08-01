@@ -584,7 +584,7 @@ strings = []
 id = 930000027
 set = "nordic-relic"
 name = "Divine Nordic Relic Brisingamen"
-type = "spell equip"
+type = "spell quick-play"
 effect = """\
 """
 strings = []
@@ -609,7 +609,7 @@ strings = ["Affected by effect \"Divine Nordic Relic Mjollnir\""]
 id = 930000029
 set = "nordic-relic"
 name = "Divine Nordic Relic Andvaranaut"
-type = "spell equip"
+type = "spell quick-play"
 effect = """\
 """
 strings = []
@@ -618,7 +618,7 @@ strings = []
 id = 930000030
 set = "nordic-relic"
 name = "Divine Nordic Relic Laevateinn"
-type = "trap"
+type = "spell quick-play"
 effect = """\
 """
 strings = []
