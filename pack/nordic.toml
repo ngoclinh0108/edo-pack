@@ -627,9 +627,9 @@ strings = []
 id = 930000031
 set = "nordic"
 name = "Hall of the Nordic Fallen"
-type = "spell quick-play"
+type = "spell"
 effect = """\
-During the Main Phase: Target 1 "Aesir" or "Nordic" monster in your GY; Special Summon it, but destroy it during the End Phase. \
+Target 1 "Aesir" or "Nordic" monster in your GY; Special Summon it, but destroy it during the End Phase. \
     If you target a "Aesir" monster with this effect, your opponent cannot activate cards or effects in response to this effect's activation. \
 During your Main Phase, if this card is in your GY: \
     You can banish this card from your GY; Shuffle into the Deck \
@@ -643,7 +643,7 @@ strings = ["Self destroy by effect of \"Hall of the Nordic Fallen\""]
 id = 930000032
 set = "nordic"
 name = "Match for the Nordic Artifacts"
-type = "spell quick-play"
+type = "trap"
 effect = """\
 If you control a "Aesir" monster, your opponent cannot activate cards or effects in response to this card's effect activation. \
 Take 1 "Nordic" Spell/Trap Card or 1 "Gotterdammerung" from your Deck, except "Match for the Nordic Artifacts", \
