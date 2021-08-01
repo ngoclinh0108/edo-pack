@@ -11,14 +11,19 @@ function s.initial_effect(c)
     act:SetCode(EVENT_FREE_CHAIN)
     c:RegisterEffect(act)
 
-    -- immune
+    -- cannot be target
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_IMMUNE_EFFECT)
+    e1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e1:SetRange(LOCATION_FZONE)
-    e1:SetCondition(s.e1con)
-    e1:SetValue(s.e1val)
+    e1:SetCondition(function(e)
+        return Duel.IsExistingMatchingCard(
+                   aux.FilterFaceupFunction(Card.IsSetCard, 0x4b),
+                   e:GetHandlerPlayer(), LOCATION_MZONE, 0, 1, nil)
+    end)
+    e1:SetValue(aux.tgoval)
+    e1:SetCondition(s.tgcon)
     c:RegisterEffect(e1)
 
     -- cannot banish & cannot be target
@@ -46,15 +51,6 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
-
-function s.e1con(e)
-    local tp = e:GetHandlerPlayer()
-    return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,
-                                                                0x4b), tp,
-                                       LOCATION_MZONE, 0, 1, nil)
-end
-
-function s.e1val(e, re) return e:GetOwnerPlayer() == 1 - re:GetOwnerPlayer() end
 
 function s.e3filter(c)
     return c:IsSetCard(0x42) and c:IsType(TYPE_TUNER) and c:IsAbleToHand()

@@ -4,7 +4,7 @@ set = "aesir"
 name = "Asgard the Aesir Realm"
 type = "spell field"
 effect = """\
-Unaffected by your opponent's card effects while you control "Aesir" monster. \
+While you control "Aesir" monster, your opponent cannot target this card with card effects. \
 "Aesir" cards in your GY cannot be banished, also your opponent cannot target them with card effects. \
 During your Draw phase, if you do not control a "Aesir" monster, instead of conducting your normal draw: \
     You can randomly add 1 "Nordic" Tuner monster from your Deck to your hand. \
