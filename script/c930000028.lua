@@ -24,7 +24,7 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_GRAVE)
     e1:SetCountLimit(1, id + 2000000)
-    e1:SetCondition(s.e2con)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -98,7 +98,7 @@ function s.e1dmgop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return aux.exccon(e, tp, eg, ep, ev, re, r, rp) and
+    return aux.exccon(e) and
                Duel.IsExistingMatchingCard(
                    aux.FilterFaceupFunction(Card.IsCode, 30604579), tp,
                    LOCATION_MZONE, 0, 1, nil)
