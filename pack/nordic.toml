@@ -595,9 +595,8 @@ set = "nordic-relic"
 name = "Divine Nordic Relic Mjollnir"
 type = "spell quick-play"
 effect = """\
-This card's activation and effect cannot be negated. \
 Target 1 "Aesir" monster you control; this turn, it can make a second attack during each Battle Phase, \
-    also each time that monster destroys an opponent's monster by battle: \
+    also each time it destroys an opponent's monster by battle: \
     Inflict 1000 damage to your opponent. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
     and you control "Thor, Lord of the Aesir": \
@@ -701,6 +700,21 @@ effect = """\
 """
 strings = []
 
+[card.nordic-ascendant-token]
+id = 930000038
+set = "nordic-ascendant"
+name = "Nordic Ascendant Token"
+type = "monster normal token"
+attribute = "light"
+race = "fairy"
+atk = 0
+def = 0
+effect = """\
+Special Summoned with the effect of "Nordic" cards
+"""
+strings = []
+
+
 [card.tyr-of-the-nordic-champions]
 id = 2333365
 ot = "ocg tcg"
@@ -715,19 +729,5 @@ def = 2000
 effect = """\
 Your opponent's monsters cannot target "Nordic" monsters for attacks, except "Tyr of the Nordic Champions". \
 If there is no other "Nordic" monster on the field, destroy this card. \
-"""
-strings = []
-
-[card.nordic-ascendant-token]
-id = 930000038
-set = "nordic-ascendant"
-name = "Nordic Ascendant Token"
-type = "monster normal token"
-attribute = "light"
-race = "fairy"
-atk = 0
-def = 0
-effect = """\
-Special Summoned with the effect of "Nordic" cards
 """
 strings = []
