@@ -23,7 +23,6 @@ function s.initial_effect(c)
                    e:GetHandlerPlayer(), LOCATION_MZONE, 0, 1, nil)
     end)
     e1:SetValue(aux.tgoval)
-    e1:SetCondition(s.tgcon)
     c:RegisterEffect(e1)
 
     -- cannot banish & cannot be target
