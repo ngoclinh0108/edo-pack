@@ -1,4 +1,4 @@
--- Valhalla, Nordic Celestial Haven
+-- Valhalla, Nordic Celestial Heaven
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")

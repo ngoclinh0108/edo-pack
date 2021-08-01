@@ -3,15 +3,18 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 local s, id = GetID()
 
-s.listed_series = {0xa042}
+s.listed_series = {0xa042, 0x4b}
 s.material_setcode = {0xa042}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    UtilNordic.NordicGodEffect(c, SUMMON_TYPE_LINK, true)
+    UtilNordic.AesirGodEffect(c)
 
-    -- link summon
-    Link.AddProcedure(c, s.lnkfilter1, 3, 3, s.lnkcheck)
+    -- synchro summon
+    Synchro.AddProcedure(c, function(c, sc, sumtype, tp)
+        return c:IsSetCard(0xa042, sc, sumtype, tp) or
+                   c:IsHasEffect(EFFECT_SYNSUB_NORDIC)
+    end, 1, 1, Synchro.NonTuner(nil), 2, 99)
 
     -- negate
     local e1 = Effect.CreateEffect(c)
@@ -37,20 +40,6 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-end
-
-function s.lnkfilter1(c) return c:HasLevel() end
-
-function s.lnkfilter2(c, lc, sumtype, tp)
-    return c:IsType(TYPE_TUNER, lc, sumtype, tp) and
-               (c:IsSetCard(0xa042, lc, sumtype, tp) or
-                   c:IsHasEffect(EFFECT_SYNSUB_NORDIC))
-end
-
-function s.lnkcheck(g, lc, sumtype, tp)
-    local mg = g:Filter(s.lnkfilter1, nil, lc, sumtype, tp)
-    return mg:CheckWithSumEqual(Card.GetLevel, 10, 3, 3) and
-               mg:IsExists(s.lnkfilter2, 1, nil, lc, sumtype, tp)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)

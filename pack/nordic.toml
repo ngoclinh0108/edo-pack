@@ -63,8 +63,9 @@ strings = ["Apply the negated monster's effect"]
 
 [card.thor]
 id = 930000003
+alias = 30604579
 set = "aesir"
-name = "Thor, Aesir of Thunder"
+name = "Thor, Lord of the Aesir"
 type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
@@ -107,17 +108,18 @@ strings = ["Negate the effect", "Use the negated effect"]
 
 [card.loki]
 id = 930000005
+alias = 67098114
 set = "aesir"
-name = "Loki, Aesir of Mischief"
-type = "monster link effect"
+name = "Loki, Lord of the Aesir"
+type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
-link-rating = 3
-link-arrows = "7top-left top-right bottom"
+level = 10
 atk = 3300
+def = 3000
 effect = """\
-3 monsters whose total Levels equal 10, including a "Nordic Alfar" Tuner (substitute accepted)
-${NORDIC_GOD_EFFECT|Link} \
+1 "Nordic Alfar" Tuner + 2+ non-Tuner monsters
+${AESIR_GOD_EFFECT} \
 Once per turn, when your opponent activates a Spell/Trap Card during your turn (Quick Effect): \
     You can negate the activation, and if you do, destroy it. \
     Then, if it was a Spell/Trap, you can Set it to your field. \
@@ -448,7 +450,7 @@ atk = 1600
 def = 1400
 effect = """\
 You can Special Summon this card (from your hand) by destroying 1 face-up monster you control. \
-If this card you control is used as Synchro or Link Material for a "Aesir" monster, \
+If this card you control is used as Synchro Material for a "Aesir" monster, \
     non-Tuner "Nordic" monsters in your hand can be used as the other materials. \
 Your opponent cannot activate cards or effects in response to the activation of \
     your "Nordic" cards and effects that includes add a card from your Deck to your hand. \
@@ -625,7 +627,7 @@ During the Main Phase: Target 1 "Aesir" or "Nordic" monster in your GY; Special 
 During your Main Phase, if this card is in your GY: \
     You can banish this card from your GY; Shuffle into the Deck \
     1 your "Nordic" Tuner monster and 2 your non-Tuner "Nordic" monsters whose total Levels equal 10, that is banished or in your GY; \
-    shuffle them into the Deck, and if you do, Special Summon 1 "Aesir" monster from your Extra Deck (This is treated as a Properly Summon). \
+    shuffle them into the Deck, and if you do, Special Summon 1 "Aesir" monster from your Extra Deck (This is treated as a Synchro Summon). \
 You can only use 1 "Yule" effect per turn, and only once that turn. \
 """
 strings = ["Self destroy by effect of \"Yule\""]
@@ -633,7 +635,7 @@ strings = ["Self destroy by effect of \"Yule\""]
 [card.nordic-valhalla]
 id = 930000032
 set = "nordic"
-name = "Valhalla the Nordic Haven"
+name = "Valhalla the Nordic Heaven"
 type = "spell"
 effect = """\
 """
@@ -645,6 +647,7 @@ set = "nordic"
 name = "Sessrumnir the Nordic Hall"
 type = "trap"
 effect = """\
+Add 1 "Nordic Relic" from your Deck to your hand. \
 """
 strings = []
 

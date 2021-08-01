@@ -19,29 +19,13 @@ function s.initial_effect(c)
     c:RegisterEffect(e1)
 
     -- extra material
-    local e2syn = Effect.CreateEffect(c)
-    e2syn:SetType(EFFECT_TYPE_SINGLE)
-    e2syn:SetCode(EFFECT_HAND_SYNCHRO)
-    e2syn:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e2syn:SetLabel(id)
-    e2syn:SetValue(s.e2synval)
-    c:RegisterEffect(e2syn)
-    local e2lnk = Effect.CreateEffect(c)
-    e2lnk:SetType(EFFECT_TYPE_FIELD)
-    e2lnk:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2lnk:SetCode(EFFECT_EXTRA_MATERIAL)
-    e2lnk:SetRange(LOCATION_HAND)
-    e2lnk:SetTargetRange(1, 0)
-    e2lnk:SetOperation(s.e2lnkcon)
-    e2lnk:SetValue(s.e2lnkval)
-    local e2lnkgrant = Effect.CreateEffect(c)
-    e2lnkgrant:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_GRANT)
-    e2lnkgrant:SetRange(LOCATION_MZONE)
-    e2lnkgrant:SetTargetRange(LOCATION_HAND, 0)
-    e2lnkgrant:SetTarget(s.e2lnkgranttg)
-    e2lnkgrant:SetLabelObject(e2lnk)
-    c:RegisterEffect(e2lnkgrant)
-    aux.GlobalCheck(s, function() s.flagmap = {} end)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_HAND_SYNCHRO)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e2:SetLabel(id)
+    e2:SetValue(s.e2val)
+    c:RegisterEffect(e2)
 
     -- act limit
     local e3 = Effect.CreateEffect(c)
@@ -90,7 +74,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e2synval(e, tc, sc)
+function s.e2val(e, tc, sc)
     local c = e:GetHandler()
     if sc:IsSetCard(0x4b) and
         (not tc:IsType(TYPE_TUNER) or tc:IsHasEffect(EFFECT_NONTUNER)) and
@@ -99,7 +83,7 @@ function s.e2synval(e, tc, sc)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK)
         ec1:SetLabel(id)
-        ec1:SetTarget(s.e2syntg)
+        ec1:SetTarget(s.e2tg)
         tc:RegisterEffect(ec1)
         return true
     else
@@ -107,7 +91,7 @@ function s.e2synval(e, tc, sc)
     end
 end
 
-function s.e2syntg(e, tc, sg, tg, ntg, tsg, ntsg)
+function s.e2tg(e, tc, sg, tg, ntg, tsg, ntsg)
     if not tc then return true end
     local res = true
 
@@ -138,37 +122,6 @@ function s.e2chk2(c)
     return not c:IsHasEffect(EFFECT_HAND_SYNCHRO) or
                c:IsHasEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK) or
                c:GetCardEffect(EFFECT_HAND_SYNCHRO):GetLabel() ~= id
-end
-
-function s.e2lnkcon(c, e, tp, sg, mg, lc, og, chk)
-    local ct = sg:FilterCount(function(c) return c:GetFlagEffect(id) > 0 end,
-                              nil)
-    return ct == 0 or (sg + mg):Filter(function(c, tp)
-        return c:IsLocation(LOCATION_MZONE) and c:IsControler(tp)
-    end, nil, e:GetHandlerPlayer()):IsExists(Card.IsCode, 1, og, id)
-end
-
-function s.e2lnkval(chk, summon_type, e, ...)
-    local c = e:GetHandler()
-    if chk == 0 then
-        local tp, sc = ...
-        if summon_type ~= SUMMON_TYPE_LINK or not sc:IsSetCard(0x4b) then
-            return Group.CreateGroup()
-        else
-            s.flagmap[c] = c:RegisterFlagEffect(id, 0, 0, 1)
-            return Group.FromCards(c)
-        end
-    elseif chk == 2 then
-        if s.flagmap[c] then
-            s.flagmap[c]:Reset()
-            s.flagmap[c] = nil
-        end
-    end
-end
-
-function s.e2lnkgranttg(e, c)
-    return c:IsCanBeLinkMaterial() and c:IsSetCard(0x42) and
-               (not c:IsType(TYPE_TUNER) or c:IsHasEffect(EFFECT_NONTUNER))
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)

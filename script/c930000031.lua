@@ -79,7 +79,7 @@ end
 
 function s.e2filter1(c, e, tp)
     return c:IsSetCard(0x4b) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
                Duel.IsExistingMatchingCard(s.e2filter2, tp,
                                            LOCATION_GRAVE + LOCATION_REMOVED, 0,
                                            1, nil, e, tp, c)
@@ -138,6 +138,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    Duel.SpecialSummon(sc, 0, tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(sc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
     sc:CompleteProcedure()
 end
