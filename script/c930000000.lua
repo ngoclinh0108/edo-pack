@@ -41,14 +41,10 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e3:SetCode(EVENT_PREDRAW)
     e3:SetRange(LOCATION_FZONE)
-    e3:SetLabel(1)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetLabel(2)
-    c:RegisterEffect(e3b)
 end
 
 function s.e1con(e)
@@ -60,35 +56,24 @@ end
 
 function s.e1val(e, re) return e:GetOwnerPlayer() == 1 - re:GetOwnerPlayer() end
 
-function s.e3filter(c, label)
-    if not c:IsAbleToHand() or not c:IsSetCard(0x42) then return false end
-    if label == 1 then
-        return c:IsType(TYPE_TUNER)
-    else
-        return c:IsType(TYPE_SPELL + TYPE_TRAP)
-    end
+function s.e3filter(c)
+    return c:IsSetCard(0x42) and c:IsType(TYPE_TUNER) and c:IsAbleToHand()
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetTurnPlayer() ~= tp or
-        Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) <= 0 or
-        Duel.GetDrawCount(tp) <= 0 then return false end
+    return Duel.GetTurnPlayer() == tp and
+               Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
+               Duel.GetDrawCount(tp) > 0 and
+               not Duel.IsExistingMatchingCard(
+                   aux.FilterFaceupFunction(Card.IsSetCard, 0x4b), tp,
+                   LOCATION_MZONE, 0, 1, nil)
 
-    if e:GetLabel() == 1 then
-        return not Duel.IsExistingMatchingCard(
-                   aux.FilterFaceupFunction(Card.IsSetCard, 0x4b), tp,
-                   LOCATION_MZONE, 0, 1, nil)
-    else
-        return Duel.IsExistingMatchingCard(
-                   aux.FilterFaceupFunction(Card.IsSetCard, 0x4b), tp,
-                   LOCATION_MZONE, 0, 1, nil)
-    end
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK, 0, 1,
-                                           nil, e:GetLabel())
+                                           nil)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
@@ -113,8 +98,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
     if _replace_count > _replace_max then return end
 
-    local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_DECK, 0, nil,
-                                    e:GetLabel()):RandomSelect(tp, 1)
+    local g =
+        Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_DECK, 0, nil):RandomSelect(
+            tp, 1)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)

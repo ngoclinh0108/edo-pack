@@ -83,7 +83,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c, tp)
-    return c:IsFaceup() and c:IsSetCard(0x4b) and c:IsControler(tp)
+    return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x4b)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)

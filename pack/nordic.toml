@@ -6,10 +6,9 @@ type = "spell field"
 effect = """\
 Unaffected by your opponent's card effects while you control "Aesir" monster. \
 "Aesir" cards in your GY cannot be banished, also your opponent cannot target them with card effects. \
-During your Draw phase, instead of conducting your normal draw, you can activate 1 of these effects. \
-    Your opponent cannot activate cards or effects in response to this effect's activation.
-● If you do not control a "Aesir" monster, randomly add 1 "Nordic" Tuner monster from your Deck to your hand.
-● If you control a "Aesir" monster, randomly add 1 "Nordic" Spell/Trap Card from your Deck to your hand.
+During your Draw phase, if you do not control a "Aesir" monster, instead of conducting your normal draw: \
+    You can randomly add 1 "Nordic" Tuner monster from your Deck to your hand. \
+    Your opponent cannot activate cards or effects in response to this effect's activation. \
 """
 strings = []
 
@@ -566,7 +565,7 @@ During your Standby Phase or your Main Phase (Quick Effect): \
     and if you do, look at all cards in your opponent's hand and all Set cards they control. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
 If a "Aesir" monster is Special Summoned to your field (except during the Damage Step): \
-    You can add this card from the GY to your hand. \
+    You can add this card from your GY to your hand. \
     If you Special Summoned "Odin, Father of the Aesir", you can also add this card from your Deck to your hand. \
 You can only use each effect of "Huginn and Muninn the Nordic Eyes" once per turn. \
 """
@@ -633,18 +632,20 @@ You can only use 1 "Hall of the Nordic Fallen" effect per turn, and only once th
 """
 strings = ["Self destroy by effect of \"Hall of the Nordic Fallen\""]
 
-[card.nordic-war]
+[card.nordic-match]
 id = 930000032
 set = "nordic"
-name = "War for the Nordic Artifacts"
-type = "trap"
+name = "Match for the Nordic Artifacts"
+type = "spell quick-play"
 effect = """\
-If you control a "Aesir" monster, you can activate this card from your hand, \
-    and your opponent cannot activate cards or effects in response to this card's activation. \
+If you control a "Aesir" monster, your opponent cannot activate cards or effects in response to this card's activation. \
 Add to your hand, or Set directly from your Deck, \
     1 "Gotterdammerung" or 1 "Nordic" Spell/Trap Card, \
-    except "War for the Nordic Artifacts". \
+    except "Match for the Nordic Artifacts". \
     If you Set it, it can be activated this turn. \
+If "Frigga, Mother of the Aesir" is Special Summoned to your field (except during the Damage Step): \
+    You can add this card from your Deck to your hand. \
+You can only use each effect of "Match for the Nordic Artifacts" once per turn. \
 """
 strings = []
 

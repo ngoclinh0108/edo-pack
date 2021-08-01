@@ -1,45 +1,46 @@
--- War for the Nordic Artifacts
+-- Match for the Nordic Artifacts
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
-s.listed_names = {91148083}
+s.listed_names = {91148083, 930000002}
 s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
-    -- act in hand
+    -- search
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_TRAP_ACT_IN_HAND)
-    e1:SetCondition(s.e1con)
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(0, TIMING_END_PHASE)
+    e1:SetCountLimit(1, id + 1000000)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- search
+    -- to hand
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e2:SetType(EFFECT_TYPE_ACTIVATE)
-    e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetHintTiming(0, TIMING_END_PHASE)
+    e2:SetCategory(CATEGORY_TOHAND)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_DELAY)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2:SetRange(LOCATION_DECK)
+    e2:SetCountLimit(1, id + 2000000)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(function(c)
-        return c:IsFaceup() and c:IsSetCard(0x4b)
-    end, e:GetHandlerPlayer(), LOCATION_MZONE, 0, 1, nil)
-end
-
-function s.e2filter(c)
+function s.e1filter(c)
     if not c:IsAbleToHand() or not c:IsSSetable(false) then return false end
     return (c:IsSetCard(0x42) and c:IsType(TYPE_SPELL + TYPE_TRAP)) or
                c:IsCode(91148083)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1,
                                            nil)
     end
 
@@ -51,11 +52,11 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_DECK, 0, 1,
+    local tc = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_DECK, 0, 1,
                                        1, nil):GetFirst()
     if not tc then return end
 
@@ -81,4 +82,25 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec1)
     end, 1159)
+end
+
+function s.e2filter(c, tp)
+    return c:IsFaceup() and c:IsControler(tp) and c:IsCode(930000002)
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.e2filter, 1, nil, tp)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsAbleToHand() end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+    Duel.SendtoHand(c, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, c)
 end
