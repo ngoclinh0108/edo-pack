@@ -7,7 +7,7 @@ s.listed_names = {93483212}
 s.listed_series = {0x4b, 0x42}
 
 function s.initial_effect(c)
-    aux.AddEquipProcedure(c, nil, aux.FilterBoolFunction(Card.IsSetCard, 0x4b))
+    aux.AddEquipProcedure(c, nil, s.equipfilter)
 
     -- unstoppable Attack
     local e1 = Effect.CreateEffect(c)
@@ -50,6 +50,8 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
+function s.equipfilter(c) return Utility.IsSetCard(c, 0x4b, 0x42) end
+
 function s.e3filter(c)
     return c:IsFaceup() and (c:IsSetCard(0x42) or c:IsSetCard(0x4b)) and
                c:IsAbleToRemoveAsCost()
@@ -59,14 +61,14 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local eqc = c:GetEquipTarget()
     if chk == 0 then
-        return eqc:IsAbleToRemoveAsCost() or (eqc:IsCode(93483212) and
+        return eqc:IsAbleToRemoveAsCost() or (eqc:IsSetCard(0x4b) and
                    Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_MZONE,
                                                0, 1, nil))
     end
 
     local sc = eqc
     local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_MZONE, 0, nil)
-    if eqc:IsCode(93483212) and #g > 1 then
+    if eqc:IsSetCard(0x4b) and #g > 1 then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
         sc = g:Select(tp, 1, 1, nil):GetFirst()
     end
@@ -90,7 +92,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         local eqc = c:GetEquipTarget()
         local exg = Group.FromCards(c)
-        if eqc:IsCode(93483212) and
+        if eqc:IsSetCard(0x4b) and
             not Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_MZONE, 0,
                                             1, eqc) then exg:AddCard(eqc) end
 
