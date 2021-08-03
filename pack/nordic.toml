@@ -595,6 +595,10 @@ set = "nordic-relic"
 name = "Divine Nordic Relic Brisingamen"
 type = "spell quick-play"
 effect = """\
+During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
+    and you control "Frigga, Mother of the Aesir": \
+    You can add this card from the GY to your hand. \
+You can only use each effect of "Divine Nordic Relic Brisingamen" once per turn. \
 """
 strings = []
 
@@ -620,6 +624,10 @@ set = "nordic-relic"
 name = "Divine Nordic Relic Andvaranaut"
 type = "spell quick-play"
 effect = """\
+During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
+    and you control "Sif, Lady of the Aesir": \
+    You can add this card from the GY to your hand. \
+You can only use each effect of "Divine Nordic Relic Andvaranaut" once per turn. \
 """
 strings = []
 
@@ -629,6 +637,10 @@ set = "nordic-relic"
 name = "Divine Nordic Relic Laevateinn"
 type = "spell quick-play"
 effect = """\
+During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
+    and you control "Loki, Lord of the Aesir": \
+    You can add this card from the GY to your hand. \
+You can only use each effect of "Divine Nordic Relic Laevateinn" once per turn. \
 """
 strings = []
 
@@ -671,7 +683,8 @@ type = "spell quick-play"
 effect = """\
 Target 1 "Aesir" or "Nordic" monster you control; until the end of this turn, that face-up monster is unaffected by your opponent's card effects, \
     then if you targeted a "Aesir" monster with this effect, you can destroy 1 card on the field. \
-If this card is in your GY (Quick Effect): You can target 1 "Aesir" monster you control; \
+If this card is in your GY, except the turn this card was sent to the GY (Quick Effect): \
+    You can target 1 "Aesir" monster you control; \
     destroy it, and if you do, add this card to your hand. \
     You can only use this effect of "Strike of the Nordic Lord" effect per turn. \
 """
@@ -683,13 +696,16 @@ set = "nordic"
 name = "Way to the Nordic Realm"
 type = "spell quick-play"
 effect = """\
-Target 1 "Aesir" or "Nordic" monster you control; until the end of this turn, it cannot be destroyed by battle or your opponent's card effects, \
-    then if you targeted a "Aesir" monster with this effect, you take no battle damage from attacks involving it. \
-If this card is in your GY (Quick Effect): You can target 1 "Aesir" monster you control; \
-    destroy it, and if you do, add this card to your hand. \
-    You can only use this effect of "Way to the Nordic Realm" effect per turn. \
+Target 1 "Aesir" or "Nordic" monster you control; destroy it, and if you do, gain LP equal to either its ATK or DEF, \
+    then if you targeted a "Aesir" monster with this effect, you take no damage this turn. \
+If a "Aesir" monster(s) you control would be destroyed by battle or card effect, \
+    you can banish this card from your GY instead. \
 """
-strings = []
+strings = [
+    "Gain LP equal to its ATK",
+    "Gain LP equal to its DEF",
+    "Affected by effect \"Way to the Nordic Realm\": Take no damage this turn",
+]
 
 [card.fiery-armageddon]
 id = 930000035
