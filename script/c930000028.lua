@@ -69,14 +69,12 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     ec2:SetCode(EVENT_BATTLE_DESTROYING)
     ec2:SetCondition(aux.bdcon)
-    ec2:SetOperation(s.e1dmgop)
+    ec2:SetOperation(function(e, tp)
+        Utility.HintCard(id)
+        Duel.Damage(1 - tp, 1000, REASON_EFFECT)
+    end)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec2)
-end
-
-function s.e1dmgop(e, tp, eg, ep, ev, re, r, rp)
-    Utility.HintCard(id)
-    Duel.Damage(1 - tp, 1000, REASON_EFFECT)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
