@@ -43,7 +43,7 @@ id = 930000002
 set = "aesir"
 name = "Frigga, Mother of the Aesir"
 type = "monster synchro effect"
-attribute = "divine"
+attribute = "wind"
 race = "creator-god"
 level = 10
 atk = 3500
@@ -66,7 +66,7 @@ alias = 30604579
 set = "aesir"
 name = "Thor, Lord of the Aesir"
 type = "monster synchro effect"
-attribute = "divine"
+attribute = "earth"
 race = "creator-god"
 level = 10
 atk = 3500
@@ -90,7 +90,7 @@ id = 930000004
 set = "aesir"
 name = "Sif, Lady of the Aesir"
 type = "monster synchro effect"
-attribute = "divine"
+attribute = "light"
 race = "creator-god"
 level = 10
 atk = 2800
@@ -111,7 +111,7 @@ alias = 67098114
 set = "aesir"
 name = "Loki, Lord of the Aesir"
 type = "monster synchro effect"
-attribute = "divine"
+attribute = "dark"
 race = "creator-god"
 level = 10
 atk = 3300
@@ -722,8 +722,14 @@ strings = [
 id = 930000035
 set = "nordic"
 name = "Nordic Horror - Fiery Armageddon"
-type = "trap counter"
+type = "trap"
 effect = """\
+You can activate this card from your hand. \
+If you control a "Aesir" monster: \
+    Target 1 Effect Monster on the field; equip this card to it. \
+    It cannot activate its effect and its effects are negated, also it loses 1000 ATK. \
+If this face-up card leaves the field: \
+    You can add 1 "Fenrir the Nordic Wolf" from your Deck or GY to your hand. \
 """
 strings = []
 
@@ -731,8 +737,14 @@ strings = []
 id = 930000036
 set = "nordic"
 name = "Nordic Horror - Ouroboros Break"
-type = "trap counter"
+type = "trap"
 effect = """\
+You can activate this card from your hand. \
+If you control a "Aesir" monster: \
+    Target 1 face-up monster your opponent controls; equip this card to it. \
+    It cannot activate its effect and its effects are negated, also take control of it. \
+If this face-up card leaves the field: \
+    You can add 1 "Jormungardr the Nordic Serpent" from your Deck or GY to your hand. \
 """
 strings = []
 
@@ -746,7 +758,7 @@ race = "fairy"
 atk = 0
 def = 0
 effect = """\
-Special Summoned with the effect of "Nordic" cards
+Special Summoned with the effect of "Nordic" cards.
 """
 strings = []
 
