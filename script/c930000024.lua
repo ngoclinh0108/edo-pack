@@ -55,18 +55,24 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c) return not c:IsStatus(STATUS_LEAVE_CONFIRMED) end
+function s.e1filter1(c) return not c:IsStatus(STATUS_LEAVE_CONFIRMED) end
+
+function s.e1filter2(c)
+    return c:IsFaceup() and c:IsSetCard(0x48) and c:IsType(TYPE_MONSTER)
+end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsLocation(LOCATION_DECK) and
-        not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_GRAVE, 0, 1,
-                                        nil, 93483212) then return false end
+        not Duel.IsExistingMatchingCard(
+            aux.FilterFaceupFunction(Card.IsCode, 93483212), tp,
+            LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil) then return false end
     return ep == tp and tp ~= rp and
-               not Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE,
+               not Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_MZONE,
                                                0, 1, nil) and
-               Duel.IsExistingMatchingCard(Card.IsSetCard, tp, LOCATION_GRAVE,
-                                           0, 1, nil, 0x4b)
+               Duel.IsExistingMatchingCard(s.e1filter2, tp,
+                                           LOCATION_GRAVE + LOCATION_REMOVED, 0,
+                                           1, nil)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
