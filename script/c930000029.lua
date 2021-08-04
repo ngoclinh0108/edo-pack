@@ -4,7 +4,7 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_nordic.lua")
 
 s.listed_names = {930000004}
-s.listed_series = {0x4b, 0x42}
+s.listed_series = {0x4b}
 
 function s.initial_effect(c)
     -- to hand

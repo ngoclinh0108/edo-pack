@@ -595,12 +595,16 @@ set = "nordic-relic"
 name = "Divine Nordic Relic Brisingamen"
 type = "spell quick-play"
 effect = """\
+Target 1 "Aesir" monster you control and 1 face-up monster your opponent controls; \
+    until the end of this turn, the ATK of the first target becomes equal to the ATK of the second target, \
+    and also, if the first target monster destroys an opponent's monster by battle, \
+    inflict damage to your opponent equal to the original ATK of the destroyed monster. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
     and you control "Frigga, Mother of the Aesir": \
     You can add this card from the GY to your hand. \
 You can only use each effect of "Divine Nordic Relic Brisingamen" once per turn. \
 """
-strings = []
+strings = ["Affected by effect \"Divine Nordic Relic Brisingamen\""]
 
 [card.mjollnir]
 id = 930000028
@@ -609,8 +613,8 @@ name = "Divine Nordic Relic Mjollnir"
 type = "spell quick-play"
 effect = """\
 Target 1 "Aesir" monster you control; this turn, it can make a second attack during each Battle Phase, \
-    also each time it destroys an opponent's monster by battle: \
-    Inflict 1000 damage to your opponent. \
+    also each time it destroys an opponent's monster by battle, \
+    inflict 1000 damage to your opponent. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
     and you control "Thor, Lord of the Aesir": \
     You can add this card from the GY to your hand. \

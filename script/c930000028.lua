@@ -66,35 +66,17 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec1)
 
     local ec2 = Effect.CreateEffect(c)
-    ec2:SetCategory(CATEGORY_DAMAGE)
-    ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
-    ec2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_PLAYER_TARGET)
+    ec2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     ec2:SetCode(EVENT_BATTLE_DESTROYING)
-    ec2:SetLabelObject(tc)
-    ec2:SetCondition(s.e1dmgcon)
-    ec2:SetTarget(s.e1dmgtg)
+    ec2:SetCondition(aux.bdcon)
     ec2:SetOperation(s.e1dmgop)
-    ec2:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec2, tp)
-end
-
-function s.e1dmgcon(e, tp, eg, ep, ev, re, r, rp)
-    local tc = e:GetLabelObject()
-    return eg:IsContains(tc) and tc:GetFlagEffect(id) ~= 0
-end
-
-function s.e1dmgtg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-
-    Duel.SetTargetPlayer(1 - tp)
-    Duel.SetTargetParam(1000)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, 1000)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    tc:RegisterEffect(ec2)
 end
 
 function s.e1dmgop(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
-    Duel.Damage(p, d, REASON_EFFECT)
+    Utility.HintCard(id)
+    Duel.Damage(1 - tp, 1000, REASON_EFFECT)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
