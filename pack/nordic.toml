@@ -637,6 +637,9 @@ set = "nordic-relic"
 name = "Divine Nordic Relic Laevateinn"
 type = "spell quick-play"
 effect = """\
+Target 1 face-up monster on the field that destroyed a monster by battle or activated its effects this turn; \
+    destroy it. Cards and effects cannot be activated in response to this card's activation. \
+    You can only activate this card during your turn, unless you control a "Aesir" monster. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
     and you control "Loki, Lord of the Aesir": \
     You can add this card from the GY to your hand. \
