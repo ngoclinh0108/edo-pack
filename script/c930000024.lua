@@ -104,8 +104,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c)
-    return Utility.IsSetCard(c, 0x4b, 0x42) and c:IsType(TYPE_MONSTER) and
-               c:IsAbleToDeck()
+    return c:IsFaceup() and Utility.IsSetCard(c, 0x4b, 0x42) and
+               c:IsType(TYPE_MONSTER) and c:IsAbleToDeck()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -118,7 +118,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectTarget(tp, s.e2filter, tp,
+    local g = Duel.SelectTarget(tp, aux.NecroValleyFilter(s.e2filter), tp,
                                 LOCATION_REMOVED + LOCATION_GRAVE, 0, 5, 5, c)
 
     Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
