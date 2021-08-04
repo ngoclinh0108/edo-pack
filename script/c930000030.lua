@@ -27,10 +27,11 @@ function s.initial_effect(c)
         Duel.RegisterEffect(ge1, 0)
         local ge2 = ge1:Clone()
         ge2:SetCode(EVENT_CHAINING)
+        ge2:SetOperation(s.e1regop2)
         Duel.RegisterEffect(ge2, 0)
         local ge3 = ge1:Clone()
         ge3:SetCode(EVENT_CHAIN_NEGATED)
-        ge3:SetOperation(s.e1regop2)
+        ge3:SetOperation(s.e1regop3)
         Duel.RegisterEffect(ge3, 0)
     end)
 
@@ -84,6 +85,11 @@ function s.e1regop1(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1regop2(e, tp, eg, ep, ev, re, r, rp)
+    re:GetHandler():RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD +
+                                           RESET_PHASE + PHASE_END, 0, 1)
+end
+
+function s.e1regop3(e, tp, eg, ep, ev, re, r, rp)
     local rc = re:GetHandler()
     local ct = rc:GetFlagEffect(id)
     rc:ResetFlagEffect(id)
