@@ -51,14 +51,12 @@ def = 4000
 effect = """\
 1 "Nordic Champion" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
-Once per turn, if the effect activation of your monster is negated by your opponent's card effect (except during the Damage Step): \
-    You can apply the negated effect, then, if that effect was activated on the field and the monster now in the GY, \
-    Special Summon it in the same position it was in when on the field, this effect's activation cannot be negated. \
-    This card must be face-up on the field to activate and to resolve this effect. \
+Once per turn, when your opponent's card or effect is activated that targets a card(s) (Quick Effect): \
+    You can negate the effect, and if you do, you can apply that negated effect at your own. \
 ${NORDIC_GOD_REBORN} \
 If Summoned this way: You can add to your hand, or Set, 1 Spell that is banished or is in your GY. \
 """
-strings = ["Apply the negated monster's effect"]
+strings = ["Negate the effect", "Use the negated effect"]
 
 [card.thor]
 id = 930000003
@@ -98,12 +96,14 @@ def = 3500
 effect = """\
 1 LIGHT "Nordic" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
-Once per turn, when your opponent's card or effect is activated that targets a card(s) (Quick Effect): \
-    You can negate the effect, and if you do, you can apply that negated effect at your own. \
+Once per turn, if the effect activation of your monster is negated by your opponent's card effect (except during the Damage Step): \
+    You can apply the negated effect, then, if that effect was activated on the field and the monster now in the GY, \
+    Special Summon it in the same position it was in when on the field, this effect's activation cannot be negated. \
+    This card must be face-up on the field to activate and to resolve this effect. \
 ${NORDIC_GOD_REBORN} \
 If Summoned this way: You can gain 1000 LP for each "Aesir" monster you control. \
 """
-strings = ["Negate the effect", "Use the negated effect"]
+strings = ["Apply the negated monster's effect"]
 
 [card.loki]
 id = 930000005
