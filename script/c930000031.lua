@@ -52,9 +52,6 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                 nil, e, tp)
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
-    if g:IsExists(Card.IsSetCard, 1, nil, 0x4b) then
-        Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
-    end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -62,7 +59,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc:IsRelateToEffect(e) then return end
 
-    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    local sumtype = 0
+    if tc:IsSetCard(0x4b) then sumtype = 1 end
+    Duel.SpecialSummon(tc, sumtype, tp, tp, false, false, POS_FACEUP)
+    
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(aux.Stringid(id, 0))
     ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)

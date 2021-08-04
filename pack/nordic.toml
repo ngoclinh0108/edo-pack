@@ -628,12 +628,16 @@ set = "nordic-relic"
 name = "Divine Nordic Relic Andvaranaut"
 type = "spell quick-play"
 effect = """\
+Target 1 "Aesir" or "Nordic" monster you control; until the end of this turn, \
+    its ATK/DEF become double its original ATK/DEF, but it cannot attack your opponent directly. \
+    If you target a "Aesir" monster with this effect, each time it destroys an opponent's monster by battle, \
+    gain LP equal to the original DEF of the destroyed monster. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
     and you control "Sif, Lady of the Aesir": \
     You can add this card from the GY to your hand. \
 You can only use each effect of "Divine Nordic Relic Andvaranaut" once per turn. \
 """
-strings = []
+strings = ["Affected by effect \"Divine Nordic Relic Andvaranaut\""]
 
 [card.laevateinn]
 id = 930000030
@@ -658,7 +662,7 @@ name = "Hall of the Nordic Fallen"
 type = "spell"
 effect = """\
 Target 1 "Aesir" or "Nordic" monster in your GY; Special Summon it, but destroy it during the End Phase. \
-    If you target a "Aesir" monster with this effect, your opponent cannot activate cards or effects in response to this effect's activation. \
+    If you target a "Aesir" monster with this effect, it is treated as if it was Special Summoned by its own. \
 During your Main Phase, if this card is in your GY: \
     You can banish this card from your GY; Shuffle into the Deck \
     1 your "Nordic" Tuner monster and 2 your non-Tuner "Nordic" monsters whose total Levels equal 10, that is banished or in your GY; \
