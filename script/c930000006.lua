@@ -70,7 +70,7 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DELAY +
                        EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e2:SetCode(EVENT_DESTROYED)
+    e2:SetCode(EVENT_LEAVE_FIELD)
     e2:SetCountLimit(1, id)
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
@@ -113,9 +113,7 @@ function s.e2filter(c, e, tp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:IsPreviousLocation(LOCATION_MZONE) and
-               c:IsReason(REASON_BATTLE + REASON_EFFECT)
+    return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
