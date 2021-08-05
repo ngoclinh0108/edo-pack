@@ -81,7 +81,7 @@ function s.e2filter1(c, e, tp)
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
                Duel.IsExistingMatchingCard(s.e2filter2, tp,
                                            LOCATION_GRAVE + LOCATION_REMOVED, 0,
-                                           2, nil, e, tp, c)
+                                           1, nil, e, tp, c)
 end
 
 function s.e2filter2(c, e, tp, sc)
@@ -101,7 +101,7 @@ function s.e2rescon(tuner, sc)
     return function(sg, e, tp, mg)
         sg:AddCard(tuner)
         local res = Duel.GetLocationCountFromEx(tp, tp, sg, sc) > 0 and
-                        sg:CheckWithSumEqual(Card.GetLevel, 10, #sg, #sg)
+                        sg:CheckWithSumEqual(Card.GetLevel, 10, 3, 3)
         sg:RemoveCard(tuner)
         return res
     end
