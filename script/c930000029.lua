@@ -84,7 +84,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec3:SetCondition(aux.bdcon)
         ec3:SetOperation(function(e, tp)
             Utility.HintCard(id)
-            Duel.Recover(tp, e:GetHandler():GetBattleTarget():GetBaseDefense(),
+            Duel.Recover(tp, e:GetHandler():GetBattleTarget():GetBaseAttack(),
                          REASON_EFFECT)
         end)
         ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)

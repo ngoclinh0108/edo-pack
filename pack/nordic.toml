@@ -631,7 +631,7 @@ effect = """\
 Target 1 "Aesir" or "Nordic" monster you control; until the end of this turn, \
     its ATK/DEF become double its original ATK/DEF, but it cannot attack your opponent directly. \
     If you target a "Aesir" monster with this effect, each time it destroys an opponent's monster by battle, \
-    gain LP equal to the original DEF of the destroyed monster. \
+    gain LP equal to the original ATK of the destroyed monster. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
     and you control "Sif, Lady of the Aesir": \
     You can add this card from the GY to your hand. \
