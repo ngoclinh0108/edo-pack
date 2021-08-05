@@ -33,7 +33,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    if not c:IsAbleToHand() or not c:IsSSetable(false) then return false end
+    if not (c:IsAbleToHand() or c:IsSSetable(false)) then return false end
     return (c:IsSetCard(0x42) and c:IsType(TYPE_SPELL + TYPE_TRAP)) or
                c:IsCode(91148083)
 end
