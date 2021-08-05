@@ -8,6 +8,7 @@ s.material_setcode = {0x42}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    c:SetUniqueOnField(1, 0, id)
 
     -- fusion summon
     Fusion.AddProcMixN(c, true, true, s.fusfilter, 3)
