@@ -81,7 +81,7 @@ function s.e2filter1(c, e, tp)
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
                Duel.IsExistingMatchingCard(s.e2filter2, tp,
                                            LOCATION_GRAVE + LOCATION_REMOVED, 0,
-                                           1, nil, e, tp, c)
+                                           2, nil, e, tp, c)
 end
 
 function s.e2filter2(c, e, tp, sc)
