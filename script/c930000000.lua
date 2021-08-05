@@ -49,6 +49,19 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- change effect
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetCode(EVENT_CHAINING)
+    e4:SetRange(LOCATION_FZONE)
+    e4:SetCountLimit(1, id)
+    e4:SetCondition(s.e4con)
+    e4:SetCost(s.e4cost)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e3filter(c)
@@ -100,4 +113,49 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
+end
+
+function s.e4filter1(c) return c:IsSetCard(0x42) and c:IsAbleToGraveAsCost() end
+
+function s.e4filter2(c) return c:IsFaceup() and not c:IsType(TYPE_FIELD) end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return rp == 1 - tp and
+               Duel.IsExistingMatchingCard(
+                   aux.FilterFaceupFunction(Card.IsSetCard, 0x4b), tp,
+                   LOCATION_MZONE, 0, 1, nil)
+end
+
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter1, tp,
+                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+                                           nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+    local g = Duel.SelectMatchingCard(tp, s.e4filter1, tp,
+                                      LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
+                                      nil)
+    Duel.SendtoGrave(g, REASON_COST)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter2, tp, LOCATION_ONFIELD, 0,
+                                           1, nil)
+    end
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Group.CreateGroup()
+    Duel.ChangeTargetCard(ev, g)
+    Duel.ChangeChainOperation(ev, s.e4desop)
+end
+
+function s.e4desop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, 1 - tp, HINTMSG_DESTROY)
+    local g = Duel.SelectMatchingCard(1 - tp, s.e4filter2, 1 - tp,
+                                      LOCATION_ONFIELD, 0, 1, 1, nil)
+    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
 end

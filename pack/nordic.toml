@@ -9,8 +9,12 @@ While you control "Aesir" monster, your opponent cannot target this card with ca
 During your Draw phase, if you do not control a "Aesir" monster, instead of conducting your normal draw: \
     You can randomly add 1 "Nordic" Tuner monster from your Deck to your hand. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
+When your opponent activates a card or effect, and you control a "Aesir" monster: \
+    You can send 1 "Nordic" card from your hand or Deck to the GY; \
+    the activated effect becomes "Your opponent destroy 1 face-up card they control, except Field Spell Card". \
+    You can only use this effect of "Asgard the Aesir Realm" once per turn. \
 """
-strings = []
+strings = ["Change the effect to \"Your opponent destroy 1 card they control\""]
 
 [card.odin]
 id = 930000001
