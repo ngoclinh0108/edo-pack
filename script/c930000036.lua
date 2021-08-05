@@ -42,7 +42,7 @@ function s.e2filter(c, e, tp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsFaceup,
+    return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,
                                                                 0x4b), tp,
                                        LOCATION_MZONE, 0, 1, nil)
 end
