@@ -109,7 +109,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
     local fid = c:GetFieldID()
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 1, fid)
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END - RESET_TOFIELD, 0, 1, fid)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
