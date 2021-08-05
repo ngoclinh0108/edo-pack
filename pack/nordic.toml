@@ -167,7 +167,7 @@ level = 9
 atk = 800
 def = 2800
 effect = """\
-3 "Nordic" monsters with different Types, except Fusion, Synchro, Xyz and Link Monsters
+3 "Nordic" monsters with a Level and different Types, except Token
 Must first be Special Summoned (from your Extra Deck) by sending the above cards you control to the GY. (You do not use "Polymerization".) \
 During the Standby Phase, if this card is in your GY: \
     You can target 1 face-up monster you control, except "Hela the Nordic Death"; destroy it, \

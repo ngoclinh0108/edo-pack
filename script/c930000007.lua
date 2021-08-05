@@ -49,12 +49,8 @@ end
 function s.fusfilter(c, fc, sumtype, tp, sub, mg, sg)
     return (not sg or
                not sg:IsExists(Card.IsRace, 1, c, c:GetRace(), fc, sumtype, tp)) and
-               c:IsSetCard(0x42, fc, sumtype, tp) and
-               c:IsType(TYPE_MONSTER, fc, sumtype, tp) and
-               not c:IsType(TYPE_FUSION, fc, sumtype, tp) and
-               not c:IsType(TYPE_SYNCHRO, fc, sumtype, tp) and
-               not c:IsType(TYPE_XYZ, fc, sumtype, tp) and
-               not c:IsType(TYPE_LINK, fc, sumtype, tp)
+               c:HasLevel() and c:IsSetCard(0x42, fc, sumtype, tp) and
+               not c:IsType(TYPE_TOKEN, fc, sumtype, tp)
 end
 
 function s.contactfilter(tp)
