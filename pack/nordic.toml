@@ -648,11 +648,12 @@ strings = ["Affected by effect \"Divine Nordic Relic Andvaranaut\""]
 id = 930000030
 set = "nordic-relic"
 name = "Divine Nordic Relic Laevateinn"
-type = "spell quick-play"
+type = "trap"
 effect = """\
 Target 1 face-up monster on the field that destroyed a monster by battle or activated its effects this turn; \
     destroy it. Cards and effects cannot be activated in response to this card's activation. \
-    You can only activate this card during your turn, unless you control a "Aesir" monster. \
+    You can only activate this card during your turn, unless you control a "Aesir" or "Nordic" monster. \
+If you control a "Aesir" monster, you can activate this card from your hand. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
     and you control "Loki, Lord of the Aesir": \
     You can add this card from the GY to your hand. \
@@ -680,7 +681,7 @@ strings = ["Self destroy by effect of \"Hall of the Nordic Fallen\""]
 id = 930000032
 set = "nordic"
 name = "Match for the Nordic Artifacts"
-type = "trap"
+type = "spell quick-play"
 effect = """\
 If you control a "Aesir" monster, your opponent cannot activate cards or effects in response to this card's effect activation. \
 Take 1 "Nordic" Spell/Trap Card or 1 "Gotterdammerung" from your Deck, except "Match for the Nordic Artifacts", \
