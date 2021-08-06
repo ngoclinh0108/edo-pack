@@ -32,6 +32,8 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
+function s.e1filter(c) return c:IsFaceup() and Utility.IsSetCard(c, 0x4b, 0x42) end
+
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or
                not Duel.IsDamageCalculated()
@@ -39,17 +41,15 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.FilterFaceupFunction(Card.IsFaceup,
-                                                              0x4b), tp,
-                                     LOCATION_MZONE, 0, 1, nil) and
-                   Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_MZONE,
-                                         1, nil)
+        return
+            Duel.IsExistingTarget(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil) and
+                Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1,
+                                      nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELF)
-    local tc = Duel.SelectTarget(tp,
-                                 aux.FilterFaceupFunction(Card.IsFaceup, 0x4b),
-                                 tp, LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
+    local tc = Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_MZONE, 0, 1, 1,
+                                 nil):GetFirst()
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_OPPO)
     Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1, nil)
     e:SetLabelObject(tc)
@@ -68,10 +68,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         tc1 = ac
     end
 
-    tc1:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                               PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
-                           aux.Stringid(id, 0))
-
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
@@ -79,17 +75,25 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc1:RegisterEffect(ec1)
 
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    ec2:SetCode(EVENT_BATTLE_DESTROYING)
-    ec2:SetCondition(aux.bdcon)
-    ec2:SetOperation(function(e, tp)
-        Utility.HintCard(id)
-        Duel.Damage(1 - tp, e:GetHandler():GetBattleTarget():GetBaseAttack(),
-                    REASON_EFFECT)
-    end)
-    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    tc1:RegisterEffect(ec2)
+    if tc1:IsSetCard(0x4b) then
+        tc1:RegisterFlagEffect(id,
+                               RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                                   PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
+                               aux.Stringid(id, 0))
+
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+        ec2:SetCode(EVENT_BATTLE_DESTROYING)
+        ec2:SetCondition(aux.bdcon)
+        ec2:SetOperation(function(e, tp)
+            Utility.HintCard(id)
+            Duel.Damage(1 - tp,
+                        e:GetHandler():GetBattleTarget():GetBaseAttack(),
+                        REASON_EFFECT)
+        end)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc1:RegisterEffect(ec2)
+    end
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)

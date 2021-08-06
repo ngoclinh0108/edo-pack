@@ -600,9 +600,9 @@ set = "nordic-relic"
 name = "Divine Nordic Relic Brisingamen"
 type = "spell quick-play"
 effect = """\
-Target 1 "Aesir" monster you control and 1 face-up monster your opponent controls; until the end of this turn, \
+Target 1 "Aesir" or "Nordic" monster you control and 1 face-up monster your opponent controls; until the end of this turn, \
     the ATK of the first target becomes equal to the ATK of the second target, \
-    also, if the first target destroys an opponent's monster by battle, \
+    also, if the first target was a "Aesir" monster destroys an opponent's monster by battle, \
     inflict damage to your opponent equal to the original ATK of the destroyed monster. \
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY \
     and you control "Frigga, Mother of the Aesir": \
