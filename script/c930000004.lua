@@ -12,8 +12,8 @@ function s.initial_effect(c)
 
     -- synchro summon
     Synchro.AddProcedure(c, function(c, sc, sumtype, tp)
-        return c:IsAttribute(ATTRIBUTE_LIGHT, sc, sumtype, tp) and
-                   c:IsSetCard(0x42, sc, sumtype, tp)
+        return c:IsSetCard(0x42, sc, sumtype, tp) or
+                   c:IsHasEffect(EFFECT_SYNSUB_NORDIC)
     end, 1, 1, Synchro.NonTuner(nil), 2, 99)
 
     -- apply negated effect

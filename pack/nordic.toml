@@ -47,7 +47,7 @@ id = 930000002
 set = "aesir"
 name = "Frigga, Mother of the Aesir"
 type = "monster synchro effect"
-attribute = "wind"
+attribute = "light"
 race = "creator-god"
 level = 10
 atk = 3500
@@ -92,13 +92,13 @@ id = 930000004
 set = "aesir"
 name = "Sif, Lady of the Aesir"
 type = "monster synchro effect"
-attribute = "light"
+attribute = "wind"
 race = "creator-god"
 level = 10
 atk = 2800
 def = 3500
 effect = """\
-1 LIGHT "Nordic" Tuner + 2+ non-Tuner monsters
+1 "Nordic" Tuner + 2+ non-Tuner monsters
 ${AESIR_GOD_EFFECT} \
 Once per turn, if the effect activation of your monster is negated by your opponent's card effect (except during the Damage Step): \
     You can apply the negated effect, then, if that effect was activated on the field and the monster now in the GY, \
