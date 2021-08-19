@@ -97,18 +97,28 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetValue(-2)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec1)
-        if c:IsRelateToEffect(e) then
-            Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+
+        if c:IsRelateToEffect(e) and
+            Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) ~=
+            0 then
+            local ec2 = Effect.CreateEffect(c)
+            ec2:SetDescription(3301)
+            ec2:SetType(EFFECT_TYPE_SINGLE)
+            ec2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
+            ec2:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
+            ec2:SetValue(LOCATION_DECKSHF)
+            ec2:SetReset(RESET_EVENT + RESETS_REDIRECT)
+            c:RegisterEffect(ec2, true)
         end
     end
 
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetDescription(aux.Stringid(id, 0))
-    ec2:SetType(EFFECT_TYPE_FIELD)
-    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
-    ec2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec2:SetTargetRange(1, 0)
-    ec2:SetTarget(function(e, c) return not c:IsSetCard(0x4b) end)
-    ec2:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec2, tp)
+    local ec3 = Effect.CreateEffect(c)
+    ec3:SetDescription(aux.Stringid(id, 0))
+    ec3:SetType(EFFECT_TYPE_FIELD)
+    ec3:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+    ec3:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec3:SetTargetRange(1, 0)
+    ec3:SetTarget(function(e, c) return not c:IsSetCard(0x4b) end)
+    ec3:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec3, tp)
 end

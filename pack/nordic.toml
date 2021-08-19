@@ -267,7 +267,8 @@ effect = """\
 If this card is sent to the GY to activate a "Nordic" monster's effect: \
     You can Special Summon 2 "Nordic Ascendant Tokens" \
     (Fairy/LIGHT/Level ?/ATK 0/DEF 0, this Token's Level becomes that monster's original Level.) \
-If this card is in your GY: You can Special Summon this card in Defense Position, \
+If this card is in your GY: \
+    You can Special Summon this card in Defense Position, but return it into the Deck when it leaves the field, \
     also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
     You must control a "Nordic" Tuner monster to activate and to resolve this effect. \
 You can only use each effect of "Sigrun of the Nordic Ascendant" once per turn. \
@@ -333,6 +334,7 @@ If this card is sent to the GY to activate a "Nordic" card's effect: \
     You can Special Summon 2 "Einherjar Tokens" (Warrior/EARTH/Level 4/ATK 1000/DEF 1000). \
 If this card is in your GY: You can target 1 Level 3 or higher "Nordic" monster you control; \
     reduce its Level by 2, and if you do, Special Summon this card in Defense Position, \
+    but return it into the Deck when it leaves the field, \
     also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
 You can only use each effect of "Hervor of the Nordic Champions" once per turn. \
 """
@@ -415,7 +417,7 @@ effect = """\
 If this card is sent to the GY to activate a "Nordic" card's effect: \
     You can Special Summon 2 "Nordic Beast Tokens" (Beast/EARTH/Level 3/ATK 0/DEF 0). \
 If this card is in your GY: You can shuffle 1 "Nordic" card from your hand into the Deck; \
-    Special Summon this card in Defense Position, \
+    Special Summon this card in Defense Position, but return it into the Deck when it leaves the field, \
     also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
 You can only use each effect of "Ratatoskr of the Nordic Beasts" once per turn. \
 """
@@ -501,6 +503,7 @@ If this card is sent to the GY to activate a "Nordic" card's effect: \
     You can Special Summon 2 "Malus Tokens" (Fiend/DARK/Level 1/ATK 0/DEF 0). \
 If this card is in your GY: You can target 1 face-up monster you control; \
     destroy it, and if you do, Special Summon this card in Defense Position, \
+    but return it into the Deck when it leaves the field, \
     also you cannot Special Summon monsters for the rest of this turn, except "Aesir" monsters. \
 You can only use each effect of "Dvalinn of The Nordic Alfar" once per turn. \
 """
