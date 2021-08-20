@@ -188,7 +188,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         returnend:SetCode(EVENT_PHASE + PHASE_END)
         returnend:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
             local c = e:GetHandler()
-            if not c:IsSummonType(SUMMON_TYPE_SPECIAL) then
+            if not c:IsSummonType(SUMMON_TYPE_SPECIAL) or
+                c:IsPreviousLocation(LOCATION_ONFIELD) then
                 return false
             end
             return (c:IsPreviousLocation(LOCATION_HAND) and c:IsAbleToHand()) or
