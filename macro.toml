@@ -10,7 +10,7 @@ When Normal Summoned, other cards and effects cannot be activated.\
 EGYPTIAN_IMMUNITY = """\
 This card's activation and effects cannot be negated. \
 Control of this card cannot switch. \
-Cannot be flipped face-down. \
+Cannot be changed to face-down Position. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
 Unaffected by Spell/Trap effects that would make this card leave the field. \
 Unaffected by other monsters' effects, except the monsters with the same or higher Divine Hierarchy. \

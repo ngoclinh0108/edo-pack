@@ -29,15 +29,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
         end)
         c:RegisterEffect(sumactlimit)
     end
-end
-
-function Divine.DivineImmunity(c, summon_mode, summon_extra)
-    -- summon mode
-    if summon_mode == "egyptian" then
-        summonEgyptian(c, summon_extra)
-    elseif summon_mode == "wicked" then
-        summonWicked(c, summon_extra)
-    end
 
     -- activation and effects cannot be negated
     local inact = Effect.CreateEffect(c)
@@ -54,11 +45,30 @@ function Divine.DivineImmunity(c, summon_mode, summon_extra)
     c:RegisterEffect(inact2)
     local nodis = Effect.CreateEffect(c)
     nodis:SetType(EFFECT_TYPE_SINGLE)
-    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE +
+                          EFFECT_FLAG_CANNOT_NEGATE)
     nodis:SetCode(EFFECT_CANNOT_DISABLE)
     nodis:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nodis)
 
+    -- control cannot switch
+    local noswitch = Effect.CreateEffect(c)
+    noswitch:SetType(EFFECT_TYPE_SINGLE)
+    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    noswitch:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(noswitch)
+
+    -- cannot be face-down
+    local noset = Effect.CreateEffect(c)
+    noset:SetType(EFFECT_TYPE_SINGLE)
+    noset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noset:SetCode(EFFECT_CANNOT_TURN_SET)
+    noset:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(noset)
+end
+
+function Divine.DivineImmunity(c, summon_mode, summon_extra)
     -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
@@ -89,22 +99,6 @@ function Divine.DivineImmunity(c, summon_mode, summon_extra)
     local nolnk = nofus:Clone()
     nolnk:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
     c:RegisterEffect(nolnk)
-
-    -- cannot be flipped face-down
-    local noflip = Effect.CreateEffect(c)
-    noflip:SetType(EFFECT_TYPE_SINGLE)
-    noflip:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noflip:SetCode(EFFECT_CANNOT_TURN_SET)
-    noflip:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(noflip)
-
-    -- cannot be switch control
-    local noswitch = Effect.CreateEffect(c)
-    noswitch:SetType(EFFECT_TYPE_SINGLE)
-    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    noswitch:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(noswitch)
 
     -- immunity
     local immunity = Effect.CreateEffect(c)
