@@ -1,7 +1,10 @@
 [macro]
 
 HIERARCHY = """(This card's base Divine Hierarchy is $1.)"""
-HIERARCHY_ALIAS = """(This card is always treated as "$2", it's base Divine Hierarchy is $1.)"""
+HIERARCHY_ALIAS = """\
+(This card's base Divine Hierarchy is $1.)
+(This card's name is always treated as "$2".)\
+"""
 EGYPTIAN_SUMMON = """\
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated.\
