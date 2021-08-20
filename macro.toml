@@ -11,8 +11,8 @@ This card's activation and effects cannot be negated. \
 Control of this card cannot switch. \
 Cannot be changed to face-down Position. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
-Unaffected by other cards' effects that would make this card leave the field, \
-    except the cards with the same or higher Divine Hierarchy. \
+Unaffected by Spell/Trap effects that would make this card leave the field, \
+    and also other monster effects, except the monsters with the same or higher Divine Hierarchy. \
 Other cards' effects are only applied on this card for 1 turn.\
 """
 EGYPTIAN_LIMIT = """\

@@ -1,4 +1,4 @@
--- The Sky Divine Dragon of Osiris
+-- Sky Divine Dragon of Osiris
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()

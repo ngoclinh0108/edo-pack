@@ -94,16 +94,13 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     immunity:SetValue(function(e, te)
         local c = e:GetHandler()
         local tc = te:GetHandler()
-
-        if (tc == c) or
-            (tc.divine_hierarchy and tc.divine_hierarchy >= c.divine_hierarchy) then
-            return false
-        end
-
-        return te:IsHasCategory(CATEGORY_TOHAND + CATEGORY_DESTROY +
-                                    CATEGORY_REMOVE + CATEGORY_TODECK +
-                                    CATEGORY_RELEASE + CATEGORY_TOGRAVE +
-                                    CATEGORY_FUSION_SUMMON)
+        return (te:IsActiveType(TYPE_MONSTER) and tc ~= c and
+                   (not tc.divine_hierarchy or tc.divine_hierarchy <
+                       c.divine_hierarchy)) or
+                   te:IsHasCategory(
+                       CATEGORY_TOHAND + CATEGORY_DESTROY + CATEGORY_REMOVE +
+                           CATEGORY_TODECK + CATEGORY_RELEASE + CATEGORY_TOGRAVE +
+                           CATEGORY_FUSION_SUMMON)
     end)
     c:RegisterEffect(immunity)
     local noleave = Effect.CreateEffect(c)
@@ -116,9 +113,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         if chk == 0 then
             return
                 c:IsReason(REASON_EFFECT) and r & REASON_EFFECT ~= 0 and re and
-                    re:GetHandler() ~= c and
-                    (not re:GetHandler().divine_hierarchy or
-                        re:GetHandler().divine_hierarchy < c.divine_hierarchy)
+                    re:IsActiveType(TYPE_SPELL + TYPE_TRAP)
         end
         return true
     end)

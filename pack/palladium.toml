@@ -1,7 +1,7 @@
 [card.obelisk]
 id = 910000001
 alias = 10000000
-name = "The Giant Divine Soldier of Obelisk"
+name = "Giant Divine Soldier of Obelisk"
 type = "monster effect"
 attribute = "divine"
 race = "divine-beast"
@@ -23,7 +23,7 @@ strings = ["Destroy all monsters your opponent controls"]
 [card.osiris]
 id = 910000002
 alias = 10000020
-name = "The Sky Divine Dragon of Osiris"
+name = "Sky Divine Dragon of Osiris"
 type = "monster effect"
 attribute = "divine"
 race = "divine-beast"
@@ -36,10 +36,29 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_IMMUNITY} \
 ${EGYPTIAN_LIMIT} \
 While face-up on the field, this card is also Dragon-Type. \
-The original ATK/DEF of this card each become equal to the number of cards in your hand x X000. (X is this card Divine Hierarchy.) \
+The original ATK and DEF of this card each become equal to the number of cards in your hand x X000. (X is this card Divine Hierarchy.) \
 If a monster(s) is Summoned to your opponent's field: \
     That monster(s) loses 2000 ATK if it is in face-up Attack Position, or 2000 DEF if it is in face-up Defense Position, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it, \
     it cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
+
+[card.ra]
+id = 910000003
+alias = 10000010
+name = "Winged Divine Beast of Ra"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
+${EGYPTIAN_SUMMON} \
+${EGYPTIAN_IMMUNITY} \
+${EGYPTIAN_LIMIT} \
+While face-up on the field, this card is also Winged-Beast-Type. \
+"""
+strings = []

@@ -1,12 +1,10 @@
--- Ra the Sun Divine Beast
+-- Winged Divine Beast of Ra
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.SetHierarchy(s, 2)
-    Divine.DivineImmunity(c, "egyptian")
-    Divine.ToGraveLimit(c)
+    Divine.DivineHierarchy(s, c, 1, true, true)
 
     -- race
     local e1 = Effect.CreateEffect(c)
@@ -14,6 +12,6 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetCode(EFFECT_ADD_RACE)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(RACE_PYRO + RACE_WINGEDBEAST)
+    e1:SetValue(RACE_WINGEDBEAST)
     c:RegisterEffect(e1)
 end
