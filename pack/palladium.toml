@@ -102,7 +102,27 @@ atk = "?"
 def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra - Immortal Phoenix}
-Immediately after your "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
+Immediately after "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
     Dimension Change it to this card in the same battle position. \
+${EGYPTIAN_EFFECT} \
+While face-up on the field, this card is also Pyro-Type. \
+This card's battle position cannot be changed by a card effect. \
+Cannot be destroyed by battle with a monster with lower Divine Hierarchy, also you take no battle damage from that battle. \
+Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+Once per turn (Quick Effect): You can Tribute any number of other monsters; \
+    this card gains original ATK/DEF equal to the combined original ATK/DEF the Tributed monsters. \
+Once per turn (Quick Effect): You can pay LP so that you only have 1 left; This card gains original ATK/DEF equal to the amount of LP paid, \
+    and also, during this turn, while this card is on the field, any increase in LP is changed to increase this card's ATK/DEF instead. \
+    Cards and effects cannot be activated in response to this effect's activation. \
+Once per chain (Quick Effect): You can pay 1000 LP, \
+    then destroy 1 other monster on the field with the same or lower Divine Hierarchy, ignoring card effects. \
+During the End Phase, \
+    Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in Defense Position if able (Transfer materials to it.) \
+    if you don't, send this card to the GY. \
 """
-strings = []
+strings = [
+    "Tribtue monsters for ATK/DEF",
+    "Life Point transfer",
+    "Destroy 1 monster",
+    "Return this card"
+]
