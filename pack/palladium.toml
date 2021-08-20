@@ -84,7 +84,7 @@ Neither player can target this card for attacks or by card effects. \
 Once per turn: You can send this card to the Dimension Zone; \
     Dimension Summon the Dimension Material Monster, ignoring its Summoning conditions, \
     and if they do, original ATK/DEF of it become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon, \
-    if the ATK/DEF are 0/0 then it become 4000/4000. Also, it can attack this turn. \
+    if the combined ATK/DEF are 0/0 then it become 4000/4000. Also, reset the effects that prevent it from attacking. \
     Only the original owner of this card can use this effect. \
     Cards and effects cannot be activated in response to this effect's activation. \
 """
