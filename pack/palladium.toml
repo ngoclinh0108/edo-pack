@@ -1,8 +1,8 @@
 
-[card.slifer]
+[card.osiris]
 id = 910000001
 alias = 10000020
-name = "Slifer the Sky Divine Dragon"
+name = "The Sky Divine Dragon of Osiris"
 type = "monster effect"
 attribute = "divine"
 race = "divine-beast"
