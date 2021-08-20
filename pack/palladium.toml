@@ -1,6 +1,27 @@
+[card.obelisk]
+id = 910000001
+alias = 10000000
+name = "The Giant Divine Soldier of Obelisk"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
+${EGYPTIAN_SUMMON} \
+${EGYPTIAN_IMMUNITY} \
+${EGYPTIAN_LIMIT} \
+While face-up on the field, this card is also Warrior-Type. \
+When a card or effect is activated that targets this card, negate that effect. \
+Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Effect): \
+    You can Tribute 2 other monsters; destroy all monsters your opponent controls. \
+"""
+strings = ["Destroy all monsters your opponent controls"]
 
 [card.osiris]
-id = 910000001
+id = 910000002
 alias = 10000020
 name = "The Sky Divine Dragon of Osiris"
 type = "monster effect"
@@ -16,7 +37,7 @@ ${EGYPTIAN_IMMUNITY} \
 ${EGYPTIAN_LIMIT} \
 While face-up on the field, this card is also Dragon-Type. \
 The original ATK/DEF of this card each become equal to the number of cards in your hand x X000. (X is this card Divine Hierarchy.) \
-While this card is able to attack, if a monster(s) is Summoned to your opponent's field: \
+If a monster(s) is Summoned to your opponent's field, while this card is able to attack: \
     That monster(s) loses 2000 ATK if it is in face-up Attack Position, or 2000 DEF if it is in face-up Defense Position, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it, \
     those monster(s) cannot activate its effects in response to this effect's activation. \
