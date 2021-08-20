@@ -57,15 +57,7 @@ function s.e3filter(c, e, tp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return eg:IsExists(s.e3filter, 1, nil, nil, 1 - tp) and
-               (not c:IsHasEffect(EFFECT_CANNOT_ATTACK_ANNOUNCE) and
-                   not c:IsHasEffect(EFFECT_FORBIDDEN) and
-                   not c:IsHasEffect(EFFECT_CANNOT_ATTACK) and
-                   not Duel.IsPlayerAffectedByEffect(tp,
-                                                     EFFECT_CANNOT_ATTACK_ANNOUNCE) and
-                   not Duel.IsPlayerAffectedByEffect(tp, EFFECT_CANNOT_ATTACK) or
-                   c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK))
+    return eg:IsExists(s.e3filter, 1, nil, nil, 1 - tp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)

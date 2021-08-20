@@ -17,18 +17,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
         sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
         c:RegisterEffect(sumsafe)
-
-        -- act limit when summoning
-        local sumactlimit = Effect.CreateEffect(c)
-        sumactlimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-        sumactlimit:SetCode(EVENT_SUMMON_SUCCESS)
-        sumactlimit:SetOperation(function(e)
-            local c = e:GetHandler()
-            Duel.SetChainLimitTillChainEnd(function(e)
-                return e:GetHandler() == c
-            end)
-        end)
-        c:RegisterEffect(sumactlimit)
     end
 
     -- activation and effects cannot be negated
