@@ -117,7 +117,7 @@ Once per turn (Quick Effect): You can pay LP so that you only have 1 left; This 
 Once per chain (Quick Effect): You can pay 1000 LP, \
     then destroy 1 other monster on the field with the same or lower Divine Hierarchy, ignoring card effects. \
 During the End Phase, \
-    Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in Defense Position if able (Transfer materials to it.) \
+    Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in Defense Position (Transfer materials to it.) \
     if you don't, send this card to the GY. \
 """
 strings = [
