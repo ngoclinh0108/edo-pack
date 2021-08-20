@@ -4,29 +4,21 @@ HIERARCHY = """(This card's base Divine Hierarchy is $1.)"""
 HIERARCHY_ALIAS = """(This card's name is always treated as "$2". This card's base Divine Hierarchy is $1.)"""
 EGYPTIAN_SUMMON = """\
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
-This card's Normal Summon cannot be negated.\
+This card's Normal Summon cannot be negated. \
+When Normal Summoned, other cards and effects cannot be activated.\
 """
-EGYPTIAN_DIVINE_IMMUNITY = """\
+EGYPTIAN_IMMUNITY = """\
 This card's activation and effects cannot be negated. \
-Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+Control of this card cannot switch. \
 Cannot be flipped face-down. \
-Possession of this card cannot be switched. \
-Unaffected by your opponent's monster effects and other cards' effects that would make this card leave the field, \
-    except cards' effects with the same or higher Divine Hierarchy. \
-Cannot be destroyed by battle with a monster has lower Divine Hierarchy, also you take no Battle Damage from that battle. \
-Cards' effects are only applied on this card for 1 turn.\
-"""
-EGYPTIAN_DIVINE_LIMIT = """\
-During the End Phase, if this card was Special Summoned from the GY: Send it to the GY.\
-"""
-EGYPTIAN_GOD_IMMUNITY = """\
-This card's Special Summon cannot be negated. \
-This card's activation and effects cannot be negated. \
 Cannot be Tributed, or be used as a material for a Summon by your opponent. \
-Cannot be flipped face-down. \
-Possession of this card cannot be switched. \
-Unaffected by other cards' effects, except cards' effects with the same or higher Divine Hierarchy. \
-Cannot be destroyed by battle with a monster have no or lower Divine Hierarchy, also you take no Battle Damage from that battle.\
+Unaffected by Spell/Trap effects that would make this card leave the field. \
+Unaffected by other monsters' effects, except the monsters with the same or higher Divine Hierarchy. \
+Cannot be destroyed by battle with a monster with lower Divine Hierarchy, also you take no Battle Damage from that battle. \
+Other cards' effects are only applied on this card for 1 turn.\
+"""
+EGYPTIAN_LIMIT = """\
+Once per turn, during the End Phase, if this card was Special Summoned, return this card to the location it was Special Summoned from.\
 """
 
 NORDIC_GOD_EFFECT = """\

@@ -5,6 +5,7 @@ recipe  = [
     "setcard.toml",
     "pack/generic.toml",
     "pack/nordic.toml",
+    "pack/palladium.toml",
 ]
 
 [picset.triplesix]

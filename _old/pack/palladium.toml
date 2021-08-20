@@ -42,29 +42,6 @@ Once per turn, during your Main Phase or your opponent's Battle Phase (Quick Eff
 """
 strings = ["Destroy all monsters your opponent controls"]
 
-[card.slifer]
-id = 410000002
-alias = 10000020
-name = "Slifer the Sky Divine Dragon"
-type = "monster effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = "?"
-def = "?"
-effect = """\
-${HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
-${EGYPTIAN_SUMMON} \
-${DIVINE_IMMUNITY} \
-${DIVINE_LIMIT} \
-This card is also a Thunder/Dragon monster while face-up on the field. \
-The original ATK/DEF of this card each become equal to the number of cards in your hand x 1000. \
-If a monster(s) is Normal or Special Summoned to your opponent's field in face-up Attack Position: \
-    That monster(s) loses 2000 ATK, then if its ATK has been reduced to 0 as a result, destroy it, \
-    those monster(s) cannot activate its effects in response to this effect's activation. \
-"""
-strings = ["Reduce the monster(s)' ATK"]
-
 [card.ra]
 id = 410000003
 alias = 10000010
