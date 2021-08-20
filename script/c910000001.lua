@@ -57,6 +57,12 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) and
+        (c:IsHasEffect(EFFECT_CANNOT_ATTACK_ANNOUNCE) or
+            c:IsHasEffect(EFFECT_FORBIDDEN) or
+            c:IsHasEffect(EFFECT_CANNOT_ATTACK)) then return false end
+            
     local ph = Duel.GetCurrentPhase()
     if Duel.GetTurnPlayer() == tp then
         return ph == PHASE_MAIN1 or ph == PHASE_MAIN2

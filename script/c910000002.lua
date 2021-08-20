@@ -57,6 +57,12 @@ function s.e3filter(c, e, tp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) and
+        (c:IsHasEffect(EFFECT_CANNOT_ATTACK_ANNOUNCE) or
+            c:IsHasEffect(EFFECT_FORBIDDEN) or
+            c:IsHasEffect(EFFECT_CANNOT_ATTACK)) then return false end
+
     return eg:IsExists(s.e3filter, 1, nil, nil, 1 - tp)
 end
 

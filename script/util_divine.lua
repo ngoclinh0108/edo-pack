@@ -4,7 +4,7 @@ if not Divine then Divine = aux.DivineProcedure end
 
 -- function
 function Divine.DivineHierarchy(s, c, divine_hierarchy,
-                                summon_by_three_tributes, return_at_end_phase)
+                                summon_by_three_tributes, limit)
     s.divine_hierarchy = divine_hierarchy
 
     if summon_by_three_tributes then
@@ -160,7 +160,24 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     end)
     c:RegisterEffect(reset)
 
-    if return_at_end_phase then
+    if limit then
+        -- cannot attack when special summoned
+        local spnoattack = Effect.CreateEffect(c)
+        spnoattack:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+        spnoattack:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        spnoattack:SetCode(EVENT_SPSUMMON_SUCCESS)
+        spnoattack:SetOperation(function(e)
+            local c = e:GetHandler()
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetDescription(3206)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+            ec1:SetCode(EFFECT_CANNOT_ATTACK)
+            ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+            c:RegisterEffect(ec1)
+        end)
+        c:RegisterEffect(spnoattack)
+
         -- return
         local returnend = Effect.CreateEffect(c)
         returnend:SetDescription(666001)
