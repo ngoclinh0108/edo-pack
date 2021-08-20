@@ -66,9 +66,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     noset:SetCode(EFFECT_CANNOT_TURN_SET)
     noset:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noset)
-end
 
-function Divine.DivineImmunity(c, summon_mode, summon_extra)
     -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
@@ -76,9 +74,7 @@ function Divine.DivineImmunity(c, summon_mode, summon_extra)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc, tp, sumtp)
-        return tc == e:GetHandler()
-    end)
+    norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
     local nofus = Effect.CreateEffect(c)
     nofus:SetType(EFFECT_TYPE_SINGLE)
@@ -115,12 +111,10 @@ function Divine.DivineImmunity(c, summon_mode, summon_extra)
             return false
         end
 
-        return (te:GetHandlerPlayer() ~= e:GetHandlerPlayer() and
-                   te:IsActiveType(TYPE_MONSTER)) or
-                   te:IsHasCategory(
-                       CATEGORY_DESTROY + CATEGORY_REMOVE + CATEGORY_TOGRAVE +
-                           CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_RELEASE +
-                           CATEGORY_FUSION_SUMMON)
+        return te:IsHasCategory(CATEGORY_TOHAND + CATEGORY_DESTROY +
+                                    CATEGORY_REMOVE + CATEGORY_TODECK +
+                                    CATEGORY_RELEASE + CATEGORY_TOGRAVE +
+                                    CATEGORY_FUSION_SUMMON)
     end)
     c:RegisterEffect(immunity)
     local noleave = Effect.CreateEffect(c)
@@ -133,28 +127,14 @@ function Divine.DivineImmunity(c, summon_mode, summon_extra)
         if chk == 0 then
             return
                 c:IsReason(REASON_EFFECT) and r & REASON_EFFECT ~= 0 and re and
+                    re:GetHandler() ~= c and
                     (not re:GetHandler().divine_hierarchy or
                         re:GetHandler().divine_hierarchy < c.divine_hierarchy)
         end
         return true
     end)
-    noleave:SetValue(function(e, c) return false end)
+    noleave:SetValue(function() return false end)
     c:RegisterEffect(noleave)
-
-    -- battle indes & no damage
-    local battle = Effect.CreateEffect(c)
-    battle:SetType(EFFECT_TYPE_SINGLE)
-    battle:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    battle:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    battle:SetRange(LOCATION_MZONE)
-    battle:SetValue(function(e, tc)
-        return tc and tc.divine_hierarchy and tc.divine_hierarchy <
-                   e:GetHandler().divine_hierarchy
-    end)
-    c:RegisterEffect(battle)
-    local nodmg = battle:Clone()
-    nodmg:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    c:RegisterEffect(nodmg)
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
