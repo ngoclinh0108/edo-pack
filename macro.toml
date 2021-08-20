@@ -17,7 +17,7 @@ Unaffected by other cards' effects that would make this card leave the field, \
 Other cards' effects are only applied on this card for 1 turn.\
 """
 EGYPTIAN_LIMIT = """\
-Once per turn, during the End Phase, if this card was Special Summoned, return this card to the location it was Special Summoned from.\
+During the End Phase, if this card was Special Summoned, return this card to the location it was Special Summoned from.\
 """
 
 NORDIC_GOD_EFFECT = """\

@@ -3,7 +3,8 @@ if not aux.DivineProcedure then aux.DivineProcedure = {} end
 if not Divine then Divine = aux.DivineProcedure end
 
 -- function
-function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes)
+function Divine.DivineHierarchy(s, c, divine_hierarchy,
+                                summon_by_three_tributes, return_at_end_phase)
     s.divine_hierarchy = divine_hierarchy
 
     if summon_by_three_tributes then
@@ -145,17 +146,19 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     reset:SetRange(LOCATION_MZONE)
     reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         if Duel.GetCurrentPhase() ~= PHASE_END then return false end
-
-        local c = e:GetHandler()
         local check = false
+        local c = e:GetHandler()
+
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
-            check = (eff:GetOwner() ~= c and
-                        not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
-                        eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
-                        (eff:GetTarget() == aux.PersistentTargetFilter or
-                            not eff:IsHasType(EFFECT_TYPE_GRANT)))
-            if check == true then break end
+            if eff:GetOwner() ~= c and
+                not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
+                eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
+                (eff:GetTarget() == aux.PersistentTargetFilter or
+                    not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
+                check = true
+                break
+            end
         end
         return check
     end)
@@ -163,52 +166,52 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
         local c = e:GetHandler()
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
-            local ec = eff:GetOwner()
-            local check = ec ~= c and
-                              not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
-                              eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
-                              (eff:GetTarget() == aux.PersistentTargetFilter or
-                                  not eff:IsHasType(EFFECT_TYPE_GRANT))
-
-            if check then
-                if not eff:IsHasType(EFFECT_TYPE_FIELD) then
-                    eff:Reset()
-                end
-
-                if (not ec.divine_hierarchy) then
-                    local immunity = Effect.CreateEffect(c)
-                    immunity:SetType(EFFECT_TYPE_SINGLE)
-                    immunity:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-                    immunity:SetCode(EFFECT_IMMUNE_EFFECT)
-                    immunity:SetRange(LOCATION_MZONE)
-                    immunity:SetLabelObject(ec)
-                    immunity:SetValue(function(e, te)
-                        return te:GetHandler() == e:GetLabelObject()
-                    end)
-                    immunity:SetReset(RESET_EVENT + RESETS_STANDARD)
-                    c:RegisterEffect(immunity)
-                end
+            if eff:GetOwner() ~= c and
+                not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
+                eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
+                (eff:GetTarget() == aux.PersistentTargetFilter or
+                    not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
+                eff:Reset()
             end
         end
     end)
     c:RegisterEffect(reset)
-end
 
-function Divine.ToGraveLimit(c)
-    local togy = Effect.CreateEffect(c)
-    togy:SetDescription(666001)
-    togy:SetCategory(CATEGORY_TOGRAVE)
-    togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    togy:SetCode(EVENT_PHASE + PHASE_END)
-    togy:SetRange(LOCATION_MZONE)
-    togy:SetCountLimit(1)
-    togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-                   c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()
-    end)
-    togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
-    end)
-    c:RegisterEffect(togy)
+    if return_at_end_phase then
+        -- return
+        local returnend = Effect.CreateEffect(c)
+        returnend:SetDescription(666001)
+        returnend:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        returnend:SetCode(EVENT_PHASE + PHASE_END)
+        returnend:SetRange(LOCATION_MZONE)
+        returnend:SetCountLimit(1)
+        returnend:SetCode(EVENT_PHASE + PHASE_END)
+        returnend:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+            local c = e:GetHandler()
+            if not c:IsSummonType(SUMMON_TYPE_SPECIAL) then
+                return false
+            end
+            return (c:IsPreviousLocation(LOCATION_HAND) and c:IsAbleToHand()) or
+                       (c:IsPreviousLocation(LOCATION_DECK) and c:IsAbleToDeck()) or
+                       (c:IsPreviousLocation(LOCATION_GRAVE) and
+                           c:IsAbleToGrave()) or
+                       (c:IsPreviousLocation(LOCATION_REMOVED) and
+                           c:IsAbleToRemove())
+        end)
+        returnend:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+            local c = e:GetHandler()
+            if c:IsPreviousLocation(LOCATION_HAND) then
+                Duel.SendtoHand(c, c:GetPreviousControler(), REASON_RULE)
+            elseif c:IsPreviousLocation(LOCATION_DECK) then
+                Duel.SendtoDeck(c, c:GetPreviousControler(), SEQ_DECKSHUFFLE,
+                                REASON_RULE)
+            elseif c:IsPreviousLocation(LOCATION_GRAVE) then
+                Duel.SendtoGrave(c, REASON_RULE, c:GetPreviousControler())
+            elseif c:IsPreviousLocation(LOCATION_REMOVED) then
+                Duel.Remove(c, c:GetPreviousPosition(), REASON_RULE,
+                            c:GetPreviousControler())
+            end
+        end)
+        c:RegisterEffect(returnend)
+    end
 end
