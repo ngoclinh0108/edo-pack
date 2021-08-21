@@ -3,8 +3,15 @@ id = 910000000
 name = "Divine Hieroglyph"
 type = "spell quick-play"
 effect = """\
+This card's activation and effect cannot be negated. \
+You can only activate 1 "Divine Hieroglyph" per turn. \
+During the Main Phase: Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster, \
+    or, if you control 3 or more monsters with different names, \
+    you can add 1 Divine-Beast monster from your Deck or GY to your hand, then, \
+    immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
+When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them. \
 """
-strings = []
+strings = ["Add 1 Divine-Beast monster"]
 
 [card.obelisk]
 id = 910000001
