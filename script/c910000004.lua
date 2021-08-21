@@ -73,16 +73,23 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     Duel.BreakEffect()
 
     local c = e:GetHandler()
-    local mc = Utility.GroupSelect(eg:Filter(s.dmsfilter, nil), rp, 1, 1,
-                                   HINTMSG_SELECT):GetFirst()
+    local mc =
+        Utility.GroupSelect(eg:Filter(s.dmsfilter, nil), rp, 1, 1, 666100):GetFirst()
     if not mc then return end
 
+    local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
     Dimension.Change(c, mc, rp, rp, mc:GetPosition())
+    if divine_evolution then
+        c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
+                             RESET_EVENT + RESETS_STANDARD,
+                             EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+    end
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return Dimension.IsAbleToDimension(c) end
+    e:SetLabel(c:GetFlagEffect(Divine.DIVINE_EVOLUTION))
     Dimension.SendToDimension(c, REASON_COST)
 end
 
@@ -142,6 +149,12 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
         ec2:SetValue(def)
         mc:RegisterEffect(ec2)
+
+        if e:GetLabel() > 0 then
+            mc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
+                                  RESET_EVENT + RESETS_STANDARD,
+                                  EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+        end
     end
     Duel.SpecialSummonComplete()
 

@@ -2,10 +2,13 @@
 if not aux.DivineProcedure then aux.DivineProcedure = {} end
 if not Divine then Divine = aux.DivineProcedure end
 
+-- constant
+Divine.DIVINE_EVOLUTION = 513000065
+
 -- function
 function Divine.DivineHierarchy(s, c, divine_hierarchy,
                                 summon_by_three_tributes, limit)
-    s.divine_hierarchy = divine_hierarchy
+    if divine_hierarchy then s.divine_hierarchy = divine_hierarchy end
 
     if summon_by_three_tributes then
         aux.AddNormalSummonProcedure(c, true, false, 3, 3)
@@ -94,13 +97,15 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     immunity:SetValue(function(e, te)
         local c = e:GetHandler()
         local tc = te:GetHandler()
-        return (te:IsActiveType(TYPE_MONSTER) and tc ~= c and
-                   (not tc.divine_hierarchy or tc.divine_hierarchy <
-                       c.divine_hierarchy)) or
-                   te:IsHasCategory(
-                       CATEGORY_TOHAND + CATEGORY_DESTROY + CATEGORY_REMOVE +
-                           CATEGORY_TODECK + CATEGORY_RELEASE + CATEGORY_TOGRAVE +
-                           CATEGORY_FUSION_SUMMON)
+        if te:IsActiveType(TYPE_MONSTER) then
+            return tc ~= c and Divine.GetDivineHierarchy(tc) <
+                       Divine.GetDivineHierarchy(c)
+        else
+            return te:IsHasCategory(CATEGORY_TOHAND + CATEGORY_DESTROY +
+                                        CATEGORY_REMOVE + CATEGORY_TODECK +
+                                        CATEGORY_RELEASE + CATEGORY_TOGRAVE +
+                                        CATEGORY_FUSION_SUMMON)
+        end
     end)
     c:RegisterEffect(immunity)
     local noleave = Effect.CreateEffect(c)
@@ -215,4 +220,16 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         end)
         c:RegisterEffect(returnend)
     end
+end
+
+function Divine.GetDivineHierarchy(c, get_base)
+    local divine_hierarchy = c.divine_hierarchy
+    if get_base then return divine_hierarchy end
+    if not divine_hierarchy then divine_hierarchy = 0 end
+
+    if c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0 then
+        divine_hierarchy = divine_hierarchy + 1
+    end
+
+    return divine_hierarchy
 end

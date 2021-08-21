@@ -42,8 +42,8 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e3:SetRange(LOCATION_MZONE)
     e3:SetValue(function(e, tc)
-        return not tc.divine_hierarchy or tc.divine_hierarchy <
-                   e:GetHandler().divine_hierarchy
+        return Divine.GetDivineHierarchy(tc) <
+                   Divine.GetDivineHierarchy(e:GetHandler())
     end)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
@@ -125,10 +125,16 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local mc = Utility.GroupSelect(eg:Filter(s.dmsfilter, nil,
                                              e:GetOwnerPlayer()), rp, 1, 1,
-                                   HINTMSG_SELECT):GetFirst()
+                                   666100):GetFirst()
     if not mc then return end
 
+    local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
     Dimension.Change(c, mc, rp, rp, mc:GetPosition())
+    if divine_evolution then
+        c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
+                             RESET_EVENT + RESETS_STANDARD,
+                             EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+    end
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -229,8 +235,8 @@ function s.e7recoverop(e, tp, eg, ep, ev, re, r, rp)
     Duel.SetLP(tp, 1, REASON_EFFECT)
 end
 
-function s.e8filter(c, divine_hierarchy)
-    return not c.divine_hierarchy or c.divine_hierarchy <= divine_hierarchy
+function s.e8filter(c, sc)
+    return Divine.GetDivineHierarchy(c) <= Divine.GetDivineHierarchy(sc)
 end
 
 function s.e8cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -243,8 +249,7 @@ function s.e8tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and
                    Duel.IsExistingMatchingCard(s.e8filter, tp, LOCATION_MZONE,
-                                               LOCATION_MZONE, 1, c,
-                                               c.divine_hierarchy)
+                                               LOCATION_MZONE, 1, c, c)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, 0)
@@ -256,8 +261,7 @@ function s.e8op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local tc = Duel.SelectMatchingCard(tp, s.e8filter, tp, LOCATION_MZONE,
-                                       LOCATION_MZONE, 1, 1, c,
-                                       c.divine_hierarchy):GetFirst()
+                                       LOCATION_MZONE, 1, 1, c, c):GetFirst()
     if not tc then return end
     Duel.HintSelection(Group.FromCards(tc))
 
@@ -288,8 +292,14 @@ function s.e9op(e, tp, eg, ep, ev, re, r, rp)
 
     local sg = Dimension.Zones(c:GetOwner()):Filter(s.e9filter, nil)
     if #sg > 0 then
-        Dimension.Change(sg:GetFirst(), c, tp, tp, POS_FACEUP_DEFENSE,
-                         c:GetMaterial())
+        local sc = sg:GetFirst()
+        local divine_evolution = c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
+        Dimension.Change(sc, c, tp, tp, POS_FACEUP_DEFENSE, c:GetMaterial())
+        if divine_evolution then
+            sc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
+                                  RESET_EVENT + RESETS_STANDARD,
+                                  EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+        end
     else
         Duel.SendtoGrave(c, REASON_EFFECT)
     end
