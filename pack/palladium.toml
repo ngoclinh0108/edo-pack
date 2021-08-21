@@ -161,11 +161,3 @@ When a card or effect is activated that targets this card, negate that effect. \
 If this card battles, this card gain ∞ ATK during damage calculation only. \
 """
 strings = ["Gain ∞ ATK"]
-
-[card.divinity-evolution]
-id = 910000007
-name = "Divinity Evolution"
-type = "spell"
-effect = """\
-"""
-strings = []
