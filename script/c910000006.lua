@@ -48,16 +48,21 @@ function s.initial_effect(c)
 end
 
 function s.dmsfilter(c, tp)
+    if not c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) and
+        (c:IsHasEffect(EFFECT_CANNOT_ATTACK_ANNOUNCE) or
+            c:IsHasEffect(EFFECT_FORBIDDEN) or
+            c:IsHasEffect(EFFECT_CANNOT_ATTACK)) then return false end
+
     return Dimension.CanBeDimensionMaterial(c) and
                Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 2, false, nil, c) and
-               c:IsCode(10000000) and c:GetOriginalCode() ~= id
+               c:IsCode(10000000) and c:GetOriginalCode() ~= id and
+               c:GetAttackAnnouncedCount() == 0
 end
 
 function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
-    if not Duel.IsExistingMatchingCard(s.dmsfilter, tp, LOCATION_MZONE, 0, 1,
-                                       nil, tp) then return false end
-    return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
-               (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
+    if not Duel.IsBattlePhase() then return false end
+    return Duel.IsExistingMatchingCard(s.dmsfilter, tp, LOCATION_MZONE, 0, 1,
+                                       nil, tp)
 end
 
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)

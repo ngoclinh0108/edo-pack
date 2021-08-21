@@ -13,14 +13,11 @@ function s.initial_effect(c)
     -- startup
     Dimension.RegisterChange(c, function(e, tp)
         local dms = Effect.CreateEffect(c)
-        -- dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-        dms:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_IGNORE_RANGE)
-        dms:SetCode(EVENT_SPSUMMON_SUCCESS)
-        dms:SetRange(LOCATION_ALL)
+        dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        dms:SetCode(EVENT_FREE_CHAIN)
         dms:SetCondition(Dimension.Condition(s.dmscon))
         dms:SetOperation(s.dmsop)
-        c:RegisterEffect(dms)
+        Duel.RegisterEffect(dms, tp)
     end)
 
     -- race
@@ -122,27 +119,30 @@ function s.initial_effect(c)
     c:RegisterEffect(e9)
 end
 
-function s.dmsfilter(c, tp)
-    return Dimension.CanBeDimensionMaterial(c) and c:GetControler() == tp and
-               c:IsCode(CARD_RA) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-               c:IsSummonLocation(LOCATION_GRAVE)
+function s.dmsfilter(c)
+    return Dimension.CanBeDimensionMaterial(c) and c:IsCode(CARD_RA) and
+               c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+               c:IsSummonLocation(LOCATION_GRAVE) and c:IsAttack(0)
 end
 
 function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.dmsfilter, 1, nil, e:GetOwnerPlayer())
+    if not Duel.IsBattlePhase() then return false end
+    return Duel.IsExistingMatchingCard(s.dmsfilter, tp, LOCATION_MZONE, 0, 1,
+                                       nil)
 end
 
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     Duel.BreakEffect()
+    Utility.HintCard(id)
 
     local c = e:GetHandler()
-    local mc = Utility.GroupSelect(eg:Filter(s.dmsfilter, nil,
-                                             e:GetOwnerPlayer()), rp, 1, 1,
-                                   666100):GetFirst()
+    local mc = Utility.GroupSelect(Duel.GetMatchingGroup(s.dmsfilter, tp,
+                                                         LOCATION_MZONE, 0, nil),
+                                   tp, 1, 1, 666100):GetFirst()
     if not mc then return end
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
-    Dimension.Change(c, mc, rp, rp, mc:GetPosition())
+    Dimension.Change(c, mc, tp, tp, mc:GetPosition())
 
     if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
@@ -183,22 +183,16 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     if not g then return end
 
     local atk = 0
-    local def = 0
     for tc in aux.Next(g) do
         if tc:GetBaseAttack() > 0 then atk = atk + tc:GetBaseAttack() end
-        if tc:GetBaseDefense() > 0 then def = def + tc:GetBaseDefense() end
     end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-    ec1:SetValue(c:GetBaseAttack() + atk)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(atk)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
-    local ec2 = ec1:Clone()
-    ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
-    ec2:SetValue(c:GetBaseDefense() + def)
-    c:RegisterEffect(ec2)
     g:DeleteGroup()
 end
 
