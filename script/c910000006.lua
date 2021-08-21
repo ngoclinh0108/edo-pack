@@ -49,9 +49,8 @@ end
 
 function s.dmsfilter(c, tp)
     return Dimension.CanBeDimensionMaterial(c) and
-               Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c) and
-               c:IsCode(10000000) and c:GetOriginalCode() ~= id and
-               c:GetAttackAnnouncedCount() == 0
+               Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 2, false, nil, c) and
+               c:IsCode(10000000) and c:GetOriginalCode() ~= id
 end
 
 function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
