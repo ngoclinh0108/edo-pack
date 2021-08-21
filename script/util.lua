@@ -128,41 +128,7 @@ function Utility.GroupSelect(g, tp, min, max, hintmsg)
     end
 end
 
-function Utility.GainInfinityAtk(root, c)
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_UPDATE_ATTACK)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(function(e, c)
-        local g = Duel.GetMatchingGroup(nil, 0, LOCATION_MZONE, LOCATION_MZONE,
-                                        e:GetHandler())
-
-        if #g == 0 then
-            return 9999999
-        else
-            local tg, val = g:GetMaxGroup(Card.GetAttack)
-            if val <= 9999999 then
-                return 9999999
-            else
-                return val
-            end
-        end
-    end)
-    c:RegisterEffect(e1)
-
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e2:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-    e2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return ep ~= tp and e:GetHandler():GetAttack() >= 9999999
-    end)
-    e2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Duel.ChangeBattleDamage(ep, Duel.GetLP(ep))
-    end)
-    c:RegisterEffect(e2)
-
+function Utility.AvatarInfinity(root, c)
     aux.GlobalCheck(root, function()
         local e3 = Effect.CreateEffect(c)
         e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -202,6 +168,44 @@ function Utility.GainInfinityAtk(root, c)
         end)
         Duel.RegisterEffect(e3, 0)
     end)
+end
+
+function Utility.GainInfinityAtk(c, reset)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_UPDATE_ATTACK)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetValue(function(e)
+        local c = e:GetHandler()
+        local g = Duel.GetMatchingGroup(nil, 0, LOCATION_MZONE, LOCATION_MZONE,
+                                        c)
+        if #g == 0 then
+            return 9999999 - c:GetAttack()
+        else
+            local tg, val = g:GetMaxGroup(Card.GetAttack)
+            if val <= 9999999 then
+                return 9999999 - c:GetAttack()
+            else
+                return val
+            end
+        end
+    end)
+    if reset then e1:SetReset(reset) end
+    c:RegisterEffect(e1)
+
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e2:SetCode(EVENT_PRE_BATTLE_DAMAGE)
+    e2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return ep ~= tp and e:GetHandler():GetAttack() >= 9999999
+    end)
+    e2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Duel.ChangeBattleDamage(ep, Duel.GetLP(ep))
+    end)
+    if reset then e2:SetReset(reset) end
+    c:RegisterEffect(e2)
 end
 
 function AvatarFilter(c)
