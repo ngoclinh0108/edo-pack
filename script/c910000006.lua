@@ -20,6 +20,15 @@ function s.initial_effect(c)
         Duel.RegisterEffect(dms, tp)
     end)
 
+    -- return to original at end battle
+    local reset = Effect.CreateEffect(c)
+    reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    reset:SetCode(EVENT_PHASE + PHASE_BATTLE)
+    reset:SetRange(LOCATION_MZONE)
+    reset:SetOperation(s.resetop)
+    c:RegisterEffect(reset)
+
     -- race
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
@@ -28,6 +37,9 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     e1:SetValue(RACE_WARRIOR)
     c:RegisterEffect(e1)
+
+    -- infinite atk
+    -- Utility.GainInfinityAtk(s, c)
 end
 
 function s.dmsfilter(c, tp)
@@ -58,10 +70,12 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, mc)
     Duel.Release(g, REASON_COST)
 
-    local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
     local atk = mc:GetBaseAttack()
     local def = mc:GetBaseDefense()
+    local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
+
     Dimension.Change(c, mc, tp, tp, mc:GetPosition())
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
@@ -75,9 +89,39 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetValue(def)
     c:RegisterEffect(ec2)
 
-    if not divine_evolution then
+    if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                              RESET_EVENT + RESETS_STANDARD,
                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+    end
+end
+
+function s.resetop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = c:GetMaterial():GetFirst()
+
+    local atk = c:GetBaseAttack()
+    local def = c:GetBaseDefense()
+    local divine_evolution = c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
+
+    Dimension.Change(tc, c, tp, tp, c:GetPosition())
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+    ec1:SetRange(LOCATION_MZONE)
+    ec1:SetValue(atk)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec1)
+    local ec2 = ec1:Clone()
+    ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
+    ec2:SetValue(def)
+    tc:RegisterEffect(ec2)
+
+    if divine_evolution then
+        tc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
+                              RESET_EVENT + RESETS_STANDARD,
+                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
     end
 end
