@@ -142,9 +142,10 @@ effect = """\
 (This card's name is always treated as "Obelisk the Tormentor".)
 During your Main Phase or your opponent's Battle Phase, \
     you can Dimension Change "Obelisk the Tormentor" you control that did not declare an attack this turn \
-    to this card in the same battle position, Divine Hierarchy and original ATK/DE, \
+    to this card in the same battle position, Divine Hierarchy and original ATK/DEF, \
     by Tributing 2 face-up monsters you control. \
-At the end of the Battle Phase, Dimension Change it to the Dimension Material Monster in the same battle position. \
+At the end of the Battle Phase, Dimension Change it to the Dimension Material Monster \
+    in the same battle position, Divine Hierarchy and original ATK/DEF. \
 ${EGYPTIAN_EFFECT} \
 While face-up on the field, this card is also Warrior-Type. \
 When a card or effect is activated that targets this card, negate that effect. \
