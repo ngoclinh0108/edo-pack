@@ -122,7 +122,7 @@ end
 function s.dmsfilter(c)
     return Dimension.CanBeDimensionMaterial(c) and c:IsCode(CARD_RA) and
                c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-               c:IsSummonLocation(LOCATION_GRAVE) and c:IsAttack(0)
+               c:IsSummonLocation(LOCATION_GRAVE)
 end
 
 function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
