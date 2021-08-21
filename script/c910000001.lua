@@ -62,13 +62,9 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
         (c:IsHasEffect(EFFECT_CANNOT_ATTACK_ANNOUNCE) or
             c:IsHasEffect(EFFECT_FORBIDDEN) or
             c:IsHasEffect(EFFECT_CANNOT_ATTACK)) then return false end
-            
-    local ph = Duel.GetCurrentPhase()
-    if Duel.GetTurnPlayer() == tp then
-        return ph == PHASE_MAIN1 or ph == PHASE_MAIN2
-    else
-        return (ph >= PHASE_BATTLE_START and ph <= PHASE_BATTLE)
-    end
+
+    return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
+               (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)

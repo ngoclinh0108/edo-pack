@@ -13,11 +13,14 @@ function s.initial_effect(c)
     -- startup
     Dimension.RegisterChange(c, function(e, tp)
         local dms = Effect.CreateEffect(c)
-        dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        -- dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+        dms:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_IGNORE_RANGE)
         dms:SetCode(EVENT_SPSUMMON_SUCCESS)
+        dms:SetRange(LOCATION_ALL)
         dms:SetCondition(Dimension.Condition(s.dmscon))
         dms:SetOperation(s.dmsop)
-        Duel.RegisterEffect(dms, tp)
+        c:RegisterEffect(dms)
     end)
 
     -- race

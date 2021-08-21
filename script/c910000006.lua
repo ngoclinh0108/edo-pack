@@ -56,14 +56,8 @@ end
 function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
     if not Duel.IsExistingMatchingCard(s.dmsfilter, tp, LOCATION_MZONE, 0, 1,
                                        nil, tp) then return false end
-
-    local ph = Duel.GetCurrentPhase()
-    if Duel.GetTurnPlayer() == tp then
-        return ph == PHASE_MAIN1 or ph == PHASE_MAIN2
-    else
-        return (ph >= PHASE_BATTLE_START and ph <= PHASE_BATTLE) and
-                   (ph ~= PHASE_DAMAGE or not Duel.IsDamageCalculated())
-    end
+    return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
+               (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
 end
 
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
