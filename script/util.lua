@@ -10,25 +10,38 @@ function Utility.RegisterGlobalEffect(c, eff, filter, param1, param2, param3,
     for tc in aux.Next(g) do tc:RegisterEffect(eff:Clone()) end
 end
 
-function Utility.DeckEditAddCardToDeck(tp, code, condition_code)
+function Utility.DeckEditAddCardToDeck(tp, code, condition_code, condition_alias)
     if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1,
                                    nil, code) then return end
-    if condition_code ~= nil and
-        not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL,
-                                        0, 1, nil, condition_code) then
-        return
+    if condition_code ~= nil then
+        if not condition_alias and
+            not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
+                                            LOCATION_ALL, 0, 1, nil,
+                                            condition_code) then return end
+        if condition_alias and
+            not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_ALL, 0, 1,
+                                            nil, condition_code) then
+            return
+        end
     end
 
     Duel.SendtoDeck(Duel.CreateToken(tp, code), tp, 2, REASON_RULE)
 end
 
-function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code)
+function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code,
+                                              condition_alias)
     if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1,
                                    nil, code) then return end
-    if condition_code ~= nil and
-        not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL,
-                                        0, 1, nil, condition_code) then
-        return
+    if condition_code ~= nil then
+        if not condition_alias and
+            not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
+                                            LOCATION_ALL, 0, 1, nil,
+                                            condition_code) then return end
+        if condition_alias and
+            not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_ALL, 0, 1,
+                                            nil, condition_code) then
+            return
+        end
     end
 
     Duel.SendtoExtraP(Duel.CreateToken(tp, code), tp, REASON_RULE)

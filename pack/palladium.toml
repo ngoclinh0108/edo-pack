@@ -1,3 +1,11 @@
+[card.the-divine-hieroglyph-lithograph]
+id = 910000000
+name = "The Divine Hieroglyph Lithograph"
+type = "spell quick-play"
+effect = """\
+"""
+strings = []
+
 [card.obelisk]
 id = 910000001
 alias = 10000000
@@ -152,3 +160,11 @@ When a card or effect is activated that targets this card, negate that effect. \
 If this card battles, this card gain ∞ ATK during damage calculation only. \
 """
 strings = ["Gain ∞ ATK"]
+
+[card.the-evolution-of-divine-beast]
+id = 910000007
+name = "The Evolution Of Divine Beast"
+type = "spell"
+effect = """\
+"""
+strings = []
