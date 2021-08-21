@@ -48,7 +48,7 @@ end
 
 function s.e2val(e, c)
     return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_HAND, 0) * 1000 *
-               c.divine_hierarchy
+               Divine.GetDivineHierarchy(c)
 end
 
 function s.e3filter(c, e, tp)
