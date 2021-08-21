@@ -127,3 +127,26 @@ strings = [
     "Destroy 1 monster",
     "Return to Dimension"
 ]
+
+[card.obelisk-max]
+id = 910000006
+alias = 10000000
+name = "Giant Divine Soldier of Obelisk - Soul Energy MAX"
+type = "monster dimension effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+(This card's name is always treated as "Obelisk the Tormentor".)
+During either player's Battle Phase, you can Dimension Change "Obelisk the Tormentor" you control that did not declare an attack this turn \
+    to this card in the same battle position, Divine Hierarchy and original ATK/DE, \
+    by Tributing 2 face-up monsters you control. \
+At the end of the Battle Phase, Dimension Change it to the Dimension Material Monster in the same battle position. \
+${EGYPTIAN_EFFECT} \
+While face-up on the field, this card is also Warrior-Type. \
+When a card or effect is activated that targets this card, negate that effect. \
+If this card battles, this card gain ∞ ATK during damage calculation only. \
+"""
+strings = ["Gain ∞ ATK"]

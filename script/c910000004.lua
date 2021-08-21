@@ -79,6 +79,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
     Dimension.Change(c, mc, rp, rp, mc:GetPosition())
+    
     if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                              RESET_EVENT + RESETS_STANDARD,

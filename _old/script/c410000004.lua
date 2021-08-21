@@ -1,24 +1,4 @@
--- Obelisk the Giant Divine Soldier - Soul Energy MAX
-Duel.LoadScript("util.lua")
-Duel.LoadScript("util_divine.lua")
-Duel.LoadScript("proc_dimension.lua")
-local s, id = GetID()
-
 function s.initial_effect(c)
-    Dimension.AddProcedure(c)
-    Divine.SetHierarchy(s, 1)
-    Divine.DivineImmunity(c, "egyptian")
-
-    -- dimension change
-    Dimension.RegisterEffect(c, function(e, tp)
-        local dms = Effect.CreateEffect(c)
-        dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        dms:SetCode(EVENT_FREE_CHAIN)
-        dms:SetCondition(s.dmscon)
-        dms:SetOperation(s.dmsop)
-        Duel.RegisterEffect(dms, tp)
-    end)
-
     -- return to original at end battle
     local rb = Effect.CreateEffect(c)
     rb:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -50,47 +30,6 @@ function s.initial_effect(c)
 
     -- infinite atk
     Utility.GainInfinityAtk(s, c)
-end
-
-function s.dmsfilter(c)
-    return
-        Duel.CheckReleaseGroupCost(c:GetControler(), nil, 2, false, nil, c) and
-            c:IsCode(10000000) and c:GetOriginalCode() ~= id and
-            c:GetAttackAnnouncedCount() == 0
-
-end
-
-function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not Duel.IsExistingMatchingCard(s.dmsfilter, tp, LOCATION_MZONE, 0, 1, c) then
-        return false
-    end
-
-    local ph = Duel.GetCurrentPhase()
-    return ph >= PHASE_BATTLE_START and ph <= PHASE_BATTLE and
-               (ph ~= PHASE_DAMAGE or not Duel.IsDamageCalculated())
-end
-
-function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.BreakEffect()
-    local c = e:GetHandler()
-
-    local mc
-    local mg = Duel.GetMatchingGroup(s.dmsfilter, tp, LOCATION_MZONE, 0, 1, c)
-    if #mg <= 0 then
-        return
-    elseif #mg == 1 then
-        mc = mg:GetFirst()
-    else
-        mc = mg:Select(c:GetOwner(), 1, 1, nil):GetFirst()
-    end
-    if not mc then return end
-
-    local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, mc)
-    Duel.Release(g, REASON_COST)
-
-    Dimension.Change(c, mc, mc:GetControler(), mc:GetControler(),
-                     mc:GetPosition())
 end
 
 function s.rbop(e, tp, eg, ep, ev, re, r, rp)
