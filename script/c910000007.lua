@@ -1,4 +1,4 @@
--- The Evolution Of Divine Beast
+-- The Evolution Of Divine-Beast
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

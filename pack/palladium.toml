@@ -163,7 +163,7 @@ strings = ["Gain ∞ ATK"]
 
 [card.the-evolution-of-divine-beast]
 id = 910000007
-name = "The Evolution Of Divine Beast"
+name = "The Evolution Of Divine-Beast"
 type = "spell"
 effect = """\
 """
