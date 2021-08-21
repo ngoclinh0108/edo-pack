@@ -710,7 +710,7 @@ atk = 3500
 def = 2500
 effect = """\
 2 Level 8 "Palladium" Ritual Pendulum Monsters
-This card's activation and effects cannot be negated. \
+This card's activation and effect cannot be negated. \
 Gains 100 ATK for each banished cards. \
 Banish any monster destroyed by battle with this card. \
 This card gains effects based on the Attribute of materials attached to it.

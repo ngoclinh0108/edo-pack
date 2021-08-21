@@ -25,7 +25,9 @@ function UtilNordic.NordicGodEffect(c, sumtype, reborn)
     -- cannot be tributed or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
-    norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    norelease:SetProperty(
+        EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE +
+            EFFECT_FLAG_UNCOPYABLE)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(1, 1)
@@ -33,7 +35,8 @@ function UtilNordic.NordicGodEffect(c, sumtype, reborn)
     c:RegisterEffect(norelease)
     local nofus = Effect.CreateEffect(c)
     nofus:SetType(EFFECT_TYPE_SINGLE)
-    nofus:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    nofus:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE +
+                          EFFECT_FLAG_UNCOPYABLE)
     nofus:SetCode(EFFECT_CANNOT_BE_FUSION_MATERIAL)
     nofus:SetRange(LOCATION_MZONE)
     nofus:SetValue(1)

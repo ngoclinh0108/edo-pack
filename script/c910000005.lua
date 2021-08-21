@@ -58,18 +58,27 @@ function s.initial_effect(c)
     e4:SetRange(LOCATION_MZONE)
     c:RegisterEffect(e4)
 
-    -- tribute for atk/def
+    -- tribute any number monsters to gains atk/def
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 0))
     e5:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-    e5:SetType(EFFECT_TYPE_QUICK_O)
-    e5:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
-    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e5:SetCode(EVENT_ATTACK_ANNOUNCE)
     e5:SetRange(LOCATION_MZONE)
     e5:SetCountLimit(1)
+    e5:SetCondition(s.e5con)
     e5:SetCost(s.e5cost)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
+
+    -- after damage calculation
+    local e6 = Effect.CreateEffect(c)
+    e6:SetCategory(CATEGORY_TOGRAVE)
+    e6:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e6:SetCode(EVENT_BATTLED)
+    e6:SetCondition(s.e6con)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 
     -- life point transfer
     local e7 = Effect.CreateEffect(c)
@@ -85,20 +94,21 @@ function s.initial_effect(c)
     e7:SetOperation(s.e7op)
     c:RegisterEffect(e7)
 
-    -- destroy
+    -- send monster to grave
     local e8 = Effect.CreateEffect(c)
     e8:SetDescription(aux.Stringid(id, 2))
-    e8:SetCategory(CATEGORY_DESTROY)
+    e8:SetCategory(CATEGORY_TOGRAVE)
     e8:SetType(EFFECT_TYPE_QUICK_O)
     e8:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     e8:SetCode(EVENT_FREE_CHAIN)
     e8:SetRange(LOCATION_MZONE)
+    e8:SetCondition(s.e8con)
     e8:SetCost(s.e8cost)
     e8:SetTarget(s.e8tg)
     e8:SetOperation(s.e8op)
     c:RegisterEffect(e8)
 
-    -- end phase
+    -- reset
     local e9 = Effect.CreateEffect(c)
     e9:SetDescription(aux.Stringid(id, 3))
     e9:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -138,13 +148,24 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.e5filter(c)
+    return c:IsFaceup() and c:GetTextAttack() > 0 and
+               c:GetAttackAnnouncedCount() == 0
+end
+
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return Duel.GetAttacker() == c or
+               (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c)
+end
+
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, nil, 1, false, nil, c)
+        return Duel.CheckReleaseGroupCost(tp, s.e5filter, 1, false, nil, c)
     end
 
-    local g = Duel.SelectReleaseGroupCost(tp, nil, 1, 99, false, nil, c)
+    local g = Duel.SelectReleaseGroupCost(tp, s.e5filter, 1, 99, false, nil, c)
     Duel.Release(g, REASON_COST)
     if g then
         g:KeepAlive()
@@ -155,7 +176,6 @@ end
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
-
     local g = e:GetLabelObject()
     if not g then return end
 
@@ -177,6 +197,15 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetValue(c:GetBaseDefense() + def)
     c:RegisterEffect(ec2)
     g:DeleteGroup()
+end
+
+function s.e6con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttacker() == e:GetHandler()
+end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
+    Duel.SendtoGrave(g, REASON_EFFECT)
 end
 
 function s.e7cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -237,7 +266,13 @@ function s.e7recoverop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e8filter(c, sc)
-    return Divine.GetDivineHierarchy(c) <= Divine.GetDivineHierarchy(sc)
+    return Divine.GetDivineHierarchy(c) <= Divine.GetDivineHierarchy(sc) and
+               c:IsAbleToGrave()
+end
+
+function s.e8con(e, tp, eg, ep, ev, re, r, rp)
+    local ph = Duel.GetCurrentPhase()
+    return Duel.GetTurnPlayer() == tp and ph == PHASE_MAIN1 or ph == PHASE_MAIN2
 end
 
 function s.e8cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -253,14 +288,14 @@ function s.e8tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                                LOCATION_MZONE, 1, c, c)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, 0, 0)
     c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
 end
 
 function s.e8op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
     local tc = Duel.SelectMatchingCard(tp, s.e8filter, tp, LOCATION_MZONE,
                                        LOCATION_MZONE, 1, 1, c, c):GetFirst()
     if not tc then return end
@@ -282,7 +317,7 @@ function s.e8op(e, tp, eg, ep, ev, re, r, rp)
     tc:RegisterEffect(ec3, true)
     Duel.AdjustInstantly(c)
 
-    Duel.Destroy(tc, REASON_EFFECT)
+    Duel.SendtoGrave(tc, REASON_EFFECT)
 end
 
 function s.e9filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end
@@ -296,7 +331,7 @@ function s.e9op(e, tp, eg, ep, ev, re, r, rp)
         local sc = sg:GetFirst()
         local divine_evolution = c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
         Dimension.Change(sc, c, tp, tp, POS_FACEUP_DEFENSE, c:GetMaterial())
-        
+
         if divine_evolution then
             sc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                                   RESET_EVENT + RESETS_STANDARD,
