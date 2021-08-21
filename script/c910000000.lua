@@ -1,4 +1,4 @@
--- The Divine Hieroglyph Lithograph
+-- Divine Hieroglyph
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

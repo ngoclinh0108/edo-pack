@@ -1,6 +1,6 @@
-[card.the-divine-hieroglyph-lithograph]
+[card.divine-hieroglyph]
 id = 910000000
-name = "The Divine Hieroglyph Lithograph"
+name = "Divine Hieroglyph"
 type = "spell quick-play"
 effect = """\
 """
@@ -133,7 +133,7 @@ strings = [
     "Tribtue monsters for ATK/DEF",
     "Life Point transfer",
     "Destroy 1 monster",
-    "Return to Dimension"
+    "Return to Dimension",
 ]
 
 [card.obelisk-max]
@@ -161,9 +161,9 @@ If this card battles, this card gain ∞ ATK during damage calculation only. \
 """
 strings = ["Gain ∞ ATK"]
 
-[card.the-evolution-of-divine-beast]
+[card.divinity-evolution]
 id = 910000007
-name = "The Evolution Of Divine-Beast"
+name = "Divinity Evolution"
 type = "spell"
 effect = """\
 """
