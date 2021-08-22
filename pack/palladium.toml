@@ -44,7 +44,7 @@ ${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
-While face-up on the field, this card is also Warrior-Type. \
+This card is also Warrior-Type while on the field. \
 When a card or effect is activated that targets this card, negate that effect. \
 Once per turn, during your Main Phase or your opponent's Battle Phase, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; destroy all monsters your opponent controls. \
@@ -66,7 +66,7 @@ ${HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
-While face-up on the field, this card is also Dragon-Type. \
+This card is also Dragon-Type while on the field. \
 The original ATK and DEF of this card each become equal to the number of cards in your hand x X000. (X is this card Divine Hierarchy.) \
 If a monster(s) is Summoned to your opponent's field, while this card is able to attack: \
     That monster(s) loses 2000 ATK if it is in face-up Attack Position, or 2000 DEF if it is in face-up Defense Position, \
@@ -90,7 +90,7 @@ ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
-While face-up on the field, this card is also Winged-Beast-Type. \
+This card is also Winged-Beast-Type while on the field. \
 """
 strings = []
 
@@ -109,7 +109,7 @@ effect = """\
 Immediately after "The Winged Dragon of Ra" is Normal Summoned, \
     Dimension Change it to this card in the same battle position and Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
-While face-up on the field, this card is also Machine-Type. \
+This card is also Machine-Type while on the field. \
 Cannot attack. \
 Neither player can target this card for attacks or by card effects. \
 Once per turn: You can send this card to the Dimension Zone; \
@@ -133,11 +133,11 @@ atk = "?"
 def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
-During the Battle Phase, \
+During the Main or Battle Phase, \
     you can Dimension Change "The Winged Dragon of Ra" you control that was Special Summoned from the GY and did not declare an attack this turn \
     to this card in the same battle position, Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
-While face-up on the field, this card is also Pyro-Type. \
+This card is also Pyro-Type while on the field. \
 This card's battle position cannot be changed by card effects. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, also you take no battle damage from that battle. \
 Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
@@ -180,7 +180,7 @@ During the Battle Phase, \
 At the end of the Battle Phase, Dimension Change it to the Dimension Material Monster \
     in the same battle position, Divine Hierarchy and original ATK/DEF. \
 ${EGYPTIAN_EFFECT} \
-While face-up on the field, this card is also Warrior-Type. \
+This card is also Warrior-Type while on the field. \
 When a card or effect is activated that targets this card, negate that effect. \
 If this card battles, this card gain ∞ ATK during damage calculation only. \
 """

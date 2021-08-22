@@ -127,7 +127,7 @@ function s.dmsfilter(c)
 end
 
 function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
-    if not Duel.IsBattlePhase() then return false end
+    if not (Duel.IsMainPhase() or Duel.IsBattlePhase()) then return false end
     return Duel.IsExistingMatchingCard(s.dmsfilter, tp, LOCATION_MZONE, 0, 1,
                                        nil)
 end
