@@ -1,3 +1,5 @@
+Duel.LoadScript("util_dimension.lua")
+
 -- init
 if not aux.UtilityProcedure then aux.UtilityProcedure = {} end
 if not Utility then Utility = aux.UtilityProcedure end
@@ -45,6 +47,28 @@ function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code,
     end
 
     Duel.SendtoExtraP(Duel.CreateToken(tp, code), tp, REASON_RULE)
+end
+
+function Utility.DeckEditAddCardToDimension(tp, code, condition_code,
+                                            condition_alias)
+    if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1,
+                                   nil, code) then return end
+    if condition_code ~= nil then
+        if not condition_alias and
+            not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp,
+                                            LOCATION_ALL, 0, 1, nil,
+                                            condition_code) then return end
+        if condition_alias and
+            not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_ALL, 0, 1,
+                                            nil, condition_code) then
+            return
+        end
+    end
+
+    local c = Duel.CreateToken(tp, code)
+    Dimension.SendToDimension(c, REASON_RULE)
+    Dimension.AddProcedure(c)
+    if c.dimension_change then c.dimension_change(nil, tp) end
 end
 
 function Utility.CheckActivateEffect(ec, e, tp, neglect_con, neglect_cost,

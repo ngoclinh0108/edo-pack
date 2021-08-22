@@ -4,6 +4,12 @@ local s, id = GetID()
 
 s.listed_names = {CARD_RA}
 
+function s.deck_edit(tp)
+    Utility.DeckEditAddCardToDimension(tp, 910000006, 10000000, true) -- Giant Divine Soldier of Obelisk - Soul Energy MAX
+    Utility.DeckEditAddCardToDimension(tp, 910000004, 10000010, true) -- Winged Divine Beast of Ra - Sphere Mode
+    Utility.DeckEditAddCardToDimension(tp, 910000005, 10000010, true) -- Winged Divine Beast of Ra - Immortal Phoenix
+end
+
 function s.initial_effect(c)
     -- tribute summon
     local e1 = Effect.CreateEffect(c)

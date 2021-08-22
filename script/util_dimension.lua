@@ -79,7 +79,9 @@ function Dimension.AddProcedure(c)
     c:RegisterEffect(turnback)
 end
 
-function Dimension.RegisterChange(c, op)
+function Dimension.RegisterChange(s, c, op)
+    s.dimension_change = op
+    
     local startup = Effect.CreateEffect(c)
     startup:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     startup:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)

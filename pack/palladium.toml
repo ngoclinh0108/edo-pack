@@ -16,7 +16,11 @@ Activate 1 of these effects;
     You can also Special Summon "The Winged Dragon of Ra" with this effect, ignoring its Summoning conditions.
 During your Draw Phase, instead of conducting your normal draw: \
     You can reveal 1 DIVINE monster in your hand; \
-    add this card from your Deck or GY to your hand. \
+    add this card from your Deck or GY to your hand.
+
+[ \
+Add from Outside Dimension versions of your Divine-Beast Monsters. \
+] \
 """
 strings = [
     "Tribute Summon",

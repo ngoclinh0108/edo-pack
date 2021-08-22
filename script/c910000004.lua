@@ -11,7 +11,7 @@ function s.initial_effect(c)
     Dimension.AddProcedure(c)
 
     -- startup
-    Dimension.RegisterChange(c, function(e, tp)
+    Dimension.RegisterChange(s, c, function(_, tp)
         local dms = Effect.CreateEffect(c)
         dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         dms:SetCode(EVENT_SUMMON_SUCCESS)
@@ -79,7 +79,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
     Dimension.Change(c, mc, rp, rp, mc:GetPosition())
-    
+
     if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                              RESET_EVENT + RESETS_STANDARD,
