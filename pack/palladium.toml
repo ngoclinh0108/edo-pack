@@ -185,3 +185,44 @@ When a card or effect is activated that targets this card, negate that effect. \
 If this card battles, this card gain ∞ ATK during damage calculation only. \
 """
 strings = ["Gain ∞ ATK"]
+
+[card.palladium-oracle-mahad]
+id = 910000007
+set = "palladium"
+name = "Palladium Sacred Oracle Mahad"
+type = "monster normal"
+attribute = "light"
+race = "spellcaster"
+level = 7
+atk = 2500
+def = 2100
+effect = """\
+(This card's name is also treated as "Dark Magician" and it's Attribute is also DARK.)
+If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
+If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
+    You can only use this effect of "Palladium Sacred Oracle Mahad" once per turn. \
+"""
+
+[card.palladium-oracle-mana]
+id = 910000008
+set = "palladium"
+name = "Palladium Illusion Oracle Mana"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 6
+atk = 2000
+def = 1700
+effect = """\
+(This card's name is also treated as "Dark Magician Girl" and it's Attribute is also DARK.)
+When your opponent activates a card or effect that targets 1 Spellcaster monster you control, \
+    while this card is in your hand or GY (Quick Effect): \
+    You can Special Summon this card. \
+    You can only use this effect of "Palladium Illusion Oracle Mana" once per turn. \
+This card and Level/Rank 7 or higher Spellcaster monsters you control cannot be destroyed by card effects. \
+During damage calculation, if your other LIGHT or DARK Spellcaster monster battles an opponent's monster (Quick Effect): \
+    You can send this card from your hand or face-up field to the GY; \
+    that monster you control gains 2000 ATK/DEF during that damage calculation only. \
+"""
+strings = ["Gain ATK/DEF"]

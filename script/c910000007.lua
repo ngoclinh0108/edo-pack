@@ -3,18 +3,14 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    -- code
+    -- code & attribute
     local code = Effect.CreateEffect(c)
     code:SetType(EFFECT_TYPE_SINGLE)
     code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     code:SetCode(EFFECT_ADD_CODE)
     code:SetValue(CARD_DARK_MAGICIAN)
     c:RegisterEffect(code)
-
-    -- attribute
-    local attribute = Effect.CreateEffect(c)
-    attribute:SetType(EFFECT_TYPE_SINGLE)
-    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    local attribute = code:Clone()
     attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
     attribute:SetValue(ATTRIBUTE_DARK)
     c:RegisterEffect(attribute)
@@ -41,18 +37,18 @@ function s.initial_effect(c)
     e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
 
-     -- act quick spell/trap in hand
-     local e3 = Effect.CreateEffect(c)
-     e3:SetType(EFFECT_TYPE_FIELD)
-     e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
-     e3:SetRange(LOCATION_MZONE)
-     e3:SetTargetRange(LOCATION_HAND, 0)
-     e3:SetCountLimit(1, id)
-     e3:SetCondition(s.e3con)
-     c:RegisterEffect(e3)
-     local e3b = e3:Clone()
-     e3b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
-     c:RegisterEffect(e3b)
+    -- act quick spell/trap in hand
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetTargetRange(LOCATION_HAND, 0)
+    e3:SetCountLimit(1, id)
+    e3:SetCondition(s.e3con)
+    c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
+    c:RegisterEffect(e3b)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -77,8 +73,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2con(e)
-    local ph = Duel.GetCurrentPhase()
     local bc = e:GetHandler():GetBattleTarget()
+    local ph = Duel.GetCurrentPhase()
+
     return (ph == PHASE_DAMAGE or ph == PHASE_DAMAGE_CAL) and bc and
                bc:IsAttribute(ATTRIBUTE_DARK)
 end
