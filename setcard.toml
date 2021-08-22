@@ -67,9 +67,6 @@ code = 0x3042
 [set.nordic-alfar]
 code = 0xa042
 
-[set.nordic-champion]
-code = 0x4042
-
 [set.nordic-beast]
 code = 0x6042
 
