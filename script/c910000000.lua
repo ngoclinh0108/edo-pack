@@ -197,7 +197,7 @@ end
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return tp == Duel.GetTurnPlayer() and
                Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
-               Duel.GetDrawCount(tp) > 0
+               Duel.GetDrawCount(tp) > 0 and Duel.GetTurnCount() > 1
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
