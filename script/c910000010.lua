@@ -2,8 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL}
-s.listed_series = {0xcf}
+s.listed_names = {CARD_DARK_MAGICIAN}
+s.listed_series = {0xcf, 0x30a2}
 
 function s.initial_effect(c)
     -- activate
@@ -28,7 +28,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil)
     local b1 = g:IsExists(s.e1filter1, 1, nil)
     local b2 = g:IsExists(Card.IsCode, 1, nil, CARD_DARK_MAGICIAN)
-    local b3 = g:IsExists(Card.IsCode, 1, nil, CARD_DARK_MAGICIAN_GIRL)
+    local b3 = g:IsExists(Card.IsSetCard, 1, nil, 0x30a2)
     if chk == 0 then
         return b1 or
                    (b2 and
@@ -55,7 +55,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil)
     local b1 = g:IsExists(s.e1filter1, 1, nil)
     local b2 = g:IsExists(Card.IsCode, 1, nil, CARD_DARK_MAGICIAN)
-    local b3 = g:IsExists(Card.IsCode, 1, nil, CARD_DARK_MAGICIAN_GIRL)
+    local b3 = g:IsExists(Card.IsSetCard, 1, nil, 0x30a2)
 
     if b1 then
         Duel.BreakEffect()

@@ -264,7 +264,7 @@ Apply these effects, in sequence, depending on the monster you control. \
     If you control all these monsters, your opponent cannot activate cards or effects in response to this card's activation.
 ● Level 8 DARK Spellcaster "Chaos" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
 ● "Dark Magician": Destroy All Spells and Traps your opponent controls.
-● "Dark Magician Girl": Destroy all face-up monsters your opponent controls.
+● "Dark Magician Girl" monster: Destroy all face-up monsters your opponent controls.
 You can only activate 1 "Palladium Magic" per turn.
 """
 strings = ["Card sent to the GY is banished instead"]
