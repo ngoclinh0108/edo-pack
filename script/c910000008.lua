@@ -61,13 +61,18 @@ function s.e1con1(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1con2(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.IsTurnPlayer(tp) then return false end
+    if Duel.IsTurnPlayer(tp) or not Duel.GetAttackTarget() then return false end
     return s.e1filter(Duel.GetAttackTarget(), tp)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS):Filter(
-                  Card.IsAbleToHandAsCost, nil)
+    local g
+    if ev then
+        g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS):Filter(
+                Card.IsAbleToHandAsCost, nil)
+    else
+        g = Duel.GetAttackTarget()
+    end
     if chk == 0 then return #g >= 1 end
 
     g = Utility.GroupSelect(g, tp, 1, 1, HINTMSG_RTOHAND)
