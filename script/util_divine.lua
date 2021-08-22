@@ -227,8 +227,8 @@ end
 
 function Divine.GetDivineHierarchy(c, get_base)
     local divine_hierarchy = c.divine_hierarchy
-    if get_base then return divine_hierarchy end
     if not divine_hierarchy then divine_hierarchy = 0 end
+    if get_base then return divine_hierarchy end
 
     if c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0 then
         divine_hierarchy = divine_hierarchy + 1
