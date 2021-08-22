@@ -238,6 +238,9 @@ def = 2600
 effect = """\
 (This card's name is also treated as "Magician of Black Chaos" and it's Attribute is also DARK.)
 You can Ritual Summon this card with "Secrets of Dark Magic". \
+If this card is Ritual Summoned: You can activate this effect; \
+    for the rest of this turn, your opponent cannot activate cards, also cards your opponent controls cannot activate their effects. \
+    Your opponent cannot activate cards or effects in response to this effect's activation. \
 If this card destroys an opponent's monster by battle: \
     You can target 1 Spell/Trap in your GY; add it to your hand. \
 You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
