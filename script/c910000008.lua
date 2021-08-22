@@ -22,11 +22,15 @@ function s.initial_effect(c)
     e1:SetCode(EVENT_CHAINING)
     e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     e1:SetCountLimit(1, id)
-    e1:SetCondition(s.e1con)
+    e1:SetCondition(s.e1con1)
     e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e1b:SetCondition(s.e1con2)
+    c:RegisterEffect(e1b)
 
     -- atk up
     local e2 = Effect.CreateEffect(c)
@@ -46,7 +50,7 @@ function s.e1filter(c, tp)
                c:IsFaceup() and c:IsControler(tp)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con1(e, tp, eg, ep, ev, re, r, rp)
     if rp == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
         return false
     end
@@ -54,6 +58,11 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     if not tg then return false end
 
     return tg:IsExists(s.e1filter, 1, nil, tp)
+end
+
+function s.e1con2(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.IsTurnPlayer(tp) then return false end
+    return s.e1filter(Duel.GetAttackTarget(), tp)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
