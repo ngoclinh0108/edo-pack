@@ -42,10 +42,12 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local loc = 0
     local ct = 0
-    if b2 then loc, ct = loc + LOCATION_SZONE, ct + 1 end
-    if b3 then loc, ct = loc + LOCATION_MZONE, ct + 1 end
+    local n = 0
+    if b1 then n = n + 1 end
+    if b2 then loc, ct, n = loc + LOCATION_SZONE, ct + 1, n + 1 end
+    if b3 then loc, ct, n = loc + LOCATION_MZONE, ct + 1, n + 1 end
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, ct, 1 - tp, loc)
-    if b1 and b2 and b3 then
+    if n >= 2 then
         Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
     end
 end
