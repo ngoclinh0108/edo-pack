@@ -134,7 +134,7 @@ def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
 During the Battle Phase, \
-    you can Dimension Change "The Winged Dragon of Ra" you control that was Special Summoned from the GY that did not declare an attack this turn \
+    you can Dimension Change "The Winged Dragon of Ra" you control that was Special Summoned from the GY and did not declare an attack this turn \
     to this card in the same battle position, Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
 While face-up on the field, this card is also Pyro-Type. \
