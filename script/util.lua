@@ -159,10 +159,11 @@ function Utility.GroupSelect(g, tp, min, max, hintmsg)
 
     if #g > min then
         Duel.Hint(HINT_SELECTMSG, tp, hintmsg)
-        return g:Select(tp, min, max, nil)
-    else
-        return g
+        g = g:Select(tp, min, max, nil)
     end
+
+    Duel.HintSelection(g)
+    return g
 end
 
 function Utility.AvatarInfinity(root, c)

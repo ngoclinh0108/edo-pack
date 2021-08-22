@@ -66,12 +66,12 @@ function s.e1con2(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g
-    if ev then
-        g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS):Filter(
-                Card.IsAbleToHandAsCost, nil)
+    local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+    if g then
+        g = g:Filter(Card.IsAbleToHandAsCost, nil)
     else
-        g = Duel.GetAttackTarget()
+        g = Group.FromCards(Duel.GetAttackTarget()):Filter(
+                Card.IsAbleToHandAsCost, nil)
     end
     if chk == 0 then return #g >= 1 end
 
