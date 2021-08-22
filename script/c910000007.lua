@@ -27,28 +27,18 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- atk up
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_SET_ATTACK_FINAL)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCondition(s.e2con)
-    e2:SetValue(s.e2val)
-    c:RegisterEffect(e2)
-
     -- act quick spell/trap in hand
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(LOCATION_HAND, 0)
-    e3:SetCountLimit(1, id)
-    e3:SetCondition(s.e3con)
-    c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
-    c:RegisterEffect(e3b)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(LOCATION_HAND, 0)
+    e2:SetCountLimit(1, id)
+    e2:SetCondition(s.e2con)
+    c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
+    c:RegisterEffect(e2b)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -72,14 +62,4 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e2con(e)
-    local bc = e:GetHandler():GetBattleTarget()
-    local ph = Duel.GetCurrentPhase()
-
-    return (ph == PHASE_DAMAGE or ph == PHASE_DAMAGE_CAL) and bc and
-               bc:IsAttribute(ATTRIBUTE_DARK)
-end
-
-function s.e2val(e, c) return e:GetHandler():GetAttack() * 2 end
-
-function s.e3con(e) return Duel.GetTurnPlayer() ~= e:GetHandlerPlayer() end
+function s.e2con(e) return Duel.GetTurnPlayer() ~= e:GetHandlerPlayer() end

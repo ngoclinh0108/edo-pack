@@ -27,16 +27,6 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- indes
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(s.e2tg)
-    e2:SetValue(1)
-    c:RegisterEffect(e2)
-
     -- atk up
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
@@ -79,12 +69,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
-end
-
-function s.e2tg(e, tc)
-    if e:GetHandler() == tc then return true end
-    return (tc:IsLevelAbove(7) or tc:IsRankAbove(7)) and
-               tc:IsRace(RACE_SPELLCASTER)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
