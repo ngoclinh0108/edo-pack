@@ -199,30 +199,6 @@ strings = [
     "Inflict damage",
 ]
 
-[card.palladium-magic]
-id = 410000022
-set = "palladium"
-name = "Palladium Magic"
-type = "spell quick-play"
-effect = """\
-During your Draw Phase, if you control "Millennium Ascension": \
-    You can add this card from your Deck or GY to your hand. \
-    You can only use this effect of "Palladium Magic" once per turn. \
-During the Main Phase, activate 1 of these effect;
-● Ritual Summon 1 "Palladium" Ritual Monster from your hand, GY, Extra Deck or Pendulum Zone, \
-    by Tributing monsters from your hand or field, \
-    whose total Levels equal or exceed the Level of the Ritual Monster. \
-    Your opponent cannot target The Ritual Summoned Monster with card effects.
-● Add 1 "Polymerization" Spell Card or "Fusion" Spell Card from your Deck or GY to your hand.
-● Add 1 "Palladium" Ritual Monster from your Deck to your hand.
-"""
-strings = [
-    "Summoned with \"Palladium Magic\"",
-    "Ritual Summon",
-    "Add Fusion Spell",
-    "Add Ritual Monster",
-]
-
 [card.palladium-chaos-soldier-dawnbreak]
 id = 410000024
 set = "palladium chaos"
