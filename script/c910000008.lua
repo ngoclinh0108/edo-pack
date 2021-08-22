@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL}
+s.listed_names = {CARD_DARK_MAGICIAN}
 
 function s.initial_effect(c)
     -- code & attribute
@@ -23,7 +23,7 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetCode(EVENT_CHAINING)
     e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
-    e1:SetCountLimit(1, id + 1000000)
+    e1:SetCountLimit(1, id)
     e1:SetCondition(s.e1con1)
     e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
@@ -40,13 +40,15 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_SUMMON_SUCCESS)
-    e2:SetCountLimit(1, id + 2000000)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
     local e2b = e2:Clone()
-    e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
     c:RegisterEffect(e2b)
+    local e2c = e2:Clone()
+    e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e2c)
 
     -- atk up
     local e3 = Effect.CreateEffect(c)
@@ -55,7 +57,6 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
     e3:SetRange(LOCATION_HAND + LOCATION_MZONE)
-    e3:SetCountLimit(1, id + 3000000)
     e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
     e3:SetOperation(s.e3op)
@@ -112,10 +113,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e2filter(c)
-    return aux.IsCodeListed(c, CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL) and
-               c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToHand()
-end
+function s.e2filter(c) return c:IsCode(CARD_DARK_MAGICIAN) and c:IsAbleToHand() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
@@ -127,12 +125,10 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_DECK, 0, 1,
-                                      1, nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
+    local tc = Duel.GetFirstMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, nil)
+    if tc then
+        Duel.SendtoHand(tc, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, tc)
     end
 end
 

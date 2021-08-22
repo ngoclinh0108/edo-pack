@@ -219,13 +219,12 @@ effect = """\
 When your opponent targets a Spellcaster monster(s) you control for an attack, or with a card effect (except during the Damage Step), \
     while this card is in your hand or GY (Quick Effect): \
     You can return 1 of those monsters to the hand; Special Summon this card. \
-If this card is Normal or Special Summoned: \
-    You can add 1 Spell/Trap from your Deck to your hand, \
-    that specifically lists the card "Dark Magician" or "Dark Magician Girl" in its text. \
+    You can only use this effect of "Palladium Illusion Oracle Mana" once per turn. \
+If this card is Summoned: \
+    You can add 1 "Dark Magician" from your Deck to your hand. \
 During damage calculation, if your other LIGHT or DARK Spellcaster monster battles an opponent's monster (Quick Effect): \
     You can send this card from your hand or face-up field to the GY; \
     that monster you control gains ATK/DEF equal to this card's original ATK during that damage calculation only. \
-You can only use each effect of "Palladium Illusion Oracle Mana" once per turn. \
 """
 strings = ["Gain ATK/DEF"]
 
@@ -243,8 +242,9 @@ effect = """\
 (This card's name is also treated as "Magician of Black Chaos" and it's Attribute is also DARK.)
 You can Ritual Summon this card with "Secrets of Dark Magic". \
 You can reveal this card in your hand; \
-    add 1 "Dark Magician", "Dark Magician Girl", or 1 non-Ritual Monster that specifically lists those card in its text, \
-    from your Deck to your hand, then place 1 card from your hand on top of the Deck. \
+    add 1 Spell/Trap from your Deck to your hand, \
+    that specifically lists "Dark Magician" or "Dark Magician Girl" in its text, \
+    then place 1 card from your hand on top of the Deck. \
 If this card is Ritual Summoned: You can activate this effect; \
     for the rest of this turn, your opponent cannot activate cards, also cards your opponent controls cannot activate their effects. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \

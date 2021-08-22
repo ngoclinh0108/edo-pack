@@ -56,10 +56,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    if not c:IsMonster() or not c:IsAbleToHand() then return false end
-    return c:IsCode(CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL) or
-               (aux.IsCodeListed(c, CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL) and
-                   not c:IsType(TYPE_RITUAL))
+    return c:IsAbleToHand() and c:IsType(TYPE_SPELL + TYPE_TRAP) and
+               aux.IsCodeListed(c, CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
