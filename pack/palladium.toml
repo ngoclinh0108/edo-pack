@@ -4,8 +4,7 @@ name = "Divine Hieroglyph"
 type = "spell quick-play"
 effect = """\
 This card's activation and effect cannot be negated. \
-You can only activate 1 "Divine Hieroglyph" per turn. \
-Activate 1 of these effects;
+Activate 1 of these effects; You can only activate 1 "Divine Hieroglyph" per turn.
 ● During the Main Phase: Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster, \
     or, if you control 3 or more monsters with different names, \
     you can add 1 DIVINE monster from your Deck to your hand, then, \
@@ -261,10 +260,10 @@ name = "Palladium Magic"
 type = "spell quick-play"
 effect = """\
 Apply these effects, in sequence, depending on the monster you control. \
-    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation.
+    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation. \
+    You can only activate 1 "Palladium Magic" per turn.
 ● Level 8 DARK Spellcaster "Chaos" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
 ● "Dark Magician": Destroy All Spells and Traps your opponent controls.
 ● "Dark Magician Girl" monster: Destroy all face-up monsters your opponent controls.
-You can only activate 1 "Palladium Magic" per turn.
 """
 strings = ["Card sent to the GY is banished instead"]
