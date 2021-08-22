@@ -215,12 +215,31 @@ atk = 2000
 def = 1700
 effect = """\
 (This card's name is also treated as "Dark Magician Girl" and it's Attribute is also DARK.)
-When your opponent activates a card or effect that targets 1 Spellcaster monster you control, \
+When your opponent activates a card or effect that targets a Spellcaster monster(s) you control, \
     while this card is in your hand or GY (Quick Effect): \
-    You can Special Summon this card. \
+    You can return 1 of those monsters to the hand; Special Summon this card. \
     You can only use this effect of "Palladium Illusion Oracle Mana" once per turn. \
 During damage calculation, if your other LIGHT or DARK Spellcaster monster battles an opponent's monster (Quick Effect): \
     You can send this card from your hand or face-up field to the GY; \
-    that monster you control gains 2000 ATK/DEF during that damage calculation only. \
+    that monster you control gains ATK/DEF equal to this card's original ATK during that damage calculation only. \
 """
 strings = ["Gain ATK/DEF"]
+
+[card.palladium-oracle-aknamkanon]
+id = 910000009
+set = "palladium chaos"
+name = "Palladium Chaos Oracle Aknamkanon"
+type = "monster ritual effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2800
+def = 2600
+effect = """\
+(This card's name is also treated as "Magician of Black Chaos" and it's Attribute is also DARK.)
+You can Ritual Summon this card with "Secrets of Dark Magic". \
+If this card destroys an opponent's monster by battle: \
+    You can target 1 Spell/Trap in your GY; add it to your hand. \
+You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
+"""
+strings = ["Add 1 Spell/Trap from the GY"]

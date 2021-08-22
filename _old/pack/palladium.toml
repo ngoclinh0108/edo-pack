@@ -223,31 +223,6 @@ strings = [
     "Add Ritual Monster",
 ]
 
-[card.palladium-chaos-sorcerer-aknamkanon]
-id = 410000023
-set = "palladium chaos"
-name = "Palladium Chaos Sorcerer Aknamkanon"
-type = "monster ritual effect"
-attribute = "dark"
-race = "spellcaster"
-level = 8
-atk = 2800
-def = 2600
-effect = """\
-(This card is also always treated as "Magician of Black Chaos", also LIGHT monster.)
-You can Ritual Summon this card with "Palladium Magic". \
-Your opponent cannot target Spellcaster monsters you control with card effects. \
-Once per turn: You can target 1 card your opponent controls; banish it face-down. \
-    This card cannot attack the turn this effect is activated. \
-You can only use the following effect of "Palladium Chaos Sorcerer Aknamkanon" once per turn;
-● You can discard this card; \
-    Add 1 Level 8 or lower LIGHT or DARK Spellcaster monster from your Deck or GY to your hand, \
-    except "Palladium Chaos Sorcerer Aknamkanon".
-● If this card destroys an opponent's monster by battle: \
-    You can add 1 Spell/Trap from your Deck or GY to your hand.
-"""
-strings = ["Banish 1 monster on the field", "Add 1 Spell/Trap to your hand"]
-
 [card.palladium-chaos-soldier-dawnbreak]
 id = 410000024
 set = "palladium chaos"

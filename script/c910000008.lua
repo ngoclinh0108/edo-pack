@@ -23,21 +23,22 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     e1:SetCountLimit(1, id)
     e1:SetCondition(s.e1con)
+    e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
     -- atk up
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
-    e3:SetRange(LOCATION_HAND + LOCATION_MZONE)
-    e3:SetCondition(s.e3con)
-    e3:SetCost(s.e3cost)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    e2:SetRange(LOCATION_HAND + LOCATION_MZONE)
+    e2:SetCondition(s.e2con)
+    e2:SetCost(s.e2cost)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter(c, tp)
@@ -53,6 +54,15 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     if not tg then return false end
 
     return tg:IsExists(s.e1filter, 1, nil, tp)
+end
+
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS):Filter(
+                  Card.IsAbleToHandAsCost, nil)
+    if chk == 0 then return #g >= 1 end
+
+    g = Utility.GroupSelect(g, tp, 1, 1, HINTMSG_RTOHAND)
+    Duel.SendtoHand(g, nil, 1, REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -71,7 +81,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetAttackTarget()
     if tc and tc:IsControler(1 - tp) then tc = Duel.GetAttacker() end
     if not tc then return false end
@@ -82,13 +92,13 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
                tc:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
 end
 
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:IsAbleToGraveAsCost() end
     Duel.SendtoGrave(c, REASON_COST)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local tc = e:GetLabelObject()
     if tc:IsFacedown() or not tc:IsRelateToBattle() then return end
@@ -96,7 +106,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp, chk)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(2000)
+    ec1:SetValue(c:GetBaseAttack())
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_DAMAGE_CAL)
     tc:RegisterEffect(ec1)
     local ec1b = ec1:Clone()
