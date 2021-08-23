@@ -36,7 +36,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                                    LOCATION_ONFIELD, 1, c,
                                                    TYPE_SPELL + TYPE_TRAP)) or
                    (b3 and
-                       Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0,
+                       Duel.IsExistingMatchingCard(aux.TRUE, tp, 0,
                                                    LOCATION_MZONE, 1, nil))
     end
 
@@ -87,8 +87,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     if b3 then
         Duel.BreakEffect()
-        local sg = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE,
-                                         nil)
+        local sg = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
         Duel.Destroy(sg, REASON_EFFECT)
     end
 end
