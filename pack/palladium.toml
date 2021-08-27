@@ -338,7 +338,8 @@ def = 1000
 effect = """\
 (This card's name is also treated as "Jack's Knight".)
 If this card is Normal or Special Summoned: \
-    You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
+    You can target face-up cards your opponent control, \
+    up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
     You can only use this effect of "Palladium Knight of Jack" once per turn. \
 Once per turn: \
     You can Fusion Summon 1 Fusion Monster from your Extra Deck, \

@@ -90,12 +90,10 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(s.e2filter, tp,
-                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-    if #g > 1 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-        g = g:Select(tp, 1, 1, nil)
-    end
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp,
+                                      LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+                                      nil)
 
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)

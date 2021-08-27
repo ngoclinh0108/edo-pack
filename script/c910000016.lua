@@ -40,23 +40,23 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and
-               c:IsFaceup()
+    return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_LIGHT) and
+               c:IsRace(RACE_WARRIOR)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1,
                                            nil) and
-                   Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1,
-                                         nil)
+                   Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_ONFIELD,
+                                         1, nil)
     end
 
     local ct =
         Duel.GetMatchingGroupCount(s.e1filter, tp, LOCATION_MZONE, 0, nil)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, ct,
-                                nil)
+    local g = Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_ONFIELD, 1,
+                                ct, nil)
     Duel.SetOperationInfo(0, HINTMSG_DESTROY, g, #g, 0, 0)
 end
 
