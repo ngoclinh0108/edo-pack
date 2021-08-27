@@ -227,13 +227,13 @@ id = 910000010
 set = "palladium black-luster-soldier"
 name = "Palladium Chaos Soldier Faris"
 type = "monster ritual effect"
-attribute = "earth"
+attribute = "light"
 race = "warrior"
 level = 8
 atk = 3000
 def = 2500
 effect = """\
-(This card is always treated as an "Black Luster Soldier" card.)
+(This card is always treated as an "Black Luster Soldier" card and it's Attribute is also DARK.)
 """
 strings = []
 
