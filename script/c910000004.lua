@@ -73,8 +73,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     Duel.BreakEffect()
 
     local c = e:GetHandler()
-    local mc =
-        Utility.GroupSelect(eg:Filter(s.dmsfilter, nil), rp, 1, 1, 666100):GetFirst()
+    local mc = eg:Filter(s.dmsfilter, nil):GetFirst()
     if not mc then return end
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0

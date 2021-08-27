@@ -135,6 +135,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
                                                          LOCATION_MZONE, 0, nil),
                                    tp, 1, 1, 666100):GetFirst()
     if not mc then return end
+    Duel.HintSelection(mc)
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
     Dimension.Change(c, mc, tp, tp, mc:GetPosition())

@@ -74,6 +74,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
                                                          LOCATION_MZONE, 0, nil,
                                                          tp), tp, 1, 1, 666100):GetFirst()
     if not mc then return end
+    Duel.HintSelection(mc)
 
     local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, mc)
     Duel.Release(g, REASON_COST)

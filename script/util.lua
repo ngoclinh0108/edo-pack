@@ -161,8 +161,6 @@ function Utility.GroupSelect(g, tp, min, max, hintmsg)
         Duel.Hint(HINT_SELECTMSG, tp, hintmsg)
         g = g:Select(tp, min, max, nil)
     end
-
-    Duel.HintSelection(g)
     return g
 end
 
