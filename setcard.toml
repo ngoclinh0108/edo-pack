@@ -37,6 +37,9 @@ code = 0x107b
 [set.gogogo]
 code = 0x59
 
+[set.guardian]
+code = 0x52
+
 [set.hero]
 code = 0x8
 

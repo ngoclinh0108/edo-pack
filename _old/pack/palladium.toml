@@ -90,27 +90,6 @@ If this card is in your hand, GY: You can target 1 "Palladium" Xyz Monster you c
 """
 strings = ["Copy level", "Change battling monster's Attribute", "Attach"]
 
-[card.palladium-spirit-kuriboh]
-id = 410000015
-set = "palladium kuriboh"
-name = "Palladium Spirit Kuriboh"
-type = "monster tuner effect"
-attribute = "dark"
-race = "fiend"
-level = 1
-atk = 300
-def = 200
-effect = """\
-(This card is also always treated as LIGHT monster.)
-This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
-You take no Battle Damage from battles involving this card. \
-If this card on the field is destroyed: You take no damage this turn. \
-When an opponent's monster declares a directly attack: \
-    You can Special Summon this card from the GY in Defense Position (if it was there when that monster was destroyed) or hand (even if not). \
-    You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
-"""
-strings = []
-
 [card.palladium-oracle-faris]
 id = 410000016
 set = "palladium"
@@ -242,68 +221,6 @@ strings = [
     "Destroy Spells and Traps",
     "Destroy monsters",
     "Inflict damage",
-]
-
-[card.palladium-chaos-soldier-dawnbreak]
-id = 410000024
-set = "palladium chaos"
-name = "Palladium Chaos Soldier - Envoy of the Dawnbreak"
-type = "monster ritual pendulum effect"
-attribute = "light"
-race = "warrior"
-level = 8
-pendulum-scale = 0
-atk = 3000
-def = 2500
-pendulum-effect = """\
-You can destroy this card, and if you do, add 1 Level 8 or lower LIGHT or DARK Warrior monster from your Deck or GY to your hand, \
-    except "Palladium Chaos Soldier - Envoy of the Dawnbreak". \
-    You can only use this effect of "Palladium Chaos Soldier - Envoy of the Dawnbreak" once per turn. \
-"""
-effect = """\
-You can Ritual Summon this card with "Palladium Magic". \
-If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-If this card destroys an opponent's monster by battle: You can activate 1 of these effects;
-● This card gains 1500 ATK.
-● This card can make a second attack in a row.
-● Banish 1 card your opponent controls.
-● Banish 1 random card from your opponent's hand face-down.
-"""
-strings = [
-    "Gain 1500 ATK",
-    "Attack again",
-    "Banish 1 card on field",
-    "Banish 1 card on hand",
-]
-
-[card.palladium-chaos-dragon-nightfall]
-id = 410000025
-set = "palladium chaos"
-name = "Palladium Chaos Dragon - Envoy of the Nightfall"
-type = "monster ritual pendulum effect"
-attribute = "dark"
-race = "dragon"
-level = 8
-pendulum-scale = 11
-scale = 4
-atk = 3000
-def = 2500
-pendulum-effect = """\
-You can destroy this card, and if you do, add 1 Level 8 or lower LIGHT or DARK Dragon monster from your Deck or GY to your hand, \
-    except "Palladium Chaos Dragon - Envoy of the Nightfall". \
-    You can only use this effect of "Palladium Chaos Dragon - Envoy of the Nightfall" once per turn. \
-"""
-effect = """\
-You can Ritual Summon this card with "Palladium Magic". \
-If this card in the Monster Zone is destroyed by battle or card effect: You can place this card in your Pendulum Zone. \
-Once per turn: You can pay 1000 LP; \
-    send as many cards in both players' hands and on the field as possible to the GY, \
-    then inflict 300 damage to your opponent for each card sent to the opponent's GY by this effect. \
-    You cannot activate other cards or effects during the turn you activate this card's effect. \
-"""
-strings = [
-    "Activated \"Palladium Chaos Dragon - Envoy of the Nightfall\" effect",
-    "Send card to the GY",
 ]
 
 [card.palladium-sacrophagus]
