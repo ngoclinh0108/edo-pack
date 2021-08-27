@@ -1,33 +1,3 @@
-[card.divine-hieroglyph]
-id = 910000000
-name = "Divine Hieroglyph"
-type = "spell quick-play"
-effect = """\
-This card's activation and effect cannot be negated. \
-Activate 1 of these effects; You can only activate 1 "Divine Hieroglyph" per turn.
-● During the Main Phase: Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster, \
-    or, if you control 3 or more monsters with different names, \
-    you can add 1 DIVINE monster from your Deck to your hand, then, \
-    immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
-    When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them.
-● During your Main Phase or your opponent's Battle Phase: \
-    Target 1 monster in either GY; Special Summon it, but send it to the GY during the End Phase. \
-    You can also Special Summon "The Winged Dragon of Ra" with this effect, ignoring its Summoning conditions.
-During your Draw Phase, instead of conducting your normal draw: \
-    You can reveal 1 DIVINE monster in your hand; \
-    add this card from your Deck or GY to your hand.
-
-[ \
-Add from Outside Dimension versions of your Divine-Beast Monsters. \
-] \
-"""
-strings = [
-    "Tribute Summon",
-    "Special Summon",
-    "Add 1 DIVINE monster",
-    "Special Summoned by \"Divine Hieroglyph\"",
-]
-
 [card.obelisk]
 id = 910000001
 alias = 10000000
@@ -252,18 +222,3 @@ If this card destroys an opponent's monster by battle: \
 You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
 """
 strings = ["Add 1 Spell/Trap from the GY"]
-
-[card.palladium-magic]
-id = 910000010
-set = "palladium"
-name = "Palladium Magic"
-type = "spell quick-play"
-effect = """\
-Apply these effects, in sequence, depending on the monster you control. \
-    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation. \
-    You can only activate 1 "Palladium Magic" per turn.
-● Level 8 DARK Spellcaster "Chaos" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
-● "Dark Magician": Destroy All Spells and Traps your opponent controls.
-● "Dark Magician Girl" monster: Destroy all monsters your opponent controls.
-"""
-strings = ["Card sent to the GY is banished instead"]
