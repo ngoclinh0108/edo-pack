@@ -222,28 +222,6 @@ You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per tur
 """
 strings = ["Add 1 Spell/Trap from the GY"]
 
-[card.palladium-spirit-kuriboh]
-id = 910000010
-set = "palladium kuriboh"
-name = "Palladium Spirit Kuriboh"
-type = "monster effect"
-attribute = "dark"
-race = "fiend"
-level = 1
-atk = 300
-def = 200
-effect = """\
-(This card's name is also treated as "Kuriboh".)
-When an opponent's monster declares a directly attack: \
-    You can Special Summon this card \
-    from the GY in Defense Position (if it was there when that monster was destroyed) or hand (even if not), \
-    and if you do, negate that attack. \
-    You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
-This card can be treated as 2 Tributes for the Tribute Summon of a monster. \
-You take no Battle Damage from battles involving this card. \
-"""
-strings = []
-
 [card.palladium-knight-gaia]
 id = 910000011
 set = "palladium"
@@ -418,5 +396,27 @@ level = 5
 atk = 1400
 def = 1800
 effect = """\
+"""
+strings = []
+
+[card.palladium-spirit-kuriboh]
+id = 910000022
+set = "palladium kuriboh"
+name = "Palladium Spirit Kuriboh"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 1
+atk = 300
+def = 200
+effect = """\
+(This card's name is also treated as "Kuriboh".)
+When an opponent's monster declares a directly attack: \
+    You can Special Summon this card \
+    from the GY in Defense Position (if it was there when that monster was destroyed) or hand (even if not), \
+    and if you do, negate that attack. \
+    You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
+This card can be treated as 2 Tributes for the Tribute Summon of a monster. \
+You take no Battle Damage from battles involving this card. \
 """
 strings = []

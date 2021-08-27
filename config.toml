@@ -3,8 +3,8 @@ default = true
 recipe  = [
     "macro.toml",
     "setcard.toml",
-    "pack/generic.toml",
-    "pack/palladium.toml",
+    "pack/_generic.toml",
+    "pack/atem.toml",
 ]
 
 [picset.triplesix]
