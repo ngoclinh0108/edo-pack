@@ -222,22 +222,8 @@ You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per tur
 """
 strings = ["Add 1 Spell/Trap from the GY"]
 
-[card.palladium-guardian-shada]
-id = 910000010
-set = "palladium guardian"
-name = "Palladium Guardian Shada"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1400
-def = 2600
-effect = """\
-"""
-strings = []
-
 [card.palladium-spirit-kuriboh]
-id = 910000011
+id = 910000010
 set = "palladium kuriboh"
 name = "Palladium Spirit Kuriboh"
 type = "monster effect"
@@ -258,7 +244,7 @@ You take no Battle Damage from battles involving this card. \
 strings = []
 
 [card.palladium-knight-gaia]
-id = 910000012
+id = 910000011
 set = "palladium"
 name = "Palladium Knight Gaia"
 type = "monster effect"
@@ -273,7 +259,7 @@ effect = """\
 strings = []
 
 [card.curse-of-palladium-dragon]
-id = 910000013
+id = 910000012
 set = "palladium"
 name = "Curse of Palladium Dragon"
 type = "monster effect"
@@ -287,7 +273,7 @@ effect = """\
 strings = []
 
 [card.palladium-knight-queen]
-id = 910000014
+id = 910000013
 set = "palladium"
 name = "Palladium Knight of Queen"
 type = "monster effect"
@@ -306,7 +292,7 @@ If this card is Normal or Special Summoned: \
 strings = []
 
 [card.palladium-knight-king]
-id = 910000015
+id = 910000014
 set = "palladium"
 name = "Palladium Knight of King"
 type = "monster effect"
@@ -326,7 +312,7 @@ If this card is Normal or Special Summoned while you control another Level 4 LIG
 strings = []
 
 [card.palladium-knight-jack]
-id = 910000016
+id = 910000015
 set = "palladium"
 name = "Palladium Knight of Jack"
 type = "monster effect"
@@ -346,3 +332,31 @@ Once per turn: \
     using monsters you control as Fusion Materials, including this card. \
 """
 strings = ["Fusion Summon"]
+
+[card.palladium-enchanter-isis]
+id = 910000016
+set = "palladium"
+name = "Palladium Enchanter Isis"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 4
+atk = 800
+def = 2000
+effect = """\
+"""
+strings = []
+
+[card.palladium-guardian-shada]
+id = 910000017
+set = "palladium guardian"
+name = "Palladium Guardian Shada"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1400
+def = 1200
+effect = """\
+"""
+strings = []
