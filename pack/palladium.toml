@@ -256,3 +256,18 @@ This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" m
 You take no Battle Damage from battles involving this card. \
 """
 strings = []
+
+[card.palladium-knight-gaia]
+id = 910000012
+set = "palladium"
+name = "Palladium Knight Gaia"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 7
+atk = 2300
+def = 2100
+effect = """\
+(This card's name is also treated as "Gaia The Fierce Knight".)
+"""
+strings = []

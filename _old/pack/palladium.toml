@@ -90,29 +90,6 @@ If this card is in your hand, GY: You can target 1 "Palladium" Xyz Monster you c
 """
 strings = ["Copy level", "Change battling monster's Attribute", "Attach"]
 
-[card.palladium-oracle-faris]
-id = 410000016
-set = "palladium"
-name = "Palladium Oracle Faris"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 7
-atk = 2300
-def = 2100
-effect = """\
-(This card is also always treated as "Gaia The Fierce Knight", also Spellcaster monster.)
-You can Normal Summon this card without Tributing, but its original ATK become 1900. \
-When you Ritual Summon a "Palladium" monster, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
-You can only use each of the following effects of "Palladium Oracle Faris" once per turn.
-● If this card is Summoned: You can Special Summon 1 Level 4 or lower "Palladium" Tuner monster \
-    from your hand, Deck or GY in Defense Position.
-● If this card is used as material for a Ritual, Fusion, Synchro, Link Summon, \
-    or is detached from an Xyz Monster to activate that monster's effect: \
-    You can add 1 "Palladium" Spell/Trap from your Deck or GY to your hand.
-"""
-strings = ["Summon without Tributing"]
-
 [card.palladium-knight-queen]
 id = 410000017
 set = "palladium"
