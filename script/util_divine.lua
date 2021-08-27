@@ -43,6 +43,12 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     nodis:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nodis)
 
+    -- position
+    local posunchange = Effect.CreateEffect(c)
+    posunchange:SetType(EFFECT_TYPE_SINGLE)
+    posunchange:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    c:RegisterEffect(posunchange)
+
     -- control cannot switch
     local noswitch = Effect.CreateEffect(c)
     noswitch:SetType(EFFECT_TYPE_SINGLE)
