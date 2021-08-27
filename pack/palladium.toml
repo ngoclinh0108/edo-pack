@@ -81,14 +81,16 @@ ${EGYPTIAN_EFFECT} \
 This card is also Machine-Type while on the field. \
 Cannot attack. \
 Neither player can target this card for attacks or by card effects. \
-Once per turn: You can send this card to the Dimension Zone; \
+Once per turn: The turn player can send this card to the Dimension Zone; \
     Dimension Summon the Dimension Material Monster, ignoring its Summoning conditions (it's Divine Hierarchy is the same as with this card's) \
-    and if they do, the original ATK/DEF of it become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon, \
-    if the combined ATK/DEF are 0/0 then it become 4000/4000. Also, reset the effects that prevent it from attacking. \
-    Only the original owner of this card can use this effect. \
+    and if they do, it gains these effects. \
     Cards and effects cannot be activated in response to this effect's activation. \
+    Only the original owner of this card can use this effect.
+● The original ATK/DEF of this card become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon, \
+    if the combined ATK/DEF is 0/0 then it become 4000/4000.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 """
-strings = ["Turn back to Standard mode"]
+strings = ["Turn back to Standard mode", "Unstoppable Attack"]
 
 [card.ra-phoenix]
 id = 910000005

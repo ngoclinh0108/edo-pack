@@ -145,11 +145,20 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetRange(LOCATION_MZONE)
         ec1:SetValue(atk)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        mc:RegisterEffect(ec1)
-        local ec2 = ec1:Clone()
-        ec2:SetCode(EFFECT_SET_BASE_DEFENSE)
-        ec2:SetValue(def)
-        mc:RegisterEffect(ec2)
+        mc:RegisterEffect(ec1, true)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
+        ec1b:SetValue(def)
+        mc:RegisterEffect(ec1b, true)
+
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetDescription(aux.Stringid(id, 1))
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE +
+                            EFFECT_FLAG_CLIENT_HINT)
+        ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+        ec2:SetRange(LOCATION_MZONE)
+        mc:RegisterEffect(ec2, true)
 
         if e:GetLabel() > 0 then
             mc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
