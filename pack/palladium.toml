@@ -38,7 +38,7 @@ ${EGYPTIAN_LIMIT} \
 This card is also Dragon-Type while on the field. \
 The original ATK and DEF of this card each become equal to the number of cards in your hand x X000. (X is this card Divine Hierarchy.) \
 If a monster(s) is Summoned to your opponent's field, while this card is able to attack: \
-    That monster(s) loses 2000 ATK if it is in face-up Attack Position, or 2000 DEF if it is in face-up Defense Position, \
+    That monster(s) loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it, \
     it cannot activate its effects in response to this effect's activation. \
 """
@@ -388,6 +388,35 @@ race = "fiend"
 level = 6
 atk = 2200
 def = 2500
+effect = """\
+"""
+strings = []
+
+[card.palladium-beast-gazelle]
+id = 910000019
+set = "palladium phantom-beast"
+name = "Palladium Beast Gazelle"
+type = "monster effect"
+attribute = "earth"
+race = "beast"
+level = 4
+atk = 1500
+def = 1200
+effect = """\
+(This card is always treated as an "Phantom Beast" card.)
+"""
+strings = []
+
+[card.palladium-fiend-berfomet]
+id = 910000019
+set = "palladium"
+name = "Palladium Fiend Berfomet"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 5
+atk = 1400
+def = 1800
 effect = """\
 """
 strings = []
