@@ -235,9 +235,20 @@ def = 0
 effect = """\
 You can reveal this card in your hand; \
     add 1 "Palladium" or "Blue-Eyes" monster from your Deck or GY to your hand. \
-You can only use each effect of "Palladium Azure Oracle Seto" once per turn. \
+    except "Palladium Azure Oracle Seto". \
+You can discard this card, then target 1 "Blue-Eyes" monster you control; \
+    Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, using it as the Fusion Material. \
+You can Tribute this card; \
+    Special Summon up to 3 copies of "Blue-Eyes White Dragon" from your hand, Deck or GY. \
+    You cannot Special Summon monsters the turn you activate this effect, except "Blue-Eyes White Dragon". \
+You can only use 1 "Palladium Azure Oracle Seto" effect per turn, and only once that turn.
 """
-strings = []
+strings = [
+    "Affected by effect \"Palladium Azure Oracle Seto\": cannot Special Summon monsters, except \"Blue-Eyes White Dragon\"",
+    "Add 1 \"Palladium\" or \"Blue-Eyes\" monster",
+    "Fusion Summon",
+    "Summon 3 \"Blue-Eyes White Dragon\"",
+]
 
 # [card.palladium-soldier-faris]
 # id = 910000010
