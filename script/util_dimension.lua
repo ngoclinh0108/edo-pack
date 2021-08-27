@@ -28,7 +28,7 @@ function Dimension.AddProcedure(c)
     -- startup
     local startup = Effect.CreateEffect(c)
     startup:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    startup:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
+    startup:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     startup:SetCode(EVENT_STARTUP)
     startup:SetRange(LOCATION_ALL - LOCATION_ONFIELD)
     startup:SetOperation(function(e)
@@ -42,7 +42,7 @@ function Dimension.AddProcedure(c)
     -- turn back when leave field
     local turnback = Effect.CreateEffect(c)
     turnback:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    turnback:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
+    turnback:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     turnback:SetCode(EVENT_ADJUST)
     turnback:SetRange(LOCATION_ALL - LOCATION_ONFIELD)
     turnback:SetCondition(function(e)
@@ -81,10 +81,10 @@ end
 
 function Dimension.RegisterChange(s, c, op)
     s.dimension_change = op
-    
+
     local startup = Effect.CreateEffect(c)
     startup:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    startup:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
+    startup:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     startup:SetCode(EVENT_STARTUP)
     startup:SetRange(LOCATION_ALL)
     startup:SetOperation(op)

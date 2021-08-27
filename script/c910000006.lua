@@ -23,7 +23,7 @@ function s.initial_effect(c)
     -- return to original at end battle
     local reset = Effect.CreateEffect(c)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
     reset:SetCode(EVENT_PHASE + PHASE_BATTLE)
     reset:SetRange(LOCATION_MZONE)
     reset:SetOperation(s.resetop)
@@ -32,18 +32,30 @@ function s.initial_effect(c)
     -- race
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_ADD_RACE)
     e1:SetRange(LOCATION_MZONE)
     e1:SetValue(RACE_WARRIOR)
     c:RegisterEffect(e1)
 
-    -- infinite atk
+    -- negate
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    e2:SetCategory(CATEGORY_DISABLE)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
+    e2:SetCode(EVENT_CHAINING)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCondition(s.e2con)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- infinite atk
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
     Utility.AvatarInfinity(s, c)
 end
 
@@ -135,7 +147,21 @@ function s.resetop(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
+    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
+    local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+    if not tg or not tg:IsContains(c) then return false end
+    return Duel.IsChainDisablable(ev)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)
+    Utility.HintCard(e:GetHandler():GetOriginalCode())
+    Duel.NegateEffect(ev)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToBattle() or c:IsFacedown() then return end
     Utility.GainInfinityAtk(c, RESET_PHASE + PHASE_DAMAGE_CAL)

@@ -152,7 +152,7 @@ At the end of the Battle Phase, Dimension Change it to the Dimension Material Mo
 ${EGYPTIAN_EFFECT} \
 This card is also Warrior-Type while on the field. \
 When a card or effect is activated that targets this card, negate that effect. \
-If this card battles, this card gain ∞ ATK during damage calculation only. \
+If this card battles, it gain ∞ ATK during damage calculation only. \
 """
 strings = ["Gain ∞ ATK"]
 

@@ -9,7 +9,7 @@ function s.initial_effect(c)
     -- race
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_ADD_RACE)
     e1:SetRange(LOCATION_MZONE)
     e1:SetValue(RACE_WINGEDBEAST)
