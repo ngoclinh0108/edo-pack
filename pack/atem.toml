@@ -222,6 +222,21 @@ You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per tur
 """
 strings = ["Add 1 Spell/Trap from the GY"]
 
+[card.palladium-soldier-faris]
+id = 910000010
+set = "palladium black-luster-soldier"
+name = "Palladium Chaos Soldier Faris"
+type = "monster ritual effect"
+attribute = "earth"
+race = "warrior"
+level = 8
+atk = 3000
+def = 2500
+effect = """\
+(This card is always treated as an "Black Luster Soldier" card.)
+"""
+strings = []
+
 [card.palladium-knight-gaia]
 id = 910000011
 set = "palladium"

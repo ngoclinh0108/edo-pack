@@ -7,6 +7,9 @@ code = 0x45
 [set.blue-eyes]
 code = 0xdd
 
+[set.black-luster-soldier]
+code = 0x10cf
+
 [set.chaos]
 code = 0xcf
 
