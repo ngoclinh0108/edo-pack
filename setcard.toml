@@ -1,6 +1,9 @@
 [set.aesir]
 code = 0x4b
 
+[set.archfiend]
+code = 0x45
+
 [set.blue-eyes]
 code = 0xdd
 

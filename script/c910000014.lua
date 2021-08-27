@@ -40,8 +40,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_LIGHT) and
-               c:IsRace(RACE_WARRIOR)
+    return not c:IsCode(id) and c:IsFaceup() and c:IsRace(RACE_WARRIOR)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
