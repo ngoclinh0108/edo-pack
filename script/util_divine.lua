@@ -17,75 +17,71 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         -- summon cannot be negate
         local sumsafe = Effect.CreateEffect(c)
         sumsafe:SetType(EFFECT_TYPE_SINGLE)
-        sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+        sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
         sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
-        c:RegisterEffect(sumsafe)
+        Divine.RegisterEffect(c, sumsafe)
     end
 
     -- activation and effects cannot be negated
     local inact = Effect.CreateEffect(c)
     inact:SetType(EFFECT_TYPE_FIELD)
-    inact:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     inact:SetCode(EFFECT_CANNOT_INACTIVATE)
     inact:SetRange(LOCATION_MZONE)
     inact:SetValue(function(e, ct)
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
         return te:GetHandler() == e:GetHandler()
     end)
-    c:RegisterEffect(inact)
+    Divine.RegisterEffect(c, inact)
     local inact2 = inact:Clone()
     inact2:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(inact2)
     local nodis = Effect.CreateEffect(c)
     nodis:SetType(EFFECT_TYPE_SINGLE)
-    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE +
-                          EFFECT_FLAG_UNCOPYABLE)
+    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
     nodis:SetCode(EFFECT_CANNOT_DISABLE)
     nodis:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(nodis)
+    Divine.RegisterEffect(c, nodis)
 
     -- cannot switch control
     local noswitch = Effect.CreateEffect(c)
     noswitch:SetType(EFFECT_TYPE_SINGLE)
-    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
+    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
     noswitch:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(noswitch)
-    
+    Divine.RegisterEffect(c, noswitch)
+
     -- cannot be tributed by your opponent
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
-    norelease:SetProperty(
-        EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE +
-            EFFECT_FLAG_UNCOPYABLE)
+    norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
     norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
-    c:RegisterEffect(norelease)
+    Divine.RegisterEffect(c, norelease)
 
     -- cannot be used as a material by your opponent
     local nomaterial = Effect.CreateEffect(c)
     nomaterial:SetType(EFFECT_TYPE_SINGLE)
-    nomaterial:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    nomaterial:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     nomaterial:SetCode(EFFECT_CANNOT_BE_MATERIAL)
     nomaterial:SetValue(function(e, tc)
         if not tc then return false end
         return tc:GetControler() ~= e:GetHandlerPlayer()
     end)
-    c:RegisterEffect(nomaterial)
+    Divine.RegisterEffect(c, nomaterial)
 
     -- cannot change position with effect
     local posunchange = Effect.CreateEffect(c)
     posunchange:SetType(EFFECT_TYPE_SINGLE)
-    posunchange:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    posunchange:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     posunchange:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
-    c:RegisterEffect(posunchange)
+    Divine.RegisterEffect(c, posunchange)
 
     -- immune
     local immunity = Effect.CreateEffect(c)
     immunity:SetType(EFFECT_TYPE_SINGLE)
-    immunity:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
+    immunity:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     immunity:SetCode(EFFECT_IMMUNE_EFFECT)
     immunity:SetRange(LOCATION_MZONE)
     immunity:SetValue(function(e, te)
@@ -100,10 +96,10 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
                            CATEGORY_TODECK + CATEGORY_RELEASE + CATEGORY_TOGRAVE +
                            CATEGORY_FUSION_SUMMON)
     end)
-    c:RegisterEffect(immunity)
+    Divine.RegisterEffect(c, immunity)
     local noleave = Effect.CreateEffect(c)
     noleave:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    noleave:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
+    noleave:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     noleave:SetCode(EFFECT_SEND_REPLACE)
     noleave:SetRange(LOCATION_MZONE)
     noleave:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -118,13 +114,13 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         return true
     end)
     noleave:SetValue(function() return false end)
-    c:RegisterEffect(noleave)
+    Divine.RegisterEffect(c, noleave)
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
     reset:SetDescription(666000)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
+    reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     reset:SetCode(EVENT_ADJUST)
     reset:SetRange(LOCATION_MZONE)
     reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
@@ -158,14 +154,13 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             end
         end
     end)
-    c:RegisterEffect(reset)
+    Divine.RegisterEffect(c, reset)
 
     if limit then
         -- cannot attack when special summoned
         local spnoattack = Effect.CreateEffect(c)
         spnoattack:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-        spnoattack:SetProperty(EFFECT_FLAG_CANNOT_DISABLE +
-                                   EFFECT_FLAG_UNCOPYABLE)
+        spnoattack:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
         spnoattack:SetCode(EVENT_SPSUMMON_SUCCESS)
         spnoattack:SetOperation(function(e)
             local c = e:GetHandler()
@@ -177,13 +172,12 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
             c:RegisterEffect(ec1)
         end)
-        c:RegisterEffect(spnoattack)
+        Divine.RegisterEffect(c, spnoattack)
 
         -- return
         local returnend = Effect.CreateEffect(c)
         returnend:SetDescription(666001)
         returnend:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        returnend:SetProperty(EFFECT_FLAG_UNCOPYABLE)
         returnend:SetCode(EVENT_PHASE + PHASE_END)
         returnend:SetRange(LOCATION_MZONE)
         returnend:SetCountLimit(1)
@@ -215,7 +209,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
                             c:GetPreviousControler())
             end
         end)
-        c:RegisterEffect(returnend)
+        Divine.RegisterEffect(c, returnend)
     end
 end
 
@@ -229,4 +223,9 @@ function Divine.GetDivineHierarchy(c, get_base)
     end
 
     return divine_hierarchy
+end
+
+function Divine.RegisterEffect(c, eff)
+    eff:SetProperty(eff:GetProperty() + EFFECT_FLAG_UNCOPYABLE)
+    c:RegisterEffect(eff)
 end

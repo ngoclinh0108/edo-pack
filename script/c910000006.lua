@@ -32,30 +32,29 @@ function s.initial_effect(c)
     -- race
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetCode(EFFECT_ADD_RACE)
     e1:SetRange(LOCATION_MZONE)
     e1:SetValue(RACE_WARRIOR)
-    c:RegisterEffect(e1)
+    Divine.RegisterEffect(c, e1)
 
     -- negate
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_DISABLE)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_UNCOPYABLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetCode(EVENT_CHAINING)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCondition(s.e2con)
     e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
+    Divine.RegisterEffect(c, e2)
 
     -- infinite atk
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
     e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    Divine.RegisterEffect(c, e3)
     Utility.AvatarInfinity(s, c)
 end
 
