@@ -169,8 +169,6 @@ effect = """\
 (This card's name is also treated as "Dark Magician" and it's Attribute is also DARK.)
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
-You can activate a Quick-Play Spell or Trap from your hand during your opponent's turn. \
-    You can only use this effect of "Palladium Sacred Oracle Mahad" once per turn. \
 """
 
 [card.palladium-oracle-mana]
@@ -185,15 +183,16 @@ atk = 2000
 def = 1700
 effect = """\
 (This card's name is also treated as "Dark Magician Girl" and it's Attribute is also DARK.)
-When your opponent targets a Spellcaster monster(s) you control for an attack, or with a card effect (except during the Damage Step), \
-    while this card is in your hand or GY (Quick Effect): \
+When your opponent targets a monster(s) you control for an attack, or with a card effect (except during the Damage Step), \
+    while this card is in your hand (Quick Effect): \
     You can return 1 of those monsters to the hand; Special Summon this card. \
-    You can only use this effect of "Palladium Illusion Oracle Mana" once per turn. \
-If this card is Summoned: \
-    You can add 1 "Dark Magician" from your Deck to your hand. \
+If you Normal or Special Summoned "Dark Magician", while this card is in your GY: \
+    You can Special Summon this card. \
 During damage calculation, if your other LIGHT or DARK Spellcaster monster battles an opponent's monster (Quick Effect): \
-    You can send this card from your hand or face-up field to the GY; \
-    that monster you control gains ATK/DEF equal to this card's original ATK during that damage calculation only. \
+    That monster you control gains ATK/DEF equal to this card's ATK during that damage calculation only. \
+    This card cannot declare an attack the turn this effect is activated. \
+    This card must be face-up on the field to activate and to resolve this effect. \
+You can only use each effect of "Palladium Illusion Oracle Mana" once per turn. \
 """
 strings = ["Gain ATK/DEF"]
 

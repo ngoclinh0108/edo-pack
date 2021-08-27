@@ -36,19 +36,6 @@ function s.initial_effect(c)
     e2:SetCondition(s.e2con)
     e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
-
-    -- act quick spell/trap in hand
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(LOCATION_HAND, 0)
-    e3:SetCountLimit(1, id)
-    e3:SetCondition(s.e3con)
-    c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
-    c:RegisterEffect(e3b)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -80,5 +67,3 @@ function s.e2con(e)
 end
 
 function s.e2val(e, c) return e:GetHandler():GetAttack() * 2 end
-
-function s.e3con(e) return Duel.GetTurnPlayer() ~= e:GetHandlerPlayer() end

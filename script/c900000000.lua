@@ -100,7 +100,8 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
             Utility.ApplyActivateEffect(sc, e, tp, false, true, false)
         end
 
-        if sc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
+        if sc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 and
+            Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 then
             Duel.Draw(tp, 1, REASON_RULE)
         end
     end)
@@ -112,7 +113,9 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     mulligan:SetCode(EVENT_ADJUST)
     mulligan:SetCountLimit(1)
     mulligan:SetCondition(function(e, tp)
-        return Duel.GetCurrentPhase() == PHASE_DRAW and Duel.GetTurnCount() == 1
+        return
+            Duel.GetCurrentPhase() == PHASE_DRAW and Duel.GetTurnCount() == 1 and
+                Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0
     end)
     mulligan:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         if not Duel.SelectYesNo(tp, 507) then return end
