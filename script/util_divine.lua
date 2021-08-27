@@ -43,12 +43,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     nodis:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nodis)
 
-    -- position
-    local posunchange = Effect.CreateEffect(c)
-    posunchange:SetType(EFFECT_TYPE_SINGLE)
-    posunchange:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
-    c:RegisterEffect(posunchange)
-
     -- control cannot switch
     local noswitch = Effect.CreateEffect(c)
     noswitch:SetType(EFFECT_TYPE_SINGLE)
@@ -57,15 +51,23 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noswitch:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noswitch)
 
+    -- cannot change position with effect
+    local posunchange = Effect.CreateEffect(c)
+    posunchange:SetType(EFFECT_TYPE_SINGLE)
+    posunchange:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    posunchange:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    c:RegisterEffect(posunchange)
+
     -- cannot be face-down
     local noset = Effect.CreateEffect(c)
     noset:SetType(EFFECT_TYPE_SINGLE)
     noset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     noset:SetCode(EFFECT_CANNOT_TURN_SET)
     noset:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noset)
 
-    -- cannot be tributed or be used as a material
+    -- cannot be tributed by your opponent
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
     norelease:SetProperty(
@@ -76,6 +78,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     norelease:SetTargetRange(0, 1)
     norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
+
+    -- cannot be used as a material by your opponent
     local nomaterial = Effect.CreateEffect(c)
     nomaterial:SetType(EFFECT_TYPE_SINGLE)
     nomaterial:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
@@ -86,7 +90,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     end)
     c:RegisterEffect(nomaterial)
 
-    -- immunity & no leave
+    -- immune
     local immunity = Effect.CreateEffect(c)
     immunity:SetType(EFFECT_TYPE_SINGLE)
     immunity:SetProperty(EFFECT_FLAG_SINGLE_RANGE)

@@ -40,7 +40,7 @@ The original ATK and DEF of this card each become equal to the number of cards i
 If a monster(s) is Summoned to your opponent's field, while this card is able to attack: \
     That monster(s) loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it, \
-    it cannot activate its effects in response to this effect's activation. \
+    that monster(s) cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
