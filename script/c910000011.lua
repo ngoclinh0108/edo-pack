@@ -167,10 +167,10 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then ft = 1 end
     if ft <= 0 then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter), tp,
-                                      LOCATION_HAND + LOCATION_DECK +
-                                          LOCATION_GRAVE, 0, 1, ft, nil, e, tp)
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp,
+                                    LOCATION_HAND + LOCATION_DECK +
+                                        LOCATION_GRAVE, 0, nil, e, tp)
+    g = Utility.GroupSelect(g, tp, 1, ft, HINTMSG_SPSUMMON)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
