@@ -271,3 +271,17 @@ effect = """\
 (This card's name is also treated as "Gaia The Fierce Knight".)
 """
 strings = []
+
+[card.curse-of-palladium-dragon]
+id = 910000013
+set = "palladium"
+name = "Curse of Palladium Dragon"
+type = "monster effect"
+attribute = "light"
+race = "dragon"
+level = 5
+atk = 2000
+def = 1500
+effect = """\
+"""
+strings = []
