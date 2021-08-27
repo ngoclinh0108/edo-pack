@@ -285,3 +285,63 @@ def = 1500
 effect = """\
 """
 strings = []
+
+[card.palladium-knight-queen]
+id = 910000014
+set = "palladium"
+name = "Palladium Knight of Queen"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1500
+def = 1600
+effect = """\
+(This card's name is also treated as "Queen's Knight".)
+You can Special Summon this card (from your hand) by revealing 1 other LIGHT Warrior monster in your hand. \
+If this card is Normal or Special Summoned: \
+    You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Palladium Knight of Queen". \
+    You can only use this effect of "Palladium Knight of Queen" once per turn. \
+"""
+strings = []
+
+[card.palladium-knight-king]
+id = 910000015
+set = "palladium"
+name = "Palladium Knight of King"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1600
+def = 1400
+effect = """\
+(This card's name is also treated as "King's Knight".)
+Once per Chain, during the Main Phase, if you control a LIGHT Warrior monster (Quick Effect): \
+    You can Special Summon this card from your hand. \
+If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
+    You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY. \
+    You can only use this effect of "Palladium Knight of King" once per turn. \
+"""
+strings = []
+
+[card.palladium-knight-jack]
+id = 910000016
+set = "palladium"
+name = "Palladium Knight of Jack"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 5
+atk = 1900
+def = 1000
+effect = """\
+(This card's name is also treated as "Jack's Knight".)
+If this card is Normal or Special Summoned: \
+    You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
+    You can only use this effect of "Palladium Knight of Jack" once per turn. \
+Once per turn: \
+    You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
+    using monsters you control as Fusion Materials, including this card. \
+"""
+strings = ["Fusion Summon"]

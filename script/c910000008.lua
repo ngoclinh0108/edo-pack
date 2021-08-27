@@ -120,6 +120,7 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
@@ -162,7 +163,8 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
-
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
+    
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 

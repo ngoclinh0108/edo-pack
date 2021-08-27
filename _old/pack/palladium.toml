@@ -90,64 +90,6 @@ If this card is in your hand, GY: You can target 1 "Palladium" Xyz Monster you c
 """
 strings = ["Copy level", "Change battling monster's Attribute", "Attach"]
 
-[card.palladium-knight-queen]
-id = 410000017
-set = "palladium"
-name = "Palladium Knight of Queen"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1500
-def = 1600
-effect = """\
-(This card is also always treated as "Queen's Knight".)
-You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
-If this card is Summoned: You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Palladium Knight of Queen". \
-    You can only use this effect of "Palladium Knight of Queen" once per turn. \
-"""
-strings = []
-
-[card.palladium-knight-king]
-id = 410000018
-set = "palladium"
-name = "Palladium Knight of King"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1600
-def = 1400
-effect = """\
-(This card is also always treated as "King's Knight".)
-During the Main Phase, if you control "Queen's Knight": You can Special Summon this card from your hand, \
-    then you can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
-    except "Palladium Knight of King". \
-If this card is Summoned: You can add 1 "Polymerization" from your Deck or GY to your hand. \
-    You can only use this effect of "Palladium Knight of King" once per turn. \
-"""
-strings = ["Summon a LIGHT Warrior monster?"]
-
-[card.palladium-knight-jack]
-id = 410000019
-set = "palladium"
-name = "Palladium Knight of Jack"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 5
-atk = 1900
-def = 1000
-effect = """\
-(This card is also always treated as "Jack's Knight".)
-If this card is Summoned: \
-    You can target cards your opponent control, up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
-    You can only use this effect of "Palladium Knight of Jack" once per turn. \
-A monster that was Fusion Summoned using this card as material gains the following effect.
-● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
-"""
-strings = ["Fusion Summoned with \"Palladium Knight of Jack\""]
-
 [card.palladium-paladin-ace-joker]
 id = 410000020
 set = "palladium"

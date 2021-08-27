@@ -33,14 +33,14 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
     local e2b = e2:Clone()
-    e2b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e2b)
-    local e2c = e2:Clone()
-    e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e2c)
 end
 
-function s.e1filter(c) return c:IsRace(RACE_WARRIOR) and not c:IsPublic() end
+function s.e1filter(c)
+    return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and
+               not c:IsPublic()
+end
 
 function s.e1con(e, c)
     if c == nil then return true end

@@ -23,19 +23,19 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
     local e1b = e1:Clone()
-    e1b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    e1b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e1b)
-    local e1c = e1:Clone()
-    e1c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e1c)
 
-    -- gain effect
+    -- fusion summon
+    local params = {nil, Fusion.OnFieldMat, nil, nil, Fusion.ForcedHandler}
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e2:SetProperty(EFFECT_FLAG_EVENT_PLAYER)
-    e2:SetCode(EVENT_BE_MATERIAL)
-    e2:SetCondition(s.e2con)
-    e2:SetOperation(s.e2op)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
+    e2:SetTarget(Fusion.SummonEffTG(table.unpack(params)))
+    e2:SetOperation(Fusion.SummonEffOP(table.unpack(params)))
     c:RegisterEffect(e2)
 end
 
@@ -63,39 +63,4 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetTargetCards(e)
     if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp) return (r & REASON_FUSION) ~= 0 end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = c:GetReasonCard()
-
-    local echint = Effect.CreateEffect(tc)
-    echint:SetDescription(aux.Stringid(id, 0))
-    echint:SetType(EFFECT_TYPE_SINGLE)
-    echint:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
-    echint:SetReset(RESET_EVENT + RESETS_STANDARD)
-    tc:RegisterEffect(echint, true)
-
-    if not tc:IsType(TYPE_EFFECT) then
-        local ec0 = Effect.CreateEffect(c)
-        ec0:SetType(EFFECT_TYPE_SINGLE)
-        ec0:SetCode(EFFECT_ADD_TYPE)
-        ec0:SetValue(TYPE_EFFECT)
-        ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec0, true)
-    end
-
-    local ec1 = Effect.CreateEffect(tc)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    ec1:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    ec1:SetRange(LOCATION_MZONE)
-    ec1:SetCountLimit(1)
-    ec1:SetValue(function(e, re, r, rp)
-        return (r & REASON_BATTLE + REASON_EFFECT) ~= 0
-    end)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    tc:RegisterEffect(ec1, true)
 end
