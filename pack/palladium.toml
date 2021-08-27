@@ -222,8 +222,28 @@ You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per tur
 """
 strings = ["Add 1 Spell/Trap from the GY"]
 
-[card.palladium-oracle-seto]
+[card.blue-eyes-light-dragon]
 id = 910000010
+alias = 89631139
+set = "blue-eyes"
+name = "Blue-Eyes Light Dragon"
+type = "monster normal"
+attribute = "light"
+race = "dragon"
+level = 8
+atk = 3000
+def = 2500
+effect = """\
+(This card's name is always treated as "Blue-Eyes White Dragon".)
+You can Special Summon this card (from your hand) by revealing 1 Level 1 LIGHT Tuner in your hand. \
+    You can only Special Summon "Blue-Eyes Light Dragon" once per turn this way. \
+Once per turn: You can target 1 monster your opponent controls; \
+    destroy it. This card cannot attack the turn this effect is activated. \
+"""
+strings = ["Destroy 1 monster"]
+
+[card.palladium-oracle-seto]
+id = 910000011
 set = "palladium"
 name = "Palladium Azure Oracle Seto"
 type = "monster tuner effect"
