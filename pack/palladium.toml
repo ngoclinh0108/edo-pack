@@ -254,6 +254,5 @@ When an opponent's monster declares a directly attack: \
     You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
 This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
 You take no Battle Damage from battles involving this card. \
-    This effect cannot be negated. \
 """
 strings = []
