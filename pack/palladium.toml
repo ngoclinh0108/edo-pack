@@ -393,7 +393,7 @@ effect = """\
 strings = []
 
 [card.palladium-beast-gazelle]
-id = 910000019
+id = 910000020
 set = "palladium phantom-beast"
 name = "Palladium Beast Gazelle"
 type = "monster effect"
@@ -408,7 +408,7 @@ effect = """\
 strings = []
 
 [card.palladium-fiend-berfomet]
-id = 910000019
+id = 910000021
 set = "palladium"
 name = "Palladium Fiend Berfomet"
 type = "monster effect"

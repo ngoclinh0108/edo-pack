@@ -1,4 +1,4 @@
--- Palladium Archfiend Gilfer
+-- Palladium Beast Gazelle
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
