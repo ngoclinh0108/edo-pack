@@ -1,4 +1,4 @@
--- Palladium Shield Gardna
+-- Palladium Gardna Karim
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

@@ -107,7 +107,7 @@ During the Main or Battle Phase, \
     to this card in the same battle position, Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
 This card is also Pyro-Type while on the field. \
-This card's battle position cannot be changed by card effects. \
+This card's position cannot be changed by card effects. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, also you take no battle damage from that battle. \
 Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 When an attack is declared involving this card: You can Tribute any number of other monsters that did not declare an attack this turn; \
@@ -235,10 +235,11 @@ def = 200
 effect = """\
 (This card's name is also treated as "Kuriboh".)
 When an opponent's monster declares a directly attack: \
-    You can Special Summon this card from the GY in Defense Position (if it was there when that monster was destroyed) or hand (even if not), \
+    You can Special Summon this card \
+    from the GY in Defense Position (if it was there when that monster was destroyed) or hand (even if not), \
     and if you do, negate that attack. \
     You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
-This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
+This card can be treated as 2 Tributes for the Tribute Summon of a monster. \
 You take no Battle Damage from battles involving this card. \
 """
 strings = []
@@ -286,10 +287,11 @@ effect = """\
 (This card's name is also treated as "Queen's Knight".)
 You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
 If this card is Normal or Special Summoned: \
-    You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Palladium Knight of Queen". \
+    You can Special Summon 1 Level 4 LIGHT Warrior monster from your hand, Deck or GY, except "Palladium Knight of Queen", \
+    but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
     You can only use this effect of "Palladium Knight of Queen" once per turn. \
 """
-strings = []
+strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
 
 [card.palladium-knight-king]
 id = 910000014
@@ -303,14 +305,14 @@ atk = 1600
 def = 1400
 effect = """\
 (This card's name is also treated as "King's Knight".)
-Once per Chain, during the Main Phase, \
-    if you control a Warrior monster other than "King's Knight" (Quick Effect): \
-    You can Special Summon this card from your hand. \
+If you control a Warrior monster other than "King's Knight", \
+    you can Special Summon this card (from your hand). \
 If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
-    You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY. \
+    You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
+    but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
     You can only use this effect of "Palladium Knight of King" once per turn. \
 """
-strings = []
+strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
 
 [card.palladium-knight-jack]
 id = 910000015
@@ -362,10 +364,10 @@ effect = """\
 """
 strings = []
 
-[card.palladium-shield-gardna]
+[card.palladium-gardna-karim]
 id = 910000018
 set = "palladium"
-name = "Palladium Shield Gardna"
+name = "Palladium Gardna Karim"
 type = "monster effect"
 attribute = "earth"
 race = "warrior"

@@ -9,8 +9,8 @@ This card's Normal Summon cannot be negated.\
 EGYPTIAN_EFFECT = """\
 This card's activation and effect cannot be negated. \
 Control of this card cannot switch. \
-Cannot be changed to face-down Position. \
-Cannot be Tributed, or be used as a material for a Summon by your opponent. \
+Cannot be changed to face-down position. \
+Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Unaffected by Spell/Trap effects that would make it leave the field, \
     and also other monsters' effects with lower Divine Hierarchy. \
 Other cards' effects are only applied on this card for 1 turn.\
@@ -22,7 +22,7 @@ During the End Phase, return this Special Summoned card to the location it was S
 
 NORDIC_GOD_EFFECT = """\
 This card's $1 Summon cannot be negated. \
-Cannot be Tributed, or be used as a material for a Summon.\
+Cannot be Tributed, or be used as a material for an Summon.\
 """
 NORDIC_GOD_REBORN = """\
 Once per turn, during the End Phase, if this card on the field was destroyed and sent to the GY: \
