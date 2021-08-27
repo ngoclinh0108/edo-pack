@@ -252,10 +252,10 @@ effect = """\
 """
 strings = []
 
-[card.curse-of-palladium-dragon]
+[card.palladium-curse-dragon]
 id = 910000012
 set = "palladium"
-name = "Curse of Palladium Dragon"
+name = "Palladium Curse Dragon"
 type = "monster effect"
 attribute = "dark"
 race = "dragon"
@@ -426,12 +426,9 @@ atk = 300
 def = 200
 effect = """\
 (This card's name is also treated as "Kuriboh".)
-When an opponent's monster declares a directly attack: \
-    You can Special Summon this card \
-    from the GY in Defense Position (if it was there when that monster was destroyed) or hand (even if not), \
-    and if you do, negate that attack. \
-    You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
 This card can be treated as 2 Tributes for the Tribute Summon of a monster. \
-You take no Battle Damage from battles involving this card. \
+When an opponent's monster declares a direct attack, while this card is in your hand or GY: \
+    You can Special Summon this card in Defense Position, and if you do, negate the attack. \
+    You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
 """
 strings = []

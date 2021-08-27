@@ -1,4 +1,4 @@
--- Curse of Palladium Dragon
+-- Palladium Curse Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
