@@ -222,213 +222,230 @@ You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per tur
 """
 strings = ["Add 1 Spell/Trap from the GY"]
 
-[card.palladium-soldier-faris]
+[card.palladium-oracle-seto]
 id = 910000010
-set = "palladium black-luster-soldier"
-name = "Palladium Chaos Soldier Faris"
-type = "monster ritual effect"
-attribute = "light"
-race = "warrior"
-level = 8
-atk = 3000
-def = 2500
-effect = """\
-(This card is always treated as an "Black Luster Soldier" card and it's Attribute is also DARK.)
-"""
-strings = []
-
-[card.palladium-knight-gaia]
-id = 910000011
 set = "palladium"
-name = "Palladium Knight Gaia"
-type = "monster effect"
-attribute = "earth"
-race = "warrior"
-level = 7
-atk = 2300
-def = 2100
-effect = """\
-(This card's name is also treated as "Gaia The Fierce Knight".)
-"""
-strings = []
-
-[card.palladium-curse-dragon]
-id = 910000012
-set = "palladium"
-name = "Palladium Curse Dragon"
-type = "monster effect"
-attribute = "dark"
-race = "dragon"
-level = 5
-atk = 2000
-def = 1500
-effect = """\
-"""
-strings = []
-
-[card.palladium-knight-queen]
-id = 910000013
-set = "palladium"
-name = "Palladium Knight of Queen"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1500
-def = 1600
-effect = """\
-(This card's name is also treated as "Queen's Knight".)
-You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
-If this card is Normal or Special Summoned: \
-    You can Special Summon 1 Level 4 LIGHT Warrior monster from your hand, Deck or GY, except "Palladium Knight of Queen", \
-    but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
-    You can only use this effect of "Palladium Knight of Queen" once per turn. \
-"""
-strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
-
-[card.palladium-knight-king]
-id = 910000014
-set = "palladium"
-name = "Palladium Knight of King"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1600
-def = 1400
-effect = """\
-(This card's name is also treated as "King's Knight".)
-If you control a Warrior monster other than "King's Knight", \
-    you can Special Summon this card (from your hand). \
-If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
-    You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
-    but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
-    You can only use this effect of "Palladium Knight of King" once per turn. \
-"""
-strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
-
-[card.palladium-knight-jack]
-id = 910000015
-set = "palladium"
-name = "Palladium Knight of Jack"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 5
-atk = 1900
-def = 1000
-effect = """\
-(This card's name is also treated as "Jack's Knight".)
-If this card is Normal or Special Summoned: \
-    You can target face-up cards your opponent control, \
-    up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
-    You can only use this effect of "Palladium Knight of Jack" once per turn. \
-Once per turn: \
-    You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
-    using monsters you control as Fusion Materials, including this card. \
-"""
-strings = ["Fusion Summon"]
-
-[card.palladium-enchanter-isis]
-id = 910000016
-set = "palladium"
-name = "Palladium Enchanter Isis"
-type = "monster effect"
+name = "Palladium Azure Oracle Seto"
+type = "monster tuner effect"
 attribute = "light"
 race = "spellcaster"
-level = 4
-atk = 800
-def = 2000
-effect = """\
-"""
-strings = []
-
-[card.palladium-guardian-shada]
-id = 910000017
-set = "palladium guardian"
-name = "Palladium Guardian Shada"
-type = "monster effect"
-attribute = "earth"
-race = "warrior"
-level = 4
-atk = 1400
-def = 1200
-effect = """\
-"""
-strings = []
-
-[card.palladium-gardna-karim]
-id = 910000018
-set = "palladium"
-name = "Palladium Gardna Karim"
-type = "monster effect"
-attribute = "earth"
-race = "warrior"
-level = 4
-atk = 100
-def = 2600
-effect = """\
-"""
-strings = []
-
-[card.palladium-archfiend-gilfer]
-id = 910000019
-set = "palladium archfiend"
-name = "Palladium Archfiend Gilfer"
-type = "monster effect"
-attribute = "dark"
-race = "fiend"
-level = 6
-atk = 2200
-def = 2500
-effect = """\
-"""
-strings = []
-
-[card.palladium-beast-gazelle]
-id = 910000020
-set = "palladium phantom-beast"
-name = "Palladium Beast Gazelle"
-type = "monster effect"
-attribute = "earth"
-race = "beast"
-level = 4
-atk = 1500
-def = 1200
-effect = """\
-(This card is always treated as an "Phantom Beast" card.)
-"""
-strings = []
-
-[card.palladium-fiend-berfomet]
-id = 910000021
-set = "palladium"
-name = "Palladium Fiend Berfomet"
-type = "monster effect"
-attribute = "dark"
-race = "fiend"
-level = 5
-atk = 1400
-def = 1800
-effect = """\
-"""
-strings = []
-
-[card.palladium-spirit-kuriboh]
-id = 910000022
-set = "palladium kuriboh"
-name = "Palladium Spirit Kuriboh"
-type = "monster effect"
-attribute = "dark"
-race = "fiend"
 level = 1
-atk = 300
-def = 200
+atk = 0
+def = 0
 effect = """\
-(This card's name is also treated as "Kuriboh".)
-This card can be treated as 2 Tributes for the Tribute Summon of a monster. \
-When an opponent's monster declares a direct attack, while this card is in your hand or GY: \
-    You can Special Summon this card in Defense Position, and if you do, negate the attack. \
-    You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
+You can reveal this card in your hand; \
+    add 1 "Palladium" or "Blue-Eyes" monster from your Deck or GY to your hand. \
+You can only use each effect of "Palladium Azure Oracle Seto" once per turn. \
 """
 strings = []
+
+# [card.palladium-soldier-faris]
+# id = 910000010
+# set = "palladium black-luster-soldier"
+# name = "Palladium Chaos Soldier Faris"
+# type = "monster ritual effect"
+# attribute = "light"
+# race = "warrior"
+# level = 8
+# atk = 3000
+# def = 2500
+# effect = """\
+# (This card is always treated as an "Black Luster Soldier" card and it's Attribute is also DARK.)
+# """
+# strings = []
+
+# [card.palladium-knight-gaia]
+# id = 910000011
+# set = "palladium"
+# name = "Palladium Knight Gaia"
+# type = "monster effect"
+# attribute = "earth"
+# race = "warrior"
+# level = 7
+# atk = 2300
+# def = 2100
+# effect = """\
+# (This card's name is also treated as "Gaia The Fierce Knight".)
+# """
+# strings = []
+
+# [card.palladium-curse-dragon]
+# id = 910000012
+# set = "palladium"
+# name = "Palladium Curse Dragon"
+# type = "monster effect"
+# attribute = "dark"
+# race = "dragon"
+# level = 5
+# atk = 2000
+# def = 1500
+# effect = """\
+# """
+# strings = []
+
+# [card.palladium-knight-queen]
+# id = 910000013
+# set = "palladium"
+# name = "Palladium Knight of Queen"
+# type = "monster effect"
+# attribute = "light"
+# race = "warrior"
+# level = 4
+# atk = 1500
+# def = 1600
+# effect = """\
+# (This card's name is also treated as "Queen's Knight".)
+# You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
+# If this card is Normal or Special Summoned: \
+#     You can Special Summon 1 Level 4 LIGHT Warrior monster from your hand, Deck or GY, except "Palladium Knight of Queen", \
+#     but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
+#     You can only use this effect of "Palladium Knight of Queen" once per turn. \
+# """
+# strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
+
+# [card.palladium-knight-king]
+# id = 910000014
+# set = "palladium"
+# name = "Palladium Knight of King"
+# type = "monster effect"
+# attribute = "light"
+# race = "warrior"
+# level = 4
+# atk = 1600
+# def = 1400
+# effect = """\
+# (This card's name is also treated as "King's Knight".)
+# If you control a Warrior monster other than "King's Knight", \
+#     you can Special Summon this card (from your hand). \
+# If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
+#     You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
+#     but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
+#     You can only use this effect of "Palladium Knight of King" once per turn. \
+# """
+# strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
+
+# [card.palladium-knight-jack]
+# id = 910000015
+# set = "palladium"
+# name = "Palladium Knight of Jack"
+# type = "monster effect"
+# attribute = "light"
+# race = "warrior"
+# level = 5
+# atk = 1900
+# def = 1000
+# effect = """\
+# (This card's name is also treated as "Jack's Knight".)
+# If this card is Normal or Special Summoned: \
+#     You can target face-up cards your opponent control, \
+#     up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
+#     You can only use this effect of "Palladium Knight of Jack" once per turn. \
+# Once per turn: \
+#     You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
+#     using monsters you control as Fusion Materials, including this card. \
+# """
+# strings = ["Fusion Summon"]
+
+# [card.palladium-enchanter-isis]
+# id = 910000016
+# set = "palladium"
+# name = "Palladium Enchanter Isis"
+# type = "monster effect"
+# attribute = "light"
+# race = "spellcaster"
+# level = 4
+# atk = 800
+# def = 2000
+# effect = """\
+# """
+# strings = []
+
+# [card.palladium-guardian-shada]
+# id = 910000017
+# set = "palladium guardian"
+# name = "Palladium Guardian Shada"
+# type = "monster effect"
+# attribute = "earth"
+# race = "warrior"
+# level = 4
+# atk = 1400
+# def = 1200
+# effect = """\
+# """
+# strings = []
+
+# [card.palladium-gardna-karim]
+# id = 910000019
+# set = "palladium"
+# name = "Palladium Gardna Karim"
+# type = "monster effect"
+# attribute = "earth"
+# race = "warrior"
+# level = 4
+# atk = 100
+# def = 2600
+# effect = """\
+# """
+# strings = []
+
+# [card.palladium-archfiend-gilfer]
+# id = 910000020
+# set = "palladium archfiend"
+# name = "Palladium Archfiend Gilfer"
+# type = "monster effect"
+# attribute = "dark"
+# race = "fiend"
+# level = 6
+# atk = 2200
+# def = 2500
+# effect = """\
+# """
+# strings = []
+
+# [card.palladium-beast-gazelle]
+# id = 910000021
+# set = "palladium phantom-beast"
+# name = "Palladium Beast Gazelle"
+# type = "monster effect"
+# attribute = "earth"
+# race = "beast"
+# level = 4
+# atk = 1500
+# def = 1200
+# effect = """\
+# (This card is always treated as an "Phantom Beast" card.)
+# """
+# strings = []
+
+# [card.palladium-fiend-berfomet]
+# id = 910000022
+# set = "palladium"
+# name = "Palladium Fiend Berfomet"
+# type = "monster effect"
+# attribute = "dark"
+# race = "fiend"
+# level = 5
+# atk = 1400
+# def = 1800
+# effect = """\
+# """
+# strings = []
+
+# [card.palladium-spirit-kuriboh]
+# id = 910000023
+# set = "palladium kuriboh"
+# name = "Palladium Spirit Kuriboh"
+# type = "monster effect"
+# attribute = "dark"
+# race = "fiend"
+# level = 1
+# atk = 300
+# def = 200
+# effect = """\
+# (This card's name is also treated as "Kuriboh".)
+# This card can be treated as 2 Tributes for the Tribute Summon of a monster. \
+# When an opponent's monster declares a direct attack, while this card is in your hand or GY: \
+#     You can Special Summon this card in Defense Position, and if you do, negate the attack. \
+#     You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
+# """
+# strings = []
