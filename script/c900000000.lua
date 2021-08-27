@@ -80,8 +80,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     field:SetCode(EVENT_ADJUST)
     field:SetCountLimit(1)
     field:SetCondition(function(e, tp)
-        return Duel.GetTurnPlayer() == tp and Duel.GetCurrentPhase() ==
-                   PHASE_DRAW
+        return Duel.GetCurrentPhase() == PHASE_DRAW
     end)
     field:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(function(c)
@@ -90,55 +89,42 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                                             LOCATION_REMOVED, 0, nil)
         if #g == 0 then return end
-        if #g > 1 and Duel.GetTurnCount() > 2 and not Duel.SelectYesNo(tp, 2204) then
-            return
+        if #g >= 2 and Duel.GetTurnCount() >= 2 and
+            not Duel.SelectYesNo(tp, 2204) then return end
+
+        local sc =
+            Utility.GroupSelect(g, tp, 1, nil, HINTMSG_TOFIELD):GetFirst()
+
+        aux.PlayFieldSpell(sc, e, tp, eg, ep, ev, re, r, rp)
+        if Duel.GetTurnCount() == 1 then
+            Utility.ApplyActivateEffect(sc, e, tp, false, true, false)
         end
 
-        local tc = Utility.GroupSelect(g, tp, 1, nil, HINTMSG_TOFIELD):GetFirst()
-        aux.PlayFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
-        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)
-        if tc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
+        if sc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
             Duel.Draw(tp, 1, REASON_RULE)
         end
     end)
     Duel.RegisterEffect(field, tp)
 
-    -- activate continuous
-    local continuous = Effect.CreateEffect(c)
-    continuous:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    continuous:SetCode(EVENT_ADJUST)
-    continuous:SetCountLimit(1)
-    continuous:SetCondition(function(e, tp)
-        return Duel.GetTurnPlayer() == tp and Duel.GetCurrentPhase() ==
-                   PHASE_DRAW
+    -- mulligan
+    local mulligan = Effect.CreateEffect(c)
+    mulligan:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    mulligan:SetCode(EVENT_ADJUST)
+    mulligan:SetCountLimit(1)
+    mulligan:SetCondition(function(e, tp)
+        return Duel.GetCurrentPhase() == PHASE_DRAW and Duel.GetTurnCount() == 1
     end)
-    continuous:SetOperation(function(e, tp)
-        local ft = Duel.GetLocationCount(tp, LOCATION_SZONE)
-        if ft == 0 then return end
-
-        local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
-        if Duel.GetTurnCount() <= 2 then loc = loc + LOCATION_HAND end
-        local g = Duel.GetMatchingGroup(function(c)
-            return c:IsType(TYPE_CONTINUOUS) and
-                       Utility.CheckActivateEffect(c, e, tp, false, true, false)
-        end, tp, loc, 0, nil)
-        if #g == 0 then return end
-        if Duel.GetTurnCount() > 2 and
-            not Duel.SelectYesNo(tp, aux.Stringid(id, 6)) then return end
-
-        g = Utility.GroupSelect(g, tp, 1, ft, HINTMSG_TOFIELD)
-        for tc in aux.Next(g) do
-            Duel.MoveToField(tc, tp, tp, LOCATION_SZONE, POS_FACEUP, true)
-            if tc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() == 1 then
-                Duel.Draw(tp, 1, REASON_RULE)
-            end
-        end
-
-        for tc in aux.Next(g) do
-            Utility.ApplyActivateEffect(tc, e, tp, false, true, false)
-        end
+    mulligan:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        if not Duel.SelectYesNo(tp, 507) then return end
+        local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_HAND, 0, 1,
+                                          Duel.GetFieldGroupCount(tp,
+                                                                  LOCATION_HAND,
+                                                                  0), nil)
+        local ct = Duel.SendtoDeck(g, nil, SEQ_DECKBOTTOM, REASON_RULE)
+        Duel.Draw(tp, ct, REASON_RULE)
+        Duel.ShuffleDeck(tp)
     end)
-    Duel.RegisterEffect(continuous, tp)
+    Duel.RegisterEffect(mulligan, tp)
 end
 
 function s.diceop(e, tp, eg, ep, ev, re, r, rp)
