@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {59514116, CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL}
+s.listed_names = {CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -56,7 +56,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsAbleToHand() and c:IsType(TYPE_SPELL + TYPE_TRAP) and
+    if not c:IsAbleToHand() or c:IsCode(id) then return false end
+    return c:IsCode(CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL) or
                aux.IsCodeListed(c, CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL)
 end
 

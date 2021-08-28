@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {}
+
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
@@ -12,4 +14,7 @@ function s.initial_effect(c)
     attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
     attribute:SetValue(ATTRIBUTE_DARK)
     c:RegisterEffect(attribute)
+    local attribute2 = attribute:Clone()
+    attribute2:SetValue(ATTRIBUTE_LIGHT)
+    c:RegisterEffect(attribute2)
 end

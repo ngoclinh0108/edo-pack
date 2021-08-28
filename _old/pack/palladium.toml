@@ -67,29 +67,6 @@ If this card leaves the field: \
 """
 strings = ["Draw and check"]
 
-[card.palladium-magician-arcane]
-id = 410000014
-set = "palladium"
-name = "Palladium Magician's Arcane"
-type = "monster union tuner effect"
-attribute = "dark"
-race = "spellcaster"
-level = 2
-atk = 300
-def = 500
-effect = """\
-You can target 1 "Palladium" Spellcaster monster you control; this card's Level becomes the Level of that monster. \
-Once per turn, you can either: Target 1 "Palladium" Spellcaster monster you control; \
-    equip this card, from your hand, GY or on the field, to that target, OR: Unequip this card and Special Summon it. \
-    If the equipped monster would be destroyed by battle or card effect, destroy this card instead. \
-During damage calculation, if the equipped monster battles your opponent's monster: \
-    The Attribute of opponent's battling monster become DARK. \
-If this card is in your hand, GY: You can target 1 "Palladium" Xyz Monster you control; \
-    attach this card to it as an Xyz Material. \
-    You can only use this effect of "Palladium Magician's Arcane" once per turn. \
-"""
-strings = ["Copy level", "Change battling monster's Attribute", "Attach"]
-
 [card.palladium-paladin-ace-joker]
 id = 410000020
 set = "palladium"
