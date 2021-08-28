@@ -116,3 +116,33 @@ strings = [
     "Banish 1 card in hand",
     "Double attack next turn",
 ]
+
+[card.palladium-oracle-seto]
+id = 910000005
+set = "palladium"
+name = "Palladium Azure Oracle Seto"
+type = "monster tuner effect"
+attribute = "light"
+race = "spellcaster"
+level = 1
+atk = 0
+def = 0
+effect = """\
+You can reveal this card in your hand; \
+    add 1 "Palladium" or "Blue-Eyes" monster from your Deck or GY to your hand, except "Palladium Azure Oracle Seto". \
+    then place 1 card from your hand on top of the Deck. \
+You can discard this card, then target 1 "Blue-Eyes" monster you control; \
+    Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
+    using it as the Fusion Material. \
+You can Tribute this card; \
+    Special Summon up to 3 copies of "Blue-Eyes White Dragon" from your hand, Deck or GY. \
+    You cannot Normal or Special Summon monsters the turn you activate this effect, \
+    except "Palladium Azure Oracle Seto" and "Blue-Eyes White Dragon". \
+You can only use 1 "Palladium Azure Oracle Seto" effect per turn, and only once that turn.
+"""
+strings = [
+    "Affected by effect \"Palladium Azure Oracle Seto\": cannot Normal or Special Summon monsters, except \"Palladium Azure Oracle Seto\" and \"Blue-Eyes White Dragon\"",
+    "Add 1 \"Palladium\" or \"Blue-Eyes\" monster",
+    "Fusion Summon",
+    "Summon 3 \"Blue-Eyes White Dragon\"",
+]
