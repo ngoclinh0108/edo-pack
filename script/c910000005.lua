@@ -94,7 +94,8 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2filter1(c, e, tp)
-    return c:IsFaceup() and c:IsSetCard(0xdd) and c:IsCanBeFusionMaterial() and
+    return c:IsFaceup() and c:IsCode(CARD_BLUEEYES_W_DRAGON) and
+               c:IsCanBeFusionMaterial() and
                Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_EXTRA, 0,
                                            1, nil, e, tp, c)
 end
