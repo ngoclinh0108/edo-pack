@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {910000009,CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL}
+s.listed_names = {910000000, CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()

@@ -330,50 +330,6 @@ If this card battles, it gain ∞ ATK during damage calculation only. \
 """
 strings = ["Gain ∞ ATK"]
 
-[card.palladium-oracle-aknamkanon]
-id = 910000009
-set = "palladium chaos"
-name = "Palladium Chaos Oracle Aknamkanon"
-type = "monster ritual effect"
-attribute = "light"
-race = "spellcaster"
-level = 8
-atk = 2800
-def = 2600
-effect = """\
-(This card's name is also treated as "Magician of Black Chaos" and it's Attribute is also DARK.)
-You can Ritual Summon this card with "Secrets of Palladium Magic". \
-You can reveal this card in your hand; \
-    add from your Deck to your hand, \
-    1 "Dark Magician", "Dark Magician Girl" or 1 card specifically lists those cards in its text, \
-    except "Palladium Chaos Oracle Aknamkanon", \
-    then place 1 card from your hand on top of the Deck. \
-If this card is Ritual Summoned: You can activate this effect; \
-    for the rest of this turn, your opponent cannot activate cards, also cards your opponent controls cannot activate their effects. \
-    Your opponent cannot activate cards or effects in response to this effect's activation. \
-If this card destroys an opponent's monster by battle: \
-    You can target 1 Spell/Trap in your GY; add it to your hand. \
-You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
-"""
-strings = ["Add 1 Spell/Trap from the GY"]
-
-[card.palladium-soldier-faris]
-id = 910000010
-set = "palladium black-luster-soldier"
-name = "Palladium Chaos Soldier Faris"
-type = "monster ritual effect"
-attribute = "light"
-race = "earth"
-level = 8
-atk = 3000
-def = 2500
-effect = """\
-(This card is always treated as an "Black Luster Soldier" card and it's Attribute is also LIGHT and DARK.)
-You can Ritual Summon this card with "Secrets of Palladium Magic". \
-
-"""
-strings = []
-
 [card.blue-eyes-light-dragon]
 id = 910000012
 alias = 89631139
