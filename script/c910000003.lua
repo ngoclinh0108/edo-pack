@@ -2,22 +2,11 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {910000000, CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL}
+s.listed_names = {910000000}
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-
-    -- code & attribute
-    local code = Effect.CreateEffect(c)
-    code:SetType(EFFECT_TYPE_SINGLE)
-    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(30208479)
-    c:RegisterEffect(code)
-    local attribute = code:Clone()
-    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
-    attribute:SetValue(ATTRIBUTE_DARK)
-    c:RegisterEffect(attribute)
 
     -- search
     local e1 = Effect.CreateEffect(c)
@@ -56,9 +45,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    if not c:IsAbleToHand() or c:IsCode(id) then return false end
-    return c:IsCode(CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL) or
-               aux.IsCodeListed(c, CARD_DARK_MAGICIAN, CARD_DARK_MAGICIAN_GIRL)
+    return c:IsSetCard(0x13a) and c:IsType(TYPE_SPELL + TYPE_TRAP) and
+               c:IsAbleToHand()
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)

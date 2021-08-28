@@ -2,19 +2,9 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-function s.initial_effect(c)
-    -- code & attribute
-    local code = Effect.CreateEffect(c)
-    code:SetType(EFFECT_TYPE_SINGLE)
-    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(CARD_DARK_MAGICIAN)
-    c:RegisterEffect(code)
-    local attribute = code:Clone()
-    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
-    attribute:SetValue(ATTRIBUTE_DARK)
-    c:RegisterEffect(attribute)
+s.listed_names = {CARD_DARK_MAGICIAN}
 
+function s.initial_effect(c)
     -- special summon
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -27,15 +17,26 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- atk up
+    -- fusion name
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_SET_ATTACK_FINAL)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCondition(s.e2con)
-    e2:SetValue(s.e2val)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e2:SetCode(EFFECT_ADD_CODE)
+    e2:SetValue(CARD_DARK_MAGICIAN)
+    e2:SetOperation(function(sc, sumtype, tp)
+        return (sumtype & MATERIAL_FUSION) ~= 0
+    end)
     c:RegisterEffect(e2)
+
+    -- atk up
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetCode(EFFECT_SET_ATTACK_FINAL)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCondition(s.e3con)
+    e3:SetValue(s.e3val)
+    c:RegisterEffect(e3)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -59,11 +60,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e2con(e)
+function s.e3con(e)
     local ph = Duel.GetCurrentPhase()
     local bc = e:GetHandler():GetBattleTarget()
     return (ph == PHASE_DAMAGE or ph == PHASE_DAMAGE_CAL) and bc and
                bc:IsAttribute(ATTRIBUTE_DARK)
 end
 
-function s.e2val(e, c) return e:GetHandler():GetAttack() * 2 end
+function s.e3val(e, c) return e:GetHandler():GetAttack() * 2 end

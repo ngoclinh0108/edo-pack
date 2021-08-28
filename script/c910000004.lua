@@ -9,14 +9,6 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
     c:SetSPSummonOnce(id)
 
-    -- attribute
-    local attribute = Effect.CreateEffect(c)
-    attribute:SetType(EFFECT_TYPE_SINGLE)
-    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
-    attribute:SetValue(ATTRIBUTE_DARK)
-    c:RegisterEffect(attribute)
-
     -- spsummon
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
