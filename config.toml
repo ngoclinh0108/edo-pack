@@ -4,6 +4,7 @@ recipe  = [
     "macro.toml",
     "setcard.toml",
     "pack/_generic.toml",
+    "pack/divine.toml",
     "pack/palladium.toml",
 ]
 
