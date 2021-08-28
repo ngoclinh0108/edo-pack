@@ -4,7 +4,17 @@ set = "palladium"
 name = "Secrets of Palladium Magic"
 type = "spell quick-play"
 effect = """\
+During the Main Phase: Activate 1 of the following effects.
+● Ritual Summon 1 "Palladium" Ritual Monster from your hand, \
+    by Tributing monsters from your hand or field, \
+    whose total Levels equal or exceed the Level of the Ritual Monster.
+● Fusion Summon 1 "Palladium" Fusion Monster from your Extra Deck, \
+    using monsters from your hand or field.
+During your Main Phase, if this card is in your GY: \
+    You can discard 1 Spell; Add this card to your hand. \
+    You can only use this effect of "Secrets of Palladium Magic" once per turn. \
 """
+strings = []
 
 [card.palladium-oracle-mahad]
 id = 910000001
@@ -21,6 +31,7 @@ effect = """\
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 """
+strings = []
 
 [card.palladium-oracle-mana]
 id = 910000002
