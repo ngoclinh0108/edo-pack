@@ -31,6 +31,9 @@ code = 0x1046
 [set.dododo]
 code = 0x82
 
+[set.gaia-the-fierce-knight]
+code = 0xbd
+
 [set.gagaga]
 code = 0x54
 
