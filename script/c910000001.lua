@@ -1,90 +1,69 @@
--- Giant Divine Soldier of Obelisk
+-- Palladium Sacred Oracle Mahad
 Duel.LoadScript("util.lua")
-Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 1, true, true)
+    -- code & attribute
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(CARD_DARK_MAGICIAN)
+    c:RegisterEffect(code)
+    local attribute = code:Clone()
+    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
+    attribute:SetValue(ATTRIBUTE_DARK)
+    c:RegisterEffect(attribute)
 
-    -- race
+    -- special summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_ADD_RACE)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(RACE_WARRIOR)
-    Divine.RegisterEffect(c, e1)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_TO_HAND)
+    e1:SetRange(LOCATION_HAND)
+    e1:SetCost(s.e1cost)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
 
-    -- negate
+    -- atk up
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_DISABLE)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EVENT_CHAINING)
+    e2:SetCode(EFFECT_SET_ATTACK_FINAL)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCondition(s.e2con)
-    e2:SetOperation(s.e2op)
-    Divine.RegisterEffect(c, e2)
-
-    -- destroy
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DESTROY)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetHintTiming(TIMING_SUMMON, TIMING_BATTLE_START)
-    e3:SetCountLimit(1)
-    e3:SetCondition(s.e3con)
-    e3:SetCost(s.e3cost)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    Divine.RegisterEffect(c, e3)
+    e2:SetValue(s.e2val)
+    c:RegisterEffect(e2)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
-    local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    if not tg or not tg:IsContains(c) then return false end
-    return Duel.IsChainDisablable(ev)
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return not e:GetHandler():IsPublic() end
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)
-    Utility.HintCard(e:GetHandler():GetOriginalCode())
-    Duel.NegateEffect(ev)
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) and
-        (c:IsHasEffect(EFFECT_CANNOT_ATTACK_ANNOUNCE) or
-            c:IsHasEffect(EFFECT_FORBIDDEN) or
-            c:IsHasEffect(EFFECT_CANNOT_ATTACK)) then return false end
-
-    return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
-               (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
-end
-
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetAttackAnnouncedCount() == 0 and
-                   Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c)
+        return c:IsRelateToEffect(e) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
     end
 
-    local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, c)
-    Duel.Release(g, REASON_COST)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    if chk == 0 then return #g > 0 end
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    Duel.Destroy(g, REASON_EFFECT)
+function s.e2con(e)
+    local ph = Duel.GetCurrentPhase()
+    local bc = e:GetHandler():GetBattleTarget()
+    return (ph == PHASE_DAMAGE or ph == PHASE_DAMAGE_CAL) and bc and
+               bc:IsAttribute(ATTRIBUTE_DARK)
 end
+
+function s.e2val(e, c) return e:GetHandler():GetAttack() * 2 end
