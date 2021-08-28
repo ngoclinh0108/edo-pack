@@ -141,8 +141,7 @@ You can Tribute this card; \
 You can only use 1 "Palladium Azure Oracle Seto" effect per turn, and only once that turn.
 """
 strings = [
-    "Affected by effect \"Palladium Azure Oracle Seto\": cannot Normal or Special Summon monsters, except \"Palladium Azure Oracle Seto\" and \"Blue-Eyes White Dragon\"",
     "Add 1 \"Palladium\" or \"Blue-Eyes\" monster",
-    "Fusion Summon",
     "Summon 3 \"Blue-Eyes White Dragon\"",
+    "Affected by effect \"Palladium Azure Oracle Seto\": cannot Normal or Special Summon monsters, except \"Palladium Azure Oracle Seto\" and \"Blue-Eyes White Dragon\"",
 ]

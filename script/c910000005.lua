@@ -8,7 +8,7 @@ s.listed_series = {0x13a, 0xdd}
 function s.initial_effect(c)
     -- to hand
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 1))
+    e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_HAND)
@@ -20,7 +20,7 @@ function s.initial_effect(c)
 
     -- fusion summon
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 2))
+    e2:SetDescription(1170)
     e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -33,7 +33,7 @@ function s.initial_effect(c)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 3))
+    e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
@@ -166,8 +166,8 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec1, tp)
     local ec1b = ec1:Clone()
     ec1b:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    Duel.RegisterEffect(ec1b, tp)
-    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 0), nil)
+    Duel.RegisterEffect(ec1b, tp)    
+    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 2), nil)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
