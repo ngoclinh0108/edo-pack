@@ -209,7 +209,7 @@ atk = 2800
 def = 2600
 effect = """\
 (This card's name is also treated as "Magician of Black Chaos" and it's Attribute is also DARK.)
-You can Ritual Summon this card with "*". \
+You can Ritual Summon this card with "Secrets of Palladium Magic". \
 You can reveal this card in your hand; \
     add from your Deck to your hand, \
     1 "Dark Magician", "Dark Magician Girl" or 1 card specifically lists those cards in its text, \
@@ -224,8 +224,25 @@ You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per tur
 """
 strings = ["Add 1 Spell/Trap from the GY"]
 
-[card.blue-eyes-light-dragon]
+[card.palladium-soldier-faris]
 id = 910000010
+set = "palladium black-luster-soldier"
+name = "Palladium Chaos Soldier Faris"
+type = "monster ritual effect"
+attribute = "light"
+race = "earth"
+level = 8
+atk = 3000
+def = 2500
+effect = """\
+(This card is always treated as an "Black Luster Soldier" card and it's Attribute is also LIGHT and DARK.)
+You can Ritual Summon this card with "Secrets of Palladium Magic". \
+
+"""
+strings = []
+
+[card.blue-eyes-light-dragon]
+id = 910000012
 alias = 89631139
 set = "blue-eyes"
 name = "Blue-Eyes Light Dragon"
@@ -245,7 +262,7 @@ Once per turn: You can target 1 monster your opponent controls; \
 strings = ["Destroy 1 monster"]
 
 [card.palladium-oracle-seto]
-id = 910000011
+id = 910000013
 set = "palladium"
 name = "Palladium Azure Oracle Seto"
 type = "monster tuner effect"
@@ -271,23 +288,6 @@ strings = [
     "Fusion Summon",
     "Summon 3 \"Blue-Eyes White Dragon\"",
 ]
-
-[card.palladium-soldier-faris]
-id = 910000012
-set = "palladium black-luster-soldier"
-name = "Palladium Chaos Soldier Faris"
-type = "monster ritual effect"
-attribute = "light"
-race = "earth"
-level = 8
-atk = 3000
-def = 2500
-effect = """\
-(This card is always treated as an "Black Luster Soldier" card and it's Attribute is also LIGHT and DARK.)
-You can Ritual Summon this card with "*". \
-
-"""
-strings = []
 
 # [card.palladium-knight-gaia]
 # id = 910000011

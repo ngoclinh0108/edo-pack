@@ -90,35 +90,6 @@ Once per turn (Quick Effect): \
 """
 strings = ["Negate activation", "Block activate"]
 
-[card.tablet-of-lost-memories]
-id = 410000021
-set = "palladium"
-name = "Tablet of Lost Memories"
-type = "spell quick-play"
-effect = """\
-(This card is always treated as "Palladium" card.)
-During the Main Phase, if you control "Millennium Ascension": \
-    You can reveal 1 "Dark Magician", "Blue-Eyes White Dragon" or "Red-Eyes Black Dragon" in your hand; \
-    Add this card from your Deck or GY to your hand. \
-    You can only use this effect of "Tablet of Lost Memories" once per turn. \
-During the Main Phase, activate 1 of these effect;
-● Add to your hand from your Deck or GY, \
-    OR Special Summon from your hand, Deck or GY, \
-    1 "Dark Magician", "Blue-Eyes White Dragon" or "Red-Eyes Black Dragon".
-● If you control "Dark Magician": \
-    Destroy all Spells and Traps your opponent controls.
-● If you control "Blue-Eyes White Dragon": \
-    Destroy all monsters your opponent controls.
-● If you control "Red-Eyes Black Dragon": \
-    Inflict damage to your opponent equal to original ATK of 1 monster you control.
-"""
-strings = [
-    "Search a monster",
-    "Destroy Spells and Traps",
-    "Destroy monsters",
-    "Inflict damage",
-]
-
 [card.palladium-sacrophagus]
 id = 410000026
 set = "palladium"
