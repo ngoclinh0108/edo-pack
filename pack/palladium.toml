@@ -1,3 +1,10 @@
+[card.secrets-of-palladium-magic]
+id = 910000000
+set = "palladium"
+name = "Secrets of Palladium Magic"
+type = "spell quick-play"
+effect = """\
+"""
 
 [card.palladium-oracle-mahad]
 id = 910000001
