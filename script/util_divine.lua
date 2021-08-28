@@ -226,6 +226,7 @@ function Divine.GetDivineHierarchy(c, get_base)
 end
 
 function Divine.RegisterEffect(c, eff)
-    eff:SetProperty(eff:GetProperty() + EFFECT_FLAG_UNCOPYABLE)
-    c:RegisterEffect(eff)
+    local e = eff:Clone()
+    e:SetProperty(e:GetProperty() + EFFECT_FLAG_UNCOPYABLE)
+    c:RegisterEffect(e)
 end

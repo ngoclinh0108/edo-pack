@@ -45,7 +45,7 @@ function s.initial_effect(c)
     Divine.RegisterEffect(c, e3)
     local e3b = e3:Clone()
     e3b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    c:RegisterEffect(e3b)
+    Divine.RegisterEffect(c, e3b)
 
     -- summon ra
     local e4 = Effect.CreateEffect(c)

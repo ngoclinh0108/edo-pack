@@ -42,7 +42,7 @@ function s.initial_effect(c)
     Divine.RegisterEffect(c, e2)
     local e2b = e2:Clone()
     e2b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    c:RegisterEffect(e2b)
+    Divine.RegisterEffect(c, e2b)
 
     -- unstoppable attack
     local e3 = Effect.CreateEffect(c)

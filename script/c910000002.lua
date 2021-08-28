@@ -25,7 +25,7 @@ function s.initial_effect(c)
     Divine.RegisterEffect(c, e2)
     local e2b = e2:Clone()
     e2b:SetCode(EFFECT_SET_BASE_DEFENSE)
-    c:RegisterEffect(e2b)
+    Divine.RegisterEffect(c, e2b)
 
     -- atk/def down
     local e3 = Effect.CreateEffect(c)
@@ -40,10 +40,10 @@ function s.initial_effect(c)
     Divine.RegisterEffect(c, e3)
     local e3b = e3:Clone()
     e3b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e3b)
+    Divine.RegisterEffect(c, e3b)
     local e3c = e3:Clone()
     e3c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e3c)
+    Divine.RegisterEffect(c, e3c)
 end
 
 function s.e2val(e, c)
