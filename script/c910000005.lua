@@ -3,13 +3,14 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_BLUEEYES_W_DRAGON}
-s.listed_series = {0x13a, 0xdd}
+s.listed_series = {0xdd}
 
 function s.initial_effect(c)
     -- to hand
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK +
+                       CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_HAND)
     e1:SetCountLimit(1, id)
@@ -33,7 +34,7 @@ function s.initial_effect(c)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetDescription(aux.Stringid(id, 2))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
@@ -46,44 +47,75 @@ function s.initial_effect(c)
     Duel.AddCustomActivityCounter(id, ACTIVITY_SPSUMMON, s.e3counterfilter)
 end
 
-function s.e1filter(c)
-    return Utility.IsSetCard(c, 0x13a, 0xdd) and c:IsType(TYPE_MONSTER) and
-               not c:IsCode(id) and c:IsAbleToHand()
+function s.e1filter1(c)
+    return Utility.IsSetCard(c, 0xdd) and c:IsType(TYPE_MONSTER) and
+               c:IsAbleToHand()
+end
+
+function s.e1filter2(c, e, tp)
+    return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) and
+               c:IsType(TYPE_TUNER) and not c:IsCode(id) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return not e:GetHandler():IsPublic() end
-    Duel.ConfirmCards(1 - tp, e:GetHandler())
+    local c = e:GetHandler()
+    if chk == 0 then
+        return not c:IsPublic() and
+                   Duel.IsExistingMatchingCard(Card.IsAbleToDeckAsCost, tp,
+                                               LOCATION_HAND, 0, 1, c)
+    end
+
+    Duel.ConfirmCards(1 - tp, c)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToDeck, tp, LOCATION_HAND,
+                                      0, 1, 1, c)
+    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+        return Duel.IsExistingMatchingCard(s.e1filter1, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
                           LOCATION_DECK + LOCATION_GRAVE)
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_HAND)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter),
+    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter1),
                                        tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                        1, nil):GetFirst()
-    if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
-        tc:IsLocation(LOCATION_HAND) then
-        Duel.ConfirmCards(1 - tp, tc)
-        Duel.ShuffleHand(tp)
-        Duel.ShuffleDeck(tp)
+    if not tc or Duel.SendtoHand(tc, nil, REASON_EFFECT) == 0 or
+        not tc:IsLocation(LOCATION_HAND) then return end
+    Duel.ConfirmCards(1 - tp, tc)
+    Duel.ShuffleHand(tp)
+    Duel.ShuffleDeck(tp)
+
+    if tc:IsType(TYPE_NORMAL) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+        Duel.SelectYesNo(tp, 509) then
         Duel.BreakEffect()
 
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-        local g = Duel.SelectMatchingCard(tp, Card.IsAbleToDeck, tp,
-                                          LOCATION_HAND, 0, 1, 1, nil)
-        Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT)
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+        local g = Duel.SelectMatchingCard(tp, s.e1filter2, tp, LOCATION_DECK, 0,
+                                          1, 1, nil, e, tp)
+        if #g == 0 then return end
+        if Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) > 0 then
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetType(EFFECT_TYPE_FIELD)
+            ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
+            ec1:SetCode(EFFECT_CANNOT_SUMMON)
+            ec1:SetTargetRange(1, 0)
+            ec1:SetReset(RESET_PHASE + PHASE_END)
+            Duel.RegisterEffect(ec1, tp)
+            local ec1b = ec1:Clone()
+            ec1b:SetCode(EFFECT_CANNOT_MSET)
+            Duel.RegisterEffect(ec1b, tp)
+            aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 1), nil)
+        end
     end
 end
 
@@ -166,8 +198,8 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec1, tp)
     local ec1b = ec1:Clone()
     ec1b:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    Duel.RegisterEffect(ec1b, tp)    
-    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 2), nil)
+    Duel.RegisterEffect(ec1b, tp)
+    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 3), nil)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)

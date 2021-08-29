@@ -25,7 +25,6 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_SPSUMMON_SUCCESS)
     e2:SetCountLimit(1, id + 200000)
-    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -80,10 +79,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                           LOCATION_HAND, 0, 1, 1, nil)
         Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT)
     end
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_RITUAL)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
