@@ -104,12 +104,12 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noleave:SetRange(LOCATION_MZONE)
     noleave:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
-        local rc = re:GetHandler()
         if chk == 0 then
             return
                 c:IsReason(REASON_EFFECT) and r & REASON_EFFECT ~= 0 and re and
                     re:IsActiveType(TYPE_SPELL + TYPE_TRAP) and
-                    Divine.GetDivineHierarchy(rc) < Divine.GetDivineHierarchy(c)
+                    Divine.GetDivineHierarchy(re:GetHandler()) <
+                    Divine.GetDivineHierarchy(c)
         end
         return true
     end)

@@ -8,7 +8,7 @@ strings = [
     "Return banished cards to the GY",
     "Return cards to Deck",
     "Reset game",
-    "Place Continuous"
+    "Place Continuous",
 ]
 
 [card.obelisk]
@@ -27,11 +27,13 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
 This card is also Warrior-Type while on the field. \
-When a card or effect is activated that targets this card, negate that effect. \
-Once per turn, during your Main Phase or your opponent's Battle Phase, while this card is able to attack (Quick Effect): \
+Once per turn, during your Main Phase or your opponent's Battle Phase, \
+    while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; destroy all monsters your opponent controls. \
+If this card battles while its Divine Hierarchy is 2 or more, you can Tribute 2 other monsters, \
+    it gain ∞ ATK during damage calculation only. \
 """
-strings = ["Destroy all monsters your opponent controls"]
+strings = ["Destroy all monsters your opponent controls", "Gain ∞ ATK"]
 
 [card.osiris]
 id = 900000002
@@ -51,7 +53,7 @@ ${EGYPTIAN_LIMIT} \
 This card is also Dragon-Type while on the field. \
 The original ATK and DEF of this card each become equal to the number of cards in your hand x X000. (X is this card Divine Hierarchy.) \
 If a monster(s) is Summoned to your opponent's field, while this card is able to attack: \
-    That monster(s) loses 2000 ATK or DEF depending on its battle position, \
+    Target that monster(s); it loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it, \
     that monster(s) cannot activate its effects in response to this effect's activation. \
 """
@@ -143,28 +145,3 @@ strings = [
     "Send 1 monster to the GY",
     "Return to Dimension",
 ]
-
-[card.obelisk-max]
-id = 900000006
-alias = 10000000
-name = "Giant Divine Soldier of Obelisk - Soul Energy MAX"
-type = "monster dimension effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = "?"
-def = "?"
-effect = """\
-(This card's name is always treated as "Obelisk the Tormentor".)
-During the Battle Phase, \
-    you can Dimension Change "Obelisk the Tormentor" you control that is able to attack this turn \
-    to this card in the same battle position, Divine Hierarchy and original ATK/DEF, \
-    by Tributing 2 face-up monsters you control. \
-At the end of the Battle Phase, Dimension Change it to the Dimension Material Monster \
-    in the same battle position, Divine Hierarchy and original ATK/DEF. \
-${EGYPTIAN_EFFECT} \
-This card is also Warrior-Type while on the field. \
-When a card or effect is activated that targets this card, negate that effect. \
-If this card battles, it gain ∞ ATK during damage calculation only. \
-"""
-strings = ["Gain ∞ ATK"]

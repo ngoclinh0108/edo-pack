@@ -32,6 +32,7 @@ function s.initial_effect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetCode(EVENT_SUMMON_SUCCESS)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCondition(s.e3con)
@@ -51,9 +52,8 @@ function s.e2val(e, c)
                Divine.GetDivineHierarchy(c)
 end
 
-function s.e3filter(c, e, tp)
-    return c:IsControler(tp) and c:IsPosition(POS_FACEUP) and
-               (not e or c:IsRelateToEffect(e))
+function s.e3filter(c, e)
+    return c:IsPosition(POS_FACEUP) and (not e or c:IsRelateToEffect(e))
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -63,21 +63,22 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
             c:IsHasEffect(EFFECT_FORBIDDEN) or
             c:IsHasEffect(EFFECT_CANNOT_ATTACK)) then return false end
 
-    return eg:IsExists(s.e3filter, 1, nil, nil, 1 - tp)
+    return eg:IsExists(s.e3filter, 1, nil, nil)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsRelateToEffect(e) end
+
     Duel.SetTargetCard(eg)
     Duel.SetChainLimit(function(e) return not eg:IsContains(e:GetHandler()) end)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = eg:Filter(s.e3filter, nil, e, 1 - tp)
+    local tg = Duel.GetTargetCards(e):Filter(s.e3filter, nil, e)
     local dg = Group.CreateGroup()
 
-    for tc in aux.Next(g) do
+    for tc in aux.Next(tg) do
         if tc:IsPosition(POS_FACEUP_ATTACK) then
             local preatk = tc:GetAttack()
             local ec1 = Effect.CreateEffect(c)
