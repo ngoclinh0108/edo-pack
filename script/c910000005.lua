@@ -97,7 +97,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.ShuffleHand(tp)
     Duel.ShuffleDeck(tp)
 
-    if tc:IsType(TYPE_NORMAL) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+    if tc:IsType(TYPE_NORMAL) and
+        Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_DECK, 0, 1, nil,
+                                    e, tp) and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
         Duel.SelectYesNo(tp, 509) then
         Duel.BreakEffect()
 
