@@ -113,12 +113,7 @@ function Dimension.Change(c, mc, sumplayer, target_player, pos, mg)
     if not pos then pos = POS_FACEUP end
     local sumtype = mc:GetSummonType()
     local sumloc = mc:GetSummonLocation()
-
-    local zone = 0xff
-    if sumplayer == target_player then
-        zone = mc:GetSequence()
-        zone = 2 ^ zone
-    end
+    local seq = mc:GetSequence()
 
     if mg then
         c:SetMaterial(mg)
@@ -128,17 +123,11 @@ function Dimension.Change(c, mc, sumplayer, target_player, pos, mg)
 
     Dimension.SendToDimension(mc, REASON_RULE)
     Duel.MoveToField(c, sumplayer, target_player, LOCATION_MZONE, pos, true,
-                     zone)
-    Dimension.ZonesRemoveCard(c)
+                     1 << seq)
+    c:SetStatus(STATUS_FORM_CHANGED, true)
     Debug.PreSummon(c, sumtype, sumloc)
+    Dimension.ZonesRemoveCard(c)
     Duel.BreakEffect()
-
-    -- not allow change posiiton
-    local nopos = Effect.CreateEffect(c)
-    nopos:SetType(EFFECT_TYPE_SINGLE)
-    nopos:SetCode(EFFECT_CANNOT_CHANGE_POSITION)
-    nopos:SetReset(RESET_PHASE + PHASE_END)
-    c:RegisterEffect(nopos)
 end
 
 function Dimension.Condition(condition)

@@ -345,20 +345,6 @@ strings = ["Gain ∞ ATK"]
 # """
 # strings = []
 
-# [card.palladium-curse-dragon]
-# id = 910000012
-# set = "palladium"
-# name = "Palladium Curse Dragon"
-# type = "monster effect"
-# attribute = "dark"
-# race = "dragon"
-# level = 5
-# atk = 2000
-# def = 1500
-# effect = """\
-# """
-# strings = []
-
 # [card.palladium-knight-queen]
 # id = 910000013
 # set = "palladium"
