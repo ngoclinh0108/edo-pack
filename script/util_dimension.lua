@@ -96,6 +96,8 @@ function Dimension.SendToDimension(tc, reason)
     Dimension.ZonesAddCard(tc)
 end
 
+function Dimension.IsInDimensionZone(c) return c:GetLocation() == 0 end
+
 function Dimension.IsAbleToDimension(c) return c:GetLocation() ~= 0 end
 
 function Dimension.CanBeDimensionMaterial(c) return c:GetLocation() ~= 0 end

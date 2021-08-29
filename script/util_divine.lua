@@ -196,6 +196,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 end
 
 function Divine.GetDivineHierarchy(c, get_base)
+    if not c then return 0 end
     local divine_hierarchy = c.divine_hierarchy
     if not divine_hierarchy then divine_hierarchy = 0 end
     if get_base then return divine_hierarchy end
@@ -207,8 +208,8 @@ function Divine.GetDivineHierarchy(c, get_base)
     return divine_hierarchy
 end
 
-function Divine.RegisterEffect(c, eff)
+function Divine.RegisterEffect(c, eff, forced)
     local e = eff:Clone()
     e:SetProperty(e:GetProperty() + EFFECT_FLAG_UNCOPYABLE)
-    c:RegisterEffect(e)
+    c:RegisterEffect(e, forced)
 end

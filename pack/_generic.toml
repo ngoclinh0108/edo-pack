@@ -98,12 +98,12 @@ Cannot attack. \
 Neither player can target this card for attacks or by card effects. \
 Once per turn: The turn player can send this card to the Dimension Zone; \
     Dimension Summon the Dimension Material Monster, ignoring its Summoning conditions (it's Divine Hierarchy is the same as with this card's) \
-    and if they do, it gains these effects. \
+    and if they do, it gains the following effects effects. \
     Cards and effects cannot be activated in response to this effect's activation. \
     Only the original owner of this card can use this effect.
 ● The original ATK/DEF of this card become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon, \
     if the combined ATK/DEF is 0/0 then it become 4000/4000.
-● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 """
 strings = ["Turn back to Standard mode", "Unstoppable Attack"]
 
@@ -115,33 +115,37 @@ type = "monster dimension effect"
 attribute = "divine"
 race = "divine-beast"
 level = 10
-atk = "?"
-def = "?"
+atk = 4000
+def = 4000
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
-During the Main or Battle Phase, \
-    you can Dimension Change "The Winged Dragon of Ra" you control that was Special Summoned from the GY and did not declare an attack this turn \
-    to this card in the same battle position, Divine Hierarchy. \
+During the Main Phase, \
+    you can take 1 "The Winged Dragon of Ra" you control that was Special Summoned from the GY and not affected by this card effects, \
+    Dimension Change it to this card in the same battle position, Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
 This card is also Pyro-Type while on the field. \
-Cannot be destroyed by battle with a monster with lower Divine Hierarchy, also you take no battle damage from that battle. \
 Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
-When an attack is declared involving this card: You can Tribute any number of other monsters that did not declare an attack this turn; \
-    this card gains ATK equal to the Tributed monsters' combined original ATK. \
-After damage calculation, if this card attacked, send all monsters your opponent controls to the GY. \
-Once per turn (Quick Effect): You can pay LP so that you only have 1 left; This card gains original ATK/DEF equal to the amount of LP paid, \
-    and also, during this turn, while this card is on the field, any increase in LP is changed to increase it's ATK/DEF instead. \
-    Cards and effects cannot be activated in response to this effect's activation. \
+Cannot be destroyed by battle with a monster with lower Divine Hierarchy, also you take no battle damage from that battle. \
 Once per Chain, during your Main Phase (Quick Effect): You can pay 1000 LP, \
-    then send 1 other monster on the field with the same or lower Divine Hierarchy to the GY, ignoring card effects. \
+    then target 1 other monster on the field with the same or lower Divine Hierarchy; \
+    send it to the GY, ignoring card effects. \
 During the End Phase, \
     Dimension Change this card to "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in Defense Position \
     (it's Divine Hierarchy is the same as with this card's, transfer materials to it.) \
-    if you don't, send this card to the GY. \
+    if you don't, send it to the GY. \
+If "The Winged Dragon of Ra" is Special Summoned from the GY to your field while this card is in the Dimension Zone, \
+    you can pay LP so that you only have 1 left; it gains the following effects until the end of this turn.
+● This card's original ATK and DEF each become equal to the amount of LP paid, \
+    and also, while this card is on the field, any increase in LP is changed to increase it's ATK/DEF instead.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
+● When an attack is declared involving this card: You can Tribute any number of other monsters that did not declare an attack this turn; \
+    this card gains ATK equal to the Tributed monsters' combined original ATK, until the end of this turn.
+● After damage calculation, if this card attacked, send all monsters your opponent controls to the GY.
 """
 strings = [
-    "Tribtue monsters for ATK/DEF",
-    "Life Point transfer",
     "Send 1 monster to the GY",
     "Return to Dimension",
+    "Life Point transfer",
+    "Unstoppable Attack",
+    "Tribtue monsters for ATK/DEF",
 ]

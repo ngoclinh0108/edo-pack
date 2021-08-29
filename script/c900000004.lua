@@ -10,7 +10,7 @@ function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 2, false, false)
     Dimension.AddProcedure(c)
 
-    -- startup
+    -- dimension change
     Dimension.RegisterChange(s, c, function(_, tp)
         local dms = Effect.CreateEffect(c)
         dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -71,7 +71,6 @@ end
 
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     Duel.BreakEffect()
-
     local c = e:GetHandler()
     local mc = eg:Filter(s.dmsfilter, nil):GetFirst()
     if not mc then return end
@@ -139,26 +138,25 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.SpecialSummonStep(mc, 0, tp, tp, true, false, POS_FACEUP) then
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE +
-                            EFFECT_FLAG_UNCOPYABLE)
+        ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
         ec1:SetCode(EFFECT_SET_BASE_ATTACK)
         ec1:SetRange(LOCATION_MZONE)
         ec1:SetValue(atk)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        mc:RegisterEffect(ec1, true)
+        Divine.RegisterEffect(mc, ec1, true)
         local ec1b = ec1:Clone()
         ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
         ec1b:SetValue(def)
-        mc:RegisterEffect(ec1b, true)
+        Divine.RegisterEffect(mc, ec1b, true)
 
         local ec2 = Effect.CreateEffect(c)
         ec2:SetDescription(aux.Stringid(id, 1))
         ec2:SetType(EFFECT_TYPE_SINGLE)
         ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE +
-                            EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CLIENT_HINT)
+                            EFFECT_FLAG_CLIENT_HINT)
         ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
         ec2:SetRange(LOCATION_MZONE)
-        mc:RegisterEffect(ec2, true)
+        Divine.RegisterEffect(mc, ec2, true)
 
         if e:GetLabel() > 0 then
             mc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,

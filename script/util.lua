@@ -148,7 +148,7 @@ end
 
 function Utility.HintCard(target)
     local code = target
-    if type(target) == "Card" then code = target:GetCode() end
+    if type(target) == "Card" then code = target:GetOriginalCode() end
     Duel.Hint(HINT_CARD, 0, code)
 end
 
