@@ -85,6 +85,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter1),
                                        tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
