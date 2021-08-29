@@ -184,30 +184,12 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         returnend:SetCode(EVENT_PHASE + PHASE_END)
         returnend:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
             local c = e:GetHandler()
-            if not c:IsSummonType(SUMMON_TYPE_SPECIAL) or
-                c:IsPreviousLocation(LOCATION_ONFIELD) then
-                return false
-            end
-            return (c:IsPreviousLocation(LOCATION_HAND) and c:IsAbleToHand()) or
-                       (c:IsPreviousLocation(LOCATION_DECK) and c:IsAbleToDeck()) or
-                       (c:IsPreviousLocation(LOCATION_GRAVE) and
-                           c:IsAbleToGrave()) or
-                       (c:IsPreviousLocation(LOCATION_REMOVED) and
-                           c:IsAbleToRemove())
+            return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+                       c:IsPreviousLocation(LOCATION_GRAVE) and
+                       c:IsAbleToGrave()
         end)
         returnend:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetHandler()
-            if c:IsPreviousLocation(LOCATION_HAND) then
-                Duel.SendtoHand(c, c:GetPreviousControler(), REASON_RULE)
-            elseif c:IsPreviousLocation(LOCATION_DECK) then
-                Duel.SendtoDeck(c, c:GetPreviousControler(), SEQ_DECKSHUFFLE,
-                                REASON_RULE)
-            elseif c:IsPreviousLocation(LOCATION_GRAVE) then
-                Duel.SendtoGrave(c, REASON_RULE, c:GetPreviousControler())
-            elseif c:IsPreviousLocation(LOCATION_REMOVED) then
-                Duel.Remove(c, c:GetPreviousPosition(), REASON_RULE,
-                            c:GetPreviousControler())
-            end
+            Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
         end)
         Divine.RegisterEffect(c, returnend)
     end

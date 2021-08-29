@@ -17,7 +17,7 @@ Other cards' effects are only applied on it for 1 turn.\
 """
 EGYPTIAN_LIMIT = """\
 Cannot attack the turn it is Special Summoned. \
-During the End Phase, send this card to the location it was Special Summoned from.\
+During the End Phase, if this card was Special Summoned from the GY: send it to the GY.\
 """
 
 NORDIC_GOD_EFFECT = """\
