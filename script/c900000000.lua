@@ -93,7 +93,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
             not Duel.SelectYesNo(tp, 2204) then return end
 
         local sc =
-            Utility.GroupSelect(g, tp, 1, nil, HINTMSG_TOFIELD):GetFirst()
+            Utility.GroupSelect(g, tp, 1, nil, nil, HINTMSG_TOFIELD):GetFirst()
 
         aux.PlayFieldSpell(sc, e, tp, eg, ep, ev, re, r, rp)
         if Duel.GetTurnCount() == 1 then

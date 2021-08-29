@@ -68,7 +68,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
     if chk == 0 then return #g >= 1 end
 
-    g = Utility.GroupSelect(g, tp, 1, 1, HINTMSG_RTOHAND)
+    g = Utility.GroupSelect(g, tp, 1, 1, nil, HINTMSG_RTOHAND)
     Duel.SendtoHand(g, nil, 1, REASON_COST)
 end
 

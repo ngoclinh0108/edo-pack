@@ -88,9 +88,10 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter1), tp,
-                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-    local tc = Utility.GroupSelect(g, tp, 1, 1, HINTMSG_ATOHAND):GetFirst()
+    local tc = Utility.SelectMatchingCard(tp,
+                                          aux.NecroValleyFilter(s.e1filter1),
+                                          tp, LOCATION_DECK + LOCATION_GRAVE, 0,
+                                          1, 1, nil, HINTMSG_ATOHAND):GetFirst()
     if not tc or Duel.SendtoHand(tc, nil, REASON_EFFECT) == 0 or
         not tc:IsLocation(LOCATION_HAND) then return end
     Duel.ConfirmCards(1 - tp, tc)
@@ -104,7 +105,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SelectYesNo(tp, 509) then
         Duel.BreakEffect()
 
-        g = Utility.GroupSelect(g, tp, 1, 1, HINTMSG_SPSUMMON)
+        g = Utility.GroupSelect(g, tp, 1, 1, nil, HINTMSG_SPSUMMON)
         if #g == 0 then return end
         if Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) > 0 then
             local ec1 = Effect.CreateEffect(c)
@@ -222,10 +223,10 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then ft = 1 end
     if ft <= 0 then return end
 
-    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp,
-                                    LOCATION_HAND + LOCATION_DECK +
-                                        LOCATION_GRAVE, 0, nil, e, tp)
-    g = Utility.GroupSelect(g, tp, 1, ft, HINTMSG_SPSUMMON)
+    local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter),
+                                         tp, LOCATION_HAND + LOCATION_DECK +
+                                             LOCATION_GRAVE, 0, 1, ft, nil,
+                                         HINTMSG_SPSUMMON, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
