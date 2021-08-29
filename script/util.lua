@@ -164,6 +164,13 @@ function Utility.GroupSelect(g, tp, min, max, hintmsg)
     return g
 end
 
+function Utility.SelectMatchingCard(sel_player, f, player, s, o, min, max, ex,
+                                    hintmsg, ...)
+    return Utility.GroupSelect(
+                  Duel.GetMatchingGroup(f, player, s, o, ex, ...), sel_player,
+                  min, max, hintmsg)
+end
+
 function Utility.AvatarInfinity(root, c)
     aux.GlobalCheck(root, function()
         local e3 = Effect.CreateEffect(c)

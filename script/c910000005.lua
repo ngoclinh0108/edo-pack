@@ -67,9 +67,10 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.ConfirmCards(1 - tp, c)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectMatchingCard(tp, Card.IsAbleToDeck, tp, LOCATION_HAND,
-                                      0, 1, 1, c)
+
+    local g = Utility.SelectMatchingCard(tp, Card.IsAbleToDeck, tp,
+                                         LOCATION_HAND, 0, 1, 1, c,
+                                         HINTMSG_TODECK)
     Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
 end
 
@@ -87,26 +88,23 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local tc = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter1),
-                                       tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                       1, nil):GetFirst()
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter1), tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    local tc = Utility.GroupSelect(g, tp, 1, 1, HINTMSG_ATOHAND):GetFirst()
     if not tc or Duel.SendtoHand(tc, nil, REASON_EFFECT) == 0 or
         not tc:IsLocation(LOCATION_HAND) then return end
     Duel.ConfirmCards(1 - tp, tc)
     Duel.ShuffleHand(tp)
     Duel.ShuffleDeck(tp)
 
-    if tc:IsType(TYPE_NORMAL) and
-        Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_DECK, 0, 1, nil,
-                                    e, tp) and
+    local g = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_DECK, 0, nil, e,
+                                    tp)
+    if tc:IsType(TYPE_NORMAL) and #g > 0 and
         Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
         Duel.SelectYesNo(tp, 509) then
         Duel.BreakEffect()
 
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local g = Duel.SelectMatchingCard(tp, s.e1filter2, tp, LOCATION_DECK, 0,
-                                          1, 1, nil, e, tp)
+        g = Utility.GroupSelect(g, tp, 1, 1, HINTMSG_SPSUMMON)
         if #g == 0 then return end
         if Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) > 0 then
             local ec1 = Effect.CreateEffect(c)
@@ -162,9 +160,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if tc:IsFacedown() or not tc:IsRelateToEffect(e) or
         not tc:IsCanBeFusionMaterial() or tc:IsImmuneToEffect(e) then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local sc = Duel.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_EXTRA, 0,
-                                       1, 1, nil, e, tp, tc):GetFirst()
+    local sc = Utility.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_EXTRA,
+                                          0, 1, 1, nil, HINTMSG_SPSUMMON, e, tp,
+                                          tc):GetFirst()
     if sc then
         sc:SetMaterial(Group.FromCards(tc))
         Duel.SendtoGrave(tc, REASON_EFFECT + REASON_MATERIAL + REASON_FUSION)

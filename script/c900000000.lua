@@ -170,7 +170,6 @@ function s.coinop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.skillop(e, tp, eg, ep, ev, re, r, rp)
-    Utility.HintCard(id)
     local all = {
         {desc = aux.Stringid(id, 0), check = true, op = nil},
         {desc = aux.Stringid(id, 1), check = true, op = s.e1op}, {
@@ -203,7 +202,10 @@ function s.skillop(e, tp, eg, ep, ev, re, r, rp)
 
     local index = Duel.SelectOption(tp, table.unpack(desc)) + 1
     index = t[index].index
-    if all[index].op then all[index].op(e, tp, eg, ep, ev, re, r, rp) end
+    if all[index].op then
+        Utility.HintCard(id)
+        all[index].op(e, tp, eg, ep, ev, re, r, rp)
+    end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -273,8 +275,8 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(nil, tp, LOCATION_REMOVED, 0, nil)
-    g = Utility.GroupSelect(g, tp, 1, 99, HINTMSG_TOGRAVE)
+    local g = Utility.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_REMOVED, 0,
+                                         1, 99, nil, HINTMSG_TOGRAVE)
     if #g == 0 then return end
     Duel.SendtoGrave(g, REASON_RULE)
 end
@@ -287,8 +289,8 @@ end
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, loc, 0, 1, 99, nil)
+    local g = Utility.SelectMatchingCard(tp, aux.TRUE, tp, loc, 0, 1, 99, nil,
+                                         HINTMSG_TODECK)
     if #g == 0 then return end
 
     Duel.SendtoDeck(g, nil, 2, REASON_RULE)

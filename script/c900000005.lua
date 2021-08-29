@@ -131,11 +131,10 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     Utility.HintCard(id)
 
     local c = e:GetHandler()
-    local mc = Utility.GroupSelect(Duel.GetMatchingGroup(s.dmsfilter, tp,
-                                                         LOCATION_MZONE, 0, nil),
-                                   tp, 1, 1, 666100):GetFirst()
+    local mc = Utility.SelectMatchingCard(tp, s.dmsfilter, tp, LOCATION_MZONE,
+                                          0, 1, 1, nil, 666100):GetFirst()
     if not mc then return end
-    Duel.HintSelection(mc)
+    Duel.HintSelection(Group.FromCards(mc))
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
     Dimension.Change(c, mc, tp, tp, mc:GetPosition())
@@ -288,9 +287,9 @@ end
 function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-    local tc = Duel.SelectMatchingCard(tp, s.e7filter, tp, LOCATION_MZONE,
-                                       LOCATION_MZONE, 1, 1, c, c):GetFirst()
+    local tc = Utility.SelectMatchingCard(tp, s.e7filter, tp, LOCATION_MZONE,
+                                          LOCATION_MZONE, 1, 1, c,
+                                          HINTMSG_TOGRAVE, c):GetFirst()
     if not tc then return end
     Duel.HintSelection(Group.FromCards(tc))
 
