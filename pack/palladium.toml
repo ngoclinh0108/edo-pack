@@ -162,5 +162,11 @@ level = 7
 atk = 2300
 def = 2100
 effect = """\
+If you control no monsters, or your opponent controls a monster with 2000 or more ATK, \
+    you can Special Summon this card (from your hand). \
+    You can only Special Summon "Palladium Knight Gaia" once per turn this way. \
+This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
+When you Ritual or Fusion Summon a "Palladium" monster, \
+    you can banish this card from your GY as 1 of materials. \
 """
 strings = []
