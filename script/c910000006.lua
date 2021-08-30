@@ -32,7 +32,6 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_TO_GRAVE)
     e2:SetCountLimit(1, id)
-    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -92,11 +91,6 @@ end
 
 function s.e2filter(c)
     return c:IsCode(83764718) and (c:IsAbleToHand() or c:IsSSetable())
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:IsPreviousLocation(LOCATION_HAND + LOCATION_ONFIELD)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
