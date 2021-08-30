@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {83764718}
+
 function s.initial_effect(c)
     -- no damage
     local e1 = Effect.CreateEffect(c)
@@ -22,6 +24,17 @@ function s.initial_effect(c)
     end)
     e1b:SetOperation(s.e1op2)
     c:RegisterEffect(e1b)
+
+    -- add to hand
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
+    e2:SetCode(EVENT_TO_GRAVE)
+    e2:SetCountLimit(1, id)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 
     -- ritual material
     local e3 = Effect.CreateEffect(c)
@@ -74,4 +87,43 @@ function s.e1op2(e, tp, eg, ep, ev, re, r, rp)
     end)
     e1:SetReset(RESET_CHAIN)
     Duel.RegisterEffect(e1, tp)
+end
+
+function s.e2filter(c) return c:IsCode(83764718) and c:IsAbleToHand() end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e2filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           nil)
+    end
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetCode(EVENT_PHASE + PHASE_END)
+    ec1:SetCountLimit(1)
+    ec1:SetCondition(s.e2thcon)
+    ec1:SetOperation(s.e2thop)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+end
+
+function s.e2thcon(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e2filter, tp,
+                                       LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+end
+
+function s.e2thop(e, tp, eg, ep, ev, re, r, rp)
+    Utility.HintCard(id)
+
+    local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter),
+                                         tp, LOCATION_DECK + LOCATION_GRAVE, 0,
+                                         1, 1, nil, HINTMSG_ATOHAND)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
 end
