@@ -477,22 +477,3 @@ strings = ["Gain ∞ ATK"]
 # effect = """\
 # """
 # strings = []
-
-# [card.palladium-spirit-kuriboh]
-# id = 910000023
-# set = "palladium kuriboh"
-# name = "Palladium Spirit Kuriboh"
-# type = "monster effect"
-# attribute = "dark"
-# race = "fiend"
-# level = 1
-# atk = 300
-# def = 200
-# effect = """\
-# (This card's name is also treated as "Kuriboh".)
-# This card can be treated as 2 Tributes for the Tribute Summon of a monster. \
-# When an opponent's monster declares a direct attack, while this card is in your hand or GY: \
-#     You can Special Summon this card in Defense Position, and if you do, negate the attack. \
-#     You can only use this effects of "Palladium Spirit Kuriboh" once per turn. \
-# """
-# strings = []

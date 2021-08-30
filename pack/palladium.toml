@@ -151,8 +151,23 @@ strings = [
     "Affected by effect \"Palladium Azure Oracle Seto\": cannot Normal or Special Summon monsters, except \"Palladium Azure Oracle Seto\" and \"Blue-Eyes White Dragon\"",
 ]
 
-[card.palladium-knight-gaia]
+[card.palladium-ankuriboh]
 id = 910000006
+set = "palladium kuriboh"
+name = "Palladium Ankuriboh"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 1
+atk = 300
+def = 200
+effect = """\
+When you Ritual Summon, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
+"""
+strings = []
+
+[card.palladium-knight-gaia]
+id = 910000007
 set = "palladium"
 name = "Palladium Knight Gaia"
 type = "monster effect"
