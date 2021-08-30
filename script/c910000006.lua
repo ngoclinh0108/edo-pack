@@ -32,6 +32,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_TO_GRAVE)
     e2:SetCountLimit(1, id)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -89,7 +90,14 @@ function s.e1op2(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(e1, tp)
 end
 
-function s.e2filter(c) return c:IsCode(83764718) and c:IsAbleToHand() end
+function s.e2filter(c)
+    return c:IsCode(83764718) and (c:IsAbleToHand() or c:IsSSetable())
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsPreviousLocation(LOCATION_HAND + LOCATION_ONFIELD)
+end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
@@ -122,8 +130,8 @@ function s.e2thop(e, tp, eg, ep, ev, re, r, rp)
     local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter),
                                          tp, LOCATION_DECK + LOCATION_GRAVE, 0,
                                          1, 1, nil, HINTMSG_ATOHAND)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
-    end
+    if #g == 0 then return end
+    aux.ToHandOrElse(g, tp, function(c)
+        return c:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
+    end, function(g) Duel.SSet(tp, g) end, HINTMSG_SET)
 end
