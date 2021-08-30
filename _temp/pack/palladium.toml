@@ -330,21 +330,6 @@ If this card battles, it gain ∞ ATK during damage calculation only. \
 """
 strings = ["Gain ∞ ATK"]
 
-# [card.palladium-knight-gaia]
-# id = 910000011
-# set = "palladium"
-# name = "Palladium Knight Gaia"
-# type = "monster effect"
-# attribute = "earth"
-# race = "warrior"
-# level = 7
-# atk = 2300
-# def = 2100
-# effect = """\
-# (This card's name is also treated as "Gaia The Fierce Knight".)
-# """
-# strings = []
-
 # [card.palladium-knight-queen]
 # id = 910000013
 # set = "palladium"

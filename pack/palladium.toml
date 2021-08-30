@@ -150,3 +150,17 @@ strings = [
     "Summon 3 \"Blue-Eyes White Dragon\"",
     "Affected by effect \"Palladium Azure Oracle Seto\": cannot Normal or Special Summon monsters, except \"Palladium Azure Oracle Seto\" and \"Blue-Eyes White Dragon\"",
 ]
+
+[card.palladium-knight-gaia]
+id = 910000006
+set = "palladium"
+name = "Palladium Knight Gaia"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 7
+atk = 2300
+def = 2100
+effect = """\
+"""
+strings = []
