@@ -58,6 +58,7 @@ function s.initial_effect(c)
     e4:SetType(EFFECT_TYPE_QUICK_O)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
+    e4:SetCondition(s.e4con)
     e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
@@ -140,6 +141,10 @@ end
 function s.e4filter(c, sc)
     return Divine.GetDivineHierarchy(c) <= Divine.GetDivineHierarchy(sc) and
                c:IsAbleToGrave()
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetCurrentPhase() ~= PHASE_END
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)

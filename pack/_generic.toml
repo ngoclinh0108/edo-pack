@@ -100,7 +100,8 @@ Immediately after "The Winged Dragon of Ra" is Normal Summoned, \
 ${EGYPTIAN_EFFECT} \
 This card is also Machine-Type while on the field. \
 Cannot attack. \
-Neither player can target this card for attacks or by card effects. \
+Neither player can target this card for attacks or by card effects, \
+    but does not prevent your opponent from attacking you directly. \
 Once per turn: The turn player can send this card to the Dimension Zone; \
     Dimension Summon the Dimension Material Monster, ignoring its Summoning conditions (it's Divine Hierarchy is the same as with this card's) \
     and if they do, it gains the following effects effects. \
@@ -131,7 +132,7 @@ ${EGYPTIAN_EFFECT} \
 This card is also Pyro-Type while on the field. \
 Cannot attack. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, also you take no battle damage from that battle. \
-Once per Chain (Quick Effect): You can pay 1000 LP; \
+Once per Chain, except End Phase (Quick Effect): You can pay 1000 LP; \
     this card immediately attacks and send 1 monster to the GY, ignoring card effects. \
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in Defense Position \
