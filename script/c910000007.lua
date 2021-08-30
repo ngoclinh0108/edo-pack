@@ -33,6 +33,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
     e3b:SetCode(EFFECT_EXTRA_FUSION_MATERIAL)
+    e3b:SetRange(LOCATION_GRAVE)
     e3b:SetOperation(Fusion.BanishMaterial)
     c:RegisterEffect(e3b)
 end
