@@ -44,13 +44,13 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
     end
 
-    -- normal summon in defense
-    local sumdef = Effect.CreateEffect(c)
-    sumdef:SetType(EFFECT_TYPE_FIELD)
-    sumdef:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    sumdef:SetCode(EFFECT_LIGHT_OF_INTERVENTION)
-    sumdef:SetTargetRange(1, 0)
-    Duel.RegisterEffect(sumdef, tp)
+    -- -- normal summon in defense
+    -- local sumdef = Effect.CreateEffect(c)
+    -- sumdef:SetType(EFFECT_TYPE_FIELD)
+    -- sumdef:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    -- sumdef:SetCode(EFFECT_LIGHT_OF_INTERVENTION)
+    -- sumdef:SetTargetRange(1, 0)
+    -- Duel.RegisterEffect(sumdef, tp)
 
     -- set dice & coin result
     local dice = Effect.CreateEffect(c)

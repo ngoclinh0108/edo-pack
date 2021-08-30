@@ -49,7 +49,8 @@ atk = 2000
 def = 1700
 effect = """\
 (This card's name is always treated as "Palladium Oracle Mana")
-When your opponent targets a monster(s) you control with a card effect (except during the Damage Step), \
+When your opponent targets a monster(s) you control \
+    with a card effect (except during the Damage Step), \
     while this card is in your hand or GY (Quick Effect): \
     You can return 1 of those monsters to the hand; Special Summon this card. \
     You can only use this effect of "Palladium Illusion Oracle Mana" once per turn. \
@@ -129,8 +130,9 @@ level = 1
 atk = 0
 def = 0
 effect = """\
-You can reveal this card in your hand and shuffle 1 other card from your hand into the Deck; \
-    add 1 "Blue-Eyes" monster from your Deck or GY to your hand. \
+You can reveal this card in your hand; \
+    add 1 "Blue-Eyes" monster from your Deck or GY to your hand, \
+    then place 1 card from your hand on top of the Deck. \
 You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
     Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
     using it as the Fusion Material. \
@@ -189,3 +191,27 @@ When you Ritual or Fusion Summon a "Palladium" monster, \
     you can banish this card from your GY as 1 of materials. \
 """
 strings = []
+
+[card.palladium-sister-isis]
+id = 910000008
+set = "palladium"
+name = "Palladium Sister Isis"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 4
+atk = 800
+def = 2000
+effect = """\
+If this card is Normal or Flip Summoned, change it to Defense Position, \
+    also you can Normal Summon 1 "Palladium" monster during your Main Phase this turn, \
+    in addition to your Normal Summon/Set. (You can only gain this effect once per turn). \
+When your opponent activates a card or effect \
+    in response to your "Palladium" monster's effect activation (Quick Effect): \
+    You can Tribute this card from your hand or face-up field; \
+    negate that effect. \
+    Your opponent cannot activate cards or effects in response to this effect's activation. \
+If this card is Tributed: Draw 1 card. \
+You can only use each effect of "Palladium Sister Isis" once per turn. \
+"""
+strings = ["Normal Summon via \"Palladium Sister Isis\"", "Negate the effect"]

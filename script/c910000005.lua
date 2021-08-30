@@ -9,7 +9,7 @@ function s.initial_effect(c)
     -- to hand
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_HAND)
     e1:SetCountLimit(1, id)
@@ -46,53 +46,42 @@ function s.initial_effect(c)
     Duel.AddCustomActivityCounter(id, ACTIVITY_SPSUMMON, s.e3counterfilter)
 end
 
-function s.e1filter1(c)
-    return Utility.IsSetCard(c, 0xdd) and c:IsType(TYPE_MONSTER) and
-               c:IsAbleToHand()
-end
-
-function s.e1filter2(c, e, tp)
-    return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) and
-               c:IsType(TYPE_TUNER) and not c:IsCode(id) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e1filter(c)
+    return c:IsSetCard(0xdd) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return not c:IsPublic() and
-                   Duel.IsExistingMatchingCard(Card.IsAbleToDeckAsCost, tp,
-                                               LOCATION_HAND, 0, 1, c)
-    end
-
-    Duel.ConfirmCards(1 - tp, c)
-
-    local g = Utility.SelectMatchingCard(tp, Card.IsAbleToDeck, tp,
-                                         LOCATION_HAND, 0, 1, 1, c,
-                                         HINTMSG_TODECK)
-    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
+    if chk == 0 then return not e:GetHandler():IsPublic() end
+    Duel.ConfirmCards(1 - tp, e:GetHandler())
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter1, tp,
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
                           LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_HAND)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
+    local tc = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter),
+                                          tp, LOCATION_DECK + LOCATION_GRAVE, 0,
+                                          1, 1, nil, HINTMSG_ATOHAND):GetFirst()
+    if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
+        tc:IsLocation(LOCATION_HAND) then
+        Duel.ConfirmCards(1 - tp, tc)
+        Duel.ShuffleHand(tp)
+        Duel.ShuffleDeck(tp)
+        Duel.BreakEffect()
 
-    local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter1),
-                                         tp, LOCATION_DECK + LOCATION_GRAVE, 0,
-                                         1, 1, nil, HINTMSG_ATOHAND)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
+        local g = Utility.SelectMatchingCard(tp, Card.IsAbleToDeck, tp,
+                                             LOCATION_HAND, 0, 1, 1, nil,
+                                             HINTMSG_TODECK)
+        Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT)
     end
 end
 
