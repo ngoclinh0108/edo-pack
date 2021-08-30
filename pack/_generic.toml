@@ -67,7 +67,7 @@ strings = ["Reduce the monster(s)' ATK or DEF"]
 [card.ra]
 id = 900000003
 alias = 10000010
-name = "Winged Divine Beast of Ra"
+name = "Sun Divine Beast of Ra"
 type = "monster effect"
 attribute = "divine"
 race = "divine-beast"
@@ -86,7 +86,7 @@ strings = []
 [card.ra-sphere]
 id = 900000004
 alias = 10000080
-name = "Winged Divine Beast of Ra - Sphere Mode"
+name = "Sun Divine Beast of Ra - Sphere Mode"
 type = "monster dimension effect"
 attribute = "divine"
 race = "divine-beast"
@@ -116,7 +116,7 @@ strings = ["Turn back to Normal Form", "Unstoppable Attack"]
 [card.ra-phoenix]
 id = 900000005
 alias = 10000080
-name = "Winged Divine Beast of Ra - Immortal Phoenix"
+name = "Sun Divine Beast of Ra - Immortal Phoenix"
 type = "monster dimension effect"
 attribute = "divine"
 race = "divine-beast"

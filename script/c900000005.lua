@@ -1,4 +1,4 @@
--- Winged Divine Beast of Ra - Immortal Phoenix
+-- Sun Divine Beast of Ra - Immortal Phoenix
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("util_dimension.lua")

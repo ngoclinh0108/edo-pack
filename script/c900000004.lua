@@ -1,4 +1,4 @@
--- Winged Divine Beast of Ra - Sphere Mode
+-- Sun Divine Beast of Ra - Sphere Mode
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("util_dimension.lua")
@@ -85,6 +85,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
 
     if c:GetOwner() == rp and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         s.e4cost(e, tp, eg, ep, ev, re, r, rp, 1)
+        s.e4tg(e, tp, eg, ep, ev, re, r, rp, 1)
         s.e4op(e, tp, eg, ep, ev, re, r, rp, true)
     end
 end
