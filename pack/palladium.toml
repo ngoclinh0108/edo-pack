@@ -215,3 +215,17 @@ If this card is Tributed: Draw 1 card. \
 You can only use each effect of "Palladium Sister Isis" once per turn. \
 """
 strings = ["Normal Summon via \"Palladium Sister Isis\"", "Negate the effect"]
+
+[card.palladium-guardian-shada]
+id = 910000009
+set = "palladium guardian"
+name = "Palladium Guardian Shada"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1400
+def = 1200
+effect = """\
+"""
+strings = []
