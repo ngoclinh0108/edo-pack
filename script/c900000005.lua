@@ -138,11 +138,6 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4filter(c, sc)
-    return Divine.GetDivineHierarchy(c) <= Divine.GetDivineHierarchy(sc) and
-               c:IsAbleToGrave()
-end
-
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetCurrentPhase() ~= PHASE_END
 end
@@ -156,7 +151,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and
-                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_MZONE,
+                   Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_MZONE,
                                                LOCATION_MZONE, 1, c, c)
     end
 
@@ -168,7 +163,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    local tc = Duel.SelectMatchingCard(tp, s.e4filter, tp, LOCATION_MZONE,
+    local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE,
                                        LOCATION_MZONE, 1, 1, c):GetFirst()
 
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
