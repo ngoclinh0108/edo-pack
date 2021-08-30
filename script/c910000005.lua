@@ -9,8 +9,7 @@ function s.initial_effect(c)
     -- to hand
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK +
-                       CATEGORY_SPECIAL_SUMMON)
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_HAND)
     e1:SetCountLimit(1, id)
@@ -34,7 +33,7 @@ function s.initial_effect(c)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 2))
+    e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
@@ -88,38 +87,12 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    local tc = Utility.SelectMatchingCard(tp,
-                                          aux.NecroValleyFilter(s.e1filter1),
-                                          tp, LOCATION_DECK + LOCATION_GRAVE, 0,
-                                          1, 1, nil, HINTMSG_ATOHAND):GetFirst()
-    if not tc or Duel.SendtoHand(tc, nil, REASON_EFFECT) == 0 or
-        not tc:IsLocation(LOCATION_HAND) then return end
-    Duel.ConfirmCards(1 - tp, tc)
-    Duel.ShuffleHand(tp)
-    Duel.ShuffleDeck(tp)
-
-    local g = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_DECK, 0, nil, e,
-                                    tp)
-    if tc:IsType(TYPE_NORMAL) and #g > 0 and
-        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-        Duel.SelectYesNo(tp, 509) then
-        Duel.BreakEffect()
-
-        g = Utility.GroupSelect(g, tp, 1, 1, nil, HINTMSG_SPSUMMON)
-        if #g == 0 then return end
-        if Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) > 0 then
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetType(EFFECT_TYPE_FIELD)
-            ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
-            ec1:SetCode(EFFECT_CANNOT_SUMMON)
-            ec1:SetTargetRange(1, 0)
-            ec1:SetReset(RESET_PHASE + PHASE_END)
-            Duel.RegisterEffect(ec1, tp)
-            local ec1b = ec1:Clone()
-            ec1b:SetCode(EFFECT_CANNOT_MSET)
-            Duel.RegisterEffect(ec1b, tp)
-            aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 1), nil)
-        end
+    local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter1),
+                                         tp, LOCATION_DECK + LOCATION_GRAVE, 0,
+                                         1, 1, nil, HINTMSG_ATOHAND)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
     end
 end
 
@@ -203,7 +176,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local ec1b = ec1:Clone()
     ec1b:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
     Duel.RegisterEffect(ec1b, tp)
-    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 3), nil)
+    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 2), nil)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)

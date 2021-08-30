@@ -130,11 +130,7 @@ atk = 0
 def = 0
 effect = """\
 You can reveal this card in your hand and shuffle 1 other card from your hand into the Deck; \
-    add 1 "Blue-Eyes" monster from your Deck or GY to your hand, \
-    then, if that monster is a Normal Monster, \
-    you can Special Summon 1 Level 1 LIGHT Tuner monster from your Deck, \
-    except "Palladium Azure Oracle Seto", \
-    and if you do, you cannot Normal Summon or Set a monster for the rest of this turn. \
+    add 1 "Blue-Eyes" monster from your Deck or GY to your hand. \
 You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
     Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
     using it as the Fusion Material. \
@@ -146,7 +142,6 @@ You can only use 1 "Palladium Azure Oracle Seto" effect per turn, and only once 
 """
 strings = [
     "Add 1 \"Blue-Eyes\" monster",
-    "Affected by effect \"Palladium Azure Oracle Seto\": cannot Normal or Set monsters",
     "Summon 3 \"Blue-Eyes White Dragon\"",
     "Affected by effect \"Palladium Azure Oracle Seto\": cannot Normal or Special Summon monsters, except \"Palladium Azure Oracle Seto\" and \"Blue-Eyes White Dragon\"",
 ]
