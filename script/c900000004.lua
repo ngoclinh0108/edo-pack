@@ -47,7 +47,7 @@ function s.initial_effect(c)
     e3b:SetCode(EFFECT_IGNORE_BATTLE_TARGET)
     Divine.RegisterEffect(c, e3b)
 
-    -- summon ra
+    -- ancient chant
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -77,11 +77,15 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
     Dimension.Change(c, mc, rp, rp, mc:GetPosition())
-
     if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                              RESET_EVENT + RESETS_STANDARD,
                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+    end
+
+    if c:GetOwner() == rp and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+        s.e4cost(e, tp, eg, ep, ev, re, r, rp, 1)
+        s.e4op(e, tp, eg, ep, ev, re, r, rp, true)
     end
 end
 
@@ -99,15 +103,14 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return c:GetOwner() == tp and mc and
                    (c:GetControler() == tp or
                        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0) and
-                   Dimension.CanBeDimensionSummoned(mc, e, tp, true, false,
-                                                    POS_FACEUP)
+                   Dimension.CanBeDimensionSummoned(mc, e, tp, false, false)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, mc, 1, 0, 0)
     Duel.SetChainLimit(aux.FALSE)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp, immediately)
     local c = e:GetHandler()
     local mc = c:GetMaterial():GetFirst()
     if not mc then return end
@@ -128,44 +131,43 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
                 def = def + mc:GetBaseDefense()
             end
         end
-    end
-    if atk == 0 and def == 0 then
+    else
         atk = 4000
         def = 4000
     end
 
-    Dimension.ZonesRemoveCard(mc)
-    if Duel.SpecialSummonStep(mc, 0, tp, tp, true, false, POS_FACEUP) then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
-        ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-        ec1:SetRange(LOCATION_MZONE)
-        ec1:SetValue(atk)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        Divine.RegisterEffect(mc, ec1, true)
-        local ec1b = ec1:Clone()
-        ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
-        ec1b:SetValue(def)
-        Divine.RegisterEffect(mc, ec1b, true)
+    -- base atk/def
+    local pos = immediately and c:GetPreviousPosition() or POS_FACEUP
+    local seq = immediately and c:GetPreviousSequence() or nil
+    if not Dimension.Summon(mc, tp, tp, pos, seq) then return end
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+    ec1:SetRange(LOCATION_MZONE)
+    ec1:SetValue(atk)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    Divine.RegisterEffect(mc, ec1, true)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
+    ec1b:SetValue(def)
+    Divine.RegisterEffect(mc, ec1b, true)
 
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetDescription(aux.Stringid(id, 1))
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE +
-                            EFFECT_FLAG_CLIENT_HINT)
-        ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-        ec2:SetRange(LOCATION_MZONE)
-        Divine.RegisterEffect(mc, ec2, true)
+    -- unstoppable attack
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 1))
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE +
+                        EFFECT_FLAG_CLIENT_HINT)
+    ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+    ec2:SetRange(LOCATION_MZONE)
+    Divine.RegisterEffect(mc, ec2, true)
 
-        if e:GetLabel() > 0 then
-            mc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
-                                  RESET_EVENT + RESETS_STANDARD,
-                                  EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
-        end
+    if e:GetLabel() > 0 then
+        mc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
+                              RESET_EVENT + RESETS_STANDARD,
+                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
     end
-    Duel.SpecialSummonComplete()
-
     local spnoattack = mc:GetCardEffect(EFFECT_CANNOT_ATTACK)
     if spnoattack then spnoattack:Reset() end
 end

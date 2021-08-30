@@ -134,7 +134,6 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
     Dimension.Change(c, mc, tp, tp, mc:GetPosition())
-
     if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                              RESET_EVENT + RESETS_STANDARD,
@@ -221,7 +220,6 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         local sc = sg:GetFirst()
         local divine_evolution = c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
         Dimension.Change(sc, c, tp, tp, POS_FACEUP_DEFENSE, c:GetMaterial())
-
         if divine_evolution then
             sc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                                   RESET_EVENT + RESETS_STANDARD,

@@ -102,16 +102,16 @@ This card is also Machine-Type while on the field. \
 Cannot attack. \
 Neither player can target this card for attacks or by card effects, \
     but does not prevent your opponent from attacking you directly. \
-Once per turn: The turn player can send this card to the Dimension Zone; \
-    Dimension Summon the Dimension Material Monster, ignoring its Summoning conditions (it's Divine Hierarchy is the same as with this card's) \
-    and if they do, it gains the following effects effects. \
-    Cards and effects cannot be activated in response to this effect's activation. \
-    Only the original owner of this card can use this effect.
+Once per turn: The original owner of this card can send this card to the Dimension Zone; \
+    Dimension Summon the Dimension Material Monster (it's Divine Hierarchy is the same as with this card's) \
+    then, it gains the following effects effects. \
+    If you just Dimension Changed this card, you can immediately used this effect with the same battle position. \
+    Cards and effects cannot be activated in response to this effect's activation.
 ● The original ATK/DEF of this card become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon, \
-    if the combined ATK/DEF is 0/0 then it become 4000/4000.
+    or its become 4000/4000.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 """
-strings = ["Turn back to Standard mode", "Unstoppable Attack"]
+strings = ["Turn back to Normal Form", "Unstoppable Attack"]
 
 [card.ra-phoenix]
 id = 900000005

@@ -104,11 +104,11 @@ function Dimension.CanBeDimensionMaterial(c) return c:GetLocation() ~= 0 end
 
 function Dimension.CanBeDimensionChanged(c) return c:GetLocation() == 0 end
 
-function Dimension.CanBeDimensionSummoned(c, e, sumplayer, nocheck, nolimit,
-                                          sumpos)
-    return c:GetLocation() == 0 and
-               c:IsCanBeSpecialSummoned(e, 0, sumplayer, nocheck, nolimit,
-                                        sumpos)
+function Dimension.CanBeDimensionSummoned(c, e, sumplayer, nocheck, nolimit)
+    if c:GetLocation() ~= 0 then return false end
+    if c:IsSummonType(SUMMON_TYPE_NORMAL) then return c:IsSummonable(true, e) end
+    return c:IsCanBeSpecialSummoned(e, c:GetSummonType(), sumplayer, nocheck,
+                                    nolimit)
 end
 
 function Dimension.Change(c, mc, sumplayer, target_player, pos, mg)
@@ -126,10 +126,28 @@ function Dimension.Change(c, mc, sumplayer, target_player, pos, mg)
     Dimension.SendToDimension(mc, REASON_RULE)
     Duel.MoveToField(c, sumplayer, target_player, LOCATION_MZONE, pos, true,
                      1 << seq)
+                     
     c:SetStatus(STATUS_FORM_CHANGED, true)
     Debug.PreSummon(c, sumtype, sumloc)
     Dimension.ZonesRemoveCard(c)
     Duel.BreakEffect()
+end
+
+function Dimension.Summon(c, sumplayer, target_player, pos, seq)
+    if not pos then pos = POS_FACEUP end
+
+    if not Duel.MoveToField(c, sumplayer, target_player, LOCATION_MZONE, pos,
+                            true, seq and 1 << seq or nil) then
+        if not c:IsType(Dimension.TYPE) then
+            Duel.SendtoGrave(c, REASON_RULE)
+        end
+        return false
+    end
+
+    c:SetStatus(STATUS_FORM_CHANGED, true)
+    Dimension.ZonesRemoveCard(c)
+    Duel.BreakEffect()
+    return true
 end
 
 function Dimension.Condition(condition)
