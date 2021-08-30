@@ -80,25 +80,21 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     for tc in aux.Next(tg) do
         if tc:IsPosition(POS_FACEUP_ATTACK) then
-            local preatk = tc:GetAttack()
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
             ec1:SetCode(EFFECT_UPDATE_ATTACK)
             ec1:SetValue(-2000)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
             tc:RegisterEffect(ec1)
-            if preatk > 0 and tc:GetAttack() == 0 then dg:AddCard(tc) end
+            if tc:GetAttack() == 0 then dg:AddCard(tc) end
         elseif tc:IsPosition(POS_FACEUP_DEFENSE) then
-            local predef = tc:GetDefense()
             local ec2 = Effect.CreateEffect(c)
             ec2:SetType(EFFECT_TYPE_SINGLE)
             ec2:SetCode(EFFECT_UPDATE_DEFENSE)
             ec2:SetValue(-2000)
             ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
             tc:RegisterEffect(ec2)
-            if predef > 0 and tc:GetDefense() == 0 then
-                dg:AddCard(tc)
-            end
+            if tc:GetDefense() == 0 then dg:AddCard(tc) end
         end
     end
 
