@@ -40,7 +40,7 @@ function s.initial_effect(c)
     e2b:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
     Divine.RegisterEffect(c, e2b)
 
-    -- battle & avoid damage
+    -- battle indes
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -51,9 +51,6 @@ function s.initial_effect(c)
                    Divine.GetDivineHierarchy(e:GetHandler())
     end)
     Divine.RegisterEffect(c, e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    Divine.RegisterEffect(c, e3b)
 
     -- quick attack
     local e4 = Effect.CreateEffect(c)
