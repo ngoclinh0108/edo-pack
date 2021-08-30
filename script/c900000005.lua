@@ -151,8 +151,8 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and
-                   Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_MZONE,
-                                               LOCATION_MZONE, 1, c, c)
+                   Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE,
+                                               1, c, c)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, 0, LOCATION_MZONE)
@@ -163,8 +163,8 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE,
-                                       LOCATION_MZONE, 1, 1, c):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1,
+                                       1, c):GetFirst()
 
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
                              PHASE_BATTLE, 0, 1)
