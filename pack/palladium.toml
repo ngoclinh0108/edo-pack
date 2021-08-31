@@ -349,9 +349,9 @@ name = "palladium Beast Berfomet"
 type = "monster effect"
 attribute = "light"
 race = "fiend"
-level = 5
-atk = 1400
-def = 1800
+level = 4
+atk = 1800
+def = 1400
 effect = """\
 """
 strings = []
