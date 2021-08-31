@@ -2,8 +2,6 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0x13a}
-
 function s.initial_effect(c)
     -- negate target
     local e1 = Effect.CreateEffect(c)
@@ -49,8 +47,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
         return false
     end
 
-    return Duel.IsChainNegatable(ev) and (tg:IsContains(c) or
-               tg:IsExists(aux.FilterFaceupFunction(Card.IsSetCard, 0x13a), 1, c))
+    return Duel.IsChainNegatable(ev) and tg:IsContains(c)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

@@ -67,29 +67,6 @@ If this card leaves the field: \
 """
 strings = ["Draw and check"]
 
-[card.palladium-paladin-ace-joker]
-id = 410000020
-set = "palladium"
-name = "Palladium Paladin Ace Joker"
-type = "fusion monster effect"
-attribute = "light"
-race = "warrior"
-level = 9
-atk = 3800
-def = 2500
-effect = """\
-"Queen's Knight" + "Jack's Knight" + "King's Knight"
-A Fusion Summon of this card can only be done with the above materials. \
-Must first be either Fusion Summoned, or Special Summoned by sending the above monsters you control to the GY \
-    (in which case you do not use "Polymerization"). \
-When a card or effect, is activated that targets this face-up card on the field (Quick Effect): \
-    You can discard 1 card; negate the activation, and if you do, destroy it. \
-Once per turn (Quick Effect): \
-    You can send the top card of your deck to the GY, for the rest of the turn, \
-    and if you do, your opponent cannot activate card effects with the same type (Monster, Spell, or Trap) as that card.
-"""
-strings = ["Negate activation", "Block activate"]
-
 [card.palladium-sacrophagus]
 id = 410000026
 set = "palladium"

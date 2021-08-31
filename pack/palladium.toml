@@ -250,7 +250,7 @@ atk = 100
 def = 2600
 effect = """\
 When your opponent activates a card or effect \
-    that targets this card (even face-down) or another "Palladium" monster(s) you control (Quick Effect): \
+    that targets this card (face-up or face-down) (Quick Effect): \
     You can negate that activation, also change this card to face-up Defense Positionm, if able. \
     You can only use this effect of "Palladium Gardna Karim" once per turn. \
 Once while face-up on the field (Quick Effect): You can change this card to Defense Position, \
@@ -323,8 +323,26 @@ Once per turn: \
 """
 strings = []
 
-[card.palladium-archfiend-gilfer]
+[card.palladium-paladin-ace-joker]
 id = 910000014
+set = "palladium"
+name = "Arcana Palladium Joker"
+type = "fusion monster effect"
+attribute = "light"
+race = "warrior"
+level = 9
+atk = 3800
+def = 2500
+effect = """\
+"Queen's Knight" + "Jack's Knight" + "King's Knight"
+A Fusion Summon of this card can only be done with the above materials. \
+When your opponent activates a card or effect that targets a card(s) you control (Quick Effect): \
+    You can discard 1 card; negate the activation, and if you do, destroy it. \
+"""
+strings = []
+
+[card.palladium-archfiend-gilfer]
+id = 910000015
 set = "palladium archfiend"
 name = "Palladium Archfiend Gilfer"
 type = "monster effect"
@@ -344,7 +362,7 @@ If this card is sent to the GY: \
 strings = ["Normal Summon without Tributing"]
 
 [card.palladium-beast-berfomet]
-id = 910000015
+id = 910000016
 set = "palladium"
 name = "Palladium Beast Berfomet"
 type = "monster effect"
@@ -364,7 +382,7 @@ When you Fusion Summon a "Palladium" monster, you can banish this card from your
 strings = []
 
 [card.palladium-beast-gazelle]
-id = 910000016
+id = 910000017
 set = "palladium"
 name = "Palladium Beast Gazelle"
 type = "monster effect"
