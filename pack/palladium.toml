@@ -29,9 +29,9 @@ atk = 2500
 def = 2100
 effect = """\
 (This card's name is always treated as "Palladium Oracle Mahad")
-If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 This card's name can be treated as "Dark Magician" when used for a Fusion Summon. \
     This effect cannot be negated. \
+If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 """
 strings = []
@@ -49,13 +49,13 @@ atk = 2000
 def = 1700
 effect = """\
 (This card's name is always treated as "Palladium Oracle Mana")
+This card's name can be treated as "Dark Magician Girl" when used for a Fusion Summon. \
+    This effect cannot be negated. \
 When your opponent targets a monster(s) you control \
     with a card effect (except during the Damage Step), \
     while this card is in your hand or GY (Quick Effect): \
     You can return 1 of those monsters to the hand; Special Summon this card. \
     You can only use this effect of "Palladium Illusion Oracle Mana" once per turn. \
-This card's name can be treated as "Dark Magician Girl" when used for a Fusion Summon. \
-    This effect cannot be negated. \
 Once per turn, during damage calculation, \
     if your other Spellcaster monster battles an opponent's monster (Quick Effect): \
     That monster you control gains ATK/DEF equal to this card's ATK during that damage calculation only. \
@@ -256,5 +256,68 @@ Once while face-up on the field (Quick Effect): You can change this card to Defe
     then target 1 face-up card your opponent controls; \
     negate the effects of that card while it and this monster are face-up on the field. \
 If this Defense Position card is attacked, it loses 800 DEF. \
+"""
+strings = []
+
+[card.palladium-knight-queen]
+id = 910000011
+set = "palladium"
+name = "Palladium Knight of Queen"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1500
+def = 1600
+effect = """\
+This card's name is also treated as "Queen's Knight". \
+You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
+If this card is Normal or Special Summoned: \
+    You can Special Summon 1 Level 4 LIGHT Warrior monster from your hand, Deck or GY, except "Palladium Knight of Queen", \
+    but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
+    You can only use this effect of "Palladium Knight of Queen" once per turn. \
+"""
+strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
+
+[card.palladium-knight-king]
+id = 910000012
+set = "palladium"
+name = "Palladium Knight of King"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1600
+def = 1400
+effect = """\
+This card's name is also treated as "King's Knight". \
+If you control a Warrior monster other than "King's Knight", \
+    you can Special Summon this card (from your hand). \
+If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
+    You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
+    but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
+    You can only use this effect of "Palladium Knight of King" once per turn. \
+"""
+strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
+
+[card.palladium-knight-jack]
+id = 910000013
+set = "palladium"
+name = "Palladium Knight of Jack"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 5
+atk = 1900
+def = 1000
+effect = """\
+This card's name is also treated as "Jack's Knight". \
+If this card is Normal or Special Summoned: \
+    You can target face-up cards your opponent control, \
+    up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
+    You can only use this effect of "Palladium Knight of Jack" once per turn. \
+Once per turn: \
+    You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
+    using monsters you control as Fusion Materials, including this card. \
 """
 strings = []
