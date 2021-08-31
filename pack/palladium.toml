@@ -270,14 +270,14 @@ level = 4
 atk = 1500
 def = 1600
 effect = """\
-This card's name is also treated as "Queen's Knight". \
-You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
+(This card's name is also treated as "Queen's Knight".)
+You can Special Summon this card (from your hand) by revealing 1 other LIGHT Warrior monster in your hand. \
+    You can only Special Summon "Palladium Knight of Queen" once per turn this way. \
 If this card is Normal or Special Summoned: \
-    You can Special Summon 1 Level 4 LIGHT Warrior monster from your hand, Deck or GY, except "Palladium Knight of Queen", \
-    but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
+    You can add 1 Level 4 LIGHT Warrior monster from your hand, Deck or GY to your hand, except "Queen's Knight". \
     You can only use this effect of "Palladium Knight of Queen" once per turn. \
 """
-strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
+strings = []
 
 [card.palladium-knight-king]
 id = 910000012
@@ -290,13 +290,13 @@ level = 4
 atk = 1600
 def = 1400
 effect = """\
-This card's name is also treated as "King's Knight". \
-If you control a Warrior monster other than "King's Knight", \
-    you can Special Summon this card (from your hand). \
+(This card's name is also treated as "King's Knight".)
+During the Main Phase, if you control a LIGHT Warrior monster other than "King's Knight" (Quick Effect): \
+    You can Special Summon this card from your hand. \
 If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
     You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
     but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
-    You can only use this effect of "Palladium Knight of King" once per turn. \
+You can only use each effect of "Palladium Knight of King" once per turn. \
 """
 strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
 
@@ -311,7 +311,7 @@ level = 5
 atk = 1900
 def = 1000
 effect = """\
-This card's name is also treated as "Jack's Knight". \
+(This card's name is also treated as "Jack's Knight".)
 If this card is Normal or Special Summoned: \
     You can target face-up cards your opponent control, \
     up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
