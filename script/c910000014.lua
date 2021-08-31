@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.material = {25652259, 90876561, 64788463}
+
 function s.initial_effect(c)
     c:EnableReviveLimit()
     aux.DoubleSnareValidity(c, LOCATION_MZONE)

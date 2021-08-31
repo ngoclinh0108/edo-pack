@@ -375,28 +375,8 @@ If this card is sent to the GY: \
 """
 strings = ["Normal Summon without Tributing"]
 
-[card.palladium-beast-berfomet]
-id = 910000016
-set = "palladium"
-name = "Palladium Beast Berfomet"
-type = "monster effect"
-attribute = "light"
-race = "fiend"
-level = 5
-atk = 1400
-def = 1800
-effect = """\
-You can discard this card; \
-    add 1 "Polymerization" or 1 Level 4 or lower "Palladium" monster from your Deck or GY to your hand. \
-    You can only use this effect of "Palladium Beast Berfomet" once per turn. \
-When this card destroys an opponent's monster by battle: \
-    Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
-When you Fusion Summon a "Palladium" monster, you can banish this card from your GY as 1 of materials. \
-"""
-strings = []
-
 [card.palladium-beast-gazelle]
-id = 910000017
+id = 910000016
 set = "palladium"
 name = "Palladium Beast Gazelle"
 type = "monster effect"
@@ -415,6 +395,26 @@ If this card is used as material for a Fusion Summon: Draw 1 card. \
 """
 strings = ["Add \"Polymerization\""]
 
+[card.palladium-beast-berfomet]
+id = 910000017
+set = "palladium"
+name = "Palladium Beast Berfomet"
+type = "monster effect"
+attribute = "light"
+race = "fiend"
+level = 5
+atk = 1400
+def = 1800
+effect = """\
+You can discard this card; \
+    add 1 "Polymerization" or 1 Level 4 or lower "Palladium" monster from your Deck or GY to your hand. \
+    You can only use this effect of "Palladium Beast Berfomet" once per turn. \
+When this card destroys an opponent's monster by battle: \
+    Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
+When you Fusion Summon a "Palladium" monster, you can banish this card from your GY as 1 of materials. \
+"""
+strings = []
+
 [card.palladium-beast-chimera]
 id = 910000018
 set = "palladium"
@@ -426,9 +426,12 @@ level = 6
 atk = 2100
 def = 1800
 effect = """\
-"Palladium Archfiend Gilfer" + "Palladium Beast Berfomet"
+"Palladium Beast Gazelle" + "Palladium Beast Berfomet"
 A Fusion Summon of this card can only be done with the above materials. \
 This card gains effects of material monsters used to Fusion Summon it. \
 This card can make a second attack during each Battle Phase. \
+if this card is destroyed: You can Special Summon \
+    1 "Palladium Beast Gazelle" or "Palladium Beast Berfomet" \
+    from your hand, Deck, GY. \
 """
-strings = [""]
+strings = []
