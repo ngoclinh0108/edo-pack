@@ -306,7 +306,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card on the field as
 strings = [
     "Summoned using \"Palladium Knight of King\"",
     "Cannot be used as material, except for a LIGHT Warrior monster",
-    "Make a second attack in a row"
+    "Make a second attack in a row",
 ]
 
 [card.palladium-knight-jack]
@@ -414,3 +414,21 @@ If this card attacks a Defense Position monster, inflict piercing battle damage 
 If this card is used as material for a Fusion Summon: Draw 1 card. \
 """
 strings = ["Add \"Polymerization\""]
+
+[card.palladium-beast-chimera]
+id = 910000018
+set = "palladium"
+name = "Palladium Beast Chimera"
+type = "monster fusion effect"
+attribute = "light"
+race = "beast"
+level = 6
+atk = 2100
+def = 1800
+effect = """\
+"Palladium Archfiend Gilfer" + "Palladium Beast Berfomet"
+A Fusion Summon of this card can only be done with the above materials. \
+This card gains effects of material monsters used to Fusion Summon it. \
+This card can make a second attack during each Battle Phase. \
+"""
+strings = [""]
