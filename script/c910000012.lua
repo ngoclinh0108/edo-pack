@@ -38,6 +38,14 @@ function s.initial_effect(c)
     local e2b = e2:Clone()
     e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e2b)
+
+    -- gain effect
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_BE_MATERIAL)
+    e3:SetCondition(s.e3con)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1filter(c)
@@ -108,7 +116,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 0))
+    ec1:SetDescription(aux.Stringid(id, 1))
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_BE_MATERIAL)
@@ -118,4 +126,45 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec1)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local p = e:GetHandler()
+    local rc = p:GetReasonCard()
+    return
+        (r & REASON_FUSION) ~= 0 and p:IsPreviousLocation(LOCATION_ONFIELD) and
+            rc:IsAttribute(ATTRIBUTE_LIGHT) and rc:IsRace(RACE_WARRIOR)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local rc = c:GetReasonCard()
+
+    local ec1 = Effect.CreateEffect(rc)
+    ec1:SetDescription(aux.Stringid(id, 0))
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(ec1, true)
+
+    if not rc:IsType(TYPE_EFFECT) then
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetCode(EFFECT_ADD_TYPE)
+        ec2:SetValue(TYPE_EFFECT)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+        rc:RegisterEffect(ec2, true)
+    end
+
+    local ec3 = Effect.CreateEffect(c)
+    ec3:SetDescription(aux.Stringid(id, 2))
+    ec3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    ec3:SetCode(EVENT_BATTLE_DESTROYING)
+    ec3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return aux.bdocon(e, tp, eg, ep, ev, re, r, rp) and
+                   e:GetHandler():CanChainAttack()
+    end)
+    ec3:SetOperation(function() Duel.ChainAttack() end)
+    ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(ec3, true)
 end

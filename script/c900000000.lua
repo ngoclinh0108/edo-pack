@@ -107,6 +107,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     mulligan:SetCondition(function(e, tp)
         return
             Duel.GetCurrentPhase() == PHASE_DRAW and Duel.GetTurnCount() == 1 and
+                Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) > 0 and
                 Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0
     end)
     mulligan:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)

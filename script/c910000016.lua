@@ -23,7 +23,7 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e2:SetCode(EVENT_BATTLE_DESTROYING)
-    e2:SetCondition(s.e2con)
+    e2:SetCondition(aux.bdocon)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -71,12 +71,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local bc = c:GetBattleTarget()
-    return c:IsRelateToBattle() and bc:IsType(TYPE_MONSTER)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)

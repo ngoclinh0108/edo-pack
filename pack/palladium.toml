@@ -277,8 +277,10 @@ You can Special Summon this card (from your hand) by revealing 1 other LIGHT War
 If this card is Normal or Special Summoned: \
     You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Queen's Knight". \
     You can only use this effect of "Palladium Knight of Queen" once per turn. \
+A LIGHT Warrior monster that was Fusion Summoned using this card on the field as material gains this effect.
+● If this card destroys an opponent's monster by battle: Draw 1 card.
 """
-strings = []
+strings = ["Summoned using \"Palladium Knight of Queen\""]
 
 [card.palladium-knight-king]
 id = 910000012
@@ -298,8 +300,14 @@ If this card is Normal or Special Summoned while you control another Level 4 LIG
     You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
     but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
 You can only use each effect of "Palladium Knight of King" once per turn. \
+A LIGHT Warrior monster that was Fusion Summoned using this card on the field as material gains this effect.
+● When this card destroys an opponent's monster by battle: It can make a second attack in a row. \
 """
-strings = ["Cannot be used as material, except for a LIGHT Warrior monster"]
+strings = [
+    "Summoned using \"Palladium Knight of King\"",
+    "Cannot be used as material, except for a LIGHT Warrior monster",
+    "Make a second attack in a row"
+]
 
 [card.palladium-knight-jack]
 id = 910000013
@@ -320,8 +328,10 @@ If this card is Normal or Special Summoned: \
 Once per turn: \
     You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters you control as Fusion Materials, including this card. \
+A LIGHT Warrior monster that was Fusion Summoned using this card on the field as material gains this effect.
+● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
 """
-strings = []
+strings = ["Summoned using \"Palladium Knight of Jack\""]
 
 [card.palladium-paladin-ace-joker]
 id = 910000014
@@ -338,6 +348,10 @@ effect = """\
 A Fusion Summon of this card can only be done with the above materials. \
 When your opponent activates a card or effect that targets a card(s) you control (Quick Effect): \
     You can discard 1 card; negate the activation, and if you do, destroy it. \
+You can discard 1 card, then target 1 other card on the field; destroy it. \
+If this Fusion Summoned card is destroyed by battle or card effect: \
+    You can target 1 non-Fusion LIGHT Warrior monster in your GY; add it to your hand. \
+    You can only use this effect of "Arcana Palladium Joker" once per turn. \
 """
 strings = []
 
@@ -375,7 +389,7 @@ effect = """\
 You can discard this card; \
     add 1 "Polymerization" or 1 Level 4 or lower "Palladium" monster from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Beast Berfomet" once per turn. \
-When this card destroys a monster by battle: \
+When this card destroys an opponent's monster by battle: \
     Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
 When you Fusion Summon a "Palladium" monster, you can banish this card from your GY as 1 of materials. \
 """
