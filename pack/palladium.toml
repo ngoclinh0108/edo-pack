@@ -321,3 +321,51 @@ Once per turn: \
     using monsters you control as Fusion Materials, including this card. \
 """
 strings = []
+
+[card.palladium-archfiend-gilfer]
+id = 910000014
+set = "palladium archfiend"
+name = "Palladium Archfiend Gilfer"
+type = "monster effect"
+attribute = "light"
+race = "fiend"
+level = 6
+atk = 2200
+def = 2500
+effect = """\
+You can Normal Summon this card without Tributing, but send it to the GY during the End Phase. \
+You can Special Summon this card (from your GY) by Tributing 1 "Palladium" monster. \
+    You can only Special Summon "Palladium Archfiend Gilfer" once per turn this way. \
+If this card is sent to the GY: \
+    You can target 1 face-up monster on the field; equip this card to that target. \
+    That monster loses 500 ATK and has its effects negated while equipped with this card. \
+"""
+strings = ["Normal Summon without Tributing"]
+
+[card.palladium-beast-berfomet]
+id = 910000015
+set = "palladium"
+name = "palladium Beast Berfomet"
+type = "monster effect"
+attribute = "light"
+race = "fiend"
+level = 5
+atk = 1400
+def = 1800
+effect = """\
+"""
+strings = []
+
+[card.palladium-beast-gazelle]
+id = 910000016
+set = "palladium"
+name = "palladium Beast Gazelle"
+type = "monster effect"
+attribute = "light"
+race = "beast"
+level = 4
+atk = 1500
+def = 1200
+effect = """\
+"""
+strings = []
