@@ -18,7 +18,7 @@ function s.initial_effect(c)
 
     -- negate
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetDescription(1117)
     e2:SetCategory(CATEGORY_DISABLE)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetCode(EVENT_CHAINING)
@@ -32,11 +32,10 @@ function s.initial_effect(c)
 
     -- draw
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_DRAW)
+    e3:SetCategory(CATEGORY_RECOVER)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e3:SetCode(EVENT_RELEASE)
-    e3:SetCountLimit(1, id + 200000)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -92,12 +91,12 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateEffect(ev) end
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
     Duel.SetTargetPlayer(tp)
-    Duel.SetTargetParam(1)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+    Duel.SetTargetParam(1000)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, 1000)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
                                    CHAININFO_TARGET_PARAM)
-    Duel.Draw(p, d, REASON_EFFECT)
+    Duel.Recover(p, d, REASON_EFFECT)
 end
