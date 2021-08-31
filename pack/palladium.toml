@@ -229,12 +229,13 @@ def = 1200
 effect = """\
 During the Damage Step, when your "Palladium" monster battles an opponent's monster (Quick Effect): \
     You can Special Summon this card from your hand, \
-    and if you do, that monster you control gains ATK equal to this card's ATK during that damage calculation only. \
+    then draw 1 card. \
     You can only use this effect of "Palladium Guardian Shada" once per turn. \
 Once per turn, this card cannot be destroyed by battle. \
-If this card is Tributed: Draw 1 card. \
+At the start of the Damage Step, if this card attacks a face-down Defense Position monster: \
+    You can destroy that face-down Defense Position monster. \
 """
-strings = []
+strings = ["Destroy battling monster"]
 
 [card.palladium-gardna-karim]
 id = 910000010
