@@ -9,7 +9,7 @@ s.listed_names = {910000017, 910000018}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- fusion Material
+    -- fusion material
     Fusion.AddProcMix(c, false, false, 910000017, 910000018)
 
     -- gain effect

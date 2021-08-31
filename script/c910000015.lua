@@ -8,7 +8,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
     aux.DoubleSnareValidity(c, LOCATION_MZONE)
 
-    -- fusion Material
+    -- fusion material
     Fusion.AddProcMix(c, false, false, 25652259, 90876561, 64788463)
 
     -- negate

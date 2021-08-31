@@ -65,6 +65,21 @@ Once per turn, during damage calculation, \
 """
 strings = ["Gain ATK/DEF"]
 
+[card.palladium-oracles]
+id = 910000003
+set = "palladium"
+name = "The Palladium Oracles"
+type = "monster fusion effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2800
+def = 2300
+effect = """\
+"Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
+"""
+strings = []
+
 [card.palladium-oracle-aknamkanon]
 id = 910000004
 set = "palladium chaos"
