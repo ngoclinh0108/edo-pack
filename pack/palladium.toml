@@ -66,7 +66,7 @@ Once per turn, during damage calculation, \
 strings = ["Gain ATK/DEF"]
 
 [card.palladium-oracle-aknamkanon]
-id = 910000003
+id = 910000004
 set = "palladium chaos"
 name = "Palladium Chaos Oracle Aknamkanon"
 type = "monster ritual effect"
@@ -90,7 +90,7 @@ You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per tur
 strings = ["Add 1 Spell/Trap from the GY"]
 
 [card.palladium-soldier]
-id = 910000004
+id = 910000005
 set = "palladium black-luster-soldier"
 name = "Black Luster Soldier - Palladium Soldier"
 type = "monster ritual effect"
@@ -121,7 +121,7 @@ strings = [
 ]
 
 [card.palladium-oracle-seto]
-id = 910000005
+id = 910000006
 set = "palladium"
 name = "Palladium Azure Oracle Seto"
 type = "monster tuner effect"
@@ -150,7 +150,7 @@ strings = [
 ]
 
 [card.palladium-ankuriboh]
-id = 910000006
+id = 910000007
 set = "palladium kuriboh"
 name = "Palladium Ankuriboh"
 type = "monster effect"
@@ -174,7 +174,7 @@ If a monster(s) you control, except "Palladium Ankuriboh" is sent to the GY, \
 strings = []
 
 [card.palladium-knight-gaia]
-id = 910000007
+id = 910000008
 set = "palladium"
 name = "Palladium Knight Gaia"
 type = "monster effect"
@@ -194,7 +194,7 @@ When you Ritual or Fusion Summon a "Palladium" monster, \
 strings = []
 
 [card.palladium-sister-isis]
-id = 910000008
+id = 910000009
 set = "palladium"
 name = "Palladium Sister Isis"
 type = "monster effect"
@@ -218,7 +218,7 @@ If this card is Tributed: Gain 1000 LP. \
 strings = ["Normal Summon via \"Palladium Sister Isis\""]
 
 [card.palladium-guardian-shada]
-id = 910000009
+id = 910000010
 set = "palladium guardian"
 name = "Palladium Guardian Shada"
 type = "monster effect"
@@ -239,7 +239,7 @@ At the start of the Damage Step, if this card attacks a face-down Defense Positi
 strings = ["Destroy battling monster"]
 
 [card.palladium-gardna-karim]
-id = 910000010
+id = 910000011
 set = "palladium"
 name = "Palladium Gardna Karim"
 type = "monster effect"
@@ -261,7 +261,7 @@ If this Defense Position card is attacked, it loses 800 DEF. \
 strings = []
 
 [card.palladium-knight-queen]
-id = 910000011
+id = 910000012
 set = "palladium"
 name = "Palladium Knight of Queen"
 type = "monster effect"
@@ -283,7 +283,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card on the field as
 strings = ["Summoned using \"Palladium Knight of Queen\""]
 
 [card.palladium-knight-king]
-id = 910000012
+id = 910000013
 set = "palladium"
 name = "Palladium Knight of King"
 type = "monster effect"
@@ -310,7 +310,7 @@ strings = [
 ]
 
 [card.palladium-knight-jack]
-id = 910000013
+id = 910000014
 set = "palladium"
 name = "Palladium Knight of Jack"
 type = "monster effect"
@@ -334,7 +334,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card on the field as
 strings = ["Summoned using \"Palladium Knight of Jack\""]
 
 [card.palladium-paladin-ace-joker]
-id = 910000014
+id = 910000015
 set = "palladium"
 name = "Arcana Palladium Joker"
 type = "fusion monster effect"
@@ -356,7 +356,7 @@ If this Fusion Summoned card is destroyed by battle or card effect: \
 strings = []
 
 [card.palladium-archfiend-gilfer]
-id = 910000015
+id = 910000016
 set = "palladium archfiend"
 name = "Palladium Archfiend Gilfer"
 type = "monster effect"
@@ -376,7 +376,7 @@ If this card is sent to the GY: \
 strings = ["Normal Summon without Tributing"]
 
 [card.palladium-beast-gazelle]
-id = 910000016
+id = 910000017
 set = "palladium"
 name = "Palladium Beast Gazelle"
 type = "monster effect"
@@ -396,7 +396,7 @@ If this card is used as material for a Fusion Summon: Draw 1 card. \
 strings = ["Add \"Polymerization\""]
 
 [card.palladium-beast-berfomet]
-id = 910000017
+id = 910000018
 set = "palladium"
 name = "Palladium Beast Berfomet"
 type = "monster effect"
@@ -416,7 +416,7 @@ When you Fusion Summon a "Palladium" monster, you can banish this card from your
 strings = []
 
 [card.palladium-beast-chimera]
-id = 910000018
+id = 910000019
 set = "palladium"
 name = "Palladium Beast Chimera"
 type = "monster fusion effect"
