@@ -1,9 +1,10 @@
-[card.secrets-of-palladium-magic]
+[card.palladium-summoning-magic]
 id = 910000000
 set = "palladium"
-name = "Secrets of Palladium Magic"
+name = "Palladium Summoning Magic"
 type = "spell quick-play"
 effect = """\
+(This card's name is also treated as "Polymerization".)
 Activate 1 of the following effects.
 ● Ritual Summon 1 "Palladium" Ritual Monster from your hand or Deck, \
     by Tributing monsters from your hand or field, \
@@ -12,7 +13,7 @@ Activate 1 of the following effects.
     using monsters from your hand or field as Fusion Material, including a "Palladium" monster.
 During your Main Phase, if this card is in your GY: \
     You can discard 1 Spell; Add this card to your hand. \
-    You can only use this effect of "Secrets of Palladium Magic" once per turn. \
+    You can only use this effect of "Palladium Summoning Magic" once per turn. \
 """
 strings = []
 
@@ -274,7 +275,7 @@ effect = """\
 You can Special Summon this card (from your hand) by revealing 1 other LIGHT Warrior monster in your hand. \
     You can only Special Summon "Palladium Knight of Queen" once per turn this way. \
 If this card is Normal or Special Summoned: \
-    You can add 1 Level 4 LIGHT Warrior monster from your hand, Deck or GY to your hand, except "Queen's Knight". \
+    You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Queen's Knight". \
     You can only use this effect of "Palladium Knight of Queen" once per turn. \
 """
 strings = []
@@ -345,21 +346,24 @@ strings = ["Normal Summon without Tributing"]
 [card.palladium-beast-berfomet]
 id = 910000015
 set = "palladium"
-name = "palladium Beast Berfomet"
+name = "Palladium Beast Berfomet"
 type = "monster effect"
 attribute = "light"
 race = "fiend"
-level = 4
+level = 5
 atk = 1800
 def = 1400
 effect = """\
+You can discard this card; \
+    add 1 "Polymerization" or 1 Level 4 or lower "Palladium" monster from your Deck or GY to your hand. \
+    You can only use this effect of "Palladium Beast Berfomet" once per turn. \
 """
 strings = []
 
 [card.palladium-beast-gazelle]
 id = 910000016
 set = "palladium"
-name = "palladium Beast Gazelle"
+name = "Palladium Beast Gazelle"
 type = "monster effect"
 attribute = "light"
 race = "beast"
@@ -367,5 +371,6 @@ level = 4
 atk = 1500
 def = 1200
 effect = """\
+If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
 """
 strings = []
