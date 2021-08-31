@@ -77,9 +77,13 @@ atk = 2800
 def = 2300
 effect = """\
 "Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
+You can only Special Summon "The Palladium Oracles(s)" once per turn. \
 Level 6 or higher Spellcaster monsters you control cannot be destroyed by card effects. \
-If this card is destroyed: You can Special Summon both \
-    1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana" \
+Once per turn, if a card or effect is activated (except during the Damage Step): You can draw 1 card, \
+    then if it was a Spell/Trap, you can Set it, \
+    and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
+If this card is destroyed: You can shuffle this card into the Extra Deck; \
+    Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana" \
     from your hand, Deck, GY. \
 """
 strings = []

@@ -43,30 +43,6 @@ Apply these effects, in sequence, depending on the monster you control. \
 """
 strings = ["Card sent to the GY is banished instead"]
 
-[card.palladium-oracles]
-id = 410000013
-set = "palladium"
-name = "The Palladium Oracles"
-type = "monster link effect"
-attribute = "light"
-race = "spellcaster"
-link-arrows = "bottom-left bottom-right"
-link-rating = 2
-atk = 2800
-effect = """\
-(This card is also always treated as DARK monster.)
-2 Level/Rank 6 or higher Spellcaster monsters, including 1 "Palladium" monster
-This card gains effects of material monsters used to Link Summon this card. \
-Once per turn, if a Spell/Trap Card or effect is activated (except during the Damage Step): \
-    You can draw 1 card, \
-    then if it was a Monster, you can Special Summon it, \
-    or you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
-If this card leaves the field: \
-    You can Special Summon all Link Materials from your hand, Deck, and/or GY, \
-    and if you do, shuffle this card into the Extra Deck. \
-"""
-strings = ["Draw and check"]
-
 [card.palladium-sacrophagus]
 id = 410000026
 set = "palladium"
