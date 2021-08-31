@@ -248,12 +248,12 @@ atk = 100
 def = 2600
 effect = """\
 When your opponent activates a card or effect \
-    that targets this card (face-up or face-down) or another "Palladium" monster(s) you control (Quick Effect): \
-    You can Negate that activation, also change this card to face-up Defense Positionm, if able. \
+    that targets this card (even face-down) or another "Palladium" monster(s) you control (Quick Effect): \
+    You can negate that activation, also change this card to face-up Defense Positionm, if able. \
     You can only use this effect of "Palladium Gardna Karim" once per turn. \
 Once while face-up on the field (Quick Effect): You can change this card to Defense Position, \
     then target 1 face-up card your opponent controls; \
     negate the effects of that card while it and this monster are face-up on the field. \
-If this card is attacked, it loses 800 DEF. \
+If this Defense Position card is attacked, it loses 800 DEF. \
 """
 strings = []

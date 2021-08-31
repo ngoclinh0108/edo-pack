@@ -49,8 +49,8 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
         return false
     end
 
-    return Duel.IsChainNegatable(ev) and
-               (tg:IsContains(c) or tg:IsExists(Card.IsSetCard, 1, c, 0x13a))
+    return Duel.IsChainNegatable(ev) and (tg:IsContains(c) or
+               tg:IsExists(aux.FilterFaceupFunction(Card.IsSetCard, 0x13a), 1, c))
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -110,7 +110,8 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToBattle() or Duel.GetAttackTarget() ~= c then return end
+    if not c:IsRelateToBattle() or Duel.GetAttackTarget() ~= c or
+        not c:IsDefensePos() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
