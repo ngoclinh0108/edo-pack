@@ -65,8 +65,8 @@ function s.initial_effect(c)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
     e4:SetHintTiming(TIMING_MAIN_END + TIMING_BATTLE_END)
-    e4:SetCondition(s.e4con)
-    e4:SetCost(s.e4cost)
+    e4:SetCondition(s.e4don)
+    e4:SetCost(s.e4dost)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     Divine.RegisterEffect(c, e4)
@@ -78,12 +78,15 @@ function s.initial_effect(c)
     e4b:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) > 0 end)
     Divine.RegisterEffect(c, e4b)
     local e4c = Effect.CreateEffect(c)
-    e4c:SetCategory(CATEGORY_TOGRAVE)
-    e4c:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e4c:SetCode(EVENT_BATTLED)
-    e4c:SetCondition(s.e4togycon)
-    e4c:SetOperation(s.e4togyop)
+    e4c:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
     Divine.RegisterEffect(c, e4c)
+    local e4d = Effect.CreateEffect(c)
+    e4d:SetCategory(CATEGORY_TOGRAVE)
+    e4d:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e4d:SetCode(EVENT_BATTLED)
+    e4d:SetCondition(s.e4togycon)
+    e4d:SetOperation(s.e4togyop)
+    Divine.RegisterEffect(c, e4d)
 
     -- reset
     local e5 = Effect.CreateEffect(c)
@@ -220,12 +223,12 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e4don(e, tp, eg, ep, ev, re, r, rp)
     return (Duel.IsMainPhase() or Duel.IsBattlePhase()) and
                Duel.GetCurrentPhase() ~= PHASE_BATTLE_STEP
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4dost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.CheckLPCost(tp, 1000) end
     Duel.PayLPCost(tp, 1000)
 end
