@@ -78,7 +78,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
     end
 
-    if c:GetOwner() == rp and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+    if s.e4tg(e, tp, eg, ep, ev, re, r, rp, 0) and Duel.SelectYesNo(rp, aux.Stringid(id, 0)) then
         s.e4cost(e, tp, eg, ep, ev, re, r, rp, 1)
         s.e4tg(e, tp, eg, ep, ev, re, r, rp, 1)
         s.e4op(e, tp, eg, ep, ev, re, r, rp, true)

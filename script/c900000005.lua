@@ -221,7 +221,8 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsMainPhase() or Duel.IsBattlePhase()
+    return (Duel.IsMainPhase() or Duel.IsBattlePhase()) and
+               Duel.GetCurrentPhase() ~= PHASE_BATTLE_STEP
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -243,12 +244,14 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                             PHASE_BATTLE, 0, 1)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACK)
     local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1,
                                        1, c):GetFirst()
+
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                             PHASE_BATTLE, 0,
+                         Duel.GetCurrentPhase() == PHASE_BATTLE and 2 or 1)
     Duel.ForceAttack(c, tc)
 end
 
@@ -278,7 +281,6 @@ function s.e4togyop(e, tp, eg, ep, ev, re, r, rp)
     ec1c:SetValue(function(e, te) return te:GetHandler() == e:GetHandler() end)
     bc:RegisterEffect(ec1c, true)
     Duel.AdjustInstantly(bc)
-
     Duel.SendtoGrave(bc, REASON_EFFECT)
 end
 
