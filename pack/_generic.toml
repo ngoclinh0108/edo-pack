@@ -95,7 +95,7 @@ atk = "?"
 def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
-Immediately after "The Winged Dragon of Ra" is Normal Summoned, \
+After "The Winged Dragon of Ra" is Normal Summoned, \
     Dimension Change it to this card in the same battle position and Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
 This card is also Machine-Type while on the field. \
@@ -125,9 +125,6 @@ atk = 4000
 def = 4000
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
-During either turn, except the End Phase (Quick Effect): \
-    You can Dimension Change 1 "The Winged Dragon of Ra" you control that was Special Summoned from the GY and not affected by this card effects \
-    to this card in the same battle position, Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
 This card is also Pyro-Type while on the field. \
 Cannot attack. \
@@ -138,8 +135,9 @@ During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in Defense Position \
     (it's Divine Hierarchy is the same as with this card's, transfer materials to it.) \
     if you don't, send it to the GY. \
-If "The Winged Dragon of Ra" is Special Summoned from the GY to your field while this card is in the Dimension Zone, \
-    you can pay LP so that you only have 1 left; it gains the following effects until the end of this turn.
+After "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
+    you can Dimension Change it to this card in the same battle position and Divine Hierarchy, \
+    or can pay LP so that you only have 1 left; it gains the following effects until the end of this turn.
 ● This card's original ATK/DEF become equal to the amount of LP paid, \
     and also, while it is on the field, any increase in LP is changed to increase it's original ATK/DEF instead.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
@@ -148,9 +146,11 @@ If "The Winged Dragon of Ra" is Special Summoned from the GY to your field while
 ● After damage calculation, if this card attacked, send all monsters your opponent controls to the GY.
 """
 strings = [
-    "Send 1 monster to the GY",
-    "Return to Dimension",
+    "Normal Form",
+    "Immortal Phoenix Form",
     "Life Point transfer",
+    "Quick attack",
+    "Return to Dimension",
     "Unstoppable Attack",
     "Tribtue monsters for ATK/DEF",
 ]

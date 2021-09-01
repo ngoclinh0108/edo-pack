@@ -15,7 +15,6 @@ function s.initial_effect(c)
         local dms = Effect.CreateEffect(c)
         dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         dms:SetCode(EVENT_SUMMON_SUCCESS)
-        dms:SetCondition(Dimension.Condition(s.dmscon))
         dms:SetOperation(s.dmsop)
         Duel.RegisterEffect(dms, tp)
     end)
@@ -65,18 +64,14 @@ function s.dmsfilter(c)
     return Dimension.CanBeDimensionMaterial(c) and c:IsCode(CARD_RA)
 end
 
-function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.dmsfilter, 1, nil)
-end
-
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.BreakEffect()
     local c = e:GetHandler()
     local mc = eg:Filter(s.dmsfilter, nil):GetFirst()
     if not mc then return end
+    if not Dimension.CanBeDimensionChanged(c) then return end
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
-    Dimension.Change(c, mc, rp, rp, mc:GetPosition())
+    Dimension.Change(mc, c, rp, rp, mc:GetPosition())
     if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                              RESET_EVENT + RESETS_STANDARD,

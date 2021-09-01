@@ -111,25 +111,24 @@ function Dimension.CanBeDimensionSummoned(c, e, sumplayer, nocheck, nolimit)
                                     nolimit)
 end
 
-function Dimension.Change(c, mc, sumplayer, target_player, pos, mg)
+function Dimension.Change(mc, sc, sumplayer, target_player, pos, mg)
     if not pos then pos = POS_FACEUP end
     local sumtype = mc:GetSummonType()
     local sumloc = mc:GetSummonLocation()
     local seq = mc:GetSequence()
 
     if mg then
-        c:SetMaterial(mg)
+        sc:SetMaterial(mg)
     else
-        c:SetMaterial(Group.FromCards(mc))
+        sc:SetMaterial(Group.FromCards(mc))
     end
 
     Dimension.SendToDimension(mc, REASON_RULE)
-    Duel.MoveToField(c, sumplayer, target_player, LOCATION_MZONE, pos, true,
+    Duel.MoveToField(sc, sumplayer, target_player, LOCATION_MZONE, pos, true,
                      1 << seq)
-                     
-    c:SetStatus(STATUS_FORM_CHANGED, true)
-    Debug.PreSummon(c, sumtype, sumloc)
-    Dimension.ZonesRemoveCard(c)
+    sc:SetStatus(STATUS_FORM_CHANGED, true)
+    Debug.PreSummon(sc, sumtype, sumloc)
+    Dimension.ZonesRemoveCard(sc)
     Duel.BreakEffect()
 end
 
@@ -148,11 +147,4 @@ function Dimension.Summon(c, sumplayer, target_player, pos, seq)
     Dimension.ZonesRemoveCard(c)
     Duel.BreakEffect()
     return true
-end
-
-function Dimension.Condition(condition)
-    return function(e, tp, eg, ep, ev, re, r, rp)
-        return Dimension.CanBeDimensionChanged(e:GetHandler()) and
-                   condition(e, tp, eg, ep, ev, re, r, rp)
-    end
 end
