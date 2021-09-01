@@ -129,7 +129,7 @@ ${EGYPTIAN_EFFECT} \
 This card is also Pyro-Type while on the field. \
 Cannot attack. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy. \
-Once per Chain, except End Phase (Quick Effect): You can pay 1000 LP; \
+Once per Chain, during the Main or Battle Phase (Quick Effect): You can pay 1000 LP; \
     this card immediately attacks and send 1 monster your opponent controls to the GY, ignoring card effects. \
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in Defense Position \
@@ -148,7 +148,7 @@ After "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
 strings = [
     "Normal Form",
     "Immortal Phoenix Form",
-    "Life Point transfer",
+    "Life Point Transfer",
     "Quick attack",
     "Return to Dimension",
     "Unstoppable Attack",

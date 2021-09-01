@@ -20,6 +20,7 @@ function s.initial_effect(c)
         local dms = Effect.CreateEffect(c)
         dms:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         dms:SetCode(EVENT_ADJUST)
+        dms:SetCondition(s.dmscon)
         dms:SetOperation(s.dmsop)
         Duel.RegisterEffect(dms, tp)
     end)
@@ -63,6 +64,7 @@ function s.initial_effect(c)
     e4:SetType(EFFECT_TYPE_QUICK_O)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
+    e4:SetHintTiming(TIMING_MAIN_END + TIMING_BATTLE_END)
     e4:SetCondition(s.e4con)
     e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
@@ -102,12 +104,16 @@ function s.dmsfilter(c, check_flag)
 end
 
 function s.dmsregop(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(s.dmsfilter, tp, LOCATION_MZONE, 0, nil,
-                                    false)
+    local g = eg:Filter(s.dmsfilter, nil, false)
     for tc in aux.Next(g) do
         tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
                                   PHASE_END, 0, 1)
     end
+end
+
+function s.dmscon(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.dmsfilter, tp, LOCATION_MZONE, 0, 1,
+                                       nil, true)
 end
 
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
@@ -215,7 +221,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() ~= PHASE_END
+    return Duel.IsMainPhase() or Duel.IsBattlePhase()
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -226,21 +232,21 @@ end
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetFlagEffect(id + 100000) == 0 and c:IsAttackPos() and
+        return c:GetFlagEffect(id) == 0 and c:IsAttackPos() and
                    Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE,
                                                1, c, c)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, 0, LOCATION_MZONE)
-    c:RegisterFlagEffect(id + 100000, RESET_CHAIN, 0, 1)
+    c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    c:RegisterFlagEffect(id + 100000, RESET_EVENT + RESETS_STANDARD +
-                             RESET_PHASE + PHASE_BATTLE, 0, 1)
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                             PHASE_BATTLE, 0, 1)
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACK)
     local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1,
                                        1, c):GetFirst()
     Duel.ForceAttack(c, tc)
