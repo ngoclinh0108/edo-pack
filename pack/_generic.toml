@@ -27,7 +27,8 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
 This card is also Warrior-Type while on the field. \
-Once per turn, while this card is able to attack: You can Tribute 2 other monsters; \
+Once per turn, during your Main Phase or your opponent's Battle Phase, while this card is able to attack (Quick Effect): \
+    You can Tribute 2 other monsters; \
     destroy all monsters your opponent controls and inflict damage to your opponent equal to this card's ATK. \
     This card cannot declare an attack the turn this effect is activated. \
 Once per turn, while the total of monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \

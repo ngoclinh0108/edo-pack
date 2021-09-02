@@ -19,9 +19,11 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 1))
     e2:SetCategory(CATEGORY_DESTROY + CATEGORY_DAMAGE)
-    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1)
+    e2:SetHintTiming(TIMING_SPSUMMON, TIMING_BATTLE_START)
     e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
@@ -46,10 +48,12 @@ end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) or
+    return (c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) or
                (not c:IsHasEffect(EFFECT_CANNOT_ATTACK_ANNOUNCE) and
                    not c:IsHasEffect(EFFECT_FORBIDDEN) and
-                   not c:IsHasEffect(EFFECT_CANNOT_ATTACK))
+                   not c:IsHasEffect(EFFECT_CANNOT_ATTACK))) and
+               (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
+               (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

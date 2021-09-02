@@ -157,11 +157,14 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     Divine.RegisterEffect(c, reset)
 
     if limit then
-        -- cannot attack when special summoned
+        -- cannot attack when special summoned from the grave
         local spnoattack = Effect.CreateEffect(c)
         spnoattack:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
         spnoattack:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
         spnoattack:SetCode(EVENT_SPSUMMON_SUCCESS)
+        spnoattack:SetCondition(function(e)
+            return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
+        end)
         spnoattack:SetOperation(function(e)
             local c = e:GetHandler()
             local ec1 = Effect.CreateEffect(c)
