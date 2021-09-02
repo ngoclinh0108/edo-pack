@@ -345,7 +345,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     if #sg > 0 then
         local sc = sg:GetFirst()
         local divine_evolution = c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
-        Dimension.Change(c, sc, tp, tp, POS_FACEUP_DEFENSE, c:GetMaterial())
+        Dimension.Change(c, sc, tp, tp, c:GetPosition(), c:GetMaterial())
         if divine_evolution then
             sc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                                   RESET_EVENT + RESETS_STANDARD,
