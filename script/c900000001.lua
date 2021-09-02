@@ -15,10 +15,10 @@ function s.initial_effect(c)
     e1:SetValue(RACE_WARRIOR)
     Divine.RegisterEffect(c, e1)
 
-    -- damage
+    -- damage & destroy
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetCategory(CATEGORY_DAMAGE)
+    e2:SetCategory(CATEGORY_DAMAGE + CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_MZONE)
@@ -76,12 +76,30 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then return true end
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, e:GetHandler():GetAttack())
+    local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
+
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, c:GetAttack())
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.CalculateDamage(e:GetHandler(), nil)
+    local c = e:GetHandler()
+    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(1100)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetCode(EVENT_BATTLE_DAMAGE)
+    ec1:SetOperation(function(e, tp)
+        local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
+        Duel.Destroy(g, REASON_EFFECT)
+    end)
+    ec1:SetReset(RESET_CHAIN)
+    Duel.RegisterEffect(ec1, tp)
+
+    Duel.CalculateDamage(c, nil)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
