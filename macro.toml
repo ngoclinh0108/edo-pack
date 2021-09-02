@@ -16,7 +16,7 @@ Unaffected by Spell/Trap effects that would make it leave the field and other mo
 Other cards' effects are only applied on it for 1 turn.\
 """
 EGYPTIAN_LIMIT = """\
-Cannot attack the turn it is Special Summoned from the GY, and sent it to the GY during the End Phase. \
+Cannot attack the turn it is Special Summoned from the GY, and sent it to the GY during the End Phase.\
 """
 
 NORDIC_GOD_EFFECT = """\
