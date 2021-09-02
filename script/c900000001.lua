@@ -15,10 +15,10 @@ function s.initial_effect(c)
     e1:SetValue(RACE_WARRIOR)
     Divine.RegisterEffect(c, e1)
 
-    -- destroy & damage
+    -- damage
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetCategory(CATEGORY_DESTROY + CATEGORY_DAMAGE)
+    e2:SetCategory(CATEGORY_DAMAGE)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_MZONE)
@@ -76,24 +76,12 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    if chk == 0 then return #g > 0 end
-
-    local dmg = c:GetAttack()
-    Duel.SetTargetPlayer(1 - tp)
-    Duel.SetTargetParam(dmg)
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, e:GetHandler():GetAttack())
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-
-    Duel.Destroy(g, REASON_EFFECT)
-    Duel.Damage(p, c:GetAttack(), REASON_EFFECT)
+    Duel.CalculateDamage(e:GetHandler(), nil)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
