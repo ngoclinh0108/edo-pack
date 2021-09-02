@@ -33,7 +33,8 @@ Once per turn, during your Main Phase or your opponent's Battle Phase, while thi
     This card cannot declare an attack the turn this effect is activated. \
 Once per turn, while the total of monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
     You can Tribute 2 other monsters; \
-    this turn, if this card battles, it gain ∞ ATK during damage calculation only. \
+    once this turn, if this card battles, \
+    it gain ∞ ATK during damage calculation only. \
 """
 strings = [
     "Soul Energy MAX",
