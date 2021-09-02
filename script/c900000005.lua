@@ -458,17 +458,22 @@ function s.eg1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.eg1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
 
     local atk = tc:GetAttack()
     tc:ResetFlagEffect(id + 100000)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec1:SetValue(0)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    Divine.RegisterEffect(tc, ec1, true)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
+    Divine.RegisterEffect(tc, ec1b, true)
+    
     Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
-    -- if tc:RegisterFlagEffect(236,RESET_EVENT+RESETS_STANDARD,0,1) then
-    -- 	Duel.Recover(tc:GetControler(),atk,REASON_EFFECT)
-    -- 	if e:GetHandler():IsOriginalCode(511000987) then
-    -- 		Duel.BreakEffect()
-    -- 		Duel.SkipPhase(Duel.GetTurnPlayer(),PHASE_BATTLE,RESET_PHASE+PHASE_BATTLE,1)
-    -- 	end
-    -- end
 end
