@@ -61,8 +61,8 @@ This card is also Dragon-Type while on the field. \
 The original ATK and DEF of this card each become equal to the number of cards in your hand x X000. (X is this card Divine Hierarchy.) \
 If a monster(s) is Summoned to your opponent's field, while this card is able to attack: \
     Target that monster(s), ignoring card effects; it loses 2000 ATK or DEF depending on its battle position, \
-    then if its ATK or DEF is 0, destroy it, \
-    that monster(s) cannot activate its effects in response to this effect's activation. \
+    then if its ATK or DEF is 0, destroy it. \
+    That monster(s) cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
