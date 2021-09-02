@@ -142,7 +142,7 @@ After "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
 ● This card become Fusion Monster and its original ATK/DEF become equal to the amount of LP paid, \
     and also, while it is on the field, any increase in LP is changed to increase it's original ATK/DEF instead.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
-● When an attack is declared involving this card: You can Tribute any number of other monsters that did not declare an attack this turn; \
+● Once per turn (Quick Effect): You can Tribute any number of other monsters that did not declare an attack this turn; \
     this card gains ATK equal to the Tributed monsters' combined original ATK, until the end of this turn.
 ● After damage calculation, if this card attacked, send all monsters your opponent controls to the GY.
 ● If "De-Fusion" targets this card, apply \
@@ -156,5 +156,5 @@ strings = [
     "Quick attack",
     "Return to Dimension",
     "Tribtue monsters for ATK/DEF",
-    "De-fusion from Ra"
+    "De-fuse from Ra"
 ]

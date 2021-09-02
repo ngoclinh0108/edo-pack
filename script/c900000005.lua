@@ -112,7 +112,7 @@ function s.initial_effect(c)
             for tc in aux.Next(g) do
                 tc:RegisterFlagEffect(id, 0, 0, 0)
                 local ec1 = Effect.CreateEffect(tc)
-                ec1:SetDescription(aux.Stringid(id, 7))
+                ec1:SetDescription(aux.Stringid(id, 6))
                 ec1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE +
                                     CATEGORY_RECOVER)
                 ec1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -233,16 +233,18 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         local spnoattack = mc:GetCardEffect(EFFECT_CANNOT_ATTACK)
         if spnoattack then spnoattack:Reset() end
 
-        -- tribute any number monsters to gains atk/def
+        -- tribute monsters to atk/def up
         local ec5 = Effect.CreateEffect(c)
         ec5:SetDescription(aux.Stringid(id, 5))
         ec5:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-        ec5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+        ec5:SetType(EFFECT_TYPE_QUICK_O)
         ec5:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-        ec5:SetCode(EVENT_ATTACK_ANNOUNCE)
+        ec5:SetCode(EVENT_FREE_CHAIN)
         ec5:SetRange(LOCATION_MZONE)
         ec5:SetCountLimit(1)
-        ec5:SetCondition(s.e6atkcon)
+        ec5:SetCondition(function(e)
+            return e:GetHandler():GetFlagEffect(id + 100000) > 0
+        end)
         ec5:SetCost(s.e6atkcost)
         ec5:SetOperation(s.e6atkop)
         ec5:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
@@ -382,13 +384,6 @@ function s.e6atkfilter(c)
                c:GetAttackAnnouncedCount() == 0
 end
 
-function s.e6atkcon(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return Duel.GetAttacker() == c or
-               (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c) and
-               c:GetFlagEffect(id + 100000) > 0
-end
-
 function s.e6atkcost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
@@ -474,6 +469,6 @@ function s.eg1op(e, tp, eg, ep, ev, re, r, rp)
     local ec1b = ec1:Clone()
     ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
     Divine.RegisterEffect(tc, ec1b, true)
-    
+
     Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
 end
