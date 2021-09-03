@@ -32,6 +32,8 @@ effect = """\
 (This card's name is always treated as "Palladium Oracle Mahad")
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+Your opponent cannot target Spells/Traps you control with card effects, \
+    also they cannot be destroyed by your opponent's card effects. \
 """
 strings = []
 
