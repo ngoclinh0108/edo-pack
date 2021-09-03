@@ -61,7 +61,7 @@ When your opponent targets a monster(s) you control with a card effect (except d
     while this card is in your hand or GY (Quick Effect): \
     You can return 1 of those monsters to the hand; Special Summon this card. \
 """
-strings = ["Gain ATK/DEF"]
+strings = ["Gain ATK/DEF", "Return the targeted to the hand and Special Summon"]
 
 [card.palladium-oracles]
 id = 910000003
