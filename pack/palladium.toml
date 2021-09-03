@@ -30,8 +30,6 @@ atk = 2500
 def = 2100
 effect = """\
 (This card's name is always treated as "Palladium Oracle Mahad")
-This card's name can be treated as "Dark Magician" when used for a Fusion Summon. \
-    This effect cannot be negated. \
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 """
@@ -50,18 +48,18 @@ atk = 2000
 def = 1700
 effect = """\
 (This card's name is always treated as "Palladium Oracle Mana")
-This card's name can be treated as "Dark Magician Girl" when used for a Fusion Summon. \
-    This effect cannot be negated. \
-When your opponent targets a monster(s) you control \
-    with a card effect (except during the Damage Step), \
-    while this card is in your hand or GY (Quick Effect): \
-    You can return 1 of those monsters to the hand; Special Summon this card. \
-    You can only use this effect of "Palladium Illusion Oracle Mana" once per turn. \
 Once per turn, during damage calculation, \
     if your other Spellcaster monster battles an opponent's monster (Quick Effect): \
     That monster you control gains ATK/DEF equal to this card's ATK during that damage calculation only. \
     This card cannot declare an attack the turn this effect is activated. \
     This card must be face-up on the field to activate and to resolve this effect. \
+You can only use each of the following effects of "Palladium Illusion Oracle Mana" once per turn. \
+If you Normal or Special Summon "Palladium Oracle Mahad", while this card is in your GY: \
+    You can Special Summon this card. \
+When your opponent targets a monster(s) you control \
+    with a card effect (except during the Damage Step), \
+    while this card is in your hand or GY (Quick Effect): \
+    You can return 1 of those monsters to the hand; Special Summon this card. \
 """
 strings = ["Gain ATK/DEF"]
 
