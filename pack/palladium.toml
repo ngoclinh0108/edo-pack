@@ -155,21 +155,19 @@ atk = 0
 def = 0
 effect = """\
 You can reveal this card in your hand; \
-    add 1 "Blue-Eyes" monster from your Deck or GY to your hand, \
-    then place 1 card from your hand on top of the Deck. \
+    add 1 "Blue-Eyes" monster from your Deck or GY to your hand. \
 You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
     Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
     using it as the Fusion Material. \
 You can Tribute this card; \
     Special Summon up to 3 copies of "Blue-Eyes White Dragon" from your hand, Deck or GY. \
-    You cannot Normal or Special Summon monsters the turn you activate this effect, \
-    except "Palladium Azure Oracle Seto" or "Blue-Eyes White Dragon". \
+    You cannot Special Summon other monsters the turn you activate this effect. \
 You can only use 1 "Palladium Azure Oracle Seto" effect per turn, and only once that turn.
 """
 strings = [
     "Add 1 \"Blue-Eyes\" monster",
     "Summon 3 \"Blue-Eyes White Dragon\"",
-    "Affected by effect \"Palladium Azure Oracle Seto\": cannot Normal or Special Summon monsters, except \"Palladium Azure Oracle Seto\" and \"Blue-Eyes White Dragon\"",
+    "Affected by effect \"Palladium Azure Oracle Seto\": cannot Special Summon monsters",
 ]
 
 [card.palladium-ankuriboh]

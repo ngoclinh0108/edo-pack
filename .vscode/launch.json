@@ -1,12 +1,14 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Build",
-      "request": "launch",
-      "type": "node-terminal",
-      "cwd": "${workspaceFolder}",
-      "command": "ygofab make && ygofab compose && move /Y expansions\\triplesix.cdb triplesix.cdb",
-    }
-  ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Build",
+			"type": "coreclr",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"program": "cmd.exe",
+			"args": ["/c", "ygofab make && ygofab compose && move /Y expansions\\triplesix.cdb triplesix.cdb"],
+			"console": "externalTerminal"
+		}
+	]
 }

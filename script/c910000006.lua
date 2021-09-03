@@ -42,8 +42,6 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    Duel.AddCustomActivityCounter(id, ACTIVITY_SUMMON, s.e3counterfilter)
-    Duel.AddCustomActivityCounter(id, ACTIVITY_SPSUMMON, s.e3counterfilter)
 end
 
 function s.e1filter(c)
@@ -64,25 +62,17 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
                           LOCATION_DECK + LOCATION_GRAVE)
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_HAND)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter),
-                                          tp, LOCATION_DECK + LOCATION_GRAVE, 0,
-                                          1, 1, nil, HINTMSG_ATOHAND):GetFirst()
-    if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
-        tc:IsLocation(LOCATION_HAND) then
-        Duel.ConfirmCards(1 - tp, tc)
-        Duel.ShuffleHand(tp)
-        Duel.ShuffleDeck(tp)
-        Duel.BreakEffect()
-
-        local g = Utility.SelectMatchingCard(tp, Card.IsAbleToDeck, tp,
-                                             LOCATION_HAND, 0, 1, 1, nil,
-                                             HINTMSG_TODECK)
-        Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT)
+    local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter),
+                                         tp, LOCATION_DECK + LOCATION_GRAVE, 0,
+                                         1, 1, nil, HINTMSG_ATOHAND)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
     end
+
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -145,27 +135,26 @@ end
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:IsReleasable() and
-                   Duel.GetCustomActivityCount(id, tp, ACTIVITY_SUMMON) == 0 and
-                   Duel.GetCustomActivityCount(id, tp, ACTIVITY_SPSUMMON) == 0
+        return Duel.GetActivityCount(tp, ACTIVITY_SPSUMMON) == 0 and
+                   c:IsReleasable()
     end
 
     Duel.Release(c, REASON_COST)
 
     local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 2))
     ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
-    ec1:SetCode(EFFECT_CANNOT_SUMMON)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH +
+                        EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetLabelObject(e)
     ec1:SetTargetRange(1, 0)
-    ec1:SetTarget(function(e, c)
-        return not (c:IsCode(id) or c:IsCode(CARD_BLUEEYES_W_DRAGON))
+    ec1:SetTarget(function(e, c, sump, sumtype, sumpos, targetp, se)
+        return se ~= e:GetLabelObject()
     end)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    Duel.RegisterEffect(ec1b, tp)
-    aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 2), nil)
+    -- aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 2), nil)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -190,8 +179,4 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                              LOCATION_GRAVE, 0, 1, ft, nil,
                                          HINTMSG_SPSUMMON, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
-end
-
-function s.e3counterfilter(c)
-    return c:IsCode(id) or c:IsCode(CARD_BLUEEYES_W_DRAGON)
 end

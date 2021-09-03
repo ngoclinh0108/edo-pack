@@ -5,6 +5,7 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
+    "**/Thumbs.db": true,
     ".gitignore": true,
     "expansions": true,
     ".vscode": true,
@@ -12,9 +13,6 @@
     "_fabrica": true,
     "pics": true
   },
-  "Lua.diagnostics.disable": [
-    "undefined-global",
-    "lowercase-global"
-  ],
-  "explorerExclude.backup": null
+	"Lua.diagnostics.disable": ["undefined-global", "lowercase-global"],
+	"explorerExclude.backup": null
 }
