@@ -119,20 +119,14 @@ function s.e3val(e)
     local g = Duel.GetMatchingGroup(s.e3filter, 0, LOCATION_MZONE,
                                     LOCATION_MZONE, nil)
     if #g == 0 then
-        return 1
+        return 100
     else
-        local tg, atk = g:GetMaxGroup(Card.GetAttack)
+        local tg, val = g:GetMaxGroup(Card.GetAttack)
         if not tg:IsExists(aux.TRUE, 1, c) then
             g:RemoveCard(c)
-            tg, atk = g:GetMaxGroup(Card.GetAttack)
+            tg, val = g:GetMaxGroup(Card.GetAttack)
         end
 
-        local tg, def = g:GetMaxGroup(Card.GetDefense)
-        if not tg:IsExists(aux.TRUE, 1, c) then
-            g:RemoveCard(c)
-            tg, def = g:GetMaxGroup(Card.GetDefense)
-        end
-
-        return (atk > def and atk or def) + 1
+        return val + 100
     end
 end
