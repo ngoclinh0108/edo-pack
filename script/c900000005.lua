@@ -57,47 +57,50 @@ function s.initial_effect(c)
     end)
     Divine.RegisterEffect(c, e3)
 
-    -- quick attack
+    -- avoid battle damage
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 4))
-    e4:SetCategory(CATEGORY_TOGRAVE)
-    e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetCode(EVENT_FREE_CHAIN)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetHintTiming(TIMING_MAIN_END + TIMING_BATTLE_END)
-    e4:SetCondition(s.e4don)
-    e4:SetCost(s.e4dost)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    Divine.RegisterEffect(c, e4)
-    local e4b = Effect.CreateEffect(c)
-    e4b:SetType(EFFECT_TYPE_SINGLE)
-    e4b:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e4b:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-    e4b:SetRange(LOCATION_MZONE)
-    e4b:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) > 0 end)
-    Divine.RegisterEffect(c, e4b)
-    local e4c = e4b:Clone()
-    e4c:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    e4c:SetValue(1)
-    Divine.RegisterEffect(c, e4c)
-    local e4d = Effect.CreateEffect(c)
-    e4d:SetCategory(CATEGORY_TOGRAVE)
-    e4d:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e4d:SetCode(EVENT_BATTLED)
-    e4d:SetCondition(s.e4togycon)
-    e4d:SetOperation(s.e4togyop)
-    Divine.RegisterEffect(c, e4d)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e4:SetValue(1)
+    c:RegisterEffect(e4)
 
-    -- reset
+    -- quick attack
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 5))
-    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e5:SetCode(EVENT_PHASE + PHASE_END)
+    e5:SetDescription(aux.Stringid(id, 4))
+    e5:SetCategory(CATEGORY_TOGRAVE)
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetRange(LOCATION_MZONE)
+    e5:SetHintTiming(TIMING_MAIN_END + TIMING_BATTLE_END)
+    e5:SetCondition(s.e5con)
+    e5:SetCost(s.e5cost)
+    e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     Divine.RegisterEffect(c, e5)
+    local e5b = Effect.CreateEffect(c)
+    e5b:SetType(EFFECT_TYPE_SINGLE)
+    e5b:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e5b:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+    e5b:SetRange(LOCATION_MZONE)
+    e5b:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) > 0 end)
+    Divine.RegisterEffect(c, e5b)
+    local e5c = Effect.CreateEffect(c)
+    e5c:SetCategory(CATEGORY_TOGRAVE)
+    e5c:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e5c:SetCode(EVENT_BATTLED)
+    e5c:SetCondition(s.e5togycon)
+    e5c:SetOperation(s.e5togyop)
+    Divine.RegisterEffect(c, e5c)
+
+    -- reset
+    local e6 = Effect.CreateEffect(c)
+    e6:SetDescription(aux.Stringid(id, 5))
+    e6:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e6:SetCode(EVENT_PHASE + PHASE_END)
+    e6:SetRange(LOCATION_MZONE)
+    e6:SetOperation(s.e6op)
+    Divine.RegisterEffect(c, e6)
 
     aux.GlobalCheck(s, function()
         -- de-fusion
@@ -214,8 +217,8 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         ec3:SetCode(EVENT_RECOVER)
         ec3:SetRange(LOCATION_MZONE)
-        ec3:SetCondition(s.e6lpcon)
-        ec3:SetOperation(s.e6lpop)
+        ec3:SetCondition(s.e7lpcon)
+        ec3:SetOperation(s.e7lpop)
         ec3:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         Divine.RegisterEffect(mc, ec3, true)
 
@@ -245,8 +248,8 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         ec5:SetCondition(function(e)
             return e:GetHandler():GetFlagEffect(id + 100000) > 0
         end)
-        ec5:SetCost(s.e6atkcost)
-        ec5:SetOperation(s.e6atkop)
+        ec5:SetCost(s.e7atkcost)
+        ec5:SetOperation(s.e7atkop)
         ec5:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         Divine.RegisterEffect(mc, ec5, true)
 
@@ -256,8 +259,8 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         ec6:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
         ec6:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         ec6:SetCode(EVENT_BATTLED)
-        ec6:SetCondition(s.e6togycon)
-        ec6:SetOperation(s.e6togyop)
+        ec6:SetCondition(s.e7togycon)
+        ec6:SetOperation(s.e7togyop)
         ec6:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         Divine.RegisterEffect(mc, ec6, true)
     else
@@ -271,17 +274,17 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4don(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     return (Duel.IsMainPhase() or Duel.IsBattlePhase()) and
                Duel.GetCurrentPhase() ~= PHASE_BATTLE_STEP
 end
 
-function s.e4dost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.CheckLPCost(tp, 1000) end
     Duel.PayLPCost(tp, 1000)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and c:IsAttackPos() and
@@ -293,7 +296,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACK)
@@ -306,13 +309,13 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.ForceAttack(c, tc)
 end
 
-function s.e4togycon(e, tp, eg, ep, ev, re, r, rp)
+function s.e5togycon(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:GetFlagEffect(id) > 0 and Duel.GetAttacker() == c and
                c:GetBattleTarget()
 end
 
-function s.e4togyop(e, tp, eg, ep, ev, re, r, rp)
+function s.e5togyop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
     if not bc then return end
@@ -335,13 +338,13 @@ function s.e4togyop(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoGrave(bc, REASON_EFFECT)
 end
 
-function s.e5filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end
+function s.e6filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.HintSelection(Group.FromCards(c))
 
-    local sg = Dimension.Zones(c:GetOwner()):Filter(s.e5filter, nil)
+    local sg = Dimension.Zones(c:GetOwner()):Filter(s.e6filter, nil)
     if #sg > 0 then
         local sc = sg:GetFirst()
         local divine_evolution = c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
@@ -356,11 +359,11 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e6lpcon(e, tp, eg, ep)
+function s.e7lpcon(e, tp, eg, ep)
     return ep == tp and e:GetHandler():GetFlagEffect(id + 100000) > 0
 end
 
-function s.e6lpop(e, tp, eg, ep, ev, re, r, rp)
+function s.e7lpop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsLocation(LOCATION_MZONE) or c:IsFacedown() or
         c:GetFlagEffect(id + 100000) == 0 then return end
@@ -379,18 +382,18 @@ function s.e6lpop(e, tp, eg, ep, ev, re, r, rp)
     Duel.SetLP(tp, 1, REASON_EFFECT)
 end
 
-function s.e6atkfilter(c)
+function s.e7atkfilter(c)
     return c:IsFaceup() and c:GetTextAttack() > 0 and
                c:GetAttackAnnouncedCount() == 0
 end
 
-function s.e6atkcost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e7atkcost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, s.e6atkfilter, 1, false, nil, c)
+        return Duel.CheckReleaseGroupCost(tp, s.e7atkfilter, 1, false, nil, c)
     end
 
-    local g = Duel.SelectReleaseGroupCost(tp, s.e6atkfilter, 1, 99, false, nil,
+    local g = Duel.SelectReleaseGroupCost(tp, s.e7atkfilter, 1, 99, false, nil,
                                           c)
     Duel.Release(g, REASON_COST)
     if g then
@@ -399,7 +402,7 @@ function s.e6atkcost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e6atkop(e, tp, eg, ep, ev, re, r, rp)
+function s.e7atkop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) or
         c:GetFlagEffect(id + 100000) == 0 then return end
@@ -420,12 +423,12 @@ function s.e6atkop(e, tp, eg, ep, ev, re, r, rp)
     Divine.RegisterEffect(c, ec1)
 end
 
-function s.e6togycon(e, tp, eg, ep, ev, re, r, rp)
+function s.e7togycon(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return Duel.GetAttacker() == c and c:GetFlagEffect(id + 100000) > 0
 end
 
-function s.e6togyop(e, tp, eg, ep, ev, re, r, rp)
+function s.e7togyop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:GetFlagEffect(id + 100000) == 0 then return end
 
