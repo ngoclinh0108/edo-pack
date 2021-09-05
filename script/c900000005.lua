@@ -269,12 +269,12 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and
-                   Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE,
-                                               1, nil)
+                   Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_MZONE,
+                                               LOCATION_MZONE, 1, nil)
     end
 
-    local g = Utility.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1,
-                                         1, nil)
+    local g = Utility.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE,
+                                         LOCATION_MZONE, 1, 1, nil)
     Duel.SetTargetCard(g)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, c, 1, 0, 0)
@@ -286,7 +286,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
-    Duel.CalculateDamage(c, tc)
+    if tc:IsControler(1 - tp) then Duel.CalculateDamage(c, tc) end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
