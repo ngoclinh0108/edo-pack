@@ -10,7 +10,7 @@
     "expansions": true,
     ".vscode": true,
     "ygofab.cmd": true,
-    "_fabrica": true,
+    "_fabrica": false,
     "pics": true
   },
 	"Lua.diagnostics.disable": ["undefined-global", "lowercase-global"],
