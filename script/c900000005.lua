@@ -143,7 +143,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     local sel = {}
     table.insert(opt, aux.Stringid(id, 0))
     table.insert(sel, 1)
-    if Duel.GetLP(tp) > 1 then
+    if Duel.GetLP(tp) > 100 then
         table.insert(opt, aux.Stringid(id, 1))
         table.insert(sel, 2)
     end
@@ -160,8 +160,9 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         Utility.HintCard(mc)
 
         -- pay lp
-        local lp = Duel.GetLP(tp)
-        Duel.PayLPCost(tp, lp - 1)
+        local paidlp = Duel.GetLP(tp)
+        paidlp = paidlp - 100
+        Duel.PayLPCost(tp, paidlp)
         mc:RegisterFlagEffect(id + 100000, RESET_EVENT + RESETS_STANDARD +
                                   RESET_PHASE + PHASE_END,
                               EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 1))
@@ -182,7 +183,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         ec2:SetType(EFFECT_TYPE_SINGLE)
         ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         ec2:SetCode(EFFECT_SET_BASE_ATTACK)
-        ec2:SetValue(lp - 1)
+        ec2:SetValue(paidlp)
         ec2:SetCondition(function(e)
             return e:GetHandler():GetFlagEffect(id + 100000) > 0
         end)
@@ -348,12 +349,11 @@ function s.e7lpop(e, tp, eg, ep, ev, re, r, rp)
     ec1b:SetValue(c:GetBaseDefense() + ev)
     Divine.RegisterEffect(c, ec1b, true)
 
-    Duel.SetLP(tp, 1, REASON_EFFECT)
+    Duel.SetLP(tp, Duel.GetLP(tp) - ev, REASON_EFFECT)
 end
 
 function s.e7atkfilter(c)
-    return c:IsFaceup() and c:GetTextAttack() > 0 and
-               c:GetAttackAnnouncedCount() == 0
+    return c:IsFaceup() and c:GetAttackAnnouncedCount() == 0
 end
 
 function s.e7atkcost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -364,30 +364,19 @@ function s.e7atkcost(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local g = Duel.SelectReleaseGroupCost(tp, s.e7atkfilter, 1, 99, false, nil,
                                           c)
+    e:SetLabel(g:GetSum(Card.GetAttack))
     Duel.Release(g, REASON_COST)
-    if g then
-        g:KeepAlive()
-        e:SetLabelObject(g)
-    end
 end
 
 function s.e7atkop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) or
         c:GetFlagEffect(id + 100000) == 0 then return end
-    local g = e:GetLabelObject()
-    if not g then return end
-
-    local atk = 0
-    for tc in aux.Next(g) do
-        if tc:GetBaseAttack() > 0 then atk = atk + tc:GetBaseAttack() end
-    end
-    g:DeleteGroup()
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(atk)
+    ec1:SetValue(e:GetLabel())
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     Divine.RegisterEffect(c, ec1)
 end

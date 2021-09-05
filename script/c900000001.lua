@@ -126,7 +126,6 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(aux.Stringid(id, 0))
     ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
