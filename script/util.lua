@@ -267,7 +267,7 @@ function AvatarFilter(c)
         end
     end
 
-    return c:IsOriginalCode(21208154) and (ae ~= 9999999 or de ~= 9999999)
+    return c:IsCode(21208154) and (ae ~= 9999999 or de ~= 9999999)
 end
 
 function AvatarVal(e, c)

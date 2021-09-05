@@ -217,5 +217,11 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
 This card is also DARK Fiend monster while on the field. \
+If this card is Normal Summoned: Your opponent cannot activate Spell/Trap Cards until the end of their 2nd turn after this effect's activation. \
+This card's ATK/DEF are equal to the highest ATK or DEF on the field +1, except "The Wicked Avatar". \
+Cannot be destroyed by battle with a monster with lower Divine Hierarchy. \
+You take no Battle Damage from battles involving this card. \
 """
-strings = []
+strings = [
+    "Affected by effect \"Wicked God Avatar\": cannot activate Spell/Trap Cards",
+]
