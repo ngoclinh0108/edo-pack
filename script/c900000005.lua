@@ -270,14 +270,15 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and
                    Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_MZONE,
-                                               LOCATION_MZONE, 1, nil)
+                                               LOCATION_MZONE, 1, c)
     end
 
     local g = Utility.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE,
-                                         LOCATION_MZONE, 1, 1, nil)
+                                         LOCATION_MZONE, 1, 1, c)
+    Duel.HintSelection(g)
     Duel.SetTargetCard(g)
 
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
     c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
 end
 
