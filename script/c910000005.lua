@@ -66,7 +66,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Utility.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_DECK, 0,
-                                          1, 1, nil, HINTMSG_ATOHAND):GetFirst()
+                                          1, 1, nil):GetFirst()
     if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
         tc:IsLocation(LOCATION_HAND) then
         Duel.ConfirmCards(1 - tp, tc)
@@ -75,8 +75,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.BreakEffect()
 
         local g = Utility.SelectMatchingCard(tp, Card.IsAbleToDeck, tp,
-                                             LOCATION_HAND, 0, 1, 1, nil,
-                                             HINTMSG_TODECK)
+                                             LOCATION_HAND, 0, 1, 1, nil)
         Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT)
     end
 end
@@ -136,8 +135,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         c:RegisterEffect(ec1)
     elseif op == 2 then
         local g = Utility.SelectMatchingCard(tp, Card.IsAbleToRemove, tp,
-                                             LOCATION_ONFIELD, 0, 1, 1, nil,
-                                             HINTMSG_REMOVE)
+                                             LOCATION_ONFIELD, 0, 1, 1, nil)
         if #g > 0 then Duel.Remove(g, POS_FACEUP, REASON_EFFECT) end
     elseif op == 3 then
         local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,

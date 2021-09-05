@@ -68,7 +68,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter),
                                          tp, LOCATION_HAND + LOCATION_DECK +
-                                             LOCATION_GRAVE, 0, 1, 1, nil,
-                                         HINTMSG_SPSUMMON, e, tp)
+                                             LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, true, false, POS_FACEUP) end
 end

@@ -67,7 +67,7 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter),
                                          tp, LOCATION_DECK + LOCATION_GRAVE, 0,
-                                         1, 1, nil, HINTMSG_ATOHAND)
+                                         1, 1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
@@ -114,8 +114,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         not tc:IsCanBeFusionMaterial() or tc:IsImmuneToEffect(e) then return end
 
     local sc = Utility.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_EXTRA,
-                                          0, 1, 1, nil, HINTMSG_SPSUMMON, e, tp,
-                                          tc):GetFirst()
+                                          0, 1, 1, nil, e, tp, tc):GetFirst()
     if sc then
         sc:SetMaterial(Group.FromCards(tc))
         Duel.SendtoGrave(tc, REASON_EFFECT + REASON_MATERIAL + REASON_FUSION)
@@ -176,7 +175,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter),
                                          tp, LOCATION_HAND + LOCATION_DECK +
-                                             LOCATION_GRAVE, 0, 1, ft, nil,
-                                         HINTMSG_SPSUMMON, e, tp)
+                                             LOCATION_GRAVE, 0, 1, ft, nil, e,
+                                         tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end

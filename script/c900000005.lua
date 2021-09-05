@@ -154,7 +154,7 @@ end
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local mc = Utility.SelectMatchingCard(tp, s.dmsfilter, tp, LOCATION_MZONE,
-                                          0, 1, 1, nil, 666100, true):GetFirst()
+                                          0, 1, 1, nil, true):GetFirst()
     if not mc then return end
     mc:ResetFlagEffect(id)
 

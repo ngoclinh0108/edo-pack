@@ -48,7 +48,8 @@ function s.initial_effect(c)
 end
 
 function s.e2val(e, c)
-    return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_HAND, 0) * 1000 *
+    local tp = c:GetControler()
+    return Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) * 1000 *
                Divine.GetDivineHierarchy(c)
 end
 

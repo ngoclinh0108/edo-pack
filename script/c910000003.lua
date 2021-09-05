@@ -130,7 +130,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                      0, nil, e, tp, 42006475)
     if #g1 == 0 or #g2 == 0 then return end
 
-    g1 = Utility.GroupSelect(g1, tp, 1, 1, nil, HINTMSG_SPSUMMON)
-    g2 = Utility.GroupSelect(g2, tp, 1, 1, nil, HINTMSG_SPSUMMON)
+    g1 = Utility.GroupSelect(g1, tp, 1, 1, nil)
+    g2 = Utility.GroupSelect(g2, tp, 1, 1, nil)
     Duel.SpecialSummon(g1:Merge(g2), 0, tp, tp, true, false, POS_FACEUP)
 end

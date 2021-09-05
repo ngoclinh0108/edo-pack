@@ -110,8 +110,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Utility.SelectMatchingCard(tp,
                                           aux.NecroValleyFilter(s.e2filter2),
                                           tp, LOCATION_HAND + LOCATION_DECK +
-                                              LOCATION_GRAVE, 0, 1, 1, nil,
-                                          HINTMSG_SPSUMMON, e, tp):GetFirst()
+                                              LOCATION_GRAVE, 0, 1, 1, nil, e,
+                                          tp):GetFirst()
     if not tc then return end
 
     Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)

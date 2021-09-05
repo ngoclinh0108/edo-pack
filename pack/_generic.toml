@@ -36,11 +36,7 @@ Once per turn, while the total of monster's Divine Hierarchy on the field are 3 
     once this turn, if this card battles, \
     it gain ∞ ATK during damage calculation only. \
 """
-strings = [
-    "Soul Energy MAX",
-    "Inflict battle damage & destroy",
-    "Gain ∞ ATK",
-]
+strings = ["Soul Energy MAX", "Inflict battle damage & destroy", "Gain ∞ ATK"]
 
 [card.osiris]
 id = 900000002
@@ -158,7 +154,7 @@ strings = [
     "Quick attack",
     "Return to Dimension",
     "Tribtue monsters for ATK/DEF",
-    "De-fuse from Ra"
+    "De-fuse from Ra",
 ]
 
 [card.dreadroot]
@@ -177,6 +173,8 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
 This card is also DARK Fiend monster while on the field. \
+The ATK/DEF of all other monsters on the field are halved. \
+Negate the effects of monsters destroyed by battle with this card. \
 """
 strings = []
 
@@ -196,8 +194,11 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
 This card is also DARK Fiend monster while on the field. \
+Its original ATK/DEF become equal to the number of cards your opponent controls x X000. (X is its Divine Hierarchy). \
+During your Main Phase: You can destroy this card. \
+If this card is sent from the field to the GY: Send all cards on the field, except 1 card you control. \
 """
-strings = []
+strings = ["Destroy this card"]
 
 [card.avatar]
 id = 900000008
