@@ -38,12 +38,7 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_CANNOT_ATTACK)
-    e2:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) == 0 end)
     Divine.RegisterEffect(c, e2)
-    local e2b = Effect.CreateEffect(c)
-    e2b:SetType(EFFECT_TYPE_SINGLE)
-    e2b:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
-    Divine.RegisterEffect(c, e2b)
 
     -- battle indes
     local e3 = Effect.CreateEffect(c)
