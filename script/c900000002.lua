@@ -53,8 +53,9 @@ function s.e2val(e, c)
                Divine.GetDivineHierarchy(c)
 end
 
-function s.e3filter(c, e)
-    return c:IsPosition(POS_FACEUP) and (not e or c:IsRelateToEffect(e))
+function s.e3filter(c, e, tp)
+    return c:IsPosition(POS_FACEUP) and c:IsLocation(LOCATION_MZONE) and
+               (not e or c:IsRelateToEffect(e)) and c:IsControler(1 - tp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -64,19 +65,20 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
             c:IsHasEffect(EFFECT_FORBIDDEN) or
             c:IsHasEffect(EFFECT_CANNOT_ATTACK)) then return false end
 
-    return eg:IsExists(s.e3filter, 1, nil, nil)
+    return eg:IsExists(s.e3filter, 1, nil, nil, tp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsRelateToEffect(e) end
+    local g = eg:Filter(s.e3filter, nil, nil, tp)
+    if chk == 0 then return e:GetHandler():IsRelateToEffect(e) and #g > 0 end
 
-    Duel.SetTargetCard(eg)
+    Duel.SetTargetCard(g)
     Duel.SetChainLimit(function(e) return not eg:IsContains(e:GetHandler()) end)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tg = Duel.GetTargetCards(e):Filter(s.e3filter, nil, e)
+    local tg = Duel.GetTargetCards(e):Filter(s.e3filter, nil, e, tp)
     local dg = Group.CreateGroup()
 
     for tc in aux.Next(tg) do

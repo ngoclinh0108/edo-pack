@@ -77,20 +77,6 @@ function s.initial_effect(c)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     Divine.RegisterEffect(c, e5)
-    local e5b = Effect.CreateEffect(c)
-    e5b:SetType(EFFECT_TYPE_SINGLE)
-    e5b:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e5b:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-    e5b:SetRange(LOCATION_MZONE)
-    e5b:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) > 0 end)
-    Divine.RegisterEffect(c, e5b)
-    local e5c = Effect.CreateEffect(c)
-    e5c:SetCategory(CATEGORY_TOGRAVE)
-    e5c:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e5c:SetCode(EVENT_BATTLED)
-    e5c:SetCondition(s.e5togycon)
-    e5c:SetOperation(s.e5togyop)
-    Divine.RegisterEffect(c, e5c)
 
     -- reset
     local e6 = Effect.CreateEffect(c)
@@ -287,38 +273,25 @@ end
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetFlagEffect(id) == 0 and c:IsAttackPos() and
+        return c:GetFlagEffect(id) == 0 and
                    Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE,
-                                               1, c, c)
+                                               1, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, 0, LOCATION_MZONE)
+    local g = Utility.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1,
+                                         1, nil)
+    Duel.SetTargetCard(g)
+
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, c, 1, 0, 0)
     c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACK)
-    local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1,
-                                       1, c):GetFirst()
-
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                             PHASE_BATTLE, 0,
-                         Duel.GetCurrentPhase() == PHASE_BATTLE and 2 or 1)
-    Duel.ForceAttack(c, tc)
-end
-
-function s.e5togycon(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:GetFlagEffect(id) > 0 and Duel.GetAttacker() == c and
-               c:GetBattleTarget()
-end
-
-function s.e5togyop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local bc = c:GetBattleTarget()
-    if not bc then return end
+    Duel.CalculateDamage(c, tc)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -326,16 +299,16 @@ function s.e5togyop(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCode(EFFECT_DISABLE)
     ec1:SetRange(LOCATION_MZONE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_CHAIN)
-    bc:RegisterEffect(ec1, true)
+    tc:RegisterEffect(ec1, true)
     local ec1b = ec1:Clone()
     ec1b:SetCode(EFFECT_DISABLE_EFFECT)
-    bc:RegisterEffect(ec1b, true)
+    tc:RegisterEffect(ec1b, true)
     local ec1c = ec1:Clone()
     ec1c:SetCode(EFFECT_IMMUNE_EFFECT)
     ec1c:SetValue(function(e, te) return te:GetHandler() == e:GetHandler() end)
-    bc:RegisterEffect(ec1c, true)
-    Duel.AdjustInstantly(bc)
-    Duel.SendtoGrave(bc, REASON_EFFECT)
+    tc:RegisterEffect(ec1c, true)
+    Duel.AdjustInstantly(tc)
+    Duel.SendtoGrave(tc, REASON_EFFECT)
 end
 
 function s.e6filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end
