@@ -165,11 +165,7 @@ function automatons.proxy(data)
         elseif Parser.bcheck(data.type, types.TRAP) then
             frame = 4
         elseif Parser.bcheck(data.type, types.MONSTER) then
-            if data.type == 65569 then frame = 33
-            elseif data.type == 131105 then frame = 34
-            elseif data.type == 262177 or data.type == 268697633 then frame = 35
-            elseif data.type == 1048609 then frame = 36
-            else frame = Parser.match_msb(data.type, frame_types) end
+            frame = Parser.match_msb(data.type, frame_types)
         end
 
         if frame == 0 then return nil, "Missing card type" end
