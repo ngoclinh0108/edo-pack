@@ -12,7 +12,8 @@ local mode, options = 'proxy', {}
 local types = GameConst.code.type
 local monster_types =
     types.NORMAL + types.EFFECT + types.FUSION + types.RITUAL + types.SYNCHRO +
-        types.TOKEN + types.XYZ + types.LINK
+        types.TOKEN + types.XYZ + types.LINK +
+        types.OBELISK + types.SLIFER + types.RA + types.WICKED
 local spellortrap = types.SPELL + types.TRAP + types.SKILL
 local spelltrap_types = types.CONTINUOUS + types.COUNTER + types.EQUIP +
                             types.FIELD + types.QUICKPLAY + types.RITUAL +
@@ -45,7 +46,11 @@ local name_colors = {
     [types.XYZ] = {"color-xyz", white},
     [types.LINK] = {"color-link", white},
     [types.SPELL] = {"color-spell", white},
-    [types.TRAP] = {"color-trap", white}
+    [types.TRAP] = {"color-trap", white},
+    [types.OBELISK] = {"color-obelisk", white},
+    [types.SLIFER] = {"color-slifer", white},
+    [types.RA] = {"color-ra", black},
+    [types.WICKED] = {"color-wicked", white},
 }
 
 local automatons = {}
@@ -160,11 +165,14 @@ function automatons.proxy(data)
         elseif Parser.bcheck(data.type, types.TRAP) then
             frame = 4
         elseif Parser.bcheck(data.type, types.MONSTER) then
-            frame = Parser.match_msb(data.type, frame_types)
+            if data.type == 65569 then frame = 33
+            elseif data.type == 131105 then frame = 34
+            elseif data.type == 262177 or data.type == 268697633 then frame = 35
+            elseif data.type == 1048609 then frame = 36
+            else frame = Parser.match_msb(data.type, frame_types) end
         end
 
         if frame == 0 then return nil, "Missing card type" end
-
         insert(layers, MetaLayer.new("overlay", typef_ov(frame)))
 
         if Parser.bcheck(data.type, types.PENDULUM) then
@@ -331,6 +339,7 @@ function automatons.proxy(data)
         local frame = Parser.match_msb(data.type, frame_types)
         local conf, default_color = unpack(name_colors[frame])
         local color = color_clamp(options[conf])
+
         insert(layers, MetaLayer.new("name", data.name, color or default_color))
         if Parser.bcheck(data.type, types.TOKEN) then
             return states.finishing()

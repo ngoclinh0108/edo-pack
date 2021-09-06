@@ -78,7 +78,7 @@ function Parser.get_race(data)
   return GameConst.name.race[race]
 end
 
-local sumtypes = types.FUSION + types.LINK + types.RITUAL + types.SYNCHRO + types.XYZ
+local sumtypes = types.FUSION + types.RITUAL + types.SYNCHRO + types.XYZ + types.LINK
 function Parser.get_sumtype(data)
   local sumtype = Parser.match_lsb(data.type, sumtypes)
   return GameConst.name.type[sumtype]
