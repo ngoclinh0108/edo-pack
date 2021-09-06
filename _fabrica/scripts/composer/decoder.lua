@@ -12,8 +12,7 @@ local mode, options = 'proxy', {}
 local types = GameConst.code.type
 local monster_types =
     types.NORMAL + types.EFFECT + types.FUSION + types.RITUAL + types.SYNCHRO +
-        types.TOKEN + types.XYZ + types.LINK +
-        types.OBELISK + types.SLIFER + types.RA + types.WICKED
+        types.TOKEN + types.XYZ + types.LINK
 local spellortrap = types.SPELL + types.TRAP + types.SKILL
 local spelltrap_types = types.CONTINUOUS + types.COUNTER + types.EQUIP +
                             types.FIELD + types.QUICKPLAY + types.RITUAL +
@@ -47,10 +46,6 @@ local name_colors = {
     [types.LINK] = {"color-link", white},
     [types.SPELL] = {"color-spell", white},
     [types.TRAP] = {"color-trap", white},
-    [types.OBELISK] = {"color-obelisk", white},
-    [types.SLIFER] = {"color-slifer", white},
-    [types.RA] = {"color-ra", black},
-    [types.WICKED] = {"color-wicked", white},
 }
 
 local automatons = {}
