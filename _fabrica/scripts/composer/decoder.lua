@@ -19,7 +19,10 @@ local spelltrap_types = types.CONTINUOUS + types.COUNTER + types.EQUIP +
                             types.LINK
 local frame_types = monster_types + spellortrap
 
-local function typef_ov(n, sfx) return ("type%u%s.png"):format(n, sfx or "") end
+local function typef_ov(n, sfx, card)
+    if card.frame then return ("frame-%s.png"):format(card.frame)
+    else return ("type%u%s.png"):format(n, sfx or "") end
+end
 local function st_ov(n, sfx) return ("st%u%s.png"):format(n, sfx or "") end
 local function linka_ov(n, sfx) return ("lka%u%s.png"):format(n, sfx or "") end
 local function rank_ov(n) return ("r%u.png"):format(n) end
@@ -34,23 +37,27 @@ local function color_clamp(color)
     if not r then return nil end
     return {clamp(r), clamp(g), clamp(b)}
 end
-local black, white = {0, 0, 0}, {255, 255, 255}
+
+local colors = {
+    ["black"] = {0, 0, 0},
+    ["white"] = {255, 255, 255},
+}
 local name_colors = {
-    [types.NORMAL] = {"color-normal", black},
-    [types.EFFECT] = {"color-effect", black},
-    [types.FUSION] = {"color-fusion", white},
-    [types.RITUAL] = {"color-ritual", white},
-    [types.SYNCHRO] = {"color-synchro", black},
-    [types.TOKEN] = {"color-token", black},
-    [types.XYZ] = {"color-xyz", white},
-    [types.LINK] = {"color-link", white},
-    [types.SPELL] = {"color-spell", white},
-    [types.TRAP] = {"color-trap", white},
+    [types.NORMAL] = {"color-normal", colors.black},
+    [types.EFFECT] = {"color-effect", colors.black},
+    [types.FUSION] = {"color-fusion", colors.white},
+    [types.RITUAL] = {"color-ritual", colors.white},
+    [types.SYNCHRO] = {"color-synchro", colors.black},
+    [types.TOKEN] = {"color-token", colors.black},
+    [types.XYZ] = {"color-xyz", colors.white},
+    [types.LINK] = {"color-link", colors.white},
+    [types.SPELL] = {"color-spell", colors.white},
+    [types.TRAP] = {"color-trap", colors.white},
 }
 
 local automatons = {}
 
-function automatons.anime(data)
+function automatons.anime(data, card)
     local states, inital = {}, 'art'
     local layers = {}
 
@@ -148,7 +155,7 @@ function automatons.anime(data)
     return states[inital]()
 end
 
-function automatons.proxy(data)
+function automatons.proxy(data, card)
     local states, inital = {}, 'baseframe'
     local layers = {}
     local transformer = Transformer.new()
@@ -162,9 +169,9 @@ function automatons.proxy(data)
         elseif Parser.bcheck(data.type, types.MONSTER) then
             frame = Parser.match_msb(data.type, frame_types)
         end
-
+        
         if frame == 0 then return nil, "Missing card type" end
-        insert(layers, MetaLayer.new("overlay", typef_ov(frame)))
+        insert(layers, MetaLayer.new("overlay", typef_ov(frame, nil, card)))
 
         if Parser.bcheck(data.type, types.PENDULUM) then
             return states.pendulum()
@@ -329,7 +336,7 @@ function automatons.proxy(data)
     function states.name()
         local frame = Parser.match_msb(data.type, frame_types)
         local conf, default_color = unpack(name_colors[frame])
-        local color = color_clamp(options[conf])
+        local color = card["name-color"] and colors[card["name-color"]] or color_clamp(options[conf])
 
         insert(layers, MetaLayer.new("name", data.name, color or default_color))
         if Parser.bcheck(data.type, types.TOKEN) then
@@ -369,10 +376,10 @@ end
 
 function Decoder.configure(m, opt) mode, options = m, opt end
 
-function Decoder.decode(data)
+function Decoder.decode(data, card)
     local automaton = automatons[mode]
     Logs.assert(automaton, 1, "Unknown mode \"", mode, '"')
-    local metalayers, errmsg = automaton(data)
+    local metalayers, errmsg = automaton(data, card)
     local field = check_field(data)
     if field then insert(metalayers, field) end
     return metalayers, errmsg

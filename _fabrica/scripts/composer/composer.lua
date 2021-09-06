@@ -3,7 +3,10 @@ local Decoder = require 'scripts.composer.decoder'
 local Assembler = require 'scripts.composer.assembler'
 local Printer = require 'scripts.composer.printer'
 local Logs = require 'lib.logs'
-
+local Config = require 'scripts.config'
+local CardDataFetcher = require 'scripts.make.data-fetcher'
+local CardParser = require 'scripts.make.parser'
+local insert = table.insert
 
 local Composer = {}
 
@@ -18,13 +21,30 @@ local function check_folders(imgfolder, outfolder)
 end
 
 function Composer.compose(mode, imgfolder, cdbfp, outfolder, options)
+  local files = {}
+  local expansions = Config.get_all('expansion')
+  for _, expansion in pairs(expansions) do
+    for _, file in ipairs(expansion.recipe) do
+      insert(files, file)
+    end
+  end
+  local _, cards = CardParser.parse(CardDataFetcher.get(files))
+
   Logs.assert(check_mode(mode), 1, "unknown mode \"", mode, '"')
   check_folders(imgfolder, outfolder)
   local data = DataFetcher.get(imgfolder, cdbfp)
   local metalayers_set, n = {}, 0
   Decoder.configure(mode, options)
   for _, d in ipairs(data) do
-    local metalayers, msg = Decoder.decode(d)
+    local card
+    for _, c in pairs(cards) do
+      if tostring(c.id) == d.id then
+        card = c
+        break
+      end
+    end
+
+    local metalayers, msg = Decoder.decode(d, card)
     if metalayers then
       metalayers_set[d.id] = metalayers
       n = n + 1

@@ -6,7 +6,6 @@ local Parser = require 'scripts.make.parser'
 local Encoder = require 'scripts.make.encoder'
 local Writer = require 'scripts.make.writer'
 
-
 local insert = table.insert
 
 local function get_expansions(all, expansion)
