@@ -10,7 +10,7 @@
     "expansions": true,
     ".vscode": true,
     "ygofab.cmd": true,
-    "_fabrica": false,
+    "_fabrica": true,
     "pics": true,
     "triplesix.cdb": true
   },
