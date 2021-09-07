@@ -214,10 +214,10 @@ When you Ritual or Fusion Summon a "Palladium" monster, \
 """
 strings = []
 
-[card.palladium-sister-isis]
+[card.palladium-maiden-isis]
 id = 910000009
 set = "palladium"
-name = "Palladium Sister Isis"
+name = "Palladium Maiden Isis"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
@@ -233,10 +233,10 @@ When your opponent activates a card or effect \
     You can Tribute this card from your hand or face-up field; \
     negate that effect. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
-    You can only use this effect of "Palladium Sister Isis" once per turn. \
+    You can only use this effect of "Palladium Maiden Isis" once per turn. \
 If this card is Tributed: Gain 1000 LP. \
 """
-strings = ["Normal Summon via \"Palladium Sister Isis\""]
+strings = ["Normal Summon via \"Palladium Maiden Isis\""]
 
 [card.palladium-guardian-shada]
 id = 910000010

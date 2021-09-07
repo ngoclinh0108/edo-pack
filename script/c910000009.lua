@@ -1,4 +1,4 @@
--- Palladium Sister Isis
+-- Palladium Maiden Isis
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
