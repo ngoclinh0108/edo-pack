@@ -135,7 +135,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         c:RegisterEffect(ec1)
     elseif op == 2 then
         local g = Utility.SelectMatchingCard(tp, Card.IsAbleToRemove, tp,
-                                             LOCATION_ONFIELD, 0, 1, 1, nil)
+                                             0, LOCATION_ONFIELD, 1, 1, nil)
         if #g > 0 then Duel.Remove(g, POS_FACEUP, REASON_EFFECT) end
     elseif op == 3 then
         local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
