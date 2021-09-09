@@ -73,6 +73,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
                                    CHAININFO_TARGET_PARAM)
     if Duel.Draw(p, d, REASON_EFFECT) == 0 then return end
@@ -96,10 +97,25 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
-    if op == 1 then
+    if op == 2 then
         Utility.HintCard(tc)
         Utility.ApplyActivateEffect(tc, e, tp, false, true, true)
         Duel.SendtoGrave(tc, REASON_RULE)
+    elseif op == 3 then
+        Duel.SSet(tp, tc, tp, false)
+        
+        if tc:IsType(TYPE_QUICKPLAY + TYPE_TRAP) then
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+            if tc:IsType(TYPE_QUICKPLAY) then
+                ec1:SetCode(EFFECT_QP_ACT_IN_SET_TURN)
+            elseif tc:IsType(TYPE_TRAP) then
+                ec1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
+            end
+            ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+            tc:RegisterEffect(ec1)
+        end
     end
 end
 
