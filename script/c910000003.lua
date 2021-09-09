@@ -90,7 +90,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetOperatedGroup():GetFirst()
     if not tc:IsType(TYPE_SPELL + TYPE_TRAP) then return end
 
-    local b1 = tc:CheckActivateEffect(false, true, true)
+    local b1 = Utility.CheckActivateEffect(tc, e, tp, false, true, false)
     local b2 = tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
 
     local opt = {}
@@ -109,8 +109,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     if op == 2 then
         Utility.HintCard(tc)
-        Utility.ApplyActivateEffect(tc, e, tp, false, true, true)
         Duel.SendtoGrave(tc, REASON_RULE)
+        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)        
     elseif op == 3 then
         Duel.SSet(tp, tc, tp, false)
 
