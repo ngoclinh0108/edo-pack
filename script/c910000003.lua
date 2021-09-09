@@ -35,10 +35,16 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e2:SetCode(EVENT_ATTACK_ANNOUNCE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
+    e2:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetType(EFFECT_TYPE_QUICK_O)
+    e2b:SetCode(EVENT_CHAINING)
+    e2b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e2b:SetCondition(s.e2con)
+    c:RegisterEffect(e2b)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
@@ -63,6 +69,10 @@ function s.contactfilter(tp)
 end
 
 function s.contactop(g) Duel.SendtoGrave(g, REASON_COST + REASON_MATERIAL) end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
+end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
@@ -103,7 +113,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoGrave(tc, REASON_RULE)
     elseif op == 3 then
         Duel.SSet(tp, tc, tp, false)
-        
+
         if tc:IsType(TYPE_QUICKPLAY + TYPE_TRAP) then
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
