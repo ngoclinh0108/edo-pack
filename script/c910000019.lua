@@ -9,7 +9,7 @@ s.listed_names = {910000017, 910000018}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- fusion material
+    -- fusion summon
     Fusion.AddProcMix(c, false, false, 910000017, 910000018)
 
     -- gain effect
@@ -48,12 +48,14 @@ function s.initial_effect(c)
 end
 
 function s.e3filter(c, e, tp)
+    if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
     return c:IsCode(910000017, 910000018) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
+                    LOCATION_REMOVED
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
@@ -68,6 +70,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter),
                                          tp, LOCATION_HAND + LOCATION_DECK +
-                                             LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+                                             LOCATION_GRAVE + LOCATION_REMOVED,
+                                         0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, true, false, POS_FACEUP) end
 end
