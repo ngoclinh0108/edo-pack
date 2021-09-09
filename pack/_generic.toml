@@ -37,8 +37,6 @@ Once per turn, while the total of monster's Divine Hierarchy on the field are 3 
     it gain ∞ ATK during damage calculation only. \
 """
 strings = ["Soul Energy MAX", "Inflict battle damage & destroy", "Gain ∞ ATK"]
-frame = "obelisk"
-name-color = "white"
 
 [card.osiris]
 id = 900000002
@@ -63,8 +61,6 @@ If a monster(s) is Summoned to your opponent's field, while this card is able to
     That monster(s) cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
-frame = "slifer"
-name-color = "white"
 
 [card.ra]
 id = 900000003
@@ -84,8 +80,6 @@ ${EGYPTIAN_LIMIT} \
 This card is also Winged-Beast-Type while on the field. \
 """
 strings = []
-frame = "ra"
-name-color = "black"
 
 [card.ra-sphere]
 id = 900000004
@@ -116,8 +110,6 @@ Once per turn: The original owner of this card can send this card to the Dimensi
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 """
 strings = ["Turn back to Normal Form", "Unstoppable Attack"]
-frame = "ra"
-name-color = "black"
 
 [card.ra-phoenix]
 id = 900000005
@@ -165,8 +157,6 @@ strings = [
     "Tribtue monsters for ATK/DEF",
     "De-fuse from Ra",
 ]
-frame = "ra"
-name-color = "black"
 
 [card.dreadroot]
 id = 900000006
@@ -188,8 +178,6 @@ The ATK/DEF of all other monsters on the field are halved. \
 Negate the effects of monsters destroyed by battle with this card. \
 """
 strings = []
-frame = "wicked"
-name-color = "white"
 
 [card.eraser]
 id = 900000007
@@ -212,8 +200,6 @@ During your Main Phase: You can destroy this card. \
 If this card is sent from the field to the GY: Send all cards on the field, except 1 card you control. \
 """
 strings = ["Destroy this card"]
-frame = "wicked"
-name-color = "white"
 
 [card.avatar]
 id = 900000008
@@ -239,5 +225,3 @@ You take no Battle Damage from battles involving this card. \
 strings = [
     "Affected by effect \"Wicked God Avatar\": cannot activate Spell/Trap Cards",
 ]
-frame = "wicked"
-name-color = "white"
