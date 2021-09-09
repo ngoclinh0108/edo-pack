@@ -22,9 +22,7 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e1:SetRange(LOCATION_MZONE)
     e1:SetTargetRange(LOCATION_MZONE, 0)
-    e1:SetTarget(function(e, c)
-        return c:IsRace(RACE_SPELLCASTER) and c:IsLevelAbove(6)
-    end)
+    e1:SetTarget(function(e, c) return c:IsRace(RACE_SPELLCASTER) end)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
@@ -110,7 +108,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if op == 2 then
         Utility.HintCard(tc)
         Duel.SendtoGrave(tc, REASON_RULE)
-        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)        
+        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)
     elseif op == 3 then
         Duel.SSet(tp, tc, tp, false)
 
