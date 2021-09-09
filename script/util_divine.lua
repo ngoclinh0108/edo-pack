@@ -118,7 +118,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
-    reset:SetDescription(666000)
+    reset:SetDescription(666001)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     reset:SetCode(EVENT_ADJUST)
@@ -179,7 +179,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 
         -- return
         local returnend = Effect.CreateEffect(c)
-        returnend:SetDescription(666001)
+        returnend:SetDescription(666002)
         returnend:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         returnend:SetCode(EVENT_PHASE + PHASE_END)
         returnend:SetRange(LOCATION_MZONE)

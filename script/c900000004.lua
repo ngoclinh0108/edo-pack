@@ -75,7 +75,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                              RESET_EVENT + RESETS_STANDARD,
-                             EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+                             EFFECT_FLAG_CLIENT_HINT, 1, 0, 666003)
     end
 
     if s.e4tg(e, tp, eg, ep, ev, re, r, rp, 0) and Duel.SelectYesNo(rp, aux.Stringid(id, 0)) then
@@ -162,7 +162,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp, immediately)
     if e:GetLabel() > 0 then
         mc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                               RESET_EVENT + RESETS_STANDARD,
-                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666003)
     end
     local spnoattack = mc:GetCardEffect(EFFECT_CANNOT_ATTACK)
     if spnoattack then spnoattack:Reset() end

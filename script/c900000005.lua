@@ -251,7 +251,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         if divine_evolution then
             c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                                  RESET_EVENT + RESETS_STANDARD,
-                                 EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+                                 EFFECT_FLAG_CLIENT_HINT, 1, 0, 666003)
         end
     end
 end
@@ -322,7 +322,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
         if divine_evolution then
             sc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                                   RESET_EVENT + RESETS_STANDARD,
-                                  EFFECT_FLAG_CLIENT_HINT, 1, 0, 666002)
+                                  EFFECT_FLAG_CLIENT_HINT, 1, 0, 666003)
         end
     else
         Duel.SendtoGrave(c, REASON_EFFECT)

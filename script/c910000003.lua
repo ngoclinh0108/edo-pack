@@ -28,6 +28,18 @@ function s.initial_effect(c)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
+    -- draw
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(1108)
+    e2:SetCategory(CATEGORY_DRAW)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+
     -- special summon
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -51,6 +63,45 @@ function s.contactfilter(tp)
 end
 
 function s.contactop(g) Duel.SendtoGrave(g, REASON_COST + REASON_MATERIAL) end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
+
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(1)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    if Duel.Draw(p, d, REASON_EFFECT) == 0 then return end
+    local tc = Duel.GetOperatedGroup():GetFirst()
+    if not tc:IsType(TYPE_SPELL + TYPE_TRAP) then return end
+
+    local b1 = tc:CheckActivateEffect(false, true, true)
+    local b2 = tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
+
+    local opt = {}
+    local sel = {}
+    table.insert(opt, 666000)
+    table.insert(sel, 1)
+    if b1 then
+        table.insert(opt, 1150)
+        table.insert(sel, 2)
+    end
+    if b2 then
+        table.insert(opt, 1153)
+        table.insert(sel, 3)
+    end
+    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
+
+    if op == 1 then
+        Utility.HintCard(tc)
+        Utility.ApplyActivateEffect(tc, e, tp, false, true, true)
+        Duel.SendtoGrave(tc, REASON_RULE)
+    end
+end
 
 function s.e3filter(c, e, tp, code)
     return c:IsCode(code) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)

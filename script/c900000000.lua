@@ -163,21 +163,21 @@ end
 
 function s.skillop(e, tp, eg, ep, ev, re, r, rp)
     local all = {
-        {desc = aux.Stringid(id, 0), check = true, op = nil},
-        {desc = aux.Stringid(id, 1), check = true, op = s.e1op}, {
-            desc = aux.Stringid(id, 2),
+        {desc = 666000, check = true, op = nil},
+        {desc = aux.Stringid(id, 0), check = true, op = s.e1op}, {
+            desc = aux.Stringid(id, 1),
             check = s.e2con(e, tp, eg, ep, ev, re, r, rp),
             op = s.e2op
         }, {
-            desc = aux.Stringid(id, 3),
+            desc = aux.Stringid(id, 2),
             check = s.e3con(e, tp, eg, ep, ev, re, r, rp),
             op = s.e3op
         }, {
-            desc = aux.Stringid(id, 4),
+            desc = aux.Stringid(id, 3),
             check = s.e4con(e, tp, eg, ep, ev, re, r, rp),
             op = s.e4op
         }, {
-            desc = aux.Stringid(id, 5),
+            desc = aux.Stringid(id, 4),
             check = s.e5con(e, tp, eg, ep, ev, re, r, rp),
             op = s.e5op
         }
