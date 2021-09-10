@@ -21,7 +21,7 @@ strings = []
 id = 910000001
 alias = 71703785
 set = "palladium"
-name = "Palladium Sacred Oracle Mahad"
+name = "Sacred Palladium Oracle Mahad"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
@@ -41,7 +41,7 @@ strings = []
 id = 910000002
 alias = 42006475
 set = "palladium"
-name = "Palladium Illusion Oracle Mana"
+name = "Illusory Palladium Oracle Mana"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
@@ -55,7 +55,7 @@ Once per turn, during damage calculation, \
     That monster you control gains ATK/DEF equal to this card's ATK during that damage calculation only. \
     This card cannot declare an attack the turn this effect is activated. \
     This card must be face-up on the field to activate and to resolve this effect. \
-You can only use each of the following effects of "Palladium Illusion Oracle Mana" once per turn. \
+You can only use each of the following effects of "Illusory Palladium Oracle Mana" once per turn. \
 If you Normal or Special Summon "Palladium Oracle Mahad", \
     while this card is in your hand or GY: \
     You can Special Summon this card. \
@@ -65,10 +65,24 @@ When your opponent targets a monster(s) you control with a card effect (except d
 """
 strings = ["Gain ATK/DEF", "Return the targeted to the hand and Special Summon"]
 
+[card.palladium-oracle-hassan]
+id = 910000003
+set = "palladium"
+name = "Mysterious Palladium Oracle Hassan"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2800
+def = 2600
+effect = """\
+"""
+strings = []
+
 [card.palladium-oracle-aknamkanon]
 id = 910000004
-set = "palladium chaos"
-name = "Palladium Chaos Oracle Aknamkanon"
+set = "chaos palladium"
+name = "Chaos Palladium Oracle Aknamkanon"
 type = "monster ritual effect"
 attribute = "light"
 race = "spellcaster"
@@ -85,11 +99,11 @@ If this card is Special Summoned: You can activate this effect; \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
 If this card destroys an opponent's monster by battle: \
     You can target 1 Spell/Trap in your GY; add it to your hand. \
-You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
+You can only use each effect of "Chaos Palladium Oracle Aknamkanon" once per turn. \
 """
 strings = [
     "Add 1 Spell/Trap from the GY",
-    "Affected by effect \"Palladium Chaos Oracle Aknamkanon\": cannot activate cards",
+    "Affected by effect \"Chaos Palladium Oracle Aknamkanon\": cannot activate cards",
 ]
 
 [card.palladium-soldier]
@@ -126,7 +140,7 @@ strings = [
 [card.palladium-oracle-seto]
 id = 910000006
 set = "palladium"
-name = "Palladium Azure Oracle Seto"
+name = "Azure Palladium Oracle Seto"
 type = "monster tuner effect"
 attribute = "light"
 race = "spellcaster"
@@ -142,12 +156,12 @@ You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
 You can Tribute this card; \
     Special Summon up to 3 copies of "Blue-Eyes White Dragon" from your hand, Deck or GY. \
     You cannot Special Summon other monsters the turn you activate this effect. \
-You can only use 1 "Palladium Azure Oracle Seto" effect per turn, and only once that turn.
+You can only use 1 "Azure Palladium Oracle Seto" effect per turn, and only once that turn.
 """
 strings = [
     "Add 1 \"Blue-Eyes\" monster",
     "Summon 3 \"Blue-Eyes White Dragon\"",
-    "Affected by effect \"Palladium Azure Oracle Seto\": cannot Special Summon monsters",
+    "Affected by effect \"Azure Palladium Oracle Seto\": cannot Special Summon monsters",
 ]
 
 [card.palladium-ankuriboh]

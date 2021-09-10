@@ -1,4 +1,4 @@
--- Palladium Azure Oracle Seto
+-- Azure Palladium Oracle Seto
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
