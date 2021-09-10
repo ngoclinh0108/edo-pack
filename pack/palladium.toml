@@ -485,9 +485,9 @@ If this card is destroyed: You can shuffle this card into the Extra Deck; \
 """
 strings = []
 
-[card.chaos-eyes-palladium-dragoon]
+[card.palladium-oracles-light-dragoon]
 id = 910000021
-set = "chaos palladium"
+set = "palladium"
 name = "Palladium Oracles Light Dragoon"
 type = "monster fusion effect"
 attribute = "light"
