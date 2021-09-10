@@ -73,7 +73,7 @@ type = "monster effect"
 attribute = "light"
 race = "spellcaster"
 level = 8
-atk = 2600
+atk = 2400
 def = 2800
 effect = """\
 """
