@@ -65,32 +65,6 @@ When your opponent targets a monster(s) you control with a card effect (except d
 """
 strings = ["Gain ATK/DEF", "Return the targeted to the hand and Special Summon"]
 
-[card.palladium-oracles]
-id = 910000003
-set = "palladium"
-name = "The Palladium Oracles"
-type = "monster fusion effect"
-attribute = "light"
-race = "spellcaster"
-level = 8
-atk = 2800
-def = 2300
-effect = """\
-"Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
-Must first be either Fusion Summoned, or Special Summoned from your Extra Deck \
-    by sending the above cards you control to the GY (in which case you do not use "Polymerization"). \
-You can only Special Summon "The Palladium Oracles(s)" once per turn. \
-Spellcaster monsters you control cannot be destroyed by card effects. \
-Once per turn, when a monster declares an attack or a card or effect is activated: \
-    You can draw 1 card, then if it was a Spell/Trap, \
-    you can send it to the GY if it meets activation conditions, this effect becomes that card's effect when it is activated, \
-    or you can Set it, and if it was Trap or Quick-Play Spell, you can activate it this turn. \
-If this card is destroyed: You can shuffle this card into the Extra Deck; \
-    Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana" \
-    from your hand, Deck, GY. \
-"""
-strings = []
-
 [card.palladium-oracle-aknamkanon]
 id = 910000004
 set = "palladium chaos"
@@ -460,5 +434,31 @@ This card can make a second attack during each Battle Phase. \
 If this card is destroyed: You can Special Summon \
     1 "Palladium Beast Gazelle" or "Palladium Beast Berfomet" \
     that is banished or in your hand, Deck, GY. \
+"""
+strings = []
+
+[card.palladium-oracles]
+id = 910000020
+set = "palladium"
+name = "The Palladium Oracles"
+type = "monster fusion effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2800
+def = 2300
+effect = """\
+"Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
+Must first be either Fusion Summoned, or Special Summoned from your Extra Deck \
+    by sending the above cards you control to the GY (in which case you do not use "Polymerization"). \
+You can only Special Summon "The Palladium Oracles(s)" once per turn. \
+Spellcaster monsters you control cannot be destroyed by card effects. \
+Once per turn, when a monster declares an attack or a card or effect is activated: \
+    You can draw 1 card, then if it was a Spell/Trap, \
+    you can send it to the GY if it meets activation conditions, this effect becomes that card's effect when it is activated, \
+    or you can Set it, and if it was Trap or Quick-Play Spell, you can activate it this turn. \
+If this card is destroyed: You can shuffle this card into the Extra Deck; \
+    Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana" \
+    from your hand, Deck, GY. \
 """
 strings = []
