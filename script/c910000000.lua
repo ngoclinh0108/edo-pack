@@ -30,7 +30,7 @@ function s.initial_effect(c)
     local e2 = Fusion.CreateSummonEff({
         desc = 1170,
         handler = c,
-        extrafil = function()
+        extrafil = function(e, tp)
             local g = Duel.GetMatchingGroup(Card.IsAbleToGrave, tp,
                                             LOCATION_DECK, 0, nil)
             local check = function(tp, sg, fc)
@@ -42,7 +42,7 @@ function s.initial_effect(c)
         end
     })
     e2:SetDescription(1170)
-    e1:SetCondition(s.sumcon)
+    e2:SetCondition(s.sumcon)
     e2:SetCost(s.sumhint)
     c:RegisterEffect(e2)
 

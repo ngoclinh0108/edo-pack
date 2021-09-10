@@ -8,13 +8,21 @@ s.listed_names = {71703785, 42006475}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    c:SetSPSummonOnce(id)
 
     -- fusion summon
     Fusion.AddProcMix(c, false, false, {71703785, 42006475},
                       aux.FilterBoolFunctionEx(Card.IsRace, RACE_SPELLCASTER))
-    Fusion.AddContactProc(c, s.contactfilter, s.contactop, s.splimit, nil, nil,
-                          nil, false)
+
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(function(e, se, sp, st)
+        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or
+                   aux.fuslimit(e, se, sp, st)
+    end)
+    c:RegisterEffect(splimit)
 
     -- indes
     local e1 = Effect.CreateEffect(c)
@@ -22,7 +30,6 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e1:SetRange(LOCATION_MZONE)
     e1:SetTargetRange(LOCATION_MZONE, 0)
-    e1:SetTarget(function(e, c) return c:IsRace(RACE_SPELLCASTER) end)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
@@ -54,11 +61,6 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-end
-
-function s.splimit(e, se, sp, st)
-    return (st & SUMMON_TYPE_FUSION) == SUMMON_TYPE_FUSION or
-               e:GetHandler():GetLocation() ~= LOCATION_EXTRA
 end
 
 function s.contactfilter(tp)
