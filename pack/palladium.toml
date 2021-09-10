@@ -113,7 +113,10 @@ If this card destroys an opponent's monster by battle: \
     You can target 1 Spell/Trap in your GY; add it to your hand. \
 You can only use each effect of "Palladium Chaos Oracle Aknamkanon" once per turn. \
 """
-strings = ["Add 1 Spell/Trap from the GY"]
+strings = [
+    "Add 1 Spell/Trap from the GY",
+    "Affected by effect \"Palladium Chaos Oracle Aknamkanon\": cannot activate cards",
+]
 
 [card.palladium-soldier]
 id = 910000005
