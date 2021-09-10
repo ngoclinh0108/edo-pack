@@ -1,162 +1,112 @@
--- Black Luster Soldier - Palladium Soldier
+-- Mysterious Palladium Oracle Hassan
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {910000000}
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- search
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    c:RegisterEffect(splimit)
+
+    -- special summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
-    e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e1:SetCode(EVENT_ATTACK_ANNOUNCE)
     e1:SetRange(LOCATION_HAND)
-    e1:SetCountLimit(1, id)
-    e1:SetCost(s.e1cost)
+    e1:SetCondition(s.e1con1)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetType(EFFECT_TYPE_QUICK_O)
+    e1b:SetCode(EVENT_CHAINING)
+    e1b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e1b:SetCondition(s.e1con2)
+    c:RegisterEffect(e1b)
 
-    -- act limit
+    -- no effect damage
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2:SetCode(EFFECT_CANNOT_ACTIVATE)
+    e2:SetCode(EFFECT_CHANGE_DAMAGE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(0, 1)
-    e2:SetValue(1)
-    e2:SetCondition(function(e)
-        local c = e:GetHandler()
-        return Duel.GetAttacker() == c or Duel.GetAttackTarget() == c
+    e2:SetTargetRange(1, 0)
+    e2:SetValue(function(e, re, val, r, rp, rc)
+        if (r & REASON_EFFECT) ~= 0 then return 0 end
+        return val
     end)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    c:RegisterEffect(e2b)
 
-    -- battle destroy
+    -- to hand
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetCode(EVENT_BATTLE_DESTROYING)
-    e3:SetCondition(aux.bdocon)
+    e3:SetCategory(CATEGORY_TOHAND)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_DESTROYED)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCountLimit(1, id)
+    e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsSetCard(0x13a) and c:IsType(TYPE_MONSTER) and
-               not c:IsRitualMonster() and c:IsAbleToHand()
+function s.e1con1(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttackTarget() == nil and
+               Duel.GetAttacker():IsControler(1 - tp)
 end
 
-function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return not e:GetHandler():IsPublic() end
-    Duel.ConfirmCards(1 - tp, e:GetHandler())
+function s.e1con2(e, tp, eg, ep, ev, re, r, rp)
+    return ep ~= tp and aux.damcon1(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1,
-                                           nil)
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_HAND)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Utility.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_DECK, 0,
-                                          1, 1, nil):GetFirst()
-    if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
-        tc:IsLocation(LOCATION_HAND) then
-        Duel.ConfirmCards(1 - tp, tc)
-        Duel.ShuffleHand(tp)
-        Duel.ShuffleDeck(tp)
-        Duel.BreakEffect()
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
 
-        local g = Utility.SelectMatchingCard(tp, Card.IsAbleToDeck, tp,
-                                             LOCATION_HAND, 0, 1, 1, nil)
-        Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT)
-    end
+    Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
+end
+
+function s.e3filter(c, tp)
+    return not c:IsCode(id) and c:IsPreviousPosition(POS_FACEUP) and
+               c:IsPreviousLocation(LOCATION_MZONE) and
+               c:IsPreviousControler(tp) and c:IsSetCard(0x13a) and
+               (c:IsReason(REASON_BATTLE) or
+                   (c:IsReason(REASON_EFFECT) and c:GetReasonPlayer() == 1 - tp))
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.e3filter, 1, nil, tp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-
-    local b1 = true
-    local b2 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
-                                           LOCATION_ONFIELD, 1, nil)
-    local b3 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
-                                           LOCATION_HAND, 1, nil)
-    local b4 = true
-
-    local opt = {}
-    local sel = {}
-    if b1 then
-        table.insert(opt, aux.Stringid(id, 1))
-        table.insert(sel, 1)
-    end
-    if b2 then
-        table.insert(opt, aux.Stringid(id, 2))
-        table.insert(sel, 2)
-    end
-    if b3 then
-        table.insert(opt, aux.Stringid(id, 3))
-        table.insert(sel, 3)
-    end
-    if b4 then
-        table.insert(opt, aux.Stringid(id, 4))
-        table.insert(sel, 4)
-    end
-    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
-
-    e:SetCategory(0)
-    if op == 2 then
-        e:SetCategory(CATEGORY_REMOVE)
-        local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
-                                        LOCATION_ONFIELD, nil)
-        Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, tp, 0)
-    elseif op == 3 then
-        e:SetCategory(CATEGORY_REMOVE)
-        Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 1 - tp, LOCATION_HAND)
-    end
-    e:SetLabel(op)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsAbleToHand() end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local op = e:GetLabel()
-    if op == 1 and c:IsRelateToEffect(e) and c:IsFaceup() then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_UPDATE_ATTACK)
-        ec1:SetValue(1500)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        c:RegisterEffect(ec1)
-    elseif op == 2 then
-        local g = Utility.SelectMatchingCard(tp, Card.IsAbleToRemove, tp,
-                                             0, LOCATION_ONFIELD, 1, 1, nil)
-        if #g > 0 then Duel.Remove(g, POS_FACEUP, REASON_EFFECT) end
-    elseif op == 3 then
-        local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
-                                        LOCATION_HAND, nil, tp, POS_FACEDOWN)
-        if #g > 0 then
-            g = g:RandomSelect(tp, 1)
-            Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
-        end
-    elseif op == 4 then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3201)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_EXTRA_ATTACK)
-        ec1:SetLabel(Duel.GetTurnCount())
-        ec1:SetCondition(function(e)
-            return Duel.GetTurnCount() > e:GetLabel()
-        end)
-        ec1:SetValue(1)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END +
-                         RESET_SELF_TURN, 2)
-        c:RegisterEffect(ec1)
-    end
+    if not c:IsRelateToEffect(e) then return end
+    Duel.SendtoHand(c, nil, REASON_EFFECT)
 end

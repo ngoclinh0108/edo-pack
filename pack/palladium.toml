@@ -65,22 +65,8 @@ When your opponent targets a monster(s) you control with a card effect (except d
 """
 strings = ["Gain ATK/DEF", "Return the targeted to the hand and Special Summon"]
 
-[card.palladium-oracle-hassan]
-id = 910000003
-set = "palladium"
-name = "Mysterious Palladium Oracle Hassan"
-type = "monster effect"
-attribute = "light"
-race = "spellcaster"
-level = 8
-atk = 2300
-def = 2800
-effect = """\
-"""
-strings = []
-
 [card.palladium-oracle-aknamkanon]
-id = 910000004
+id = 910000003
 set = "chaos palladium"
 name = "Chaos Palladium Oracle Aknamkanon"
 type = "monster ritual effect"
@@ -107,7 +93,7 @@ strings = [
 ]
 
 [card.palladium-soldier]
-id = 910000005
+id = 910000004
 set = "palladium black-luster-soldier"
 name = "Black Luster Soldier - Palladium Soldier"
 type = "monster ritual effect"
@@ -136,6 +122,29 @@ strings = [
     "Banish 1 card in hand",
     "Double attack next turn",
 ]
+
+[card.palladium-oracle-hassan]
+id = 910000005
+set = "palladium"
+name = "Mysterious Palladium Oracle Hassan"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2300
+def = 2800
+effect = """\
+Cannot be Normal Summoned/Set. Must be Special Summoned by its own effect. \
+When an opponent's monster declares a direct attack, \
+    or when your opponent activates a card or effect that would inflict damage (Quick Effect): \
+    You can Special Summon this card from your hand. \
+You take no effect damage. \
+If a face-up "Palladium" monster(s) you control is destroyed by battle or an opponent's card effect, \
+    except "Mysterious Palladium Oracle Hassan": \
+    You can add this card from your GY to your hand. \
+    You can only use this effect of "Mysterious Palladium Oracle Hassan" once per turn. \
+"""
+strings = []
 
 [card.palladium-oracle-seto]
 id = 910000006
@@ -265,7 +274,7 @@ atk = 100
 def = 2600
 effect = """\
 When your opponent activates a card or effect \
-    that targets this card (face-up or face-down) (Quick Effect): \
+    that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
     You can negate that activation, also change this card to face-up Defense Positionm, if able. \
     You can only use this effect of "Palladium Gardna Karim" once per turn. \
 Once while face-up on the field (Quick Effect): You can change this card to Defense Position, \
