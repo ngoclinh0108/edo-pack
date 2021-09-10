@@ -22,17 +22,28 @@ function s.initial_effect(c)
         location = LOCATION_HAND + LOCATION_DECK
     })
     e1:SetDescription(1171)
-    e1:SetCost(s.hint)
+    e1:SetCondition(s.sumcon)
+    e1:SetCost(s.sumhint)
     c:RegisterEffect(e1)
 
     -- fusion summon
     local e2 = Fusion.CreateSummonEff({
         desc = 1170,
         handler = c,
-        extrafil = function() return nil, s.e2matcheck end
+        extrafil = function()
+            local g = Duel.GetMatchingGroup(Card.IsAbleToGrave, tp,
+                                            LOCATION_DECK, 0, nil)
+            local check = function(tp, sg, fc)
+                return sg:IsExists(Card.IsSetCard, 1, nil, 0x13a) and
+                           sg:FilterCount(Card.IsLocation, nil, LOCATION_DECK) <=
+                           1
+            end
+            return g, check
+        end
     })
     e2:SetDescription(1170)
-    e2:SetCost(s.hint)
+    e1:SetCondition(s.sumcon)
+    e2:SetCost(s.sumhint)
     c:RegisterEffect(e2)
 
     -- to hand
@@ -47,13 +58,14 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.hint(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+function s.sumcon(e, tp, eg, ep, ev, re, r, rp)
+    return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
+               Duel.IsTurnPlayer(1 - tp)
 end
 
-function s.e2matcheck(tp, sg, fc)
-    return sg:IsExists(Card.IsSetCard, 1, nil, 0x13a)
+function s.sumhint(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
 end
 
 function s.e3filter(c) return c:IsType(TYPE_SPELL) and c:IsDiscardable() end

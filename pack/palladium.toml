@@ -5,12 +5,13 @@ name = "Palladium Summoning Magic"
 type = "spell quick-play"
 effect = """\
 (This card's name is also treated as "Polymerization".)
-Activate 1 of the following effects.
+During your Main Phase or your opponent's turn: Activate 1 of the following effects.
 ● Ritual Summon 1 "Palladium" Ritual Monster from your hand or Deck, \
     by Tributing monsters from your hand or field, \
     whose total Levels equal or exceed the Level of the Ritual Monster.
 ● Fusion Summon 1 Fusion Monster from your Extra Deck, \
-    using monsters from your hand or field as Fusion Material, including a "Palladium" monster.
+    using monsters from your hand or field as Fusion Material, including a "Palladium" monster, \
+    you can use 1 monster from your Deck as material.
 During your Main Phase, if this card is in your GY: \
     You can discard 1 Spell; Add this card to your hand. \
     You can only use this effect of "Palladium Summoning Magic" once per turn. \
