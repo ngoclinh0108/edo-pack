@@ -471,7 +471,7 @@ atk = 2800
 def = 2300
 effect = """\
 "Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
-Must first be either Fusion Summoned, or Special Summoned from your Extra Deck \
+Must first be either Fusion Summoned with the above materials, or Special Summoned from your Extra Deck \
     by sending the above cards you control to the GY (in which case you do not use "Polymerization"). \
 You can only Special Summon "The Palladium Oracles(s)" once per turn. \
 Spellcaster monsters you control cannot be destroyed by card effects. \
@@ -482,5 +482,21 @@ Once per turn, when a monster declares an attack or a card or effect is activate
 If this card is destroyed: You can shuffle this card into the Extra Deck; \
     Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana" \
     from your hand, Deck, GY. \
+"""
+strings = []
+
+[card.chaos-eyes-palladium-dragoon]
+id = 910000021
+set = "chaos palladium"
+name = "Palladium Oracles Light Dragoon"
+type = "monster fusion effect"
+attribute = "light"
+race = "spellcaster"
+level = 10
+atk = 3300
+def = 2500
+effect = """\
+"Palladium Oracle Mahad" + 1 Level 8 LIGHT Dragon Normal Monster
+Must first be Fusion Summoned with the above materials. \
 """
 strings = []

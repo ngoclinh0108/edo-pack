@@ -11,7 +11,7 @@ function s.initial_effect(c)
     c:SetSPSummonOnce(id)
 
     -- fusion summon
-    Fusion.AddProcMix(c, true, true, {71703785, 42006475},
+    Fusion.AddProcMix(c, false, false, {71703785, 42006475},
                       aux.FilterBoolFunctionEx(Card.IsRace, RACE_SPELLCASTER))
     Fusion.AddContactProc(c, s.contactfilter, s.contactop, s.splimit, nil, nil,
                           nil, false)
