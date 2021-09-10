@@ -79,9 +79,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c, tp)
-    return not c:IsCode(id) and c:IsPreviousPosition(POS_FACEUP) and
+    return c:IsPreviousControler(tp) and c:IsPreviousPosition(POS_FACEUP) and
                c:IsPreviousLocation(LOCATION_MZONE) and
-               c:IsPreviousControler(tp) and c:IsSetCard(0x13a) and
+               c:IsPreviousSetCard(0x13a) and c:GetPreviousCodeOnField() ~= id and
                (c:IsReason(REASON_BATTLE) or
                    (c:IsReason(REASON_EFFECT) and c:GetReasonPlayer() == 1 - tp))
 end

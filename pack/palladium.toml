@@ -135,10 +135,10 @@ atk = 2300
 def = 2800
 effect = """\
 When an opponent's monster declares a direct attack, \
-    or when your opponent activates a card or effect that would inflict damage (Quick Effect): \
+    or your opponent activates a card or effect that would inflict damage (Quick Effect): \
     You can Special Summon this card from your hand. \
 You take no effect damage. \
-If a face-up "Palladium" monster(s) you control is destroyed by battle or an opponent's card effect, \
+If a "Palladium" monster(s) you control is destroyed by battle or an opponent's card effect, \
     except "Mysterious Palladium Oracle Hassan": \
     You can add this card from your GY to your hand. \
     You can only use this effect of "Mysterious Palladium Oracle Hassan" once per turn. \
