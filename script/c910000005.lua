@@ -5,15 +5,6 @@ local s, id = GetID()
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    c:EnableReviveLimit()
-
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    c:RegisterEffect(splimit)
-
     -- special summon
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -74,7 +65,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
@@ -84,7 +75,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
-    Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
 function s.e3filter(c, tp)

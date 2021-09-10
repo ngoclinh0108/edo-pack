@@ -134,7 +134,6 @@ level = 8
 atk = 2300
 def = 2800
 effect = """\
-Cannot be Normal Summoned/Set. Must be Special Summoned by its own effect. \
 When an opponent's monster declares a direct attack, \
     or when your opponent activates a card or effect that would inflict damage (Quick Effect): \
     You can Special Summon this card from your hand. \
