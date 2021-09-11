@@ -29,12 +29,14 @@ function s.initial_effect(c)
     e2:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
     c:RegisterEffect(e2)
 
-    -- destroy
+    -- send monster to the GY
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DESTROY)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetCode(EVENT_BATTLE_START)
+    e3:SetCategory(CATEGORY_TOGRAVE)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1, id)
+    e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -72,22 +74,53 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local bc = Duel.GetAttackTarget()
+function s.e3filter1(c, tp)
+    return c:IsType(TYPE_MONSTER) and c:IsAbleToGraveAsCost() and
+               Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_DECK, 0, 1,
+                                           nil, c)
+end
+
+function s.e3filter2(c, sc)
+    return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x13a) and
+               not c:IsRace(sc:GetRace()) and c:IsAbleToGrave()
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetAttacker() == c and bc and
-                   bc:IsPosition(POS_FACEDOWN_DEFENSE)
+        return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_HAND, 0, 1,
+                                           nil, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, bc, 1, 0, 0)
+    Duel.DiscardHand(tp, s.e3filter1, 1, 1, REASON_COST + REASON_DISCARD, nil,
+                     tp)
+    e:SetLabelObject(Duel.GetOperatedGroup():GetFirst())
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_DECK)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local bc = Duel.GetAttackTarget()
-    if not bc:IsRelateToBattle() or not bc:IsPosition(POS_FACEDOWN_DEFENSE) then
-        return
-    end
+    local c = e:GetHandler()
 
-    Duel.Destroy(bc, REASON_EFFECT)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+    local tc = Duel.SelectMatchingCard(tp, s.e3filter2, tp, LOCATION_DECK, 0, 1,
+                                       1, nil, e:GetLabelObject()):GetFirst()
+    if not tc then return end
+
+    if Duel.SendtoGrave(tc, REASON_EFFECT) ~= 0 and
+        tc:IsLocation(LOCATION_GRAVE) then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(aux.Stringid(id, 1))
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+        ec1:SetTargetRange(1, 0)
+        ec1:SetLabel(tc:GetCode())
+        ec1:SetTarget(function(e, c) return c:IsCode(e:GetLabel()) end)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
+    end
 end

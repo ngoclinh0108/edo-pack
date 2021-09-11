@@ -119,15 +119,22 @@ def = 2500
 effect = """\
 (This card's Attribute is also LIGHT.)
 Cannot be Normal Summoned/Set. \
-Must first be Special Summoned (from your hand or GY) by banishing 1 other LIGHT and 1 other DARK monster from your GY. \
-Once per turn: You can pay 1000 LP; \
+Must first be Special Summoned (from your hand or GY) by banishing 1 LIGHT and 1 DARK monster from your GY, \
+    except this card. \
+    You can only Special Summon "Chaos Emperor Dragon - Envoy of the Palladium" once per turn this way. \
+You can pay 1000 LP; \
     send all cards your opponent controls to the GY, \
-    then inflict 300 damage to your opponent for each card sent to the opponent's GY by this effect. \
-    You cannot activate other cards or effects and other monsters you control cannot attack the turn you activate this effect. \
+    then inflict 300 damage to your opponent for each card sent to the GY by this effect. \
+    You cannot activate cards or effects and monsters you control cannot attack the turn you activate this effect, \
+    except "Chaos Emperor Dragon - Envoy of the Palladium". \
+If this card in your possession is destroyed: \
+    You can target 1 your banished LIGHT or DARK monster; \
+    add it to your hand. \
+You can only use each effect of "Chaos Emperor Dragon - Envoy of the Palladium" once per turn. \
 """
 strings = [
     "Send card to the GY & inflict damage",
-    "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": cannot activate other cards or effects and other monsters you control cannot attack",
+    "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
 ]
 
 [card.palladium-oracle-seto]
@@ -195,10 +202,14 @@ During the Damage Step, when your "Palladium" monster battles an opponent's mons
     then draw 1 card. \
     You can only use this effect of "Palladium Guardian Shada" once per turn. \
 Once per turn, this card cannot be destroyed by battle. \
-At the start of the Damage Step, if this card attacks a face-down Defense Position monster: \
-    You can destroy that face-down Defense Position monster. \
+You can discard 1 monster; send 1 "Palladium" monster with a different Type from your Deck to the GY, \
+    but for the rest of this turn, you cannot Special Summon monsters with the same name the sent monster had in the GY. \
+    You can only use this effect of "Palladium Guardian Shada" once per turn. \
 """
-strings = ["Destroy battling monster"]
+strings = [
+    "Send 1 \"Palladium\" monster from Deck to GY",
+    "Affected by effect \"Palladium Guardian Shada\": cannot Special Summon monsters with the same name",
+]
 
 [card.palladium-gardna-karim]
 id = 910000009

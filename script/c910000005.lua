@@ -19,6 +19,7 @@ function s.initial_effect(c)
     sp:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     sp:SetCode(EFFECT_SPSUMMON_PROC)
     sp:SetRange(LOCATION_HAND + LOCATION_GRAVE)
+    sp:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     sp:SetCondition(s.spcon)
     sp:SetTarget(s.sptg)
     sp:SetOperation(s.spop)
@@ -30,12 +31,26 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_TOGRAVE + CATEGORY_DAMAGE)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCountLimit(1)
+    e1:SetCountLimit(1, {id, 1})
     e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, aux.FALSE)
+    Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, function(re)
+        return re:GetHandler():IsCode(id)
+    end)
+
+    -- to hand
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TOHAND)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
+    e2:SetCode(EVENT_DESTROYED)
+    e2:SetCountLimit(1, {id, 2})
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.spfilter(c, attr)
@@ -113,7 +128,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
     ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
     ec1:SetTargetRange(1, 0)
-    ec1:SetValue(aux.TRUE)
+    ec1:SetValue(function(e, re) return not re:GetHandler():IsCode(id) end)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
 
@@ -122,8 +137,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     ec2:SetProperty(EFFECT_FLAG_OATH)
     ec2:SetCode(EFFECT_CANNOT_ATTACK)
     ec2:SetTargetRange(LOCATION_MZONE, 0)
-    ec2:SetTarget(function(e, c) return e:GetLabel() ~= c:GetFieldID() end)
-    ec2:SetLabel(c:GetFieldID())
+    ec2:SetTarget(function(e, c) return not c:IsCode(id) end)
     ec2:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec2, tp)
 end
@@ -146,5 +160,38 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if ct > 0 then
         Duel.BreakEffect()
         Duel.Damage(1 - tp, ct * 300, REASON_EFFECT)
+    end
+end
+
+function s.e2filter(c)
+    return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and
+               c:IsAbleToHand()
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsPreviousControler(tp)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingTarget(s.e2filter, tp, LOCATION_REMOVED, 0, 1,
+                                         nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_REMOVED, 0, 1, 1,
+                                nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, #g, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) then return end
+
+    if Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 then
+        Duel.ConfirmCards(1 - tp, tc)
     end
 end
