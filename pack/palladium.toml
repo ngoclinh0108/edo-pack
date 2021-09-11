@@ -440,10 +440,9 @@ If this card is destroyed: You can Special Summon \
 """
 strings = []
 
-[card.chaos-oracles-light-dragoon]
+[card.light-oracle-dragoon]
 id = 910000020
-set = "chaos"
-name = "Chaos Oracles Light Dragoon"
+name = "Light Oracle Dragoon"
 type = "monster fusion effect"
 attribute = "light"
 race = "spellcaster"
@@ -492,6 +491,21 @@ If this card is destroyed: You can shuffle it into the Extra Deck; \
 """
 strings = []
 
+[card.palladium-paladin-of-chaos]
+id = 910000022
+set = "palladium chaos"
+name = "Palladium Paladin of Chaos"
+type = "monster fusion effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 3000
+def = 2500
+effect = """\
+"Palladium Oracle Mahad" + 1 "Chaos" or "Black Luster Soldier" Ritual Monster
+Must first be Fusion Summoned with the above materials. \
+"""
+strings = []
 [card.palladium-summoning-magic]
 id = 910000100
 set = "palladium"
