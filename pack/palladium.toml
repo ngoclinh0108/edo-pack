@@ -284,7 +284,7 @@ If this card is Normal or Special Summoned: \
     You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Queen's Knight". \
     You can only use this effect of "Palladium Knight of Queen" once per turn. \
 A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
-● If this card destroys an opponent's monster by battle: Draw 1 card.
+● If this card destroys an opponent's monster by battle: You can draw 1 card.
 """
 strings = ["Summoned using \"Palladium Knight of Queen\""]
 
