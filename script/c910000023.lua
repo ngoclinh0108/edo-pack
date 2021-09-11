@@ -10,7 +10,7 @@ s.listed_series = {0x45}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- Fusion Materials
+    -- fusion summon
     Fusion.AddProcMix(c, true, true, 71703785,
                       aux.FilterBoolFunctionEx(Card.IsSetCard, 0x45))
 
@@ -25,7 +25,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(splimit)
 
-    -- banish and ATK up
+    -- banish and atk up
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_REMOVE)

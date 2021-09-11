@@ -120,15 +120,14 @@ effect = """\
 (This card's Attribute is also LIGHT.)
 Cannot be Normal Summoned/Set. \
 Must first be Special Summoned (from your hand or GY) by banishing 1 other LIGHT and 1 other DARK monster from your GY. \
-Once per turn: You can send all cards your opponent controls to the GY, \
-    then inflict 500 damage to your opponent for each card sent to the opponent's GY by this effect, \
-    also for the rest of this turn, you cannot activate other cards or effects. \
-    Other monsters cannot attack the turn you activate this effect. \
+Once per turn: You can pay 1000 LP; \
+    send all cards your opponent controls to the GY, \
+    then inflict 300 damage to your opponent for each card sent to the opponent's GY by this effect. \
+    You cannot activate other cards or effects and other monsters you control cannot attack the turn you activate this effect. \
 """
 strings = [
     "Send card to the GY & inflict damage",
-    "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": other monsters cannot attack",
-    "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": cannot activate other cards or effects",
+    "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": cannot activate other cards or effects and other monsters you control cannot attack",
 ]
 
 [card.palladium-oracle-seto]
@@ -554,7 +553,7 @@ This card's effect cannot be negated. \
     Negate its effects. \
     You can only use this effect of "Archfiend Palladium Necromancer" once per turn. \
 """
-strings = ["banish Spells/Traps to gain ATK"]
+strings = ["Banish Spells/Traps to gain ATK"]
 
 [card.palladium-beast-chimera]
 id = 910000024
@@ -577,20 +576,35 @@ If this card is destroyed: You can Special Summon \
 """
 strings = []
 
-# [card.chaos-end-ruler]
-# id = 910000025
-# set = "chaos"
-# name = "Chaos End Ruler - Ruler of the Beginning and the End"
-# type = "monster fusion effect"
-# attribute = "dark"
-# race = "warrior"
-# level = 10
-# atk = 3500
-# def = 2000
-# effect = """\
-# """
-# strings = []
-
+[card.chaos-end-ruler]
+id = 910000025
+set = "chaos"
+name = "Chaos End Ruler - Ruler of the Beginning and the End"
+type = "monster fusion effect"
+attribute = "light"
+race = "warrior"
+rank = 10
+atk = 3500
+def = 2000
+effect = """\
+1 "Chaos" or "Black Luster Soldier" Warrior monster + 1 "Chaos" Dragon monster
+(This card's Attribute is also DARK.)
+Must first be Fusion Summoned with the above materials on the field. \
+This card's activation and effect cannot be negated. \
+Cannot be Tributed, or be used as a material for an Summon by your opponent. \
+Your opponent cannot target or destroy this card with card effects. \
+Gains 100 ATK for each banished cards. \
+Banish any monster destroyed by battle with this card. \
+During your turn (Quick Effect): \
+    You can banish as many cards in your opponent's hands and on their side of the field, \
+    then inflict 500 damage to your opponent for each banished card this effect, \
+    also other monsters you control cannot attack for the rest of this turn. \
+    You can only use this effect of "Chaos End Ruler - Ruler of the Beginning and the End" once per turn. \
+"""
+strings = [
+    "Banish card & inflict damage",
+    "Affected by effect \"Chaos End Ruler - Ruler of the Beginning and the End\": other monsters cannot attack",
+]
 
 [card.palladium-summoning-magic]
 id = 910000100

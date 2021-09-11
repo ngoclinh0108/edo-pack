@@ -10,8 +10,8 @@ s.listed_series = {0xcf}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- Fusion Materials
-    Fusion.AddProcMix(c, true, true, 71703785, function(c, fc, sumtype, tp)
+    -- fusion summon
+    Fusion.AddProcMix(c, false, false, 71703785, function(c, fc, sumtype, tp)
         return c:IsType(TYPE_RITUAL, fc, sumtype, tp) and
                    (c:IsSetCard(0xcf, fc, sumtype, tp) or
                        c:IsSetCard(0x1048, fc, sumtype, tp))

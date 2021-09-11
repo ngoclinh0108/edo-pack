@@ -29,7 +29,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     Divine.RegisterEffect(c, nodis)
     local inact = Effect.CreateEffect(c)
     inact:SetType(EFFECT_TYPE_FIELD)
-    inact:SetCode(EFFECT_CANNOT_INACTIVATE)
+    inact:SetCode(EFFECT_CANNOT_DISEFFECT)
     inact:SetRange(LOCATION_MZONE)
     inact:SetValue(function(e, ct)
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
@@ -37,7 +37,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     end)
     Divine.RegisterEffect(c, inact)
     local inact2 = inact:Clone()
-    inact2:SetCode(EFFECT_CANNOT_DISEFFECT)
+    inact2:SetCode(EFFECT_CANNOT_INACTIVATE)
     c:RegisterEffect(inact2)
     
     -- cannot switch control
