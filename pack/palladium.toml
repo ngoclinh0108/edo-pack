@@ -1,23 +1,3 @@
-[card.palladium-summoning-magic]
-id = 910000000
-set = "palladium"
-name = "Palladium Summoning Magic"
-type = "spell quick-play"
-effect = """\
-(This card's name is also treated as "Polymerization".)
-During your Main Phase or your opponent's turn: Activate 1 of the following effects.
-● Ritual Summon 1 "Palladium" Ritual Monster from your hand or Deck, \
-    by Tributing monsters from your hand or field, \
-    whose total Levels equal or exceed the Level of the Ritual Monster.
-● Fusion Summon 1 Fusion Monster from your Extra Deck, \
-    using monsters from your hand or field as Fusion Material, including a "Palladium" monster, \
-    you can use 1 monster from your Deck as material.
-During your Main Phase, if this card is in your GY: \
-    You can discard 1 Spell; Add this card to your hand. \
-    You can only use this effect of "Palladium Summoning Magic" once per turn. \
-"""
-strings = []
-
 [card.palladium-oracle-mahad]
 id = 910000001
 alias = 71703785
@@ -501,13 +481,34 @@ Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Cannot be destroyed by card effects. Neither player can target this card with card effects. \
 Once per turn: You can destroy all monsters your opponent controls OR all Spell/Trap they control, \
     and if you do, this card gains 500 ATK for each card destroyed by this effect, until the end of this turn. \
-Once per turn, when another card or effect is activated (Quick Effect): You can negate the activation, \
-    and if you do, destroy that card, also if it was a Monster Card, \
-    this card gains ATK equal to that monster's original ATK. \
+Once per turn, when another card or effect is activated (Quick Effect): You can discard 1 card; \
+    negate the activation, and if you do, destroy that card, \
+    also if it was a Monster Card, this card gains ATK equal to that monster's original ATK. \
 """
 strings = [
     "Destroy all monster or Spell/Trap",
     "Destroy all monster",
     "Destroy all Spell/Trap",
-    "Negate activation, then destroy & gain ATK"
+    "Negate activation, then destroy & gain ATK",
 ]
+
+[card.palladium-summoning-magic]
+id = 910000100
+set = "palladium"
+name = "Palladium Summoning Magic"
+type = "spell quick-play"
+effect = """\
+(This card's name is also treated as "Polymerization".)
+You can only activate 1 "Palladium Summoning Magic" once per turn. \
+During your Main Phase or your opponent's turn: Activate 1 of the following effects.
+● Ritual Summon 1 "Palladium" Ritual Monster from your hand or Deck, \
+    by Tributing monsters from your hand or field, \
+    whose total Levels equal or exceed the Level of the Ritual Monster.
+● Fusion Summon 1 Fusion Monster from your Extra Deck, \
+    using monsters from your hand or field as Fusion Material, including a "Palladium" monster, \
+    you can use 1 "Palladium" monster from your Deck as material.
+During your Main Phase, if this card is in your GY: \
+    You can discard 1 Spell; Add this card to your hand. \
+    You can only use this effect of "Palladium Summoning Magic" once per turn. \
+"""
+strings = []

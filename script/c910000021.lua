@@ -10,12 +10,11 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, false, false, 71703785,
-                                  function(c, sc, sumtype, tp)
+    Fusion.AddProcMix(c, false, false, 71703785, function(c, sc, sumtype, tp)
         return c:IsSetCard(0xdd, sc, sumtype, tp) and
                    c:IsType(TYPE_NORMAL, sc, sumtype, tp)
     end)
-    
+
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
@@ -77,6 +76,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1)
     e3:SetCondition(s.e3con)
+    e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -131,6 +131,15 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local rc = re:GetHandler()
     if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
     return rc ~= c and Duel.IsChainNegatable(ev)
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsDiscardable, tp,
+                                           LOCATION_HAND, 0, 1, nil)
+    end
+    
+    Duel.DiscardHand(tp, Card.IsDiscardable, 1, 1, REASON_COST + REASON_DISCARD)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)

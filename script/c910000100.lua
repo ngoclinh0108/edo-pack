@@ -22,6 +22,7 @@ function s.initial_effect(c)
         location = LOCATION_HAND + LOCATION_DECK
     })
     e1:SetDescription(1171)
+    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e1:SetCondition(s.sumcon)
     e1:SetCost(s.sumhint)
     c:RegisterEffect(e1)
@@ -31,8 +32,9 @@ function s.initial_effect(c)
         desc = 1170,
         handler = c,
         extrafil = function(e, tp)
-            local g = Duel.GetMatchingGroup(Card.IsAbleToGrave, tp,
-                                            LOCATION_DECK, 0, nil)
+            local g = Duel.GetMatchingGroup(function(c)
+                return c:IsAbleToGrave() and c:IsSetCard(0x13a)
+            end, tp, LOCATION_DECK, 0, nil)
             local check = function(tp, sg, fc)
                 return sg:IsExists(Card.IsSetCard, 1, nil, 0x13a) and
                            sg:FilterCount(Card.IsLocation, nil, LOCATION_DECK) <=
@@ -42,6 +44,7 @@ function s.initial_effect(c)
         end
     })
     e2:SetDescription(1170)
+    e2:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e2:SetCondition(s.sumcon)
     e2:SetCost(s.sumhint)
     c:RegisterEffect(e2)
@@ -51,7 +54,7 @@ function s.initial_effect(c)
     e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_GRAVE)
-    e3:SetCountLimit(1, id)
+    e3:SetCountLimit(1, {id, 1})
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
