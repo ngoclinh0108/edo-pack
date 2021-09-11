@@ -283,7 +283,7 @@ You can Special Summon this card (from your hand) by revealing 1 other LIGHT War
 If this card is Normal or Special Summoned: \
     You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Queen's Knight". \
     You can only use this effect of "Palladium Knight of Queen" once per turn. \
-A LIGHT Warrior monster that was Fusion Summoned using this card on the field as material gains this effect.
+A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
 ● If this card destroys an opponent's monster by battle: Draw 1 card.
 """
 strings = ["Summoned using \"Palladium Knight of Queen\""]
@@ -306,7 +306,7 @@ If this card is Normal or Special Summoned while you control another Level 4 LIG
     You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
     but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
 You can only use each effect of "Palladium Knight of King" once per turn. \
-A LIGHT Warrior monster that was Fusion Summoned using this card on the field as material gains this effect.
+A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
 ● When this card destroys an opponent's monster by battle: It can make a second attack in a row. \
 """
 strings = [
@@ -334,7 +334,7 @@ If this card is Normal or Special Summoned: \
 Once per turn: \
     You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters you control as Fusion Materials, including this card. \
-A LIGHT Warrior monster that was Fusion Summoned using this card on the field as material gains this effect.
+A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
 ● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
 """
 strings = ["Summoned using \"Palladium Knight of Jack\""]

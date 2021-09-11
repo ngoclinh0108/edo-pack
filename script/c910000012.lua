@@ -110,11 +110,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local p = e:GetHandler()
-    local rc = p:GetReasonCard()
-    return
-        (r & REASON_FUSION) ~= 0 and p:IsPreviousLocation(LOCATION_ONFIELD) and
-            rc:IsAttribute(ATTRIBUTE_LIGHT) and rc:IsRace(RACE_WARRIOR)
+    local c = e:GetHandler()
+    local rc = c:GetReasonCard()
+    return (r & REASON_FUSION) ~= 0 and rc:IsAttribute(ATTRIBUTE_LIGHT) and
+               rc:IsRace(RACE_WARRIOR)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
