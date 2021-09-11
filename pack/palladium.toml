@@ -442,9 +442,10 @@ If this card is destroyed: You can Special Summon \
 """
 strings = []
 
-[card.twilight-oracle-dragoon]
+[card.chaos-eyes-oracle-dragoon]
 id = 910000020
-name = "Twilight Oracle Dragoon"
+set = "chaos"
+name = "Chaos-Eyes Oracle Dragoon"
 type = "monster fusion effect"
 attribute = "light"
 race = "spellcaster"
@@ -452,18 +453,21 @@ level = 9
 atk = 3500
 def = 2500
 effect = """\
-"Palladium Oracle Mahad" + "Blue-Eyes" Normal Monster
+"Palladium Oracle Mahad" + "Blue-Eyes White Dragon" or 1 Dragon Effect Monster
 (This card's Attribute is also DARK.)
 Must first be Fusion Summoned with the above materials. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Cannot be destroyed by card effects. Neither player can target this card with card effects. \
 Once per turn: You can destroy all monsters your opponent controls OR all Spell/Trap they control, \
     and if you do, this card gains 500 ATK for each card destroyed by this effect, until the end of this turn. \
+    If this card was Fusion Summoned using "Blue-Eyes White Dragon" as material, \
+    this effect can be used up to twice per turn. \
 Once per turn, when another card or effect is activated (Quick Effect): You can discard 1 card; \
     negate the activation, and if you do, destroy that card, \
     also if it was a monster, this card gains ATK equal to it's original ATK. \
 """
 strings = [
+    "Summoned using \"Blue-Eyes White Dragon\" as material",
     "Destroy all monster or Spell/Trap",
     "Destroy all monster",
     "Destroy all Spell/Trap",

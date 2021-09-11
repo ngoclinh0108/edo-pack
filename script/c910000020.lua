@@ -2,19 +2,20 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.material = {71703785}
+s.material = {71703785, CARD_BLUEEYES_W_DRAGON}
 s.material_setcode = {0x13a, 0xdd}
-s.listed_names = {71703785}
-s.listed_series = {0xdd}
+s.listed_names = {71703785, CARD_BLUEEYES_W_DRAGON}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, false, false, 71703785, function(c, sc, sumtype, tp)
-        return c:IsSetCard(0xdd, sc, sumtype, tp) and
-                   c:IsType(TYPE_NORMAL, sc, sumtype, tp)
-    end)
+    Fusion.AddProcMix(c, false, false, 71703785, {
+        CARD_BLUEEYES_W_DRAGON, function(c, sc, sumtype, tp)
+            return c:IsRace(RACE_DRAGON, sc, sumtype, tp) and
+                       c:IsType(TYPE_EFFECT, sc, sumtype, tp)
+        end
+    })
 
     -- attribute
     local attribute = Effect.CreateEffect(c)
@@ -66,18 +67,23 @@ function s.initial_effect(c)
 
     -- destroy
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetDescription(aux.Stringid(id, 1))
     e2:SetCategory(CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+    local e2b = Effect.CreateEffect(c)
+    e2b:SetType(EFFECT_TYPE_SINGLE)
+    e2b:SetCode(EFFECT_MATERIAL_CHECK)
+    e2b:SetValue(s.e2matval)
+    c:RegisterEffect(e2b)
 
     -- negate
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 3))
+    e3:SetDescription(aux.Stringid(id, 4))
     e3:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
@@ -91,7 +97,17 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:GetFlagEffect(id) > 0 then
+        return c:GetFlagEffect(id + 100000) < 2
+    else
+        return c:GetFlagEffect(id + 100000) < 1
+    end
+end
+
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then return true end
 
     local ct1 = Duel.GetMatchingGroupCount(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
@@ -102,6 +118,9 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
         local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
         Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, ct1, 0, 0)
     end
+
+    c:RegisterFlagEffect(id + 100000, RESET_EVENT + RESETS_STANDARD +
+                             RESET_PHASE + PHASE_END, 0, 1)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -117,8 +136,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ct = Duel.Destroy(g1, REASON_EFFECT)
     else
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-        local opt = Duel.SelectOption(tp, aux.Stringid(id, 1),
-                                      aux.Stringid(id, 2))
+        local opt = Duel.SelectOption(tp, aux.Stringid(id, 2),
+                                      aux.Stringid(id, 3))
         if opt == 0 then
             ct = Duel.Destroy(g1, REASON_EFFECT)
         else
@@ -133,6 +152,15 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetValue(ct * 500)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
+end
+
+function s.e2matval(e, c)
+    if c:GetMaterial():IsExists(Card.IsCode, 1, nil, CARD_BLUEEYES_W_DRAGON) then
+        c:RegisterFlagEffect(id, RESET_EVENT | RESETS_STANDARD &
+                                 ~(RESET_TOFIELD | RESET_TEMP_REMOVE |
+                                     RESET_LEAVE), EFFECT_FLAG_CLIENT_HINT, 1,
+                             0, aux.Stringid(id, 0))
+    end
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
