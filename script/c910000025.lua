@@ -104,7 +104,7 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_UPDATE_ATTACK)
     e3:SetValue(function(e, c)
         return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_REMOVED,
-                                       LOCATION_REMOVED) * 100
+                                       LOCATION_REMOVED) * 200
     end)
     c:RegisterEffect(e3)
 
