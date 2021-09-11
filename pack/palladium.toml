@@ -465,7 +465,7 @@ Once per turn, during the End Phase, \
     Return it to the hand. \
 "The Winged Dragon of Ra" that Tribute Summoned by Tributing this card \
     gains the following effects, these effects cannot be copied.
-● Once per turn, while this card is non-Fusion Monster: \
+● Once while face-up on the field (Quick Effect): \
     You can pay LP so that you only have 100 left; \
     this card become Fusion Monster and it gains original ATK/DEF become equal to the amount of LP paid, \
     and also, while it is on the field, any increase in LP is changed to increase it's original ATK/DEF instead. \
@@ -479,7 +479,6 @@ strings = [
     "Summon via \"Sun Dragon's Descendant\"",
     "Summoned using \"Sun Dragon's Descendant\"",
     "Life Point Transfer",
-    "De-fuse from Ra",
     "Pay 1000 LP; target & destroy 1 monster on the field",
 ]
 
