@@ -4,7 +4,8 @@ local s, id = GetID()
 
 s.material = {71703785}
 s.material_setcode = {0x13a, 0xdd}
-s.listed_names = {71703785, 0xdd}
+s.listed_names = {71703785}
+s.listed_series = {0xdd}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -146,7 +147,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.IsExistingMatchingCard(Card.IsDiscardable, tp,
                                            LOCATION_HAND, 0, 1, nil)
     end
-    
+
     Duel.DiscardHand(tp, Card.IsDiscardable, 1, 1, REASON_COST + REASON_DISCARD)
 end
 

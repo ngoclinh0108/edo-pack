@@ -523,6 +523,22 @@ strings = [
     "Banish monsters your opponent controls",
 ]
 
+[card.palladium-archfiend]
+id = 910000023
+set = "palladium archfiend"
+name = "Archfiend Palladium Oracle"
+type = "monster fusion effect"
+attribute = "dark"
+race = "spellcaster"
+level = 8
+atk = 2900
+def = 2400
+effect = """\
+"Palladium Oracle Mahad" + 1 "Archfiend" monster
+Must first be Fusion Summoned with the above materials. \
+"""
+strings = []
+
 [card.palladium-summoning-magic]
 id = 910000100
 set = "palladium"
