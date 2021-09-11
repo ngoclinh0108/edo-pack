@@ -10,12 +10,9 @@ function s.initial_effect(c)
 
     -- fusion summon
     local fus = Fusion.AddProcMix(c, false, false, function(c, fc, sumtype, tp)
-        return (c:IsSetCard(0xcf, fc, sumtype, tp) or
-                   c:IsSetCard(0x1048, fc, sumtype, tp)) and
-                   c:IsRace(RACE_WARRIOR, fc, sumtype, tp)
+        return s.fusfilter(c, fc, sumtype, tp, ATTRIBUTE_LIGHT, RACE_WARRIOR)
     end, function(c, fc, sumtype, tp)
-        return c:IsSetCard(0xcf, fc, sumtype, tp) and
-                   c:IsRace(RACE_DRAGON, fc, sumtype, tp)
+        return s.fusfilter(c, fc, sumtype, tp, ATTRIBUTE_DARK, RACE_DRAGON)
     end)
     if not c:IsStatus(STATUS_COPYING_EFFECT) then
         fus[1]:SetValue(function(c, fc, sub, sub2, mg, sg, tp, contact, sumtype)
@@ -130,6 +127,13 @@ function s.initial_effect(c)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
+end
+
+function s.fusfilter(c, fc, sumtype, tp, attr, race)
+    return (c:IsSetCard(0xcf, fc, sumtype, tp) or
+               c:IsSetCard(0x1048, fc, sumtype, tp)) and
+               c:IsAttribute(attr, fc, sumtype, tp) and
+               c:IsRace(race, fc, sumtype, tp)
 end
 
 function s.e5con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end

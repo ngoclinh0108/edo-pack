@@ -587,7 +587,7 @@ rank = 10
 atk = 3500
 def = 2000
 effect = """\
-1 "Chaos" or "Black Luster Soldier" Warrior monster + 1 "Chaos" Dragon monster
+2 Level 8 "Chaos" or "Black Luster Soldier" monsters (1 LIGHT Warrior, 1 DARK Dragon)
 (This card's Attribute is also DARK, and it is also Dragon monster.)
 Must first be Fusion Summoned with the above materials on the field. \
 This card's activation and effect cannot be negated. \
