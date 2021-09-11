@@ -120,11 +120,11 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp, immediately)
     if mc:IsSummonType(SUMMON_TYPE_TRIBUTE) then
         local mg = mc:GetMaterial()
         for mc in aux.Next(mg) do
-            if mc:GetBaseAttack() > 0 then
-                atk = atk + mc:GetBaseAttack()
+            if mc:GetPreviousAttackOnField() > 0 then
+                atk = atk + mc:GetPreviousAttackOnField()
             end
-            if mc:GetBaseDefense() > 0 then
-                def = def + mc:GetBaseDefense()
+            if mc:GetPreviousDefenseOnField() > 0 then
+                def = def + mc:GetPreviousDefenseOnField()
             end
         end
     else

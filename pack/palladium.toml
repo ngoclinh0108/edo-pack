@@ -443,16 +443,29 @@ strings = []
 [card.sun-dragon-descendant]
 id = 910000019
 set = "palladium"
-name = "Sun Dragon's Palladium Descendant"
-type = "monster effect"
+name = "Sun Dragon's Descendant"
+type = "monster spirit effect"
 attribute = "dark"
 race = "psychic"
-level = 4
+level = 5
 atk = 1800
 def = 1500
 effect = """\
+(this card is always treated as an "Archfiend" card.)
+Cannot be Special Summoned. \
+This card's Normal Summon cannot be negated. \
+When Normal Summoned, your opponent cannot activate cards or effects. \
+If this card is Normal Summoned: \
+    You can target up to 2 monsters in either GY; \
+    This card gains ATK equal to the combined original ATK of those monsters until the end of this turn. \
+This card can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster. \
+During your Main Phase, you can Normal Summon 1 Divine-Beast monster in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+Once per turn, during the End Phase, \
+    if this card was Normal Summoned or flipped face-up this turn: \
+    Return it to the hand. \
 """
-strings = []
+strings = ["Summon via \"Sun Dragon's Descendant\""]
 
 [card.chaos-eyes-oracle-dragoon]
 id = 910000020
