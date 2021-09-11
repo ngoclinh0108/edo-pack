@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {CARD_RA}
+
 function s.initial_effect(c)
     -- spirit return
     aux.EnableSpiritReturn(c, EVENT_SUMMON_SUCCESS, EVENT_FLIP)
@@ -57,6 +59,14 @@ function s.initial_effect(c)
     e4:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
     e4:SetTarget(aux.TargetBoolFunction(Card.IsRace, RACE_DIVINE))
     c:RegisterEffect(e4)
+
+    -- gain effect
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e5:SetCode(EVENT_BE_PRE_MATERIAL)
+    e5:SetCondition(s.e5con)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.e2filter(c) return c:GetTextAttack() > 0 end
@@ -89,4 +99,18 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
             c:RegisterEffect(ec1)
         end
     end
+end
+
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+    local rc = e:GetHandler():GetReasonCard()
+    return r == REASON_SUMMON and rc:IsFaceup() and rc:IsCode(CARD_RA)
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local rc = c:GetReasonCard()
+
+    rc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                              PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
+                          aux.Stringid(id, 1))
 end

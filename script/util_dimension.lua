@@ -129,6 +129,15 @@ function Dimension.Change(mc, sc, sumplayer, target_player, pos, mg)
     sc:SetStatus(STATUS_FORM_CHANGED, true)
     Debug.PreSummon(sc, sumtype, sumloc)
     Dimension.ZonesRemoveCard(sc)
+
+    local ec1 = Effect.CreateEffect(sc)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_CONTROL)
+    ec1:SetValue(target_player)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD -
+                     (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
+    sc:RegisterEffect(ec1)
+
     Duel.BreakEffect()
 end
 
@@ -145,6 +154,15 @@ function Dimension.Summon(c, sumplayer, target_player, pos, seq)
 
     c:SetStatus(STATUS_FORM_CHANGED, true)
     Dimension.ZonesRemoveCard(c)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_CONTROL)
+    ec1:SetValue(target_player)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD -
+                     (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
+    c:RegisterEffect(ec1)
+
     Duel.BreakEffect()
     return true
 end

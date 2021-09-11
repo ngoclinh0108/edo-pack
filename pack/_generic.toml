@@ -91,7 +91,8 @@ atk = "?"
 def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
-After "The Winged Dragon of Ra" is Normal Summoned, \
+If your opponent Normal Summon your "The Winged Dragon of Ra" to theirs field, \
+    and they do not own any "The Winged Dragon of Ra - Sphere Mode", \
     Dimension Change it to this card in the same battle position and Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
 This card is also Machine-Type while on the field. \
@@ -99,12 +100,12 @@ Cannot attack. \
 Neither player can target this card for attacks or by card effects, \
     but does not prevent your opponent from attacking you directly. \
 Once per turn: The original owner of this card can send this card to the Dimension Zone; \
-    Dimension Summon the Dimension Material Monster (it's Divine Hierarchy is the same as with this card's) \
-    then it gains the following effects effects. \
-    If you just Dimension Changed this card, you can immediately used this effect with the same battle position. \
-    Cards and effects cannot be activated in response to this effect's activation.
-● The original ATK/DEF of this card become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, \
-    or its become 4000/4000.
+    Dimension Summon the Dimension Material Monster (it's Divine Hierarchy is the same as with this card's), \
+    its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, or 4000/4000, \
+    also it is unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+    Cards and effects cannot be activated in response to this effect's activation. \
+If you Normal Summon "The Winged Dragon of Ra", it gains the following effects.
+● This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 """
 strings = ["Turn back to Normal Form", "Unstoppable Attack"]
@@ -133,7 +134,7 @@ During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in same battle position \
     (it's Divine Hierarchy is the same as with this card's, transfer materials to it), \
     if you don't, send it to the GY. \
-After "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
+If you Special Summon "The Winged Dragon of Ra" from the GY, \
     you can Dimension Change it to this card in the same battle position and Divine Hierarchy, \
     or can pay LP so that you only have 100 left; it gains the following effects until the end of this turn.
 ● This card become Fusion Monster and its original ATK/DEF become equal to the amount of LP paid, \

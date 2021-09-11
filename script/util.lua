@@ -165,6 +165,13 @@ function Utility.SelectMatchingCard(sel_player, f, player, s, o, min, max, ex, .
                                sel_player, min, max, ex)
 end
 
+function Utility.IsOwnAny(f, player, ...)
+    local g = Duel.GetMatchingGroup(f, player, LOCATION_ALL, LOCATION_ALL, nil,
+                                    ...)
+    g:Merge(Dimension.Zones(player))
+    return g:IsExists(function(c) return c:GetOwner() == player end, 1, nil)
+end
+
 function Utility.GainInfinityAtk(c, reset)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
