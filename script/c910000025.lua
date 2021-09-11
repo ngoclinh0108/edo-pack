@@ -145,7 +145,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local dc = g:FilterCount(Card.IsAbleToRemove, nil, 1 - tp)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, dc * 500)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, dc * 300)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
@@ -157,7 +157,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
                                                    LOCATION_REMOVED)
     if ct > 0 then
         Duel.BreakEffect()
-        Duel.Damage(1 - tp, ct * 500, REASON_EFFECT)
+        Duel.Damage(1 - tp, ct * 300, REASON_EFFECT)
     end
 
     local ec0 = Effect.CreateEffect(c)
