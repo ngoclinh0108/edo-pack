@@ -1,4 +1,4 @@
--- Chaos Palladium Paladin
+-- Palladium Master of Chaos
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

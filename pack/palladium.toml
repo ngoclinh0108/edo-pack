@@ -330,10 +330,9 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 """
 strings = ["Summoned using \"Palladium Knight of Jack\""]
 
-[card.palladium-paladin-ace-joker]
+[card.arcana-paladin-joker]
 id = 910000014
-set = "palladium"
-name = "Arcana Palladium Joker"
+name = "Arcana Paladin Joker"
 type = "fusion monster effect"
 attribute = "light"
 race = "warrior"
@@ -513,10 +512,10 @@ If this card is destroyed: You can shuffle it into the Extra Deck; \
 """
 strings = []
 
-[card.chaos-palladium-paladin]
+[card.palladium-master-chaos]
 id = 910000022
-set = "chaos palladium prophecy"
-name = "Chaos Palladium Paladin"
+set = "palladium chaos"
+name = "Palladium Master of Chaos"
 type = "monster fusion effect"
 attribute = "light"
 race = "spellcaster"
@@ -530,10 +529,10 @@ Must first be Fusion Summoned with the above materials. \
 If this card is Fusion Summoned: \
     You can add 1 card in your GY to your hand. \
 You can Special Summon 1 LIGHT or DARK monster that is banished or is in your GY, \
-    except "Chaos Palladium Paladin". \
+    except "Palladium Master of Chaos". \
 (Quick Effect): You can Tribute 1 LIGHT and 1 DARK monster; \
     banish all monsters your opponent controls. \
-You can only use each effect of "Chaos Palladium Paladin" once per turn. \
+You can only use each effect of "Palladium Master of Chaos" once per turn. \
 """
 strings = [
     "Add 1 card to your hand",

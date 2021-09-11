@@ -1,4 +1,4 @@
--- Arcana Palladium Joker
+-- Arcana Paladin Joker
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
