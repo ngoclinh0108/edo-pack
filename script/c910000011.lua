@@ -46,10 +46,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and
-               not c:IsPublic()
-end
+function s.e1filter(c) return c:IsRace(RACE_WARRIOR) and not c:IsPublic() end
 
 function s.e1con(e, c)
     if c == nil then return true end

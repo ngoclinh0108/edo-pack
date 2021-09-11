@@ -49,8 +49,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_LIGHT) and
-               c:IsRace(RACE_WARRIOR) and not c:IsCode(64788463)
+    return c:IsFaceup() and c:IsRace(RACE_WARRIOR) and not c:IsCode(64788463)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)

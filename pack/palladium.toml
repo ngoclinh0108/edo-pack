@@ -275,7 +275,7 @@ atk = 1500
 def = 1600
 effect = """\
 (This card's name is also treated as "Queen's Knight".)
-You can Special Summon this card (from your hand) by revealing 1 other LIGHT Warrior monster in your hand. \
+You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
     You can only Special Summon "Palladium Knight of Queen" once per turn this way. \
 If this card is Normal or Special Summoned: \
     You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Queen's Knight". \
@@ -297,7 +297,7 @@ atk = 1600
 def = 1400
 effect = """\
 (This card's name is also treated as "King's Knight".)
-During the Main Phase, if you control a LIGHT Warrior monster other than "King's Knight" (Quick Effect): \
+During the Main Phase, if you control a Warrior monster other than "King's Knight" (Quick Effect): \
     You can Special Summon this card from your hand. \
 If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
     You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
@@ -437,6 +437,20 @@ You can discard this card; \
 When this card destroys an opponent's monster by battle: \
     Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
 When you Fusion Summon a "Palladium" monster, you can banish this card from your GY as 1 of materials. \
+"""
+strings = []
+
+[card.sun-dragon-descendant]
+id = 910000019
+set = "palladium"
+name = "Sun Dragon's Palladium Descendant"
+type = "monster effect"
+attribute = "dark"
+race = "psychic"
+level = 4
+atk = 1800
+def = 1500
+effect = """\
 """
 strings = []
 
