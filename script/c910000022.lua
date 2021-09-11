@@ -85,18 +85,19 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                      nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
-    local g = Duel.SelectTarget(tp, aux.NecroValleyFilter(s.e1filter), tp,
-                                LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil)
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_GRAVE + LOCATION_REMOVED)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
-    
-    Duel.SendtoHand(tc, nil, REASON_EFFECT)
-    Duel.ConfirmCards(1 - tp, tc)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
+    local g = Duel.SelectTarget(tp, aux.NecroValleyFilter(s.e1filter), tp,
+                                LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil)
+
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
 end
 
 function s.e2filter(c, e, tp)
