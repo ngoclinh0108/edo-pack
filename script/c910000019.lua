@@ -141,12 +141,13 @@ function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
     rc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD,
                           EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 1))
 
-    -- life point transfer
+    -- life point transfer: pay lp
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(aux.Stringid(id, 2))
     ec1:SetType(EFFECT_TYPE_IGNITION)
     ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE)
     ec1:SetRange(LOCATION_MZONE)
+    ec1:SetCountLimit(1)
     ec1:SetCost(s.e5lpcost)
     ec1:SetTarget(s.e5lptg)
     ec1:SetOperation(s.e5lpop)
@@ -161,7 +162,7 @@ function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetCondition(function(e) return e:GetHandler():IsHasEffect(id) end)
     ec2:SetValue(TYPE_FUSION)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-    c:RegisterEffect(ec2)
+    rc:RegisterEffect(ec2)
 
     -- life point transfer: base atk/def
     local ec3 = Effect.CreateEffect(c)
@@ -169,14 +170,17 @@ function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE)
     ec3:SetCode(EFFECT_SET_BASE_ATTACK)
     ec3:SetCondition(function(e) return e:GetHandler():IsHasEffect(id) end)
-    ec3:SetValue(c:GetBaseAttack() + e:GetHandler():GetCardEffect(id):GetLabel())
+    ec3:SetValue(function(e)
+        return e:GetHandler():GetCardEffect(id):GetLabelObject()[1]
+    end)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
-    c:RegisterEffect(ec3)
+    rc:RegisterEffect(ec3)
     local ec3b = ec3:Clone()
     ec3b:SetCode(EFFECT_SET_BASE_DEFENSE)
-    ec3b:SetValue(c:GetBaseDefense() +
-                      e:GetHandler():GetCardEffect(id):GetLabel())
-    c:RegisterEffect(ec3b)
+    ec3b:SetValue(function(e)
+        return e:GetHandler():GetCardEffect(id):GetLabelObject()[2]
+    end)
+    rc:RegisterEffect(ec3b)
 
     -- life point transfer: watch
     local ec4 = Effect.CreateEffect(c)
@@ -185,30 +189,9 @@ function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
     ec4:SetCode(EVENT_RECOVER)
     ec4:SetRange(LOCATION_MZONE)
     ec4:SetCondition(function(e, tp, eg, ep) return ep == tp end)
-    ec4:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        if not c:IsLocation(LOCATION_MZONE) or c:IsFacedown() or
-            not c:IsHasEffect(id) then return end
-
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE)
-        ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-        ec1:SetCondition(function(e)
-            return e:GetHandler():IsHasEffect(id)
-        end)
-        ec1:SetValue(c:GetBaseAttack() + ev)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        c:RegisterEffect(ec1)
-        local ec1b = ec1:Clone()
-        ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
-        ec1b:SetValue(c:GetBaseDefense() + ev)
-        c:RegisterEffect(ec1b)
-
-        Duel.SetLP(tp, Duel.GetLP(tp) - ev, REASON_EFFECT)
-    end)
+    ec4:SetOperation(s.e5lpwatchop)
     ec4:SetReset(RESET_EVENT + RESETS_STANDARD)
-    c:RegisterEffect(ec4)
+    rc:RegisterEffect(ec4)
 
     -- destroy
     local ec5 = Effect.CreateEffect(c)
@@ -222,7 +205,7 @@ function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
     ec5:SetTarget(s.e5destg)
     ec5:SetOperation(s.e5desop)
     ec5:SetReset(RESET_EVENT + RESETS_STANDARD)
-    rc:RegisterEffect(ec4)
+    rc:RegisterEffect(ec5)
 end
 
 function s.e5lpcost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -236,6 +219,7 @@ end
 function s.e5lptg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return not c:IsType(TYPE_FUSION) end
+
     Duel.SetChainLimit(aux.FALSE)
 end
 
@@ -243,15 +227,33 @@ function s.e5lpop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
+    local label = {
+        c:GetBaseAttack() + e:GetLabel(), c:GetBaseDefense() + e:GetLabel()
+    }
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(aux.Stringid(id, 2))
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE +
                         EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(id)
-    ec1:SetLabel(e:GetLabel())
+    ec1:SetLabelObject(label)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
+end
+
+function s.e5lpwatchop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsLocation(LOCATION_MZONE) or c:IsFacedown() or
+        not c:IsHasEffect(id) then return end
+
+    local eff = c:GetCardEffect(id)
+    local label = eff:GetLabelObject()
+    label[1] = label[1] + ev
+    label[2] = label[2] + ev
+    eff:SetLabelObject(label)
+    
+    Duel.SetLP(tp, Duel.GetLP(tp) - ev, REASON_EFFECT)
 end
 
 function s.e5defusefilter(c)
@@ -280,22 +282,24 @@ function s.e5defuseop(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local preatk = tc:GetAttack()
-
+    local atk = tc:GetAttack()
     tc:GetCardEffect(id):Reset()
+    tc:GetCardEffect(EFFECT_SET_BASE_ATTACK):Reset()
+    tc:GetCardEffect(EFFECT_SET_BASE_DEFENSE):Reset()
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE)
     ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
     ec1:SetValue(0)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    Divine.RegisterEffect(tc, ec1, true)
+    tc:RegisterEffect(ec1)
     local ec1b = ec1:Clone()
     ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-    Divine.RegisterEffect(tc, ec1b, true)
+    tc:RegisterEffect(ec1b)
     Duel.AdjustInstantly(tc)
 
-    Duel.Recover(tc:GetControler(), preatk - tc:GetAttack(), REASON_EFFECT)
+    Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
 end
 
 function s.e5descost(e, tp, eg, ep, ev, re, r, rp, chk)

@@ -347,18 +347,10 @@ function s.e7lpop(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsLocation(LOCATION_MZONE) or c:IsFacedown() or
         not c:IsHasEffect(id) then return end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-    ec1:SetCondition(function(e) return e:GetHandler():IsHasEffect(id) end)
-    ec1:SetValue(c:GetBaseAttack() + ev)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    Divine.RegisterEffect(c, ec1, true)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
-    ec1b:SetValue(c:GetBaseDefense() + ev)
-    Divine.RegisterEffect(c, ec1b, true)
+    local eff = c:GetCardEffect(id)
+    local label = eff:GetLabel()
+    label = label + ev
+    eff:SetLabel(label)
 
     Duel.SetLP(tp, Duel.GetLP(tp) - ev, REASON_EFFECT)
 end
@@ -424,20 +416,22 @@ function s.e7defuseop(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local preatk = tc:GetAttack()
-
+    local atk = tc:GetAttack()
     tc:GetCardEffect(id):Reset()
+    tc:GetCardEffect(EFFECT_SET_BASE_ATTACK):Reset()
+    tc:GetCardEffect(EFFECT_SET_BASE_DEFENSE):Reset()
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE)
     ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
     ec1:SetValue(0)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    Divine.RegisterEffect(tc, ec1, true)
+    tc:RegisterEffect(ec1)
     local ec1b = ec1:Clone()
     ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-    Divine.RegisterEffect(tc, ec1b, true)
+    tc:RegisterEffect(ec1b)
     Duel.AdjustInstantly(tc)
 
-    Duel.Recover(tc:GetControler(), preatk - tc:GetAttack(), REASON_EFFECT)
+    Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
 end
