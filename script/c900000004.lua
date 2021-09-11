@@ -112,7 +112,6 @@ function s.dms2op(e, tp, eg, ep, ev, re, r, rp)
                                           0, 1, 1, nil, true):GetFirst()
     if not mc then return end
     mc:ResetFlagEffect(id)
-    Utility.HintCard(mc)
 
     -- calculate atk/def
     local atk = 0
