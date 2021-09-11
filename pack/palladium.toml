@@ -495,10 +495,10 @@ If this card is destroyed: You can shuffle it into the Extra Deck; \
 """
 strings = []
 
-[card.palladium-paladin-of-chaos]
+[card.chaos-palladium-paladin]
 id = 910000022
-set = "palladium prophecy chaos"
-name = "Palladium Paladin of Chaos"
+set = "chaos palladium prophecy"
+name = "Chaos Palladium Paladin"
 type = "monster fusion effect"
 attribute = "light"
 race = "spellcaster"
@@ -512,10 +512,10 @@ Must first be Fusion Summoned with the above materials. \
 If this card is Fusion Summoned: \
     You can add 1 card in your GY to your hand. \
 You can Special Summon 1 LIGHT or DARK monster that is banished or is in your GY, \
-    except "Palladium Paladin of Chaos". \
+    except "Chaos Palladium Paladin". \
 (Quick Effect): You can Tribute 1 LIGHT and 1 DARK monster; \
     banish all monsters your opponent controls. \
-You can only use each effect of "Palladium Paladin of Chaos" once per turn. \
+You can only use each effect of "Chaos Palladium Paladin" once per turn. \
 """
 strings = [
     "Add 1 card to your hand",
