@@ -451,7 +451,7 @@ level = 5
 atk = 1800
 def = 1500
 effect = """\
-(this card is always treated as an "Archfiend" card.)
+(this card is always treated as an "Palladium" card.)
 This card's Normal Summon cannot be negated. \
 When Normal Summoned, your opponent cannot activate cards or effects. \
 If this card is Normal Summoned: \
