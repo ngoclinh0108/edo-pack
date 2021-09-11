@@ -53,7 +53,7 @@ function s.initial_effect(c)
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetRange(LOCATION_GRAVE)
+    e3:SetRange(LOCATION_GRAVE + LOCATION_REMOVED)
     e3:SetCountLimit(1, {id, 1})
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
@@ -83,7 +83,7 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return c:IsAbleToHand() end
+    if chk == 0 then return c:IsFaceup() and c:IsAbleToHand() end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
 end
 
