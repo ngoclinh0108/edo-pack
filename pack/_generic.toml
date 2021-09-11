@@ -136,16 +136,16 @@ During the End Phase, \
     if you don't, send it to the GY. \
 If you Special Summon "The Winged Dragon of Ra" from the GY, \
     you can Dimension Change it to this card in the same battle position and Divine Hierarchy, \
-    or can pay LP so that you only have 100 left; it gains the following effects until the end of this turn.
+    or can pay LP so that you only have 100 left; it gains the following effects.
 ● This card become Fusion Monster and its original ATK/DEF become equal to the amount of LP paid, \
     and also, while it is on the field, any increase in LP is changed to increase it's original ATK/DEF instead.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
-● Once per turn (Quick Effect): You can Tribute any number of other monsters that did not declare an attack this turn; \
+● Once per turn (Quick Effect): You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined ATK, until the end of this turn.
 ● After damage calculation, if this card attacked, send all monsters your opponent controls to the GY.
-● If "De-Fusion" targets this card, apply \
+● If "De-Fusion" targets this Fusion Monster, apply \
     "that target loses its above effects and its ATK/DEF become 0, \
-    and if you do, its controller gains LP equal to that lost ATK" instead of. \
+    and if you do, its controller gains LP equal to that lost ATK" instead of.
 """
 strings = [
     "Do nothing",
