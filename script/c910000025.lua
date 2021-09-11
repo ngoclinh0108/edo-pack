@@ -108,25 +108,32 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e3)
 
-    -- battle banish
+    -- extra attack
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE)
-    e4:SetCode(EFFECT_BATTLE_DESTROY_REDIRECT)
-    e4:SetValue(LOCATION_REMOVED)
+    e4:SetCode(EFFECT_EXTRA_ATTACK)
+    e4:SetValue(1)
     c:RegisterEffect(e4)
 
-    -- banish & damage
+    -- battle banish
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 0))
-    e5:SetCategory(CATEGORY_REMOVE + CATEGORY_DAMAGE)
-    e5:SetType(EFFECT_TYPE_QUICK_O)
-    e5:SetCode(EVENT_FREE_CHAIN)
-    e5:SetRange(LOCATION_MZONE)
-    e5:SetCountLimit(1, id)
-    e5:SetCondition(s.e5con)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
+    e5:SetType(EFFECT_TYPE_SINGLE)
+    e5:SetCode(EFFECT_BATTLE_DESTROY_REDIRECT)
+    e5:SetValue(LOCATION_REMOVED)
     c:RegisterEffect(e5)
+
+    -- banish & damage
+    local e6 = Effect.CreateEffect(c)
+    e6:SetDescription(aux.Stringid(id, 0))
+    e6:SetCategory(CATEGORY_REMOVE + CATEGORY_DAMAGE)
+    e6:SetType(EFFECT_TYPE_QUICK_O)
+    e6:SetCode(EVENT_FREE_CHAIN)
+    e6:SetRange(LOCATION_MZONE)
+    e6:SetCountLimit(1, id)
+    e6:SetCondition(s.e6con)
+    e6:SetTarget(s.e6tg)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
 function s.fusfilter(c, fc, sumtype, tp, attr, race)
@@ -136,9 +143,9 @@ function s.fusfilter(c, fc, sumtype, tp, attr, race)
                c:IsRace(race, fc, sumtype, tp)
 end
 
-function s.e5con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end
+function s.e6con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_ONFIELD
     local g = Duel.GetFieldGroup(tp, 0, loc)
     if chk == 0 then return #g > 0 end
@@ -148,7 +155,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, dc * 300)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_HAND + LOCATION_ONFIELD)
     Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
