@@ -526,7 +526,7 @@ strings = [
 [card.palladium-archfiend]
 id = 910000023
 set = "palladium archfiend"
-name = "Archfiend Palladium Oracle"
+name = "Archfiend Palladium Necromancer"
 type = "monster fusion effect"
 attribute = "dark"
 race = "spellcaster"
@@ -536,8 +536,17 @@ def = 2400
 effect = """\
 "Palladium Oracle Mahad" + 1 "Archfiend" monster
 Must first be Fusion Summoned with the above materials. \
+If this card is Special Summoned: \
+    You can target any number of Spells/Traps in any GY(s); \
+    banish those targets, and if you do, \
+    this card gains 100 ATK for each card banished by this effect. \
+This card's effect cannot be negated. \
+(Quick Effect): You can send 1 other card you control or in your hand, \
+    then target 1 face-up card your opponent controls; \
+    Negate its effects. \
+    You can only use this effect of "Archfiend Palladium Necromancer" once per turn. \
 """
-strings = []
+strings = ["banish Spells/Traps to gain ATK"]
 
 [card.palladium-summoning-magic]
 id = 910000100

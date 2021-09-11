@@ -23,6 +23,10 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     end
 
     -- activation and effects cannot be negated
+    local nodis = Effect.CreateEffect(c)
+    nodis:SetType(EFFECT_TYPE_SINGLE)
+    nodis:SetCode(EFFECT_CANNOT_DISABLE)
+    Divine.RegisterEffect(c, nodis)
     local inact = Effect.CreateEffect(c)
     inact:SetType(EFFECT_TYPE_FIELD)
     inact:SetCode(EFFECT_CANNOT_INACTIVATE)
@@ -35,13 +39,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     local inact2 = inact:Clone()
     inact2:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(inact2)
-    local nodis = Effect.CreateEffect(c)
-    nodis:SetType(EFFECT_TYPE_SINGLE)
-    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    nodis:SetCode(EFFECT_CANNOT_DISABLE)
-    nodis:SetRange(LOCATION_MZONE)
-    Divine.RegisterEffect(c, nodis)
-
+    
     -- cannot switch control
     local noswitch = Effect.CreateEffect(c)
     noswitch:SetType(EFFECT_TYPE_SINGLE)
