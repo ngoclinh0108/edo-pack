@@ -464,7 +464,7 @@ Once per turn: You can destroy all monsters your opponent controls OR all Spell/
     this effect can be used up to twice per turn. \
 Once per turn, when another card or effect is activated (Quick Effect): You can discard 1 card; \
     negate the activation, and if you do, destroy that card, \
-    also if it was a monster, this card gains ATK equal to it's original ATK. \
+    also if it was a monster, this card gains ATK equal to that monster's original ATK. \
 """
 strings = [
     "Summoned using \"Blue-Eyes White Dragon\" as material",
