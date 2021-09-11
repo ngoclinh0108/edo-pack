@@ -148,8 +148,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                          0, 1, 1, nil)
     if #g == 0 then return end
 
-    local r = aux.ToHandOrElse(g, tp, function(c)
+    aux.ToHandOrElse(g, tp, function(c)
         return c:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
     end, function(g) Duel.SSet(tp, g) end, HINTMSG_SET)
-    Debug.Message(r)
 end
