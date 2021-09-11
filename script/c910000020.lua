@@ -15,6 +15,14 @@ function s.initial_effect(c)
                    c:IsType(TYPE_NORMAL, sc, sumtype, tp)
     end)
 
+    -- attribute
+    local attribute = Effect.CreateEffect(c)
+    attribute:SetType(EFFECT_TYPE_SINGLE)
+    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
+    attribute:SetValue(ATTRIBUTE_DARK)
+    c:RegisterEffect(attribute)
+
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)

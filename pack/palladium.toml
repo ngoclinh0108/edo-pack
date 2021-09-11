@@ -453,6 +453,7 @@ atk = 3500
 def = 2500
 effect = """\
 "Palladium Oracle Mahad" + "Blue-Eyes" Normal Monster
+(This card's Attribute is also DARK.)
 Must first be Fusion Summoned with the above materials. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Cannot be destroyed by card effects. Neither player can target this card with card effects. \
