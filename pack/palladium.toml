@@ -386,7 +386,7 @@ id = 910000017
 set = "palladium"
 name = "Palladium Beast Gazelle"
 type = "monster effect"
-attribute = "light"
+attribute = "dark"
 race = "beast"
 level = 4
 atk = 1500
@@ -426,7 +426,7 @@ id = 910000019
 set = "palladium"
 name = "Palladium Beast Chimera"
 type = "monster fusion effect"
-attribute = "light"
+attribute = "dark"
 race = "beast"
 level = 6
 atk = 2100
@@ -509,12 +509,17 @@ effect = """\
 "Palladium Oracle Mahad" + 1 "Chaos" or "Black Luster Soldier" Ritual Monster
 (This card's Attribute is also DARK.)
 Must first be Fusion Summoned with the above materials. \
-Once per turn: You can Special Summon 1 LIGHT or DARK monster in your GY, \
+If this card is Fusion Summoned: \
+    You can target 1 card that is banished face-up or is in your GY; \
+    add it to your hand. \
+You can Special Summon 1 LIGHT or DARK monster that is banished or is in your GY, \
     except "Palladium Paladin of Chaos". \
 (Quick Effect): You can Tribute 1 LIGHT and 1 DARK monster; \
     banish all monsters your opponent controls. \
+You can only use each effect of "Palladium Paladin of Chaos" once per turn. \
 """
 strings = [
+    "Add 1 card to your hand",
     "Special Summon 1 LIGHT or DARK monster",
     "Banish monsters your opponent controls",
 ]
