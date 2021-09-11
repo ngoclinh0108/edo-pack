@@ -244,18 +244,24 @@ level = 4
 atk = 800
 def = 2000
 effect = """\
-After you Normal or Flip Summon this card, change it to Defense Position, \
-    also you can Normal Summon 1 "Palladium" monster during your Main Phase this turn, \
-    in addition to your Normal Summon/Set. (You can only gain this effect once per turn). \
 When your opponent activates a card or effect \
     in response to your "Palladium" monster's effect activation (Quick Effect): \
     You can Tribute this card from your hand or face-up field; \
     negate that effect. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
-    You can only use this effect of "Palladium Maiden Isis" once per turn. \
-If this card is Tributed: Gain 1000 LP. \
+During your Main Phase: \
+    You can change this card from face-up Attack Position to face-up Defense Position; \
+    Immediately after this effect resolves, Normal Summon 1 "Palladium" monster, \
+    also you cannot Special Summon monsters for the rest of this turn, \
+    except "Palladium" monsters (even if this card leaves the field). \
+While this card is in your GY, if the effect activation of a "Palladium" monster you control is negated: \
+    You can add this card to your hand. \
+You can only use each effect of "Palladium Maiden Isis" once per turn. \
 """
-strings = ["Normal Summon via \"Palladium Maiden Isis\""]
+strings = [
+    "Normal Summon a \"Palladium\" monster",
+    "Affected by effect \"Palladium Maiden Isis\": cannot Special Summon monsters, except \"Palladium\" monsters",
+]
 
 [card.palladium-knight-queen]
 id = 910000011
