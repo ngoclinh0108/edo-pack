@@ -536,7 +536,7 @@ level = 8
 atk = 2900
 def = 2400
 effect = """\
-"Palladium Oracle Mahad" + 1 "Archfiend" monster
+"Palladium Oracle Mahad" + 1 DARK Fiend monster
 Must first be Fusion Summoned with the above materials. \
 If this card is Special Summoned: \
     You can target any number of Spells/Traps in any GY(s); \

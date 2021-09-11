@@ -3,16 +3,17 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.material = {71703785}
-s.material_setcode = {0x13a, 0x45}
+s.material_setcode = {0x13a}
 s.listed_names = {71703785}
-s.listed_series = {0x45}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, true, true, 71703785,
-                      aux.FilterBoolFunctionEx(Card.IsSetCard, 0x45))
+    Fusion.AddProcMix(c, true, true, 71703785, function(c, fc, sumtype, tp)
+        return c:IsAttribute(ATTRIBUTE_DARK, fc, sumtype, tp) and
+                   c:IsRace(RACE_FIEND, fc, sumtype, tp)
+    end)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
