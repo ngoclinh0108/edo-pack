@@ -34,6 +34,12 @@ function s.initial_effect(c)
     attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
     attribute:SetValue(ATTRIBUTE_DARK)
     c:RegisterEffect(attribute)
+    local race = Effect.CreateEffect(c)
+    race:SetType(EFFECT_TYPE_SINGLE)
+    race:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    race:SetCode(EFFECT_ADD_RACE)
+    race:SetValue(RACE_DRAGON)
+    c:RegisterEffect(race)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -139,9 +145,9 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local c=e:GetHandler()
-    local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
-    Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
+    local c = e:GetHandler()
+    local g = Duel.GetFieldGroup(tp, 0, LOCATION_HAND + LOCATION_ONFIELD)
+    Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
 
     local ct = Duel.GetOperatedGroup():FilterCount(Card.IsLocation, nil,
                                                    LOCATION_REMOVED)

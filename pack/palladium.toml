@@ -588,7 +588,7 @@ atk = 3500
 def = 2000
 effect = """\
 1 "Chaos" or "Black Luster Soldier" Warrior monster + 1 "Chaos" Dragon monster
-(This card's Attribute is also DARK.)
+(This card's Attribute is also DARK, and it is also Dragon monster.)
 Must first be Fusion Summoned with the above materials on the field. \
 This card's activation and effect cannot be negated. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
@@ -596,7 +596,7 @@ Your opponent cannot target or destroy this card with card effects. \
 Gains 100 ATK for each banished cards. \
 Banish any monster destroyed by battle with this card. \
 During your turn (Quick Effect): \
-    You can banish as many cards in your opponent's hands and on their side of the field, \
+    You can banish as many cards in your opponent's hands and on their side of the field face-down, \
     then inflict 500 damage to your opponent for each banished card this effect, \
     also other monsters you control cannot attack for the rest of this turn. \
     You can only use this effect of "Chaos End Ruler - Ruler of the Beginning and the End" once per turn. \
