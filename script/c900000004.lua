@@ -72,15 +72,15 @@ function s.initial_effect(c)
     Divine.RegisterEffect(c, e4)
 end
 
-function s.dms1filter(c, tp)
+function s.dms1filter(c, tp, rp)
     return Dimension.CanBeDimensionMaterial(c) and c:IsCode(CARD_RA) and
-               c:GetOwner() == tp and c:IsControler(1 - tp) and
-               not Utility.IsOwnAny(Card.IsCode, 1 - tp, 10000080)
+               c:GetOwner() == tp and tp ~= rp and
+               not Utility.IsOwnAny(Card.IsCode, rp, 10000080)
 end
 
 function s.dms1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local mc = eg:Filter(s.dms1filter, nil, c:GetOwner()):GetFirst()
+    local mc = eg:Filter(s.dms1filter, nil, c:GetOwner(), rp):GetFirst()
     if not mc then return end
     if not Dimension.CanBeDimensionChanged(c) then return end
 

@@ -110,7 +110,35 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
 
-    rc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                              PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
-                          aux.Stringid(id, 1))
+    rc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD,
+                          EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 1))
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 2))
+    ec1:SetCategory(CATEGORY_DESTROY)
+    ec1:SetType(EFFECT_TYPE_IGNITION)
+    ec1:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_UNCOPYABLE)
+    ec1:SetRange(LOCATION_MZONE)
+    ec1:SetCost(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then return Duel.CheckLPCost(tp, 1000) end
+        Duel.PayLPCost(tp, 1000)
+    end)
+    ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then
+            return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_MZONE,
+                                         LOCATION_MZONE, 1, nil)
+        end
+
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
+        local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_MZONE,
+                                    LOCATION_MZONE, 1, 1, nil)
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+    end)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local tc = Duel.GetFirstTarget()
+        if not tc or not tc:IsRelateToEffect(e) then return end
+        Duel.Destroy(tc, REASON_EFFECT)
+    end)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(ec1)
 end

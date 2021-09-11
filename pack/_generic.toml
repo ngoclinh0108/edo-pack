@@ -92,7 +92,7 @@ def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
 If your opponent Normal Summon your "The Winged Dragon of Ra" to theirs field, \
-    and they do not own any "The Winged Dragon of Ra - Sphere Mode", \
+    and they do not own "The Winged Dragon of Ra - Sphere Mode", \
     Dimension Change it to this card in the same battle position and Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
 This card is also Machine-Type while on the field. \
@@ -112,7 +112,7 @@ strings = ["Turn back to Normal Form", "Unstoppable Attack"]
 
 [card.ra-phoenix]
 id = 900000005
-alias = 10000080
+alias = 10000090
 name = "Sun Divine Beast of Ra - Immortal Phoenix"
 type = "monster dimension effect"
 attribute = "divine"

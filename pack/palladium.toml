@@ -463,7 +463,8 @@ During your Main Phase, you can Normal Summon 1 Divine-Beast monster in addition
 Once per turn, during the End Phase, \
     if this card was Normal Summoned or flipped face-up this turn: \
     Return it to the hand. \
-"The Winged Dragon of Ra" that Tribute Summoned by Tributing this card gains the following effects. \
+"The Winged Dragon of Ra" that Tribute Summoned by Tributing this card \
+    gains the following effects, these effects cannot be copied.
 ● You can pay 1000 LP, then target 1 monster on the field; destroy that target.
 """
 strings = [
