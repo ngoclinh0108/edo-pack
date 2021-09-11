@@ -168,7 +168,7 @@ end
 function Utility.IsOwnAny(f, player, ...)
     local g = Duel.GetMatchingGroup(f, player, LOCATION_ALL, LOCATION_ALL, nil,
                                     ...)
-    g:Merge(Dimension.Zones(player))
+    g:Merge(Dimension.Zones(player):Filter(f, nil, ...))
     return g:IsExists(function(c) return c:GetOwner() == player end, 1, nil)
 end
 
