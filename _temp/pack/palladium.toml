@@ -60,34 +60,3 @@ During your Main Phase, except the turn this card was sent to the GY: \
     and if you do, add 1 your face-up banished card to your hand. \
 """
 strings = []
-
-[card.chaos-end-ruler]
-id = 410000036
-set = "chaos palladium"
-name = "Chaos End Ruler - Envoy of Palladium"
-type = "monster xyz effect"
-attribute = "dark"
-race = "warrior"
-level = 8
-atk = 3500
-def = 2500
-effect = """\
-2 Level 8 "Palladium" Ritual Pendulum Monsters
-This card's activation and effect cannot be negated. \
-Gains 100 ATK for each banished cards. \
-Banish any monster destroyed by battle with this card. \
-This card gains effects based on the Attribute of materials attached to it.
-● LIGHT: Your opponent cannot target or destroy this card with card effects. \
-    If this card attacks an opponent's monster, during the Damage Step only, \
-        negate the effects of that monster while it is face-up on the field \
-        (but its effects can still be activated)
-● DARK: You can detach 1 material from this card; \
-    Banish as many cards in your opponent's hands and on their side of the field, \
-    then inflict 500 damage to your opponent for each banished card this effect, \
-    also other monsters you control cannot attack for the rest of this turn. \
-    You can only use this effect of "Chaos End Ruler - Envoy of Palladium" once per turn.
-"""
-strings = [
-    "Activated \"Chaos End Ruler - Envoy of Palladium\" effect",
-    "Banish all of your opponent's cards",
-]

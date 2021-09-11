@@ -1,93 +1,102 @@
--- Palladium Guardian Shada
+-- Palladium Maiden Isis
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    -- special summon & draw
+    -- to defense & extra summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DRAW)
-    e1:SetType(EFFECT_TYPE_QUICK_O)
-    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetHintTiming(TIMING_DAMAGE_STEP)
-    e1:SetCountLimit(1, id)
-    e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
+    e1:SetDescription(1155)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_SUMMON_SUCCESS)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e1b)
 
-    -- battle indes
+    -- negate
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
+    e2:SetDescription(1117)
+    e2:SetCategory(CATEGORY_DISABLE)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_CHAINING)
+    e2:SetRange(LOCATION_HAND + LOCATION_MZONE)
+    e2:SetCountLimit(1, id)
+    e2:SetCondition(s.e2con)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- destroy
+    -- draw
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DESTROY)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetCode(EVENT_BATTLE_START)
+    e3:SetCategory(CATEGORY_RECOVER)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e3:SetCode(EVENT_RELEASE)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    local ph = Duel.GetCurrentPhase()
-    if ph ~= PHASE_DAMAGE or Duel.IsDamageCalculated() then return false end
-
-    local tc = Duel.GetAttacker()
-    if tc:IsControler(1 - tp) then tc = Duel.GetAttackTarget() end
-    return tc and tc:IsSetCard(0x13a) and tc:IsRelateToBattle() and
-               Duel.GetAttackTarget() ~= nil
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
-end
-
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) ==
-        0 then return end
 
-    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) > 0 then
-        Duel.BreakEffect()
-        Duel.Draw(tp, 1, REASON_EFFECT)
+    if c:IsFaceup() and c:IsAttackPos() then
+        Duel.ChangePosition(c, POS_FACEUP_DEFENSE)
+    end
+
+    if Duel.GetFlagEffect(tp, id) == 0 then
+        Duel.RegisterFlagEffect(tp, id, RESET_PHASE + PHASE_END, 0, 1)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(aux.Stringid(id, 0))
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+        ec1:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
+        ec1:SetTarget(aux.TargetBoolFunction(Card.IsSetCard, 0x13a))
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
     end
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local bc = Duel.GetAttackTarget()
-    if chk == 0 then
-        return Duel.GetAttacker() == c and bc and
-                   bc:IsPosition(POS_FACEDOWN_DEFENSE)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local ch = Duel.GetCurrentChain(true) - 1
+    if ch <= 0 then return false end
+    local cp = Duel.GetChainInfo(ch, CHAININFO_TRIGGERING_CONTROLER)
+    local ceff = Duel.GetChainInfo(ch, CHAININFO_TRIGGERING_EFFECT)
+    if re:GetHandler():IsDisabled() or not Duel.IsChainDisablable(ev) then
+        return false
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, bc, 1, 0, 0)
+    local cec = ceff:GetHandler()
+    return ep == 1 - tp and cp == tp and cec:IsSetCard(0x13a) and
+               cec:IsType(TYPE_MONSTER)
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsReleasable() end
+    Duel.Release(e:GetHandler(), REASON_COST)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return not re:GetHandler():IsStatus(STATUS_DISABLED) end
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
+    Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateEffect(ev) end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(1000)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, 1000)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local bc = Duel.GetAttackTarget()
-    if not bc:IsRelateToBattle() or not bc:IsPosition(POS_FACEDOWN_DEFENSE) then
-        return
-    end
-
-    Duel.Destroy(bc, REASON_EFFECT)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Recover(p, d, REASON_EFFECT)
 end

@@ -1,4 +1,4 @@
--- Twilight Oracle Dragoon
+-- Chaos-Eyes Oracle Dragoon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -108,12 +108,11 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return true end
-
     local ct1 = Duel.GetMatchingGroupCount(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     local ct2 = Duel.GetMatchingGroupCount(aux.TRUE, tp, 0, LOCATION_SZONE, nil)
-    if (ct1 > ct2 and ct2 ~= 0) or ct1 == 0 then ct1 = ct2 end
+    if chk == 0 then return ct1 > 0 or ct2 > 0 end
 
+    if (ct1 > ct2 and ct2 ~= 0) or ct1 == 0 then ct1 = ct2 end
     if ct1 ~= 0 then
         local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
         Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, ct1, 0, 0)

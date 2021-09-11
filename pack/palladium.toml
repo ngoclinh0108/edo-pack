@@ -74,7 +74,7 @@ strings = [
     "Affected by effect \"Chaos Palladium Oracle Aknamkanon\": cannot activate cards",
 ]
 
-[card.palladium-soldier]
+[card.black-luster-soldier-palladium]
 id = 910000004
 set = "palladium black-luster-soldier"
 name = "Black Luster Soldier - Palladium Soldier"
@@ -106,27 +106,30 @@ strings = [
     "Double attack next turn",
 ]
 
-[card.palladium-oracle-hassan]
+[card.chaos-emperor-dragon-palladium]
 id = 910000005
-set = "palladium"
-name = "Mysterious Palladium Oracle Hassan"
+set = "chaos palladium"
+name = "Chaos Emperor Dragon - Envoy of the Palladium"
 type = "monster effect"
-attribute = "light"
-race = "spellcaster"
+attribute = "dark"
+race = "dragon"
 level = 8
-atk = 2300
-def = 2800
+atk = 3000
+def = 2500
 effect = """\
-When an opponent's monster declares a direct attack, \
-    or your opponent activates a card or effect that would inflict damage (Quick Effect): \
-    You can Special Summon this card from your hand. \
-You take no effect damage. \
-If a "Palladium" monster(s) you control is destroyed by battle or an opponent's card effect, \
-    except "Mysterious Palladium Oracle Hassan": \
-    You can add this card from your GY to your hand. \
-    You can only use this effect of "Mysterious Palladium Oracle Hassan" once per turn. \
+(This card's Attribute is also LIGHT.)
+Cannot be Normal Summoned/Set. \
+Must first be Special Summoned (from your hand or GY) by banishing 1 other LIGHT and 1 other DARK monster from your GY. \
+Once per turn: You can send all cards your opponent controls to the GY, \
+    then inflict 500 damage to your opponent for each card sent to the opponent's GY by this effect, \
+    also for the rest of this turn, you cannot activate other cards or effects. \
+    Other monsters cannot attack the turn you activate this effect. \
 """
-strings = []
+strings = [
+    "Send card to the GY & inflict damage",
+    "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": other monsters cannot attack",
+    "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": cannot activate other cards or effects",
+]
 
 [card.palladium-oracle-seto]
 id = 910000006
@@ -155,52 +158,73 @@ strings = [
     "Affected by effect \"Azure Palladium Oracle Seto\": cannot Special Summon monsters",
 ]
 
-[card.palladium-ankuriboh]
+[card.palladium-oracle-hassan]
 id = 910000007
-set = "palladium kuriboh"
-name = "Palladium Ankuriboh"
+set = "palladium"
+name = "Mysterious Palladium Oracle Hassan"
 type = "monster effect"
-attribute = "dark"
-race = "fiend"
-level = 1
-atk = 300
-def = 200
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2300
+def = 2800
 effect = """\
-When you Ritual Summon, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
-You can only use each of the following effects of "Palladium Ankuriboh" once per turn. \
-During your Main Phase or your opponent's Battle Phase (Quick Effect): \
-    You can discard this card and banish 1 "Monster Reborn" from your Deck or GY, \
-    then target 1 monster in either GY, except "Palladium Ankuriboh"; \
-    Special Summon it to your field, but send it to the GY during the End Phase. \
-If a monster(s) you control, except "Palladium Ankuriboh" is sent to the GY, \
-    while this card is banished or in your GY: \
-    Shuffle this card into the Deck, and if you do, \
-    add to your hand or Set 1 banished "Monster Reborn". \
+When an opponent's monster declares a direct attack, \
+    or your opponent activates a card or effect that would inflict damage (Quick Effect): \
+    You can Special Summon this card from your hand. \
+You take no effect damage. \
+If a "Palladium" monster(s) you control is destroyed by battle or an opponent's card effect, \
+    except "Mysterious Palladium Oracle Hassan": \
+    You can add this card from your GY to your hand. \
+    You can only use this effect of "Mysterious Palladium Oracle Hassan" once per turn. \
 """
 strings = []
 
-[card.palladium-knight-gaia]
+[card.palladium-guardian-shada]
 id = 910000008
-set = "palladium"
-name = "Palladium Knight Gaia"
+set = "palladium guardian"
+name = "Palladium Guardian Shada"
 type = "monster effect"
 attribute = "light"
 race = "warrior"
-level = 7
-atk = 2300
-def = 2100
+level = 4
+atk = 1400
+def = 1200
 effect = """\
-If you control no monsters, or your opponent controls a monster with 2000 or more ATK, \
-    you can Special Summon this card (from your hand). \
-    You can only Special Summon "Palladium Knight Gaia" once per turn this way. \
-This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
-When you Ritual or Fusion Summon a "Palladium" monster, \
-    you can banish this card from your GY as 1 of materials. \
+During the Damage Step, when your "Palladium" monster battles an opponent's monster (Quick Effect): \
+    You can Special Summon this card from your hand, \
+    then draw 1 card. \
+    You can only use this effect of "Palladium Guardian Shada" once per turn. \
+Once per turn, this card cannot be destroyed by battle. \
+At the start of the Damage Step, if this card attacks a face-down Defense Position monster: \
+    You can destroy that face-down Defense Position monster. \
+"""
+strings = ["Destroy battling monster"]
+
+[card.palladium-gardna-karim]
+id = 910000009
+set = "palladium"
+name = "Palladium Gardna Karim"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 100
+def = 2600
+effect = """\
+When your opponent activates a card or effect \
+    that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
+    You can negate that activation, also change this card to face-up Defense Positionm, if able. \
+    You can only use this effect of "Palladium Gardna Karim" once per turn. \
+Once while face-up on the field (Quick Effect): You can change this card to Defense Position, \
+    then target 1 face-up card your opponent controls; \
+    negate the effects of that card while it and this monster are face-up on the field. \
+If this Defense Position card is attacked, it loses 800 DEF. \
 """
 strings = []
 
 [card.palladium-maiden-isis]
-id = 910000009
+id = 910000010
 set = "palladium"
 name = "Palladium Maiden Isis"
 type = "monster effect"
@@ -223,51 +247,8 @@ If this card is Tributed: Gain 1000 LP. \
 """
 strings = ["Normal Summon via \"Palladium Maiden Isis\""]
 
-[card.palladium-guardian-shada]
-id = 910000010
-set = "palladium guardian"
-name = "Palladium Guardian Shada"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1400
-def = 1200
-effect = """\
-During the Damage Step, when your "Palladium" monster battles an opponent's monster (Quick Effect): \
-    You can Special Summon this card from your hand, \
-    then draw 1 card. \
-    You can only use this effect of "Palladium Guardian Shada" once per turn. \
-Once per turn, this card cannot be destroyed by battle. \
-At the start of the Damage Step, if this card attacks a face-down Defense Position monster: \
-    You can destroy that face-down Defense Position monster. \
-"""
-strings = ["Destroy battling monster"]
-
-[card.palladium-gardna-karim]
-id = 910000011
-set = "palladium"
-name = "Palladium Gardna Karim"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 100
-def = 2600
-effect = """\
-When your opponent activates a card or effect \
-    that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
-    You can negate that activation, also change this card to face-up Defense Positionm, if able. \
-    You can only use this effect of "Palladium Gardna Karim" once per turn. \
-Once while face-up on the field (Quick Effect): You can change this card to Defense Position, \
-    then target 1 face-up card your opponent controls; \
-    negate the effects of that card while it and this monster are face-up on the field. \
-If this Defense Position card is attacked, it loses 800 DEF. \
-"""
-strings = []
-
 [card.palladium-knight-queen]
-id = 910000012
+id = 910000011
 set = "palladium"
 name = "Palladium Knight of Queen"
 type = "monster effect"
@@ -289,7 +270,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 strings = ["Summoned using \"Palladium Knight of Queen\""]
 
 [card.palladium-knight-king]
-id = 910000013
+id = 910000012
 set = "palladium"
 name = "Palladium Knight of King"
 type = "monster effect"
@@ -316,7 +297,7 @@ strings = [
 ]
 
 [card.palladium-knight-jack]
-id = 910000014
+id = 910000013
 set = "palladium"
 name = "Palladium Knight of Jack"
 type = "monster effect"
@@ -340,7 +321,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 strings = ["Summoned using \"Palladium Knight of Jack\""]
 
 [card.palladium-paladin-ace-joker]
-id = 910000015
+id = 910000014
 set = "palladium"
 name = "Arcana Palladium Joker"
 type = "fusion monster effect"
@@ -361,8 +342,52 @@ If this Fusion Summoned card is destroyed by battle or card effect: \
 """
 strings = []
 
-[card.palladium-archfiend-gilfer]
+[card.palladium-knight-gaia]
+id = 910000015
+set = "palladium"
+name = "Palladium Knight Gaia"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 7
+atk = 2300
+def = 2100
+effect = """\
+If you control no monsters, or your opponent controls a monster with 2000 or more ATK, \
+    you can Special Summon this card (from your hand). \
+    You can only Special Summon "Palladium Knight Gaia" once per turn this way. \
+This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
+When you Ritual or Fusion Summon a "Palladium" monster, \
+    you can banish this card from your GY as 1 of materials. \
+"""
+strings = []
+
+[card.palladium-ankuriboh]
 id = 910000016
+set = "palladium kuriboh"
+name = "Palladium Ankuriboh"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 1
+atk = 300
+def = 200
+effect = """\
+When you Ritual Summon, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
+You can only use each of the following effects of "Palladium Ankuriboh" once per turn. \
+During your Main Phase or your opponent's Battle Phase (Quick Effect): \
+    You can discard this card and banish 1 "Monster Reborn" from your Deck or GY, \
+    then target 1 monster in either GY, except "Palladium Ankuriboh"; \
+    Special Summon it to your field, but send it to the GY during the End Phase. \
+If a monster(s) you control, except "Palladium Ankuriboh" is sent to the GY, \
+    while this card is banished or in your GY: \
+    Shuffle this card into the Deck, and if you do, \
+    add to your hand or Set 1 banished "Monster Reborn". \
+"""
+strings = []
+
+[card.palladium-archfiend-gilfer]
+id = 910000017
 set = "palladium archfiend"
 name = "Palladium Archfiend Gilfer"
 type = "monster effect"
@@ -382,7 +407,7 @@ If this card is sent to the GY: \
 strings = ["Normal Summon without Tributing"]
 
 [card.palladium-beast-gazelle]
-id = 910000017
+id = 910000018
 set = "palladium"
 name = "Palladium Beast Gazelle"
 type = "monster effect"
@@ -402,7 +427,7 @@ If this card is used as material for a Fusion Summon: Draw 1 card. \
 strings = ["Add \"Polymerization\""]
 
 [card.palladium-beast-berfomet]
-id = 910000018
+id = 910000019
 set = "palladium"
 name = "Palladium Beast Berfomet"
 type = "monster effect"
@@ -418,27 +443,6 @@ You can discard this card; \
 When this card destroys an opponent's monster by battle: \
     Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
 When you Fusion Summon a "Palladium" monster, you can banish this card from your GY as 1 of materials. \
-"""
-strings = []
-
-[card.palladium-beast-chimera]
-id = 910000019
-set = "palladium"
-name = "Palladium Beast Chimera"
-type = "monster fusion effect"
-attribute = "dark"
-race = "beast"
-level = 6
-atk = 2100
-def = 1800
-effect = """\
-"Palladium Beast Gazelle" + "Palladium Beast Berfomet"
-A Fusion Summon of this card can only be done with the above materials. \
-This card gains effects of material monsters used to Fusion Summon it. \
-This card can make a second attack during each Battle Phase. \
-If this card is destroyed: You can Special Summon \
-    1 "Palladium Beast Gazelle" or "Palladium Beast Berfomet" \
-    that is banished or in your hand, Deck, GY. \
 """
 strings = []
 
@@ -551,6 +555,42 @@ This card's effect cannot be negated. \
     You can only use this effect of "Archfiend Palladium Necromancer" once per turn. \
 """
 strings = ["banish Spells/Traps to gain ATK"]
+
+[card.palladium-beast-chimera]
+id = 910000024
+set = "palladium"
+name = "Palladium Beast Chimera"
+type = "monster fusion effect"
+attribute = "dark"
+race = "beast"
+level = 6
+atk = 2100
+def = 1800
+effect = """\
+"Palladium Beast Gazelle" + "Palladium Beast Berfomet"
+A Fusion Summon of this card can only be done with the above materials. \
+This card gains effects of material monsters used to Fusion Summon it. \
+This card can make a second attack during each Battle Phase. \
+If this card is destroyed: You can Special Summon \
+    1 "Palladium Beast Gazelle" or "Palladium Beast Berfomet" \
+    that is banished or in your hand, Deck, GY. \
+"""
+strings = []
+
+# [card.chaos-end-ruler]
+# id = 910000025
+# set = "chaos"
+# name = "Chaos End Ruler - Ruler of the Beginning and the End"
+# type = "monster fusion effect"
+# attribute = "dark"
+# race = "warrior"
+# level = 10
+# atk = 3500
+# def = 2000
+# effect = """\
+# """
+# strings = []
+
 
 [card.palladium-summoning-magic]
 id = 910000100

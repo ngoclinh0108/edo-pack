@@ -1,155 +1,103 @@
--- Palladium Ankuriboh
+-- Mysterious Palladium Oracle Hassan
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {83764718}
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    -- ritual material
+    -- special summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_EXTRA_RITUAL_MATERIAL)
-    e1:SetCondition(function(e)
-        return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(), 69832741)
-    end)
-    e1:SetValue(1)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e1:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e1:SetRange(LOCATION_HAND)
+    e1:SetCondition(s.e1con1)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetType(EFFECT_TYPE_QUICK_O)
+    e1b:SetCode(EVENT_CHAINING)
+    e1b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e1b:SetCondition(s.e1con2)
+    c:RegisterEffect(e1b)
 
-    -- monster reborn
+    -- no effect damage
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetRange(LOCATION_HAND)
-    e2:SetHintTiming(TIMING_SPSUMMON, TIMING_BATTLE_START)
-    e2:SetCountLimit(1, {id, 1})
-    e2:SetCondition(s.e2con)
-    e2:SetCost(s.e2cost)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EFFECT_CHANGE_DAMAGE)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(1, 0)
+    e2:SetValue(function(e, re, val, r, rp, rc)
+        if (r & REASON_EFFECT) ~= 0 then return 0 end
+        return val
+    end)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    c:RegisterEffect(e2b)
 
     -- to hand
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_TODECK)
+    e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP +
-                       EFFECT_FLAG_DAMAGE_CAL)
-    e3:SetCode(EVENT_TO_GRAVE)
-    e3:SetRange(LOCATION_GRAVE + LOCATION_REMOVED)
-    e3:SetCountLimit(1, {id, 2})
+    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_DESTROYED)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCountLimit(1, id)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter1(c) return c:IsCode(83764718) and c:IsAbleToRemoveAsCost() end
-
-function s.e2filter2(c, e, tp)
-    return not c:IsCode(id) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e1con1(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttackTarget() == nil and
+               Duel.GetAttacker():IsControler(1 - tp)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
-               (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
+function s.e1con2(e, tp, eg, ep, ev, re, r, rp)
+    return ep ~= tp and aux.damcon1(e, tp, eg, ep, ev, re, r, rp)
 end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsDiscardable() and
-                   Duel.IsExistingMatchingCard(s.e2filter1, tp,
-                                               LOCATION_DECK + LOCATION_GRAVE,
-                                               0, 1, nil)
-    end
-
-    Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
-    local g = Utility.SelectMatchingCard(tp, s.e2filter1, tp,
-                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                         1, nil)
-    Duel.Remove(g, POS_FACEUP, REASON_COST)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingTarget(s.e2filter2, tp, LOCATION_GRAVE,
-                                         LOCATION_GRAVE, 1, nil, e, tp)
+                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectTarget(tp, s.e2filter2, tp, LOCATION_GRAVE,
-                                LOCATION_GRAVE, 1, 1, nil, e, tp)
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
+    if not c:IsRelateToEffect(e) then return end
 
-    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
-    tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                              PHASE_END, 0, 1)
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(574)
-    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    ec1:SetCode(EVENT_PHASE + PHASE_END)
-    ec1:SetCountLimit(1)
-    ec1:SetLabelObject(tc)
-    ec1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return e:GetLabelObject():GetFlagEffect(id) ~= 0
-    end)
-    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT)
-    end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e3filter1(c, tp)
-    return not c:IsCode(id) and c:IsPreviousLocation(LOCATION_MZONE) and
-               c:IsPreviousControler(tp)
-end
-
-function s.e3filter2(c)
-    return c:IsFaceup() and c:IsCode(83764718) and
-               (c:IsAbleToHand() or c:IsSSetable())
+function s.e3filter(c, tp)
+    return c:IsPreviousControler(tp) and c:IsPreviousPosition(POS_FACEUP) and
+               c:IsPreviousLocation(LOCATION_MZONE) and
+               c:IsPreviousSetCard(0x13a) and c:GetPreviousCodeOnField() ~= id and
+               (c:IsReason(REASON_BATTLE) or
+                   (c:IsReason(REASON_EFFECT) and c:GetReasonPlayer() == 1 - tp))
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e3filter1, 1, nil, tp)
+    return eg:IsExists(s.e3filter, 1, nil, tp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsAbleToDeck() and
-                   Duel.IsExistingMatchingCard(s.e3filter2, tp,
-                                               LOCATION_REMOVED, 0, 1, nil)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_REMOVED)
+    if chk == 0 then return c:IsAbleToHand() end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
-        return
-    end
-
-    local g = Utility.SelectMatchingCard(tp, s.e3filter2, tp, LOCATION_REMOVED,
-                                         0, 1, 1, nil)
-    if #g == 0 then return end
-
-    aux.ToHandOrElse(g, tp, function(c)
-        return c:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
-    end, function(g) Duel.SSet(tp, g) end, HINTMSG_SET)
+    if not c:IsRelateToEffect(e) then return end
+    Duel.SendtoHand(c, nil, REASON_EFFECT)
 end
