@@ -76,11 +76,9 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c) return c:IsLocation(LOCATION_GRAVE) or c:IsFaceup() end
-
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e1filter, tp,
+        return Duel.IsExistingTarget(Card.IsAbleToHand, tp,
                                      LOCATION_GRAVE + LOCATION_REMOVED, 0, 1,
                                      nil)
     end
@@ -91,8 +89,9 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
-    local g = Duel.SelectTarget(tp, aux.NecroValleyFilter(s.e1filter), tp,
-                                LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil)
+    local g = Duel.SelectTarget(tp, aux.NecroValleyFilter(Card.IsAbleToHand),
+                                tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1,
+                                nil)
 
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
