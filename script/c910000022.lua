@@ -17,6 +17,14 @@ function s.initial_effect(c)
                        c:IsSetCard(0x1048, fc, sumtype, tp))
     end)
 
+    -- attribute
+    local attribute = Effect.CreateEffect(c)
+    attribute:SetType(EFFECT_TYPE_SINGLE)
+    attribute:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
+    attribute:SetValue(ATTRIBUTE_DARK)
+    c:RegisterEffect(attribute)
+
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
@@ -27,4 +35,90 @@ function s.initial_effect(c)
                    aux.fuslimit(e, se, sp, st)
     end)
     c:RegisterEffect(splimit)
+
+    -- special summon monster
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCountLimit(1)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
+    -- banish
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_REMOVE)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+end
+
+function s.e1filter(c, e, tp)
+    return
+        c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and not c:IsCode(id) and
+            c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_GRAVE,
+                                               0, 1, nil, e, tp)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter), tp,
+                                      LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
+end
+
+function s.e2filter(c) return c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) end
+
+function s.e2check(sg, tp)
+    return sg:GetClassCount(Card.GetAttribute) == 2 and
+               Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
+                                           LOCATION_MZONE, 1, sg)
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.CheckReleaseGroupCost(tp, s.e2filter, 2, false, s.e2check,
+                                          nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RELEASE)
+    local g = Duel.SelectReleaseGroupCost(tp, s.e2filter, 2, 2, false,
+                                          s.e2check, nil)
+    Duel.Release(g, REASON_COST)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
+                                           LOCATION_MZONE, 1, nil)
+    end
+
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_MZONE,
+                                    nil)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, LOCATION_MZONE, 1 - tp)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_MZONE,
+                                    nil)
+    if #g > 0 then Duel.Remove(g, 0, REASON_EFFECT) end
 end

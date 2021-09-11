@@ -121,6 +121,9 @@ code = 0x55
 [set.predaplant]
 code = 0x10f3
 
+[set.prophecy]
+code = 0x6e
+
 [set.venom]
 code = 0x50
 
