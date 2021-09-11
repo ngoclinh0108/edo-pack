@@ -496,7 +496,7 @@ atk = 3500
 def = 2500
 effect = """\
 "Palladium Oracle Mahad" + "Blue-Eyes" Normal Monster
-Must first be Fusion Summoned with the above materials on the field. \
+Must first be Fusion Summoned with the above materials. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Cannot be destroyed by card effects. Neither player can target this card with card effects. \
 Once per turn: You can destroy all monsters your opponent controls OR all Spell/Trap they control, \

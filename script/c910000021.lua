@@ -10,21 +10,12 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    local eff = Fusion.AddProcMix(c, false, false, 71703785,
+    Fusion.AddProcMix(c, false, false, 71703785,
                                   function(c, sc, sumtype, tp)
         return c:IsSetCard(0xdd, sc, sumtype, tp) and
                    c:IsType(TYPE_NORMAL, sc, sumtype, tp)
     end)
-    if not c:IsStatus(STATUS_COPYING_EFFECT) then
-        eff[1]:SetValue(function(c, fc, sub, sub2, mg, sg, tp, contact, sumtype)
-            if sumtype & SUMMON_TYPE_FUSION ~= 0 and
-                fc:IsLocation(LOCATION_EXTRA) and not contact then
-                return c:IsControler(tp) and c:IsLocation(LOCATION_ONFIELD)
-            end
-            return true
-        end)
-    end
-
+    
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
