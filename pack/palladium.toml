@@ -501,8 +501,8 @@ Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Cannot be destroyed by card effects. Neither player can target this card with card effects. \
 Once per turn: You can destroy all monsters your opponent controls OR all Spell/Trap they control, \
     and if you do, this card gains 500 ATK for each card destroyed by this effect, until the end of this turn. \
-Once per turn, when a card or effect is activated (Quick Effect): You can negate the activation, \
-    and if you do, destroy that card. Then, if it was a Monster Card, \
+Once per turn, when another card or effect is activated (Quick Effect): You can negate the activation, \
+    and if you do, destroy that card, also if it was a Monster Card, \
     this card gains ATK equal to that monster's original ATK. \
 """
 strings = [

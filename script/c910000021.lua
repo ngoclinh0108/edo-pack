@@ -137,8 +137,9 @@ end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local rc = re:GetHandler()
     if c:IsStatus(STATUS_BATTLE_DESTROYED) then return false end
-    return Duel.IsChainNegatable(ev)
+    return rc ~= c and Duel.IsChainNegatable(ev)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -153,17 +154,18 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = re:GetHandler()
-    if not Duel.NegateActivation(ev) or not rc:IsRelateToEffect(re) or
-        Duel.Destroy(eg, REASON_EFFECT) == 0 or not rc:IsMonster() or
-        not c:IsRelateToEffect(e) or c:IsFacedown() then return end
-    Duel.BreakEffect()
+    if Duel.NegateActivation(ev) and rc:IsRelateToEffect(re) then
+        Duel.Destroy(eg, REASON_EFFECT)
+    end
 
-    local atk = rc:GetTextAttack()
-    if atk < 0 then atk = 0 end
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(atk)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
-    c:RegisterEffect(ec1)
+    if rc:IsMonster() and c:IsRelateToEffect(e) and c:IsFaceup() then
+        local atk = rc:GetTextAttack()
+        if atk < 0 then atk = 0 end
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(atk)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
+        c:RegisterEffect(ec1)
+    end
 end
