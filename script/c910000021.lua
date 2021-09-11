@@ -1,4 +1,4 @@
--- Palladium Oracles Light Dragoon
+-- Chaos Oracles Light Dragoon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
