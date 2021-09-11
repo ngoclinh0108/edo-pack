@@ -483,7 +483,7 @@ Once per turn: You can destroy all monsters your opponent controls OR all Spell/
     and if you do, this card gains 500 ATK for each card destroyed by this effect, until the end of this turn. \
 Once per turn, when another card or effect is activated (Quick Effect): You can discard 1 card; \
     negate the activation, and if you do, destroy that card, \
-    also if it was a Monster Card, this card gains ATK equal to that monster's original ATK. \
+    also if it was a monster, this card gains ATK equal to it's original ATK. \
 """
 strings = [
     "Destroy all monster or Spell/Trap",
