@@ -654,7 +654,6 @@ name = "Palladium Summoning Magic"
 type = "spell quick-play"
 effect = """\
 (This card's name is also treated as "Polymerization".)
-You can only activate 1 "Palladium Summoning Magic" once per turn. \
 During your Main Phase or your opponent's turn: Activate 1 of the following effects.
 ● Ritual Summon 1 "Palladium" Ritual Monster from your hand or Deck, \
     by Tributing monsters from your hand or field, \
@@ -665,5 +664,18 @@ During your Main Phase or your opponent's turn: Activate 1 of the following effe
 During your Main Phase, if this card is in your GY: \
     You can discard 1 Spell; Add this card to your hand. \
     You can only use this effect of "Palladium Summoning Magic" once per turn. \
+"""
+strings = []
+
+[card.palladium-reborn]
+id = 910000101
+set = "palladium"
+name = "Palladium Reborn"
+type = "spell quick-play"
+effect = """\
+(This card's name is also treated as "Monster Reborn".)
+During your Main Phase or your opponent's turn: \
+    Target 1 monster in either GY; Add it to your hand or Special Summon it. \
+    You can only activate 1 "Palladium Reborn" per turn. \
 """
 strings = []
