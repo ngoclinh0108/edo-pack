@@ -6,7 +6,8 @@ s.listed_names = {CARD_RA, 95286165}
 
 function s.initial_effect(c)
     -- spirit return
-    aux.EnableSpiritReturn(c, EVENT_SUMMON_SUCCESS, EVENT_FLIP)
+    aux.EnableSpiritReturn(c, EVENT_SUMMON_SUCCESS, EVENT_FLIP_SUMMON_SUCCESS,
+                           EVENT_SPSUMMON_SUCCESS, EVENT_FLIP)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
