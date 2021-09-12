@@ -595,18 +595,18 @@ This card's effect cannot be negated. \
 """
 strings = ["Banish Spells/Traps to gain ATK"]
 
-[card.flare-paladin-palladium]
+[card.dark-flare-paladin-of-palladium]
 id = 910000024
 set = "palladium"
-name = "Palladium Flare Paladin"
+name = "Dark Flare Paladin of Palladium"
 type = "monster fusion effect"
 attribute = "dark"
 race = "spellcaster"
-level = 8
-atk = 2800
-def = 2300
+level = 7
+atk = 2500
+def = 2200
 effect = """\
-"Palladium Oracle Mahad" + 1 Warrior monster
+1 Level 6 or higher Spellcaster monster + 1 Warrior monster
 Must first be Fusion Summoned with the above materials. \
 """
 strings = []

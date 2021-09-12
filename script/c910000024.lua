@@ -1,17 +1,14 @@
--- Palladium Flare Paladin
+-- Dark Flare Paladin of Palladium
 Duel.LoadScript("util.lua")
 local s, id = GetID()
-
-s.material = {71703785}
-s.material_setcode = {0x13a}
-s.listed_names = {71703785}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, true, true, 71703785,
-                      aux.FilterBoolFunctionEx(Card.IsRace, RACE_WARRIOR))
+    Fusion.AddProcMix(c, true, true, function(c, fc, sumtype, tp)
+        return c:IsLevelAbove(6) and c:IsRace(RACE_SPELLCASTER, fc, sumtype, tp)
+    end, aux.FilterBoolFunctionEx(Card.IsRace, RACE_WARRIOR))
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
