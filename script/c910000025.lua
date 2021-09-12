@@ -93,7 +93,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2c)
     local e2d = e2c:Clone()
     e2d:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e2d:SetValue(function(e, re, tp) return tp ~= e:GetHandlerPlayer() end)
+    e2d:SetValue(1)
     c:RegisterEffect(e2d)
 
     -- atk up
