@@ -486,7 +486,7 @@ strings = [
 ]
 
 [card.chaos-eyes-oracle-dragoon]
-id = 910000020
+id = 910000021
 set = "chaos"
 name = "Chaos-Eyes Oracle Dragoon"
 type = "monster fusion effect"
@@ -518,7 +518,7 @@ strings = [
 ]
 
 [card.palladium-oracles]
-id = 910000021
+id = 910000022
 set = "palladium"
 name = "The Palladium Oracles"
 type = "monster fusion effect"
@@ -543,7 +543,7 @@ If this card is destroyed: You can shuffle it into the Extra Deck; \
 strings = []
 
 [card.palladium-master-chaos]
-id = 910000022
+id = 910000023
 set = "palladium chaos"
 name = "Palladium Master of Chaos"
 type = "monster fusion effect"
@@ -571,7 +571,7 @@ strings = [
 ]
 
 [card.palladium-archfiend]
-id = 910000023
+id = 910000024
 set = "palladium archfiend"
 name = "Archfiend Palladium Necromancer"
 type = "monster fusion effect"
@@ -596,7 +596,7 @@ This card's effect cannot be negated. \
 strings = ["Banish Spells/Traps to gain ATK"]
 
 [card.dark-flare-paladin-of-palladium]
-id = 910000024
+id = 910000025
 set = "palladium"
 name = "Dark Flare Paladin of Palladium"
 type = "monster fusion effect"
@@ -620,7 +620,7 @@ If this card is destroyed: \
 strings = []
 
 [card.chaos-end-ruler]
-id = 910000025
+id = 910000026
 set = "chaos"
 name = "Chaos End Ruler - Ruler of the Beginning and the End"
 type = "monster fusion effect"
@@ -651,7 +651,7 @@ strings = [
 ]
 
 [card.arcana-royal-joker]
-id = 910000026
+id = 910000027
 name = "Arcana Royal Joker"
 type = "fusion monster effect"
 attribute = "light"
@@ -672,7 +672,7 @@ If this Fusion Summoned card is destroyed by battle or card effect: \
 strings = []
 
 [card.palladium-beast-chimera]
-id = 910000027
+id = 910000028
 set = "palladium"
 name = "Palladium Beast Chimera"
 type = "monster fusion effect"
