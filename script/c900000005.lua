@@ -34,11 +34,20 @@ function s.initial_effect(c)
     e1:SetValue(RACE_PYRO)
     Divine.RegisterEffect(c, e1)
 
-    -- cannot attack
+    -- attack limit
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_CANNOT_ATTACK)
+    e2:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
+    e2:SetValue(aux.TRUE)
     Divine.RegisterEffect(c, e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_ATTACK_COST)
+    e2b:SetCost(function(e, c, tp) return Duel.CheckLPCost(tp, 1000) end)
+    e2b:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Duel.PayLPCost(tp, 1000)
+        Duel.AttackCostPaid()
+    end)
+    Divine.RegisterEffect(c, e2b)
 
     -- battle indes
     local e3 = Effect.CreateEffect(c)
@@ -59,29 +68,36 @@ function s.initial_effect(c)
     e4:SetValue(1)
     c:RegisterEffect(e4)
 
-    -- quick attack
+    -- unstoppable attack
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 4))
-    e5:SetCategory(CATEGORY_TOGRAVE)
-    e5:SetType(EFFECT_TYPE_QUICK_O)
-    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetType(EFFECT_TYPE_SINGLE)
+    e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e5:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
     e5:SetRange(LOCATION_MZONE)
-    e5:SetHintTiming(TIMING_MAIN_END + TIMING_BATTLE_END)
-    e5:SetCondition(s.e5con)
-    e5:SetCost(s.e5cost)
-    e5:SetTarget(s.e5tg)
-    e5:SetOperation(s.e5op)
     Divine.RegisterEffect(c, e5)
 
-    -- reset
+    -- to grave
     local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 5))
-    e6:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e6:SetCode(EVENT_PHASE + PHASE_END)
+    e6:SetDescription(aux.Stringid(id, 4))
+    e6:SetCategory(CATEGORY_TOGRAVE)
+    e6:SetType(EFFECT_TYPE_QUICK_O)
+    e6:SetCode(EVENT_FREE_CHAIN)
     e6:SetRange(LOCATION_MZONE)
+    e6:SetHintTiming(TIMING_END_PHASE)
+    e6:SetCost(s.e6cost)
+    e6:SetTarget(s.e6tg)
     e6:SetOperation(s.e6op)
     Divine.RegisterEffect(c, e6)
+
+    -- reset
+    local e7 = Effect.CreateEffect(c)
+    e7:SetDescription(aux.Stringid(id, 5))
+    e7:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e7:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e7:SetCode(EVENT_PHASE + PHASE_END)
+    e7:SetRange(LOCATION_MZONE)
+    e7:SetOperation(s.e7op)
+    Divine.RegisterEffect(c, e7)
 
     Divine.RegisterRaDefuse(s, id, c)
 end
@@ -205,17 +221,12 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    return (Duel.IsMainPhase() or Duel.IsBattlePhase()) and
-               Duel.GetCurrentPhase() ~= PHASE_BATTLE_STEP
-end
-
-function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.CheckLPCost(tp, 1000) end
     Duel.PayLPCost(tp, 1000)
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and
@@ -232,12 +243,10 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
-
-    if tc:IsControler(1 - tp) then Duel.CalculateDamage(c, tc) end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -257,13 +266,13 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoGrave(tc, REASON_EFFECT)
 end
 
-function s.e6filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end
+function s.e7filter(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.HintSelection(Group.FromCards(c))
 
-    local sg = Dimension.Zones(c:GetOwner()):Filter(s.e6filter, nil)
+    local sg = Dimension.Zones(c:GetOwner()):Filter(s.e7filter, nil)
     if #sg > 0 then
         local sc = sg:GetFirst()
         local divine_evolution = c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0

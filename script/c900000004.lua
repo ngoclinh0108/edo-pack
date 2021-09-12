@@ -58,29 +58,32 @@ function s.initial_effect(c)
     e3b:SetCode(EFFECT_IGNORE_BATTLE_TARGET)
     Divine.RegisterEffect(c, e3b)
 
+    -- summon ra to opponent's field
+    
+
     -- ancient chant
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_BOTH_SIDE)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetCost(s.e4cost)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    Divine.RegisterEffect(c, e4)
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 0))
+    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e5:SetType(EFFECT_TYPE_IGNITION)
+    e5:SetProperty(EFFECT_FLAG_BOTH_SIDE)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCountLimit(1)
+    e5:SetCost(s.e5cost)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    Divine.RegisterEffect(c, e5)
 end
 
-function s.dms1filter(c, tp, rp)
+function s.dms1filter(c, tp)
     return Dimension.CanBeDimensionMaterial(c) and c:IsCode(CARD_RA) and
-               c:GetOwner() == tp and tp ~= rp and
-               not Utility.IsOwnAny(Card.IsCode, rp, 10000080)
+               c:GetOwner() == tp and c:IsControler(1 - tp) and
+               not Utility.IsOwnAny(Card.IsCode, 1 - tp, 10000080)
 end
 
 function s.dms1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local mc = eg:Filter(s.dms1filter, nil, c:GetOwner(), rp):GetFirst()
+    local mc = eg:Filter(s.dms1filter, nil, c:GetOwner()):GetFirst()
     if not mc then return end
     if not Dimension.CanBeDimensionChanged(c) then return end
 
@@ -160,14 +163,14 @@ function s.dms2con(e, tp, eg, ep, ev, re, r, rp)
                                        nil, true)
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return Dimension.IsAbleToDimension(c) end
     e:SetLabel(c:GetFlagEffect(Divine.DIVINE_EVOLUTION))
     Dimension.SendToDimension(c, REASON_COST)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local mc = c:GetMaterial():GetFirst()
     if chk == 0 then
@@ -181,7 +184,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetChainLimit(aux.FALSE)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp, immediately)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp, immediately)
     local c = e:GetHandler()
     local mc = c:GetMaterial():GetFirst()
     if not mc then return end
