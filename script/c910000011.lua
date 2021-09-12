@@ -3,13 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    -- code
-    local code = Effect.CreateEffect(c)
-    code:SetType(EFFECT_TYPE_SINGLE)
-    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(25652259)
-    c:RegisterEffect(code)
+    c:AddSetcodesRule(0x13a)
 
     -- special summon
     local e1 = Effect.CreateEffect(c)

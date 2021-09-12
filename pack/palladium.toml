@@ -265,7 +265,7 @@ strings = [
 
 [card.palladium-knight-queen]
 id = 910000011
-set = "palladium"
+alias = 25652259
 name = "Palladium Knight of Queen"
 type = "monster effect"
 attribute = "light"
@@ -274,7 +274,7 @@ level = 4
 atk = 1500
 def = 1600
 effect = """\
-(This card's name is also treated as "Queen's Knight".)
+(This card's name is always treated as "Queen's Knight" and it is "Palladium" card.)
 You can Special Summon this card (from your hand) by revealing 1 other Warrior monster in your hand. \
     You can only Special Summon "Palladium Knight of Queen" once per turn this way. \
 If this card is Normal or Special Summoned: \
@@ -287,7 +287,7 @@ strings = ["Summoned using \"Palladium Knight of Queen\""]
 
 [card.palladium-knight-king]
 id = 910000012
-set = "palladium"
+alias = 64788463
 name = "Palladium Knight of King"
 type = "monster effect"
 attribute = "light"
@@ -296,7 +296,7 @@ level = 4
 atk = 1600
 def = 1400
 effect = """\
-(This card's name is also treated as "King's Knight".)
+(This card's name is always treated as "King's Knight" and it is "Palladium" card.)
 During the Main Phase, if you control a Warrior monster other than "King's Knight" (Quick Effect): \
     You can Special Summon this card from your hand. \
 If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
@@ -314,7 +314,7 @@ strings = [
 
 [card.palladium-knight-jack]
 id = 910000013
-set = "palladium"
+alias = 90876561
 name = "Palladium Knight of Jack"
 type = "monster effect"
 attribute = "light"
@@ -323,7 +323,7 @@ level = 5
 atk = 1900
 def = 1000
 effect = """\
-(This card's name is also treated as "Jack's Knight".)
+(This card's name is always treated as "Jack's Knight" and it is "Palladium" card.)
 If this card is Normal or Special Summoned: \
     You can target face-up cards your opponent control, \
     up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
