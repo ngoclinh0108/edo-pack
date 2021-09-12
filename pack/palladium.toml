@@ -483,7 +483,6 @@ strings = [
     "Can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster",
     "Summoned using \"Sun Dragon's Descendant\"",
     "Life Point Transfer",
-    "Pay 1000 LP; target & destroy 1 monster on the field",
 ]
 
 [card.chaos-eyes-oracle-dragoon]

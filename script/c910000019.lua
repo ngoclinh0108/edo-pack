@@ -163,19 +163,21 @@ function s.e4regop(e, tp, eg, ep, ev, re, r, rp)
     rc:RegisterEffect(ec1)
     Divine.RegisterRaFuse(id, c, rc, true)
 
-    -- destroy
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetDescription(aux.Stringid(id, 5))
-    ec2:SetCategory(CATEGORY_DESTROY)
-    ec2:SetType(EFFECT_TYPE_IGNITION)
-    ec2:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_IGNORE_IMMUNE +
-                        EFFECT_FLAG_UNCOPYABLE)
-    ec2:SetRange(LOCATION_MZONE)
-    ec2:SetCost(s.e4descost)
-    ec2:SetTarget(s.e4destg)
-    ec2:SetOperation(s.e4desop)
-    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-    rc:RegisterEffect(ec2)
+    if not rc:IsOriginalCode(CARD_RA) then
+        -- destroy
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetDescription(1100)
+        ec2:SetCategory(CATEGORY_DESTROY)
+        ec2:SetType(EFFECT_TYPE_IGNITION)
+        ec2:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_IGNORE_IMMUNE +
+                            EFFECT_FLAG_UNCOPYABLE)
+        ec2:SetRange(LOCATION_MZONE)
+        ec2:SetCost(s.e4descost)
+        ec2:SetTarget(s.e4destg)
+        ec2:SetOperation(s.e4desop)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+        rc:RegisterEffect(ec2)
+    end
 end
 
 function s.e4lpcost(e, tp, eg, ep, ev, re, r, rp, chk)
