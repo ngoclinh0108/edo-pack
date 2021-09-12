@@ -1,5 +1,5 @@
 [card.blue-eyes-light-dragon]
-id = 911000001
+id = 911000000
 alias = 89631139
 set = "blue-eyes"
 name = "Blue-Eyes Light Dragon"
@@ -17,3 +17,22 @@ Once per turn: You can target 1 monster your opponent controls; \
     destroy it. This card cannot attack the turn this effect is activated. \
 """
 strings = ["Destroy 1 monster"]
+
+[card.blue-eyes-divine-dragon]
+id = 911000001
+set = "blue-eyes"
+name = "Blue-Eyes Divine Dragon"
+type = "monster fusion effect"
+attribute = "light"
+race = "dragon"
+level = 12
+atk = 4500
+def = 3800
+effect = """\
+"Blue-Eyes White Dragon" + "Blue-Eyes White Dragon" + "Blue-Eyes White Dragon"
+Must first be Fusion Summoned with the above materials. \
+This card's activation and effect cannot be negated. \
+Cannot be Tributed, or be used as a material for an Summon by your opponent. \
+Cannot be destroyed by card effects. Neither player can target this card with card effects. \
+"""
+strings = []
