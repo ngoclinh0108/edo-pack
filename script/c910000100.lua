@@ -5,13 +5,7 @@ local s, id = GetID()
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    -- code
-    local code = Effect.CreateEffect(c)
-    code:SetType(EFFECT_TYPE_SINGLE)
-    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(CARD_POLYMERIZATION)
-    c:RegisterEffect(code)
+    c:AddSetcodesRule(0x13a)
 
     -- ritual summon
     local e1 = Ritual.CreateProc({
