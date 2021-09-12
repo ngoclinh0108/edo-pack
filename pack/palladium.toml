@@ -456,10 +456,12 @@ This card's Normal Summon cannot be negated. \
 When Normal Summoned, your opponent cannot activate cards or effects. \
 If this card is Normal Summoned: \
     You can target up to 2 monsters in either GY; \
-    This card gains ATK equal to the combined original ATK of those monsters until the end of this turn. \
-This card can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster. \
+    this turn, this card gains ATK equal to the combined original ATK of those monsters, \
+    and for each target, this card is treated as 1 additional Tribute for the Tribute Summon of a Divine-Beast monster. \
 During your Main Phase, you can Normal Summon 1 Divine-Beast monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
+If this card is sent to the GY: You can add 1 "De-Fusion" from your Deck or GY to your hand. \
+    You can only use this effect of "Sun Dragon's Descendant" once per turn. \
 Once per turn, during the End Phase, \
     if this card was Summoned or flipped face-up this turn: \
     Return it to the hand. \
@@ -477,6 +479,8 @@ Once per turn, during the End Phase, \
 """
 strings = [
     "Summon via \"Sun Dragon's Descendant\"",
+    "Can be treated as 2 Tributes for the Tribute Summon of a Divine-Beast monster",
+    "Can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster",
     "Summoned using \"Sun Dragon's Descendant\"",
     "Life Point Transfer",
     "Pay 1000 LP; target & destroy 1 monster on the field",
