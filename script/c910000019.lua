@@ -1,5 +1,6 @@
 -- Sun Dragon's Palladium Descendant
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_RA, 95286165}
