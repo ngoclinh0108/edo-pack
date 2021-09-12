@@ -38,12 +38,13 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter1(c)
-    return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x13a) and c:IsAbleToGrave()
-end
+function s.e1filter1(c) return c:IsType(TYPE_MONSTER) and c:IsAbleToGrave() end
 
-function s.e1filter2(c) return
-    c:IsCode(CARD_POLYMERIZATION) and c:IsAbleToHand() end
+function s.e1filter2(c)
+    if not c:IsAbleToHand() then return false end
+    return c:IsCode(CARD_POLYMERIZATION) or
+               (c:IsLevelAbove(5) and c:IsSetCard(0x13a))
+end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
@@ -66,7 +67,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     g = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_DECK + LOCATION_GRAVE,
                               0, nil)
-    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
+    if #g == 0 or not Duel.SelectYesNo(tp, 506) then return end
     Duel.BreakEffect()
 
     g = Utility.GroupSelect(g, tp, 1, 1, nil)

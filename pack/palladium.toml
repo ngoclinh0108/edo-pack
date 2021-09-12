@@ -412,13 +412,13 @@ atk = 1500
 def = 1200
 effect = """\
 If this card is Normal or Special Summoned: \
-    You can send 1 "Palladium" monster from your hand or Deck to the GY, \
-    then you can add 1 "Polymerization" from your Deck or GY to your hand. \
+    You can send 1 monster from your hand or Deck to the GY, \
+    then you can add 1 "Polymerization" or 1 Level 5 or higher "Palladium" monster from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Beast Gazelle" once per turn. \
 If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
 If this card is used as material for a Fusion Summon: Draw 1 card. \
 """
-strings = ["Add \"Polymerization\""]
+strings = []
 
 [card.palladium-beast-berfomet]
 id = 910000018
@@ -440,49 +440,35 @@ When you Fusion Summon a "Palladium" monster, you can banish this card from your
 """
 strings = []
 
-[card.sun-dragon-descendant]
+[card.chaos-end-ruler]
 id = 910000019
-set = "palladium"
-name = "Sun Dragon's Descendant"
-type = "monster spirit effect"
-attribute = "dark"
-race = "psychic"
-level = 5
-atk = 1800
-def = 1500
+set = "chaos"
+name = "Chaos End Ruler - Ruler of the Beginning and the End"
+type = "monster fusion effect"
+attribute = "light"
+race = "warrior"
+rank = 10
+atk = 3500
+def = 2000
 effect = """\
-(this card is always treated as an "Palladium" card.)
-This card's Normal Summon cannot be negated. \
-When Normal Summoned, your opponent cannot activate cards or effects. \
-If this card is Normal Summoned: \
-    You can target up to 2 monsters in either GY; \
-    this turn, this card gains ATK equal to the combined original ATK of those monsters, \
-    and for each target, this card is treated as 1 additional Tribute for the Tribute Summon of a Divine-Beast monster. \
-During your Main Phase, you can Normal Summon 1 Divine-Beast monster in addition to your Normal Summon/Set. \
-    (You can only gain this effect once per turn.) \
-If this card is sent to the GY: You can add 1 "De-Fusion" from your Deck or GY to your hand. \
-    You can only use this effect of "Sun Dragon's Descendant" once per turn. \
-Once per turn, during the End Phase, \
-    if this card was Summoned or flipped face-up this turn: \
-    Return it to the hand. \
-"The Winged Dragon of Ra" that Tribute Summoned by Tributing this card \
-    gains the following effects, these effects cannot be copied.
-● Once while face-up on the field (Quick Effect): \
-    You can pay LP so that you only have 100 left; \
-    this card become Fusion Monster and it gains original ATK/DEF become equal to the amount of LP paid, \
-    and also, while it is on the field, any increase in LP is changed to increase it's original ATK/DEF instead. \
-    Cards and effects cannot be activated in response to this effect's activation.
-● If "De-Fusion" targets this Fusion Monster, apply \
-    "that target loses its above effects and its ATK/DEF become 0, \
-    and if you do, its controller gains LP equal to that lost ATK" instead of.
-● You can pay 1000 LP, then target 1 monster on the field; destroy that target.
+2 Level 8 "Chaos" or "Black Luster Soldier" monsters (1 LIGHT Warrior, 1 DARK Dragon)
+(This card's Attribute is also DARK, and it is also Dragon monster.)
+Must first be Fusion Summoned with the above materials on the field. \
+This card's activation and effect cannot be negated. \
+Cannot be Tributed, or be used as a material for an Summon by your opponent. \
+Cannot be destroyed by card effects. Your opponent cannot target it with card effects. \
+Gains 200 ATK for each banished cards. \
+This card can make a second attack during each Battle Phase. \
+Banish any monster destroyed by battle with this card. \
+During your turn (Quick Effect): \
+    You can banish as many cards in your opponent's hands and on their side of the field face-down, \
+    then inflict 300 damage to your opponent for each banished card this effect, \
+    also other monsters you control cannot attack for the rest of this turn. \
+    You can only use this effect of "Chaos End Ruler - Ruler of the Beginning and the End" once per turn. \
 """
 strings = [
-    "Summon via \"Sun Dragon's Descendant\"",
-    "Can be treated as 2 Tributes for the Tribute Summon of a Divine-Beast monster",
-    "Can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster",
-    "Summoned using \"Sun Dragon's Descendant\"",
-    "Life Point Transfer",
+    "Banish card & inflict damage",
+    "Affected by effect \"Chaos End Ruler - Ruler of the Beginning and the End\": other monsters cannot attack",
 ]
 
 [card.palladium-oracles]
@@ -619,39 +605,8 @@ If this card is destroyed: \
 """
 strings = []
 
-[card.chaos-end-ruler]
-id = 910000025
-set = "chaos"
-name = "Chaos End Ruler - Ruler of the Beginning and the End"
-type = "monster fusion effect"
-attribute = "light"
-race = "warrior"
-rank = 10
-atk = 3500
-def = 2000
-effect = """\
-2 Level 8 "Chaos" or "Black Luster Soldier" monsters (1 LIGHT Warrior, 1 DARK Dragon)
-(This card's Attribute is also DARK, and it is also Dragon monster.)
-Must first be Fusion Summoned with the above materials on the field. \
-This card's activation and effect cannot be negated. \
-Cannot be Tributed, or be used as a material for an Summon by your opponent. \
-Cannot be destroyed by card effects. Your opponent cannot target it with card effects. \
-Gains 200 ATK for each banished cards. \
-This card can make a second attack during each Battle Phase. \
-Banish any monster destroyed by battle with this card. \
-During your turn (Quick Effect): \
-    You can banish as many cards in your opponent's hands and on their side of the field face-down, \
-    then inflict 300 damage to your opponent for each banished card this effect, \
-    also other monsters you control cannot attack for the rest of this turn. \
-    You can only use this effect of "Chaos End Ruler - Ruler of the Beginning and the End" once per turn. \
-"""
-strings = [
-    "Banish card & inflict damage",
-    "Affected by effect \"Chaos End Ruler - Ruler of the Beginning and the End\": other monsters cannot attack",
-]
-
 [card.arcana-royal-joker]
-id = 910000026
+id = 910000025
 name = "Arcana Royal Joker"
 type = "fusion monster effect"
 attribute = "light"
@@ -672,7 +627,7 @@ If this Fusion Summoned card is destroyed by battle or card effect: \
 strings = []
 
 [card.palladium-beast-chimera]
-id = 910000027
+id = 910000026
 set = "palladium"
 name = "Palladium Beast Chimera"
 type = "monster fusion effect"
