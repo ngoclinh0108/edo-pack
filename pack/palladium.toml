@@ -601,13 +601,15 @@ set = "palladium"
 name = "Dark Flare Paladin of Palladium"
 type = "monster fusion effect"
 attribute = "dark"
-race = "spellcaster"
+race = "warrior"
 level = 7
 atk = 2500
-def = 2200
+def = 2100
 effect = """\
 1 Level 6 or higher Spellcaster monster + 1 Warrior monster
 Must first be Fusion Summoned with the above materials. \
+If this card is Special Summoned: You can target 1 card on the field; destroy it. \
+Negate the effects of face-up monsters your opponent controls with ATK less than or equal to this card's. \
 """
 strings = []
 

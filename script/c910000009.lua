@@ -5,7 +5,7 @@ local s, id = GetID()
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    -- negate target
+    -- negate
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(1116)
     e1:SetCategory(CATEGORY_NEGATE)
@@ -19,7 +19,7 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- negate effect
+    -- disable
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(575)
     e2:SetCategory(CATEGORY_DISABLE + CATEGORY_POSITION)

@@ -51,7 +51,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2b)
 
-    -- negate
+    -- disable
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(1117)
     e3:SetCategory(CATEGORY_DISABLE)

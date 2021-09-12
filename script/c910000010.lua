@@ -5,7 +5,7 @@ local s, id = GetID()
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    -- negate
+    -- disable
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(1117)
     e1:SetCategory(CATEGORY_DISABLE)
