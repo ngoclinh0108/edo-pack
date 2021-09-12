@@ -8,21 +8,8 @@ s.listed_series = {0xcf}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- fusion summon
-    local fus = Fusion.AddProcMix(c, false, false, function(c, fc, sumtype, tp)
-        return s.fusfilter(c, fc, sumtype, tp, ATTRIBUTE_LIGHT, RACE_WARRIOR)
-    end, function(c, fc, sumtype, tp)
-        return s.fusfilter(c, fc, sumtype, tp, ATTRIBUTE_DARK, RACE_DRAGON)
-    end)
-    if not c:IsStatus(STATUS_COPYING_EFFECT) then
-        fus[1]:SetValue(function(c, fc, sub, sub2, mg, sg, tp, contact, sumtype)
-            if sumtype & SUMMON_TYPE_FUSION ~= 0 and
-                fc:IsLocation(LOCATION_EXTRA) and not contact then
-                return c:IsLocation(LOCATION_ONFIELD) and c:IsControler(tp)
-            end
-            return true
-        end)
-    end
+    -- xyz summon
+    Xyz.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0xcf), 8, 2)
 
     -- attribute
     local attribute = Effect.CreateEffect(c)
@@ -45,7 +32,7 @@ function s.initial_effect(c)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     splimit:SetValue(function(e, se, sp, st)
         return not e:GetHandler():IsLocation(LOCATION_EXTRA) or
-                   aux.fuslimit(e, se, sp, st)
+                   ((st & SUMMON_TYPE_XYZ) == SUMMON_TYPE_XYZ and not se)
     end)
     c:RegisterEffect(splimit)
 
@@ -74,11 +61,13 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_CANNOT_RELEASE)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(0, 1)
+    e2:SetCondition(s.con1)
     e2:SetTarget(function(e, tc) return tc == e:GetHandler() end)
     c:RegisterEffect(e2)
     local e2b = Effect.CreateEffect(c)
     e2b:SetType(EFFECT_TYPE_SINGLE)
     e2b:SetCode(EFFECT_CANNOT_BE_MATERIAL)
+    e2b:SetCondition(s.con1)
     e2b:SetValue(function(e, tc)
         if not tc then return false end
         return tc:GetControler() ~= e:GetHandlerPlayer()
@@ -89,6 +78,7 @@ function s.initial_effect(c)
     e2c:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2c:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e2c:SetRange(LOCATION_MZONE)
+    e2c:SetCondition(s.con1)
     e2c:SetValue(aux.tgoval)
     c:RegisterEffect(e2c)
     local e2d = e2c:Clone()
@@ -102,69 +92,89 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCode(EFFECT_UPDATE_ATTACK)
+    e3:SetCondition(s.con1)
     e3:SetValue(function(e, c)
-        return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_REMOVED,
-                                       LOCATION_REMOVED) * 200
+        return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_GRAVE,
+                                       LOCATION_GRAVE) * 100
     end)
     c:RegisterEffect(e3)
 
-    -- extra attack
+    -- disable
     local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_SINGLE)
-    e4:SetCode(EFFECT_EXTRA_ATTACK)
-    e4:SetValue(1)
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetCode(EFFECT_DISABLE)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetTargetRange(0, LOCATION_MZONE)
+    e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return s.con1(e, tp, eg, ep, ev, re, r, rp) and
+                   (Duel.GetCurrentPhase() == PHASE_DAMAGE or
+                       Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL) and
+                   Duel.GetAttacker() == e:GetHandler() and
+                   e:GetHandler():GetBattleTarget()
+    end)
+    e4:SetTarget(function(e, c) return c == e:GetHandler():GetBattleTarget() end)
     c:RegisterEffect(e4)
-
-    -- battle banish
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE)
-    e5:SetCode(EFFECT_BATTLE_DESTROY_REDIRECT)
-    e5:SetValue(LOCATION_REMOVED)
-    c:RegisterEffect(e5)
+    local e4b = e4:Clone()
+    e4b:SetCode(EFFECT_DISABLE_EFFECT)
+    c:RegisterEffect(e4b)
 
     -- banish & damage
-    local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 0))
-    e6:SetCategory(CATEGORY_REMOVE + CATEGORY_DAMAGE)
-    e6:SetType(EFFECT_TYPE_QUICK_O)
-    e6:SetCode(EVENT_FREE_CHAIN)
-    e6:SetRange(LOCATION_MZONE)
-    e6:SetCountLimit(1, id)
-    e6:SetCondition(s.e6con)
-    e6:SetTarget(s.e6tg)
-    e6:SetOperation(s.e6op)
-    c:RegisterEffect(e6)
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 0))
+    e5:SetCategory(CATEGORY_REMOVE + CATEGORY_DAMAGE)
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCountLimit(1, id)
+    e5:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return Duel.IsTurnPlayer(tp) and Duel.IsMainPhase() and
+                   s.con2(e, tp, eg, ep, ev, re, r, rp)
+    end)
+    e5:SetCost(s.e5cost)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
+    c:RegisterEffect(e5, false, REGISTER_FLAG_DETACH_XMAT)
 end
 
-function s.fusfilter(c, fc, sumtype, tp, attr, race)
-    return (c:IsSetCard(0xcf, fc, sumtype, tp) or
-               c:IsSetCard(0x1048, fc, sumtype, tp)) and
-               c:IsAttribute(attr, fc, sumtype, tp) and
-               c:IsRace(race, fc, sumtype, tp)
+function s.con1(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetOverlayGroup():IsExists(function(c)
+        return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR)
+    end, 1, nil)
 end
 
-function s.e6con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end
+function s.con2(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetOverlayGroup():IsExists(function(c)
+        return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)
+    end, 1, nil)
+end
 
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:CheckRemoveOverlayCard(tp, 1, REASON_COST) end
+    c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
+end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_ONFIELD
     local g = Duel.GetFieldGroup(tp, 0, loc)
     if chk == 0 then return #g > 0 end
 
-    local dc = g:FilterCount(Card.IsAbleToRemove, nil, 1 - tp)
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, dc * 300)
+    local dc = g:FilterCount(Card.IsAbleToGrave, nil, 1 - tp)
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, dc * 500)
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_HAND + LOCATION_ONFIELD)
-    Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
+    Duel.SendtoGrave(g, REASON_EFFECT)
 
     local ct = Duel.GetOperatedGroup():FilterCount(Card.IsLocation, nil,
-                                                   LOCATION_REMOVED)
+                                                   LOCATION_GRAVE)
     if ct > 0 then
         Duel.BreakEffect()
-        Duel.Damage(1 - tp, ct * 300, REASON_EFFECT)
+        Duel.Damage(1 - tp, ct * 500, REASON_EFFECT)
     end
 
     local ec0 = Effect.CreateEffect(c)
