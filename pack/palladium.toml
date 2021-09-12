@@ -596,7 +596,7 @@ This card's effect cannot be negated. \
 strings = ["Banish Spells/Traps to gain ATK"]
 
 [card.chaos-end-ruler]
-id = 910000024
+id = 910000025
 set = "chaos"
 name = "Chaos End Ruler - Ruler of the Beginning and the End"
 type = "monster fusion effect"
@@ -627,7 +627,7 @@ strings = [
 ]
 
 [card.arcana-paladin-joker]
-id = 910000025
+id = 910000026
 name = "Arcana Paladin Joker"
 type = "fusion monster effect"
 attribute = "light"
@@ -648,7 +648,7 @@ If this Fusion Summoned card is destroyed by battle or card effect: \
 strings = []
 
 [card.palladium-beast-chimera]
-id = 910000026
+id = 910000027
 set = "palladium"
 name = "Palladium Beast Chimera"
 type = "monster fusion effect"
