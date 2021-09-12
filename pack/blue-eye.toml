@@ -31,7 +31,6 @@ def = 3800
 effect = """\
 "Blue-Eyes White Dragon" + "Blue-Eyes White Dragon" + "Blue-Eyes White Dragon"
 Must first be Fusion Summoned with the above materials. \
-This card's activation and effect cannot be negated. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Cannot be destroyed by card effects. Your opponent cannot target it with card effects. \
 """
