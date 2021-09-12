@@ -47,6 +47,7 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_GRAVE)
     e3:SetCountLimit(1, id)
+    e3:SetCondition(aux.exccon)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -70,6 +71,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND, 0, 1,
                                            nil)
     end
+
     Duel.DiscardHand(tp, s.e3filter, 1, 1, REASON_COST + REASON_DISCARD)
 end
 

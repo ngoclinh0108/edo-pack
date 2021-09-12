@@ -11,13 +11,24 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
     if not GhostBelleTable then GhostBelleTable = {} end
     table.insert(GhostBelleTable, e1)
+
+    -- to hand
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TOHAND)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, id)
+    e2:SetCondition(aux.exccon)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter(c, ft, e, tp)
@@ -56,4 +67,25 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end, function(tc)
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     end, 2)
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsDiscardable, tp,
+                                           LOCATION_HAND, 0, 1, nil)
+    end
+    
+    Duel.DiscardHand(tp, Card.IsDiscardable, 1, 1, REASON_COST + REASON_DISCARD)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsAbleToHand() end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+    Duel.SendtoHand(c, nil, REASON_EFFECT)
 end
