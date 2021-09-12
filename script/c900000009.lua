@@ -202,7 +202,7 @@ function s.e4lpop(e, tp, eg, ep, ev, re, r, rp)
     }
 
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 2))
+    ec1:SetDescription(aux.Stringid(id, 4))
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE +
                         EFFECT_FLAG_CLIENT_HINT)
