@@ -223,7 +223,8 @@ atk = 100
 def = 2600
 effect = """\
 When your opponent activates a card or effect \
-    that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
+    that targets this card (face-up or face-down) or "Palladium" monster you control, \
+    even during the Damage Step (Quick Effect): \
     You can negate that activation, also change this card to face-up Defense Positionm, if able. \
     You can only use this effect of "Palladium Gardna Karim" once per turn. \
 Once while face-up on the field (Quick Effect): You can change this card to Defense Position, \
@@ -677,8 +678,13 @@ name = "Palladium De-Fusion"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "De-Fusion" and it is "Palladium" card.)
+Target 1 Fusion Monster on the field; \
+    return it to the Extra Deck, \
+    then, if all the Fusion Materials that were used for its Fusion Summon are banished and/or are in your hand, Deck, GY, \
+    you can Special Summon as many of them. \
+    This card's activation and effect cannot be negated. \
 """
-strings = []
+strings = ["Target Fusion Monster", "Special Summon all Fusion Materials"]
 
 [card.palladium-reborn]
 id = 910000102
