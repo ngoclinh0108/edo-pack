@@ -12,7 +12,7 @@ function s.initial_effect(c)
     attribute:SetCode(EFFECT_ADD_ATTRIBUTE)
     attribute:SetValue(ATTRIBUTE_DARK)
     c:RegisterEffect(attribute)
-    
+
     -- atk/def up
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
@@ -35,7 +35,6 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     e2:SetCountLimit(1, {id, 1})
     e2:SetCondition(s.e2con)
-    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -115,32 +114,37 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return tg:IsExists(s.e2filter, 1, nil, tp)
 end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    if g then
-        g = g:Filter(Card.IsAbleToHandAsCost, nil)
-    else
-        g = Group.FromCards(Duel.GetAttackTarget()):Filter(
-                Card.IsAbleToHandAsCost, nil)
-    end
-    if chk == 0 then return #g >= 1 end
-
-    g = Utility.GroupSelect(g, tp, 1, 1, nil)
-    Duel.SendtoHand(g, nil, REASON_COST)
-end
-
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+    if g then
+        g = g:Filter(Card.IsAbleToHand, nil)
+    else
+        g = Group.FromCards(Duel.GetAttackTarget()):Filter(Card.IsAbleToHand,
+                                                           nil)
     end
+    if chk == 0 then
+        return #g >= 1 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
+
+    local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+    if g then
+        g = g:Filter(Card.IsAbleToHand, nil)
+    else
+        g = Group.FromCards(Duel.GetAttackTarget()):Filter(Card.IsAbleToHand,
+                                                           nil)
+    end
+    g = Utility.GroupSelect(g, tp, 1, 1, nil)
+    if #g == 0 then return end
+    if Duel.SendtoHand(g, nil, REASON_EFFECT) == 0 then return end
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)

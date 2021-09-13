@@ -39,10 +39,11 @@ Once per turn, during damage calculation, \
 You can only use each of the following effects of "Illusory Palladium Oracle Mana" once per turn. \
 If you Normal or Special Summon "Palladium Oracle Mahad", \
     while this card is in your hand or GY: \
-    You can Special Summon this card. \
+    You can Special Summon it. \
 When your opponent targets a monster(s) you control with a card effect (except during the Damage Step), \
     while this card is in your hand or GY (Quick Effect): \
-    You can return 1 of those monsters to the hand; Special Summon this card. \
+    You can return 1 of those monsters to the hand, \
+    and if you do, Special Summon this card. \
 """
 strings = ["Gain ATK/DEF", "Return the targeted to the hand and Special Summon"]
 
