@@ -71,7 +71,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Remove(g, POS_FACEUP, REASON_COST)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingTarget(s.e2filter2, tp, LOCATION_GRAVE,
@@ -126,7 +126,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e3filter1, 1, nil, tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsAbleToDeck() and

@@ -129,7 +129,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SendtoHand(g, nil, 1, REASON_COST)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
@@ -155,7 +155,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e3filter, 1, nil, tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and

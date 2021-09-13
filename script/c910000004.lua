@@ -62,7 +62,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ConfirmCards(1 - tp, e:GetHandler())
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1,
@@ -87,7 +87,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return true end
 
     local b1 = true

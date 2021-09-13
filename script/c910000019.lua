@@ -155,7 +155,7 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local loc = LOCATION_HAND + LOCATION_ONFIELD
     local g = Duel.GetFieldGroup(tp, 0, loc)
     if chk == 0 then return #g > 0 end

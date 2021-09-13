@@ -258,7 +258,7 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Dimension.SendToDimension(c, REASON_COST)
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     local mc = c:GetMaterial():GetFirst()
     if chk == 0 then

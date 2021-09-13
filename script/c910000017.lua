@@ -46,7 +46,7 @@ function s.e1filter2(c)
                (c:IsLevelAbove(5) and c:IsSetCard(0x13a))
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e1filter1, tp,
                                            LOCATION_HAND + LOCATION_DECK, 0, 1,
@@ -79,7 +79,7 @@ end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp) return (r & REASON_FUSION) ~= 0 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return true end
 
     Duel.SetTargetPlayer(tp)

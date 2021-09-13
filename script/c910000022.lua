@@ -102,7 +102,7 @@ function s.e2filter(c, e, tp)
             c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_GRAVE +
@@ -144,7 +144,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Release(g, REASON_COST)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
                                            LOCATION_MZONE, 1, nil)

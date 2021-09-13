@@ -668,6 +668,12 @@ During your Draw Phase, before you draw: \
     You can reveal this card in your hand; \
     Look at up to 5 cards from the top of your Deck, \
     then place them on the top of the Deck in any order. \
+During your Main Phase, while you control 3 monsters whose original names are \
+    "Slifer the Sky Dragon", "Obelisk the Tormentor", and "The Winged Dragon of Ra": \
+    You can banish this card from your GY; \
+    Add 1 "Holactie the Creator of Light" from your Deck, GY or Outside to your hand. \
+    Cards and effects cannot be activated in response to this effect's activation. \
+    You can only use this effect of "The Palladium Name" once per Duel. \
 """
 strings = ["Search DIVINE or \"Palladium\" monster"]
 

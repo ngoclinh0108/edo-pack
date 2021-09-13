@@ -53,7 +53,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
                                         nil)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
@@ -83,7 +83,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
                                        e:GetHandler())
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND +

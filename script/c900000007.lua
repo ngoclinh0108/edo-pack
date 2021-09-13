@@ -58,7 +58,7 @@ function s.e2val(e, c)
                Divine.GetDivineHierarchy(c)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return e:GetHandler():IsDestructable() end
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, e:GetHandler(), 1, 0, 0)
 end
@@ -69,7 +69,7 @@ end
 
 function s.e4con(e) return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD) end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return true end
 
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD,

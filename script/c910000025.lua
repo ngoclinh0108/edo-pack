@@ -70,7 +70,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
                      nil)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return true end
 
     Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, #eg, 0, 0)

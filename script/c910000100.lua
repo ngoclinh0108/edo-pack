@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {10000000, 10000020, CARD_RA, 10000040}
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
@@ -26,6 +27,18 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- call holactie
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_TOHAND)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
+    e3:SetCost(aux.bfgcost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1filter(c, e, tp)
@@ -35,7 +48,7 @@ function s.e1filter(c, e, tp)
                    c:IsAbleToHand())
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsPlayerCanDiscardDeck(tp, 1) and
                    Duel.IsExistingMatchingCard(Card.IsAbleToHand, tp,
@@ -91,7 +104,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ConfirmCards(1 - tp, e:GetHandler())
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
 end
 
@@ -101,4 +114,42 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     local ac = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
     Duel.SortDecktop(tp, tp, ct)
+end
+
+function s.e3filter(c, code)
+    local code1, code2 = c:GetOriginalCodeRule()
+    return code1 == code or code2 == code
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil)
+    return g:FilterCount(s.e3filter, nil, 10000000) >= 1 and
+               g:FilterCount(s.e3filter, nil, 10000020) >= 1 and
+               g:FilterCount(s.e3filter, nil, CARD_RA) >= 1
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local g = Duel.GetMatchingGroup(Card.IsCode, tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil,
+                                    10000040)
+    if chk == 0 then return #g == 0 or g:IsExists(Card.IsAbleToHand, 1, nil) end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
+                          LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetChainLimit(aux.FALSE)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(Card.IsCode, tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil,
+                                    10000040)
+    local sc
+    if #g == 0 then
+        sc = Duel.CreateToken(tp, 10000040)
+    else
+        sc = Utility.GroupSelect(g, tp, 1, 1, nil):GetFirst()
+    end
+    if not sc then return end
+
+    Duel.SendtoHand(sc, nil, REASON_EFFECT)
 end

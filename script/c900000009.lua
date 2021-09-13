@@ -71,7 +71,7 @@ end
 
 function s.e1filter(c) return c:GetTextAttack() > 0 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE,
                                      LOCATION_GRAVE, 1, nil, e, tp)
@@ -112,7 +112,7 @@ end
 
 function s.e3filter(c) return c:IsCode(95286165) and c:IsAbleToHand() end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e3filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
@@ -188,7 +188,7 @@ function s.e4lpcost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.PayLPCost(tp, lp - 100)
 end
 
-function s.e4lptg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4lptg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return true end
     Duel.SetChainLimit(aux.FALSE)
 end
@@ -217,7 +217,7 @@ function s.e4descost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.PayLPCost(tp, 1000)
 end
 
-function s.e4destg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4destg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_MZONE,
                                      LOCATION_MZONE, 1, nil)

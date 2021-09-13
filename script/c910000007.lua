@@ -61,7 +61,7 @@ function s.e1con2(e, tp, eg, ep, ev, re, r, rp)
     return ep ~= tp and aux.damcon1(e, tp, eg, ep, ev, re, r, rp)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
@@ -90,7 +90,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e3filter, 1, nil, tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then return c:IsAbleToHand() end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)

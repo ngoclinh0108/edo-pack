@@ -91,7 +91,7 @@ function s.e1check2(tp)
                 Card.GetCode) >= 3
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return s.e1check1(e, tp) or s.e1check2(tp) end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
     Duel.SetOperationInfo(0, CATEGORY_SUMMON, nil, 1, 0, 0)
@@ -214,7 +214,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ShuffleHand(tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then return c:IsAbleToHand() end
     local dt = Duel.GetDrawCount(tp)

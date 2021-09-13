@@ -53,7 +53,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
                tg:IsExists(aux.FilterFaceupFunction(Card.IsSetCard, 0x13a), 1, c)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return true end
     Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
 end

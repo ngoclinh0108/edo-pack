@@ -71,7 +71,7 @@ function s.e1filter(c)
     return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToRemove()
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE,
                                      LOCATION_GRAVE, 1, nil)

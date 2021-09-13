@@ -23,7 +23,7 @@ function s.e1filter1(c)
                c:IsType(TYPE_RITUAL)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil)
     local b1 = g:IsExists(s.e1filter1, 1, nil)

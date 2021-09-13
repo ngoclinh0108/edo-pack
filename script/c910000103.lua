@@ -78,7 +78,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.DiscardHand(tp, Card.IsDiscardable, 2, 2, REASON_COST + REASON_DISCARD)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then return c:IsAbleToHand() end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
