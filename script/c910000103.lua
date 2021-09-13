@@ -61,12 +61,26 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
-    aux.ToHandOrElse(tc, tp, function(c)
-        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+    local b1 = tc:IsAbleToHand()
+    local b2 = tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end, function(c)
-        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
-    end, 2)
+    local opt = {}
+    local sel = {}
+    if b1 then
+        table.insert(opt, 573)
+        table.insert(sel, 1)
+    end
+    if b2 then
+        table.insert(opt, 2)
+        table.insert(sel, 2)
+    end
+    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
+
+    if op == 1 then
+        Duel.SendtoHand(tc, tp, REASON_EFFECT)
+    else
+        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    end
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
