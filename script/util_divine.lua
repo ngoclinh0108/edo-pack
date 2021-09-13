@@ -95,7 +95,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         local tc = te:GetHandler()
         if tc == c or Divine.GetDivineHierarchy(tc) >=
             Divine.GetDivineHierarchy(c) then return false end
-
+            
         return te:IsActiveType(TYPE_MONSTER) or
                    te:IsHasCategory(
                        CATEGORY_TOHAND + CATEGORY_DESTROY + CATEGORY_REMOVE +
@@ -111,6 +111,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noleave:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
         if chk == 0 then
+            Debug.Message(c:IsReason(REASON_EFFECT))
             return
                 c:IsReason(REASON_EFFECT) and r & REASON_EFFECT ~= 0 and re and
                     re:IsActiveType(TYPE_SPELL + TYPE_TRAP) and

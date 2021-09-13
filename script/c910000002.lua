@@ -126,7 +126,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return #g >= 1 end
 
     g = Utility.GroupSelect(g, tp, 1, 1, nil)
-    Duel.SendtoHand(g, nil, 1, REASON_COST)
+    Duel.SendtoHand(g, nil, REASON_COST)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
