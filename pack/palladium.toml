@@ -305,12 +305,11 @@ If this card is Normal or Special Summoned while you control another Level 4 LIG
     but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
 You can only use each effect of "Palladium Knight of King" once per turn. \
 A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
-● When this card destroys an opponent's monster by battle: It can make a second attack in a row. \
+● If this card attacks, your opponent cannot activate any Spell/Trap until the end of the Damage Step.
 """
 strings = [
     "Summoned using \"Palladium Knight of King\"",
     "Cannot be used as material, except for a LIGHT Warrior monster",
-    "Make a second attack in a row",
 ]
 
 [card.palladium-knight-jack]
@@ -644,12 +643,13 @@ effect = """\
 "Palladium Beast Gazelle" + "Palladium Beast Berfomet"
 A Fusion Summon of this card can only be done with the above materials. \
 This card gains effects of material monsters used to Fusion Summon it. \
-This card can make a second attack during each Battle Phase. \
+When this card destroys an opponent's monster by battle: \
+    You can activate this effect; this card can make a second attack in a row. \
 If this card is destroyed: You can Special Summon \
     1 "Palladium Beast Gazelle" or "Palladium Beast Berfomet" \
     that is banished or in your hand, Deck, GY. \
 """
-strings = []
+strings = ["Make a second attack in a row"]
 
 [card.the-palladium-name]
 id = 910000100
@@ -768,4 +768,6 @@ Apply these effects, in sequence, depending on the monster you control. \
 ● "Palladium Oracle Mana" or "The Palladium Oracles": Negate the effects of all face-up monster your opponent currently controls, \
     and also destroy all monster your opponent controls.
 """
-strings = ["Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead"]
+strings = [
+    "Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead",
+]

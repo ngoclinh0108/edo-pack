@@ -29,11 +29,17 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1)
 
-    -- extra attack
+    -- chain attack
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_EXTRA_ATTACK)
-    e2:SetValue(1)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_BATTLE_DESTROYING)
+    e2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return aux.bdocon(e, tp, eg, ep, ev, re, r, rp) and
+                   e:GetHandler():CanChainAttack()
+    end)
+    e2:SetOperation(function() Duel.ChainAttack() end)
+    e2:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(e2)
 
     -- special summon
