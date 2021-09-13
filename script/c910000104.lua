@@ -55,7 +55,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
-    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_DECK,
+    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp,
+                                       LOCATION_DECK + LOCATION_GRAVE,
                                        LOCATION_GRAVE, 1, 1, nil):GetFirst()
     if not tc or Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then return end
 
