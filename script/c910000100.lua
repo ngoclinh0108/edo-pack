@@ -13,19 +13,25 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_INACTIVATE +
                        EFFECT_FLAG_CANNOT_NEGATE)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e1:SetCountLimit(1, {id, 1}, EFFECT_COUNT_CODE_OATH)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
     -- see future
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e2:SetCode(EVENT_PREDRAW)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e2:SetRange(LOCATION_HAND)
-    e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetCountLimit(1, {id, 2})
+    e2:SetCondition(function(e, tp)
+        return Duel.IsTurnPlayer(tp) and not e:GetHandler():IsPublic() and
+                   Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0
+    end)
+    e2:SetOperation(function(e, tp)
+        Duel.ConfirmCards(1 - tp, e:GetHandler())
+        Duel.SortDecktop(tp, tp, 1)
+    end)
     c:RegisterEffect(e2)
 
     -- call holactie
@@ -34,7 +40,7 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetRange(LOCATION_GRAVE)
-    e3:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
+    e3:SetCountLimit(1, {id, 3}, EFFECT_COUNT_CODE_DUEL)
     e3:SetCost(aux.bfgcost)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
@@ -92,29 +98,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.DisableShuffleCheck()
     end
     Duel.ShuffleHand(tp)
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsTurnPlayer(tp) and
-               Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
-               Duel.GetDrawCount(tp) > 0
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return not e:GetHandler():IsPublic() end
-    Duel.ConfirmCards(1 - tp, e:GetHandler())
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local ct = math.min(5, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
-    if ct == 0 then return end
-
-    local ac = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
-    Duel.SortDecktop(tp, tp, ac)
 end
 
 function s.e3filter(c, code)

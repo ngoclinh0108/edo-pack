@@ -167,7 +167,7 @@ id = 910000007
 set = "palladium"
 name = "Mysterious Palladium Oracle Hassan"
 type = "monster effect"
-attribute = "light"
+attribute = "dark"
 race = "spellcaster"
 level = 8
 atk = 2300
@@ -654,6 +654,8 @@ type = "monster normal token"
 attribute = "light"
 race = "fairy"
 level = 1
+atk = 0
+def = 0
 effect = """\
 Special Summoned with the effect of "Palladium's Sanctuary". \
 """
@@ -672,10 +674,9 @@ Declare 1 card name; excavate the top card of your Deck, \
     1 DIVINE or "Palladium" monster from your Deck. \
     Otherwise, send it to the GY. \
     You can only activate 1 "The Palladium Name" per turn. \
-During your Draw Phase, before you draw: \
-    You can reveal this card in your hand; \
-    Look at up to 5 cards from the top of your Deck, \
-    then place them on the top of the Deck in any order. \
+During your Standby Phase, \
+    reveal this card in your hand and look at the top card of your Deck. \
+    You can only use this effect of "The Palladium Name" once per turn. \
 During your Main Phase, while you control 3 monsters whose original names are \
     "Slifer the Sky Dragon", "Obelisk the Tormentor", and "The Winged Dragon of Ra": \
     You can banish this card from your GY; \
@@ -750,7 +751,7 @@ name = "Palladium Sacrophagus"
 type = "spell quick-play"
 effect = """\
 If you control no monsters, you can activate this card from your hand in either player's turn. \
-Banish 1 card from your Deck or in either player GY, \
+Banish 1 card from your Deck or in either GY, \
     and if you do, until the end of the next turn, its effects are negated, \
     as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
     You can only activate 1 "Palladium Sacrophagus" per turn. \
