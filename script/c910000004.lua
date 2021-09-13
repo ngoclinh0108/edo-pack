@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {910000100}
+s.listed_names = {910000101}
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
@@ -63,28 +63,27 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1,
                                            nil)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_HAND)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_DECK, 0,
                                           1, 1, nil):GetFirst()
     if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
         tc:IsLocation(LOCATION_HAND) then
         Duel.ConfirmCards(1 - tp, tc)
         Duel.ShuffleHand(tp)
-        Duel.ShuffleDeck(tp)
         Duel.BreakEffect()
 
-        local g = Utility.SelectMatchingCard(tp, Card.IsAbleToDeck, tp,
-                                             LOCATION_HAND, 0, 1, 1, nil)
-        Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT)
+        Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
     end
 end
 

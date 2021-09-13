@@ -89,7 +89,7 @@ effect = """\
 You can Ritual Summon this card with "Secrets of Palladium Magic". \
 You can reveal this card in your hand; \
     add 1 non-Ritual "Palladium" monster from your Deck to your hand, \
-    then place 1 card from your hand on top of the Deck. \
+    then place this card from your hand into the Deck. \
     You can only use this effect of "Black Luster Soldier - Palladium Soldier" once per turn. \
 If this card battles, your opponent cannot activate cards or effects until the end of the Damage Step. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
@@ -651,8 +651,17 @@ If this card is destroyed: You can Special Summon \
 """
 strings = []
 
-[card.palladium-summoning-magic]
+[card.the-palladium-name]
 id = 910000100
+set = "palladium"
+name = "The Palladium Name"
+type = "spell"
+effect = """\
+"""
+strings = []
+
+[card.palladium-summoning-magic]
+id = 910000101
 alias = 24094653
 name = "Palladium Summoning Magic"
 type = "spell quick-play"
@@ -672,7 +681,7 @@ During your Main Phase, except the turn this card was sent to the GY: \
 strings = []
 
 [card.palladium-fusion-control]
-id = 910000101
+id = 910000102
 alias = 95286165
 name = "Palladium Fusion Control"
 type = "spell quick-play"
@@ -695,7 +704,7 @@ strings = [
 ]
 
 [card.palladium-reborn]
-id = 910000102
+id = 910000103
 alias = 83764718
 name = "Palladium Reborn"
 type = "spell quick-play"
@@ -710,7 +719,7 @@ During your Main Phase, except the turn this card was sent to the GY: \
 strings = []
 
 [card.palladium-sacrophagus]
-id = 910000103
+id = 910000104
 set = "palladium"
 name = "Palladium Sacrophagus"
 type = "spell quick-play"
