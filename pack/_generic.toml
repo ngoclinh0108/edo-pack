@@ -111,7 +111,13 @@ If you Normal Summon "The Winged Dragon of Ra", it gains the following effects.
 ● This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 """
-strings = ["Turn back to Normal Form", "Unstoppable Attack"]
+strings = [
+    "Your field",
+    "Opponent's field",
+    "Affected by effect \"Sun Divine Beast of Ra - Sphere Mode\": Cannot activate \"The Winged Dragon of Ra - Sphere Mode\"'s effects",
+    "Turn back to Normal Form",
+    "Unstoppable Attack",
+]
 
 [card.ra-phoenix]
 id = 900000005

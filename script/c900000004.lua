@@ -59,11 +59,48 @@ function s.initial_effect(c)
     Divine.RegisterEffect(c, e3b)
 
     -- summon ra to opponent's field
-    
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE +
+                       EFFECT_FLAG_SPSUM_PARAM)
+    e4:SetCode(EFFECT_LIMIT_SUMMON_PROC)
+    e4:SetTargetRange(POS_FACEUP_ATTACK, 1)
+    e4:SetCondition(s.e4con)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    e4:SetValue(SUMMON_TYPE_TRIBUTE)
+    local e4grant = Effect.CreateEffect(c)
+    e4grant:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e4grant:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e4grant:SetCode(EVENT_STARTUP)
+    e4grant:SetRange(LOCATION_ALL)
+    e4grant:SetCountLimit(1, id)
+    e4grant:SetOperation(function(e, tp)
+        local c = e:GetHandler()
+        local g = Duel.GetMatchingGroup(Card.IsCode, tp, LOCATION_ALL, 0, nil,
+                                        CARD_RA)
+        for tc in aux.Next(g) do
+            local eff = tc:GetCardEffect(EFFECT_LIMIT_SUMMON_PROC)
+            eff:SetDescription(aux.Stringid(id, 0))
+        end
+
+        local grant = Effect.CreateEffect(c)
+        grant:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_GRANT)
+        grant:SetTargetRange(LOCATION_HAND, 0)
+        grant:SetLabelObject(e4)
+        grant:SetCondition(function(e)
+            return Dimension.IsInDimensionZone(e:GetHandler())
+        end)
+        grant:SetTarget(aux.TargetBoolFunction(Card.IsCode, CARD_RA))
+        Duel.RegisterEffect(grant, tp)
+        c:IsHasEffect(id)
+    end)
+    c:RegisterEffect(e4grant)
 
     -- ancient chant
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 0))
+    e5:SetDescription(aux.Stringid(id, 3))
     e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e5:SetType(EFFECT_TYPE_IGNITION)
     e5:SetProperty(EFFECT_FLAG_BOTH_SIDE)
@@ -88,7 +125,7 @@ function s.dms1op(e, tp, eg, ep, ev, re, r, rp)
     if not Dimension.CanBeDimensionChanged(c) then return end
 
     local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
-    Dimension.Change(mc, c, rp, rp, mc:GetPosition())
+    Dimension.Change(mc, c, rp, mc:GetControler(), mc:GetPosition())
     if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                              RESET_EVENT + RESETS_STANDARD,
@@ -147,7 +184,7 @@ function s.dms2op(e, tp, eg, ep, ev, re, r, rp)
 
     -- unstoppable attack
     local ec2 = Effect.CreateEffect(c)
-    ec2:SetDescription(aux.Stringid(id, 1))
+    ec2:SetDescription(aux.Stringid(id, 4))
     ec2:SetType(EFFECT_TYPE_SINGLE)
     ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE +
                         EFFECT_FLAG_CLIENT_HINT)
@@ -161,6 +198,58 @@ end
 function s.dms2con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.IsExistingMatchingCard(s.dms2filter, tp, LOCATION_MZONE, 0, 1,
                                        nil, true)
+end
+
+function s.e4con(e, c, minc, zone, relzone, exeff)
+    if c == nil then return true end
+    if exeff then
+        local ret = exeff:GetValue()
+        if type(ret) == "function" then
+            ret = {ret(exeff, c)}
+            if #ret > 1 then zone = (ret[2] >> 16) & 0x7f end
+        end
+    end
+    local tp = c:GetControler()
+    local mg = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
+    mg = mg:Filter(Auxiliary.IsZone, nil, relzone, tp)
+    return minc <= 3 and Duel.CheckTribute(c, 3, 3, mg, 1 - tp, zone)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, c, minc, zone, relzone, exeff)
+    if exeff then
+        local ret = exeff:GetValue()
+        if type(ret) == "function" then
+            ret = {ret(exeff, c)}
+            if #ret > 1 then zone = (ret[2] >> 16) & 0x7f end
+        end
+    end
+    local mg = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
+    mg = mg:Filter(Auxiliary.IsZone, nil, relzone, tp)
+    local g = Duel.SelectTribute(tp, c, 3, 3, mg, 1 - tp, zone, true)
+    if g and #g > 0 then
+        g:KeepAlive()
+        e:SetLabelObject(g)
+        return true
+    end
+    return false
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp, c, minc, zone, relzone, exeff)
+    local g = e:GetLabelObject()
+    c:SetMaterial(g)
+    Duel.Release(g, REASON_SUMMON + REASON_MATERIAL)
+    g:DeleteGroup()
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 2))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH +
+                        EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(function(e, re) return re:GetHandler():IsCode(10000080) end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -232,7 +321,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp, immediately)
 
     -- unstoppable attack
     local ec2 = Effect.CreateEffect(c)
-    ec2:SetDescription(aux.Stringid(id, 1))
+    ec2:SetDescription(aux.Stringid(id, 4))
     ec2:SetType(EFFECT_TYPE_SINGLE)
     ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE +
                         EFFECT_FLAG_CLIENT_HINT)
