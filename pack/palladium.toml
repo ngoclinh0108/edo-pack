@@ -773,5 +773,33 @@ set = "palladium"
 name = "Palladium's Sanctuary"
 type = "spell quick-play"
 effect = """\
+During your Main Phase or your opponent's turn: \
+    Special Summon 1 "Palladium Apostle Token" (Fairy/LIGHT/Level 1/ATK 0/DEF 0). \
+    It cannot attack. Your opponent takes any battle damage you would have taken from battles involving it. \
+    During each of your Standby Phases, pay 1000 LP or destroy this Token. \
+    If you activated this effect while an opponent's monster attacking, during your opponent's Battle Phase, \
+    the attacking monster must attack this card, if able. \
+During your Main Phase, except the turn this card was sent to the GY: \
+    You can banish this card from your GY; \
+    Tribute 1 face-up monster with 500 or less ATK and DEF, and if you do, \
+    Special Summon any number of "Palladium Apostle Token" (Fairy/LIGHT/Level 1/ATK ?/DEF ?), in Defense Position. \
+    (This Token's ATK/DEF become the ATK/DEF the Tribtued monster had on the field.) \
+    You can only use this effect of "Palladium's Sanctuary" once per turn. \
+"""
+strings = [
+    "Pay 1000 LP to maintain \"Palladium Apostle Token\"?",
+    "Select number of token",
+]
+
+[card.palladium-apostle-token]
+id = 910000107
+set = "palladium"
+name = "Palladium Apostle Token"
+type = "monster normal token"
+attribute = "light"
+race = "fairy"
+level = 1
+effect = """\
+Special Summoned with the effect of "Palladium's Sanctuary". \
 """
 strings = []

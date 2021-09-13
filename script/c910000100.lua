@@ -114,7 +114,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if ct == 0 then return end
 
     local ac = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
-    Duel.SortDecktop(tp, tp, ct)
+    Duel.SortDecktop(tp, tp, ac)
 end
 
 function s.e3filter(c, code)
