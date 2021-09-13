@@ -1,4 +1,4 @@
--- Palladium Fusion Break
+-- Palladium De-Fusion
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

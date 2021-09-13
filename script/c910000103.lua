@@ -3,24 +3,25 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    -- activate
-    local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_REMOVE)
-    e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
-    c:RegisterEffect(e1)
-
     -- act in hand
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
-    e2:SetCondition(function(e)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+    e1:SetCondition(function(e)
         local tp = e:GetHandlerPlayer()
         return Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0) == 0
     end)
+    c:RegisterEffect(e1)
+
+    -- activate
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_REMOVE)
+    e2:SetType(EFFECT_TYPE_ACTIVATE)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetCountLimit(1, {id, 1}, EFFECT_COUNT_CODE_OATH)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
     -- salvage
@@ -28,21 +29,21 @@ function s.initial_effect(c)
     e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_GRAVE)
-    e3:SetCountLimit(1, id)
+    e3:SetCountLimit(1, {id, 2})
     e3:SetCondition(aux.exccon)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
+function s.e2filter(c)
     return c:IsAbleToRemove() and
                (c:IsLocation(LOCATION_DECK) or aux.SpElimFilter(c, true))
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+        return Duel.IsExistingMatchingCard(s.e2filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE,
                                            LOCATION_GRAVE, 1, nil)
     end
@@ -50,19 +51,19 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 0, 0)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
-    local tc = Duel.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_DECK,
+    local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_DECK,
                                        LOCATION_GRAVE, 1, 1, nil):GetFirst()
     if not tc or Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then return end
 
     local ec2 = Effect.CreateEffect(c)
     ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     ec2:SetCode(EVENT_CHAIN_SOLVING)
-    ec2:SetCondition(s.e1discon)
-    ec2:SetOperation(s.e1disop)
+    ec2:SetCondition(s.e2discon)
+    ec2:SetOperation(s.e2disop)
     ec2:SetLabel(tc:GetOriginalCodeRule())
     ec2:SetReset(RESET_PHASE + PHASE_END, 2)
     Duel.RegisterEffect(ec2, tp)
@@ -71,28 +72,28 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetCode(EFFECT_DISABLE)
     ec1:SetTargetRange(0, LOCATION_ONFIELD)
-    ec1:SetTarget(s.e1distg)
+    ec1:SetTarget(s.e2distg)
     ec1:SetLabel(tc:GetOriginalCodeRule())
     ec1:SetReset(RESET_PHASE + PHASE_END, 2)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e1discon(e, tp, eg, ep, ev, re, r, rp)
+function s.e2discon(e, tp, eg, ep, ev, re, r, rp)
     local code = e:GetLabel()
-    local code1, code3 = re:GetHandler():GetOriginalCodeRule()
+    local code2, code3 = re:GetHandler():GetOriginalCodeRule()
     return rp ~= tp and re:IsActiveType(TYPE_MONSTER) and
-               (code1 == code or code3 == code)
+               (code2 == code or code3 == code)
 end
 
-function s.e1disop(e, tp, eg, ep, ev, re, r, rp)
+function s.e2disop(e, tp, eg, ep, ev, re, r, rp)
     Utility.HintCard(id)
     Duel.NegateEffect(ev)
 end
 
-function s.e1distg(e, c)
+function s.e2distg(e, c)
     local code = e:GetLabel()
-    local code1, code3 = c:GetOriginalCodeRule()
-    return code1 == code or code3 == code
+    local code2, code3 = c:GetOriginalCodeRule()
+    return code2 == code or code3 == code
 end
 
 function s.e3filter(c) return c:IsFaceup() and c:IsAbleToHand() end
