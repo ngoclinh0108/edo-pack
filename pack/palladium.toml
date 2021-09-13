@@ -485,7 +485,7 @@ def = 2300
 effect = """\
 "Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
 Must first be Fusion Summoned with the above materials. \
-Monsters you control cannot be destroyed by card effects. \
+Spellcaster monsters you control cannot be destroyed by card effects. \
 Once per turn, when a monster declares an attack or a card or effect is activated: \
     You can draw 1 card, then if it was a Spell/Trap, \
     you can send it to the GY if it meets activation conditions, this effect becomes that card's effect when it is activated, \
