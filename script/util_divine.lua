@@ -48,15 +48,23 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noswitch:SetRange(LOCATION_MZONE)
     Divine.RegisterEffect(c, noswitch)
 
-    -- cannot be tributed by your opponent
-    local norelease = Effect.CreateEffect(c)
-    norelease:SetType(EFFECT_TYPE_FIELD)
-    norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE)
-    norelease:SetCode(EFFECT_CANNOT_RELEASE)
-    norelease:SetRange(LOCATION_MZONE)
-    norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
-    Divine.RegisterEffect(c, norelease)
+    -- cannot be tributed by your opponent or by card effect
+    local norelease1 = Effect.CreateEffect(c)
+    norelease1:SetType(EFFECT_TYPE_FIELD)
+    norelease1:SetProperty(EFFECT_FLAG_PLAYER_TARGET +
+                               EFFECT_FLAG_CANNOT_DISABLE)
+    norelease1:SetCode(EFFECT_CANNOT_RELEASE)
+    norelease1:SetRange(LOCATION_MZONE)
+    norelease1:SetTargetRange(0, 1)
+    norelease1:SetTarget(function(e, tc) return tc == e:GetHandler() end)
+    Divine.RegisterEffect(c, norelease1)
+    local norelease2 = Effect.CreateEffect(c)
+    norelease2:SetType(EFFECT_TYPE_SINGLE)
+    norelease2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    norelease2:SetCode(EFFECT_UNRELEASABLE_EFFECT)
+    norelease2:SetRange(LOCATION_MZONE)
+    norelease2:SetValue(1)
+    Divine.RegisterEffect(c, norelease2)
 
     -- cannot be used as a material by your opponent
     local nomaterial = Effect.CreateEffect(c)

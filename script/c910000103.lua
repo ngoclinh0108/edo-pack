@@ -81,8 +81,7 @@ end
 function s.e2discon(e, tp, eg, ep, ev, re, r, rp)
     local code = e:GetLabel()
     local code2, code3 = re:GetHandler():GetOriginalCodeRule()
-    return rp ~= tp and re:IsActiveType(TYPE_MONSTER) and
-               (code2 == code or code3 == code)
+    return rp ~= tp and (code2 == code or code3 == code)
 end
 
 function s.e2disop(e, tp, eg, ep, ev, re, r, rp)

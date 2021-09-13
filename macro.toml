@@ -9,7 +9,7 @@ This card's Normal Summon cannot be negated.\
 EGYPTIAN_EFFECT = """\
 This card's activation and effect cannot be negated or copied. \
 Control of this card cannot switch. \
-Cannot be Tributed, or be used as a material for an Summon by your opponent. \
+Cannot be Tributed, or be used as a material for an Summon by your opponent or by card effects. \
 Its battle position cannot be changed by card effects. \
 Unaffected by Spell/Trap effects that would make it leave the field and other monster effects, \
     except card with the same or higher Divine Hierarchy. \
