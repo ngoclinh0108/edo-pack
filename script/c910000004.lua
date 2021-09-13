@@ -80,14 +80,13 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then return true end
-
     local b1 = true
     local b2 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
                                            LOCATION_ONFIELD, 1, nil)
     local b3 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
                                            LOCATION_HAND, 1, nil)
     local b4 = true
+    if chk == 0 then return b1 or b2 or b3 or b4 end
 
     local opt = {}
     local sel = {}

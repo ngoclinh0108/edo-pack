@@ -30,7 +30,8 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e1:SetRange(LOCATION_MZONE)
     e1:SetTargetRange(LOCATION_MZONE, 0)
-    e1:SetValue(function (e, c) return c:IsRace(RACE_SPELLCASTER) end)
+    e1:SetTarget(function(e, c) return c:IsRace(RACE_SPELLCASTER) end)
+    e1:SetValue(1)
     c:RegisterEffect(e1)
 
     -- draw
