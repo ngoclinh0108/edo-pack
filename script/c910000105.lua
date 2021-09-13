@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-local PALLADIUM_TOKEN = 910000099
+local PALLADIUM_TOKEN = 910000100
 s.listed_names = {PALLADIUM_TOKEN}
 
 function s.initial_effect(c)

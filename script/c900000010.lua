@@ -1,9 +1,8 @@
--- The Palladium Name
+-- The Divine Name
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {10000000, 10000020, CARD_RA, 10000040}
-s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     -- activate
@@ -49,8 +48,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, e, tp)
-    return c:IsMonster() and
-               (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsSetCard(0x13a)) and
+    return c:IsMonster() and c:IsAttribute(ATTRIBUTE_DIVINE) and
                (c:IsCanBeSpecialSummoned(e, 0, tp, false, false) or
                    c:IsAbleToHand())
 end
@@ -81,11 +79,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
-    local g =
-        Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil, e, tp)
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp,
+                                    LOCATION_DECK + LOCATION_GRAVE, 0, nil, e,
+                                    tp)
     if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
-
         g = Utility.GroupSelect(g, tp, 1, 1, nil)
         aux.ToHandOrElse(g, tp, function(c)
             return
