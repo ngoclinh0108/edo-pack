@@ -671,10 +671,10 @@ During your Main Phase, except the turn this card was sent to the GY: \
 """
 strings = []
 
-[card.palladium-de-fusion]
+[card.palladium-fusion-control]
 id = 910000101
 alias = 95286165
-name = "Palladium De-Fusion"
+name = "Palladium Fusion Control"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "De-Fusion" and it is "Palladium" card.)
@@ -683,8 +683,16 @@ Target 1 Fusion Monster on the field; \
     then, if all the Fusion Materials that were used for its Fusion Summon are banished and/or are in your hand, Deck, GY, \
     you can Special Summon as many of them. \
     This card's activation and effect cannot be negated. \
+You can discard this card from your hand; \
+    This turn, the activation of your cards and effects that include an effect that Fusion Summons a Fusion Monster cannot be negated, \
+    also your opponent cannot activate cards or effects when a monster is Fusion Summoned this way. \
+    You can only use this effect of "Palladium Fusion Control" once per turn. \
 """
-strings = ["Target Fusion Monster", "Special Summon all Fusion Materials"]
+strings = [
+    "Target Fusion Monster",
+    "Special Summon all Fusion Materials",
+    "Prevent Fusion Negation",
+]
 
 [card.palladium-reborn]
 id = 910000102

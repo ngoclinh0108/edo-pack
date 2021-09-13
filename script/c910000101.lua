@@ -1,4 +1,4 @@
--- Palladium De-Fusion
+-- Palladium Fusion Control
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -16,6 +16,16 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- prevent fusion negation
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 2))
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_HAND)
+    e2:SetCountLimit(1, id)
+    e2:SetCost(s.e2cost)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter1(c)
@@ -69,3 +79,75 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
     end
 end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsDiscardable() end
+    Duel.SendtoGrave(e:GetHandler(), REASON_COST + REASON_DISCARD)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetCode(EFFECT_CANNOT_INACTIVATE)
+    ec1:SetValue(function(e, ct)
+        local p = e:GetHandlerPlayer()
+        local te, tp = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT,
+                                         CHAININFO_TRIGGERING_PLAYER)
+        return p == tp and te:IsHasCategory(CATEGORY_FUSION_SUMMON)
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    ec2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return eg:IsExists(function(c, tp)
+            return c:IsSummonPlayer(tp) and c:IsSummonType(SUMMON_TYPE_FUSION)
+        end, 1, nil, tp)
+    end)
+    ec2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if Duel.GetCurrentChain() == 0 then
+            Duel.SetChainLimitTillChainEnd(function(e, rp, tp)
+                return tp == rp
+            end)
+        elseif Duel.GetCurrentChain() == 1 then
+            c:RegisterFlagEffect(id,
+                                 RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                                     PHASE_END, 0, 1)
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+            ec1:SetCode(EVENT_CHAINING)
+            ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+                e:GetHandler():ResetFlagEffect(id)
+                e:Reset()
+            end)
+            Duel.RegisterEffect(ec1, tp)
+            local ec1b = ec1:Clone()
+            ec1b:SetCode(EVENT_BREAK_EFFECT)
+            ec1b:SetReset(RESET_CHAIN)
+            Duel.RegisterEffect(ec1b, tp)
+        end
+    end)
+    ec2:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec2, tp)
+
+    local ec3 = Effect.CreateEffect(c)
+    ec3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec3:SetCode(EVENT_CHAIN_END)
+    ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if c:GetFlagEffect(id) ~= 0 then
+            Duel.SetChainLimitTillChainEnd(function(e, rp, tp)
+                return tp == rp
+            end)
+        end
+        c:ResetFlagEffect(id)
+    end)
+    ec3:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec3, tp)
+end
+
