@@ -752,3 +752,20 @@ During your Main Phase, except the turn this card was sent to the GY: \
     You can only use this effect of "Palladium Sacrophagus" once per turn. \
 """
 strings = []
+
+[card.palladium-nova-blast-magic]
+id = 910000105
+set = "palladium"
+name = "Palladium Blast Nova Magic"
+type = "spell quick-play"
+effect = """\
+Apply these effects, in sequence, depending on the monster you control. \
+    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation. \
+    You can only activate 1 "Palladium Blast Nova Magic" per turn.
+● Spellcaster "Palladium" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
+● "Palladium Oracle Mahad" or "The Palladium Oracles": Negate the effects of all face-up Spells and Traps your opponent currently controls, \
+    and also destroy all Spells and Traps your opponent controls.
+● "Palladium Oracle Mana" or "The Palladium Oracles": Negate the effects of all face-up monster your opponent currently controls, \
+    and also destroy all monster your opponent controls.
+"""
+strings = ["Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead"]

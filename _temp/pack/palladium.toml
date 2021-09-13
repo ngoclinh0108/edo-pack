@@ -27,18 +27,3 @@ strings = [
     "Add 1 DIVINE monster",
     "Special Summoned by \"Divine Hieroglyph\"",
 ]
-
-[card.palladium-magic]
-id = 910000010
-set = "palladium"
-name = "Palladium Magic"
-type = "spell quick-play"
-effect = """\
-Apply these effects, in sequence, depending on the monster you control. \
-    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation. \
-    You can only activate 1 "Palladium Magic" per turn.
-● Level 8 DARK Spellcaster "Chaos" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
-● "Dark Magician": Destroy All Spells and Traps your opponent controls.
-● "Dark Magician Girl" monster: Destroy all monsters your opponent controls.
-"""
-strings = ["Card sent to the GY is banished instead"]
