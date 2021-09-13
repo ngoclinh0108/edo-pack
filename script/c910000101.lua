@@ -1,4 +1,4 @@
--- Palladium Summoning Magic
+-- Forbidden Art of Palladium
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

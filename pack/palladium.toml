@@ -10,7 +10,7 @@ level = 7
 atk = 2500
 def = 2100
 effect = """\
-(This card's name is always treated as "Palladium Oracle Mahad", it's Attribute is also DARK.)
+(This card's name is always treated as "Palladium Oracle Mahad")
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 Your opponent cannot target Spells/Traps you control with card effects, \
@@ -30,7 +30,7 @@ level = 6
 atk = 2000
 def = 1700
 effect = """\
-(This card's name is always treated as "Palladium Oracle Mana", it's Attribute is also DARK.)
+(This card's name is always treated as "Palladium Oracle Mana")
 Once per turn, during damage calculation, \
     if your other Spellcaster monster battles an opponent's monster (Quick Effect): \
     That monster you control gains ATK/DEF equal to this card's ATK during that damage calculation only. \
@@ -58,8 +58,7 @@ level = 8
 atk = 2800
 def = 2600
 effect = """\
-(This card's Attribute is also DARK.)
-You can Ritual Summon this card with "Secrets of Palladium Magic". \
+You can Ritual Summon this card with "Forbidden Art of Palladium". \
 You can reveal this card in your hand; \
     add 1 "Palladium" Spell/Trap from your Deck to your hand, \
     then place 1 card from your hand on top of the Deck. \
@@ -86,8 +85,7 @@ level = 8
 atk = 3000
 def = 2500
 effect = """\
-(This card's Attribute is also DARK.)
-You can Ritual Summon this card with "Secrets of Palladium Magic". \
+You can Ritual Summon this card with "Forbidden Art of Palladium". \
 You can reveal this card in your hand; \
     add 1 non-Ritual "Palladium" monster from your Deck to your hand, \
     then place this card from your hand into the Deck. \
@@ -118,7 +116,6 @@ level = 8
 atk = 3000
 def = 2500
 effect = """\
-(This card's Attribute is also LIGHT.)
 Cannot be Normal Summoned/Set. \
 Must first be Special Summoned (from your hand or GY) by banishing 1 LIGHT and 1 DARK monster from your GY, \
     except this card. \
@@ -487,7 +484,6 @@ atk = 2800
 def = 2300
 effect = """\
 "Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
-(This card's Attribute is also DARK.)
 Must first be Fusion Summoned with the above materials. \
 Monsters you control cannot be destroyed by card effects. \
 Once per turn, when a monster declares an attack or a card or effect is activated: \
@@ -512,7 +508,6 @@ atk = 3500
 def = 2500
 effect = """\
 "Palladium Oracle Mahad" + "Blue-Eyes White Dragon" or 1 Dragon Effect Monster
-(This card's Attribute is also DARK.)
 Must first be Fusion Summoned with the above materials. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Cannot be destroyed by card effects. Your opponent cannot target it with card effects. \
@@ -537,14 +532,13 @@ id = 910000022
 set = "palladium chaos"
 name = "Palladium Master of Chaos"
 type = "monster fusion effect"
-attribute = "light"
+attribute = "dark"
 race = "spellcaster"
 level = 8
 atk = 3000
 def = 2500
 effect = """\
 "Palladium Oracle Mahad" + 1 "Chaos" or "Black Luster Soldier" Ritual Monster
-(This card's Attribute is also DARK.)
 Must first be Fusion Summoned with the above materials. \
 If this card is Fusion Summoned: \
     You can add 1 card in your GY to your hand. \
@@ -678,10 +672,10 @@ During your Main Phase, while you control 3 monsters whose original names are \
 """
 strings = ["Search DIVINE or \"Palladium\" monster"]
 
-[card.palladium-summoning-magic]
+[card.forbidden-art-palladium]
 id = 910000101
 alias = 24094653
-name = "Palladium Summoning Magic"
+name = "Forbidden Art of Palladium"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "Polymerization" and it is "Palladium" card.)
@@ -694,7 +688,7 @@ During your Main Phase or your opponent's turn: Activate 1 of the following effe
     you can use 1 "Palladium" monster from your Deck as material.
 During your Main Phase, except the turn this card was sent to the GY: \
     You can discard 1 Spell; add this card to your hand. \
-    You can only use this effect of "Palladium Summoning Magic" once per turn. \
+    You can only use this effect of "Forbidden Art of Palladium" once per turn. \
 """
 strings = []
 
