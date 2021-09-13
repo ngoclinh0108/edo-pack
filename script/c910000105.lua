@@ -131,7 +131,9 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 and
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1,
+                                           nil) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 and
                    Duel.IsPlayerCanSpecialSummonMonster(tp, PALLADIUM_TOKEN,
                                                         0x13a, TYPES_TOKEN, -2,
                                                         -2, 1, RACE_FAIRY,
@@ -147,6 +149,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_MZONE, 0,
                                           1, 1, nil):GetFirst()
+    if not tc then return end
     local atk = tc:GetAttack()
     local def = tc:GetDefense()
     if not tc or Duel.Release(tc, REASON_EFFECT) == 0 then return end
