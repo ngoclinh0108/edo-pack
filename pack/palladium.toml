@@ -670,8 +670,18 @@ During your Main Phase, except the turn this card was sent to the GY: \
 """
 strings = []
 
-[card.palladium-reborn]
+[card.palladium-fusion-break]
 id = 910000101
+alias = 95286165
+name = "Palladium Fusion Break"
+type = "spell quick-play"
+effect = """\
+(This card's name is always treated as "De-Fusion" and it is "Palladium" card.)
+"""
+strings = []
+
+[card.palladium-reborn]
+id = 910000102
 alias = 83764718
 name = "Palladium Reborn"
 type = "spell quick-play"
@@ -686,7 +696,7 @@ During your Main Phase, except the turn this card was sent to the GY: \
 strings = []
 
 [card.palladium-sacrophagus]
-id = 910000102
+id = 910000103
 set = "palladium"
 name = "Palladium Sacrophagus"
 type = "spell quick-play"
