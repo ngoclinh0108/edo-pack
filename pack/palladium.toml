@@ -766,3 +766,12 @@ Apply these effects, in sequence, depending on the monster you control. \
 strings = [
     "Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead",
 ]
+
+[card.palladium-sanctuary]
+id = 910000106
+set = "palladium"
+name = "Palladium's Sanctuary"
+type = "spell quick-play"
+effect = """\
+"""
+strings = []
