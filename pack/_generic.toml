@@ -54,9 +54,10 @@ ${EGYPTIAN_LIMIT} \
 This card is also Dragon-Type while on the field. \
 Its original ATK/DEF become equal to the number of cards in your hand x X000. (X is its Divine Hierarchy). \
 If a monster(s) is Summoned to your opponent's field, while this card is able to attack: \
-    Target that monster(s), ignoring card effects; it loses 2000 ATK or DEF depending on its battle position, \
-    then if its ATK or DEF is 0, destroy it. \
-    That monster(s) cannot activate its effects in response to this effect's activation. \
+    Target that monster(s), ignoring card effects; \
+    it loses 2000 ATK or DEF depending on its battle position, \
+    then if its ATK or DEF is 0, destroy it, \
+    it cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
@@ -101,7 +102,7 @@ Neither player can target this card for attacks or by card effects, \
     but does not prevent your opponent from attacking you directly. \
 While this card is in your Dimension Zone: \
     You can Normal Summon "The Winged Dragon of Ra" to your opponent's field, \
-    but you cannot activate "The Winged Dragon of Ra - Sphere Mode"'s effects until the end of this turn. \
+    but you cannot activate the following effect until the end of this turn. \
 Once per turn: The original owner of this card can send it to the Dimension Zone; \
     Dimension Summon the Dimension Material Monster (it's Divine Hierarchy is the same as with this card's), \
     its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, or 4000/4000, \
@@ -114,7 +115,7 @@ If you Normal Summon "The Winged Dragon of Ra", it gains the following effects.
 strings = [
     "Your field",
     "Opponent's field",
-    "Affected by effect \"Sun Divine Beast of Ra - Sphere Mode\": Cannot activate \"The Winged Dragon of Ra - Sphere Mode\"'s effects",
+    "Cannot activate \"Sun Divine Beast of Ra - Sphere Mode\"'s effects",
     "Turn back to Normal Form",
     "Unstoppable Attack",
 ]
@@ -133,13 +134,13 @@ effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
 ${EGYPTIAN_EFFECT} \
 This card is also Pyro-Type while on the field. \
-Cannot attack unless attack directly and you must pay 1000 LP. \
+Cannot attack unless attack directly but must pay 1000 LP. \
 Unaffected by other card effects that prevent it from attacking, also its attacks cannot be negated. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy. \
 You take no Battle Damage from battles involving this card. \
 Once per Chain (Quick Effect): \
     You can pay 1000 LP, then target 1 other monster on the field; \
-    send that target to the GY, ignoring card effects. \
+    send it to the GY, ignoring card effects. \
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" Dimension Monster in same battle position \
     (it's Divine Hierarchy is the same as with this card's, transfer materials to it), \

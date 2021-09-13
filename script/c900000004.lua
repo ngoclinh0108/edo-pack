@@ -245,9 +245,8 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp, c, minc, zone, relzone, exeff)
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH +
                         EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+    ec1:SetCode(id)
     ec1:SetTargetRange(1, 0)
-    ec1:SetValue(function(e, re) return re:GetHandler():IsCode(10000080) end)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
 end
@@ -266,7 +265,8 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return c:GetOwner() == tp and mc and
                    (c:GetControler() == tp or
                        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0) and
-                   Dimension.CanBeDimensionSummoned(mc, e, tp, false, false)
+                   Dimension.CanBeDimensionSummoned(mc, e, tp, false, false) and
+                   not Duel.IsPlayerAffectedByEffect(tp, id)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, mc, 1, 0, 0)
