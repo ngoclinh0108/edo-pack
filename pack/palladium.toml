@@ -698,5 +698,6 @@ If you control no monsters, you can activate this card from your hand in either 
 During your Main Phase, except the turn this card was sent to the GY: \
     You can shuffle this card from your GY into the Deck, \
     and if you do, add 1 your face-up banished card to your hand. \
+    You can only use this effect of "Palladium Sacrophagus" once per turn. \
 """
 strings = []
