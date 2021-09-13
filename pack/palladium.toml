@@ -646,6 +646,19 @@ If this card is destroyed: You can Special Summon \
 """
 strings = ["Make a second attack in a row"]
 
+[card.palladium-apostle-token]
+id = 910000099
+set = "palladium"
+name = "Palladium Apostle Token"
+type = "monster normal token"
+attribute = "light"
+race = "fairy"
+level = 1
+effect = """\
+Special Summoned with the effect of "Palladium's Sanctuary". \
+"""
+strings = []
+
 [card.the-palladium-name]
 id = 910000100
 set = "palladium"
@@ -748,27 +761,8 @@ During your Main Phase, except the turn this card was sent to the GY: \
 """
 strings = []
 
-[card.palladium-nova-blast-magic]
-id = 910000105
-set = "palladium"
-name = "Palladium Blast Nova Magic"
-type = "spell quick-play"
-effect = """\
-Apply these effects, in sequence, depending on the monster you control. \
-    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation. \
-    You can only activate 1 "Palladium Blast Nova Magic" per turn.
-● Spellcaster "Palladium" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
-● "Palladium Oracle Mahad" or "The Palladium Oracles": Negate the effects of all face-up Spells and Traps your opponent currently controls, \
-    and also destroy all Spells and Traps your opponent controls.
-● "Palladium Oracle Mana" or "The Palladium Oracles": Negate the effects of all face-up monster your opponent currently controls, \
-    and also destroy all monster your opponent controls.
-"""
-strings = [
-    "Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead",
-]
-
 [card.palladium-sanctuary]
-id = 910000106
+id = 910000105
 set = "palladium"
 name = "Palladium's Sanctuary"
 type = "spell quick-play"
@@ -791,15 +785,30 @@ strings = [
     "Select number of token",
 ]
 
-[card.palladium-apostle-token]
-id = 910000107
+[card.palladium-magical-circle]
+id = 910000106
 set = "palladium"
-name = "Palladium Apostle Token"
-type = "monster normal token"
-attribute = "light"
-race = "fairy"
-level = 1
+name = "Palladium Magical Circle"
+type = "spell quick-play"
 effect = """\
-Special Summoned with the effect of "Palladium's Sanctuary". \
 """
 strings = []
+
+[card.palladium-nova-blast-magic]
+id = 910000107
+set = "palladium"
+name = "Palladium Blast Nova Magic"
+type = "spell quick-play"
+effect = """\
+Apply these effects, in sequence, depending on the monster you control. \
+    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation. \
+    You can only activate 1 "Palladium Blast Nova Magic" per turn.
+● Spellcaster "Palladium" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
+● "Palladium Oracle Mahad" or "The Palladium Oracles": Negate the effects of all face-up Spells and Traps your opponent currently controls, \
+    and also destroy all Spells and Traps your opponent controls.
+● "Palladium Oracle Mana" or "The Palladium Oracles": Negate the effects of all face-up monster your opponent currently controls, \
+    and also destroy all monster your opponent controls.
+"""
+strings = [
+    "Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead",
+]
