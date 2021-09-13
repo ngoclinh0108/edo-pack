@@ -2,5 +2,101 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0x13a}
+
 function s.initial_effect(c)
+    -- activate
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_DECKDES)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
+    -- see future
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_PREDRAW)
+    e2:SetRange(LOCATION_HAND)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+end
+
+function s.e1filter(c, e, tp)
+    return c:IsMonster() and
+               (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsSetCard(0x13a)) and
+               (c:IsCanBeSpecialSummoned(e, 0, tp, false, false) or
+                   c:IsAbleToHand())
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsPlayerCanDiscardDeck(tp, 1) and
+                   Duel.IsExistingMatchingCard(Card.IsAbleToHand, tp,
+                                               LOCATION_DECK, 0, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_CODE)
+    local ac = Duel.AnnounceCard(tp, table.unpack(
+                                     {TYPE_EXTRA, OPCODE_ISTYPE, OPCODE_NOT}))
+
+    Duel.SetTargetParam(ac)
+    Duel.SetOperationInfo(0, CATEGORY_ANNOUNCE, nil, 0, tp, ANNOUNCE_CARD_FILTER)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local ac = Duel.GetChainInfo(0, CHAININFO_TARGET_PARAM)
+
+    Duel.ConfirmDecktop(tp, 1)
+    local tc = Duel.GetDecktopGroup(tp, 1):GetFirst()
+    if not tc:IsCode(ac) or not tc:IsAbleToHand() then
+        Duel.DisableShuffleCheck()
+        Duel.SendtoGrave(tc, REASON_EFFECT + REASON_REVEAL)
+    end
+
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
+    local g =
+        Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil, e, tp)
+    if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+        Duel.BreakEffect()
+
+        g = Utility.GroupSelect(g, tp, 1, 1, nil)
+        aux.ToHandOrElse(g, tp, function(c)
+            return
+                c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+        end, function(g)
+            Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+        end, 2)
+    else
+        Duel.DisableShuffleCheck()
+    end
+    Duel.ShuffleHand(tp)
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsTurnPlayer(tp) and
+               Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
+               Duel.GetDrawCount(tp) > 0
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return not e:GetHandler():IsPublic() end
+    Duel.ConfirmCards(1 - tp, e:GetHandler())
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local ct = math.min(5, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
+    if ct == 0 then return end
+
+    local ac = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
+    Duel.SortDecktop(tp, tp, ct)
 end

@@ -657,8 +657,18 @@ set = "palladium"
 name = "The Palladium Name"
 type = "spell"
 effect = """\
+Declare 1 card name; excavate the top card of your Deck, \
+    and if it is the declared card, add it to your hand, \
+    then you can add to your hand, or Special Summon, \
+    1 DIVINE or "Palladium" monster from your Deck. \
+    Otherwise, send it to the GY. \
+    You can only activate 1 "The Palladium Name" per turn. \
+During your Draw Phase, before you draw: \
+    You can reveal this card in your hand; \
+    Look at up to 5 cards from the top of your Deck, \
+    then place them on the top of the Deck in any order. \
 """
-strings = []
+strings = ["Search DIVINE or \"Palladium\" monster"]
 
 [card.palladium-summoning-magic]
 id = 910000101

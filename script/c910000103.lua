@@ -61,11 +61,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
-    aux.ToHandOrElse(tc, tp, function(tc)
-        return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+    aux.ToHandOrElse(tc, tp, function(c)
+        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end, function(tc)
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    end, function(c)
+        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
     end, 2)
 end
 
@@ -74,7 +74,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.IsExistingMatchingCard(Card.IsDiscardable, tp,
                                            LOCATION_HAND, 0, 2, nil)
     end
-    
+
     Duel.DiscardHand(tp, Card.IsDiscardable, 2, 2, REASON_COST + REASON_DISCARD)
 end
 
