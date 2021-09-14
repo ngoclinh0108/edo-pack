@@ -746,6 +746,17 @@ set = "palladium"
 name = "Palladium Swords of Revealing Light"
 type = "spell quick-play"
 effect = """\
+This card can only be activated during Main Phase 1. \
+    After this card's activation, it remains on the field. \
+    You can only control 1 "Palladium Swords of Revealing Light". \
+When this card is activated: \
+    If your opponent controls a face-down monster, flip all monsters they control face-up. \
+    Flip Effects are not activated at this time. \
+Once per turn, during your opponent's End Phase, \
+    place 1 Spell Counter on this card (max. 3). \
+While this card is face-up on the field with 2 or less Spell Counters, \
+    your opponent's monsters cannot declare an attack. \
+You can send this card with 3 or more Spell Counters to the GY; draw 3 cards. \
 """
 strings = []
 
