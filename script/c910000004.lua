@@ -8,17 +8,6 @@ s.listed_series = {0x13a}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- search
-    local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
-    e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetCountLimit(1, id)
-    e1:SetCost(s.e1cost)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
-    c:RegisterEffect(e1)
-
     -- act limit
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
@@ -42,41 +31,6 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-end
-
-function s.e1filter(c)
-    return c:IsSetCard(0x13a) and c:IsType(TYPE_MONSTER) and
-               not c:IsRitualMonster() and c:IsAbleToHand()
-end
-
-function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return not e:GetHandler():IsPublic() end
-    Duel.ConfirmCards(1 - tp, e:GetHandler())
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1,
-                                           nil)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 1, 0, 0)
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp,
-                                          LOCATION_DECK, 0, 1, 1, nil):GetFirst()
-    if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
-        tc:IsLocation(LOCATION_HAND) then
-        Duel.ConfirmCards(1 - tp, tc)
-        Duel.ShuffleHand(tp)
-        Duel.BreakEffect()
-
-        Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
-    end
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

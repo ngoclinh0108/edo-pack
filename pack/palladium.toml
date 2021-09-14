@@ -59,6 +59,7 @@ atk = 2800
 def = 2600
 effect = """\
 You can Ritual Summon this card with "Forbidden Art of Palladium". \
+Must first be Ritual Summoned, with using at least 1 Spellcaster monster. \
 You can reveal this card in your hand; \
     add 1 "Palladium Oracle Mahad" or 1 non-Ritual Monster that specifically lists that card in its text, \
     from your Deck or GY to your hand, then place 1 card from your hand on top of the Deck. \
@@ -86,10 +87,6 @@ atk = 3000
 def = 2500
 effect = """\
 You can Ritual Summon this card with "Forbidden Art of Palladium". \
-You can reveal this card in your hand; \
-    add 1 non-Ritual "Palladium" monster from your Deck to your hand, \
-    then place this card from your hand into the Deck. \
-    You can only use this effect of "Black Luster Soldier - Palladium Soldier" once per turn. \
 If this card battles, your opponent cannot activate cards or effects until the end of the Damage Step. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
 ● This card gains 1500 ATK.

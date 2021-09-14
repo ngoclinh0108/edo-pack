@@ -7,6 +7,14 @@ s.listed_names = {910000101, 71703785}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(aux.ritlimit)
+    c:RegisterEffect(splimit)
+
     -- search
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
@@ -40,6 +48,10 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+end
+
+function s.ritual_custom_check(e, tp, g, c)
+    return g:IsExists(Card.IsRace, 1, nil, RACE_SPELLCASTER)
 end
 
 function s.e1filter(c)
