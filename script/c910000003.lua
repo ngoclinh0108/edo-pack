@@ -2,8 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {910000101}
-s.listed_series = {0x13a}
+s.listed_names = {910000101, 71703785}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -44,8 +43,9 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsSetCard(0x13a) and c:IsType(TYPE_SPELL + TYPE_TRAP) and
-               c:IsAbleToHand()
+    if not c:IsAbleToHand() then return false end
+    return (aux.IsCodeListed(c, 71703785) and c:IsMonster() and
+               not c:IsType(TYPE_RITUAL)) or c:IsCode(71703785)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -55,17 +55,21 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE)
     Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_HAND)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp,
-                                          LOCATION_DECK, 0, 1, 1, nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp,
+                                          aux.NecroValleyFilter(s.e1filter), tp,
+                                          LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                          1, nil):GetFirst()
     if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
         tc:IsLocation(LOCATION_HAND) then
         Duel.ConfirmCards(1 - tp, tc)

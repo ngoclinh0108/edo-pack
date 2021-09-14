@@ -60,8 +60,8 @@ def = 2600
 effect = """\
 You can Ritual Summon this card with "Forbidden Art of Palladium". \
 You can reveal this card in your hand; \
-    add 1 "Palladium" Spell/Trap from your Deck to your hand, \
-    then place 1 card from your hand on top of the Deck. \
+    add 1 "Palladium Oracle Mahad" or 1 non-Ritual Monster that specifically lists that card in its text, \
+    from your Deck or GY to your hand, then place 1 card from your hand on top of the Deck. \
 If this card is Special Summoned: You can activate this effect; \
     for the rest of this turn, your opponent cannot activate cards, also cards your opponent controls cannot activate their effects. \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
@@ -857,8 +857,5 @@ set = "palladium"
 name = "Palladium Shattering Arrow"
 type = "trap counter"
 effect = """\
-Activate 1 of these effects.
-● 
-● 
 """
 strings = []
