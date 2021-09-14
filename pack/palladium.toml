@@ -13,8 +13,6 @@ effect = """\
 (This card's name is always treated as "Palladium Oracle Mahad")
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
-Your opponent cannot target Spells/Traps you control with card effects, \
-    also they cannot be destroyed by your opponent's card effects. \
 """
 strings = []
 
@@ -831,8 +829,18 @@ strings = [
 id = 910000108
 set = "palladium"
 name = "Palladium Binding Circle"
-type = "trap"
+type = "trap continuous"
 effect = """\
+Activate this card by targeting 1 face-up monster your opponent controls; \
+    it cannot activate its effect, loses 1000 ATK/DEF, \
+    cannot attack or change its battle position. \
+    Also if you would Tribute a monster(s) for a Tribute Summon, \
+    you can Tribute it, even though you do not control it. \
+    When it leaves the field, destroy this card. \
+If this card is in your GY: \
+    You can remove 1 Spell Counter from your side of the field; \
+    Set this card, also it can be activated this turn. \
+    You can only use this effect of "Palladium Binding Circle" once per turn. \
 """
 strings = []
 
@@ -843,12 +851,13 @@ name = "Palladium Mirror Force"
 type = "trap counter"
 effect = """\
 Activate 1 of these effects.
-● When an opponent's monster declares an attack: \
-    Destroy all your opponent's Attack Position monsters.
 ● When your opponent activates a monster effect that targets a monster(s) you control: \
     Negate that effect, and also destroy all your opponent's Attack Position monsters.
+● When an opponent's monster declares an attack: \
+    Negate that attack, and also destroy all your opponent's Attack Position monsters.
 If this Set card is destroyed by your opponent's card effect and sent to your GY: \
-    You can Set this card from your GY, also it can be activated this turn. \
+    You can Set this card from your GY and 1 other "Palladium" Quick-Play Spell or Trap from your hand, Deck, or GY. \
+    They can be activated this turn. \
 """
 strings = []
 

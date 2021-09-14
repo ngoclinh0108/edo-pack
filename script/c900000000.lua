@@ -18,7 +18,10 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     -- remove from duel
     Duel.DisableShuffleCheck(true)
     Duel.SendtoDeck(c, tp, -2, REASON_RULE)
-    if c:IsPreviousLocation(LOCATION_HAND) then Duel.Draw(p, 1, REASON_RULE) end
+    if c:IsPreviousLocation(LOCATION_HAND) and
+        Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 then
+        Duel.Draw(p, 1, REASON_RULE)
+    end
     e:Reset()
 
     -- deck edit & global effect
@@ -77,7 +80,8 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     field:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(function(c)
             return c:IsType(TYPE_FIELD) and
-                       Utility.CheckActivateEffectCanApply(c, e, tp, false, true, false)
+                       Utility.CheckActivateEffectCanApply(c, e, tp, false,
+                                                           true, false)
         end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                                             LOCATION_REMOVED, 0, nil)
         if #g == 0 then return end

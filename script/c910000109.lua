@@ -2,22 +2,24 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0x13a}
+
 function s.initial_effect(c)
-    -- activate (attack)
+    -- activate (target)
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_DESTROY)
+    e1:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e1:SetCode(EVENT_CHAINING)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- activate (target)
+    -- activate (attack)
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
+    e2:SetCategory(CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_ACTIVATE)
-    e2:SetCode(EVENT_CHAINING)
+    e2:SetCode(EVENT_ATTACK_ANNOUNCE)
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -34,26 +36,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.efffilter(c) return c:IsAttackPos() end
-
-function s.e1con(e, tp) return tp ~= Duel.GetTurnPlayer() end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.efffilter, tp, 0, LOCATION_MZONE,
-                                           1, nil)
-    end
-
-    local g = Duel.GetMatchingGroup(s.efffilter, tp, 0, LOCATION_MZONE, nil)
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(s.efffilter, tp, 0, LOCATION_MZONE, nil)
-    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
     if rp == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) or not tg then
         return false
@@ -65,22 +48,49 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
         end, 1, nil, tp)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return not re:GetHandler():IsStatus(STATUS_DISABLED) or
-                   Duel.IsExistingMatchingCard(s.efffilter, tp, 0,
+        return not re:GetHandler():IsDisabled() or
+                   Duel.IsExistingMatchingCard(Card.IsAttackPos, tp, 0,
                                                LOCATION_MZONE, 1, nil)
     end
 
-    local g = Duel.GetMatchingGroup(s.efffilter, tp, 0, LOCATION_MZONE, nil)
+    local g =
+        Duel.GetMatchingGroup(Card.IsAttackPos, tp, 0, LOCATION_MZONE, nil)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.NegateEffect(ev)
-    local g = Duel.GetMatchingGroup(s.efffilter, tp, 0, LOCATION_MZONE, nil)
+    local g =
+        Duel.GetMatchingGroup(Card.IsAttackPos, tp, 0, LOCATION_MZONE, nil)
     if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
+end
+
+function s.e2con(e, tp) return tp ~= Duel.GetTurnPlayer() end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsAttackPos, tp, 0,
+                                           LOCATION_MZONE, 1, nil)
+    end
+
+    local g =
+        Duel.GetMatchingGroup(Card.IsAttackPos, tp, 0, LOCATION_MZONE, nil)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.NegateAttack()
+    local g =
+        Duel.GetMatchingGroup(Card.IsAttackPos, tp, 0, LOCATION_MZONE, nil)
+    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
+end
+
+function s.e3filter(c)
+    return c:IsSSetable() and c:IsSetCard(0x13a) and
+               (c:IsType(TYPE_QUICKPLAY) or c:IsType(TYPE_TRAP))
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -92,22 +102,35 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
-        return e:GetHandler():IsSSetable() and
-                   Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
+        return Duel.GetLocationCount(tp, LOCATION_SZONE) > 1 and
+                   e:GetHandler():IsSSetable() and
+                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
+                                                   LOCATION_DECK +
+                                                   LOCATION_GRAVE, 0, 1, c)
     end
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_SZONE) == 0 or
+    if Duel.GetLocationCount(tp, LOCATION_SZONE) < 2 or
         not c:IsRelateToEffect(e) or not c:IsSSetable() then return end
 
-    Duel.SSet(tp, c)
+    local tc = Utility.SelectMatchingCard(HINTMSG_SET, tp,
+                                          aux.NecroValleyFilter(s.e3filter), tp,
+                                          LOCATION_HAND + LOCATION_DECK +
+                                              LOCATION_GRAVE, 0, 1, 1, c):GetFirst()
+    if not tc then return end
+
+    Duel.SSet(tp, Group.FromCards(c, tc))
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
     ec1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
+    local ec1b = ec1:Clone()
+    if tc:IsType(TYPE_QUICKPLAY) then ec1b:SetCode(EFFECT_QP_ACT_IN_SET_TURN) end
+    tc:RegisterEffect(ec1b)
 end
