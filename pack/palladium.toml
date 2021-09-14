@@ -829,3 +829,12 @@ strings = [
     "Pay 1000 LP to maintain \"Palladium Apostle Token\"?",
     "Select number of token",
 ]
+
+[card.palladium-mirror-force]
+id = 910000109
+set = "palladium"
+name = "Palladium Mirror Force"
+type = "trap counter"
+effect = """\
+"""
+strings = []

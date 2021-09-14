@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.counter_place_list = {COUNTER_SPELL}
+
 function s.initial_effect(c)
     c:SetUniqueOnField(1, 0, id)
     c:EnableCounterPermit(COUNTER_SPELL)
