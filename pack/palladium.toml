@@ -87,6 +87,7 @@ atk = 3000
 def = 2500
 effect = """\
 You can Ritual Summon this card with "Forbidden Art of Palladium". \
+Must first be Ritual Summoned. \
 If this card battles, your opponent cannot activate cards or effects until the end of the Damage Step. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
 ● This card gains 1500 ATK.
