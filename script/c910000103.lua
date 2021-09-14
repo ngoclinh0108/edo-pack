@@ -35,7 +35,7 @@ function s.e1filter(c, ft, e, tp)
     if not c:IsMonster() then return false end
     return (ft > 0 and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)) or
-               c:IsAbleToHand()
+               (c:IsAbleToHand() and c:GetOwner() == tp)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -61,26 +61,12 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
-    local b1 = tc:IsAbleToHand()
-    local b2 = tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+    aux.ToHandOrElse(tc, tp, function(c)
+        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    local opt = {}
-    local sel = {}
-    if b1 then
-        table.insert(opt, 573)
-        table.insert(sel, 1)
-    end
-    if b2 then
-        table.insert(opt, 2)
-        table.insert(sel, 2)
-    end
-    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
-
-    if op == 1 then
-        Duel.SendtoHand(tc, tp, REASON_EFFECT)
-    else
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
-    end
+    end, function(g)
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    end, 2)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

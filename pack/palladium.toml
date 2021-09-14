@@ -739,7 +739,7 @@ type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "Monster Reborn" and it is "Palladium" card.)
 During your Main Phase or your opponent's turn: \
-    Target 1 monster in either GY; Add it to your hand or Special Summon it. \
+    Target 1 monster in either GY; Add it to your hand if it is your own, or Special Summon it. \
 During your Main Phase, except the turn this card was sent to the GY: \
     You can discard 2 cards; add this card to your hand. \
     You can only use this effect of "Palladium Reborn" once per turn. \
