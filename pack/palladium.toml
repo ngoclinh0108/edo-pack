@@ -851,10 +851,10 @@ effect = """\
 """
 strings = []
 
-[card.palladium-arrow]
+[card.palladium-shattering-arrow]
 id = 910000110
 set = "palladium"
-name = "Palladium Arrow"
+name = "Palladium Shattering Arrow"
 type = "trap counter"
 effect = """\
 Activate 1 of these effects.
