@@ -44,7 +44,7 @@ function s.initial_effect(c)
     e2:SetTarget(aux.TargetBoolFunction(Card.IsType, TYPE_SPELL + TYPE_TRAP))
     e2:SetValue(aux.indoval)
     c:RegisterEffect(e2)
-    local e2b = e3:Clone()
+    local e2b = e2:Clone()
     e2b:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_IGNORE_IMMUNE)
     e2b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e2b:SetValue(aux.tgoval)
@@ -158,12 +158,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
     if op == 2 then
-        Utility.HintCard(tc)
-        Duel.SendtoGrave(tc, REASON_EFFECT)
-        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)
-    elseif op == 3 then
         Duel.SSet(tp, tc, tp, false)
-
         if tc:IsType(TYPE_QUICKPLAY + TYPE_TRAP) then
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -176,5 +171,9 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
             tc:RegisterEffect(ec1)
         end
+    elseif op == 3 then
+        Utility.HintCard(tc)
+        Duel.SendtoGrave(tc, REASON_EFFECT)
+        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)        
     end
 end
