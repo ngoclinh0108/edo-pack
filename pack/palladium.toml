@@ -827,8 +827,17 @@ strings = [
     "Select number of token",
 ]
 
-[card.palladium-mirror-force]
+[card.palladium-binding-circle]
 id = 910000108
+set = "palladium"
+name = "Palladium Binding Circle"
+type = "trap"
+effect = """\
+"""
+strings = []
+
+[card.palladium-mirror-force]
+id = 910000109
 set = "palladium"
 name = "Palladium Mirror Force"
 type = "trap counter"
@@ -840,15 +849,6 @@ Activate 1 of these effects.
     Negate that effect, and also destroy all your opponent's Attack Position monsters.
 If this Set card is destroyed by your opponent's card effect and sent to your GY: \
     You can Set this card from your GY, also it can be activated this turn. \
-"""
-strings = []
-
-[card.palladium-binding-circle]
-id = 910000109
-set = "palladium"
-name = "Palladium Binding Circle"
-type = "trap counter"
-effect = """\
 """
 strings = []
 
