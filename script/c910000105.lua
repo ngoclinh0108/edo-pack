@@ -96,7 +96,7 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SendtoGrave(e:GetHandler(), REASON_COST)
 end
 
-function s.d4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsPlayerCanDraw(tp, 3) end
     Duel.SetTargetPlayer(tp)
     Duel.SetTargetParam(3)
