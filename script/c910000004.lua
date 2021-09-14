@@ -15,7 +15,27 @@ function s.initial_effect(c)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     splimit:SetValue(aux.ritlimit)
     c:RegisterEffect(splimit)
-    
+
+    -- special summon procedure
+    local sp = Effect.CreateEffect(c)
+    sp:SetType(EFFECT_TYPE_FIELD)
+    sp:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    sp:SetCode(EFFECT_SPSUMMON_PROC)
+    sp:SetRange(LOCATION_HAND)
+    sp:SetCondition(s.spcon)
+    sp:SetTarget(s.sptg)
+    sp:SetOperation(s.spop)
+    c:RegisterEffect(sp)
+
+    -- untargetable
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetValue(aux.tgoval)
+    c:RegisterEffect(e1)
+
     -- act limit
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
@@ -39,6 +59,59 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+end
+
+function s.spfilter(c, attr)
+    return c:IsAttribute(attr) and c:IsAbleToRemoveAsCost() and
+               aux.SpElimFilter(c, true)
+end
+
+function s.sprescon(sg, e, tp, mg)
+    return aux.ChkfMMZ(1)(sg, e, tp, mg) and
+               sg:IsExists(s.spattrcheck, 1, nil, sg)
+end
+
+function s.spattrcheck(c, sg)
+    return c:IsAttribute(ATTRIBUTE_LIGHT) and
+               sg:FilterCount(Card.IsAttribute, c, ATTRIBUTE_DARK) == 1
+end
+
+function s.spcon(e, c)
+    if c == nil then return true end
+    local tp = c:GetControler()
+    local g1 = Duel.GetMatchingGroup(s.spfilter, tp,
+                                     LOCATION_MZONE + LOCATION_GRAVE, 0, nil,
+                                     ATTRIBUTE_LIGHT)
+    local g2 = Duel.GetMatchingGroup(s.spfilter, tp,
+                                     LOCATION_MZONE + LOCATION_GRAVE, 0, nil,
+                                     ATTRIBUTE_DARK)
+
+    local g = g1:Clone():Merge(g2)
+    return #g1 > 0 and #g2 > 0 and
+               aux.SelectUnselectGroup(g, e, tp, 2, 2, s.sprescon, 0) and
+               Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
+end
+
+function s.sptg(e, tp, eg, ep, ev, re, r, rp, c)
+    local mg = Duel.GetMatchingGroup(s.spfilter, tp,
+                                     LOCATION_MZONE + LOCATION_GRAVE, 0, nil,
+                                     ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
+    local g = aux.SelectUnselectGroup(mg, e, tp, 2, 2, s.sprescon, 1, tp,
+                                      HINTMSG_REMOVE, nil, nil, true)
+    if #g > 0 then
+        g:KeepAlive()
+        e:SetLabelObject(g)
+        return true
+    end
+    return false
+end
+
+function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
+    local g = e:GetLabelObject()
+    if not g then return end
+
+    Duel.Remove(g, POS_FACEUP, REASON_COST)
+    g:DeleteGroup()
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
