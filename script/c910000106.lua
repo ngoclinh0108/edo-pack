@@ -45,6 +45,13 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     s.eff[4] = e4
+
+    -- protect & atk up
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 4))
+    e5:SetCategory(CATEGORY_ATKCHANGE)
+    e5:SetOperation(s.e5op)
+    s.eff[5] = e5
 end
 
 function s.e0tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -176,16 +183,14 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     if #rg < 2 or #sg == 0 then return end
 
     rg = Utility.GroupSelect(HINTMSG_RELEASE, rg, tp, 2, 2, nil)
-    -- local rg = Duel.SelectMatchingCard(tp, s.e4filter1, tp, LOCATION_MZONE,
-    --                                    LOCATION_MZONE, 2, 2, nil)
-    -- if #rg ~= 2 or Duel.Release(rg, REASON_EFFECT) ~= 2 then return end
+    if Duel.Release(rg, REASON_EFFECT) ~= 2 then return end
 
-    -- Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    -- local sg = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter),
-    --                                    tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-    --                                    1, nil)
-    -- if #sg > 0 then
-    --     Duel.SendtoHand(g, nil, REASON_EFFECT)
-    --     Duel.ConfirmCards(1 - tp, g)
-    -- end
+    sg = Utility.GroupSelect(HINTMSG_SPSUMMON, sg, tp, 1, 1, nil)
+    if #sg > 0 then
+        Duel.SpecialSummon(sg, 0, tp, tp, false, false, POS_FACEUP)
+    end
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    Debug.Message("OK")
 end
