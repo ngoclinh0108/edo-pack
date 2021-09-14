@@ -84,7 +84,8 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         if #g >= 2 and Duel.GetTurnCount() >= 2 and
             not Duel.SelectYesNo(tp, 2204) then return end
 
-        local sc = Utility.GroupSelect(g, tp, 1, nil, nil):GetFirst()
+        local sc =
+            Utility.GroupSelect(HINTMSG_TOFIELD, g, tp, 1, nil, nil):GetFirst()
 
         aux.PlayFieldSpell(sc, e, tp, eg, ep, ev, re, r, rp)
         if Duel.GetTurnCount() == 1 then
@@ -267,8 +268,8 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_REMOVED, 0,
-                                         1, 99, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, aux.TRUE, tp,
+                                         LOCATION_REMOVED, 0, 1, 99, nil)
     if #g == 0 then return end
     Duel.SendtoGrave(g, REASON_RULE)
 end
@@ -281,7 +282,8 @@ end
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
 
-    local g = Utility.SelectMatchingCard(tp, aux.TRUE, tp, loc, 0, 1, 99, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, aux.TRUE, tp, loc,
+                                         0, 1, 99, nil)
     if #g == 0 then return end
 
     Duel.SendtoDeck(g, nil, 2, REASON_RULE)

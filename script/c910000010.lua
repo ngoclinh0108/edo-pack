@@ -97,7 +97,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
-    local tc = Utility.SelectMatchingCard(tp, s.e2filter, tp,
+    local tc = Utility.SelectMatchingCard(HINTMSG_SUMMON, tp, s.e2filter, tp,
                                           LOCATION_HAND + LOCATION_MZONE, 0, 1,
                                           1, nil):GetFirst()
     if tc then Duel.Summon(tp, tc, true, nil) end

@@ -74,8 +74,9 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
-    local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter),
-                                         tp, LOCATION_HAND + LOCATION_DECK +
+    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
+                                         aux.NecroValleyFilter(s.e3filter), tp,
+                                         LOCATION_HAND + LOCATION_DECK +
                                              LOCATION_GRAVE + LOCATION_REMOVED,
                                          0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, true, false, POS_FACEUP) end

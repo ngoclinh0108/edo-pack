@@ -124,8 +124,8 @@ end
 
 function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local mc = Utility.SelectMatchingCard(tp, s.dmsfilter, tp, LOCATION_MZONE,
-                                          0, 1, 1, nil, true):GetFirst()
+    local mc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.dmsfilter, tp,
+                                          LOCATION_MZONE, 0, 1, 1, nil, true):GetFirst()
     if not mc then return end
     mc:ResetFlagEffect(id)
 
@@ -216,7 +216,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         if divine_evolution then
             c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                                  RESET_EVENT + RESETS_STANDARD,
-                                 EFFECT_FLAG_CLIENT_HINT, 1, 0, 666003)
+                                 EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
         end
     end
 end
@@ -234,8 +234,8 @@ function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                                                LOCATION_MZONE, 1, c)
     end
 
-    local g = Utility.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE,
-                                         LOCATION_MZONE, 1, 1, c)
+    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, aux.TRUE, tp,
+                                         LOCATION_MZONE, LOCATION_MZONE, 1, 1, c)
     Duel.HintSelection(g)
     Duel.SetTargetCard(g)
 
@@ -280,7 +280,7 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
         if divine_evolution then
             sc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                                   RESET_EVENT + RESETS_STANDARD,
-                                  EFFECT_FLAG_CLIENT_HINT, 1, 0, 666003)
+                                  EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
         end
     else
         Duel.SendtoGrave(c, REASON_EFFECT)

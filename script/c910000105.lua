@@ -147,8 +147,8 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_MZONE, 0,
-                                          1, 1, nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_RELEASE, tp, s.e2filter, tp,
+                                          LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
     if not tc then return end
     local atk = tc:GetAttack()
     local def = tc:GetDefense()

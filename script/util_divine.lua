@@ -124,7 +124,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
-    reset:SetDescription(666001)
+    reset:SetDescription(666002)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     reset:SetCode(EVENT_ADJUST)
@@ -185,7 +185,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 
         -- return
         local returnend = Effect.CreateEffect(c)
-        returnend:SetDescription(666002)
+        returnend:SetDescription(666003)
         returnend:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         returnend:SetCode(EVENT_PHASE + PHASE_END)
         returnend:SetRange(LOCATION_MZONE)
@@ -289,7 +289,7 @@ function Divine.RegisterRaDefuse(s, id, c)
             for tc in aux.Next(g) do
                 tc:RegisterFlagEffect(id, 0, 0, 0)
                 local ec1 = Effect.CreateEffect(tc)
-                ec1:SetDescription(666004)
+                ec1:SetDescription(666005)
                 ec1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE +
                                     CATEGORY_RECOVER)
                 ec1:SetType(EFFECT_TYPE_ACTIVATE)

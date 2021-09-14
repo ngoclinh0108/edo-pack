@@ -60,7 +60,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(tp, s.e1filter1, tp,
+    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter1, tp,
                                          LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
                                          nil)
     if #g == 0 or Duel.SendtoGrave(g, REASON_EFFECT) == 0 then return end
@@ -70,7 +70,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if #g == 0 or not Duel.SelectYesNo(tp, 506) then return end
     Duel.BreakEffect()
 
-    g = Utility.GroupSelect(g, tp, 1, 1, nil)
+    g = Utility.GroupSelect(HINTMSG_ATOHAND, g, tp, 1, 1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)

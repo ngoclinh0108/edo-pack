@@ -134,7 +134,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         g = Group.FromCards(Duel.GetAttackTarget()):Filter(Card.IsAbleToHand,
                                                            nil)
     end
-    g = Utility.GroupSelect(g, tp, 1, 1, nil)
+    g = Utility.GroupSelect(HINTMSG_RTOHAND, g, tp, 1, 1, nil)
     if #g == 0 then return end
     if Duel.SendtoHand(g, nil, REASON_EFFECT) == 0 then return end
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end

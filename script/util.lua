@@ -152,16 +152,20 @@ function Utility.HintCard(target)
     Duel.Hint(HINT_CARD, 0, code)
 end
 
-function Utility.GroupSelect(g, tp, min, max, ex)
+function Utility.GroupSelect(hintmsg, g, tp, min, max, ex)
+    if hintmsg == nil then hintmsg = HINTMSG_SELECT end
     if #g < min then return Group.CreateGroup() end
     if not max then max = min end
 
-    if #g > min then g = g:Select(tp, min, max, ex) end
+    if #g > min then
+        Duel.Hint(HINT_SELECTMSG, tp, hintmsg)
+        g = g:Select(tp, min, max, ex)
+    end
     return g
 end
 
-function Utility.SelectMatchingCard(sel_player, f, player, s, o, min, max, ex, ...)
-    return Utility.GroupSelect(Duel.GetMatchingGroup(f, player, s, o, ex, ...),
+function Utility.SelectMatchingCard(hintmsg, sel_player, f, player, s, o, min, max, ex, ...)
+    return Utility.GroupSelect(hintmsg, Duel.GetMatchingGroup(f, player, s, o, ex, ...),
                                sel_player, min, max, ex)
 end
 

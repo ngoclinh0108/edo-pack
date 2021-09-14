@@ -129,7 +129,7 @@ function s.dms1op(e, tp, eg, ep, ev, re, r, rp)
     if divine_evolution then
         c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                              RESET_EVENT + RESETS_STANDARD,
-                             EFFECT_FLAG_CLIENT_HINT, 1, 0, 666003)
+                             EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
     end
 end
 
@@ -148,8 +148,8 @@ end
 
 function s.dms2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local mc = Utility.SelectMatchingCard(tp, s.dms2filter, tp, LOCATION_MZONE,
-                                          0, 1, 1, nil, true):GetFirst()
+    local mc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.dms2filter, tp,
+                                          LOCATION_MZONE, 0, 1, 1, nil, true):GetFirst()
     if not mc then return end
     mc:ResetFlagEffect(id)
 
@@ -334,6 +334,6 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp, immediately)
     if e:GetLabel() > 0 then
         mc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
                               RESET_EVENT + RESETS_STANDARD,
-                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666003)
+                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
     end
 end

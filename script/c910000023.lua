@@ -105,7 +105,8 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
                                            1, c)
     end
 
-    local g = Utility.SelectMatchingCard(tp, Card.IsAbleToGraveAsCost, tp,
+    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp,
+                                         Card.IsAbleToGraveAsCost, tp,
                                          LOCATION_HAND + LOCATION_ONFIELD, 0, 1,
                                          1, c)
     Duel.SendtoGrave(g, REASON_COST)

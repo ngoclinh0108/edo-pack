@@ -64,8 +64,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Utility.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_DECK, 0,
-                                          1, 1, nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp,
+                                          LOCATION_DECK, 0, 1, 1, nil):GetFirst()
     if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
         tc:IsLocation(LOCATION_HAND) then
         Duel.ConfirmCards(1 - tp, tc)
@@ -73,7 +73,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.ShuffleDeck(tp)
         Duel.BreakEffect()
 
-        local g = Utility.SelectMatchingCard(tp, Card.IsAbleToDeck, tp,
+        local g = Utility.SelectMatchingCard(HINTMSG_TODECK, tp,
+                                             Card.IsAbleToDeck, tp,
                                              LOCATION_HAND, 0, 1, 1, nil)
         Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT)
     end

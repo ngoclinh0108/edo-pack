@@ -100,7 +100,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
-    local tc = Utility.SelectMatchingCard(tp,
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
                                           aux.NecroValleyFilter(s.e2filter2),
                                           tp, LOCATION_HAND + LOCATION_DECK +
                                               LOCATION_GRAVE, 0, 1, 1, nil, e,

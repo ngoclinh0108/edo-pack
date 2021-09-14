@@ -67,8 +67,8 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(tp, s.e1filter, tp, LOCATION_DECK, 0,
-                                          1, 1, nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp,
+                                          LOCATION_DECK, 0, 1, 1, nil):GetFirst()
     if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
         tc:IsLocation(LOCATION_HAND) then
         Duel.ConfirmCards(1 - tp, tc)
@@ -132,7 +132,8 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         c:RegisterEffect(ec1)
     elseif op == 2 then
-        local g = Utility.SelectMatchingCard(tp, Card.IsAbleToRemove, tp, 0,
+        local g = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp,
+                                             Card.IsAbleToRemove, tp, 0,
                                              LOCATION_ONFIELD, 1, 1, nil)
         if #g > 0 then Duel.Remove(g, POS_FACEUP, REASON_EFFECT) end
     elseif op == 3 then

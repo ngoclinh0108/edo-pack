@@ -65,9 +65,10 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter),
-                                         tp, LOCATION_DECK + LOCATION_GRAVE, 0,
-                                         1, 1, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp,
+                                         aux.NecroValleyFilter(s.e1filter), tp,
+                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                         1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)

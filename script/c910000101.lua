@@ -59,7 +59,11 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        for i = 1, #s.eff, 1 do if s.eff[i] then return true end end
+        for i = 1, #s.eff, 1 do
+            if s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
+                return true
+            end
+        end
         return false
     end
 

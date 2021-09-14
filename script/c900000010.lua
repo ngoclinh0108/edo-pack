@@ -84,7 +84,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                     tp)
     if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
-        g = Utility.GroupSelect(g, tp, 1, 1, nil)
+        g = Utility.GroupSelect(HINTMSG_ATOHAND, g, tp, 1, 1, nil)
         aux.ToHandOrElse(g, tp, function(c)
             return
                 c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
@@ -129,7 +129,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if #g == 0 then
         sc = Duel.CreateToken(tp, 10000040)
     else
-        sc = Utility.GroupSelect(g, tp, 1, 1, nil):GetFirst()
+        sc = Utility.GroupSelect(HINTMSG_ATOHAND, g, tp, 1, 1, nil):GetFirst()
     end
     if not sc then return end
 

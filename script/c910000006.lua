@@ -65,9 +65,10 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e1filter),
-                                         tp, LOCATION_DECK + LOCATION_GRAVE, 0,
-                                         1, 1, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp,
+                                         aux.NecroValleyFilter(s.e1filter), tp,
+                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                         1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
@@ -113,8 +114,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if tc:IsFacedown() or not tc:IsRelateToEffect(e) or
         not tc:IsCanBeFusionMaterial() or tc:IsImmuneToEffect(e) then return end
 
-    local sc = Utility.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_EXTRA,
-                                          0, 1, 1, nil, e, tp, tc):GetFirst()
+    local sc = Utility.SelectMatchingCard(HINTMSG_FMATERIAL, tp, s.e2filter2,
+                                          tp, LOCATION_EXTRA, 0, 1, 1, nil, e,
+                                          tp, tc):GetFirst()
     if sc then
         sc:SetMaterial(Group.FromCards(tc))
         Duel.SendtoGrave(tc, REASON_EFFECT + REASON_MATERIAL + REASON_FUSION)
@@ -173,8 +175,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then ft = 1 end
     if ft <= 0 then return end
 
-    local g = Utility.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e3filter),
-                                         tp, LOCATION_HAND + LOCATION_DECK +
+    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
+                                         aux.NecroValleyFilter(s.e3filter), tp,
+                                         LOCATION_HAND + LOCATION_DECK +
                                              LOCATION_GRAVE, 0, 1, ft, nil, e,
                                          tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end

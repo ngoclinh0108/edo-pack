@@ -65,7 +65,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
-    local g = Utility.SelectMatchingCard(tp, s.e2filter1, tp,
+    local g = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter1, tp,
                                          LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                          1, nil)
     Duel.Remove(g, POS_FACEUP, REASON_COST)
@@ -144,8 +144,8 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local g = Utility.SelectMatchingCard(tp, s.e3filter2, tp, LOCATION_REMOVED,
-                                         0, 1, 1, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e3filter2, tp,
+                                         LOCATION_REMOVED, 0, 1, 1, nil)
     if #g == 0 then return end
 
     aux.ToHandOrElse(g, tp, function(c)

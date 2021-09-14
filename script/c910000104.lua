@@ -116,8 +116,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     if #g > 0 and Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
         Duel.BreakEffect()
-
-        g = Utility.GroupSelect(g, tp, 1, 1, nil)
+        g = Utility.GroupSelect(HINTMSG_RTOHAND, g, tp, 1, 1, nil)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
