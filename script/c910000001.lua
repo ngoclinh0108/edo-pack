@@ -24,6 +24,22 @@ function s.initial_effect(c)
     e2:SetCondition(s.e2con)
     e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
+
+    -- spell/trap protect
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+    e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetTargetRange(LOCATION_ONFIELD, 0)
+    e3:SetTarget(aux.TargetBoolFunction(Card.IsType, TYPE_SPELL + TYPE_TRAP))
+    e3:SetValue(aux.indoval)
+    c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_IGNORE_IMMUNE)
+    e3b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e3b:SetValue(aux.tgoval)
+    c:RegisterEffect(e3b)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)

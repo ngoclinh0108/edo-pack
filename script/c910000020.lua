@@ -34,130 +34,72 @@ function s.initial_effect(c)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
-    -- spell/trap protect
+    -- act qp/trap in hand
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e2:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(LOCATION_ONFIELD, 0)
-    e2:SetTarget(aux.TargetBoolFunction(Card.IsType, TYPE_SPELL + TYPE_TRAP))
-    e2:SetValue(aux.indoval)
+    e2:SetTargetRange(LOCATION_HAND, 0)
+    e2:SetCountLimit(1, id)
+    e2:SetCondition(function(e)
+        return Duel.GetTurnPlayer() ~= e:GetHandlerPlayer()
+    end)
     c:RegisterEffect(e2)
     local e2b = e2:Clone()
-    e2b:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_IGNORE_IMMUNE)
-    e2b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e2b:SetValue(aux.tgoval)
+    e2b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
     c:RegisterEffect(e2b)
 
-    -- special summon
+    -- draw
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DELAY)
-    e3:SetCode(EVENT_DESTROYED)
-    e3:SetCost(s.e3cost)
+    e3:SetDescription(1108)
+    e3:SetCategory(CATEGORY_DRAW)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e3:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetType(EFFECT_TYPE_QUICK_O)
+    e3b:SetCode(EVENT_CHAINING)
+    e3b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e3b:SetCondition(s.e3con)
+    c:RegisterEffect(e3b)
 
-    -- draw
+    -- special summon
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(1108)
-    e4:SetCategory(CATEGORY_DRAW)
-    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e4:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_DELAY)
+    e4:SetCode(EVENT_DESTROYED)
+    e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-    local e4b = e4:Clone()
-    e4b:SetType(EFFECT_TYPE_QUICK_O)
-    e4b:SetCode(EVENT_CHAINING)
-    e4b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e4b:SetCondition(s.e4con)
-    c:RegisterEffect(e4b)
 end
 
-function s.e3filter(c, e, tp, code)
-    return c:IsCode(code) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsAbleToExtraAsCost() end
-    Duel.SendtoDeck(e:GetHandler(), nil, 2, REASON_COST)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
-    if chk == 0 then
-        return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) >= 2 and
-                   Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
-                                               e, tp, 71703785) and
-                   Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
-                                               e, tp, 42006475)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp, loc)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
-    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
-        Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 then return end
-
-    local g1 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp, loc,
-                                     0, nil, e, tp, 71703785)
-    local g2 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e3filter), tp, loc,
-                                     0, nil, e, tp, 42006475)
-    if #g1 == 0 or #g2 == 0 then return end
-
-    g1 = Utility.GroupSelect(HINTMSG_SPSUMMON, g1, tp, 1, 1, nil)
-    g2 = Utility.GroupSelect(HINTMSG_SPSUMMON, g2, tp, 1, 1, nil)
-    Duel.SpecialSummon(g1:Merge(g2), 0, tp, tp, true, false, POS_FACEUP)
-end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
-
     Duel.SetTargetPlayer(tp)
     Duel.SetTargetParam(1)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
                                    CHAININFO_TARGET_PARAM)
     if Duel.Draw(p, d, REASON_EFFECT) == 0 then return end
+
     local tc = Duel.GetOperatedGroup():GetFirst()
-    if not tc:IsType(TYPE_SPELL + TYPE_TRAP) then return end
-
-    local b1 = tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
-    local b2 = not tc:IsType(TYPE_CONTINUOUS) and
-                   Utility.CheckActivateEffectCanApply(tc, e, tp, false, true, false)
-
-    local opt = {}
-    local sel = {}
-    table.insert(opt, 666000)
-    table.insert(sel, 1)
-    if b1 then
-        table.insert(opt, 1153)
-        table.insert(sel, 2)
-    end
-    if b2 then
-        table.insert(opt, 1150)
-        table.insert(sel, 3)
-    end
-    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
-
-    if op == 2 then
+    if tc:IsType(TYPE_SPELL + TYPE_TRAP) and tc:IsSSetable() and
+        Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
+        Duel.SelectYesNo(tp, 1601) then
         Duel.SSet(tp, tc, tp, false)
         if tc:IsType(TYPE_QUICKPLAY + TYPE_TRAP) then
             local ec1 = Effect.CreateEffect(c)
@@ -171,9 +113,44 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
             tc:RegisterEffect(ec1)
         end
-    elseif op == 3 then
-        Duel.SendtoGrave(tc, REASON_EFFECT)
-        Utility.HintCard(tc)
-        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)
     end
+end
+
+function s.e4filter(c, e, tp, code)
+    return c:IsCode(code) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsAbleToExtraAsCost() end
+    Duel.SendtoDeck(e:GetHandler(), nil, 2, REASON_COST)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    if chk == 0 then
+        return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) >= 2 and
+                   Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil,
+                                               e, tp, 71703785) and
+                   Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil,
+                                               e, tp, 42006475)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp, loc)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
+        Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 then return end
+
+    local g1 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e4filter), tp, loc,
+                                     0, nil, e, tp, 71703785)
+    local g2 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e4filter), tp, loc,
+                                     0, nil, e, tp, 42006475)
+    if #g1 == 0 or #g2 == 0 then return end
+
+    g1 = Utility.GroupSelect(HINTMSG_SPSUMMON, g1, tp, 1, 1, nil)
+    g2 = Utility.GroupSelect(HINTMSG_SPSUMMON, g2, tp, 1, 1, nil)
+    Duel.SpecialSummon(g1:Merge(g2), 0, tp, tp, true, false, POS_FACEUP)
 end

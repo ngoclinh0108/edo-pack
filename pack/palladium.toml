@@ -13,6 +13,8 @@ effect = """\
 (This card's name is always treated as "Palladium Oracle Mahad")
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+Your opponent cannot target Spells/Traps you control with card effects, \
+    also they cannot be destroyed by your opponent's card effects. \
 """
 strings = []
 
@@ -484,18 +486,14 @@ effect = """\
 "Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
 Must first be Fusion Summoned with the above materials. \
 Spellcaster monsters you control cannot be destroyed by card effects. \
-Your opponent cannot target Spells/Traps you control with card effects, \
-    also they cannot be destroyed by your opponent's card effects. \
+You can activate a Quick-Play Spell Card or a Trap Card from your hand during your opponent's turn. \
+    You can only use this effect of "The Palladium Oracles" once per turn. \
+Once per turn, when a monster declares an attack or a card or effect is activated: \
+    You can draw 1 card, then if it was a Spell/Trap, \
+    you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
 If this card is destroyed: You can shuffle it into the Extra Deck; \
     Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana" \
     from your hand, Deck, GY. \
-Once per turn, when a monster declares an attack or a card or effect is activated: \
-    You can draw 1 card, then apply the following effect(s) depending on what was drawn.
-● Spell/Trap: You can Set it, \
-    and if it was Trap or Quick-Play Spell, you can activate it this turn.
-● non-Continuous Spell/Trap: \
-    If it is meets activation conditions, \
-    you can send it to the GY, this effect becomes that card's effect when it is activated.
 """
 strings = []
 
@@ -836,5 +834,12 @@ set = "palladium"
 name = "Palladium Mirror Force"
 type = "trap counter"
 effect = """\
+Activate 1 of these effects.
+● When an opponent's monster declares an attack: \
+    Destroy all your opponent's Attack Position monsters.
+● When your opponent activates a monster effect that targets a monster(s) you control: \
+    Negate that effect, and also destroy all your opponent's Attack Position monsters.
+If this Set card is destroyed by your opponent's card effect and sent to your GY: \
+    You can Set this card from your GY, also it can be activated this turn. \
 """
 strings = []
