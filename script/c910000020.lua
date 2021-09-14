@@ -141,7 +141,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 
     local b1 = tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
     local b2 = not tc:IsType(TYPE_CONTINUOUS) and
-                   Utility.CheckActivateEffect(tc, e, tp, false, true, false)
+                   Utility.CheckActivateEffectCanApply(tc, e, tp, false, true, false)
 
     local opt = {}
     local sel = {}
@@ -172,8 +172,8 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
             tc:RegisterEffect(ec1)
         end
     elseif op == 3 then
-        Utility.HintCard(tc)
         Duel.SendtoGrave(tc, REASON_EFFECT)
-        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)        
+        Utility.HintCard(tc)
+        Utility.ApplyActivateEffect(tc, e, tp, false, true, false)
     end
 end

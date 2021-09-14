@@ -71,7 +71,7 @@ function Utility.DeckEditAddCardToDimension(tp, code, condition_code,
     if c.dimension_change then c.dimension_change(nil, tp) end
 end
 
-function Utility.CheckActivateEffect(ec, e, tp, neglect_con, neglect_cost,
+function Utility.CheckActivateEffectCanApply(ec, e, tp, neglect_con, neglect_cost,
                                      copy_info)
     local te = ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
     return Utility.CheckEffectCanApply(te, e, tp)

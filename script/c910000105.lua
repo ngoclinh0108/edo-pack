@@ -75,18 +75,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                         POS_FACEUP_DEFENSE, POS_FACEUP_DEFENSE, true)
 end
 
-function s.e1desop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ct = c:GetTurnCounter()
-    ct = ct + 1
-
-    c:SetTurnCounter(ct)
-    if ct == 3 then
-        Duel.Destroy(c, REASON_RULE)
-        if re then re:Reset() end
-    end
-end
-
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():GetCounter(COUNTER_SPELL) >= 3
 end
