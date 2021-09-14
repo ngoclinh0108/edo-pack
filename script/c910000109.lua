@@ -89,8 +89,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c)
-    return c:IsSSetable() and c:IsSetCard(0x13a) and
-               (c:IsType(TYPE_QUICKPLAY) or c:IsType(TYPE_TRAP))
+    return c:IsSSetable() and c:IsSetCard(0x13a) and c:IsType(TYPE_TRAP)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -131,6 +130,5 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
     local ec1b = ec1:Clone()
-    if tc:IsType(TYPE_QUICKPLAY) then ec1b:SetCode(EFFECT_QP_ACT_IN_SET_TURN) end
     tc:RegisterEffect(ec1b)
 end
