@@ -13,8 +13,6 @@ effect = """\
 (This card's name is always treated as "Palladium Oracle Mahad")
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
-Your opponent cannot target Spells/Traps you control with card effects, \
-    also they cannot be destroyed by your opponent's card effects. \
 """
 strings = []
 
@@ -486,13 +484,18 @@ effect = """\
 "Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
 Must first be Fusion Summoned with the above materials. \
 Spellcaster monsters you control cannot be destroyed by card effects. \
-Once per turn, when a monster declares an attack or a card or effect is activated: \
-    You can draw 1 card, then if it was a Spell/Trap, \
-    you can send it to the GY if it meets activation conditions, this effect becomes that card's effect when it is activated, \
-    or you can Set it, and if it was Trap or Quick-Play Spell, you can activate it this turn. \
+Your opponent cannot target Spells/Traps you control with card effects, \
+    also they cannot be destroyed by your opponent's card effects. \
 If this card is destroyed: You can shuffle it into the Extra Deck; \
     Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana" \
     from your hand, Deck, GY. \
+Once per turn, when a monster declares an attack or a card or effect is activated: \
+    You can draw 1 card, then apply the following effect(s) depending on what was drawn.
+● Spell/Trap: You can Set it, \
+    and if it was Trap or Quick-Play Spell, you can activate it this turn.
+● non-Continuous Spell/Trap: \
+    If it is meets activation conditions, \
+    you can send it to the GY, this effect becomes that card's effect when it is activated.
 """
 strings = []
 
@@ -737,29 +740,14 @@ During your Main Phase, except the turn this card was sent to the GY: \
 """
 strings = []
 
-[card.palladium-sanctuary]
+[card.palladium-swords-revealing-light]
 id = 910000105
 set = "palladium"
-name = "Palladium's Sanctuary"
+name = "Palladium Swords of Revealing Light"
 type = "spell quick-play"
 effect = """\
-During your Main Phase or your opponent's turn: \
-    Special Summon 1 "Palladium Apostle Token" (Fairy/LIGHT/Level 1/ATK 0/DEF 0). \
-    It cannot attack. Your opponent takes any battle damage you would have taken from battles involving it. \
-    During each of your Standby Phases, pay 1000 LP or destroy this Token. \
-    If you activated this effect while an opponent's monster attacking, during your opponent's Battle Phase, \
-    the attacking monster must attack this card, if able. \
-During your Main Phase, except the turn this card was sent to the GY: \
-    You can banish this card from your GY; \
-    Tribute 1 face-up monster with 500 or less ATK and DEF, and if you do, \
-    Special Summon any number of "Palladium Apostle Token" (Fairy/LIGHT/Level 1/ATK ?/DEF ?), in Defense Position. \
-    (This Token's ATK/DEF become the ATK/DEF the Tribtued monster had on the field.) \
-    You can only use this effect of "Palladium's Sanctuary" once per turn. \
 """
-strings = [
-    "Pay 1000 LP to maintain \"Palladium Apostle Token\"?",
-    "Select number of token",
-]
+strings = []
 
 [card.palladium-magical-circle]
 id = 910000106
@@ -785,7 +773,7 @@ strings = [
     "Add monster to hand",
     "Add Spell/Trap",
     "Special Summon a monster",
-    "Protect and ATK up"
+    "Protect and ATK up",
 ]
 
 [card.palladium-nova-blast-magic]
@@ -805,4 +793,28 @@ Apply these effects, in sequence, depending on the monster you control. \
 """
 strings = [
     "Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead",
+]
+
+[card.palladium-sanctuary]
+id = 910000108
+set = "palladium"
+name = "Palladium's Sanctuary"
+type = "spell quick-play"
+effect = """\
+During your Main Phase or your opponent's turn: \
+    Special Summon 1 "Palladium Apostle Token" (Fairy/LIGHT/Level 1/ATK 0/DEF 0). \
+    It cannot attack. Your opponent takes any battle damage you would have taken from battles involving it. \
+    During each of your Standby Phases, pay 1000 LP or destroy this Token. \
+    If you activated this effect while an opponent's monster attacking, during your opponent's Battle Phase, \
+    the attacking monster must attack this card, if able. \
+During your Main Phase, except the turn this card was sent to the GY: \
+    You can banish this card from your GY; \
+    Tribute 1 face-up monster with 500 or less ATK and DEF, and if you do, \
+    Special Summon any number of "Palladium Apostle Token" (Fairy/LIGHT/Level 1/ATK ?/DEF ?), in Defense Position. \
+    (This Token's ATK/DEF become the ATK/DEF the Tribtued monster had on the field.) \
+    You can only use this effect of "Palladium's Sanctuary" once per turn. \
+"""
+strings = [
+    "Pay 1000 LP to maintain \"Palladium Apostle Token\"?",
+    "Select number of token",
 ]
