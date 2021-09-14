@@ -8,7 +8,9 @@ function s.initial_effect(c)
     -- activate
     local e0 = Effect.CreateEffect(c)
     e0:SetType(EFFECT_TYPE_ACTIVATE)
+    e0:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e0:SetCode(EVENT_FREE_CHAIN)
+    e0:SetHintTiming(TIMING_DAMAGE_STEP)
     e0:SetTarget(s.e0tg)
     e0:SetOperation(s.e0op)
     c:RegisterEffect(e0)
@@ -57,7 +59,8 @@ end
 function s.e0tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         for i = 1, #s.eff, 1 do
-            if s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
+            if not s.eff[i]:GetTarget() or
+                s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
                 return true
             end
         end
@@ -67,7 +70,8 @@ function s.e0tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local opt = {}
     local sel = {}
     for i = 1, #s.eff, 1 do
-        if s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, 0) then
+        if not s.eff[i]:GetTarget() or
+            s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, 0) then
             table.insert(opt, s.eff[i]:GetDescription())
             table.insert(sel, i)
         end
@@ -76,7 +80,9 @@ function s.e0tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
     e:SetLabel(op)
     e:SetCategory(s.eff[op]:GetCategory())
-    s.eff[op]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk)
+    if s.eff[op]:GetTarget() then
+        s.eff[op]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk)
+    end
 end
 
 function s.e0op(e, tp, eg, ep, ev, re, r, rp)
@@ -191,6 +197,33 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.e5filter(c) return c:IsFaceup() and c:IsSetCard(0x13a) end
+
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    Debug.Message("OK")
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(s.e5filter, tp, LOCATION_MZONE, 0, nil)
+
+    for tc in aux.Next(g) do
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3110)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_IMMUNE_EFFECT)
+        ec1:SetOwnerPlayer(tp)
+        ec1:SetValue(function(e, re)
+            return e:GetOwnerPlayer() ~= re:GetOwnerPlayer()
+        end)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec1)
+    end
+
+    local sc = Utility.GroupSelect(HINTMSG_FACEUP, g, tp, 1, 1, nil):GetFirst()
+    if not sc then return end
+    Duel.HintSelection(Group.FromCards(sc))
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetCode(EFFECT_UPDATE_ATTACK)
+    ec2:SetValue(1000)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    sc:RegisterEffect(ec2)
 end

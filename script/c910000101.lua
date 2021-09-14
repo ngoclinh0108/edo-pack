@@ -60,7 +60,8 @@ end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         for i = 1, #s.eff, 1 do
-            if s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
+            if not s.eff[i]:GetTarget() or
+                s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
                 return true
             end
         end
@@ -70,7 +71,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local opt = {}
     local sel = {}
     for i = 1, #s.eff, 1 do
-        if s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, 0) then
+        if not s.eff[i]:GetTarget() or
+            s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, 0) then
             table.insert(opt, s.eff[i]:GetDescription())
             table.insert(sel, i)
         end
