@@ -648,7 +648,7 @@ If this card is destroyed: You can Special Summon \
 strings = ["Make a second attack in a row"]
 
 [card.palladium-apostle-token]
-id = 910000100
+id = 910000099
 set = "palladium"
 name = "Palladium Apostle Token"
 type = "monster normal token"
@@ -661,6 +661,31 @@ effect = """\
 Special Summoned with the effect of "Palladium's Sanctuary". \
 """
 strings = []
+
+[card.millennium-memory]
+id = 910000100
+name = "Millennium Memory"
+type = "spell quick-play"
+effect = """\
+Activate 1 of the following effects.
+● Look at the top 5 cards of your Deck, \
+    then you can reveal 1 "Palladium" card, and add it to your hand, \
+    also place the remaining cards on top of your Deck in any order.
+● Add 1 "Palladium" Spellcaster monster from your Deck or GY to your hand.
+● Add 1 "Palladium" Spell/Trap from your Deck or GY to your hand.
+● Tribute 2 face-up monsters on the field, and if you do, \
+    Special Summon 1 Level 6 or higher LIGHT "Palladium" Spellcaster monster \
+    from your hand, Deck or GY.
+● This turn, "Palladium" monsters you currently control are unaffected by your opponent's card effects, \
+    also 1 "Palladium" monster on the field gains 1000 ATK. \
+"""
+strings = [
+    "Look at top your Deck",
+    "Add monster to hand",
+    "Add Spell/Trap",
+    "Special Summon a monster",
+    "Protect and ATK up",
+]
 
 [card.forbidden-art-palladium]
 id = 910000101
@@ -738,8 +763,27 @@ During your Main Phase, except the turn this card was sent to the GY: \
 """
 strings = []
 
-[card.palladium-swords-revealing-light]
+[card.palladium-nova-blast-magic]
 id = 910000105
+set = "palladium"
+name = "Palladium Blast Nova Magic"
+type = "spell quick-play"
+effect = """\
+Apply these effects, in sequence, depending on the monster you control. \
+    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation. \
+    You can only activate 1 "Palladium Blast Nova Magic" per turn.
+● Spellcaster "Palladium" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
+● "Palladium Oracle Mahad" or "The Palladium Oracles": Negate the effects of all face-up Spells and Traps your opponent currently controls, \
+    and also destroy all Spells and Traps your opponent controls.
+● "Palladium Oracle Mana" or "The Palladium Oracles": Negate the effects of all face-up monster your opponent currently controls, \
+    and also destroy all monster your opponent controls.
+"""
+strings = [
+    "Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead",
+]
+
+[card.palladium-swords-revealing-light]
+id = 910000106
 set = "palladium"
 name = "Palladium Swords of Revealing Light"
 type = "spell quick-play"
@@ -758,54 +802,8 @@ You can send this card with 3 or more Spell Counters to the GY; draw 3 cards. \
 """
 strings = []
 
-[card.palladium-magical-circle]
-id = 910000106
-set = "palladium"
-name = "Palladium Magical Circle"
-type = "spell quick-play"
-effect = """\
-Activate 1 of the following effects.
-● Look at the top 5 cards of your Deck, \
-    then you can reveal 1 "Palladium" card, and add it to your hand, \
-    also place the remaining cards on top of your Deck in any order.
-● Add 1 "Palladium" Spellcaster monster from your Deck or GY to your hand.
-● Add 1 Spell/Trap that have "Palladium monster" in its text from your Deck or GY to your hand, \
-    except "Palladium Magical Circle".
-● Tribute 2 face-up monsters on the field, and if you do, \
-    Special Summon 1 Level 6 or higher LIGHT "Palladium" Spellcaster monster \
-    from your hand, Deck or GY.
-● This turn, "Palladium" monsters you currently control are unaffected by your opponent's card effects, \
-    also 1 "Palladium" monster on the field gains 1000 ATK. \
-"""
-strings = [
-    "Look at top your Deck",
-    "Add monster to hand",
-    "Add Spell/Trap",
-    "Special Summon a monster",
-    "Protect and ATK up",
-]
-
-[card.palladium-nova-blast-magic]
-id = 910000107
-set = "palladium"
-name = "Palladium Blast Nova Magic"
-type = "spell quick-play"
-effect = """\
-Apply these effects, in sequence, depending on the monster you control. \
-    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation. \
-    You can only activate 1 "Palladium Blast Nova Magic" per turn.
-● Spellcaster "Palladium" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
-● "Palladium Oracle Mahad" or "The Palladium Oracles": Negate the effects of all face-up Spells and Traps your opponent currently controls, \
-    and also destroy all Spells and Traps your opponent controls.
-● "Palladium Oracle Mana" or "The Palladium Oracles": Negate the effects of all face-up monster your opponent currently controls, \
-    and also destroy all monster your opponent controls.
-"""
-strings = [
-    "Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead",
-]
-
 [card.palladium-sanctuary]
-id = 910000108
+id = 910000107
 set = "palladium"
 name = "Palladium's Sanctuary"
 type = "spell quick-play"

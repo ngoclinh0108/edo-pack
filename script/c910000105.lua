@@ -1,100 +1,136 @@
--- Palladium Swords of Revealing Light
+-- Palladium Blast Nova Magic
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.counter_place_list = {COUNTER_SPELL}
+s.listed_names = {71703785, 42006475, 910000020}
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    c:SetUniqueOnField(1, 0, id)
-    c:EnableCounterPermit(COUNTER_SPELL)
-    c:SetCounterLimit(COUNTER_SPELL, 3)
-
-    -- activate & remain field
+    -- activate
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_POSITION)
+    e1:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetHintTiming(TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
-    e1:SetCondition(s.e1con)
+    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    local e1b = Effect.CreateEffect(c)
-    e1b:SetType(EFFECT_TYPE_SINGLE)
-    e1b:SetCode(EFFECT_REMAIN_FIELD)
-    c:RegisterEffect(e1b)
-
-    -- add counter
-    local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_COUNTER)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetRange(LOCATION_SZONE)
-    e2:SetCountLimit(1)
-    e2:SetCode(EVENT_PHASE + PHASE_END)
-    e2:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == 1 - tp end)
-    e2:SetOperation(function(e) e:GetHandler():AddCounter(COUNTER_SPELL, 1) end)
-    c:RegisterEffect(e2)
-
-    -- cannot attack
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
-    e3:SetRange(LOCATION_SZONE)
-    e3:SetTargetRange(0, LOCATION_MZONE)
-    e3:SetCondition(function(e)
-        return e:GetHandler():GetCounter(COUNTER_SPELL) <= 2
-    end)
-    c:RegisterEffect(e3)
-
-    -- draw
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(1108)
-    e4:SetCategory(CATEGORY_DRAW)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetRange(LOCATION_SZONE)
-    e4:SetCondition(s.e4con)
-    e4:SetCost(s.e4cost)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() == PHASE_MAIN1
+function s.e1filter(c)
+    return c:IsRace(RACE_SPELLCASTER) and c:IsSetCard(0x13a) and
+               c:IsType(TYPE_RITUAL)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:IsHasType(EFFECT_TYPE_ACTIVATE) end
-    local g = Duel.GetMatchingGroup(Card.IsFacedown, tp, 0, LOCATION_MZONE, nil)
-    Duel.SetOperationInfo(0, CATEGORY_POSITION, g, #g, 0, 0)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil)
+    local b1 = g:IsExists(s.e1filter, 1, nil)
+    local b2 = g:IsExists(Card.IsCode, 1, nil, 71703785, 910000020)
+    local b3 = g:IsExists(Card.IsCode, 1, nil, 42006475, 910000020)
+    if chk == 0 then
+        return b1 or
+                   (b2 and
+                       Duel.IsExistingMatchingCard(Card.IsType, tp, 0,
+                                                   LOCATION_ONFIELD, 1, c,
+                                                   TYPE_SPELL + TYPE_TRAP)) or
+                   (b3 and
+                       Duel.IsExistingMatchingCard(aux.TRUE, tp, 0,
+                                                   LOCATION_MZONE, 1, nil))
+    end
+
+    local loc = 0
+    local ct = 0
+    local n = 0
+    if b1 then n = n + 1 end
+    if b2 then loc, ct, n = loc + LOCATION_SZONE, ct + 1, n + 1 end
+    if b3 then loc, ct, n = loc + LOCATION_MZONE, ct + 1, n + 1 end
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, ct, 1 - tp, loc)
+    if n >= 2 then
+        Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
+    end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(Card.IsFacedown, tp, 0, LOCATION_MZONE, nil)
-    if #g == 0 then return end
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil)
+    local b1 = g:IsExists(s.e1filter, 1, nil)
+    local b2 = g:IsExists(Card.IsCode, 1, nil, 71703785, 910000020)
+    local b3 = g:IsExists(Card.IsCode, 1, nil, 42006475, 910000020)
 
-    Duel.ChangePosition(g, POS_FACEUP_ATTACK, POS_FACEUP_ATTACK,
-                        POS_FACEUP_DEFENSE, POS_FACEUP_DEFENSE, true)
+    if b1 then
+        Duel.BreakEffect()
+
+        local ec0 = Effect.CreateEffect(c)
+        ec0:SetDescription(aux.Stringid(id, 0))
+        ec0:SetType(EFFECT_TYPE_FIELD)
+        ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+        ec0:SetCode(id)
+        ec0:SetTargetRange(0, 1)
+        ec0:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec0, tp)
+
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_IGNORE_RANGE +
+                            EFFECT_FLAG_IGNORE_IMMUNE)
+        ec1:SetCode(EFFECT_TO_GRAVE_REDIRECT)
+        ec1:SetTargetRange(0, 0xff)
+        ec1:SetValue(LOCATION_REMOVED)
+        ec1:SetTarget(function(e, c)
+            local tp = e:GetHandlerPlayer()
+            return c:GetOwner() ~= tp and Duel.IsPlayerCanRemove(tp, c)
+        end)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
+    end
+
+    if b2 then
+        Duel.BreakEffect()
+
+        local ng = Duel.GetMatchingGroup(
+                       aux.FilterFaceupFunction(Card.IsType,
+                                                TYPE_SPELL + TYPE_TRAP), tp, 0,
+                       LOCATION_ONFIELD, c)
+        for nc in aux.Next(ng) do s.e1disable(c, nc) end
+
+        local dg = Duel.GetMatchingGroup(Card.IsType, tp, 0, LOCATION_ONFIELD,
+                                         c, TYPE_SPELL + TYPE_TRAP)
+        Duel.Destroy(dg, REASON_EFFECT)
+    end
+
+    if b3 then
+        Duel.BreakEffect()
+
+        local ng =
+            Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, c)
+        for nc in aux.Next(ng) do s.e1disable(c, nc) end
+
+        local dg = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
+        Duel.Destroy(dg, REASON_EFFECT)
+    end
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetCounter(COUNTER_SPELL) >= 3
-end
+function s.e1disable(c, nc)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_DISABLE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    nc:RegisterEffect(ec1)
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsAbleToGraveAsCost() end
-    Duel.SendtoGrave(e:GetHandler(), REASON_COST)
-end
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetCode(EFFECT_DISABLE_EFFECT)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+    nc:RegisterEffect(ec2)
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 3) end
-    Duel.SetTargetPlayer(tp)
-    Duel.SetTargetParam(3)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 3)
-end
+    if nc:IsType(TYPE_TRAPMONSTER) then
+        local ec3 = Effect.CreateEffect(c)
+        ec3:SetType(EFFECT_TYPE_SINGLE)
+        ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+        ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
+        nc:RegisterEffect(ec3)
+    end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
-    Duel.Draw(p, d, REASON_EFFECT)
+    Duel.AdjustInstantly(nc)
 end
