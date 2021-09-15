@@ -473,8 +473,27 @@ strings = [
     "Affected by effect \"Chaos End Ruler - Ruler of the Beginning and the End\": other monsters cannot attack",
 ]
 
-[card.palladium-oracles]
+[card.palladium-magician]
 id = 910000020
+set = "palladium"
+name = "Palladium Magician"
+type = "monster xyz effect"
+attribute = "dark"
+race = "spellcaster"
+rank = 7
+atk = "?"
+def = "?"
+effect = """\
+Cannot be Xyz Summoned. \
+Must be Special Summoned (from your Extra Deck) \
+    by stacking it on top of 1 "Palladium Oracle Mahad" you control with 1 or more Spell Counters. \
+The original ATK and DEF of this card become 1000 x the number of Spell Counters of the monster used for its Summon. \
+Unaffected by your opponent's card effects. \
+"""
+strings = []
+
+[card.palladium-oracles]
+id = 910000021
 set = "palladium"
 name = "The Palladium Oracles"
 type = "monster fusion effect"
@@ -499,7 +518,7 @@ If this card is destroyed: You can shuffle it into the Extra Deck; \
 strings = []
 
 [card.chaos-eyes-oracle-dragoon]
-id = 910000021
+id = 910000022
 set = "chaos"
 name = "Chaos-Eyes Oracle Dragoon"
 type = "monster fusion effect"
@@ -530,7 +549,7 @@ strings = [
 ]
 
 [card.palladium-master-chaos]
-id = 910000022
+id = 910000023
 set = "palladium chaos"
 name = "Palladium Master of Chaos"
 type = "monster fusion effect"
@@ -557,7 +576,7 @@ strings = [
 ]
 
 [card.palladium-archfiend]
-id = 910000023
+id = 910000024
 set = "palladium archfiend"
 name = "Archfiend Palladium Necromancer"
 type = "monster fusion effect"
@@ -582,7 +601,7 @@ This card's effect cannot be negated. \
 strings = ["Banish Spells/Traps to gain ATK"]
 
 [card.dark-flare-paladin-of-palladium]
-id = 910000024
+id = 910000025
 set = "palladium"
 name = "Dark Flare Paladin of Palladium"
 type = "monster fusion effect"
@@ -606,7 +625,7 @@ If this card is destroyed: \
 strings = []
 
 [card.arcana-royal-joker]
-id = 910000025
+id = 910000026
 name = "Arcana Royal Joker"
 type = "fusion monster effect"
 attribute = "light"
@@ -627,7 +646,7 @@ If this Fusion Summoned card is destroyed by battle or card effect: \
 strings = []
 
 [card.palladium-beast-chimera]
-id = 910000026
+id = 910000027
 set = "palladium"
 name = "Palladium Beast Chimera"
 type = "monster fusion effect"
@@ -647,20 +666,6 @@ If this card is destroyed: You can Special Summon \
     that is banished or in your hand, Deck, GY. \
 """
 strings = ["Make a second attack in a row"]
-
-[card.palladium-magician]
-id = 910000027
-set = "palladium"
-name = "Palladium Magician"
-type = "monster link effect"
-attribute = "dark"
-race = "spellcaster"
-link-rating = 1
-link-arrows = "bottom"
-atk = "?"
-effect = """\
-"""
-strings = []
 
 [card.palladium-apostle-token]
 id = 910000099
