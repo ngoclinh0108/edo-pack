@@ -39,7 +39,6 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local b1 = g:IsExists(s.e1filter, 1, nil)
     local b2 = g:IsExists(Card.IsCode, 1, nil, 71703785, 910000021)
     local b3 = g:IsExists(Card.IsCode, 1, nil, 42006475, 910000021)
-    Debug.Message(b2)
     if chk == 0 then
         return b1 or
                    (b2 and
