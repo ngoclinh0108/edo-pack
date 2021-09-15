@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {71703785, 42006475, 910000020}
+s.listed_names = {71703785, 42006475, 910000021}
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
@@ -37,8 +37,9 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil)
     local b1 = g:IsExists(s.e1filter, 1, nil)
-    local b2 = g:IsExists(Card.IsCode, 1, nil, 71703785, 910000020)
-    local b3 = g:IsExists(Card.IsCode, 1, nil, 42006475, 910000020)
+    local b2 = g:IsExists(Card.IsCode, 1, nil, 71703785, 910000021)
+    local b3 = g:IsExists(Card.IsCode, 1, nil, 42006475, 910000021)
+    Debug.Message(b2)
     if chk == 0 then
         return b1 or
                    (b2 and
@@ -66,8 +67,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil)
     local b1 = g:IsExists(s.e1filter, 1, nil)
-    local b2 = g:IsExists(Card.IsCode, 1, nil, 71703785, 910000020)
-    local b3 = g:IsExists(Card.IsCode, 1, nil, 42006475, 910000020)
+    local b2 = g:IsExists(Card.IsCode, 1, nil, 71703785, 910000021)
+    local b3 = g:IsExists(Card.IsCode, 1, nil, 42006475, 910000021)
 
     if b1 then
         Duel.BreakEffect()
