@@ -43,11 +43,10 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(0, LOCATION_MZONE)
     e2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return s.con1(e, tp, eg, ep, ev, re, r, rp) and
+        local c = e:GetHandler()
+        return Duel.GetAttacker() == c and c:GetBattleTarget() and
                    (Duel.GetCurrentPhase() == PHASE_DAMAGE or
-                       Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL) and
-                   Duel.GetAttacker() == e:GetHandler() and
-                   e:GetHandler():GetBattleTarget()
+                       Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL)
     end)
     e2:SetTarget(function(e, c) return c == e:GetHandler():GetBattleTarget() end)
     c:RegisterEffect(e2)
