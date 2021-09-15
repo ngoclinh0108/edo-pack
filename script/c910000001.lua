@@ -5,7 +5,8 @@ local s, id = GetID()
 s.counter_place_list = {COUNTER_SPELL}
 
 function s.initial_effect(c)
-    c:EnableCounterPermit(COUNTER_SPELL, 5)
+    c:EnableCounterPermit(COUNTER_SPELL)
+    c:SetCounterLimit(COUNTER_SPELL, 5)
 
     -- special summon
     local e1 = Effect.CreateEffect(c)
