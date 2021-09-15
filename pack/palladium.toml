@@ -103,7 +103,7 @@ strings = [
     "Gains 1500 ATK",
     "Banish 1 card on the field",
     "Banish 1 card in hand",
-    "Double attack next turn",
+    "double attacks next turn",
 ]
 
 [card.chaos-emperor-dragon-palladium]
