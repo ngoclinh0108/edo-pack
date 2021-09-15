@@ -485,8 +485,8 @@ effect = """\
 "Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
 Must first be Fusion Summoned with the above materials. \
 Spellcaster monsters you control cannot be destroyed by card effects. \
-You can activate a Quick-Play Spell Card or a Trap Card from your hand during your opponent's turn. \
-    You can only use this effect of "The Palladium Oracles" once per turn. \
+Your opponent cannot target Spells/Traps you control with card effects, \
+    also they cannot be destroyed by your opponent's card effects. \
 Once per turn, when a monster declares an attack or a card or effect is activated: \
     You can draw 1 card, then if it was a Spell/Trap, \
     you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \

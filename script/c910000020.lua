@@ -34,19 +34,20 @@ function s.initial_effect(c)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
-    -- act qp/trap in hand
+    -- protect spell/trap
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+    e2:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(LOCATION_HAND, 0)
-    e2:SetCountLimit(1, id)
-    e2:SetCondition(function(e)
-        return Duel.GetTurnPlayer() ~= e:GetHandlerPlayer()
-    end)
+    e2:SetTargetRange(LOCATION_ONFIELD, 0)
+    e2:SetTarget(aux.TargetBoolFunction(Card.IsType, TYPE_SPELL + TYPE_TRAP))
+    e2:SetValue(aux.indoval)
     c:RegisterEffect(e2)
     local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
+    e2b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e2b:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_IGNORE_IMMUNE)
+    e2b:SetValue(aux.tgoval)
     c:RegisterEffect(e2b)
 
     -- draw
