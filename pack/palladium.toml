@@ -656,7 +656,7 @@ type = "monster link effect"
 attribute = "dark"
 race = "spellcaster"
 link-rating = 1
-link-arrow = "bottom"
+link-arrows = "bottom"
 atk = "?"
 effect = """\
 """
