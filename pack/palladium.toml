@@ -832,8 +832,8 @@ name = "Palladium Binding Circle"
 type = "trap"
 effect = """\
 Target 1 face-up monster your opponent controls; equip this card to it. \
-    It cannot activate its effect, loses 1000 ATK/DEF, \
-    cannot attack or change its battle position. \
+    Negate its effects and it cannot activate its effect, \
+    loses 1000 ATK/DEF, cannot attack or change its battle position. \
     Also if you would Tribute a monster(s) for a Tribute Summon, \
     you can Tribute it, even though you do not control it. \
 If this card is in your GY: \
