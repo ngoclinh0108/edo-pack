@@ -648,6 +648,20 @@ If this card is destroyed: You can Special Summon \
 """
 strings = ["Make a second attack in a row"]
 
+[card.palladium-magician]
+id = 910000027
+set = "palladium"
+name = "Palladium Magician"
+type = "monster link effect"
+attribute = "dark"
+race = "spellcaster"
+link-rating = 1
+link-arrow = "bottom"
+atk = "?"
+effect = """\
+"""
+strings = []
+
 [card.palladium-apostle-token]
 id = 910000099
 set = "palladium"
