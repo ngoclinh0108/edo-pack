@@ -489,10 +489,14 @@ Must be Special Summoned (from your Extra Deck) \
     by stacking it on top of 1 "Palladium Oracle Mahad" you control with 1 or more Spell Counters. \
 The original ATK of this card become 1000 x the number of Spell Counters of the monster used for its Summon. \
 Unaffected by your opponent's card effects. \
-You can activate a Quick-Play Spell Card or a Trap Card from your hand during your opponent's turn. \
-    You can only use this effect of "Palladium Magician" once per turn. \
+Once per turn, you can activate a Quick-Play Spell Card or a Trap Card from your hand during your opponent's turn. \
+Once per Chain, during damage calculation, if this card battles an opponent's monster (Quick Effect): \
+    You can detach 1 materials from this card; \
+    This card's ATK is doubled during the Damage Step only. \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 "Palladium Oracle Mahad" from your hand, Deck, or GY. \
 """
-strings = []
+strings = ["Double ATK"]
 
 [card.palladium-oracles]
 id = 910000021
@@ -513,7 +517,7 @@ Your opponent cannot target Spells/Traps you control with card effects, \
 Once per turn, when a monster declares an attack or a card or effect is activated: \
     You can draw 1 card, then if it was a Spell/Trap, \
     you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
-If this card is destroyed: You can shuffle it into the Extra Deck; \
+If this card is destroyed by battle or card effect: You can shuffle it into the Extra Deck; \
     Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana", \
     that are banished or are in your hand, Deck, GY. \
 """
@@ -619,10 +623,9 @@ If this card is Special Summoned: \
     You can target 1 card on the field; destroy it. \
 Negate the effects of face-up monsters your opponent controls \
     with ATK less than or equal to this card's. \
-If this card is destroyed: \
+If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium" monster from your hand, Deck or GY, \
-    except "Dark Flare Paladin of Palladium". \
-    You can only use this effect of "Dark Flare Paladin of Palladium" once per turn. \
+    except "Dark Flare Paladin of Palladium".
 """
 strings = []
 
@@ -663,7 +666,7 @@ A Fusion Summon of this card can only be done with the above materials. \
 This card gains effects of material monsters used to Fusion Summon it. \
 When this card destroys an opponent's monster by battle: \
     You can activate this effect; this card can make a second attack in a row. \
-If this card is destroyed: You can Special Summon \
+If this card is destroyed by battle or card effect: You can Special Summon \
     1 "Palladium Beast Gazelle" or "Palladium Beast Berfomet" \
     that is banished or in your hand, Deck, GY. \
 """
