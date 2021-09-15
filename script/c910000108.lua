@@ -110,12 +110,5 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or not c:IsSSetable() then return end
-
     Duel.SSet(tp, c)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-    ec1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    c:RegisterEffect(ec1)
 end
