@@ -5,43 +5,18 @@ local s, id = GetID()
 s.counter_list = {COUNTER_SPELL}
 
 function s.initial_effect(c)
-    -- disable
-    aux.AddPersistentProcedure(c, 1, aux.FilterBoolFunction(Card.IsFaceup),
-                               CATEGORY_DISABLE + CATEGORY_POSITION,
-                               EFFECT_FLAG_DAMAGE_STEP, TIMING_DAMAGE_STEP,
-                               TIMING_DAMAGE_STEP, s.e1con, nil, s.e1tg)
+    -- activate
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetCode(EFFECT_CANNOT_TRIGGER)
-    e1:SetRange(LOCATION_SZONE)
-    e1:SetTargetRange(LOCATION_MZONE, LOCATION_MZONE)
-    e1:SetTarget(aux.PersistentTargetFilter)
+    e1:SetCategory(CATEGORY_EQUIP)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(TIMING_DAMAGE_STEP)
+    e1:SetCondition(s.e1con)
+    e1:SetCost(aux.RemainFieldCost)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_UPDATE_ATTACK)
-    e1b:SetValue(-1000)
-    c:RegisterEffect(e1b)
-    local e1c = e1:Clone()
-    e1c:SetCode(EFFECT_CANNOT_ATTACK)
-    c:RegisterEffect(e1c)
-    local e1d = e1:Clone()
-    e1d:SetCode(EFFECT_CANNOT_CHANGE_POSITION)
-    c:RegisterEffect(e1d)
-    local e1e = e1:Clone()
-    e1e:SetCode(EFFECT_EXTRA_RELEASE_SUM)
-    c:RegisterEffect(e1e)
-    local e1f = Effect.CreateEffect(c)
-    e1f:SetType(EFFECT_TYPE_CONTINUOUS + EFFECT_TYPE_FIELD)
-    e1f:SetRange(LOCATION_SZONE)
-    e1f:SetCode(EVENT_LEAVE_FIELD)
-    e1f:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        if c:IsStatus(STATUS_DESTROY_CONFIRMED) then return false end
-        local tc = c:GetFirstCardTarget()
-        return tc and eg:IsContains(tc)
-    end)
-    e1f:SetOperation(function(e) Duel.Destroy(e:GetHandler(), REASON_EFFECT) end)
-    c:RegisterEffect(e1f)
 
     -- set itself
     local e2 = Effect.CreateEffect(c)
@@ -60,10 +35,61 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
                not Duel.IsDamageCalculated()
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, tc, chk)
-    if chk == 0 then return true end
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return e:IsHasType(EFFECT_TYPE_ACTIVATE) and
+                   Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_MZONE,
+                                         1, nil)
+    end
 
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_EQUIP)
+    local tc = Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1,
+                                 nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_EQUIP, e:GetHandler(), 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not c:IsLocation(LOCATION_SZONE) or not c:IsRelateToEffect(e) or
+        c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
+    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() then
+        c:CancelToGrave(false)
+        return
+    end
+
+    Duel.Equip(tp, c, tc)
+    local ec0 = Effect.CreateEffect(c)
+    ec0:SetType(EFFECT_TYPE_SINGLE)
+    ec0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    ec0:SetCode(EFFECT_EQUIP_LIMIT)
+    ec0:SetValue(1)
+    ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec0)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_EQUIP)
+    ec1:SetCode(EFFECT_CANNOT_TRIGGER)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec1)
+    local ec2 = ec1:Clone()
+    ec2:SetCode(EFFECT_UPDATE_ATTACK)
+    ec2:SetValue(-1000)
+    c:RegisterEffect(ec2)
+    local ec3 = ec2:Clone()
+    ec3:SetCode(EFFECT_UPDATE_DEFENSE)
+    c:RegisterEffect(ec3)
+    local ec4 = ec1:Clone()
+    ec4:SetCode(EFFECT_CANNOT_ATTACK)
+    c:RegisterEffect(ec4)
+    local ec5 = ec1:Clone()
+    ec5:SetCode(EFFECT_CANNOT_CHANGE_POSITION)
+    c:RegisterEffect(ec5)
+    local ec6 = ec1:Clone()
+    ec6:SetCode(EFFECT_EXTRA_RELEASE_SUM)
+    c:RegisterEffect(ec6)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

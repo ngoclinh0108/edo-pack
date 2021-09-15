@@ -9,7 +9,7 @@ function s.initial_effect(c)
     c:EnableCounterPermit(COUNTER_SPELL)
     c:SetCounterLimit(COUNTER_SPELL, 3)
 
-    -- activate & remain field
+    -- activate
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_POSITION)
     e1:SetType(EFFECT_TYPE_ACTIVATE)

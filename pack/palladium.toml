@@ -829,14 +829,13 @@ strings = [
 id = 910000108
 set = "palladium"
 name = "Palladium Binding Circle"
-type = "trap continuous"
+type = "trap"
 effect = """\
-Activate this card by targeting 1 face-up monster your opponent controls; \
+Target 1 face-up monster your opponent controls; equip this card to it. \
     it cannot activate its effect, loses 1000 ATK/DEF, \
     cannot attack or change its battle position. \
     Also if you would Tribute a monster(s) for a Tribute Summon, \
     you can Tribute it, even though you do not control it. \
-    When it leaves the field, destroy this card. \
 If this card is in your GY: \
     You can remove 1 Spell Counter from your side of the field; \
     Set this card, also it can be activated this turn. \
