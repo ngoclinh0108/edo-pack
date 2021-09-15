@@ -76,7 +76,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c, e, tp)
-    return c:IsMonster() and c:IsSetCard(0x13a) and
+    return c:IsMonster() and c:IsSetCard(0x13a) and not c:IsCode(id) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
