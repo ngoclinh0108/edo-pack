@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0x13a}
+
 function s.initial_effect(c)
     -- activate
     local e1 = Effect.CreateEffect(c)
@@ -12,6 +14,20 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- disable
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_DISABLE)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e2:SetCondition(s.e2con)
+    e2:SetCost(aux.bfgcost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -88,5 +104,45 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
         Utility.HintCard(te)
         Utility.ApplyEffect(te, e, tp, c)
+    end
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return aux.exccon(e) and
+               Duel.IsExistingMatchingCard(
+                   aux.FilterFaceupFunction(Card.IsSetCard, 0x13a), tp,
+                   LOCATION_MZONE, 0, 1, nil)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(aux.disfilter2, tp, 0, LOCATION_ONFIELD, 1,
+                                     nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
+    Duel.SelectTarget(tp, aux.disfilter2, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if not tc and not tc:IsRelateToEffect(e) or tc:IsFacedown() or
+        tc:IsDisabled() then return end
+
+    Duel.NegateRelatedChain(tc, RESET_TURN_SET)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_DISABLE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    tc:RegisterEffect(ec1)
+    local ec2 = ec1:Clone()
+    ec2:SetCode(EFFECT_DISABLE_EFFECT)
+    ec2:SetValue(RESET_TURN_SET)
+    tc:RegisterEffect(ec2)
+    if tc:IsType(TYPE_TRAPMONSTER) then
+        local ec3 = ec1:Clone()
+        ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+        tc:RegisterEffect(ec3)
     end
 end
