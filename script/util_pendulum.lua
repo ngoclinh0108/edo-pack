@@ -22,7 +22,7 @@ function UtilPendulum.PlaceToPZoneWhenDestroyed(c, tg, preop, postop)
     end)
     eff:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         if tg then
-            return tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+            return tg(e, tp, eg, ep, ev, re, r, rp, chk)
         else
             if chk == 0 then
                 return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or

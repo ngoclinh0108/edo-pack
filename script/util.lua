@@ -71,8 +71,8 @@ function Utility.DeckEditAddCardToDimension(tp, code, condition_code,
     if c.dimension_change then c.dimension_change(nil, tp) end
 end
 
-function Utility.CheckActivateEffectCanApply(ec, e, tp, neglect_con, neglect_cost,
-                                     copy_info)
+function Utility.CheckActivateEffectCanApply(ec, e, tp, neglect_con,
+                                             neglect_cost, copy_info)
     local te = ec:CheckActivateEffect(neglect_con, neglect_cost, copy_info)
     return Utility.CheckEffectCanApply(te, e, tp)
 end
@@ -92,6 +92,7 @@ function Utility.CheckEffectCanApply(te, e, tp)
 end
 
 function Utility.ApplyEffect(te, e, tp, rc)
+    Duel.ClearTargetCard()
     if not te then return false end
     if not rc then rc = te:GetHandler() end
     local tg = te:GetTarget()
@@ -148,7 +149,11 @@ end
 
 function Utility.HintCard(target)
     local code = target
-    if type(target) == "Card" then code = target:GetOriginalCode() end
+    if type(target) == "Card" then
+        code = target:GetOriginalCode()
+    elseif type(target) == "Effect" then
+        code = target:GetHandler():GetOriginalCode()
+    end
     Duel.Hint(HINT_CARD, 0, code)
 end
 
@@ -164,8 +169,10 @@ function Utility.GroupSelect(hintmsg, g, tp, min, max, ex)
     return g
 end
 
-function Utility.SelectMatchingCard(hintmsg, sel_player, f, player, s, o, min, max, ex, ...)
-    return Utility.GroupSelect(hintmsg, Duel.GetMatchingGroup(f, player, s, o, ex, ...),
+function Utility.SelectMatchingCard(hintmsg, sel_player, f, player, s, o, min,
+                                    max, ex, ...)
+    return Utility.GroupSelect(hintmsg,
+                               Duel.GetMatchingGroup(f, player, s, o, ex, ...),
                                sel_player, min, max, ex)
 end
 

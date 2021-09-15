@@ -119,7 +119,7 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local b1 = true
     local b2 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
                                            LOCATION_ONFIELD, 1, nil)

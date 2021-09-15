@@ -106,7 +106,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return tg:IsExists(s.e2filter, 1, nil, tp)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
     if g then
@@ -151,7 +151,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e3filter, 1, nil, tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and

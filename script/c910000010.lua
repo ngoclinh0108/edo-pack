@@ -64,7 +64,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Release(e:GetHandler(), REASON_COST)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return not re:GetHandler():IsStatus(STATUS_DISABLED) end
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
     Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
@@ -83,7 +83,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ChangePosition(c, POS_FACEUP_DEFENSE)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e2filter, tp,
                                            LOCATION_HAND + LOCATION_MZONE, 0, 1,
@@ -120,7 +120,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
             re:GetHandler():IsSetCard(0x13a)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:IsAbleToHand() end
 

@@ -226,7 +226,7 @@ function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.PayLPCost(tp, 1000)
 end
 
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and

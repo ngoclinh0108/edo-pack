@@ -134,7 +134,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec2, tp)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
     if chk == 0 then return #g > 0 end
 
@@ -165,7 +165,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return c:IsPreviousControler(tp)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingTarget(s.e2filter, tp, LOCATION_REMOVED, 0, 1,

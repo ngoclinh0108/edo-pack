@@ -53,7 +53,7 @@ function s.e1filter(c, e, tp)
                    c:IsAbleToHand())
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsPlayerCanDiscardDeck(tp, 1) and
                    Duel.IsExistingMatchingCard(Card.IsAbleToHand, tp,
@@ -110,7 +110,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
                g:FilterCount(s.e3filter, nil, CARD_RA) >= 1
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetMatchingGroup(Card.IsCode, tp,
                                     LOCATION_DECK + LOCATION_GRAVE, 0, nil,
                                     10000040)

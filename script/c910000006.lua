@@ -53,7 +53,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ConfirmCards(1 - tp, e:GetHandler())
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e1filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
@@ -97,7 +97,7 @@ function s.e2filter2(c, e, tp, mc)
                (#mustg == 0 or (#mustg == 1 and mustg:IsContains(mc)))
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil,
                                      e, tp)
@@ -158,7 +158,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     -- aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 2), nil)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
     if chk == 0 then
         return

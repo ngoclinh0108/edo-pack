@@ -42,7 +42,7 @@ function s.e1filter2(c, e, tp, fc, mg)
                        LOCATION_REMOVED)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(s.e1filter1, tp, LOCATION_MZONE,
                                      LOCATION_MZONE, 1, nil)

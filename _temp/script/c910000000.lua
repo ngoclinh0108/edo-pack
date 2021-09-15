@@ -91,7 +91,7 @@ function s.e1check2(tp)
                 Card.GetCode) >= 3
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return s.e1check1(e, tp) or s.e1check2(tp) end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
     Duel.SetOperationInfo(0, CATEGORY_SUMMON, nil, 1, 0, 0)
@@ -146,7 +146,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
                (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE,
@@ -214,7 +214,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ShuffleHand(tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:IsAbleToHand() end
     local dt = Duel.GetDrawCount(tp)

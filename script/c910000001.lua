@@ -30,7 +30,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return not e:GetHandler():IsPublic() end
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsRelateToEffect(e) and

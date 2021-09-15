@@ -99,7 +99,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.DiscardHand(tp, s.e2filter, 1, 1, REASON_COST + REASON_DISCARD)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:IsAbleToHand() end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)

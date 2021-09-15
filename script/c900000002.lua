@@ -68,7 +68,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e3filter, 1, nil, nil, tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = eg:Filter(s.e3filter, nil, nil, tp)
     if chk == 0 then return e:GetHandler():IsRelateToEffect(e) and #g > 0 end
 

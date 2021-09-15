@@ -41,7 +41,7 @@ function s.e2filter(c)
                (c:IsLocation(LOCATION_DECK) or aux.SpElimFilter(c, true))
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e2filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE,
@@ -98,7 +98,7 @@ end
 
 function s.e3filter(c) return c:IsFaceup() and c:IsAbleToHand() end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsAbleToDeck() and

@@ -52,7 +52,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
                Duel.GetAttackTarget() ~= nil
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
@@ -96,7 +96,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     e:SetLabelObject(Duel.GetOperatedGroup():GetFirst())
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_DECK)

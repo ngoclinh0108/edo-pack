@@ -53,7 +53,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
                tg:IsExists(aux.FilterFaceupFunction(Card.IsSetCard, 0x13a), 1, c)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
     Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
 end
@@ -69,7 +69,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ChangePosition(c, POS_FACEUP_DEFENSE)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(aux.disfilter3, tp, 0, LOCATION_ONFIELD, 1,
                                      nil)

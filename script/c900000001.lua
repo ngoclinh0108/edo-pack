@@ -75,7 +75,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     c:RegisterEffect(ec1)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return true end
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)

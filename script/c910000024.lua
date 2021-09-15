@@ -55,7 +55,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD,
                                      LOCATION_ONFIELD, 1, nil)
@@ -80,7 +80,7 @@ function s.e3filter(c, e, tp)
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and

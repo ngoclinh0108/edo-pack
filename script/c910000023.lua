@@ -71,7 +71,7 @@ function s.e1filter(c)
     return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToRemove()
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE,
                                      LOCATION_GRAVE, 1, nil)
@@ -112,7 +112,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SendtoGrave(g, REASON_COST)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(aux.disfilter3, tp, 0, LOCATION_ONFIELD, 1,
                                      nil)

@@ -59,7 +59,7 @@ function s.e3filter(c, e, tp)
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                     LOCATION_REMOVED
     if chk == 0 then

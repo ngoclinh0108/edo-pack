@@ -491,8 +491,8 @@ Once per turn, when a monster declares an attack or a card or effect is activate
     You can draw 1 card, then if it was a Spell/Trap, \
     you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
 If this card is destroyed: You can shuffle it into the Extra Deck; \
-    Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana" \
-    from your hand, Deck, GY. \
+    Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana", \
+    that are banished or are in your hand, Deck, GY. \
 """
 strings = []
 
@@ -867,5 +867,9 @@ set = "palladium"
 name = "Palladium Shattering Arrow"
 type = "trap counter"
 effect = """\
+Activate as Chain Link 2 or higher; \
+    negate the activations of your opponent's Spell/Trap Cards and monster effects activated before this card in this Chain, \
+    and if you do, destroy the negated cards on the field, \
+    also you can apply 1 of those negated effects that targets a card(s). \
 """
-strings = []
+strings = ["Apply 1 of negated effects?"]

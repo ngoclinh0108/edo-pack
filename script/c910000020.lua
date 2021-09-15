@@ -84,7 +84,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
     Duel.SetTargetPlayer(tp)
     Duel.SetTargetParam(1)
@@ -126,8 +126,9 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SendtoDeck(e:GetHandler(), nil, 2, REASON_COST)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local loc = LOCATION_REMOVED + LOCATION_HAND + LOCATION_DECK +
+                    LOCATION_GRAVE
     if chk == 0 then
         return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) >= 2 and
@@ -141,7 +142,8 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    local loc = LOCATION_REMOVED + LOCATION_HAND + LOCATION_DECK +
+                    LOCATION_GRAVE
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 then return end
 

@@ -9,7 +9,7 @@ function s.initial_effect(c)
     aux.AddPersistentProcedure(c, 1, aux.FilterBoolFunction(Card.IsFaceup),
                                CATEGORY_DISABLE + CATEGORY_POSITION,
                                EFFECT_FLAG_DAMAGE_STEP, TIMING_DAMAGE_STEP,
-                               TIMING_DAMAGE_STEP, s.e1don, nil, s.e1tg)
+                               TIMING_DAMAGE_STEP, s.e1con, nil, s.e1tg)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
     e1:SetCode(EFFECT_CANNOT_TRIGGER)
@@ -55,7 +55,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1don(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or
                not Duel.IsDamageCalculated()
 end

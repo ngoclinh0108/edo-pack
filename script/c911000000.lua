@@ -76,7 +76,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     e:GetHandler():RegisterEffect(ec1)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_MZONE, 1, nil)
     end
