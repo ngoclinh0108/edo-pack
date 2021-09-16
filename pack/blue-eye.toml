@@ -109,6 +109,7 @@ link-rating = 3
 link-arrows = "top bottom-left bottom-right"
 atk = 4000
 effect = """\
+3 monsters, except Tokens
 (This card is always treated as a "Blue-Eyes" card.)
 """
 strings = []
