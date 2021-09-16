@@ -59,10 +59,13 @@ def = 2500
 effect = """\
 1 Tuner + 1 non-Tuner "Blue-Eyes" monsters
 Must first be Synchro Summoned. \
+Gains 500 ATK for each Dragon monster in your GY. \
 When your opponent activates a card or effect that targets a "Blue-Eyes" monster(s) you control (Quick Effect): \
     You can negate that effect. \
+You can Tribute this card, then target any number of cards on the field; \
+    destroy them. \
 """
-strings = []
+strings = ["Target and destroy card on the field"]
 
 [card.blue-eyes-deep-dragon]
 id = 911000003

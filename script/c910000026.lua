@@ -24,6 +24,13 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+    local e1b = Effect.CreateEffect(c)
+    e1b:SetType(EFFECT_TYPE_SINGLE)
+    e1b:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE +
+                        EFFECT_FLAG_SINGLE_RANGE)
+    e1b:SetRange(LOCATION_MZONE)
+    e1b:SetCode(3682106)
+    c:RegisterEffect(e1b)
 
     -- destroy
     local e2 = Effect.CreateEffect(c)

@@ -21,6 +21,19 @@ function s.initial_effect(c)
     splimit:SetValue(aux.synlimit)
     c:RegisterEffect(splimit)
 
+    -- atk up
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_UPDATE_ATTACK)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetValue(function(e, c)
+        local tp = c:GetControler()
+        return Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0,
+                                          nil, RACE_DRAGON) * 500
+    end)
+    c:RegisterEffect(e1)
+
     -- disable
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(1117)
@@ -33,6 +46,25 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+    local e2b = Effect.CreateEffect(c)
+    e2b:SetType(EFFECT_TYPE_SINGLE)
+    e2b:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE +
+                        EFFECT_FLAG_SINGLE_RANGE)
+    e2b:SetRange(LOCATION_MZONE)
+    e2b:SetCode(3682106)
+    c:RegisterEffect(e2b)
+
+    -- destroy
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_DESTROY)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e2filter(c, tp)
@@ -57,3 +89,28 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk) Duel.NegateEffect(ev) end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsReleasable() end
+    Duel.Release(e:GetHandler(), REASON_COST)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.IsExistingTarget(Card.IsDestructable, tp, LOCATION_ONFIELD,
+                                     LOCATION_ONFIELD, 1, c)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
+    local g = Duel.SelectTarget(tp, Card.IsDestructable, tp, LOCATION_ONFIELD,
+                                LOCATION_ONFIELD, 1, 99, c)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetTargetCards(e)
+    if #g == 0 then return end
+
+    Duel.Destroy(g, REASON_EFFECT)
+end
