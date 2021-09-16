@@ -37,6 +37,7 @@ If this card attacks, your opponent cannot activate cards or effects until the e
 Once per turn, at the end of the Damage Step, if this card attacked: \
     This card can make a second and third attack during each Battle Phase this turn. \
     Other monsters cannot attack during the turn you activate this effect. \
+    You can only use this effect of "Blue-Eyes Ultimate Divine Dragon" once per turn. \
 Once per turn: You can target up to 3 cards your opponent controls; destroy them. \
     This card cannot attack the turn this effect is activated. \
 """
@@ -65,6 +66,7 @@ When your opponent activates a card or effect that targets a "Blue-Eyes" monster
     You can negate that effect. \
 You can Tribute this card, then target any number of cards on the field; \
     destroy them. This is a Quick Effect if this card was Synchro Summoned using "Blue-Eyes White Dragon" as material. \
+    You can only use this effect of "Blue-Eyes Holy Shining Dragon" once per turn. \
 """
 strings = ["Tribute to destroy card on the field"]
 

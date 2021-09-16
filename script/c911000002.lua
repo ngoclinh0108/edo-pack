@@ -59,6 +59,7 @@ function s.initial_effect(c)
     e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1, id)
     e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return not e:GetHandler():GetMaterial():IsExists(Card.IsCode, 1, nil,
                                                          CARD_BLUEEYES_W_DRAGON)
