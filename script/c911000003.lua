@@ -76,8 +76,7 @@ function s.e2filter(c, tp)
     return c:IsPreviousSetCard(0xdd) and c:IsPreviousControler(tp) and
                c:IsPreviousLocation(LOCATION_MZONE) and
                c:IsPreviousPosition(POS_FACEUP) and
-               (c:IsReason(REASON_BATTLE + REASON_EFFECT) and
-                   c:GetReasonPlayer() ~= tp) and not c:IsCode(id)
+               c:IsReason(REASON_BATTLE + REASON_EFFECT) and not c:IsCode(id)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
