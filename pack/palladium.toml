@@ -604,16 +604,16 @@ This card's effect cannot be negated. \
 """
 strings = ["Banish Spells/Traps to gain ATK"]
 
-[card.dark-flare-paladin-of-palladium]
+[card.dark-flare-knight-of-palladium]
 id = 910000025
 set = "palladium"
-name = "Dark Flare Paladin of Palladium"
+name = "Dark Flare Knight of Palladium"
 type = "monster fusion effect"
 attribute = "dark"
 race = "warrior"
-level = 7
-atk = 2500
-def = 2100
+level = 6
+atk = 2200
+def = 8000
 effect = """\
 1 Level 6 or higher Spellcaster monster + 1 Warrior monster
 Must first be Fusion Summoned with the above materials. \
@@ -623,7 +623,7 @@ Negate the effects of face-up monsters your opponent controls \
     with ATK less than or equal to this card's. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium" monster from your hand, Deck or GY, \
-    except "Dark Flare Paladin of Palladium".
+    except "Dark Flare Knight of Palladium".
 """
 strings = []
 
