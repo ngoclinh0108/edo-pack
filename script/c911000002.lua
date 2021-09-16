@@ -12,13 +12,6 @@ function s.initial_effect(c)
     Synchro.AddProcedure(c, nil, 1, 1, Synchro.NonTunerEx(Card.IsSetCard, 0xdd),
                          1, 1)
 
-    -- indes
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetOperation(s.e1op)
-    c:RegisterEffect(e1)
-
     -- atk up
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
@@ -59,7 +52,6 @@ function s.initial_effect(c)
     e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1, id)
     e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return not e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) or
                    not e:GetHandler():GetMaterial()
@@ -79,23 +71,6 @@ function s.initial_effect(c)
                                                          CARD_BLUEEYES_W_DRAGON)
     end)
     c:RegisterEffect(e4b)
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsRace,
-                                                             RACE_DRAGON), tp,
-                                    LOCATION_MZONE, 0, nil)
-    for tc in aux.Next(g) do
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3001)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-        ec1:SetValue(1)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 2)
-        tc:RegisterEffect(ec1)
-    end
 end
 
 function s.e3filter(c, tp)
