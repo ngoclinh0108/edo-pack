@@ -148,12 +148,13 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil)
+        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD,
+                                     LOCATION_ONFIELD, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g =
-        Duel.SelectTarget(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, 3, nil)
+    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD,
+                                LOCATION_ONFIELD, 1, 3, nil)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 

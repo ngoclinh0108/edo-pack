@@ -188,7 +188,7 @@ end
 
 function s.e4filter(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
-               c:IsRace(RACE_DRAGON)
+               c:IsType(TYPE_NORMAL)
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
