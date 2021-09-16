@@ -18,10 +18,10 @@ Once per turn: You can target 1 monster your opponent controls; \
 """
 strings = ["Destroy 1 monster"]
 
-[card.blue-eyes-divine-dragon]
+[card.blue-eyes-ultimate-divine-dragon]
 id = 911000001
 set = "blue-eyes"
-name = "Blue-Eyes Divine Dragon"
+name = "Blue-Eyes Ultimate Divine Dragon"
 type = "monster fusion effect"
 attribute = "light"
 race = "dragon"
@@ -46,10 +46,10 @@ strings = [
     "Destroy up to 3 cards",
 ]
 
-[card.blue-eyes-holy-dragon]
+[card.blue-eyes-holy-shining-dragon]
 id = 911000002
 set = "blue-eyes"
-name = "Blue-Eyes Holy Dragon"
+name = "Blue-Eyes Holy Shining Dragon"
 type = "monster synchro effect"
 attribute = "light"
 race = "dragon"
@@ -68,10 +68,10 @@ You can Tribute this card, then target any number of cards on the field; \
 """
 strings = ["Tribute to destroy card on the field"]
 
-[card.blue-eyes-deep-dragon]
+[card.blue-eyes-deep-abyss-dragon]
 id = 911000003
 set = "blue-eyes"
-name = "Blue-Eyes Deep Dragon"
+name = "Blue-Eyes Deep Abyss Dragon"
 type = "monster xyz effect"
 attribute = "light"
 race = "dragon"
@@ -84,10 +84,10 @@ You can also Xyz Summon this card by using 1 "Blue-Eyes White Dragon" you contro
 If this card is Special Summoned, \
     this card's ATK becomes equal to the ATK of the material monster attached to it with the highest ATK. \
 If a face-up "Blue-Eyes" monster(s) you control is destroyed by battle or an opponent's card effect, \
-    except "Blue-Eyes Deep Dragon": \
+    except "Blue-Eyes Deep Abyss Dragon": \
     You can Special Summon this card from your GY, and if you do, \
     attach 1 of those monsters from your GY to this card. \
-    You can only use this effect of "Blue-Eyes Deep Dragon" once per turn. \
+    You can only use this effect of "Blue-Eyes Deep Abyss Dragon" once per turn. \
 If a face-up Dragon monster(s) you control would be destroyed by card effect, \
     you can detach 1 material from this card instead. \
 If this card on the field is destroyed by a card effect: \
@@ -96,10 +96,10 @@ If this card on the field is destroyed by a card effect: \
 """
 strings = ["Xyz Summon by using \"Blue-Eyes White Dragon\""]
 
-[card.chaos-eyes-azure-dragon]
+[card.blue-eyes-chaos-azure-dragon]
 id = 911000004
 set = "chaos blue-eyes"
-name = "Chaos-Eyes Azure Dragon"
+name = "Blue-Eyes Chaos Azure Dragon"
 type = "monster link effect"
 attribute = "light"
 race = "dragon"
@@ -108,7 +108,7 @@ link-arrows = "top bottom-left bottom-right"
 atk = 4000
 effect = """\
 3 monsters, except Tokens
-(This card is always treated as a "Blue-Eyes" card.)
 You can also Link Summon this card by discarding 1 Ritual Spell and using 1 "Blue-Eyes White Dragon" you control. \
+Your opponent cannot target this card with card effects, also it cannot be destroyed by your opponent's card effects. \
 """
 strings = ["Link Summon by using \"Blue-Eyes White Dragon\""]

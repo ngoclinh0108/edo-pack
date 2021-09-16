@@ -1,4 +1,4 @@
--- Blue-Eyes Divine Dragon
+-- Blue-Eyes Ultimate Divine Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

@@ -1,4 +1,4 @@
--- Chaos-Eyes Silver Dragon
+-- Blue-Eyes Chaos Azure Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -25,6 +25,19 @@ function s.initial_effect(c)
     sp:SetOperation(s.spop)
     sp:SetValue(SUMMON_TYPE_LINK)
     c:RegisterEffect(sp)
+
+    -- untargetable & indes
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetValue(aux.tgoval)
+    c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e1b:SetValue(function(e, re, tp) return tp ~= e:GetHandlerPlayer() end)
+    c:RegisterEffect(e1b)
 end
 
 function s.spfilter1(c)
