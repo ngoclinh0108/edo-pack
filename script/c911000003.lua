@@ -46,7 +46,8 @@ function s.initial_effect(c)
     -- destroy
     local e4 = Effect.CreateEffect(c)
     e4:SetCategory(CATEGORY_DESTROY + CATEGORY_DAMAGE)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_DELAY)
     e4:SetCode(EVENT_DESTROYED)
     e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
@@ -138,19 +139,21 @@ function s.e4con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then return true end
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    local ct = Duel.GetMatchingGroup(Card.IsRace, tp, LOCATION_GRAVE, 0, nil,
+    local ct = Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0, c,
                                      RACE_DRAGON)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, ct * 600)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     if Duel.Destroy(g, REASON_EFFECT) > 0 then
-        local ct = Duel.GetMatchingGroup(Card.IsRace, tp, LOCATION_GRAVE, 0,
-                                         nil, RACE_DRAGON)
+        local ct = Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0, c,
+                                         RACE_DRAGON)
         if ct > 0 then Duel.Damage(1 - tp, ct * 600, REASON_EFFECT) end
     end
 end
