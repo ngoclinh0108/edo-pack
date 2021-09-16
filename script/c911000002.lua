@@ -98,7 +98,7 @@ end
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsDestructable, tp, LOCATION_ONFIELD,
+        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD,
                                      LOCATION_ONFIELD, 1, c)
     end
 
