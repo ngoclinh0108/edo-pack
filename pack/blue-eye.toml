@@ -105,8 +105,8 @@ name = "Chaos-Eyes Azure Dragon"
 type = "monster link effect"
 attribute = "light"
 race = "dragon"
-link-rating = 4
-link-arrows = "top left right bottom"
+link-rating = 3
+link-arrows = "top bottom-left bottom-right"
 atk = 4000
 effect = """\
 (This card is always treated as a "Blue-Eyes" card.)
