@@ -61,8 +61,9 @@ function s.initial_effect(c)
     e4:SetRange(LOCATION_MZONE)
     e4:SetCountLimit(1, id)
     e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return not e:GetHandler():GetMaterial():IsExists(Card.IsCode, 1, nil,
-                                                         CARD_BLUEEYES_W_DRAGON)
+        return not e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) or
+                   not e:GetHandler():GetMaterial()
+                       :IsExists(Card.IsCode, 1, nil, CARD_BLUEEYES_W_DRAGON)
     end)
     e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
@@ -72,8 +73,9 @@ function s.initial_effect(c)
     e4b:SetType(EFFECT_TYPE_QUICK_O)
     e4b:SetCode(EVENT_FREE_CHAIN)
     e4b:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return e:GetHandler():GetMaterial():IsExists(Card.IsCode, 1, nil,
-                                                     CARD_BLUEEYES_W_DRAGON)
+        return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) and
+                   e:GetHandler():GetMaterial():IsExists(Card.IsCode, 1, nil,
+                                                         CARD_BLUEEYES_W_DRAGON)
     end)
     c:RegisterEffect(e4b)
 end
