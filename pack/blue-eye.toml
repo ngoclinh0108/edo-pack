@@ -108,8 +108,8 @@ link-arrows = "top bottom-left bottom-right"
 atk = 4000
 effect = """\
 3 "Blue-Eyes" monsters
-Must be Link Summoned. \
 You can also Link Summon this card by discarding 1 Ritual Spell and using 1 "Blue-Eyes White Dragon" you control. \
+Must be Link Summoned. \
 Your opponent cannot target this card with card effects, also it cannot be destroyed by your opponent's card effects. \
 If this card was Link Summoned using a "Blue-Eyes White Dragon", when it declares an attack: \
     You can change the battle positions of as many monsters your opponent controls as possible, \
