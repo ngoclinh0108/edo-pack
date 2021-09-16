@@ -66,9 +66,7 @@ When your opponent activates a card or effect that targets a "Blue-Eyes" monster
 You can Tribute this card, then target any number of cards on the field; \
     destroy them. This is a Quick Effect if this card was Synchro Summoned using "Blue-Eyes White Dragon" as material. \
 """
-strings = [
-    "Tribute to destroy card on the field",
-]
+strings = ["Tribute to destroy card on the field"]
 
 [card.blue-eyes-deep-dragon]
 id = 911000003
@@ -111,5 +109,6 @@ atk = 4000
 effect = """\
 3 monsters, except Tokens
 (This card is always treated as a "Blue-Eyes" card.)
+You can also Link Summon this card by discarding 1 Ritual Spell and using 1 "Blue-Eyes White Dragon" you control. \
 """
-strings = []
+strings = ["Link Summon by using \"Blue-Eyes White Dragon\""]
