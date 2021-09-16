@@ -643,7 +643,7 @@ effect = """\
 "Queen's Knight" + "Jack's Knight" + "King's Knight"
 A Fusion Summon of this card can only be done with the above materials. \
 When your opponent activates a card or effect that targets a card(s) you control (Quick Effect): \
-    You can discard 1 card; negate the activation, and if you do, destroy it. \
+    You can discard 1 card; negate the effect. \
 You can discard 1 card, then target 1 other card on the field; destroy it. \
 If this Fusion Summoned card is destroyed by battle or card effect: \
     You can target 1 non-Fusion LIGHT Warrior monster in your GY; add it to your hand. \
