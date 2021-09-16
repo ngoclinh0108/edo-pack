@@ -12,17 +12,6 @@ function s.initial_effect(c)
     -- fusion summon
     Fusion.AddProcMixN(c, false, false, CARD_BLUEEYES_W_DRAGON, 3)
 
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(function(e, se, sp, st)
-        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or
-                   aux.fuslimit(e, se, sp, st)
-    end)
-    c:RegisterEffect(splimit)
-
     -- immune
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)

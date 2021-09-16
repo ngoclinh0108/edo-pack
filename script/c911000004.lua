@@ -38,6 +38,13 @@ function s.initial_effect(c)
     e1b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e1b:SetValue(function(e, re, tp) return tp ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(e1b)
+
+    -- pierce
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_PIERCE)
+    e3:SetValue(DOUBLE_DAMAGE)
+    c:RegisterEffect(e3)
 end
 
 function s.spfilter1(c)
