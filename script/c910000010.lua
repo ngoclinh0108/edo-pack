@@ -83,10 +83,20 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp,
-                                           LOCATION_HAND + LOCATION_MZONE, 0, 1,
-                                           nil)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_CANNOT_DISABLE)
+        ec1:SetCode(EFFECT_DOUBLE_TRIBUTE)
+        ec1:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
+        c:RegisterEffect(ec1)
+
+        local res = Duel.IsExistingMatchingCard(s.e2filter, tp,
+                                                LOCATION_HAND + LOCATION_MZONE,
+                                                0, 1, nil)
+        ec1:Reset()
+        return res
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SUMMON, nil, 1, 0, 0)
@@ -98,10 +108,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(aux.Stringid(id, 1))
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetProperty(EFFECT_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_DOUBLE_TRIBUTE)
     ec1:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
 
     local ec2 = Effect.CreateEffect(c)
@@ -119,6 +128,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
                                           LOCATION_HAND + LOCATION_MZONE, 0, 1,
                                           1, nil):GetFirst()
     if tc then Duel.Summon(tp, tc, true, nil) end
+    ec1:Reset()
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
