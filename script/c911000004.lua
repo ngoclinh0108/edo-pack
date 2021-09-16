@@ -3,14 +3,21 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_BLUEEYES_W_DRAGON}
+s.listed_series = {0xdd}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- link summon
-    Link.AddProcedure(c, aux.NOT(
-                          aux.FilterBoolFunctionEx(Card.IsType, TYPE_TOKEN)), 3,
-                      3)
+    Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0xdd), 3, 3)
+
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(aux.lnklimit)
+    c:RegisterEffect(splimit)
 
     -- special summon
     local sp = Effect.CreateEffect(c)
@@ -39,6 +46,22 @@ function s.initial_effect(c)
     e1b:SetValue(function(e, re, tp) return tp ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(e1b)
 
+    -- change position
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(528)
+    e2:SetCategory(CATEGORY_POSITION + CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+    local e2b = Effect.CreateEffect(c)
+    e2b:SetType(EFFECT_TYPE_SINGLE)
+    e2b:SetCode(EFFECT_MATERIAL_CHECK)
+    e2b:SetValue(s.e2val)
+    c:RegisterEffect(e2b)
+
     -- pierce
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
@@ -54,7 +77,7 @@ end
 function s.spfilter2(c, sc, tp)
     return c:IsCanBeLinkMaterial(sc, tp) and
                Duel.GetLocationCountFromEx(tp, tp, c, sc) > 0 and
-               c:IsCode(CARD_BLUEEYES_W_DRAGON)
+               c:IsSummonCode(sc, SUMMON_TYPE_LINK, tp, CARD_BLUEEYES_W_DRAGON)
 end
 
 function s.spcon(e, c)
@@ -93,9 +116,60 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     local g2 = e:GetLabelObject()[2]
     if not g1 or not g2 then return end
 
+    c:SetMaterial(g2)
     Duel.SendtoGrave(g1, REASON_COST)
     Duel.SendtoGrave(g2, REASON_MATERIAL + REASON_LINK)
 
     g1:DeleteGroup()
     g2:DeleteGroup()
+end
+
+function s.e2con(e)
+    local c = e:GetHandler()
+    return c:IsSummonType(SUMMON_TYPE_LINK) and c:GetFlagEffect(id) ~= 0
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsCanChangePosition, tp, 0,
+                                           LOCATION_MZONE, 1, nil)
+    end
+
+    local g = Duel.GetMatchingGroup(Card.IsCanChangePosition, tp, 0,
+                                    LOCATION_MZONE, nil)
+    Duel.SetOperationInfo(0, CATEGORY_POSITION, g, #g, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tg = Duel.GetMatchingGroup(Card.IsCanChangePosition, tp, 0,
+                                     LOCATION_MZONE, nil)
+    if #tg == 0 or
+        Duel.ChangePosition(tg, POS_FACEUP_DEFENSE, POS_FACEDOWN_DEFENSE,
+                            POS_FACEUP_ATTACK, POS_FACEUP_ATTACK) == 0 then
+        return
+    end
+
+    local og = Duel.GetOperatedGroup():Filter(Card.IsFaceup, nil)
+    for tc in aux.Next(og) do
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+        ec1:SetValue(0)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
+        tc:RegisterEffect(ec1b)
+    end
+end
+
+function s.e2val(e, c)
+    local g = c:GetMaterial()
+    if g:IsExists(Card.IsCode, 1, nil, CARD_BLUEEYES_W_DRAGON) then
+        c:RegisterFlagEffect(id, RESET_EVENT | RESETS_STANDARD &
+                                 ~(RESET_TOFIELD | RESET_LEAVE |
+                                     RESET_TEMP_REMOVE),
+                             EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 1))
+    end
 end
