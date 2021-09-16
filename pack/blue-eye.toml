@@ -115,8 +115,12 @@ If this card was Link Summoned using a "Blue-Eyes White Dragon", when it declare
     You can change the battle positions of as many monsters your opponent controls as possible, \
     and if you do, the ATK/DEF of those changed monsters become 0. \
 If this card attacks a Defense Position monster, inflict double piercing battle damage to your opponent. \
+Once per turn: You can Special Summon 1 Dragon monster from your hand or GY. \
+    This card cannot attack the turn this effect is activated. \
+    You can only use this effect of "Blue-Eyes Chaos Azure Dragon" once per turn. \
 """
 strings = [
     "Link Summon by using \"Blue-Eyes White Dragon\"",
     "Summoned using \"Blue-Eyes White Dragon\"",
+    "Special Summon a Dragon monster"
 ]
