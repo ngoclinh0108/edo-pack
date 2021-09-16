@@ -71,6 +71,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
     local e4b = e4:Clone()
     e4b:SetType(EFFECT_TYPE_QUICK_O)
+    e4b:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
     e4b:SetCode(EVENT_FREE_CHAIN)
     e4b:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) and
