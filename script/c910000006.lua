@@ -49,8 +49,22 @@ function s.e1filter(c)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return not e:GetHandler():IsPublic() end
-    Duel.ConfirmCards(1 - tp, e:GetHandler())
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.GetActivityCount(tp, ACTIVITY_SUMMON) == 0 and
+                   not c:IsPublic()
+    end
+    Duel.ConfirmCards(1 - tp, c)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 2))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH +
+                        EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -73,7 +87,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
-
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -143,7 +156,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Release(c, REASON_COST)
 
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 2))
+    ec1:SetDescription(aux.Stringid(id, 3))
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH +
                         EFFECT_FLAG_CLIENT_HINT)
@@ -155,7 +168,6 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     end)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
-    -- aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 2), nil)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)

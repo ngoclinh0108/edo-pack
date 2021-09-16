@@ -149,6 +149,7 @@ def = 0
 effect = """\
 You can reveal this card in your hand; \
     add 1 "Blue-Eyes" monster from your Deck or GY to your hand. \
+    You cannot Normal Summon monsters the turn you activate this effect. \
 You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
     Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
     using it as the Fusion Material. \
@@ -160,6 +161,7 @@ You can only use 1 "Azure Palladium Oracle Seto" effect per turn, and only once 
 strings = [
     "Add 1 \"Blue-Eyes\" monster",
     "Summon 3 \"Blue-Eyes White Dragon\"",
+    "Affected by effect \"Azure Palladium Oracle Seto\": cannot Normal Summon monsters",
     "Affected by effect \"Azure Palladium Oracle Seto\": cannot Special Summon monsters",
 ]
 
