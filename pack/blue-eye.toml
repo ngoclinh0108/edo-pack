@@ -45,3 +45,48 @@ strings = [
     "Make second and third attack",
     "Destroy up to 3 cards",
 ]
+
+[card.blue-eyes-holy-dragon]
+id = 911000002
+set = "blue-eyes"
+name = "Blue-Eyes Holy Dragon"
+type = "monster synchro effect"
+attribute = "light"
+race = "dragon"
+level = 9
+atk = 3000
+def = 2500
+effect = """\
+"""
+strings = [
+]
+
+[card.blue-eyes-deep-dragon]
+id = 911000003
+set = "blue-eyes"
+name = "Blue-Eyes Deep Dragon"
+type = "monster xyz effect"
+attribute = "light"
+race = "dragon"
+rank = 8
+atk = 0
+def = 0
+effect = """\
+"""
+strings = [
+]
+
+[card.chaos-eyes-silver-dragon]
+id = 911000004
+set = "chaos blue-eyes"
+name = "Chaos-Eyes Silver Dragon"
+type = "monster link effect"
+attribute = "light"
+race = "dragon"
+link-rating = 3
+atk = 4000
+effect = """\
+(This card is always treated as a "Blue-Eyes" card.)
+"""
+strings = [
+]
