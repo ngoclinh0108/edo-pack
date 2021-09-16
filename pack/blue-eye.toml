@@ -57,9 +57,12 @@ level = 9
 atk = 3000
 def = 2500
 effect = """\
+1 Tuner + 1 non-Tuner "Blue-Eyes" monsters
+Must first be Synchro Summoned. \
+When your opponent activates a card or effect that targets a "Blue-Eyes" monster(s) you control (Quick Effect): \
+    You can negate that effect. \
 """
-strings = [
-]
+strings = []
 
 [card.blue-eyes-deep-dragon]
 id = 911000003
@@ -73,8 +76,7 @@ atk = 0
 def = 0
 effect = """\
 """
-strings = [
-]
+strings = []
 
 [card.chaos-eyes-azure-dragon]
 id = 911000004
@@ -89,5 +91,4 @@ atk = 4000
 effect = """\
 (This card is always treated as a "Blue-Eyes" card.)
 """
-strings = [
-]
+strings = []
