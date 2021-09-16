@@ -131,14 +131,15 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD,
-                                     LOCATION_ONFIELD, 1, nil)
+                                     LOCATION_ONFIELD, 1, C)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD,
-                                LOCATION_ONFIELD, 1, 3, nil)
+                                LOCATION_ONFIELD, 1, 3, c)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
