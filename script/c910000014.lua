@@ -54,7 +54,8 @@ function s.e1con(e, c)
 end
 
 function s.e2filter(c)
-    return c:IsSetCard(0x13a) and c:IsAbleToHand() and not c:IsCode(id)
+    return c:IsSetCard(0x13a) and c:IsMonster() and not c:IsCode(id) and
+               c:IsAbleToHand()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
