@@ -61,17 +61,24 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local og = c:GetOverlayGroup()
-    if #og == 0 then return end
 
-    local _, atk = og:GetMaxGroup(Card.GetAttack)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(atk)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    c:RegisterEffect(ec1)
+    local g = Utility.SelectMatchingCard(HINTMSG_XMATERIAL, tp,
+                                         aux.NecroValleyFilter(Card.IsRace), tp,
+                                         LOCATION_GRAVE, 0, 1, 1, nil,
+                                         RACE_DRAGON)
+    if #g > 0 then Duel.Overlay(c, g) end
+
+    local og = c:GetOverlayGroup()
+    if #og > 0 then
+        local _, atk = og:GetMaxGroup(Card.GetAttack)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+        ec1:SetValue(atk)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        c:RegisterEffect(ec1)
+    end
 end
 
 function s.e2filter(c, tp)
@@ -97,20 +104,15 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
-    if Duel.SpecialSummonStep(c, 0, tp, tp, true, false, POS_FACEUP) then
-        local g = eg:Filter(s.e2filter, nil, tp)
-        local g = g:Filter(Card.IsLocation, nil, LOCATION_GRAVE)
-        g = Utility.GroupSelect(HINTMSG_XMATERIAL, g, tp, 1, 1, nil)
-        Duel.Overlay(c, g)
-    end
-    Duel.SpecialSummonComplete()
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or
+        not c:IsRelateToEffect(e) then return end
+    Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
 end
 
 function s.e3filter(c, tp)
     return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and
                c:IsPosition(POS_FACEUP) and c:IsReason(REASON_EFFECT) and
-               not c:IsReason(REASON_REPLACE) and c:IsRace(RACE_DRAGON)
+               not c:IsReason(REASON_REPLACE) and c:IsSetCard(0xdd)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -138,15 +140,17 @@ end
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    local ct = g:FilterCount(Card.IsControler, nil, 1 - tp)
+    local ct = Duel.GetMatchingGroup(Card.IsRace, tp, LOCATION_GRAVE, 0, nil,
+                                     RACE_DRAGON)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, ct * 600)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    Duel.Destroy(g, REASON_EFFECT)
-    local ct = Duel.GetOperatedGroup():FilterCount(Card.IsPreviousControler,
-                                                   nil, 1 - tp)
-    if ct > 0 then Duel.Damage(1 - tp, ct * 600, REASON_EFFECT) end
+    if Duel.Destroy(g, REASON_EFFECT) > 0 then
+        local ct = Duel.GetMatchingGroup(Card.IsRace, tp, LOCATION_GRAVE, 0,
+                                         nil, RACE_DRAGON)
+        if ct > 0 then Duel.Damage(1 - tp, ct * 600, REASON_EFFECT) end
+    end
 end

@@ -31,12 +31,12 @@ def = 3800
 effect = """\
 "Blue-Eyes White Dragon" + "Blue-Eyes White Dragon" + "Blue-Eyes White Dragon"
 A Fusion Summon of this card can only be done with the above materials. \
-Cannot be Tributed, or be used as a material for an Summon by your opponent. \
-Cannot be destroyed by card effects. Your opponent cannot target it with card effects. \
+Your opponent cannot target or destroy this card with card effects. \
 If this card attacks, your opponent cannot activate cards or effects until the end of the Damage Step. \
-Once per turn, at the end of the Damage Step, if this card attacked: \
+At the end of the Damage Step, if this card attacked: \
     This card can make a second and third attack during each Battle Phase this turn. \
     Other monsters cannot attack during the turn you activate this effect. \
+    You can only use this effect of "Blue-Eyes Divine Dragon" once per turn. \
 Once per turn: You can target up to 3 other cards on the field; destroy them. \
     This card cannot attack the turn this effect is activated. \
 """
@@ -85,19 +85,17 @@ def = 0
 effect = """\
 2 Level 8 "Blue-Eyes" monsters
 You can also Xyz Summon this card by using 1 "Blue-Eyes White Dragon" you control as the material. \
-If this card is Special Summoned, \
-    this card's ATK becomes equal to the ATK of the material monster attached to it with the highest ATK. \
+If this card is Special Summoned, attach 1 Dragon monster in your GY to this card, \
+    then this card's original ATK becomes equal to the ATK of the material monster attached to it with the highest ATK. \
     This effect cannot be negated. \
 If a face-up "Blue-Eyes" monster(s) you control is destroyed by battle or card effect, \
-    except "Blue-Eyes Deep Dragon": \
-    You can Special Summon this card from your GY, and if you do, \
-    attach 1 of those monsters from your GY to this card. \
+    except "Blue-Eyes Deep Dragon": You can Special Summon this card from your GY. \
     You can only use this effect of "Blue-Eyes Deep Dragon" once per turn. \
-If a face-up Dragon monster(s) you control would be destroyed by card effect, \
+If a "Blue-Eyes" monster(s) you control would be destroyed by card effect, \
     you can detach 1 material from this card instead. \
 If this card on the field is destroyed by a card effect: \
-    Destroy all monsters your opponent controls, \
-    and if you do, inflict 600 damage to your opponent for each destroyed monster they controlled. \
+    Destroy all monsters your opponent controls, and if you do, \
+    inflict 600 damage to your opponent for each Dragon monster with different names in your GY. \
 """
 strings = ["Xyz Summon by using \"Blue-Eyes White Dragon\""]
 
@@ -113,14 +111,14 @@ link-arrows = "top bottom-left bottom-right"
 atk = 4000
 effect = """\
 3 "Blue-Eyes" monsters
-You can also Link Summon this card by discarding 1 Ritual Spell and using 1 "Blue-Eyes White Dragon" you control. \
 Must be Link Summoned. \
-Your opponent cannot target this card with card effects, also it cannot be destroyed by your opponent's card effects. \
+You can also Link Summon this card by discarding 1 Ritual Spell and using 1 "Blue-Eyes White Dragon" you control as the material. \
+Your opponent cannot target or destroy this card with card effects. \
 If this card was Link Summoned using a "Blue-Eyes White Dragon", when it declares an attack: \
     You can change the battle positions of as many monsters your opponent controls as possible, \
     and if you do, the ATK/DEF of those changed monsters become 0. \
 If this card attacks a Defense Position monster, inflict double piercing battle damage to your opponent. \
-Once per turn: You can Special Summon 1 Normal Monster from your hand or GY. \
+You can Special Summon 1 Normal Monster from your hand or GY. \
     This card cannot attack the turn this effect is activated. \
     You can only use this effect of "Blue-Eyes Chaos Infinity Dragon" once per turn. \
 """
