@@ -15,6 +15,7 @@ function s.initial_effect(c)
     -- atk
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetRange(LOCATION_MZONE)
     e1:SetOperation(s.e1op)
