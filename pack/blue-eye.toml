@@ -100,10 +100,10 @@ If this card on the field is destroyed by a card effect: \
 """
 strings = ["Xyz Summon by using \"Blue-Eyes White Dragon\""]
 
-[card.azure-eyes-chaos-dragon]
+[card.blue-eyes-chaos-infinity-dragon]
 id = 911000004
 set = "chaos blue-eyes"
-name = "Azure-Eyes Chaos Dragon"
+name = "Blue-Eyes Chaos Infinity Dragon"
 type = "monster link effect"
 attribute = "light"
 race = "dragon"
@@ -112,7 +112,6 @@ link-arrows = "top bottom-left bottom-right"
 atk = 4000
 effect = """\
 3 "Blue-Eyes" monsters
-(This card is always treated as a "Blue-Eyes" card.)
 You can also Link Summon this card by discarding 1 Ritual Spell and using 1 "Blue-Eyes White Dragon" you control. \
 Must be Link Summoned. \
 Your opponent cannot target this card with card effects, also it cannot be destroyed by your opponent's card effects. \
@@ -122,7 +121,7 @@ If this card was Link Summoned using a "Blue-Eyes White Dragon", when it declare
 If this card attacks a Defense Position monster, inflict double piercing battle damage to your opponent. \
 Once per turn: You can Special Summon 1 Normal Monster from your hand or GY. \
     This card cannot attack the turn this effect is activated. \
-    You can only use this effect of "Azure-Eyes Chaos Dragon" once per turn. \
+    You can only use this effect of "Blue-Eyes Chaos Infinity Dragon" once per turn. \
 """
 strings = [
     "Link Summon by using \"Blue-Eyes White Dragon\"",
