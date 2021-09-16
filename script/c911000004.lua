@@ -1,4 +1,4 @@
--- Blue-Eyes Chaos Azure Dragon
+-- Azure-Eyes Chaos Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
