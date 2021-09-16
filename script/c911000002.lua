@@ -65,12 +65,11 @@ function s.initial_effect(c)
     e3b:SetCode(3682106)
     c:RegisterEffect(e3b)
 
-    -- destroy
+    -- disable & destroy
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_DESTROY)
+    e4:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
     e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetRange(LOCATION_MZONE)
     e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
@@ -166,19 +165,38 @@ end
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD,
-                                     LOCATION_ONFIELD, 1, c)
+        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_ONFIELD,
+                                           LOCATION_ONFIELD, 1, c)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, Card.IsDestructable, tp, LOCATION_ONFIELD,
-                                LOCATION_ONFIELD, 1, 99, c)
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, nil, 1, 0, LOCATION_ONFIELD)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, LOCATION_ONFIELD)
+    Duel.SetChainLimit(function(e, rp, tp) return tp == rp end)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetTargetCards(e)
-    if #g == 0 then return end
+    local c = e:GetHandler()
+    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, Card.IsFaceup, tp,
+                                          LOCATION_ONFIELD, LOCATION_ONFIELD, 1,
+                                          1, c):GetFirst()
+    if not tc then return end
 
-    Duel.Destroy(g, REASON_EFFECT)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    ec1:SetCode(EFFECT_DISABLE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec1)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_DISABLE_EFFECT)
+    ec1b:SetValue(RESET_TURN_SET)
+    tc:RegisterEffect(ec1b)
+    if tc:IsType(TYPE_TRAPMONSTER) then
+        local ec1c = ec1:Clone()
+        ec1c:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+        tc:RegisterEffect(ec1c)
+    end
+    Duel.AdjustInstantly(tc)
+
+    Duel.Destroy(tc, REASON_EFFECT)
 end

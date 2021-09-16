@@ -67,9 +67,11 @@ After this card is Special Summoned, until the end of the next turn, \
 Gains 300 ATK for each Dragon monster in your GY. \
 When your opponent activates a card or effect that targets a "Blue-Eyes" monster(s) you control (Quick Effect): \
     You can negate that effect. \
-You can Tribute this card, then target any number of cards on the field; destroy them. \
+You can Tribute this card; \
+    negate the effects of 1 other face-up card on the field, also destroy it. \
+    Your opponent cannot activate cards or effects in response to this effect's activation. \
 """
-strings = ["Tribute to destroy card on the field"]
+strings = ["Negate & destroy card on the field"]
 
 [card.blue-eyes-deep-dragon]
 id = 911000003

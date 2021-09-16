@@ -67,7 +67,6 @@ end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return not re:GetHandler():IsStatus(STATUS_DISABLED) end
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
-    Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateEffect(ev) end

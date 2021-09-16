@@ -247,7 +247,6 @@ When your opponent activates a card or effect \
     in response to your "Palladium" monster's effect activation (Quick Effect): \
     You can Tribute this card from your hand or face-up field; \
     negate that effect. \
-    Your opponent cannot activate cards or effects in response to this effect's activation. \
 During your Main Phase: \
     You can change this card from face-up Attack Position to face-up Defense Position; \
     Immediately after this effect resolves, Normal Summon 1 "Palladium" monster, \
@@ -800,23 +799,20 @@ During your Main Phase, except the turn this card was sent to the GY: \
 """
 strings = []
 
-[card.palladium-nova-blast-magic]
+[card.palladium-blast-magic]
 id = 910000105
 set = "palladium"
-name = "Palladium Blast Nova Magic"
+name = "Palladium Blast Magic"
 type = "spell quick-play"
 effect = """\
-Apply these effects, in sequence, depending on the monster you control. \
-    If you meet 2 or more of these conditions, your opponent cannot activate cards or effects in response to this card's activation.
+Apply these effects, in sequence, depending on the monster you control.
 ● Spellcaster "Palladium" Ritual Monster: This turn, any card sent to your opponent's GY is banished instead.
-● "Palladium Oracle Mahad" or "The Palladium Oracles": Negate the effects of all face-up Spells and Traps your opponent currently controls, \
-    and also destroy all Spells and Traps your opponent controls.
-● "Palladium Oracle Mana" or "The Palladium Oracles": Negate the effects of all face-up monster your opponent currently controls, \
-    and also destroy all monster your opponent controls.
+● "Palladium Oracle Mahad" or "The Palladium Oracles": Destroy all Spells and Traps your opponent controls.
+● "Palladium Oracle Mana" or "The Palladium Oracles": Destroy all monster your opponent controls.
 During your Main Phase, if this card is in your GY, except the turn this card was sent to the GY: \
     You can remove 1 Spell Counter from your side of the field; \
     Add this card to your hand. \
-    You can only use this effect of "Palladium Blast Nova Magic" once per turn. \
+    You can only use this effect of "Palladium Blast Magic" once per turn. \
 """
 strings = [
     "Affected by effect \"Palladium Blast Nova Magic\": card sent to the GY is banished instead",

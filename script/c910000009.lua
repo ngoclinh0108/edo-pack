@@ -92,20 +92,21 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     c:SetCardTarget(tc)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     ec1:SetCode(EFFECT_DISABLE)
     ec1:SetCondition(function(e)
         return e:GetOwner():IsHasCardTarget(e:GetHandler())
     end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec1)
-
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_DISABLE_EFFECT)
+    ec1b:SetValue(RESET_TURN_SET)
+    tc:RegisterEffect(ec1b)
     if tc:IsType(TYPE_TRAPMONSTER) then
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        ec2:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec2)
+        local ec1c = ec1:Clone()
+        ec1c:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+        tc:RegisterEffect(ec1c)
     end
 end
 

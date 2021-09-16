@@ -1,4 +1,4 @@
--- Palladium Blast Nova Magic
+-- Palladium Blast Magic
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -52,14 +52,9 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local loc = 0
     local ct = 0
-    local n = 0
-    if b1 then n = n + 1 end
-    if b2 then loc, ct, n = loc + LOCATION_SZONE, ct + 1, n + 1 end
-    if b3 then loc, ct, n = loc + LOCATION_MZONE, ct + 1, n + 1 end
+    if b2 then loc, ct = loc + LOCATION_SZONE, ct + 1 end
+    if b3 then loc, ct = loc + LOCATION_MZONE, ct + 1 end
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, ct, 1 - tp, loc)
-    if n >= 2 then
-        Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
-    end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -98,13 +93,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     if b2 then
         Duel.BreakEffect()
-
-        local ng = Duel.GetMatchingGroup(
-                       aux.FilterFaceupFunction(Card.IsType,
-                                                TYPE_SPELL + TYPE_TRAP), tp, 0,
-                       LOCATION_ONFIELD, c)
-        for nc in aux.Next(ng) do s.e1disable(c, nc) end
-
         local dg = Duel.GetMatchingGroup(Card.IsType, tp, 0, LOCATION_ONFIELD,
                                          c, TYPE_SPELL + TYPE_TRAP)
         Duel.Destroy(dg, REASON_EFFECT)
@@ -112,38 +100,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     if b3 then
         Duel.BreakEffect()
-
-        local ng =
-            Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, c)
-        for nc in aux.Next(ng) do s.e1disable(c, nc) end
-
         local dg = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
         Duel.Destroy(dg, REASON_EFFECT)
     end
-end
-
-function s.e1disable(c, nc)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_DISABLE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    nc:RegisterEffect(ec1)
-
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetCode(EFFECT_DISABLE_EFFECT)
-    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-    nc:RegisterEffect(ec2)
-
-    if nc:IsType(TYPE_TRAPMONSTER) then
-        local ec3 = Effect.CreateEffect(c)
-        ec3:SetType(EFFECT_TYPE_SINGLE)
-        ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-        ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
-        nc:RegisterEffect(ec3)
-    end
-
-    Duel.AdjustInstantly(nc)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
