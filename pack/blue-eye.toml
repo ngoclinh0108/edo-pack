@@ -58,16 +58,16 @@ level = 9
 atk = 3000
 def = 2500
 effect = """\
-1 Tuner + 1 non-Tuner "Blue-Eyes" monsters
-While this card is in your GY, except the turn this card was sent to the GY: \
-    You can Tribute 1 "Blue-Eyes Holy Shining Dragon" you control;
-    Special Summon this card. (This is treated as an Synchro Summon.) \
-    You can only use this effect of "Blue-Eyes Holy Shining Dragon" once per turn. \
+1 Tuner + 1 non-Tuner Non-Effect Monster
+Except the turn this card was sent to the GY, you can Special Summon this card (from your GY) \
+    by Tributing 1 "Blue-Eyes White Dragon" you control. \
+    You can only Special Summon "Blue-Eyes Holy Shining Dragon" once per turn this way. \
+After this card is Special Summoned, until the end of the next turn, \
+    Dragon monsters you currently control cannot be destroyed by card effects. \
 Gains 300 ATK for each Dragon monster in your GY. \
 When your opponent activates a card or effect that targets a "Blue-Eyes" monster(s) you control (Quick Effect): \
     You can negate that effect. \
-You can Tribute this card, then target any number of cards on the field; \
-    destroy them. This is a Quick Effect if this card was Synchro Summoned using "Blue-Eyes White Dragon" as material. \
+You can Tribute this card, then target any number of cards on the field; destroy them. \
 """
 strings = ["Tribute to destroy card on the field"]
 
@@ -125,5 +125,5 @@ Once per turn: You can Special Summon 1 Normal Monster from your hand or GY. \
 strings = [
     "Link Summon by using \"Blue-Eyes White Dragon\"",
     "Summoned using \"Blue-Eyes White Dragon\"",
-    "Special Summon a Dragon monster"
+    "Special Summon a Dragon monster",
 ]
