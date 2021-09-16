@@ -66,9 +66,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local _, atk = og:GetMaxGroup(Card.GetAttack)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     ec1:SetCode(EFFECT_UPDATE_ATTACK)
     ec1:SetValue(atk)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
 end
 
