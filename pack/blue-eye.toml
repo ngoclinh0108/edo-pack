@@ -76,14 +76,15 @@ effect = """\
 strings = [
 ]
 
-[card.chaos-eyes-silver-dragon]
+[card.chaos-eyes-azure-dragon]
 id = 911000004
 set = "chaos blue-eyes"
-name = "Chaos-Eyes Silver Dragon"
+name = "Chaos-Eyes Azure Dragon"
 type = "monster link effect"
 attribute = "light"
 race = "dragon"
-link-rating = 3
+link-rating = 2
+link-arrows = "bottom-left bottom-right"
 atk = 4000
 effect = """\
 (This card is always treated as a "Blue-Eyes" card.)
