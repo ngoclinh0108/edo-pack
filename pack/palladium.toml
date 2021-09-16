@@ -250,7 +250,8 @@ When your opponent activates a card or effect \
 During your Main Phase: \
     You can change this card from face-up Attack Position to face-up Defense Position; \
     Immediately after this effect resolves, Normal Summon 1 "Palladium" monster, \
-    also you cannot Special Summon monsters for the rest of this turn, \
+    also for the rest of this turn, this card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster, \
+    and you cannot Special Summon monsters for the rest of this turn, \
     except "Palladium" monsters (even if this card leaves the field). \
 While this card is in your GY, if the effect activation of a "Palladium" monster you control is negated: \
     You can add this card to your hand. \
@@ -258,6 +259,7 @@ You can only use each effect of "Palladium Maiden Isis" once per turn. \
 """
 strings = [
     "Normal Summon a \"Palladium\" monster",
+    "Can be treated as 2 Tributes for the Tribute Summon of a \"Palladium\" monster",
     "Affected by effect \"Palladium Maiden Isis\": cannot Special Summon monsters, except \"Palladium\" monsters",
 ]
 
@@ -347,7 +349,6 @@ effect = """\
 If you control no monsters, or your opponent controls a monster with 2000 or more ATK, \
     you can Special Summon this card (from your hand). \
     You can only Special Summon "Palladium Knight Gaia" once per turn this way. \
-This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
 When you Ritual or Fusion Summon a "Palladium" monster, \
     you can banish this card from your GY as 1 of materials. \
 """

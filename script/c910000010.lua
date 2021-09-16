@@ -95,21 +95,30 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 1))
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_DOUBLE_TRIBUTE)
+    ec1:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 2))
+    ec2:SetType(EFFECT_TYPE_FIELD)
+    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+    ec2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec2:SetTargetRange(1, 0)
+    ec2:SetTarget(function(e, c) return not c:IsSetCard(0x13a) end)
+    ec2:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec2, tp)
+
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
     local tc = Utility.SelectMatchingCard(HINTMSG_SUMMON, tp, s.e2filter, tp,
                                           LOCATION_HAND + LOCATION_MZONE, 0, 1,
                                           1, nil):GetFirst()
     if tc then Duel.Summon(tp, tc, true, nil) end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 1))
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetTarget(function(e, c) return not c:IsSetCard(0x13a) end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)

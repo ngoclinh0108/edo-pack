@@ -15,13 +15,6 @@ function s.initial_effect(c)
     e1:SetCondition(s.e1con)
     c:RegisterEffect(e1)
 
-    -- double tributes
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_DOUBLE_TRIBUTE)
-    e2:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
-    c:RegisterEffect(e2)
-
     -- extra material
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
