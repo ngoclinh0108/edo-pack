@@ -106,11 +106,11 @@ name = "Blue-Eyes Chaos Infinity Dragon"
 type = "monster link effect"
 attribute = "light"
 race = "dragon"
-link-rating = 3
-link-arrows = "top bottom-left bottom-right"
+link-rating = 4
+link-arrows = "top bottom-left bottom bottom-right"
 atk = 4000
 effect = """\
-3 "Blue-Eyes" monsters
+3+ monsters, including an "Blue-Eyes" monster
 Must be Link Summoned. \
 You can also Link Summon this card by discarding 1 Ritual Spell and using 1 "Blue-Eyes White Dragon" you control as the material. \
 Your opponent cannot target or destroy this card with card effects. \
@@ -118,12 +118,14 @@ If this card was Link Summoned using a "Blue-Eyes White Dragon", when it declare
     You can change the battle positions of as many monsters your opponent controls as possible, \
     and if you do, the ATK/DEF of those changed monsters become 0. \
 If this card attacks a Defense Position monster, inflict double piercing battle damage to your opponent. \
-You can Special Summon 1 Normal Monster from your hand or GY. \
-    This card cannot attack the turn this effect is activated. \
+You can target 1 of your "Blue-Eyes" monsters that is banished or in your GY; \
+    Special Summon it to your zone this card points to, in Defense Position, \
+    also you cannot Special Summon monsters from the Extra Deck for the rest of this turn, except "Blue-Eyes" monsters. \
     You can only use this effect of "Blue-Eyes Chaos Infinity Dragon" once per turn. \
 """
 strings = [
     "Link Summon by using \"Blue-Eyes White Dragon\"",
     "Summoned using \"Blue-Eyes White Dragon\"",
     "Special Summon a Dragon monster",
+    "Affected by effect \"Blue-Eyes Chaos Infinity Dragon\": cannot Special Summon monsters from the Extra Deck, except \"Blue-Eyes\" monsters",
 ]
