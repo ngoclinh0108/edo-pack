@@ -125,7 +125,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                     LOCATION_MZONE, 0, nil)
     for tc in aux.Next(g) do
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3009)
+        ec1:SetDescription(3001)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
         ec1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
