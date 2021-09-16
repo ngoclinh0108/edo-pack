@@ -196,14 +196,12 @@ level = 4
 atk = 1400
 def = 1200
 effect = """\
-During the Damage Step, when your "Palladium" monster battles an opponent's monster (Quick Effect): \
-    You can Special Summon this card from your hand, \
-    then draw 1 card. \
-    You can only use this effect of "Palladium Guardian Shada" once per turn. \
 Once per turn, this card cannot be destroyed by battle. \
-You can discard 1 monster; send 1 "Palladium" monster with a different Type from your Deck to the GY, \
+During the Battle Step (Quick Effect): \
+    You can Special Summon this card from your hand, then draw 1 card. \
+You can discard 1 card; send 1 "Palladium" monster from your Deck to the GY, \
     but for the rest of this turn, you cannot Special Summon monsters with the same name the sent monster had in the GY. \
-    You can only use this effect of "Palladium Guardian Shada" once per turn. \
+You can only use each effect of "Palladium Guardian Shada" once per turn. \
 """
 strings = [
     "Send 1 \"Palladium\" monster from Deck to GY",

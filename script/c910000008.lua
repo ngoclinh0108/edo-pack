@@ -5,28 +5,28 @@ local s, id = GetID()
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    -- special summon & draw
+    -- battle indes
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DRAW)
-    e1:SetType(EFFECT_TYPE_QUICK_O)
-    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetHintTiming(TIMING_DAMAGE_STEP)
-    e1:SetCountLimit(1, id)
-    e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCountLimit(1)
+    e1:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
     c:RegisterEffect(e1)
 
-    -- battle indes
+    -- special summon & draw
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_DRAW)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_HAND)
+    e2:SetHintTiming(0, TIMING_BATTLE_STEP_END)
+    e2:SetCountLimit(1, {id, 1})
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
     -- send monster to the GY
@@ -35,24 +35,18 @@ function s.initial_effect(c)
     e3:SetCategory(CATEGORY_TOGRAVE)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1, id)
+    e3:SetCountLimit(1, {id, 2})
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    local ph = Duel.GetCurrentPhase()
-    if ph ~= PHASE_DAMAGE or Duel.IsDamageCalculated() then return false end
-
-    local tc = Duel.GetAttacker()
-    if tc:IsControler(1 - tp) then tc = Duel.GetAttackTarget() end
-    return tc and tc:IsSetCard(0x13a) and tc:IsRelateToBattle() and
-               Duel.GetAttackTarget() ~= nil
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetCurrentPhase() == PHASE_BATTLE_STEP
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
@@ -63,7 +57,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) ==
         0 then return end
@@ -74,31 +68,22 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter1(c, tp)
-    return c:IsType(TYPE_MONSTER) and c:IsAbleToGraveAsCost() and
-               Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_DECK, 0, 1,
-                                           nil, c)
-end
-
-function s.e3filter2(c, sc)
-    return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x13a) and
-               not c:IsRace(sc:GetRace()) and c:IsAbleToGrave()
+function s.e3filter(c)
+    return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x13a) and c:IsAbleToGrave()
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_HAND, 0, 1,
-                                           nil, tp)
+        return Duel.IsExistingMatchingCard(Card.IsDiscardable, tp,
+                                           LOCATION_HAND, 0, 1, nil)
     end
 
-    Duel.DiscardHand(tp, s.e3filter1, 1, 1, REASON_COST + REASON_DISCARD, nil,
-                     tp)
-    e:SetLabelObject(Duel.GetOperatedGroup():GetFirst())
+    Duel.DiscardHand(tp, Card.IsDiscardable, 1, 1, REASON_COST + REASON_DISCARD,
+                     nil)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
-
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_DECK)
 end
 
@@ -106,8 +91,8 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-    local tc = Duel.SelectMatchingCard(tp, s.e3filter2, tp, LOCATION_DECK, 0, 1,
-                                       1, nil, e:GetLabelObject()):GetFirst()
+    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_DECK, 0, 1,
+                                       1, nil):GetFirst()
     if not tc then return end
 
     if Duel.SendtoGrave(tc, REASON_EFFECT) ~= 0 and
