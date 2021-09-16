@@ -472,10 +472,10 @@ strings = [
     "Affected by effect \"Chaos End Ruler - Ruler of the Beginning and the End\": other monsters cannot attack",
 ]
 
-[card.palladium-magician]
+[card.dark-sorcerer-palladium]
 id = 910000020
 set = "palladium"
-name = "Palladium Magician"
+name = "Dark Sorcerer of Palladium"
 type = "monster xyz effect"
 attribute = "dark"
 race = "spellcaster"
@@ -497,10 +497,10 @@ If this card is destroyed by battle or card effect: \
 """
 strings = ["Double ATK"]
 
-[card.palladium-magical-knight]
+[card.magical-knight-palladium]
 id = 910000021
 set = "palladium"
-name = "Palladium Magician Knight"
+name = "Magician Knight of Palladium"
 type = "monster xyz effect"
 attribute = "dark"
 race = "spellcaster"

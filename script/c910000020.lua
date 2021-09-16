@@ -1,4 +1,4 @@
--- Palladium Magician
+-- Dark Sorcerer of Palladium
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
