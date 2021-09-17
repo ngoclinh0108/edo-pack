@@ -17,13 +17,11 @@ function s.initial_effect(c)
 
     -- destroy
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetDescription(1100)
     e2:SetCategory(CATEGORY_DESTROY)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetCost(s.e2cost)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_BATTLE_START)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -62,33 +60,17 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(3206)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_OATH +
-                        EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    e:GetHandler():RegisterEffect(ec1)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler() == Duel.GetAttacker() and Duel.GetAttackTarget()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_MZONE, 1, nil)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1, 1, nil)
-
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, Duel.GetAttackTarget(), 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
+    local tc = Duel.GetAttackTarget()
+    if not tc:IsRelateToBattle() then return end
     Duel.Destroy(tc, REASON_EFFECT)
 end

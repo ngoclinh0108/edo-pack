@@ -13,10 +13,10 @@ effect = """\
 (This card's name is always treated as "Blue-Eyes White Dragon".)
 You can Special Summon this card (from your hand) by revealing 1 Level 1 LIGHT Tuner in your hand. \
     You can only Special Summon "Blue-Eyes Light Dragon" once per turn this way. \
-Once per turn: You can target 1 monster your opponent controls; \
-    destroy it. This card cannot attack the turn this effect is activated. \
+If this card attacks a monster on the field, at the start of the Damage Step: \
+    You can destroy that monster. \
 """
-strings = ["Destroy 1 monster"]
+strings = []
 
 [card.blue-eyes-divine-dragon]
 id = 911000001
