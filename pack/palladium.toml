@@ -177,7 +177,7 @@ effect = """\
 When an opponent's monster declares a direct attack, \
     or your opponent activates a card or effect that would inflict damage (Quick Effect): \
     You can Special Summon this card from your hand. \
-You take no effect damage. \
+You take no effect damage, also your opponent cannot attack directly. \
 If a "Palladium" monster(s) you control is destroyed by battle or an opponent's card effect, \
     except "Mysterious Palladium Oracle Hassan": \
     You can add this card from your GY to your hand. \

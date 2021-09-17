@@ -22,7 +22,7 @@ function s.initial_effect(c)
     e1b:SetCondition(s.e1con2)
     c:RegisterEffect(e1b)
 
-    -- no effect damage
+    -- no damage & no directly attack
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -37,6 +37,12 @@ function s.initial_effect(c)
     local e2b = e2:Clone()
     e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     c:RegisterEffect(e2b)
+    local e2c = Effect.CreateEffect(c)
+    e2c:SetType(EFFECT_TYPE_FIELD)
+    e2c:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
+    e2c:SetRange(LOCATION_MZONE)
+    e2c:SetTargetRange(0, LOCATION_MZONE)
+    c:RegisterEffect(e2c)
 
     -- to hand
     local e3 = Effect.CreateEffect(c)
