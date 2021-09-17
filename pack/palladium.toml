@@ -414,7 +414,7 @@ If this card is Normal or Special Summoned: \
     then you can add 1 "Polymerization" or 1 Level 5 or higher "Palladium" monster from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Beast Gazelle" once per turn. \
 If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
-If this card is used as material for a Fusion Summon: Draw 1 card. \
+If this card is used as material for a Fusion Summon: You can draw 1 card. \
 """
 strings = []
 
@@ -663,8 +663,8 @@ effect = """\
 "Palladium Beast Gazelle" + "Palladium Beast Berfomet"
 A Fusion Summon of this card can only be done with the above materials. \
 This card gains effects of material monsters used to Fusion Summon it. \
-If this card destroys an opponent's monster by battle: \
-    You can activate this effect; this card can make a second attack in a row. \
+If this card destroys an opponent's monster by battle, \
+    it can make a second attack in a row. \
 If this card is destroyed by battle or card effect: You can Special Summon \
     1 "Palladium Beast Gazelle" or "Palladium Beast Berfomet" \
     that is banished or in your hand, Deck, GY. \

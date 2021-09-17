@@ -29,7 +29,7 @@ function s.initial_effect(c)
     -- draw
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_DRAW)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_DELAY)
     e3:SetCode(EVENT_BE_MATERIAL)
     e3:SetCondition(s.e3con)
