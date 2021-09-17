@@ -151,9 +151,9 @@ If you Special Summon "The Winged Dragon of Ra" from the GY, \
 ● This card become Fusion Monster and its original ATK/DEF become equal to the amount of LP paid, \
     and also, any increase in LP is changed to increase it's original ATK/DEF instead.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
-● Once per turn (Quick Effect): You can Tribute any number of other face-up monsters; \
-    this card gains ATK equal to the Tributed monsters' combined ATK, until the end of this turn.
-● After damage calculation, if this card attacked, send all monsters your opponent controls to the GY.
+● When an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
+    this card gains ATK equal to the Tributed monsters' combined original ATK, until the end of this turn.
+● After damage calculation, if it attacked, send all monsters your opponent controls to the GY.
 ● If "De-Fusion" targets this card, apply \
     "that target loses its above effects and its ATK/DEF become 0, \
     and if you do, its controller gains LP equal to that lost ATK" instead of. \
@@ -165,7 +165,7 @@ strings = [
     "Immortal Phoenix Form",
     "Send monster to grave",
     "Return to Dimension",
-    "Tribtue monsters for ATK/DEF",
+    "Tribtue monsters for ATK",
 ]
 
 [card.dreadroot]
@@ -236,15 +236,15 @@ strings = [
     "Affected by effect \"Wicked God Avatar\": cannot activate Spell/Trap Cards",
 ]
 
-[card.emissary-divine-beasts]
+[card.emissary-sun-divine-beast]
 id = 900000009
-name = "Emissary of the Divine Beasts"
+name = "Emissary of the Sun Divine Beast"
 type = "monster link effect"
 attribute = "light"
 race = "fairy"
 link-rating = 1
 link-arrows = "bottom"
-atk = 1800
+atk = 1000
 effect = """\
 1 monster, except a Token
 This card's Link Summon cannot be negated. \
@@ -257,7 +257,7 @@ Cannot attack. \
 During your Main Phase, you can Normal Summon 1 Divine-Beast monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
 If this card is sent to the GY: You can add 1 "De-Fusion" from your Deck or GY to your hand. \
-    You can only use this effect of "Emissary of the Divine Beasts" once per turn. \
+    You can only use this effect of "Emissary of the Sun Divine Beast" once per turn. \
 "The Winged Dragon of Ra" that Tribute Summoned by Tributing this card \
     gains the following effects, these effects cannot be copied.
 ● Once while face-up on the field (Quick Effect): \
@@ -272,10 +272,10 @@ If this card is sent to the GY: You can add 1 "De-Fusion" from your Deck or GY t
 ● You can pay 1000 LP, then target 1 monster on the field; destroy that target.
 """
 strings = [
-    "Summon via \"Emissary of the Divine Beasts\"",
+    "Summon via \"Emissary of the Sun Divine Beast\"",
     "Can be treated as 2 Tributes for the Tribute Summon of a Divine-Beast monster",
     "Can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster",
-    "Summoned using \"Emissary of the Divine Beasts\"",
+    "Summoned using \"Emissary of the Sun Divine Beast\"",
     "Life Point Transfer",
 ]
 

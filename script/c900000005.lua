@@ -180,18 +180,16 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         local spnoattack = mc:GetCardEffect(EFFECT_CANNOT_ATTACK)
         if spnoattack then spnoattack:Reset() end
 
-        -- tribute monsters to atk/def up
+        -- tribute monsters to up atk
         local ec3 = Effect.CreateEffect(c)
         ec3:SetDescription(aux.Stringid(id, 5))
-        ec3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-        ec3:SetType(EFFECT_TYPE_QUICK_O)
+        ec3:SetCategory(CATEGORY_ATKCHANGE)
+        ec3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
         ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-        ec3:SetCode(EVENT_FREE_CHAIN)
+        ec3:SetCode(EVENT_ATTACK_ANNOUNCE)
         ec3:SetRange(LOCATION_MZONE)
         ec3:SetCountLimit(1)
-        ec3:SetCondition(function(e)
-            return e:GetHandler():IsHasEffect(id)
-        end)
+        ec3:SetCondition(s.e7atkcon)
         ec3:SetCost(s.e7atkcost)
         ec3:SetOperation(s.e7atkop)
         ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
@@ -287,15 +285,24 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.e7atkfilter(c) return c:IsFaceup() and c:GetTextAttack() > 0 end
+
+function s.e7atkcon(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return Duel.GetAttacker() == c or
+               (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c) and
+               e:GetHandler():IsHasEffect(id)
+end
+
 function s.e7atkcost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
+        return Duel.CheckReleaseGroupCost(tp, s.e7atkfilter, 1, false, nil, c)
     end
 
-    local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 99, false, nil,
+    local g = Duel.SelectReleaseGroupCost(tp, s.e7atkfilter, 1, 99, false, nil,
                                           c)
-    e:SetLabel(g:GetSum(Card.GetAttack))
+    e:SetLabel(g:GetSum(Card.GetTextAttack))
     Duel.Release(g, REASON_COST)
 end
 

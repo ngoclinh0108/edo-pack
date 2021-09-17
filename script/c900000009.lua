@@ -1,4 +1,4 @@
--- Emissary of the Divine Beasts
+-- Emissary of the Sun Divine Beast
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
