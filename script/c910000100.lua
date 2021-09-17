@@ -21,7 +21,7 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
-    Utility.RegisterMultiEffect(s, e1)
+    Utility.RegisterMultiEffect(s, 1, e1)
 
     -- add monster
     local e2 = Effect.CreateEffect(c)
@@ -29,7 +29,7 @@ function s.initial_effect(c)
     e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
-    Utility.RegisterMultiEffect(s, e2)
+    Utility.RegisterMultiEffect(s, 2, e2)
 
     -- add spell/trap
     local e3 = Effect.CreateEffect(c)
@@ -37,7 +37,7 @@ function s.initial_effect(c)
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
-    Utility.RegisterMultiEffect(s, e3)
+    Utility.RegisterMultiEffect(s, 3, e3)
 
     -- special summon
     local e4 = Effect.CreateEffect(c)
@@ -45,14 +45,14 @@ function s.initial_effect(c)
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
-    Utility.RegisterMultiEffect(s, e4)
+    Utility.RegisterMultiEffect(s, 4, e4)
 
     -- protect & atk up
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 4))
     e5:SetCategory(CATEGORY_ATKCHANGE)
     e5:SetOperation(s.e5op)
-    Utility.RegisterMultiEffect(s, e5)
+    Utility.RegisterMultiEffect(s, 5, e5)
 end
 
 function s.e1filter(c) return c:IsSetCard(0x13a) and c:IsAbleToHand() end

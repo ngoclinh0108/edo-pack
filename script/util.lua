@@ -183,9 +183,9 @@ function Utility.IsOwnAny(f, player, ...)
     return g:IsExists(function(c) return c:GetOwner() == player end, 1, nil)
 end
 
-function Utility.RegisterMultiEffect(s, eff)
+function Utility.RegisterMultiEffect(s, index, eff)
     if not s.effects then s.effects = {} end
-    s.effects[#s.effects + 1] = eff
+    s.effects[index] = eff
 end
 
 function Utility.MultiEffectTarget(s)

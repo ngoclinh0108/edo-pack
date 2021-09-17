@@ -317,7 +317,7 @@ During the Main Phase or Battle Phase: Activate 1 of these effects;
     When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them.
 ● 1 original Divine-Beast monster you control with Divine Hierarchy, \
     except a monster(s) already affected by "Divine Servant", \
-    gains 1000 original ATK/DEF also its Divine Hierarchy is increased by 1.
+    gains 1000 ATK/DEF also its Divine Hierarchy is increased by 1.
 You can only activate 1 "Divine Soul" per turn.
 """
 strings = ["Summon Divine-Beast", "Evolute Divine-Beast"]

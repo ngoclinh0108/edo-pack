@@ -18,7 +18,7 @@ function s.initial_effect(c)
     e0:SetTarget(Utility.MultiEffectTarget(s))
     e0:SetOperation(Utility.MultiEffectOperation(s))
     c:RegisterEffect(e0)
-    
+
     -- ritual
     local e1 = Ritual.CreateProc({
         desc = 1171,
@@ -27,8 +27,8 @@ function s.initial_effect(c)
         filter = aux.FilterBoolFunction(Card.IsSetCard, 0x13a),
         location = LOCATION_HAND + LOCATION_DECK
     })
-    Utility.RegisterMultiEffect(s, e1)
-    
+    Utility.RegisterMultiEffect(s, 1, e1)
+
     -- ritual
     local e2 = Fusion.CreateSummonEff({
         desc = 1170,
@@ -45,7 +45,7 @@ function s.initial_effect(c)
             return g, check
         end
     })
-    Utility.RegisterMultiEffect(s, e2)
+    Utility.RegisterMultiEffect(s, 2, e2)
 
     -- to hand
     local e3 = Effect.CreateEffect(c)
