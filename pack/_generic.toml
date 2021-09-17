@@ -152,7 +152,8 @@ If you Special Summon "The Winged Dragon of Ra" from the GY, \
     and also, any increase in LP is changed to increase it's original ATK/DEF instead.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 ● When an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
-    this card gains ATK equal to the Tributed monsters' combined original ATK, until the end of this turn.
+    this card gains ATK equal to the Tributed monsters' combined original ATK had on the field, \
+    until the end of this turn.
 ● After damage calculation, if it attacked, send all monsters your opponent controls to the GY.
 ● If "De-Fusion" targets this card, apply \
     "that target loses its above effects and its ATK/DEF become 0, \

@@ -285,8 +285,6 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e7atkfilter(c) return c:IsFaceup() and c:GetTextAttack() > 0 end
-
 function s.e7atkcon(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return Duel.GetAttacker() == c or
@@ -297,12 +295,12 @@ end
 function s.e7atkcost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, s.e7atkfilter, 1, false, nil, c)
+        return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
     end
 
-    local g = Duel.SelectReleaseGroupCost(tp, s.e7atkfilter, 1, 99, false, nil,
+    local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 99, false, nil,
                                           c)
-    e:SetLabel(g:GetSum(Card.GetTextAttack))
+    e:SetLabel(g:GetSum(Card.GetBaseAttack))
     Duel.Release(g, REASON_COST)
 end
 
