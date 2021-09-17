@@ -1,5 +1,6 @@
 -- Divine Servant
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
@@ -22,6 +23,14 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     Utility.RegisterMultiEffect(s, e1)
+
+    -- divine evolution
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    Utility.RegisterMultiEffect(s, e2)
 end
 
 function s.e1filter1(c, ec)
@@ -97,4 +106,40 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     else
         Duel.MSet(tp, sc, true, nil, 1)
     end
+end
+
+function s.e2filter(c)
+    return c:IsFaceup() and c:IsOriginalRace(RACE_DIVINE) and
+               Divine.GetDivineHierarchy(c) > 0 and c:GetFlagEffect(id) == 0
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1,
+                                           nil)
+    end
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e2filter, tp,
+                                          LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
+    if not tc then return end
+
+    Duel.HintSelection(Group.FromCards(tc))
+    tc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
+                          RESET_EVENT + RESETS_STANDARD,
+                          EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+    ec1:SetValue(tc:GetBaseAttack() + 1000)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec1)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
+    ec1b:SetValue(tc:GetBaseDefense() + 1000)
+    tc:RegisterEffect(ec1b)
 end
