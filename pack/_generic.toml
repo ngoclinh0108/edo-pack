@@ -309,7 +309,8 @@ name = "Divine Servant"
 type = "spell quick-play"
 effect = """\
 This card's activation and effect cannot be negated. \
-During the Main Phase or Battle Phase: Activate 1 of these effects;
+During the Main Phase or Battle Phase: Activate 1 of these effects; \
+You can only activate 1 "Divine Servant" per turn.
 ● Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster, \
     or, if you control 3 or more monsters with different names, \
     you can add 1 Divine-Beast monster from your Deck to your hand, then, \
@@ -318,6 +319,5 @@ During the Main Phase or Battle Phase: Activate 1 of these effects;
 ● 1 original Divine-Beast monster you control with Divine Hierarchy, \
     except a monster(s) already affected by "Divine Servant", \
     gains 1000 ATK/DEF also its Divine Hierarchy is increased by 1.
-You can only activate 1 "Divine Soul" per turn.
 """
 strings = ["Summon Divine-Beast", "Evolute Divine-Beast"]
