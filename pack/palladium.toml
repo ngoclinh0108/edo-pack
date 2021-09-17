@@ -102,8 +102,8 @@ strings = [
     "Activate effect when destroy",
     "Gains 1500 ATK",
     "Banish 1 card on the field",
-    "Banish 1 card in hand",
-    "double attacks next turn",
+    "Banish 1 random card in hand",
+    "Double attacks during next turn",
 ]
 
 [card.chaos-emperor-dragon-palladium]
@@ -692,7 +692,7 @@ name = "Millennium Memory"
 type = "spell quick-play"
 effect = """\
 Activate 1 of these effects.
-● Look at the top 5 cards of your Deck, \
+● Look at the top 6 cards of your Deck, \
     then you can reveal 1 "Palladium" card, and add it to your hand, \
     also place the remaining cards on top of your Deck in any order.
 ● Add 1 "Palladium" Spellcaster monster from your Deck or GY to your hand.

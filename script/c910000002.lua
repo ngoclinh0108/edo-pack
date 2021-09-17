@@ -117,7 +117,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                                            nil)
     end
     if chk == 0 then
-        return #g >= 1 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+        return #g > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, 0, 0)

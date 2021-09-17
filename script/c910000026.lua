@@ -102,7 +102,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD,
                                 LOCATION_ONFIELD, 1, 1, c)
 
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -132,7 +132,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g =
         Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, #g, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)

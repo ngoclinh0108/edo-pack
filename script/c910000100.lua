@@ -11,10 +11,9 @@ function s.initial_effect(c)
     e0:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e0:SetCode(EVENT_FREE_CHAIN)
     e0:SetHintTiming(TIMING_DAMAGE_STEP)
-    e0:SetTarget(s.e0tg)
-    e0:SetOperation(s.e0op)
+    e0:SetTarget(Utility.MultiEffectTarget(s))
+    e0:SetOperation(Utility.MultiEffectOperation(s))
     c:RegisterEffect(e0)
-    s.eff = {}
 
     -- look at top your deck
     local e1 = Effect.CreateEffect(c)
@@ -22,7 +21,7 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
-    s.eff[1] = e1
+    Utility.RegisterMultiEffect(s, e1)
 
     -- add monster
     local e2 = Effect.CreateEffect(c)
@@ -30,7 +29,7 @@ function s.initial_effect(c)
     e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
-    s.eff[2] = e2
+    Utility.RegisterMultiEffect(s, e2)
 
     -- add spell/trap
     local e3 = Effect.CreateEffect(c)
@@ -38,7 +37,7 @@ function s.initial_effect(c)
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
-    s.eff[3] = e3
+    Utility.RegisterMultiEffect(s, e3)
 
     -- special summon
     local e4 = Effect.CreateEffect(c)
@@ -46,61 +45,28 @@ function s.initial_effect(c)
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
-    s.eff[4] = e4
+    Utility.RegisterMultiEffect(s, e4)
 
     -- protect & atk up
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 4))
     e5:SetCategory(CATEGORY_ATKCHANGE)
     e5:SetOperation(s.e5op)
-    s.eff[5] = e5
-end
-
-function s.e0tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        for i = 1, #s.eff, 1 do
-            if not s.eff[i]:GetTarget() or
-                s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
-                return true
-            end
-        end
-        return false
-    end
-
-    local opt = {}
-    local sel = {}
-    for i = 1, #s.eff, 1 do
-        if not s.eff[i]:GetTarget() or
-            s.eff[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, 0) then
-            table.insert(opt, s.eff[i]:GetDescription())
-            table.insert(sel, i)
-        end
-    end
-
-    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
-    e:SetLabel(op)
-    e:SetCategory(s.eff[op]:GetCategory())
-    if s.eff[op]:GetTarget() then
-        s.eff[op]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk)
-    end
-end
-
-function s.e0op(e, tp, eg, ep, ev, re, r, rp)
-    s.eff[e:GetLabel()]:GetOperation()(e, tp, eg, ep, ev, re, r, rp)
+    Utility.RegisterMultiEffect(s, e5)
 end
 
 function s.e1filter(c) return c:IsSetCard(0x13a) and c:IsAbleToHand() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) >= 5
+        return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) >= 6
     end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) < 5 then return end
+    if Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) < 6 then return end
 
-    local g = Duel.GetDecktopGroup(tp, 5)
+    local g = Duel.GetDecktopGroup(tp, 6)
     Duel.ConfirmCards(tp, g)
     if g:IsExists(s.e1filter, 1, nil) and Duel.SelectYesNo(tp, 506) then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
@@ -110,9 +76,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
         Duel.ShuffleHand(tp)
-        Duel.SortDecktop(tp, tp, 4)
-    else
         Duel.SortDecktop(tp, tp, 5)
+    else
+        Duel.SortDecktop(tp, tp, 6)
     end
 end
 

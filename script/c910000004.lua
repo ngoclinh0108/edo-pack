@@ -60,9 +60,30 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetCode(EVENT_BATTLE_DESTROYING)
     e3:SetCondition(aux.bdocon)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetTarget(Utility.MultiEffectTarget(s))
+    e3:SetOperation(Utility.MultiEffectOperation(s))
     c:RegisterEffect(e3)
+    local e3c1 = Effect.CreateEffect(c)
+    e3c1:SetDescription(aux.Stringid(id, 1))
+    e3c1:SetCategory(CATEGORY_ATKCHANGE)
+    e3c1:SetOperation(s.e3c1op)
+    Utility.RegisterMultiEffect(s, e3c1)
+    local e3c2 = Effect.CreateEffect(c)
+    e3c2:SetDescription(aux.Stringid(id, 2))
+    e3c2:SetCategory(CATEGORY_REMOVE)
+    e3c2:SetTarget(s.e3c2tg)
+    e3c2:SetOperation(s.e3c2op)
+    Utility.RegisterMultiEffect(s, e3c2)
+    local e3c3 = Effect.CreateEffect(c)
+    e3c3:SetDescription(aux.Stringid(id, 3))
+    e3c3:SetCategory(CATEGORY_REMOVE)
+    e3c3:SetTarget(s.e3c3tg)
+    e3c3:SetOperation(s.e3c3op)
+    Utility.RegisterMultiEffect(s, e3c3)
+    local e3c4 = Effect.CreateEffect(c)
+    e3c4:SetDescription(aux.Stringid(id, 4))
+    e3c4:SetOperation(s.e3c4op)
+    Utility.RegisterMultiEffect(s, e3c4)
 end
 
 function s.spfilter(c, attr)
@@ -118,83 +139,69 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local b1 = true
-    local b2 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
-                                           LOCATION_ONFIELD, 1, nil)
-    local b3 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
-                                           LOCATION_HAND, 1, nil)
-    local b4 = true
-    if chk == 0 then return b1 or b2 or b3 or b4 end
+function s.e3c1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 
-    local opt = {}
-    local sel = {}
-    if b1 then
-        table.insert(opt, aux.Stringid(id, 1))
-        table.insert(sel, 1)
-    end
-    if b2 then
-        table.insert(opt, aux.Stringid(id, 2))
-        table.insert(sel, 2)
-    end
-    if b3 then
-        table.insert(opt, aux.Stringid(id, 3))
-        table.insert(sel, 3)
-    end
-    if b4 then
-        table.insert(opt, aux.Stringid(id, 4))
-        table.insert(sel, 4)
-    end
-    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
-
-    e:SetCategory(0)
-    if op == 2 then
-        e:SetCategory(CATEGORY_REMOVE)
-        local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
-                                        LOCATION_ONFIELD, nil)
-        Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, tp, 0)
-    elseif op == 3 then
-        e:SetCategory(CATEGORY_REMOVE)
-        Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 1 - tp, LOCATION_HAND)
-    end
-    e:SetLabel(op)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(1500)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec1)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local op = e:GetLabel()
-    if op == 1 and c:IsRelateToEffect(e) and c:IsFaceup() then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_UPDATE_ATTACK)
-        ec1:SetValue(1500)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        c:RegisterEffect(ec1)
-    elseif op == 2 then
-        local g = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp,
-                                             Card.IsAbleToRemove, tp, 0,
-                                             LOCATION_ONFIELD, 1, 1, nil)
-        if #g > 0 then Duel.Remove(g, POS_FACEUP, REASON_EFFECT) end
-    elseif op == 3 then
-        local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
-                                        LOCATION_HAND, nil, tp, POS_FACEDOWN)
-        if #g > 0 then
-            g = g:RandomSelect(tp, 1)
-            Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
-        end
-    elseif op == 4 then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3201)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_EXTRA_ATTACK)
-        ec1:SetLabel(Duel.GetTurnCount())
-        ec1:SetCondition(function(e)
-            return Duel.GetTurnCount() > e:GetLabel()
-        end)
-        ec1:SetValue(1)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END +
-                         RESET_SELF_TURN, 2)
-        c:RegisterEffect(ec1)
+function s.e3c2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
+                                           LOCATION_ONFIELD, 1, nil)
     end
+
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0,
+                                    LOCATION_ONFIELD, nil)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, tp, 0)
+end
+
+function s.e3c2op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp,
+                                         Card.IsAbleToRemove, tp, 0,
+                                         LOCATION_ONFIELD, 1, 1, nil)
+    if #g > 0 then Duel.Remove(g, POS_FACEUP, REASON_EFFECT) end
+end
+
+function s.e3c3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0,
+                                           LOCATION_HAND, 1, nil)
+    end
+
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_HAND,
+                                    nil)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, tp, 0)
+end
+
+function s.e3c3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_HAND,
+                                    nil, tp, POS_FACEDOWN)
+    if #g > 0 then
+        g = g:RandomSelect(tp, 1)
+        Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
+    end
+end
+
+function s.e3c4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+    
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(3201)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_EXTRA_ATTACK)
+    ec1:SetLabel(Duel.GetTurnCount())
+    ec1:SetCondition(function(e) return Duel.GetTurnCount() > e:GetLabel() end)
+    ec1:SetValue(1)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END +
+                     RESET_SELF_TURN, 2)
+    c:RegisterEffect(ec1)
 end

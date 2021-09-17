@@ -51,7 +51,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.SelectTarget(tp, s.e1filter1, tp, LOCATION_MZONE,
                                 LOCATION_MZONE, 1, 1, nil)
 
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)

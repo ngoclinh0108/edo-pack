@@ -80,7 +80,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.SelectTarget(tp, aux.disfilter3, tp, 0, LOCATION_ONFIELD, 1,
                                 1, nil)
 
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, #g, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

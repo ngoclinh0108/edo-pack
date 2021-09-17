@@ -4,18 +4,24 @@ local s, id = GetID()
 
 function s.initial_effect(c)
     -- activate
-    local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SUMMON)
-    e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
+    local e0 = Effect.CreateEffect(c)
+    e0:SetType(EFFECT_TYPE_ACTIVATE)
+    e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
                        EFFECT_FLAG_CANNOT_INACTIVATE)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
-    e1:SetCondition(s.e1con)
+    e0:SetCode(EVENT_FREE_CHAIN)
+    e0:SetHintTiming(0, TIMING_MAIN_END + TIMING_BATTLE_START)
+    e0:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e0:SetTarget(Utility.MultiEffectTarget(s))
+    e0:SetOperation(Utility.MultiEffectOperation(s))
+    c:RegisterEffect(e0)
+
+    -- tribute summon
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SUMMON)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
-    c:RegisterEffect(e1)
+    Utility.RegisterMultiEffect(s, e1)
 end
 
 function s.e1filter1(c, ec)
@@ -37,10 +43,6 @@ end
 
 function s.e1filter2(c) return c:IsRace(RACE_DIVINE) and c:IsAbleToHand() end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsMainPhase() or Duel.IsBattlePhase()
-end
-
 function s.e1check1(e, tp)
     return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_HAND, 0, 1,
                                        nil, e:GetHandler())
@@ -54,7 +56,10 @@ function s.e1check2(tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return s.e1check1(e, tp) or s.e1check2(tp) end
+    if chk == 0 then
+        return (Duel.IsMainPhase() or Duel.IsBattlePhase()) and
+                   (s.e1check1(e, tp) or s.e1check2(tp))
+    end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
     Duel.SetOperationInfo(0, CATEGORY_SUMMON, nil, 1, 0, 0)
