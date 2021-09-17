@@ -35,7 +35,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
                not Duel.IsDamageCalculated()
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return e:IsHasType(EFFECT_TYPE_ACTIVATE) and
                    Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_MZONE,

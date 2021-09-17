@@ -114,7 +114,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
                    LOCATION_MZONE, 0, 1, nil)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(aux.disfilter2, tp, 0, LOCATION_ONFIELD, 1,
                                      nil)

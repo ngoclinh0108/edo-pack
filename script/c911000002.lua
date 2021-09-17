@@ -162,7 +162,7 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Release(e:GetHandler(), REASON_COST)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_ONFIELD,

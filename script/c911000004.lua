@@ -195,7 +195,7 @@ function s.e4filter(c, e, tp, zone)
                c:IsSetCard(0xdd)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local zone = e:GetHandler():GetLinkedZone(tp) & 0x1f
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and

@@ -691,7 +691,7 @@ id = 910000100
 name = "Millennium Memory"
 type = "spell quick-play"
 effect = """\
-Activate 1 of the following effects.
+Activate 1 of these effects.
 ● Look at the top 5 cards of your Deck, \
     then you can reveal 1 "Palladium" card, and add it to your hand, \
     also place the remaining cards on top of your Deck in any order.
@@ -718,7 +718,7 @@ name = "Forbidden Art of Palladium"
 type = "spell ritual"
 effect = """\
 (This card's name is always treated as "Polymerization" and it is "Palladium" card.)
-This card can be used to Ritual Summon any "Palladium" Ritual Monster. Activate 1 of the following effects.
+This card can be used to Ritual Summon any "Palladium" Ritual Monster. Activate 1 of these effects.
 ● Ritual Summon 1 "Palladium" Ritual Monster from your hand or Deck, \
     by Tributing monsters from your hand or field, \
     whose total Levels equal or exceed the Level of the Ritual Monster.
@@ -738,13 +738,12 @@ name = "Palladium Fusion Control"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "De-Fusion" and it is "Palladium" card.)
-This card's activation and effect cannot be negated. \
 Target 1 Fusion Monster on the field; \
     return it to the Extra Deck, \
     then, if all the Fusion Materials that were used for its Fusion Summon are banished and/or are in your hand, Deck, GY, \
     you can Special Summon as many of them. \
 You can discard this card from your hand; \
-    This turn, the activation of your cards and effects that include an effect that Fusion Summons a Fusion Monster cannot be negated, \
+    this turn, the activation of your cards and effects that include an effect that Fusion Summons a Fusion Monster cannot be negated, \
     also your opponent cannot activate cards or effects when a monster is Fusion Summoned this way. \
     You can only use this effect of "Palladium Fusion Control" once per turn. \
 """

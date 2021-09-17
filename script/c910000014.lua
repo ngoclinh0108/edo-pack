@@ -58,7 +58,7 @@ function s.e2filter(c)
                c:IsAbleToHand()
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 1,

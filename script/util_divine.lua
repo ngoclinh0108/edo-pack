@@ -95,7 +95,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         local tc = te:GetHandler()
         if tc == c or Divine.GetDivineHierarchy(tc) >=
             Divine.GetDivineHierarchy(c) then return false end
-            
+
         return te:IsActiveType(TYPE_MONSTER) or
                    te:IsHasCategory(
                        CATEGORY_TOHAND + CATEGORY_DESTROY + CATEGORY_REMOVE +
@@ -296,7 +296,10 @@ function Divine.RegisterRaDefuse(s, id, c)
                 ec1:SetCode(tc:GetActivateEffect():GetCode())
                 ec1:SetProperty(tc:GetActivateEffect():GetProperty() +
                                     EFFECT_FLAG_DAMAGE_STEP +
-                                    EFFECT_FLAG_IGNORE_IMMUNE)
+                                    EFFECT_FLAG_IGNORE_IMMUNE +
+                                    EFFECT_FLAG_CANNOT_DISABLE +
+                                    EFFECT_FLAG_CANNOT_INACTIVATE +
+                                    EFFECT_FLAG_CANNOT_NEGATE)
                 ec1:SetHintTiming(TIMING_DAMAGE_STEP,
                                   TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
                 ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
