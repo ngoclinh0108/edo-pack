@@ -3,11 +3,12 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.counter_place_list = {COUNTER_SPELL}
+local MAX_COUNTER = 3
 
 function s.initial_effect(c)
     c:SetUniqueOnField(1, 0, id)
     c:EnableCounterPermit(COUNTER_SPELL)
-    c:SetCounterLimit(COUNTER_SPELL, 3)
+    c:SetCounterLimit(COUNTER_SPELL, MAX_COUNTER)
 
     -- activate
     local e1 = Effect.CreateEffect(c)
@@ -31,7 +32,10 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_SZONE)
     e2:SetCountLimit(1)
     e2:SetCode(EVENT_PHASE + PHASE_END)
-    e2:SetCondition(function(e, tp) return Duel.GetTurnPlayer() == 1 - tp end)
+    e2:SetCondition(function(e, tp)
+        return Duel.GetTurnPlayer() == 1 - tp and
+                   e:GetHandler():GetCounter(COUNTER_SPELL) < MAX_COUNTER
+    end)
     e2:SetOperation(function(e) e:GetHandler():AddCounter(COUNTER_SPELL, 1) end)
     c:RegisterEffect(e2)
 
