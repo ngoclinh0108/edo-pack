@@ -606,7 +606,7 @@ This card's effect cannot be negated. \
 """
 strings = ["Banish Spells/Traps to gain ATK"]
 
-[card.dark-flare-knight-of-palladium]
+[card.dark-flare-knight-palladium]
 id = 910000025
 set = "palladium"
 name = "Dark Flare Knight of Palladium"
@@ -852,8 +852,17 @@ strings = [
     "Select number of token",
 ]
 
-[card.palladium-binding-circle]
+[card.ragnarok-palladium]
 id = 910000108
+set = "palladium"
+name = "Ragnarok of Palladium"
+type = "spell quick-play"
+effect = """\
+"""
+strings = []
+
+[card.palladium-binding-circle]
+id = 910000109
 set = "palladium"
 name = "Palladium Binding Circle"
 type = "trap"
@@ -871,7 +880,7 @@ If this card is in your GY: \
 strings = []
 
 [card.palladium-mirror-force]
-id = 910000109
+id = 910000110
 set = "palladium"
 name = "Palladium Mirror Force"
 type = "trap counter"
@@ -888,7 +897,7 @@ If this Set card is destroyed by your opponent's card effect and sent to your GY
 strings = []
 
 [card.palladium-shattering-arrow]
-id = 910000110
+id = 910000111
 set = "palladium"
 name = "Palladium Shattering Arrow"
 type = "trap counter"
