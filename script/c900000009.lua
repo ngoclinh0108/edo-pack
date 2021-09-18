@@ -249,6 +249,7 @@ function s.e5raop(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetHintTiming(TIMING_DAMAGE_STEP,
                       TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
     ec2:SetCountLimit(1)
+    ec2:SetCondition(s.e5lpcon)
     ec2:SetCost(s.e5lpcost)
     ec2:SetTarget(s.e5lptg)
     ec2:SetOperation(s.e5lpop)
@@ -272,6 +273,8 @@ function s.e5raop(e, tp, eg, ep, ev, re, r, rp)
         rc:RegisterEffect(ec3, true)
     end
 end
+
+function s.e5lpcon(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end
 
 function s.e5lpcost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetLP(tp) > 100 end
