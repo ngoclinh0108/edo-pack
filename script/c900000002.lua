@@ -60,10 +60,7 @@ end
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = eg:Filter(s.e3filter, nil, nil, tp)
-    if chk == 0 then
-        return c:IsAttackPos() and c:CanAttack() and
-                   eg:Filter(s.e3filter, nil, nil, tp)
-    end
+    if chk == 0 then return c:IsAttackPos() and c:CanAttack() and #g > 0 end
 
     Duel.SetTargetCard(g)
     Duel.SetChainLimit(function(e) return not eg:IsContains(e:GetHandler()) end)

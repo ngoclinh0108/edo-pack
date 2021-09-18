@@ -1,9 +1,9 @@
--- Emissary of the Sun Divine Beast
+-- Emissary of the Divine Beasts
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
-s.listed_names = {95286165, CARD_RA}
+s.listed_names = {10000000, 79868386, 10000020, 42469671, CARD_RA, 95286165}
 
 function s.initial_effect(c)
     -- link summon
@@ -49,33 +49,31 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_CANNOT_ATTACK)
-    Divine.RegisterEffect(c, e2)
+    c:RegisterEffect(e2)
 
-    -- extra summon
+    -- triple tribute
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
-    e3:SetTarget(aux.TargetBoolFunction(Card.IsRace, RACE_DIVINE))
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
+    e3:SetCode(EFFECT_TRIPLE_TRIBUTE)
+    e3:SetValue(function(e, c) return c:IsRace(RACE_DIVINE) end)
     c:RegisterEffect(e3)
 
-    -- search
+    -- extra summon
     local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e4:SetProperty(EFFECT_FLAG_DELAY)
-    e4:SetCode(EVENT_TO_GRAVE)
-    e4:SetCountLimit(1, id)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
+    e4:SetTarget(aux.TargetBoolFunction(Card.IsRace, RACE_DIVINE))
     c:RegisterEffect(e4)
 
     -- gain effect
     local e5 = Effect.CreateEffect(c)
     e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e5:SetCode(EVENT_BE_PRE_MATERIAL)
+    e5:SetCountLimit(1, id)
     e5:SetCondition(s.e5regcon)
     e5:SetOperation(s.e5regop)
     c:RegisterEffect(e5)
@@ -83,21 +81,18 @@ function s.initial_effect(c)
     Divine.RegisterRaDefuse(s, id, c)
 end
 
-function s.e1filter(c) return c:GetTextAttack() > 0 end
-
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():GetSummonType() == SUMMON_TYPE_LINK
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE,
-                                     LOCATION_GRAVE, 1, nil, e, tp)
+        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_GRAVE, 0, 1, nil, e,
+                                     tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, 2,
-                      nil, e, tp)
+    Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_GRAVE, 0, 1, 3, nil, e, tp)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -106,96 +101,176 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                    Card.IsRelateToEffect, nil, e)
     if #tg == 0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
-    for tc in aux.Next(tg) do
-        if tc:GetTextAttack() > 0 then
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetCode(EFFECT_UPDATE_ATTACK)
-            ec1:SetValue(tc:GetTextAttack())
-            ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE +
-                             PHASE_END)
-            c:RegisterEffect(ec1)
-        end
-    end
-
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetDescription(aux.Stringid(id, #tg))
-    ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-    ec2:SetCode(#tg == 1 and EFFECT_DOUBLE_TRIBUTE or EFFECT_TRIPLE_TRIBUTE)
-    ec2:SetValue(aux.TargetBoolFunction(Card.IsRace, RACE_DIVINE))
-    ec2:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec2)
-end
-
-function s.e4filter(c) return c:IsCode(95286165) and c:IsAbleToHand() end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e4filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
-end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp,
-                                         aux.NecroValleyFilter(s.e4filter), tp,
-                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                         1, nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
-    end
+    local atk = tg:GetSum(Card.GetAttack)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(atk)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end
 
 function s.e5regcon(e, tp, eg, ep, ev, re, r, rp)
     local rc = e:GetHandler():GetReasonCard()
-    return r == REASON_SUMMON and rc:IsFaceup() and rc:IsCode(CARD_RA)
+    return r == REASON_SUMMON and rc:IsFaceup()
 end
 
 function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
 
+    if rc:IsCode(10000000) then s.e5obeliskop(e, tp, eg, ep, ev, re, r, rp) end
+    if rc:IsCode(10000020) then s.e5osirisop(e, tp, eg, ep, ev, re, r, rp) end
+    if rc:IsCode(CARD_RA) then s.e5raop(e, tp, eg, ep, ev, re, r, rp) end
+end
+
+function s.e5obeliskop(e, tp, eg, ep, ev, re, r, rp)
+    local rc = e:GetHandler():GetReasonCard()
+    local ec1 = Effect.CreateEffect(rc)
+    ec1:SetDescription(aux.Stringid(id, 2))
+    ec1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    ec1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_UNCOPYABLE)
+    ec1:SetCode(EVENT_SUMMON_SUCCESS)
+    ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then
+            return not Utility.IsOwnAny(Card.IsCode, tp, 79868386) or
+                       Duel.IsExistingMatchingCard(function(c)
+                    return c:IsCode(79868386) and c:IsAbleToHand()
+                end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+        end
+        Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                              LOCATION_DECK + LOCATION_GRAVE)
+    end)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local tc
+        if not Utility.IsOwnAny(Card.IsCode, tp, 79868386) then
+            tc = Duel.CreateToken(tp, 79868386)
+        else
+            tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, function(c)
+                return c:IsCode(79868386) and c:IsAbleToHand()
+            end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
+        end
+
+        if tc then
+            Duel.SendtoHand(tc, nil, REASON_EFFECT)
+            Duel.ConfirmCards(1 - tp, tc)
+        end
+    end)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(ec1, true)
+end
+
+function s.e5osirisop(e, tp, eg, ep, ev, re, r, rp)
+    local rc = e:GetHandler():GetReasonCard()
+    local ec1 = Effect.CreateEffect(rc)
+    ec1:SetDescription(aux.Stringid(id, 3))
+    ec1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    ec1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_UNCOPYABLE)
+    ec1:SetCode(EVENT_SUMMON_SUCCESS)
+    ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then
+            return not Utility.IsOwnAny(Card.IsCode, tp, 42469671) or
+                       Duel.IsExistingMatchingCard(function(c)
+                    return c:IsCode(42469671) and c:IsAbleToHand()
+                end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+        end
+        Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                              LOCATION_DECK + LOCATION_GRAVE)
+    end)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local tc
+        if not Utility.IsOwnAny(Card.IsCode, tp, 42469671) then
+            tc = Duel.CreateToken(tp, 42469671)
+        else
+            tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, function(c)
+                return c:IsCode(42469671) and c:IsAbleToHand()
+            end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
+        end
+
+        if tc then
+            Duel.SendtoHand(tc, nil, REASON_EFFECT)
+            Duel.ConfirmCards(1 - tp, tc)
+        end
+    end)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(ec1, true)
+end
+
+function s.e5raop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local rc = c:GetReasonCard()
     rc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD,
-                          EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 3))
+                          EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 1))
+
+    -- search
+    local ec1 = Effect.CreateEffect(rc)
+    ec1:SetDescription(aux.Stringid(id, 4))
+    ec1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    ec1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_UNCOPYABLE)
+    ec1:SetCode(EVENT_SUMMON_SUCCESS)
+    ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        if chk == 0 then
+            return not Utility.IsOwnAny(Card.IsCode, tp, 95286165) or
+                       Duel.IsExistingMatchingCard(function(c)
+                    return c:IsCode(95286165) and c:IsAbleToHand()
+                end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+        end
+        Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                              LOCATION_DECK + LOCATION_GRAVE)
+    end)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local tc
+        if not Utility.IsOwnAny(Card.IsCode, tp, 95286165) then
+            tc = Duel.CreateToken(tp, 95286165)
+        else
+            tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, function(c)
+                return c:IsCode(95286165) and c:IsAbleToHand()
+            end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
+        end
+
+        if tc then
+            Duel.SendtoHand(tc, nil, REASON_EFFECT)
+            Duel.ConfirmCards(1 - tp, tc)
+        end
+    end)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(ec1, true)
 
     -- life point transfer
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 4))
-    ec1:SetType(EFFECT_TYPE_QUICK_O)
-    ec1:SetProperty(EFFECT_FLAG_NO_TURN_RESET + EFFECT_FLAG_DAMAGE_STEP +
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 5))
+    ec2:SetType(EFFECT_TYPE_QUICK_O)
+    ec2:SetProperty(EFFECT_FLAG_NO_TURN_RESET + EFFECT_FLAG_DAMAGE_STEP +
                         EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE)
-    ec1:SetCode(EVENT_FREE_CHAIN)
-    ec1:SetRange(LOCATION_MZONE)
-    ec1:SetHintTiming(TIMING_DAMAGE_STEP,
+    ec2:SetCode(EVENT_FREE_CHAIN)
+    ec2:SetRange(LOCATION_MZONE)
+    ec2:SetHintTiming(TIMING_DAMAGE_STEP,
                       TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
-    ec1:SetCountLimit(1)
-    ec1:SetCost(s.e5lpcost)
-    ec1:SetTarget(s.e5lptg)
-    ec1:SetOperation(s.e5lpop)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    rc:RegisterEffect(ec1)
+    ec2:SetCountLimit(1)
+    ec2:SetCost(s.e5lpcost)
+    ec2:SetTarget(s.e5lptg)
+    ec2:SetOperation(s.e5lpop)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(ec2, true)
     Divine.RegisterRaFuse(id, c, rc, true)
 
     if not rc:IsOriginalCode(CARD_RA) then
         -- destroy
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetDescription(1100)
-        ec2:SetCategory(CATEGORY_DESTROY)
-        ec2:SetType(EFFECT_TYPE_IGNITION)
-        ec2:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_IGNORE_IMMUNE +
+        local ec3 = Effect.CreateEffect(c)
+        ec3:SetDescription(1100)
+        ec3:SetCategory(CATEGORY_DESTROY)
+        ec3:SetType(EFFECT_TYPE_IGNITION)
+        ec3:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_IGNORE_IMMUNE +
                             EFFECT_FLAG_UNCOPYABLE)
-        ec2:SetRange(LOCATION_MZONE)
-        ec2:SetCost(s.e5descost)
-        ec2:SetTarget(s.e5destg)
-        ec2:SetOperation(s.e5desop)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-        rc:RegisterEffect(ec2)
+        ec3:SetRange(LOCATION_MZONE)
+        ec3:SetCost(s.e5descost)
+        ec3:SetTarget(s.e5destg)
+        ec3:SetOperation(s.e5desop)
+        ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
+        rc:RegisterEffect(ec3, true)
     end
 end
 
@@ -220,15 +295,15 @@ function s.e5lpop(e, tp, eg, ep, ev, re, r, rp)
         c:GetBaseAttack() + e:GetLabel(), c:GetBaseDefense() + e:GetLabel()
     }
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 4))
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE +
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 5))
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE +
                         EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(id)
-    ec1:SetLabelObject(label)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    c:RegisterEffect(ec1)
+    ec2:SetCode(id)
+    ec2:SetLabelObject(label)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec2)
 end
 
 function s.e5descost(e, tp, eg, ep, ev, re, r, rp, chk)

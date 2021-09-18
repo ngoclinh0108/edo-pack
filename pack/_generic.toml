@@ -239,46 +239,55 @@ strings = [
     "Affected by effect \"Wicked God Avatar\": cannot activate Spell/Trap Cards",
 ]
 
-[card.emissary-sun-divine-beast]
+[card.emissary-divine-beast]
 id = 900000009
-name = "Emissary of the Sun Divine Beast"
+name = "Emissary of the Divine Beasts"
 type = "monster link effect"
 attribute = "light"
 race = "fairy"
 link-rating = 1
 link-arrows = "bottom"
-atk = 1000
+atk = 0
 effect = """\
 1 monster, except a Token
 This card's Link Summon cannot be negated. \
 When Link Summoned, your opponent cannot activate cards or effects. \
 If this card is Link Summoned: \
-    You can target up to 2 monsters in either GY; \
-    this turn, this card gains ATK equal to the combined original ATK of those monsters, \
-    and for each target, this card is treated as 1 additional Tribute for the Tribute Summon of a Divine-Beast monster. \
+    You can target up to 3 monsters in your GY; \
+    this turn, this card gains ATK equal to the combined ATK of those monsters. \
 Cannot attack. \
+This card can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster. \
+    This effect cannot be negated. \
 During your Main Phase, you can Normal Summon 1 Divine-Beast monster in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
-If this card is sent to the GY: You can add 1 "De-Fusion" from your Deck or GY to your hand. \
-    You can only use this effect of "Emissary of the Sun Divine Beast" once per turn. \
-"The Winged Dragon of Ra" that Tribute Summoned by Tributing this card \
-    gains the following effects, these effects cannot be copied.
-● Once while face-up on the field (Quick Effect): \
+You can only use the following effect of "Emissary of the Divine Beasts" once per turn.
+● "Obelisk the Tormentor" that Tribute Summoned by Tributing this card \
+    gains the following effects; If this card is Normal Summoned: You can add 1 "Fist of Fate" to your hand, \
+    from your Deck, GY or Outside (if you do not own any.)
+● "Slifer the Sky Dragon" that Tribute Summoned by Tributing this card \
+    gains the following effects; If this card is Normal Summoned: You can add 1 "Thunderforce Attack" to your hand, \
+    from your Deck, GY or Outside (if you do not own any.)
+● "The Winged Dragon of Ra" that Tribute Summoned by Tributing this card \
+    gains the following effects, these effects cannot be copied;
+    ○ If this card is Normal Summoned: You can add 1 "De-Fusion" to your hand, \
+    from your Deck, GY or Outside (if you do not own any.)
+    ○ Once while face-up on the field (Quick Effect): \
     You can pay LP so that you only have 100 left; \
     this card become Fusion Monster and it gains original ATK/DEF become equal to the amount of LP paid, \
     and also, any increase in LP is changed to increase it's original ATK/DEF instead. \
     Cards and effects cannot be activated in response to this effect's activation.
-● If "De-Fusion" targets this Fusion Monster, apply \
+    ○ If "De-Fusion" targets this Fusion Monster, apply \
     "that target loses its above effects and its ATK/DEF become 0, \
     and if you do, its controller gains LP equal to that lost ATK" instead of. \
     This effect's activation and effect cannot be negated.
-● You can pay 1000 LP, then target 1 monster on the field; destroy that target.
+    ○ You can pay 1000 LP, then target 1 monster on the field; destroy that target.
 """
 strings = [
-    "Summon via \"Emissary of the Sun Divine Beast\"",
-    "Can be treated as 2 Tributes for the Tribute Summon of a Divine-Beast monster",
-    "Can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster",
-    "Summoned using \"Emissary of the Sun Divine Beast\"",
+    "Summon via \"Emissary of the Divine Beasts\"",
+    "Summoned using \"Emissary of the Divine Beasts\"",
+    "Search \"Fist of Fate\"",
+    "Search \"Thunderforce Attack\"",
+    "Search \"De-Fusion\"",
     "Life Point Transfer",
 ]
 
