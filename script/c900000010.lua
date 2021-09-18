@@ -76,6 +76,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not tc:IsCode(ac) or not tc:IsAbleToHand() then
         Duel.DisableShuffleCheck()
         Duel.SendtoGrave(tc, REASON_EFFECT + REASON_REVEAL)
+        return
     end
 
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
