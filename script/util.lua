@@ -169,6 +169,19 @@ function Utility.GroupSelect(hintmsg, g, tp, min, max, ex)
     return g
 end
 
+function Utility.GroupFilterSelect(hintmsg, g, tp, f, min, max, ex, ...)
+    g = g:Filter(f, ex, ...)
+    if hintmsg == nil then hintmsg = HINTMSG_SELECT end
+    if #g < min then return Group.CreateGroup() end
+    if not max then max = min end
+
+    if #g > min then
+        Duel.Hint(HINT_SELECTMSG, tp, hintmsg)
+        g = g:Select(tp, min, max, ex)
+    end
+    return g
+end
+
 function Utility.SelectMatchingCard(hintmsg, sel_player, f, player, s, o, min,
                                     max, ex, ...)
     return Utility.GroupSelect(hintmsg,
@@ -257,7 +270,9 @@ function Utility.GainInfinityAtk(c, reset)
     e2:SetCode(EVENT_PRE_BATTLE_DAMAGE)
     e2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return ep ~= tp end)
     e2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Duel.ChangeBattleDamage(ep, Duel.GetLP(ep))
+        local dmg = 999999
+        if Duel.GetLP(ep) > dmg then dmg = Duel.GetLP(ep) end
+        Duel.ChangeBattleDamage(ep, dmg)
     end)
     if reset then e2:SetReset(reset) end
     c:RegisterEffect(e2)

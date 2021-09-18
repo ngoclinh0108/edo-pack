@@ -255,9 +255,8 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
-    local tc = Duel.SelectMatchingCard(tp, Card.IsFaceup, tp, LOCATION_MZONE, 0,
-                                       1, 1, nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, Card.IsFaceup, tp,
+                                          LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
     if not tc or Duel.GetLocationCount(tp, LOCATION_MZONE) < 1 then return end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOZONE)

@@ -91,7 +91,6 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
     local tc = Utility.SelectMatchingCard(HINTMSG_SUMMON, tp, s.e3filter, tp,
                                           LOCATION_HAND + LOCATION_MZONE, 0, 1,
                                           1, nil):GetFirst()

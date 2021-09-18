@@ -90,9 +90,8 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
-    local tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_DECK, 0, 1,
-                                       1, nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e3filter, tp,
+                                          LOCATION_DECK, 0, 1, 1, nil):GetFirst()
     if not tc then return end
 
     if Duel.SendtoGrave(tc, REASON_EFFECT) ~= 0 and

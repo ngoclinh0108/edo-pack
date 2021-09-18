@@ -109,10 +109,10 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter), tp,
-                                      LOCATION_GRAVE + LOCATION_REMOVED, 0, 1,
-                                      1, nil, e, tp)
+    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
+                                         aux.NecroValleyFilter(s.e2filter), tp,
+                                         LOCATION_GRAVE + LOCATION_REMOVED, 0,
+                                         1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
