@@ -33,8 +33,10 @@ end
 
 function s.e1filter(c, ft, e, tp)
     if not c:IsMonster() then return false end
+    local check = c:IsRace(RACE_DIVINE) and c:IsSummonableCard()
+
     return (ft > 0 and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)) or
+               c:IsCanBeSpecialSummoned(e, 0, tp, check, false, POS_FACEUP)) or
                (c:IsAbleToHand() and c:GetOwner() == tp)
 end
 
@@ -58,14 +60,37 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
-    aux.ToHandOrElse(tc, tp, function(c)
-        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+    aux.ToHandOrElse(tc, tp, function(tc)
+        local check = tc:IsRace(RACE_DIVINE) and tc:IsSummonableCard()
+        return tc:IsCanBeSpecialSummoned(e, 0, tp, check, false, POS_FACEUP) and
                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end, function(g)
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    end, function(tc)
+        local check = tc:IsRace(RACE_DIVINE) and tc:IsSummonableCard()
+        if Duel.SpecialSummon(tc, 0, tp, tp, check, false, POS_FACEUP) ~= 0 and
+            check then
+            tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD +
+                                      RESET_PHASE + PHASE_END, 0, 1)
+
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetDescription(574)
+            ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+            ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+            ec1:SetCode(EVENT_PHASE + PHASE_END)
+            ec1:SetCountLimit(1)
+            ec1:SetLabelObject(tc)
+            ec1:SetCondition(function(e)
+                return e:GetLabelObject():GetFlagEffect(id) ~= 0
+            end)
+            ec1:SetOperation(function(e)
+                Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT)
+            end)
+            ec1:SetReset(RESET_PHASE + PHASE_END)
+            Duel.RegisterEffect(ec1, tp)
+        end
     end, 2)
 end
 

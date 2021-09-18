@@ -86,9 +86,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if #g > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         g = Utility.GroupSelect(HINTMSG_ATOHAND, g, tp, 1, 1, nil)
-        aux.ToHandOrElse(g, tp, function(c)
+        aux.ToHandOrElse(g, tp, function(tc)
             return
-                c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+                tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
                     Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
         end, function(g)
             Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)

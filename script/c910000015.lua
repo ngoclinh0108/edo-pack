@@ -102,10 +102,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCode(EVENT_PHASE + PHASE_END)
     ec1:SetCountLimit(1)
     ec1:SetLabelObject(tc)
-    ec1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+    ec1:SetCondition(function(e)
         return e:GetLabelObject():GetFlagEffect(id) ~= 0
     end)
-    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    ec1:SetOperation(function(e)
         Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT)
     end)
     ec1:SetReset(RESET_PHASE + PHASE_END)
@@ -148,7 +148,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                          LOCATION_REMOVED, 0, 1, 1, nil)
     if #g == 0 then return end
 
-    aux.ToHandOrElse(g, tp, function(c)
-        return c:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
+    aux.ToHandOrElse(g, tp, function(tc)
+        return tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
     end, function(g) Duel.SSet(tp, g) end, HINTMSG_SET)
 end
