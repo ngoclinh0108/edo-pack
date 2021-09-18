@@ -8,14 +8,6 @@ s.listed_series = {0x13a}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(aux.ritlimit)
-    c:RegisterEffect(splimit)
-
     -- special summon procedure
     local sp = Effect.CreateEffect(c)
     sp:SetType(EFFECT_TYPE_FIELD)
