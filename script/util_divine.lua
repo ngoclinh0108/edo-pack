@@ -175,8 +175,12 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 
         local b1 = ac and bc and ac:CanAttack() and bc:IsControler(tp) and
                        not ac:IsImmuneToEffect(e)
-        local b2 = te and te:IsHasProperty(EFFECT_FLAG_CARD_TARGET) and tg and
-                       #tg == 1 and te ~= re
+        local b2 =
+            te and te ~= re and te:IsHasProperty(EFFECT_FLAG_CARD_TARGET) and tg and
+                #tg == 1 and tg:IsExists(
+                function(c, tp)
+                    return c:IsMonster() and c:IsControler(tp)
+                end, 1, nil, tp)
         if not (b1 or b2) then return end
         if not Duel.SelectYesNo(tp, 666003) then return end
 
