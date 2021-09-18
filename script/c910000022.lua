@@ -146,7 +146,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2matval(e, c)
-    if c:GetMaterial():IsExists(Card.IsCode, 1, nil, CARD_BLUEEYES_W_DRAGON) then
+    if c:GetMaterial():IsExists(Card.IsType, 1, nil, TYPE_NORMAL) then
         c:RegisterFlagEffect(id, RESET_EVENT | RESETS_STANDARD &
                                  ~(RESET_TOFIELD | RESET_TEMP_REMOVE |
                                      RESET_LEAVE), EFFECT_FLAG_CLIENT_HINT, 1,
@@ -181,18 +181,13 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local rc = re:GetHandler()
-    if Duel.NegateActivation(ev) and rc:IsRelateToEffect(re) then
-        Duel.Destroy(eg, REASON_EFFECT)
-    end
-
-    if rc:IsMonster() and c:IsRelateToEffect(e) and c:IsFaceup() then
-        local atk = rc:GetTextAttack()
-        if atk < 0 then atk = 0 end
+    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) and
+        Duel.Destroy(eg, REASON_EFFECT) ~= 0 and c:IsRelateToEffect(e) and
+        c:IsFaceup() then
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_UPDATE_ATTACK)
-        ec1:SetValue(atk)
+        ec1:SetValue(1000)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
         c:RegisterEffect(ec1)
     end
