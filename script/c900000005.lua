@@ -81,6 +81,7 @@ function s.initial_effect(c)
     e6:SetDescription(aux.Stringid(id, 4))
     e6:SetCategory(CATEGORY_TOGRAVE)
     e6:SetType(EFFECT_TYPE_QUICK_O)
+    e6:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e6:SetCode(EVENT_FREE_CHAIN)
     e6:SetRange(LOCATION_MZONE)
     e6:SetHintTiming(TIMING_END_PHASE)
@@ -106,7 +107,7 @@ function s.dmsfilter(c, check_flag)
     if check_flag and c:GetFlagEffect(id) == 0 then return false end
     return Dimension.CanBeDimensionMaterial(c) and c:IsCode(CARD_RA) and
                c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-               c:IsSummonLocation(LOCATION_GRAVE)
+               c:IsSummonLocation(LOCATION_GRAVE) and c:IsAttackPos()
 end
 
 function s.dmsregop(e, tp, eg, ep, ev, re, r, rp)
@@ -210,7 +211,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         Divine.RegisterEffect(mc, ec4, true)
     else
         local divine_evolution = Divine.IsDivineEvolution(mc)
-        Dimension.Change(mc, c, tp, tp, mc:GetPosition())
+        Dimension.Change(mc, c, tp, tp)
         if divine_evolution then Divine.DivineEvolution(c) end
     end
 end
@@ -228,9 +229,9 @@ function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                                LOCATION_MZONE, 1, c)
     end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, aux.TRUE, tp,
-                                         LOCATION_MZONE, LOCATION_MZONE, 1, 1, c)
-    Duel.HintSelection(g)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
+    local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE,
+                                      LOCATION_MZONE, 1, 1, c)
     Duel.SetTargetCard(g)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
@@ -270,7 +271,7 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     if #sg > 0 then
         local sc = sg:GetFirst()
         local divine_evolution = Divine.IsDivineEvolution(c)
-        Dimension.Change(c, sc, tp, tp, c:GetPosition(), c:GetMaterial())
+        Dimension.Change(c, sc, tp, tp, c:GetMaterial())
         if divine_evolution then Divine.DivineEvolution(sc) end
     else
         Duel.SendtoGrave(c, REASON_EFFECT)

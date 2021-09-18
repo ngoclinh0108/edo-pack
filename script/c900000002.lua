@@ -39,11 +39,8 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     Divine.RegisterEffect(c, e3)
     local e3b = e3:Clone()
-    e3b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    e3b:SetCode(EVENT_SPSUMMON_SUCCESS)
     Divine.RegisterEffect(c, e3b)
-    local e3c = e3:Clone()
-    e3c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    Divine.RegisterEffect(c, e3c)
 end
 
 function s.e2val(e, c)

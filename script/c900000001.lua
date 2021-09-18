@@ -93,7 +93,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec1:SetReset(RESET_CHAIN)
     Duel.RegisterEffect(ec1, tp)
-
     Duel.CalculateDamage(c, nil)
 end
 
@@ -132,4 +131,11 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     Divine.RegisterEffect(c, ec1)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsFacedown() or c:IsAttackPos() then return end
+
+    Debug.Message("OK")
 end

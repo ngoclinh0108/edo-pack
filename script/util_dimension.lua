@@ -98,9 +98,13 @@ end
 
 function Dimension.IsInDimensionZone(c) return c:GetLocation() == 0 end
 
-function Dimension.IsAbleToDimension(c) return c:GetLocation() ~= 0 end
+function Dimension.IsAbleToDimension(c)
+    return c:GetLocation() ~= 0 and c:IsFaceup()
+end
 
-function Dimension.CanBeDimensionMaterial(c) return c:GetLocation() ~= 0 end
+function Dimension.CanBeDimensionMaterial(c)
+    return c:GetLocation() ~= 0 and c:IsFaceup()
+end
 
 function Dimension.CanBeDimensionChanged(c) return c:GetLocation() == 0 end
 
@@ -111,11 +115,11 @@ function Dimension.CanBeDimensionSummoned(c, e, sumplayer, nocheck, nolimit)
                                     nolimit)
 end
 
-function Dimension.Change(mc, sc, sumplayer, target_player, pos, mg)
-    if not pos then pos = POS_FACEUP end
+function Dimension.Change(mc, sc, sumplayer, target_player, mg)
     local sumtype = mc:GetSummonType()
     local sumloc = mc:GetSummonLocation()
     local seq = mc:GetSequence()
+    local pos = mc:IsAttackPos() and POS_FACEUP_ATTACK or POS_FACEUP_DEFENSE
 
     if mg then
         sc:SetMaterial(mg)

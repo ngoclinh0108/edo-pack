@@ -95,12 +95,10 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         local tc = te:GetHandler()
         if tc == c or Divine.GetDivineHierarchy(tc) >=
             Divine.GetDivineHierarchy(c) then return false end
-
-        return te:IsActiveType(TYPE_MONSTER) or
-                   te:IsHasCategory(
-                       CATEGORY_TOHAND + CATEGORY_DESTROY + CATEGORY_REMOVE +
-                           CATEGORY_TODECK + CATEGORY_RELEASE + CATEGORY_TOGRAVE +
-                           CATEGORY_FUSION_SUMMON)
+        return te:IsHasCategory(CATEGORY_TOHAND + CATEGORY_DESTROY +
+                                    CATEGORY_REMOVE + CATEGORY_TODECK +
+                                    CATEGORY_RELEASE + CATEGORY_TOGRAVE +
+                                    CATEGORY_FUSION_SUMMON)
     end)
     Divine.RegisterEffect(c, immunity)
     local noleave = Effect.CreateEffect(c)
@@ -113,7 +111,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         if chk == 0 then
             return
                 c:IsReason(REASON_EFFECT) and r & REASON_EFFECT ~= 0 and re and
-                    re:IsActiveType(TYPE_SPELL + TYPE_TRAP) and
+                    re:GetHandler() ~= c and
                     Divine.GetDivineHierarchy(re:GetHandler()) <
                     Divine.GetDivineHierarchy(c)
         end
@@ -162,6 +160,32 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     end)
     Divine.RegisterEffect(c, reset)
 
+    -- switch target
+    local switchtarget = Effect.CreateEffect(c)
+    switchtarget:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    switchtarget:SetCode(EVENT_SPSUMMON_SUCCESS)
+    switchtarget:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if c:IsFacedown() or c:IsAttackPos() then return end
+
+        local ac = Duel.GetAttacker()
+        local bc = Duel.GetAttackTarget()
+        local te, tg = Duel.GetChainInfo(ev + 1, CHAININFO_TRIGGERING_EFFECT,
+                                         CHAININFO_TARGET_CARDS)
+
+        local b1 = ac and bc and ac:CanAttack() and bc:IsControler(tp) and
+                       not ac:IsImmuneToEffect(e)
+        local b2 = te and te:IsHasProperty(EFFECT_FLAG_CARD_TARGET) and tg and
+                       #tg == 1 and te ~= re
+        if not (b1 or b2) then return end
+        if not Duel.SelectYesNo(tp, 666003) then return end
+
+        Utility.HintCard(c)
+        if b1 then Duel.ChangeAttackTarget(c) end
+        if b2 then Duel.ChangeTargetCard(ev + 1, Group.FromCards(c)) end
+    end)
+    c:RegisterEffect(switchtarget)
+
     if limit then
         -- cannot attack when special summoned from the grave
         local spnoattack = Effect.CreateEffect(c)
@@ -185,7 +209,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 
         -- return
         local returnend = Effect.CreateEffect(c)
-        returnend:SetDescription(666003)
+        returnend:SetDescription(666004)
         returnend:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         returnend:SetCode(EVENT_PHASE + PHASE_END)
         returnend:SetRange(LOCATION_MZONE)
@@ -219,7 +243,7 @@ end
 
 function Divine.DivineEvolution(c)
     c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION, RESET_EVENT + RESETS_STANDARD,
-                         EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
+                         EFFECT_FLAG_CLIENT_HINT, 1, 0, 666005)
 end
 
 function Divine.IsDivineEvolution(c)
@@ -298,7 +322,7 @@ function Divine.RegisterRaDefuse(s, id, c)
             for tc in aux.Next(g) do
                 tc:RegisterFlagEffect(id, 0, 0, 0)
                 local ec1 = Effect.CreateEffect(tc)
-                ec1:SetDescription(666005)
+                ec1:SetDescription(666006)
                 ec1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE +
                                     CATEGORY_RECOVER)
                 ec1:SetType(EFFECT_TYPE_ACTIVATE)

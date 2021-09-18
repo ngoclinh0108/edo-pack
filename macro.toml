@@ -8,12 +8,15 @@ This card's Normal Summon cannot be negated.\
 """
 EGYPTIAN_EFFECT = """\
 This card's activation and effect cannot be negated or copied. \
-Control of this card cannot switch. \
-Cannot be Tributed, or be used as a material for an Summon by your opponent or by card effects. \
-Its battle position cannot be changed by card effects. \
-Unaffected by Spell/Trap effects that would make it leave the field and other monster effects, \
+Control of it cannot switch. \
+Cannot be Tributed, or be used as a material for an Summon by your opponent or card effects. \
+Cannot be change battle position with card effects. \
+Unaffected by other cards' effects that would make it leave the field, \
     except card with the same or higher Divine Hierarchy. \
-Other cards' effects are only applied on it for 1 turn.\
+Other cards' effects are only applied on it for 1 turn. \
+When it is Special Summoned in Defense Position \
+    while your opponent targets exactly 1 monster you control \
+    for attack or with card effects, you can switch the target to this card.\
 """
 EGYPTIAN_LIMIT = """\
 Cannot attack the turn it is Special Summoned from the GY, and sent it to the GY during the End Phase.\

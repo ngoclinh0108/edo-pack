@@ -24,13 +24,14 @@ ${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
-This card is also Warrior-Type while on the field. \
-Once per turn, during your Main Phase or your opponent's Battle Phase, while this card is able to attack (Quick Effect): \
+This card is also Warrior-Type while it is on the field. \
+Once per turn, during your Main Phase or your opponent's Battle Phase, \
+    while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; inflict this card's ATK to your opponent as battle damage, \
-    and if you do, destroy all monsters your opponent controls. \
-    This card must be face-up on the field to activate and to resolve this effect. \
+    and destroy all monsters your opponent controls. \
+    This card must be face-up Attack Position on the field to activate and to resolve this effect. \
     This card cannot declare an attack the turn this effect is activated. \
-Once per turn, while the total of monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
+Once per turn, while the total monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
     You can Tribute 2 other monsters; \
     once this turn, if this card battles, \
     it gain ∞ ATK during damage calculation only. \
@@ -52,14 +53,15 @@ ${HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
-This card is also Dragon-Type while on the field. \
-Its original ATK/DEF become equal to the number of cards in your hand x X000. (X is its Divine Hierarchy). \
-If a monster(s) is Summoned to your opponent's field, while this card is able to attack: \
+This card is also Dragon-Type while it is on the field. \
+This card's original ATK and DEF are each equal to the number of cards in your hand x X000. \
+    (X is its Divine Hierarchy). \
+If a monster(s) is Normal or Special Summoned to your opponent's field, while this card is able to attack: \
     Target that monster(s), ignoring card effects; \
     it loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK or DEF is 0, destroy it, \
     that monster(s) cannot activate its effects in response to this effect's activation. \
-    This card must be face-up on the field to activate and to resolve this effect. \
+    This card must be face-up Attack Position on the field to activate and to resolve this effect. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
@@ -78,7 +80,7 @@ ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
-This card is also Winged-Beast-Type while on the field. \
+This card is also Winged-Beast-Type while it is on the field. \
 """
 strings = []
 
@@ -96,9 +98,9 @@ effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
 If your "The Winged Dragon of Ra" is Normal Summoned to your opponent's field, \
     and they do not own "Ancient Chant", \
-    Dimension Change it to this card in the same battle position and Divine Hierarchy. \
+    Dimension Change it to this card with the same Divine Hierarchy. \
 ${EGYPTIAN_EFFECT} \
-This card is also Machine-Type while on the field. \
+This card is also Machine-Type while it is on the field. \
 Cannot attack. \
 Neither player can target this card for attacks or by card effects, \
     but does not prevent your opponent from attacking you directly. \
@@ -135,8 +137,8 @@ def = 4000
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
 ${EGYPTIAN_EFFECT} \
-This card is also Pyro-Type while on the field. \
-Cannot attack unless attack directly but must pay 1000 LP. \
+This card is also Pyro-Type while it is on the field. \
+Cannot attack unless attack directly, but must pay 1000 LP. \
 Unaffected by other card effects that prevent it from attacking, also its attacks cannot be negated. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy. \
 You take no Battle Damage from battles involving this card. \
@@ -144,23 +146,23 @@ Once per Chain (Quick Effect): \
     You can pay 1000 LP, then target 1 other monster on the field; \
     send it to the GY, ignoring card effects. \
 During the End Phase, \
-    Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" in same battle position \
-    (it's Divine Hierarchy is the same as with this card's, transfer materials to it), \
+    Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \
+    with the same Divine Hierarchy (transfer materials to it), \
     or send it to the GY. \
-If you Special Summon "The Winged Dragon of Ra" from the GY, \
-    you can Dimension Change it to this card in the same battle position and Divine Hierarchy, \
+If you Special Summon "The Winged Dragon of Ra" in Attack Position from the GY, \
+    you can Dimension Change it to this card with the same Divine Hierarchy, \
     or you can pay LP so that you only have 100 left; it gains the following effects.
 ● This card become Fusion Monster and its original ATK/DEF become equal to the amount of LP paid, \
-    and also, any increase in LP is changed to increase it's original ATK/DEF instead.
-● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
+    and also, any increase in LP is changed to increase it's original ATK/DEF instead. \
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 ● When an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined original ATK had on the field, \
-    until the end of this turn.
-● After damage calculation, if it attacked, send all monsters your opponent controls to the GY.
+    until the end of this turn. \
+● After damage calculation, if it attacked, send all monsters your opponent controls to the GY. \
 ● If "De-Fusion" targets this card, apply \
     "that target loses its above effects and its ATK/DEF become 0, \
-    and if you do, its controller gains LP equal to that lost ATK" instead of. \
-    This effect's activation and effect cannot be negated.
+    and if it do, its controller gains LP equal to that lost ATK" instead of. \
+    This effect's activation and effect cannot be negated. \
 """
 strings = [
     "Do nothing",
@@ -186,7 +188,7 @@ ${HIERARCHY_ALIAS|1|The Wicked Dreadroot}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
-This card is also DARK Fiend monster while on the field. \
+This card is also DARK Fiend monster while it is on the field. \
 The ATK/DEF of all other monsters on the field are halved. \
 Negate the effects of monsters destroyed by battle with this card. \
 """
@@ -207,12 +209,14 @@ ${HIERARCHY_ALIAS|1|The Wicked Eraser}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
-This card is also DARK Fiend monster while on the field. \
-Its original ATK/DEF become equal to the number of cards your opponent controls x X000. (X is its Divine Hierarchy). \
+This card is also DARK Fiend monster while it is on the field. \
+This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
+    (X is its Divine Hierarchy). \
 During your Main Phase: You can destroy this card. \
-If this card is sent from the field to the GY: Send all cards on the field, except 1 card you control. \
+If this card is sent from the field to the GY: \
+    Send all cards on the field, except 1 monster you control. \
 """
-strings = ["Destroy this card"]
+strings = ["Destroy itself"]
 
 [card.avatar]
 id = 900000008
@@ -229,7 +233,7 @@ ${HIERARCHY_ALIAS|2|The Wicked Avatar}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_LIMIT} \
-This card is also DARK Fiend monster while on the field. \
+This card is also DARK Fiend monster while it is on the field. \
 If this card is Normal Summoned: Your opponent cannot activate Spell/Trap Cards until the end of their 2nd turn after this effect's activation. \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy. \

@@ -125,7 +125,7 @@ function s.dms1op(e, tp, eg, ep, ev, re, r, rp)
     if not Dimension.CanBeDimensionChanged(c) then return end
 
     local divine_evolution = Divine.IsDivineEvolution(mc)
-    Dimension.Change(mc, c, rp, mc:GetControler(), mc:GetPosition())
+    Dimension.Change(mc, c, rp, mc:GetControler())
     if divine_evolution then Divine.DivineEvolution(c) end
 end
 
