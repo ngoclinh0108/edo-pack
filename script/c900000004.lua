@@ -250,7 +250,7 @@ end
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return Dimension.IsAbleToDimension(c) end
-    e:SetLabel(Divine.IsDivineEvolution(c))
+    e:SetLabel(Divine.IsDivineEvolution(c) and 1 or 0)
     Dimension.SendToDimension(c, REASON_COST)
 end
 
