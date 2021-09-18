@@ -834,7 +834,7 @@ effect = """\
 During your Main Phase or your opponent's turn: \
     Special Summon 1 "Palladium Apostle Token" (Fairy/LIGHT/Level 1/ATK 0/DEF 0). \
     It cannot attack. Your opponent takes any battle damage you would have taken from battles involving it. \
-    During each of your Standby Phases, pay 1000 LP or destroy this Token. \
+    During each of your opponent's Standby Phases, pay 1000 LP or destroy this Token. \
     If you activated this effect while an opponent's monster attacking, during your opponent's Battle Phase, \
     the attacking monster must attack this card, if able. \
 During your Main Phase, except the turn this card was sent to the GY: \

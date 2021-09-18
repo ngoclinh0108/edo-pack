@@ -87,8 +87,15 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetCode(EVENT_PHASE + PHASE_STANDBY)
     ec3:SetRange(LOCATION_MZONE)
     ec3:SetCountLimit(1)
-    ec3:SetCondition(s.e1mataincon)
-    ec3:SetOperation(s.e1matainop)
+    ec3:SetCondition(function(e, tp) return Duel.IsTurnPlayer(1 - tp) end)
+    ec3:SetOperation(function(e, tp)
+        if Duel.CheckLPCost(tp, 1000) and
+            Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+            Duel.PayLPCost(tp, 1000)
+        else
+            Duel.Destroy(e:GetHandler(), REASON_COST)
+        end
+    end)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
     token:RegisterEffect(ec3, true)
 
@@ -109,18 +116,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec4b:SetCode(EFFECT_MUST_ATTACK_MONSTER)
         ec4b:SetValue(function(e, c) return c == e:GetHandler() end)
         c:RegisterEffect(ec4b)
-    end
-end
-
-function s.e1mataincon(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp
-end
-
-function s.e1matainop(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.CheckLPCost(tp, 1000) and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
-        Duel.PayLPCost(tp, 1000)
-    else
-        Duel.Destroy(e:GetHandler(), REASON_COST)
     end
 end
 

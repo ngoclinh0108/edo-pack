@@ -15,7 +15,7 @@ function s.initial_effect(c)
     local sumsafe = Effect.CreateEffect(c)
     sumsafe:SetType(EFFECT_TYPE_SINGLE)
     sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
+    sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
     sumsafe:SetCondition(function(e)
         return e:GetHandler():GetSummonType() == SUMMON_TYPE_LINK
     end)
