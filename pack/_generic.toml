@@ -56,7 +56,9 @@ ${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Dragon-Type while it is on the field. \
 This card's original ATK and DEF are each equal to the number of cards in your hand x X000. \
     (X is its Divine Hierarchy). \
-If a monster(s) is Normal or Special Summoned to your opponent's field, while this card is able to attack: \
+If a monster(s) is Summoned to your opponent's field, \
+    or control of a monster(s) changes to your your opponent, \
+    while this card is able to attack: \
     Target that monster(s), ignoring card effects; \
     it loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK or DEF is 0, destroy it, \
