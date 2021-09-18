@@ -320,6 +320,7 @@ function Divine.RegisterRaDefuse(s, id, c)
         local defuse = Effect.CreateEffect(c)
         defuse:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         defuse:SetCode(EVENT_ADJUST)
+        defuse:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
         defuse:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
             local g = Duel.GetMatchingGroup(function(c)
                 return c:IsCode(95286165) and c:GetFlagEffect(id) == 0

@@ -27,8 +27,8 @@ ${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Warrior-Type while it is on the field. \
 Once per turn, while this card is able to attack and did not declare an attack this turn (Quick Effect): \
     You can Tribute 2 other monsters, then activate 1 of these effects. \
-    This card must be face-up Attack Position on the field to activate and to resolve these effects. \
-    This cannot attack for the rest of this turn.
+    This card must be face-up Attack Position on the field to activate and to resolve these effects, \
+    also it cannot attack for the rest of this turn.
 ● During the Main Phase or Battle Phase: \
     Inflict damage to your opponent equal to this card's ATK, \
     and if you do, destroy all monsters your opponent controls.
@@ -36,7 +36,7 @@ Once per turn, while this card is able to attack and did not declare an attack t
     This card attacks 1 face-up monster your opponent control, \
     and if you do, it gain ∞ ATK during that damage calculation only.
 """
-strings = ["Inflict battle damage & destroy", "Attack with ∞ ATK"]
+strings = ["Damage & destroy", "Attack a monster with ∞ ATK"]
 
 [card.osiris]
 id = 900000002

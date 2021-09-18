@@ -15,7 +15,7 @@ function s.initial_effect(c)
     e1:SetValue(RACE_WARRIOR)
     Divine.RegisterEffect(c, e1)
 
-    -- damage & destroy
+    -- attack directly & destroy
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_DAMAGE + CATEGORY_DESTROY)
@@ -25,7 +25,7 @@ function s.initial_effect(c)
     e2:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
     e2:SetHintTiming(0, TIMING_MAIN_END + TIMING_BATTLE_START)
     e2:SetCondition(s.e2con)
-    e2:SetCost(s.effcost)
+    -- e2:SetCost(s.effcost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     Divine.RegisterEffect(c, e2)
@@ -72,38 +72,34 @@ end
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsAttackPos() or not c:CanAttack() then return false end
-
     return (Duel.IsMainPhase() or Duel.IsBattlePhase())
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return true end
-    local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
 
     local dmg = c:GetAttack()
     Duel.SetTargetPlayer(1 - tp)
     Duel.SetTargetParam(dmg)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
+
+    local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
-    s.effblockatk(e, c)
     if not c:IsAttackPos() or not c:IsRelateToEffect(e) then return end
 
-    if Duel.Damage(p, c:GetAttack(), REASON_EFFECT) > 0 then
+    local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
+    if Duel.Damage(p, c:GetAttack(), REASON_EFFECT) ~=0 then
         local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
         Duel.Destroy(g, REASON_EFFECT)
     end
 end
 
-function s.e3filter(c)
-    return c:IsFaceup() and not c:IsHasEffect(EFFECT_IGNORE_BATTLE_TARGET) and
-               not c:IsHasEffect(EFFECT_CANNOT_BE_BATTLE_TARGET)
-end
+function s.e3filter(c, sc) return c:IsFaceup() and c:IsCanBeBattleTarget(sc) end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -119,7 +115,7 @@ end
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e3filter, tp, 0, LOCATION_MZONE, 1,
-                                           nil)
+                                           nil, e:GetHandler())
     end
 end
 
@@ -128,8 +124,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     local tc
     if c:IsAttackPos() and c:IsRelateToEffect(e) then
-        tc = Utility.SelectMatchingCard(HINTMSG_ATTACKTARGET, tp, s.e3filter,
-                                        tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
+        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACKTARGET)
+        tc = Duel.SelectMatchingCard(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1,
+                                     1, nil, c):GetFirst()
     end
     if not tc then
         s.effblockatk(e, c)
