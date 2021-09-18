@@ -4,7 +4,7 @@ Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("util_dimension.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_RA, 10000080}
+s.listed_names = {CARD_RA, 78665705}
 
 function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 2, false, false)
@@ -115,7 +115,7 @@ end
 function s.dms1filter(c, tp)
     return Dimension.CanBeDimensionMaterial(c) and c:IsCode(CARD_RA) and
                c:GetOwner() == tp and c:IsControler(1 - tp) and
-               not Utility.IsOwnAny(Card.IsCode, 1 - tp, 10000080)
+               not Utility.IsOwnAny(Card.IsCode, 1 - tp, 78665705)
 end
 
 function s.dms1op(e, tp, eg, ep, ev, re, r, rp)
