@@ -241,15 +241,11 @@ function s.e5raop(e, tp, eg, ep, ev, re, r, rp)
     -- life point transfer
     local ec2 = Effect.CreateEffect(c)
     ec2:SetDescription(aux.Stringid(id, 5))
-    ec2:SetType(EFFECT_TYPE_QUICK_O)
-    ec2:SetProperty(EFFECT_FLAG_NO_TURN_RESET + EFFECT_FLAG_DAMAGE_STEP +
-                        EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_UNCOPYABLE)
-    ec2:SetCode(EVENT_FREE_CHAIN)
+    ec2:SetType(EFFECT_TYPE_IGNITION)
+    ec2:SetProperty(EFFECT_FLAG_NO_TURN_RESET + EFFECT_FLAG_IGNORE_IMMUNE +
+                        EFFECT_FLAG_UNCOPYABLE)
     ec2:SetRange(LOCATION_MZONE)
-    ec2:SetHintTiming(TIMING_DAMAGE_STEP,
-                      TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
     ec2:SetCountLimit(1)
-    ec2:SetCondition(s.e5lpcon)
     ec2:SetCost(s.e5lpcost)
     ec2:SetTarget(s.e5lptg)
     ec2:SetOperation(s.e5lpop)
@@ -273,8 +269,6 @@ function s.e5raop(e, tp, eg, ep, ev, re, r, rp)
         rc:RegisterEffect(ec3, true)
     end
 end
-
-function s.e5lpcon(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end
 
 function s.e5lpcost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetLP(tp) > 100 end
