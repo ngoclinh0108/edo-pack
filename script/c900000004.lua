@@ -124,13 +124,9 @@ function s.dms1op(e, tp, eg, ep, ev, re, r, rp)
     if not mc then return end
     if not Dimension.CanBeDimensionChanged(c) then return end
 
-    local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
+    local divine_evolution = Divine.IsDivineEvolution(mc)
     Dimension.Change(mc, c, rp, mc:GetControler(), mc:GetPosition())
-    if divine_evolution then
-        c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
-                             RESET_EVENT + RESETS_STANDARD,
-                             EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
-    end
+    if divine_evolution then Divine.DivineEvolution(c) end
 end
 
 function s.dms2filter(c, check_flag)
@@ -254,7 +250,7 @@ end
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return Dimension.IsAbleToDimension(c) end
-    e:SetLabel(c:GetFlagEffect(Divine.DIVINE_EVOLUTION))
+    e:SetLabel(Divine.IsDivineEvolution(c))
     Dimension.SendToDimension(c, REASON_COST)
 end
 
@@ -304,6 +300,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp, immediately)
     local pos = immediately and c:GetPreviousPosition() or POS_FACEUP
     local seq = immediately and c:GetPreviousSequence() or nil
     if not Dimension.Summon(mc, tp, tp, pos, seq) then return end
+    if e:GetLabel() > 0 then Divine.DivineEvolution(mc) end
 
     -- set base atk/def
     local ec1 = Effect.CreateEffect(c)
@@ -330,10 +327,4 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp, immediately)
     Divine.RegisterEffect(mc, ec2, true)
     local spnoattack = mc:GetCardEffect(EFFECT_CANNOT_ATTACK)
     if spnoattack then spnoattack:Reset() end
-
-    if e:GetLabel() > 0 then
-        mc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
-                              RESET_EVENT + RESETS_STANDARD,
-                              EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
-    end
 end

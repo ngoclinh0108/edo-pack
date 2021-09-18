@@ -209,13 +209,9 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         ec4:SetReset(RESET_EVENT + RESETS_STANDARD)
         Divine.RegisterEffect(mc, ec4, true)
     else
-        local divine_evolution = mc:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
+        local divine_evolution = Divine.IsDivineEvolution(mc)
         Dimension.Change(mc, c, tp, tp, mc:GetPosition())
-        if divine_evolution then
-            c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
-                                 RESET_EVENT + RESETS_STANDARD,
-                                 EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
-        end
+        if divine_evolution then Divine.DivineEvolution(c) end
     end
 end
 
@@ -273,13 +269,9 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local sg = Dimension.Zones(c:GetOwner()):Filter(s.e7filter, nil)
     if #sg > 0 then
         local sc = sg:GetFirst()
-        local divine_evolution = c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
+        local divine_evolution = Divine.IsDivineEvolution(c)
         Dimension.Change(c, sc, tp, tp, c:GetPosition(), c:GetMaterial())
-        if divine_evolution then
-            sc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
-                                  RESET_EVENT + RESETS_STANDARD,
-                                  EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
-        end
+        if divine_evolution then Divine.DivineEvolution(sc) end
     else
         Duel.SendtoGrave(c, REASON_EFFECT)
     end

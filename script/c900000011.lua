@@ -110,7 +110,8 @@ end
 
 function s.e2filter(c)
     return c:IsFaceup() and c:IsOriginalRace(RACE_DIVINE) and
-               Divine.GetDivineHierarchy(c) > 0 and c:GetFlagEffect(id) == 0
+               Divine.GetDivineHierarchy(c) > 0 and
+               not Divine.IsDivineEvolution(c)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -127,9 +128,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not tc then return end
 
     Duel.HintSelection(Group.FromCards(tc))
-    tc:RegisterFlagEffect(Divine.DIVINE_EVOLUTION,
-                          RESET_EVENT + RESETS_STANDARD,
-                          EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
+    Divine.DivineEvolution(tc)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)

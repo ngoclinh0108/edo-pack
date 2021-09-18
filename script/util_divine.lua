@@ -217,6 +217,15 @@ function Divine.GetDivineHierarchy(c, get_base)
     return divine_hierarchy
 end
 
+function Divine.DivineEvolution(c)
+    c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION, RESET_EVENT + RESETS_STANDARD,
+                         EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
+end
+
+function Divine.IsDivineEvolution(c)
+    return c:GetFlagEffect(Divine.DIVINE_EVOLUTION)
+end
+
 function Divine.RegisterEffect(c, eff, forced)
     local e = eff:Clone()
     e:SetProperty(e:GetProperty() + EFFECT_FLAG_UNCOPYABLE)
