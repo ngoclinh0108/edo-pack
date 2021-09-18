@@ -223,7 +223,7 @@ function Divine.DivineEvolution(c)
 end
 
 function Divine.IsDivineEvolution(c)
-    return c:GetFlagEffect(Divine.DIVINE_EVOLUTION)
+    return c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
 end
 
 function Divine.RegisterEffect(c, eff, forced)

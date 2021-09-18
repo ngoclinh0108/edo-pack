@@ -58,19 +58,13 @@ function s.e3filter(c, e, tp)
                (not e or c:IsRelateToEffect(e)) and c:IsControler(1 - tp)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) and
-        (c:IsHasEffect(EFFECT_CANNOT_ATTACK_ANNOUNCE) or
-            c:IsHasEffect(EFFECT_FORBIDDEN) or
-            c:IsHasEffect(EFFECT_CANNOT_ATTACK)) then return false end
-
-    return eg:IsExists(s.e3filter, 1, nil, nil, tp)
-end
-
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     local g = eg:Filter(s.e3filter, nil, nil, tp)
-    if chk == 0 then return e:GetHandler():IsRelateToEffect(e) and #g > 0 end
+    if chk == 0 then
+        return c:IsAttackPos() and c:CanAttack() and
+                   eg:Filter(s.e3filter, nil, nil, tp)
+    end
 
     Duel.SetTargetCard(g)
     Duel.SetChainLimit(function(e) return not eg:IsContains(e:GetHandler()) end)
@@ -78,6 +72,7 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    if not c:IsAttackPos() or not c:IsRelateToEffect(e) then return end
     local tg = Duel.GetTargetCards(e):Filter(s.e3filter, nil, e, tp)
     local dg = Group.CreateGroup()
 

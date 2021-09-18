@@ -47,12 +47,7 @@ function s.initial_effect(c)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return (c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) or
-               (not c:IsHasEffect(EFFECT_CANNOT_ATTACK_ANNOUNCE) and
-                   not c:IsHasEffect(EFFECT_FORBIDDEN) and
-                   not c:IsHasEffect(EFFECT_CANNOT_ATTACK))) and
-               (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
+    return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
                (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
 end
 
@@ -77,7 +72,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return true end
+    if chk == 0 then return c:IsAttackPos() and c:CanAttack() end
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
 
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, c:GetAttack())
@@ -86,7 +81,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+    if not c:IsAttackPos() or not c:IsRelateToEffect(e) then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(1100)

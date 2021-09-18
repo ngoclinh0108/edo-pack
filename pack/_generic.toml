@@ -28,6 +28,7 @@ This card is also Warrior-Type while on the field. \
 Once per turn, during your Main Phase or your opponent's Battle Phase, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; inflict this card's ATK to your opponent as battle damage, \
     and if you do, destroy all monsters your opponent controls. \
+    This card must be face-up on the field to activate and to resolve this effect. \
     This card cannot declare an attack the turn this effect is activated. \
 Once per turn, while the total of monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
     You can Tribute 2 other monsters; \
@@ -57,7 +58,8 @@ If a monster(s) is Summoned to your opponent's field, while this card is able to
     Target that monster(s), ignoring card effects; \
     it loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK or DEF is 0, destroy it, \
-    it cannot activate its effects in response to this effect's activation. \
+    that monster(s) cannot activate its effects in response to this effect's activation. \
+    This card must be face-up on the field to activate and to resolve this effect. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
