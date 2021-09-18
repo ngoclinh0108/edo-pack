@@ -23,7 +23,7 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1)
-    e2:SetHintTiming(TIMING_SPSUMMON, TIMING_BATTLE_START)
+    e2:SetHintTiming(0, TIMING_MAIN_END + TIMING_BATTLE_START)
     e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
@@ -47,8 +47,7 @@ function s.initial_effect(c)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
-               (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
+    return Duel.IsMainPhase() or Duel.IsBattlePhase()
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

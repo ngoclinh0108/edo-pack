@@ -23,18 +23,21 @@ effect = """\
 ${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_LIMIT} \
+${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Warrior-Type while it is on the field. \
-Once per turn, during your Main Phase or your opponent's Battle Phase, \
+Once per turn, during the Main Phase or Battle Phase, \
     while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; inflict this card's ATK to your opponent as battle damage, \
     and destroy all monsters your opponent controls. \
     This card must be face-up Attack Position on the field to activate and to resolve this effect. \
     This card cannot declare an attack the turn this effect is activated. \
-Once per turn, while the total monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
+Once per turn, during the Battle Phase, \
+    while the total monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
     You can Tribute 2 other monsters; \
     once this turn, if this card battles, \
     it gain ∞ ATK during damage calculation only. \
+    This card must be face-up Attack Position on the field to activate and to resolve this effect. \
+    This card cannot declare an attack the turn this effect is activated. \
 """
 strings = ["Soul Energy MAX", "Inflict battle damage & destroy", "Gain ∞ ATK"]
 
@@ -52,7 +55,7 @@ effect = """\
 ${HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_LIMIT} \
+${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Dragon-Type while it is on the field. \
 This card's original ATK and DEF are each equal to the number of cards in your hand x X000. \
     (X is its Divine Hierarchy). \
@@ -79,7 +82,7 @@ effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_LIMIT} \
+${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Winged-Beast-Type while it is on the field. \
 """
 strings = []
@@ -153,16 +156,16 @@ If you Special Summon "The Winged Dragon of Ra" in Attack Position from the GY, 
     you can Dimension Change it to this card with the same Divine Hierarchy, \
     or you can pay LP so that you only have 100 left; it gains the following effects.
 ● This card become Fusion Monster and its original ATK/DEF become equal to the amount of LP paid, \
-    and also, any increase in LP is changed to increase it's original ATK/DEF instead. \
-● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+    and also, any increase in LP is changed to increase it's original ATK/DEF instead.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 ● When an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined original ATK had on the field, \
-    until the end of this turn. \
-● After damage calculation, if it attacked, send all monsters your opponent controls to the GY. \
+    until the end of this turn.
+● After damage calculation, if it attacked, send all monsters your opponent controls to the GY.
 ● If "De-Fusion" targets this card, apply \
     "that target loses its above effects and its ATK/DEF become 0, \
     and if it do, its controller gains LP equal to that lost ATK" instead of. \
-    This effect's activation and effect cannot be negated. \
+    This effect's activation and effect cannot be negated.
 """
 strings = [
     "Do nothing",
@@ -187,7 +190,7 @@ effect = """\
 ${HIERARCHY_ALIAS|1|The Wicked Dreadroot}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_LIMIT} \
+${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also DARK Fiend monster while it is on the field. \
 The ATK/DEF of all other monsters on the field are halved. \
 Negate the effects of monsters destroyed by battle with this card. \
@@ -208,13 +211,13 @@ effect = """\
 ${HIERARCHY_ALIAS|1|The Wicked Eraser}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_LIMIT} \
+${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also DARK Fiend monster while it is on the field. \
 This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
     (X is its Divine Hierarchy). \
 During your Main Phase: You can destroy this card. \
 If this card is sent from the field to the GY: \
-    Send all cards on the field, except 1 monster you control. \
+    Send all cards on the field, except 1 face-up monster you control. \
 """
 strings = ["Destroy itself"]
 
@@ -232,7 +235,7 @@ effect = """\
 ${HIERARCHY_ALIAS|2|The Wicked Avatar}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_LIMIT} \
+${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also DARK Fiend monster while it is on the field. \
 If this card is Normal Summoned: Your opponent cannot activate Spell/Trap Cards until the end of their 2nd turn after this effect's activation. \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \

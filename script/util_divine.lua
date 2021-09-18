@@ -7,7 +7,7 @@ Divine.DIVINE_EVOLUTION = 513000065
 
 -- function
 function Divine.DivineHierarchy(s, c, divine_hierarchy,
-                                summon_by_three_tributes, limit)
+                                summon_by_three_tributes, spsummon_effect)
     if divine_hierarchy then s.divine_hierarchy = divine_hierarchy end
 
     if summon_by_three_tributes then
@@ -160,37 +160,39 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     end)
     Divine.RegisterEffect(c, reset)
 
-    -- switch target
-    local switchtarget = Effect.CreateEffect(c)
-    switchtarget:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    switchtarget:SetCode(EVENT_SPSUMMON_SUCCESS)
-    switchtarget:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        if c:IsFacedown() or c:IsAttackPos() then return end
+    if spsummon_effect then
+        -- switch target
+        local switchtarget = Effect.CreateEffect(c)
+        switchtarget:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+        switchtarget:SetCode(EVENT_SPSUMMON_SUCCESS)
+        switchtarget:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+            local c = e:GetHandler()
+            if c:IsFacedown() or c:IsAttackPos() then return end
 
-        local ac = Duel.GetAttacker()
-        local bc = Duel.GetAttackTarget()
-        local te, tg = Duel.GetChainInfo(ev + 1, CHAININFO_TRIGGERING_EFFECT,
-                                         CHAININFO_TARGET_CARDS)
+            local ac = Duel.GetAttacker()
+            local bc = Duel.GetAttackTarget()
+            local te, tg = Duel.GetChainInfo(ev + 1,
+                                             CHAININFO_TRIGGERING_EFFECT,
+                                             CHAININFO_TARGET_CARDS)
 
-        local b1 = ac and bc and ac:CanAttack() and bc:IsControler(tp) and
-                       not ac:IsImmuneToEffect(e)
-        local b2 =
-            te and te ~= re and te:IsHasProperty(EFFECT_FLAG_CARD_TARGET) and tg and
-                #tg == 1 and tg:IsExists(
-                function(c, tp)
-                    return c:IsMonster() and c:IsControler(tp)
-                end, 1, nil, tp)
-        if not (b1 or b2) then return end
-        if not Duel.SelectYesNo(tp, 666003) then return end
+            local b1 = ac and bc and ac:CanAttack() and bc:IsControler(tp) and
+                           not ac:IsImmuneToEffect(e)
+            local b2 = te and te ~= re and
+                           te:IsHasProperty(EFFECT_FLAG_CARD_TARGET) and tg and
+                           #tg == 1 and tg:IsExists(function(c, tp)
+                return c:IsMonster() and c:IsControler(tp)
+            end, 1, nil, tp)
+            if not (b1 or b2) then return end
+            if not Duel.SelectYesNo(tp, 666003) then return end
 
-        Utility.HintCard(c)
-        if b1 then Duel.ChangeAttackTarget(c) end
-        if b2 then Duel.ChangeTargetCard(ev + 1, Group.FromCards(c)) end
-    end)
-    c:RegisterEffect(switchtarget)
+            Utility.HintCard(c)
+            if b1 then Duel.ChangeAttackTarget(c) end
+            if b2 then
+                Duel.ChangeTargetCard(ev + 1, Group.FromCards(c))
+            end
+        end)
+        c:RegisterEffect(switchtarget)
 
-    if limit then
         -- cannot attack when special summoned from the grave
         local spnoattack = Effect.CreateEffect(c)
         spnoattack:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)

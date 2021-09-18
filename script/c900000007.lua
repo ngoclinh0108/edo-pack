@@ -78,10 +78,10 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, aux.TRUE, tp,
-                                         LOCATION_MZONE, 0, 1, 1, nil)
-    g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD,
-                              g)
+    local ex = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, Card.IsFaceup,
+                                          tp, LOCATION_MZONE, 0, 1, 1, nil)
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD,
+                                    LOCATION_ONFIELD, ex)
 
     Duel.SendtoGrave(g, REASON_EFFECT)
 end

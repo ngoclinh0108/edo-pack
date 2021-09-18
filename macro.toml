@@ -13,12 +13,12 @@ Cannot be Tributed, or be used as a material for an Summon by your opponent or c
 Cannot be change battle position with card effects. \
 Unaffected by other cards' effects that would make it leave the field, \
     except card with the same or higher Divine Hierarchy. \
-Other cards' effects are only applied on it for 1 turn. \
+Other cards' effects are only applied on it for 1 turn.\
+"""
+EGYPTIAN_SPSUMMON_EFFECT = """\
 When it is Special Summoned in Defense Position \
     while your opponent targets exactly 1 monster you control \
-    for attack or with card effects, you can switch the target to this card.\
-"""
-EGYPTIAN_LIMIT = """\
+    for attack or with card effects, you can switch the target to this card. \
 Cannot attack the turn it is Special Summoned from the GY, and sent it to the GY during the End Phase.\
 """
 
