@@ -4,12 +4,11 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 s.listed_names = {10000000, 79868386, 10000020, 42469671, CARD_RA, 95286165}
+s.listed_names = {0x13a}
 
 function s.initial_effect(c)
     -- link summon
-    Link.AddProcedure(c, aux.NOT(
-                          aux.FilterBoolFunctionEx(Card.IsType, TYPE_TOKEN)), 1,
-                      1)
+    Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x13a), 1, 1)
 
     -- summon cannot be negate & act limit
     local sumsafe = Effect.CreateEffect(c)
