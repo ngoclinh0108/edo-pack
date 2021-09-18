@@ -55,8 +55,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp,
                           LOCATION_HAND + LOCATION_DECK)
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -65,8 +64,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                          nil)
     if #g == 0 or Duel.SendtoGrave(g, REASON_EFFECT) == 0 then return end
 
-    g = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_DECK + LOCATION_GRAVE,
-                              0, nil)
+    g = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_DECK, 0, nil)
     if #g == 0 or not Duel.SelectYesNo(tp, 506) then return end
     Duel.BreakEffect()
 

@@ -411,7 +411,7 @@ def = 1200
 effect = """\
 If this card is Normal or Special Summoned: \
     You can send 1 monster from your hand or Deck to the GY, \
-    then you can add 1 "Polymerization" or 1 Level 5 or higher "Palladium" monster from your Deck or GY to your hand. \
+    then you can add 1 "Polymerization" or 1 Level 5 or higher "Palladium" monster from your Deck to your hand. \
     You can only use this effect of "Palladium Beast Gazelle" once per turn. \
 If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
 If this card is used as material for a Fusion Summon: You can draw 1 card. \
