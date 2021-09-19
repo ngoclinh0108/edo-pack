@@ -196,16 +196,18 @@ level = 4
 atk = 1400
 def = 1200
 effect = """\
-Once per turn, this card cannot be destroyed by battle. \
-During the Battle Step (Quick Effect): \
-    You can Special Summon this card from your hand, then draw 1 card. \
-You can discard 1 card; send 1 "Palladium" monster from your Deck to the GY, \
-    but for the rest of this turn, you cannot Special Summon monsters with the same name the sent monster had in the GY. \
-You can only use each effect of "Palladium Guardian Shada" once per turn. \
+During the Battle Step, while you control a "Palladium" monster \
+    other than "Palladium Guardian Shada" (Quick Effect): \
+    You can Special Summon this card from your hand, \
+    and if you do, until the end of this turn, \
+    "Palladium" monster you currently control cannot be destroyed by battle. \
+    You can only use this effect of "Palladium Guardian Shada" once per turn. \
+The first time this card would be destroyed by battle each turn, \
+    it is not destroyed, and you take no battle damage from that battle. \
+At the end of the Damage Step, if this card battled an opponent's monster, \
+    that monster loses 800 ATK. \
 """
 strings = [
-    "Send 1 \"Palladium\" monster from Deck to GY",
-    "Affected by effect \"Palladium Guardian Shada\": cannot Special Summon monsters with the same name",
 ]
 
 [card.palladium-gardna-karim]
@@ -410,8 +412,8 @@ atk = 1500
 def = 1200
 effect = """\
 If this card is Normal or Special Summoned: \
-    You can send 1 monster from your hand or Deck to the GY, \
-    then you can add 1 "Polymerization" or 1 Level 5 or higher "Palladium" monster from your Deck to your hand. \
+    You can send 1 Level 5 or higher "Palladium" monster from your Deck to the GY; \
+    add 1 "Polymerization" from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Beast Gazelle" once per turn. \
 If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
 If this card is used as material for a Fusion Summon: You can draw 1 card. \
@@ -433,7 +435,7 @@ You can discard this card; \
     add 1 "Polymerization" or 1 Level 4 or lower "Palladium" monster from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Beast Berfomet" once per turn. \
 When this card destroys an opponent's monster by battle: \
-    Inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
+    Inflict damage to your opponent equal to the ATK of the destroyed monster. \
 When you Fusion Summon a "Palladium" monster, you can banish this card from your GY as 1 of materials. \
 """
 strings = []

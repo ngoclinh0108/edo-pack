@@ -81,7 +81,6 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
     local dmg = bc:GetAttack()
-    if bc:GetAttack() < bc:GetDefense() then dmg = bc:GetDefense() end
     if dmg < 0 then dmg = 0 end
 
     Duel.SetTargetPlayer(1 - tp)

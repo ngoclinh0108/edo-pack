@@ -13,6 +13,7 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_DELAY)
     e1:SetCode(EVENT_SUMMON_SUCCESS)
     e1:SetCountLimit(1, id)
+    e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -38,37 +39,40 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter1(c) return c:IsType(TYPE_MONSTER) and c:IsAbleToGrave() end
+function s.e1filter1(c)
+    return c:IsSetCard(0x13a) and c:IsLevelAbove(5) and c:IsAbleToGraveAsCost()
+end
 
-function s.e1filter2(c)
-    if not c:IsAbleToHand() then return false end
-    return c:IsCode(CARD_POLYMERIZATION) or
-               (c:IsLevelAbove(5) and c:IsSetCard(0x13a))
+function s.e1filter2(c) return
+    c:IsCode(CARD_POLYMERIZATION) and c:IsAbleToHand() end
+
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK, 0, 1,
+                                           nil)
+    end
+
+    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter1, tp,
+                                         LOCATION_DECK, 0, 1, 1, nil)
+    Duel.SendtoGrave(g, REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter1, tp,
-                                           LOCATION_HAND + LOCATION_DECK, 0, 1,
+        return Duel.IsExistingMatchingCard(s.e1filter2, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp,
-                          LOCATION_HAND + LOCATION_DECK)
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter1, tp,
-                                         LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-                                         nil)
-    if #g == 0 or Duel.SendtoGrave(g, REASON_EFFECT) == 0 then return end
-
-    g = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_DECK, 0, nil)
-    if #g == 0 or not Duel.SelectYesNo(tp, 506) then return end
-    Duel.BreakEffect()
-
-    g = Utility.GroupSelect(HINTMSG_ATOHAND, g, tp, 1, 1, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp,
+                                         aux.NecroValleyFilter(s.e1filter2), tp,
+                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                         1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)

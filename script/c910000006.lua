@@ -45,7 +45,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsSetCard(0xdd) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+    return c:IsSetCard(0xdd) and c:IsMonster() and c:IsAbleToHand()
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)

@@ -52,7 +52,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 
     local cec = ceff:GetHandler()
     return ep == 1 - tp and cp == tp and cec:IsSetCard(0x13a) and
-               cec:IsType(TYPE_MONSTER)
+               cec:IsMonster()
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
