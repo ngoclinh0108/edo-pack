@@ -4,6 +4,7 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
+    Utility.AvatarInfinity(s, c)
     Divine.DivineHierarchy(s, c, 1, true, true)
 
     -- race
@@ -43,7 +44,6 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     Divine.RegisterEffect(c, e3)
-    Utility.AvatarInfinity(s, c)
 end
 
 function s.effcon(e, tp, eg, ep, ev, re, r, rp)

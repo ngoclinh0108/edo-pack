@@ -346,10 +346,7 @@ function Divine.RegisterRaDefuse(s, c)
                 ec1:SetCode(tc:GetActivateEffect():GetCode())
                 ec1:SetProperty(tc:GetActivateEffect():GetProperty() +
                                     EFFECT_FLAG_DAMAGE_STEP +
-                                    EFFECT_FLAG_IGNORE_IMMUNE +
-                                    EFFECT_FLAG_CANNOT_DISABLE +
-                                    EFFECT_FLAG_CANNOT_INACTIVATE +
-                                    EFFECT_FLAG_CANNOT_NEGATE)
+                                    EFFECT_FLAG_IGNORE_IMMUNE)
                 ec1:SetHintTiming(TIMING_DAMAGE_STEP,
                                   TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
                 ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -366,6 +363,7 @@ function Divine.RegisterRaDefuse(s, c)
 
                     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0,
                                           tc:GetControler(), tc:GetAttack())
+                    Duel.SetChainLimit(aux.FALSE)
                 end)
                 ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
                     local c = e:GetHandler()
