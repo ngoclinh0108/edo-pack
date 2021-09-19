@@ -110,7 +110,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     immune:SetCode(EFFECT_IMMUNE_EFFECT)
     immune:SetRange(LOCATION_MZONE)
     immune:SetValue(function(e, te)
-        return te:IsActiveType(TYPE_MONSTER) and
+        return te:GetHandler() ~= e:GetHandler() and
+                   te:IsActiveType(TYPE_MONSTER) and
                    Divine.GetDivineHierarchy(te:GetHandler()) <
                    Divine.GetDivineHierarchy(c)
     end)
