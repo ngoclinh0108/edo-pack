@@ -210,24 +210,24 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         end)
         Divine.RegisterEffect(c, spnoattack)
 
-        -- return
-        local returnend = Effect.CreateEffect(c)
-        returnend:SetDescription(666004)
-        returnend:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        returnend:SetCode(EVENT_PHASE + PHASE_END)
-        returnend:SetRange(LOCATION_MZONE)
-        returnend:SetCountLimit(1)
-        returnend:SetCode(EVENT_PHASE + PHASE_END)
-        returnend:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        -- to grave
+        local togy = Effect.CreateEffect(c)
+        togy:SetDescription(666004)
+        togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        togy:SetCode(EVENT_PHASE + PHASE_END)
+        togy:SetRange(LOCATION_MZONE)
+        togy:SetCountLimit(1)
+        togy:SetCode(EVENT_PHASE + PHASE_END)
+        togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
             local c = e:GetHandler()
             return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
                        c:IsPreviousLocation(LOCATION_GRAVE) and
                        c:IsAbleToGrave()
         end)
-        returnend:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
             Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
         end)
-        Divine.RegisterEffect(c, returnend)
+        Divine.RegisterEffect(c, togy)
     end
 end
 
