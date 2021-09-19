@@ -43,24 +43,30 @@ function s.initial_effect(c)
     e3c:SetCode(21208154)
     Divine.RegisterEffect(c, e3c)
 
-    -- battle indes
+    -- indes & no damage
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE)
     e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e4:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e4:SetRange(LOCATION_MZONE)
     e4:SetValue(function(e, tc)
-        return Divine.GetDivineHierarchy(tc) <
-                   Divine.GetDivineHierarchy(e:GetHandler())
+        local c = e:GetHandler()
+        if Divine.GetDivineHierarchy(tc) >= Divine.GetDivineHierarchy(c) then
+            return false
+        end
+
+        c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                                 PHASE_END, 0, 1)
+        return true
     end)
     Divine.RegisterEffect(c, e4)
-
-    -- avoid battle damage
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE)
-    e5:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    e5:SetValue(1)
-    Divine.RegisterEffect(c, e5)
+    local e4b = Effect.CreateEffect(c)
+    e4b:SetType(EFFECT_TYPE_SINGLE)
+    e4b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e4b:SetValue(function(e)
+        return e:GetHandler():GetFlagEffect(id) == 0 and 1 or 0
+    end)
+    c:RegisterEffect(e4b)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

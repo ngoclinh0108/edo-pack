@@ -44,10 +44,9 @@ function s.initial_effect(c)
     -- to grave
     local e4 = Effect.CreateEffect(c)
     e4:SetCategory(CATEGORY_TOGRAVE)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e4:SetCode(EVENT_TO_GRAVE)
     e4:SetCondition(s.e4con)
-    e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 end
@@ -68,14 +67,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4con(e) return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD) end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD,
-                                    LOCATION_ONFIELD, nil)
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
-end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local ex = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, Card.IsFaceup,
