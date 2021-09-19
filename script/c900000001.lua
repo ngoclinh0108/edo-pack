@@ -15,7 +15,7 @@ function s.initial_effect(c)
     e1:SetValue(RACE_WARRIOR)
     Divine.RegisterEffect(c, e1)
 
-    -- attack directly & destroy
+    -- damage & destroy
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_DAMAGE + CATEGORY_DESTROY)
@@ -43,7 +43,7 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     Divine.RegisterEffect(c, e3)
-    Utility.AvatarInfinity(s, c)
+    Utility.AvatarInfinity(s, id, c)
 end
 
 function s.effcon(e, tp, eg, ep, ev, re, r, rp)

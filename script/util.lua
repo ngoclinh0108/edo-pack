@@ -4,6 +4,9 @@ Duel.LoadScript("util_dimension.lua")
 if not aux.UtilityProcedure then aux.UtilityProcedure = {} end
 if not Utility then Utility = aux.UtilityProcedure end
 
+-- constant
+Utility.INFINITY_ATTACK = 999999
+
 -- function
 function Utility.RegisterGlobalEffect(c, eff, filter, param1, param2, param3,
                                       param4, param5)
@@ -251,11 +254,11 @@ function Utility.GainInfinityAtk(c, reset)
         local g = Duel.GetMatchingGroup(nil, 0, LOCATION_MZONE, LOCATION_MZONE,
                                         c)
         if #g == 0 then
-            return 999999999 - c:GetAttack()
+            return Utility.INFINITY_ATTACK - c:GetAttack()
         else
             local tg, val = g:GetMaxGroup(Card.GetAttack)
-            if val <= 999999999 then
-                return 999999999 - c:GetAttack()
+            if val <= Utility.INFINITY_ATTACK then
+                return Utility.INFINITY_ATTACK - c:GetAttack()
             else
                 return val
             end
@@ -270,7 +273,7 @@ function Utility.GainInfinityAtk(c, reset)
     e2:SetCode(EVENT_PRE_BATTLE_DAMAGE)
     e2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return ep ~= tp end)
     e2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local dmg = 999999
+        local dmg = Utility.INFINITY_ATTACK
         if Duel.GetLP(ep) > dmg then dmg = Duel.GetLP(ep) end
         Duel.ChangeBattleDamage(ep, dmg)
     end)
@@ -278,86 +281,56 @@ function Utility.GainInfinityAtk(c, reset)
     c:RegisterEffect(e2)
 end
 
-function Utility.AvatarInfinity(root, c)
+function Utility.AvatarInfinity(root, id, c)
     aux.GlobalCheck(root, function()
-        local e3 = Effect.CreateEffect(c)
-        e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        e3:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE +
-                           EFFECT_FLAG_IGNORE_IMMUNE)
-        e3:SetCode(EVENT_ADJUST)
-        e3:SetCondition(function(e, tp, eg, ev, ep, re, r, rp)
-            return Duel.IsExistingMatchingCard(AvatarFilter, tp, 0xff, 0xff, 1,
-                                               nil)
-        end)
-        e3:SetOperation(function(e, tp, eg, ev, ep, re, r, rp)
-            local g = Duel.GetMatchingGroup(AvatarFilter, tp, 0xff, 0xff, nil)
+        local avataratk = Effect.CreateEffect(c)
+        avataratk:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        avataratk:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+        avataratk:SetCode(EVENT_ADJUST)
+        avataratk:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
+        avataratk:SetOperation(function(e, tp, eg, ev, ep, re, r, rp)
+            local g = Duel.GetMatchingGroup(Card.IsHasEffect, tp, 0xff, 0xff,
+                                            nil, 21208154)
 
-            g:ForEach(function(c)
-                local atktes = {c:GetCardEffect(EFFECT_SET_ATTACK_FINAL)}
-                for _, atkte in ipairs(atktes) do
-                    if atkte:GetOwner() == c and
-                        atkte:IsHasProperty(
+            function AvatarVal()
+                local g = Duel.GetMatchingGroup(function(c)
+                    return c:IsFaceup() and not c:IsHasEffect(21208154)
+                end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
+
+                if #g == 0 then
+                    return 100
+                else
+                    local _, val = g:GetMaxGroup(Card.GetAttack)
+                    if val >= Utility.INFINITY_ATTACK then
+                        return val
+                    else
+                        return val + 100
+                    end
+                end
+            end
+
+            for tc in aux.Next(g) do
+                local atkteffs = {tc:GetCardEffect(EFFECT_SET_ATTACK_FINAL)}
+                for _, eff in ipairs(atkteffs) do
+                    if eff:GetOwner() == tc and
+                        eff:IsHasProperty(
                             EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT +
                                 EFFECT_FLAG_DELAY) then
-                        atkte:SetValue(AvatarVal)
-                        atkte:SetLabel(9999999)
+                        eff:SetValue(AvatarVal)
                     end
                 end
 
-                local deftes = {c:GetCardEffect(EFFECT_SET_DEFENSE_FINAL)}
-                for _, defte in ipairs(deftes) do
-                    if defte:GetOwner() == c and
-                        defte:IsHasProperty(
+                local defteffs = {tc:GetCardEffect(EFFECT_SET_DEFENSE_FINAL)}
+                for _, eff in ipairs(defteffs) do
+                    if eff:GetOwner() == tc and
+                        eff:IsHasProperty(
                             EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT +
                                 EFFECT_FLAG_DELAY) then
-                        defte:SetValue(AvatarVal)
-                        defte:SetLabel(9999999)
+                        eff:SetValue(AvatarVal)
                     end
                 end
-            end)
+            end
         end)
-        Duel.RegisterEffect(e3, 0)
+        Duel.RegisterEffect(avataratk, 0)
     end)
-end
-
-function AvatarFilter(c)
-    local atktes = {c:GetCardEffect(EFFECT_SET_ATTACK_FINAL)}
-    local ae = nil
-    local de = nil
-
-    for _, atkte in ipairs(atktes) do
-        if atkte:GetOwner() == c and
-            atkte:IsHasProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT +
-                                    EFFECT_FLAG_DELAY) then
-            ae = atkte:GetLabel()
-        end
-    end
-
-    local deftes = {c:GetCardEffect(EFFECT_SET_DEFENSE_FINAL)}
-    for _, defte in ipairs(deftes) do
-        if defte:GetOwner() == c and
-            defte:IsHasProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT +
-                                    EFFECT_FLAG_DELAY) then
-            de = defte:GetLabel()
-        end
-    end
-
-    return c:IsHasEffect(21208154) and (ae ~= 999999999 or de ~= 999999999)
-end
-
-function AvatarVal(e, c)
-    local g = Duel.GetMatchingGroup(function(c)
-        return c:IsFaceup() and not c:IsHasEffect(21208154)
-    end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
-
-    if #g == 0 then
-        return 100
-    else
-        local tg, val = g:GetMaxGroup(Card.GetAttack)
-        if val >= 99999999 then
-            return val
-        else
-            return val + 100
-        end
-    end
 end
