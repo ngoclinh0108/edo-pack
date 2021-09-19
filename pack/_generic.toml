@@ -25,16 +25,16 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Warrior-Type while it is on the field. \
-Once per turn, while this card is able to attack and did not declare an attack this turn (Quick Effect): \
+Once per turn, during the Main Phase or Battle Phase, \
+    while this card is able to attack and did not declare an attack this turn (Quick Effect): \
     You can Tribute 2 other monsters, then activate 1 of these effects. \
     This card must be face-up Attack Position on the field to activate and to resolve these effects, \
     also it cannot attack for the rest of this turn.
-● During the Main Phase or Battle Phase: \
-    Inflict damage to your opponent equal to this card's ATK, \
+● Inflict damage to your opponent equal to this card's ATK, \
     and if you do, destroy all monsters your opponent controls.
-● During the Battle Phase, while the total monster's Divine Hierarchy on the field are 3 or more: \
-    This card attacks 1 face-up monster your opponent control, \
-    and if you do, it gain ∞ ATK during that damage calculation only.
+● This card attacks 1 face-up monster your opponent control, \
+    and if you do, it gain ∞ ATK during that damage calculation only. \
+    The total monster's Divine Hierarchy on the field must be 3 or more to activate this card's effect.
 """
 strings = ["Damage & destroy", "Attack a monster with ∞ ATK"]
 
@@ -335,8 +335,12 @@ You can only activate 1 "Divine Servant" per turn.
     you can add 1 Divine-Beast monster from your Deck to your hand, then, \
     immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
     When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them.
-● 1 original Divine-Beast monster you control with Divine Hierarchy, \
+● Choose 1 monster you control \
+    whose original Type is Divine-Beast monster and have Divine Hierarchy, \
     except a monster(s) already affected by "Divine Servant", \
-    gains 1000 ATK/DEF also its Divine Hierarchy is increased by 1.
+    its Divine Hierarchy is increased by 1, \
+    its effect activations and its activated effects cannot be negated, \
+    it gains 1000 ATK/DEF. \
+    These changes ignoring its effects. \
 """
 strings = ["Summon Divine-Beast", "Evolute Divine-Beast"]

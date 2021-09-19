@@ -24,7 +24,7 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
     e2:SetHintTiming(0, TIMING_MAIN_END + TIMING_BATTLE_START)
-    e2:SetCondition(s.e2con)
+    e2:SetCondition(s.effcon)
     e2:SetCost(s.effcost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -38,12 +38,18 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetHintTiming(0, TIMING_BATTLE_START)
     e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
-    e3:SetCondition(s.e3con)
+    e3:SetCondition(s.effcon)
     e3:SetCost(s.effcost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     Divine.RegisterEffect(c, e3)
     Utility.AvatarInfinity(s, c)
+end
+
+function s.effcon(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsAttackPos() and c:CanAttack() and
+               (Duel.IsMainPhase() or Duel.IsBattlePhase())
 end
 
 function s.effcost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -69,12 +75,6 @@ function s.effblockatk(e, tc)
     tc:RegisterEffect(ec1)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsAttackPos() or not c:CanAttack() then return false end
-    return (Duel.IsMainPhase() or Duel.IsBattlePhase())
-end
-
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return true end
@@ -93,7 +93,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsAttackPos() or not c:IsRelateToEffect(e) then return end
 
     local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
-    if Duel.Damage(p, c:GetAttack(), REASON_EFFECT) ~=0 then
+    if Duel.Damage(p, c:GetAttack(), REASON_EFFECT) ~= 0 then
         local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
         Duel.Destroy(g, REASON_EFFECT)
     end
@@ -101,21 +101,17 @@ end
 
 function s.e3filter(c, sc) return c:IsFaceup() and c:IsCanBeBattleTarget(sc) end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsAttackPos() or not c:CanAttack() then return false end
-
-    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE,
-                                    LOCATION_MZONE, nil)
-    local total = 0
-    for tc in aux.Next(g) do total = total + Divine.GetDivineHierarchy(tc) end
-    return Duel.IsBattlePhase() and total >= 3
-end
-
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
+        local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE,
+                                        LOCATION_MZONE, nil)
+        local total = 0
+        for tc in aux.Next(g) do
+            total = total + Divine.GetDivineHierarchy(tc)
+        end
         return Duel.IsExistingMatchingCard(s.e3filter, tp, 0, LOCATION_MZONE, 1,
-                                           nil, e:GetHandler())
+                                           nil, c) and total >= 3
     end
 end
 
