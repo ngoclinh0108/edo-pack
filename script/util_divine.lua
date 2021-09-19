@@ -65,11 +65,22 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     -- no leave
     local noleave1 = Effect.CreateEffect(c)
     noleave1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    noleave1:SetCode(EVENT_CHAINING)
+    noleave1:SetCode(EVENT_CHAIN_SOLVING)
     noleave1:SetRange(LOCATION_MZONE)
+    noleave1:SetLabelObject({})
     noleave1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        if not re or re:GetHandler():IsMonster() then return end
+        local effs = e:GetLabelObject()
+        while #effs > 0 do
+            local eff = table.remove(effs)
+            eff:Reset()
+        end
+
+        if not re then return end
         local c = e:GetHandler()
+        local rc = re:GetHandler()
+        if c == rc then return end
+        if rc:IsMonster() and Divine.GetDivineHierarchy(rc) >
+            Divine.GetDivineHierarchy(c) then return end
 
         local eff_codes = {
             EFFECT_UNRELEASABLE_NONSUM, EFFECT_UNRELEASABLE_EFFECT,
@@ -85,6 +96,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             eff:SetReset(RESET_CHAIN)
             eff:SetValue(1)
             c:RegisterEffect(eff)
+            table.insert(e:GetLabelObject(), eff)
         end
     end)
     Divine.RegisterEffect(c, noleave1)
@@ -94,14 +106,21 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noleave2:SetCode(EFFECT_SEND_REPLACE)
     noleave2:SetRange(LOCATION_MZONE)
     noleave2:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        local c = e:GetHandler()
         if chk == 0 then
-            return r & REASON_EFFECT ~= 0 and
-                       e:GetHandler():IsReason(REASON_EFFECT) and re and
-                       not re:GetHandler():IsMonster()
+            if not (r & REASON_EFFECT ~= 0) or not c:IsReason(REASON_EFFECT) or
+                not re or re:GetHandler() == c then return false end
+
+            local rc = re:GetHandler()
+            return not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <=
+                       Divine.GetDivineHierarchy(c)
         end
         return true
     end)
     Divine.RegisterEffect(c, noleave2)
+    local noleave3=noleave2:Clone()
+    noleave3:SetCode(EFFECT_DESTROY_REPLACE)
+    Divine.RegisterEffect(c, noleave3)
 
     -- immune
     local immune = Effect.CreateEffect(c)
@@ -110,10 +129,11 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     immune:SetCode(EFFECT_IMMUNE_EFFECT)
     immune:SetRange(LOCATION_MZONE)
     immune:SetValue(function(e, te)
-        return te:GetHandler() ~= e:GetHandler() and
-                   te:IsActiveType(TYPE_MONSTER) and
-                   Divine.GetDivineHierarchy(te:GetHandler()) <
-                   Divine.GetDivineHierarchy(c)
+        local c = e:GetHandler()
+        local tc = te:GetHandler()
+        local tp = e:GetHandlerPlayer()
+        return tc:IsControler(1 - tp) and tc:IsMonster() and
+                   Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(c)
     end)
     Divine.RegisterEffect(c, immune)
 
