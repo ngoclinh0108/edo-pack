@@ -43,7 +43,7 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     Divine.RegisterEffect(c, e3)
-    Utility.AvatarInfinity(s, id, c)
+    Utility.AvatarInfinity(s, c)
 end
 
 function s.effcon(e, tp, eg, ep, ev, re, r, rp)

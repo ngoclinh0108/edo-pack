@@ -100,7 +100,7 @@ function s.initial_effect(c)
     e7:SetOperation(s.e7op)
     Divine.RegisterEffect(c, e7)
 
-    Divine.RegisterRaDefuse(s, id, c)
+    Divine.RegisterRaDefuse(s, c)
 end
 
 function s.dmsfilter(c, check_flag)
@@ -149,7 +149,7 @@ function s.dmsop(e, tp, eg, ep, ev, re, r, rp)
         return
     elseif op == 2 then
         Utility.HintCard(mc)
-        Divine.RegisterRaFuse(id, c, mc, true)
+        Divine.RegisterRaFuse(c, mc, true)
 
         -- pay lp
         local paidlp = Duel.GetLP(tp)

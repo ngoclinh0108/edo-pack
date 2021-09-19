@@ -281,13 +281,13 @@ function Utility.GainInfinityAtk(c, reset)
     c:RegisterEffect(e2)
 end
 
-function Utility.AvatarInfinity(root, id, c)
+function Utility.AvatarInfinity(root, c)
     aux.GlobalCheck(root, function()
         local avataratk = Effect.CreateEffect(c)
         avataratk:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         avataratk:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         avataratk:SetCode(EVENT_ADJUST)
-        avataratk:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
+        avataratk:SetCountLimit(1, c:GetOriginalCode(), EFFECT_COUNT_CODE_DUEL)
         avataratk:SetOperation(function(e, tp, eg, ev, ep, re, r, rp)
             local g = Duel.GetMatchingGroup(Card.IsHasEffect, tp, 0xff, 0xff,
                                             nil, 21208154)

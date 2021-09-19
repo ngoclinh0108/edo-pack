@@ -77,7 +77,7 @@ function s.initial_effect(c)
     e5:SetOperation(s.e5regop)
     c:RegisterEffect(e5)
 
-    Divine.RegisterRaDefuse(s, id, c)
+    Divine.RegisterRaDefuse(s, c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -251,7 +251,7 @@ function s.e5raop(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetOperation(s.e5lpop)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
     rc:RegisterEffect(ec2, true)
-    Divine.RegisterRaFuse(id, c, rc, true)
+    Divine.RegisterRaFuse(c, rc, true)
 
     if not rc:IsOriginalCode(CARD_RA) then
         -- destroy

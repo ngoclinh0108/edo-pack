@@ -259,7 +259,9 @@ function Divine.RegisterEffect(c, eff, forced)
     c:RegisterEffect(e, forced)
 end
 
-function Divine.RegisterRaFuse(id, c, tc, forced)
+function Divine.RegisterRaFuse(c, tc, forced)
+    local id = c:GetOriginalCode()
+
     -- fusion type
     local fus = Effect.CreateEffect(c)
     fus:SetType(EFFECT_TYPE_SINGLE)
@@ -312,7 +314,8 @@ function Divine.RegisterRaFuse(id, c, tc, forced)
     Divine.RegisterEffect(tc, lp, forced)
 end
 
-function Divine.RegisterRaDefuse(s, id, c)
+function Divine.RegisterRaDefuse(s, c)
+    local id = c:GetOriginalCode()
     aux.GlobalCheck(s, function()
         local defuse = Effect.CreateEffect(c)
         defuse:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
