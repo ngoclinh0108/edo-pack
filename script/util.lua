@@ -283,33 +283,45 @@ end
 
 function Utility.AvatarInfinity(root, c)
     aux.GlobalCheck(root, function()
+        local id = c:GetOriginalCode()
+
+        function AvatarFilter(c)
+            return c:IsHasEffect(21208154) and not c:IsHasEffect(id)
+        end
+
+        function AvatarVal()
+            local g = Duel.GetMatchingGroup(function(c)
+                return c:IsFaceup() and not c:IsHasEffect(21208154)
+            end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
+
+            if #g == 0 then
+                return 100
+            else
+                local _, val = g:GetMaxGroup(Card.GetAttack)
+                if val >= Utility.INFINITY_ATTACK then
+                    return val
+                else
+                    return val + 100
+                end
+            end
+        end
+
         local avataratk = Effect.CreateEffect(c)
         avataratk:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         avataratk:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         avataratk:SetCode(EVENT_ADJUST)
-        avataratk:SetCountLimit(1, c:GetOriginalCode(), EFFECT_COUNT_CODE_DUEL)
+        avataratk:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+            return Duel.IsExistingMatchingCard(AvatarFilter, tp, 0xff, 0xff, 1,
+                                               nil)
+        end)
         avataratk:SetOperation(function(e, tp, eg, ev, ep, re, r, rp)
-            local g = Duel.GetMatchingGroup(Card.IsHasEffect, tp, 0xff, 0xff,
-                                            nil, 21208154)
-
-            function AvatarVal()
-                local g = Duel.GetMatchingGroup(function(c)
-                    return c:IsFaceup() and not c:IsHasEffect(21208154)
-                end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
-
-                if #g == 0 then
-                    return 100
-                else
-                    local _, val = g:GetMaxGroup(Card.GetAttack)
-                    if val >= Utility.INFINITY_ATTACK then
-                        return val
-                    else
-                        return val + 100
-                    end
-                end
-            end
-
+            local g = Duel.GetMatchingGroup(AvatarFilter, tp, 0xff, 0xff, nil)
             for tc in aux.Next(g) do
+                local eff = Effect.CreateEffect(tc)
+                eff:SetType(EFFECT_TYPE_SINGLE)
+                eff:SetCode(id)
+                tc:RegisterEffect(eff)
+
                 local atkteffs = {tc:GetCardEffect(EFFECT_SET_ATTACK_FINAL)}
                 for _, eff in ipairs(atkteffs) do
                     if eff:GetOwner() == tc and

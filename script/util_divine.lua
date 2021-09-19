@@ -316,19 +316,28 @@ end
 
 function Divine.RegisterRaDefuse(s, c)
     local id = c:GetOriginalCode()
+
+    function DefuseFilter(c)
+        return c:IsCode(95286165) and not c:IsHasEffect(id)
+    end
+
     aux.GlobalCheck(s, function()
         local defuse = Effect.CreateEffect(c)
         defuse:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         defuse:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         defuse:SetCode(EVENT_ADJUST)
-        defuse:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
+        defuse:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+            return Duel.IsExistingMatchingCard(DefuseFilter, tp, 0xff, 0xff, 1,
+                                               nil)
+        end)
         defuse:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local g = Duel.GetMatchingGroup(function(c)
-                return c:IsCode(95286165) and c:GetFlagEffect(id) == 0
-            end, tp, 0xff, 0xff, nil)
-
+            local g = Duel.GetMatchingGroup(DefuseFilter, tp, 0xff, 0xff, nil)
             for tc in aux.Next(g) do
-                tc:RegisterFlagEffect(id, 0, 0, 0)
+                local eff = Effect.CreateEffect(tc)
+                eff:SetType(EFFECT_TYPE_SINGLE)
+                eff:SetCode(id)
+                tc:RegisterEffect(eff)
+
                 local ec1 = Effect.CreateEffect(tc)
                 ec1:SetDescription(666006)
                 ec1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE +
