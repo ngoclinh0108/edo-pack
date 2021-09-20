@@ -54,19 +54,24 @@ function s.initial_effect(c)
             Duel.RegisterEffect(dms, 0)
         end,
         custom_op = function(e, c, mc)
+            local atk = mc:GetBaseAttack()
+            local def = mc:GetBaseDefense()
+
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)
             if divine_evolution then Divine.DivineEvolution(c) end
+            
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
             ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
             ec1:SetCode(EFFECT_SET_BASE_ATTACK)
             ec1:SetRange(LOCATION_MZONE)
-            ec1:SetValue(4000)
+            ec1:SetValue(atk)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
             Divine.RegisterRaEffect(c, ec1, true)
             local ec1b = ec1:Clone()
             ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
+            ec1b:SetValue(def)
             Divine.RegisterRaEffect(c, ec1b, true)
         end
     })
@@ -160,7 +165,6 @@ function s.initial_effect(c)
     e7:SetCode(EVENT_FREE_CHAIN)
     e7:SetRange(LOCATION_MZONE)
     e7:SetHintTiming(TIMING_END_PHASE)
-    e7:SetCondition(s.e7con)
     e7:SetCost(s.e7cost)
     e7:SetTarget(s.e7tg)
     e7:SetOperation(s.e7op)
@@ -180,13 +184,9 @@ end
 
 function s.dmsfilter(c, tp)
     local re = c:GetReasonEffect()
-    return c:IsControler(tp) and c:IsReason(REASON_EFFECT) and
-               not c:IsReason(REASON_REPLACE) and re and re:GetHandler() == c and
-               c:IsFaceup() and c:IsCode(CARD_RA)
-end
-
-function s.e7con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() ~= PHASE_END
+    if c:IsReason(REASON_REPLACE) then return false end
+    return c:IsReason(REASON_EFFECT) and re and re:GetHandler() == c and
+               c:IsControler(tp) and c:IsFaceup() and c:IsCode(CARD_RA)
 end
 
 function s.e7cost(e, tp, eg, ep, ev, re, r, rp, chk)
