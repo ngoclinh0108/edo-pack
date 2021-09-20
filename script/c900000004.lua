@@ -18,10 +18,11 @@ function s.initial_effect(c)
             return c:IsCode(CARD_RA) and c:GetOwner() == e:GetOwnerPlayer()
         end,
         custom_op = function(e, c, mc)
+            local tp = e:GetOwnerPlayer()
             if mc:IsControler(e:GetOwnerPlayer()) then
-                local op = Duel.SelectOption(mc:GetSummonPlayer(),
-                                             aux.Stringid(id, 2),
-                                             aux.Stringid(id, 3))
+                Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 2))
+                local op = Duel.SelectOption(tp, aux.Stringid(id, 3),
+                                             aux.Stringid(id, 4))
                 if op == 0 then
                     s.battlemode(c, mc, 4000, 4000)
                     return
@@ -31,7 +32,6 @@ function s.initial_effect(c)
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)
             if divine_evolution then Divine.DivineEvolution(c) end
-            return
         end
     })
 
@@ -104,7 +104,7 @@ function s.initial_effect(c)
 
     -- battle mode
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 3))
+    e5:SetDescription(aux.Stringid(id, 4))
     e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e5:SetType(EFFECT_TYPE_IGNITION)
     e5:SetProperty(EFFECT_FLAG_BOTH_SIDE)
@@ -167,7 +167,7 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return tp == c:GetOwner() or #g > 0 end
 
     if tp == c:GetOwner() and
-        (#g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 4))) then
+        (#g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 5))) then
         return
     end
 

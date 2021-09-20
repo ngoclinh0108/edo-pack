@@ -45,7 +45,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noswitch:SetRange(LOCATION_MZONE)
     Divine.RegisterEffect(c, noswitch)
 
-    -- cannot be Tributed, or be used as a material for an Summon by your opponent.
+    -- cannot be Tributed, or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
     norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET)

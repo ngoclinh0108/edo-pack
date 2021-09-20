@@ -7,12 +7,35 @@ local s, id = GetID()
 s.listed_names = {CARD_RA, 10000080}
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2, false, false)
+    s.divine_hierarchy = 2
     Dimension.AddProcedure(c)
 
-    -- dimension change
+    -- dimension change (special summon)
     Dimension.RegisterChange({
         handler = c,
+        flag_id = id + 100000,
+        event_code = EVENT_SPSUMMON_SUCCESS,
+        filter = function(c, e)
+            return c:IsCode(CARD_RA) and c:GetOwner() == e:GetOwnerPlayer() and
+                       c:IsPreviousLocation(LOCATION_GRAVE)
+        end,
+        custom_op = function(e, c, mc)
+            local tp = e:GetOwnerPlayer()
+            Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
+            local op = Duel.SelectOption(tp, aux.Stringid(id, 1),
+                                         aux.Stringid(id, 2))
+            if op == 0 then return end
+
+            local divine_evolution = Divine.IsDivineEvolution(mc)
+            Dimension.Change(mc, c)
+            if divine_evolution then Divine.DivineEvolution(c) end
+        end
+    })
+
+    -- dimension change (self destroy)
+    Dimension.RegisterChange({
+        handler = c,
+        flag_id = id + 200000,
         custom_reg = function(c, flag_id)
             local dms = Effect.CreateEffect(c)
             dms:SetType(EFFECT_TYPE_CONTINUOUS)
@@ -48,69 +71,110 @@ function s.initial_effect(c)
         end
     })
 
-    -- race
+    -- effects cannot be negated
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_ADD_RACE)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(RACE_PYRO)
+    e1:SetCode(EFFECT_CANNOT_DISABLE)
     Divine.RegisterEffect(c, e1)
+    local e1b = Effect.CreateEffect(c)
+    e1b:SetType(EFFECT_TYPE_FIELD)
+    e1b:SetCode(EFFECT_CANNOT_DISEFFECT)
+    e1b:SetRange(LOCATION_MZONE)
+    e1b:SetValue(function(e, ct)
+        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+        return te:GetHandler() == e:GetHandler()
+    end)
+    Divine.RegisterEffect(c, e1b)
 
-    -- indes & no damage
+    -- race
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e2:SetCode(EFFECT_ADD_RACE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(function(e, tc)
+    e2:SetValue(RACE_PYRO)
+    Divine.RegisterEffect(c, e2)
+
+    -- cannot switch control
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    e3:SetRange(LOCATION_MZONE)
+    Divine.RegisterEffect(c, e3)
+
+    -- cannot be Tributed, or be used as a material
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e4:SetCode(EFFECT_CANNOT_RELEASE)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetTargetRange(0, 1)
+    e4:SetTarget(function(e, tc) return tc == e:GetHandler() end)
+    Divine.RegisterEffect(c, e4)
+    local e4b = Effect.CreateEffect(c)
+    e4b:SetType(EFFECT_TYPE_SINGLE)
+    e4b:SetCode(EFFECT_CANNOT_BE_MATERIAL)
+    e4b:SetValue(function(e, tc)
+        return tc and tc:GetControler() ~= e:GetHandlerPlayer()
+    end)
+    Divine.RegisterEffect(c, e4b)
+
+    -- immune
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_SINGLE)
+    e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e5:SetCode(EFFECT_IMMUNE_EFFECT)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
+    Divine.RegisterEffect(c, e5)
+
+    -- indes & no damage
+    local e6 = Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_SINGLE)
+    e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e6:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e6:SetRange(LOCATION_MZONE)
+    e6:SetValue(function(e, tc)
         if Divine.GetDivineHierarchy(tc) >=
             Divine.GetDivineHierarchy(e:GetHandler()) then return false end
         c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
                                  PHASE_END, 0, 1)
         return true
     end)
-    Divine.RegisterEffect(c, e2)
-    local e2b = Effect.CreateEffect(c)
-    e2b:SetType(EFFECT_TYPE_SINGLE)
-    e2b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    e2b:SetValue(function(e)
+    Divine.RegisterEffect(c, e6)
+    local e6b = Effect.CreateEffect(c)
+    e6b:SetType(EFFECT_TYPE_SINGLE)
+    e6b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e6b:SetValue(function(e)
         return e:GetHandler():GetFlagEffect(id) == 0 and 1 or 0
     end)
-    Divine.RegisterEffect(c, e2b)
-
-    -- unstoppable attack
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-    e3:SetRange(LOCATION_MZONE)
-    Divine.RegisterEffect(c, e3)
+    Divine.RegisterEffect(c, e6b)
 
     -- to grave
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_TOGRAVE)
-    e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e4:SetCode(EVENT_FREE_CHAIN)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetHintTiming(TIMING_END_PHASE)
-    e4:SetCost(s.e4cost)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    Divine.RegisterEffect(c, e4)
+    local e7 = Effect.CreateEffect(c)
+    e7:SetDescription(aux.Stringid(id, 3))
+    e7:SetCategory(CATEGORY_TOGRAVE)
+    e7:SetType(EFFECT_TYPE_QUICK_O)
+    e7:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e7:SetCode(EVENT_FREE_CHAIN)
+    e7:SetRange(LOCATION_MZONE)
+    e7:SetHintTiming(TIMING_END_PHASE)
+    e7:SetCost(s.e7cost)
+    e7:SetTarget(s.e7tg)
+    e7:SetOperation(s.e7op)
+    Divine.RegisterEffect(c, e7)
 
     -- return
-    local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 1))
-    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e5:SetCode(EVENT_PHASE + PHASE_END)
-    e5:SetRange(LOCATION_MZONE)
-    e5:SetCountLimit(1)
-    e5:SetOperation(s.e5op)
-    Divine.RegisterEffect(c, e5)
+    local e8 = Effect.CreateEffect(c)
+    e8:SetDescription(aux.Stringid(id, 4))
+    e8:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e8:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e8:SetCode(EVENT_PHASE + PHASE_END)
+    e8:SetRange(LOCATION_MZONE)
+    e8:SetCountLimit(1)
+    e8:SetOperation(s.e8op)
+    Divine.RegisterEffect(c, e8)
 end
 
 function s.dmsfilter(c, tp)
@@ -120,12 +184,12 @@ function s.dmsfilter(c, tp)
                c:IsFaceup() and c:IsCode(CARD_RA)
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e7cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.CheckLPCost(tp, 1000) end
     Duel.PayLPCost(tp, 1000)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e7tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id + 100000) == 0 and
@@ -142,7 +206,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     c:RegisterFlagEffect(id + 100000, RESET_CHAIN, 0, 1)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
@@ -165,7 +229,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoGrave(tc, REASON_EFFECT)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e8op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.HintSelection(Group.FromCards(c))
 
