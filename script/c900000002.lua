@@ -35,15 +35,19 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetCode(EVENT_SUMMON_SUCCESS)
     e3:SetRange(LOCATION_MZONE)
+    e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     Divine.RegisterEffect(c, e3)
     local e3b = e3:Clone()
-    e3b:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e3b:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
     Divine.RegisterEffect(c, e3b)
     local e3c = e3:Clone()
-    e3c:SetCode(EVENT_CONTROL_CHANGED)
+    e3c:SetCode(EVENT_SPSUMMON_SUCCESS)
     Divine.RegisterEffect(c, e3c)
+    local e3d = e3:Clone()
+    e3d:SetCode(EVENT_CONTROL_CHANGED)
+    Divine.RegisterEffect(c, e3d)
 end
 
 function s.e2val(e, c)
@@ -57,18 +61,21 @@ function s.e3filter(c, e, tp)
                (not e or c:IsRelateToEffect(e)) and c:IsControler(1 - tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = eg:Filter(s.e3filter, nil, nil, tp)
-    if chk == 0 then return c:IsAttackPos() and c:CanAttack() and #g > 0 end
+    return c:CanAttack() and eg:IsExists(s.e3filter, 1, nil, nil, tp)
+end
 
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsRelateToEffect(e) end
+
+    local g = eg:Filter(s.e3filter, nil, nil, tp)
     Duel.SetTargetCard(g)
     Duel.SetChainLimit(function(e) return not eg:IsContains(e:GetHandler()) end)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsAttackPos() or not c:IsRelateToEffect(e) then return end
     local tg = Duel.GetTargetCards(e):Filter(s.e3filter, nil, e, tp)
     local dg = Group.CreateGroup()
 
@@ -92,5 +99,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         end
     end
 
+    if #dg == 0 then return end
+    Duel.BreakEffect()
     Duel.Destroy(dg, REASON_EFFECT)
 end

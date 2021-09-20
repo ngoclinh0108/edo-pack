@@ -25,17 +25,16 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Warrior-Type while it is on the field. \
-Once per turn: You can Tribute 2 other monsters, then activate 1 of these Quick Effects;
-● While this card is able to attack and did not declare an attack this turn: \
+Once per turn (Quick Effect): You can Tribute 2 other monsters, then activate 1 of these effects;
+● While this card is able to attack: \
     Destroy all monsters your opponent controls, \
     also inflict damage to your opponent equal to this card's ATK. \
-    This card must be Attack Position to activate and to resolve these effects, \
-    also it cannot attack for the rest of this turn.
+    This card cannot declare an attack the turn this effect is activated.
 ● Once during this turn, if this card battles an opponent's monster, \
     during damage calculation, it gains ∞ ATK during the damage calculation only. \
     The total monster's Divine Hierarchy on the field must be 3 or more to activate this card's effect.
 """
-strings = ["Destroy & damage", "Gain ∞ ATK"]
+strings = ["Soul Energy MAX", "Destroy & damage", "Gain ∞ ATK for 1 attack"]
 
 [card.osiris]
 id = 900000002
@@ -55,14 +54,13 @@ ${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Dragon-Type while it is on the field. \
 This card's original ATK and DEF are each equal to the number of cards in your hand x X000. \
     (X is its Divine Hierarchy). \
-If a monster(s) is Normal or Special Summoned to your opponent's field, \
+If a monster(s) is Summoned to your opponent's field, \
     or control of a monster(s) changes to your opponent, \
     while this card is able to attack: \
     Target that monster(s), ignoring card effects; \
     it loses 2000 ATK or DEF depending on its battle position, \
-    then if its ATK or DEF is 0, destroy it, \
+    also, after that if its ATK or DEF is 0, destroy it, \
     that monster(s) cannot activate its effects in response to this effect's activation. \
-    This card must be face-up Attack Position on the field to activate and to resolve this effect. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
