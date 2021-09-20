@@ -77,18 +77,20 @@ function s.initial_effect(c)
     c:RegisterEffect(e5)
 end
 
+function s.e1filter(c) return c:GetAttack() > 0 end
+
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():GetSummonType() == SUMMON_TYPE_LINK
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_GRAVE, 0, 1, nil, e,
-                                     tp)
+        return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE, 0, 1, nil,
+                                     e, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-    Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_GRAVE, 0, 1, 3, nil, e, tp)
+    Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_GRAVE, 0, 1, 3, nil, e, tp)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
