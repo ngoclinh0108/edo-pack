@@ -255,7 +255,7 @@ function Utility.GainInfinityAtk(c, reset)
         if #g == 0 then
             return Utility.INFINITY_ATTACK - c:GetAttack()
         else
-            local tg, val = g:GetMaxGroup(Card.GetAttack)
+            local _, val = g:GetMaxGroup(Card.GetAttack)
             if val <= Utility.INFINITY_ATTACK then
                 return Utility.INFINITY_ATTACK - c:GetAttack()
             else

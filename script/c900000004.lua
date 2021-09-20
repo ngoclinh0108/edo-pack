@@ -15,13 +15,23 @@ function s.initial_effect(c)
         handler = c,
         event_code = EVENT_SUMMON_SUCCESS,
         filter = function(c, e)
-            return c:IsCode(CARD_RA) and c:GetOwner() == e:GetOwnerPlayer() and
-                       c:IsControler(1 - e:GetOwnerPlayer())
+            return c:IsCode(CARD_RA) and c:GetOwner() == e:GetOwnerPlayer()
         end,
         custom_op = function(e, c, mc)
+            if mc:IsControler(e:GetOwnerPlayer()) then
+                local op = Duel.SelectOption(mc:GetSummonPlayer(),
+                                             aux.Stringid(id, 2),
+                                             aux.Stringid(id, 3))
+                if op == 0 then
+                    s.battlemode(c, mc, 4000, 4000)
+                    return
+                end
+            end
+
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)
             if divine_evolution then Divine.DivineEvolution(c) end
+            return
         end
     })
 
@@ -92,7 +102,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e4grant)
 
-    -- ancient chant
+    -- battle mode
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 3))
     e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -100,6 +110,9 @@ function s.initial_effect(c)
     e5:SetProperty(EFFECT_FLAG_BOTH_SIDE)
     e5:SetRange(LOCATION_MZONE)
     e5:SetCountLimit(1)
+    e5:SetCondition(function(e)
+        return Duel.GetTurnCount() ~= e:GetHandler():GetTurnID()
+    end)
     e5:SetCost(s.e5cost)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
@@ -145,16 +158,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp, c, minc, zone, relzone, exeff)
     c:SetMaterial(g)
     Duel.Release(g, REASON_SUMMON + REASON_MATERIAL)
     g:DeleteGroup()
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 2))
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH +
-                        EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(id)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -168,9 +171,7 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
         return
     end
 
-    local sc = Utility.GroupSelect(HINTMSG_CONFIRM, g, tp, 1, 1, nil):GetFirst()
-    Duel.ConfirmCards(1 - tp, sc)
-    if sc:IsLocation(LOCATION_DECK) then Duel.ShuffleDeck(tp) end
+    Duel.ConfirmCards(1 - tp, g:GetFirst())
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -180,8 +181,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return Dimension.IsAbleToDimension(c) and mc and
                    (c:GetControler() == tp or
                        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0) and
-                   Dimension.CanBeDimensionSummoned(mc, e, tp) and
-                   not Duel.IsPlayerAffectedByEffect(tp, id)
+                   Dimension.CanBeDimensionSummoned(mc, e, tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, mc, 1, 0, 0)
@@ -202,13 +202,14 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local seq = is_control and c:GetPreviousSequence() or nil
     if not Dimension.Summon(tc, tp, tp, POS_FACEUP, seq) then return end
     if divine_evolution then Divine.DivineEvolution(tc) end
+    s.battlemode(c, tc, 4000, 4000)
+end
 
+function s.battlemode(c, tc, base_atk, base_def)
     -- calculate atk/def
-    local atk = 4000
-    local def = 4000
+    local atk = 0
+    local def = 0
     if tc:IsSummonType(SUMMON_TYPE_TRIBUTE) then
-        atk = 0
-        def = 0
         local mg = tc:GetMaterial()
         for mc in aux.Next(mg) do
             if mc:GetPreviousAttackOnField() > 0 then
@@ -218,6 +219,9 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
                 def = def + mc:GetPreviousDefenseOnField()
             end
         end
+    else
+        if base_atk ~= nil then atk = base_atk end
+        if base_def ~= nil then def = base_def end
     end
 
     -- set base atk/def

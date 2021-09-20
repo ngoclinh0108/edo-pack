@@ -134,6 +134,7 @@ function Dimension.Change(mc, sc, mg)
                      (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
     sc:RegisterEffect(ec1)
 
+    Duel.BreakEffect()
     return true
 end
 
