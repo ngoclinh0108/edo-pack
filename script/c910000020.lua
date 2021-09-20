@@ -33,7 +33,7 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_IMMUNE_EFFECT)
     e1:SetRange(LOCATION_MZONE)
     e1:SetValue(function(e, te)
-        return te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
+        return te:GetHandler():GetOwner() ~= e:GetHandlerPlayer()
     end)
     c:RegisterEffect(e1)
 

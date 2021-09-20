@@ -16,11 +16,11 @@ function s.initial_effect(c)
         flag_id = id + 100000,
         event_code = EVENT_SPSUMMON_SUCCESS,
         filter = function(c, e)
-            return c:IsCode(CARD_RA) and c:GetOwner() == e:GetOwnerPlayer() and
+            return c:IsCode(CARD_RA) and c:GetOwner() == e:GetHandler():GetOwner() and
                        c:IsPreviousLocation(LOCATION_GRAVE)
         end,
         custom_op = function(e, c, mc)
-            local tp = e:GetOwnerPlayer()
+            local tp = e:GetHandler():GetOwner()
             Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
             local op = Duel.SelectOption(tp, aux.Stringid(id, 1),
                                          aux.Stringid(id, 2))
@@ -41,7 +41,7 @@ function s.initial_effect(c)
             dms:SetType(EFFECT_TYPE_CONTINUOUS)
             dms:SetCode(EFFECT_DESTROY_REPLACE)
             dms:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-                local g = eg:Filter(s.dmsfilter, nil, e:GetOwnerPlayer())
+                local g = eg:Filter(s.dmsfilter, nil, e:GetHandler():GetOwner())
                 if chk == 0 then return #g > 0 end
                 for tc in aux.Next(g) do
                     tc:RegisterFlagEffect(flag_id, 0, 0, 1)
@@ -49,9 +49,10 @@ function s.initial_effect(c)
                 return true
             end)
             dms:SetValue(function(e, c)
-                return s.dmsfilter(c, e:GetOwnerPlayer())
+                return s.dmsfilter(c, e:GetHandler():GetOwner())
             end)
             Duel.RegisterEffect(dms, 0)
+            Duel.RegisterEffect(dms, 1)
         end,
         custom_op = function(e, c, mc)
             local atk = mc:GetBaseAttack()

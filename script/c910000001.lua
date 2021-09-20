@@ -50,7 +50,7 @@ function s.initial_effect(c)
         return e:GetHandler():GetCounter(COUNTER_SPELL) >= 3
     end)
     e3:SetValue(function(e, te)
-        return te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
+        return te:GetHandler():GetOwner() ~= e:GetHandlerPlayer()
     end)
     c:RegisterEffect(e3)
 

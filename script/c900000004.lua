@@ -15,11 +15,11 @@ function s.initial_effect(c)
         handler = c,
         event_code = EVENT_SUMMON_SUCCESS,
         filter = function(c, e)
-            return c:IsCode(CARD_RA) and c:GetOwner() == e:GetOwnerPlayer()
+            return c:IsCode(CARD_RA) and c:GetOwner() == e:GetHandler():GetOwner()
         end,
         custom_op = function(e, c, mc)
-            local tp = e:GetOwnerPlayer()
-            if mc:IsControler(e:GetOwnerPlayer()) then
+            local tp = e:GetHandler():GetOwner()
+            if mc:IsControler(e:GetHandler():GetOwner()) then
                 Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 2))
                 local op = Duel.SelectOption(tp, aux.Stringid(id, 3),
                                              aux.Stringid(id, 4))
