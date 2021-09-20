@@ -113,7 +113,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if c:IsSummonType(SUMMON_TYPE_SPECIAL) and
         c:IsPreviousLocation(LOCATION_GRAVE) then
         local effs = {c:GetCardEffect(EFFECT_CANNOT_ATTACK)}
-        for _, eff in pairs(effs) do eff:Reset() end
+        for _, eff in pairs(effs) do
+            if eff:GetHandler() == c then eff:Reset() end
+        end
     end
 end
 
