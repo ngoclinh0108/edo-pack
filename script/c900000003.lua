@@ -1,7 +1,6 @@
 -- Sun Divine Beast of Ra
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
-Duel.LoadScript("util_dimension.lua")
 local s, id = GetID()
 
 s.listed_names = {95286165}
@@ -36,6 +35,9 @@ function s.initial_effect(c)
     e2b:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2b:SetCode(EVENT_SUMMON_SUCCESS)
     Divine.RegisterEffect(c, e2b)
+    local e2c = e2b:Clone()
+    e2c:SetCode(EVENT_SPSUMMON_SUCCESS)
+    Divine.RegisterEffect(c, e2c)
 
     -- destroy
     local e3 = Effect.CreateEffect(c)
