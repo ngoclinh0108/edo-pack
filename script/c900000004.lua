@@ -4,11 +4,10 @@ Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("util_dimension.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_RA, 78665705, 95286165}
+s.listed_names = {CARD_RA, 78665705}
 
 function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 2, false, false)
-    Divine.RegisterRaDefuse(s, c)
     Dimension.AddProcedure(c)
 
     -- dimension change
@@ -25,15 +24,6 @@ function s.initial_effect(c)
             if divine_evolution then Divine.DivineEvolution(c) end
         end
     })
-
-    -- summon effect
-    local sum = Effect.CreateEffect(c)
-    sum:SetType(EFFECT_TYPE_CONTINUOUS)
-    sum:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    sum:SetCode(EVENT_SUMMON_SUCCESS)
-    sum:SetCondition(s.sumcon)
-    sum:SetOperation(s.sumop)
-    Duel.RegisterEffect(sum, 0)
 
     -- race
     local e1 = Effect.CreateEffect(c)
@@ -116,20 +106,6 @@ function s.initial_effect(c)
     Divine.RegisterEffect(c, e5)
 end
 
-function s.sumfilter(c, tp) return c:IsCode(CARD_RA) and c:IsControler(tp) end
-
-function s.sumcon(e, _, eg)
-    local c = e:GetHandler()
-    return Dimension.IsInDimensionZone(c) and
-               eg:IsExists(s.sumfilter, 1, nil, c:GetOwner())
-end
-
-function s.sumop(e, _, eg)
-    local tc = eg:Filter(s.sumfilter, nil, e:GetOwnerPlayer()):GetFirst()
-    if not tc then return end
-    s.granteffect(e, tc, true)
-end
-
 function s.e4con(e, c, minc, zone, relzone, exeff)
     if c == nil then return true end
     if exeff then
@@ -192,8 +168,9 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
         return
     end
 
-    local sg = Utility.GroupSelect(HINTMSG_CONFIRM, g, tp, 1, 1, nil)
-    Duel.ConfirmCards(1 - tp, sg)
+    local sc = Utility.GroupSelect(HINTMSG_CONFIRM, g, tp, 1, 1, nil):GetFirst()
+    Duel.ConfirmCards(1 - tp, sc)
+    if sc:IsLocation(LOCATION_DECK) then Duel.ShuffleDeck(tp) end
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -213,26 +190,18 @@ end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local mc = c:GetMaterial():GetFirst()
+    local tc = c:GetMaterial():GetFirst()
     local is_control = tp == c:GetControler()
 
+    -- send to dimension
     local divine_evolution = Divine.IsDivineEvolution(c)
     if not Dimension.SendToDimension(c, REASON_COST) then return end
     Duel.BreakEffect()
 
+    -- dimension summon
     local seq = is_control and c:GetPreviousSequence() or nil
-    if not Dimension.Summon(mc, tp, tp, c:GetPreviousPosition(), seq) then
-        return
-    end
-    if divine_evolution then Divine.DivineEvolution(mc) end
-
-    s.granteffect(e, mc, false)
-end
-
-function s.granteffect(e, tc, hint)
-    local c = e:GetHandler()
-    if hint then Utility.HintCard(c) end
-    Divine.RegisterRaFuse(c, tc, true)
+    if not Dimension.Summon(tc, tp, tp, POS_FACEUP, seq) then return end
+    if divine_evolution then Divine.DivineEvolution(tc) end
 
     -- calculate atk/def
     local atk = 4000
@@ -264,82 +233,4 @@ function s.granteffect(e, tc, hint)
     ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
     ec1b:SetValue(def)
     Divine.RegisterRaEffect(tc, ec1b, true)
-
-    -- unstoppable attack
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetDescription(aux.Stringid(id, 5))
-    ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
-    ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-    ec2:SetRange(LOCATION_MZONE)
-    Divine.RegisterRaEffect(tc, ec2, true)
-    local spnoattack = tc:GetCardEffect(EFFECT_CANNOT_ATTACK)
-    if spnoattack then spnoattack:Reset() end
-
-    -- destroy
-    if not tc:IsOriginalCode(CARD_RA) then
-        local ec3 = Effect.CreateEffect(c)
-        ec3:SetDescription(aux.Stringid(id, 6))
-        ec3:SetCategory(CATEGORY_DESTROY)
-        ec3:SetType(EFFECT_TYPE_IGNITION)
-        ec3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-        ec3:SetRange(LOCATION_MZONE)
-        ec3:SetCost(function(e, tp, eg, ep, ev, re, r, rp, chk)
-            if chk == 0 then return Duel.CheckLPCost(tp, 1000) end
-            Duel.PayLPCost(tp, 1000)
-        end)
-        ec3:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-            if chk == 0 then
-                return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_MZONE,
-                                             LOCATION_MZONE, 1, nil)
-            end
-
-            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-            local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_MZONE,
-                                        LOCATION_MZONE, 1, 1, nil)
-            Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
-        end)
-        ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local tc = Duel.GetFirstTarget()
-            if not tc or not tc:IsRelateToEffect(e) then return end
-            Duel.Destroy(tc, REASON_EFFECT)
-        end)
-        Divine.RegisterRaEffect(tc, ec3, true)
-    end
-
-    -- life point transfer
-    local ec4 = Effect.CreateEffect(c)
-    ec4:SetDescription(aux.Stringid(id, 7))
-    ec4:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-    ec4:SetType(EFFECT_TYPE_IGNITION)
-    ec4:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
-    ec4:SetRange(LOCATION_MZONE)
-    ec4:SetCost(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        local c = e:GetHandler()
-        if chk == 0 then return Duel.GetLP(tp) > 100 end
-        local paidlp = Duel.GetLP(tp) - 100
-        Duel.PayLPCost(tp, paidlp)
-
-        e:SetLabelObject({
-            c:GetBaseAttack() + paidlp, c:GetBaseDefense() + paidlp
-        })
-    end)
-    ec4:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then return true end
-        Duel.SetChainLimit(aux.FALSE)
-    end)
-    ec4:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
-
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(aux.Stringid(id, 7))
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(id)
-        ec1:SetLabelObject(e:GetLabelObject())
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        Divine.RegisterEffect(c, ec1, true)
-    end)
-    Divine.RegisterRaEffect(tc, ec4, true)
 end

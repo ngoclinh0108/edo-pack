@@ -80,8 +80,23 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Winged-Beast-Type while it is on the field. \
+If this card is Tribute Summoned, you can reveal 1 "Ancient Chant" from everywhere, \
+    and if you do, its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
+    If you do have "Sun Divine Beast of Ra - Sphere Mode" in your Dimension Zone, you no need to reveal "Ancient Chant". \
+Once while face-up on the field: You can pay LP so that you only have 100 left; \
+    this card become Fusion Monster and gains original ATK/DEF become equal to the amount of LP paid, \
+    and also, any increase in LP is changed to increase it's original ATK/DEF instead. \
+    If "De-Fusion" targets this Fusion Monster, apply \
+    "that target loses its above effects and its ATK/DEF become 0, \
+    and if it do, its controller gains LP equal to that lost ATK" instead of. \
+    Cards and effects cannot be activated in response to the above effects' activation. \
+You can pay 1000 LP, then target 1 monster on the field; destroy it. \
 """
-strings = []
+strings = [
+    "Reveal \"Ancient Chant\"?",
+    "Life Point Transfer",
+    "Destroy 1 monster",
+]
 
 [card.ra-sphere]
 id = 900000004
@@ -95,42 +110,30 @@ atk = "?"
 def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
-${EGYPTIAN_EFFECT} \
 If your "The Winged Dragon of Ra" is Normal Summoned to your opponent's field, \
     Dimension Change it to this card with the same Divine Hierarchy. \
+${EGYPTIAN_EFFECT} \
 This card is also Machine-Type while it is on the field. \
 Cannot attack. \
 Neither player can target it for attacks or by card effects. \
 While it is in Dimension Zone: \
     You can Normal Summon "The Winged Dragon of Ra" to your opponent's field, \
     but you cannot activate the following effect until the end of this turn. \
-Once per turn: You can reveal 1 "Ancient Chant" from everywhere; \
+Once per turn: The turn player can reveal 1 "Ancient Chant" from everywhere; \
     send this card to the Dimension Zone, \
-    then Dimension Summon the Dimension Material Monster \
-    (it's Divine Hierarchy become the same as this card's). \
+    then Dimension Summon the material monster \
+    (it's Divine Hierarchy become the same as this card's), \
+    and if they do, its original ATK/DEF become 4000, \
+    or the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
     Cards and effects cannot be activated in response to this effect's activation. \
-    Both player can use this effect, but the this card's owner no need to reveal "Ancient Chant". \
-Your "The Winged Dragon of Ra" is Normal Summoned, or Dimension Summoned with the above effect gains the following effects;
-● This card's original ATK/DEF become 4000, or the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field.
-● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
-● You can pay 1000 LP, then target 1 monster on the field; destroy that target.
-● Once while face-up on the field: You can pay LP so that you only have 100 left; \
-    this card become Fusion Monster and gains original ATK/DEF become equal to the amount of LP paid, \
-    and also, any increase in LP is changed to increase it's original ATK/DEF instead. \
-    If "De-Fusion" targets this Fusion Monster, apply \
-    "that target loses its above effects and its ATK/DEF become 0, \
-    and if it do, its controller gains LP equal to that lost ATK" instead of. \
-    Cards and effects cannot be activated in response to the above effects' activation.
+    The owner of this card no need to reveal "Ancient Chant". \
 """
 strings = [
     "Summon to your field",
     "Summon to opponent's field",
     "Cannot activate \"Sun Divine Beast of Ra - Sphere Mode\"'s effects",
     "Turn into Battle Mode",
-    "Show \"Ancient Chant\"?",
-    "Unstoppable attack",
-    "Destroy 1 monster",
-    "Life Point Transfer",
+    "Reveal \"Ancient Chant\"?",
 ]
 
 [card.ra-phoenix]

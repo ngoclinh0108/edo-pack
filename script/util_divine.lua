@@ -290,8 +290,9 @@ function Divine.RegisterRaEffect(c, eff, forced)
     end
 end
 
-function Divine.RegisterRaFuse(c, tc, forced)
+function Divine.RegisterRaFuse(c, tc, reset, forced)
     local id = c:GetOriginalCode()
+    if tc == nil then tc = c end
 
     -- fusion type
     local fus = Effect.CreateEffect(c)
@@ -300,7 +301,7 @@ function Divine.RegisterRaFuse(c, tc, forced)
     fus:SetCode(EFFECT_ADD_TYPE)
     fus:SetCondition(function(e) return e:GetHandler():IsHasEffect(id) end)
     fus:SetValue(TYPE_FUSION)
-    fus:SetReset(RESET_EVENT + RESETS_STANDARD)
+    if reset then fus:SetReset(reset) end
     Divine.RegisterEffect(tc, fus, forced)
 
     -- base atk/def
@@ -312,7 +313,7 @@ function Divine.RegisterRaFuse(c, tc, forced)
     atk:SetValue(function(e)
         return e:GetHandler():GetCardEffect(id):GetLabelObject()[1]
     end)
-    atk:SetReset(RESET_EVENT + RESETS_STANDARD)
+    if reset then atk:SetReset(reset) end
     Divine.RegisterEffect(tc, atk, forced)
     local def = atk:Clone()
     def:SetCode(EFFECT_SET_BASE_DEFENSE)
@@ -341,7 +342,7 @@ function Divine.RegisterRaFuse(c, tc, forced)
 
         Duel.SetLP(tp, Duel.GetLP(tp) - ev, REASON_EFFECT)
     end)
-    lp:SetReset(RESET_EVENT + RESETS_STANDARD)
+    if reset then lp:SetReset(reset) end
     Divine.RegisterEffect(tc, lp, forced)
 end
 
