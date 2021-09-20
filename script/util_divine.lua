@@ -69,16 +69,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noleave:SetRange(LOCATION_MZONE)
     noleave:SetLabelObject({})
     noleave:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local effs = e:GetLabelObject()
-        while #effs > 0 do
-            local eff = table.remove(effs)
-            eff:Reset()
-            -- pcall(function()
-            --     Debug.Message("OK")
-            --     eff:Reset()
-            -- end)
-        end
-
         if not re then return end
         local c = e:GetHandler()
         local rc = re:GetHandler()
@@ -104,12 +94,23 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         end
     end)
     Divine.RegisterEffect(c, noleave)
-    local noleave2 = Effect.CreateEffect(c)
-    noleave2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    noleave2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noleave2:SetCode(EFFECT_SEND_REPLACE)
-    noleave2:SetRange(LOCATION_MZONE)
-    noleave2:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+    local noleave2 = noleave:Clone()
+    noleave2:SetCode(EVENT_CHAIN_SOLVED)
+    noleave2:SetLabelObject(noleave)
+    noleave2:SetOperation(function()
+        local effs = noleave:GetLabelObject()
+        while #effs > 0 do
+            local eff = table.remove(effs)
+            eff:Reset()
+        end
+    end)
+    Divine.RegisterEffect(c, noleave2)
+    local noleave3 = Effect.CreateEffect(c)
+    noleave3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    noleave3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noleave3:SetCode(EFFECT_SEND_REPLACE)
+    noleave3:SetRange(LOCATION_MZONE)
+    noleave3:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
         if chk == 0 then
             if not (r & REASON_EFFECT ~= 0) or not c:IsReason(REASON_EFFECT) or
@@ -121,10 +122,10 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         end
         return true
     end)
-    Divine.RegisterEffect(c, noleave2)
-    local noleave3 = noleave2:Clone()
-    noleave3:SetCode(EFFECT_DESTROY_REPLACE)
     Divine.RegisterEffect(c, noleave3)
+    local noleave4 = noleave3:Clone()
+    noleave4:SetCode(EFFECT_DESTROY_REPLACE)
+    Divine.RegisterEffect(c, noleave4)
 
     -- immune
     local immune = Effect.CreateEffect(c)
