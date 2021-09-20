@@ -121,10 +121,10 @@ function Dimension.Change(mc, sc, mg)
     end
 
     Dimension.SendToDimension(mc, REASON_RULE)
+    Dimension.ZonesRemoveCard(sc)
     Duel.MoveToField(sc, tp, tp, LOCATION_MZONE, pos, true, 1 << seq)
     sc:SetStatus(STATUS_FORM_CHANGED, true)
     Debug.PreSummon(sc, sumtype, sumloc)
-    Dimension.ZonesRemoveCard(sc)
 
     local ec1 = Effect.CreateEffect(sc)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -133,8 +133,6 @@ function Dimension.Change(mc, sc, mg)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD -
                      (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
     sc:RegisterEffect(ec1)
-
-    Duel.BreakEffect()
     return true
 end
 
