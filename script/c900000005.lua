@@ -160,6 +160,7 @@ function s.initial_effect(c)
     e7:SetCode(EVENT_FREE_CHAIN)
     e7:SetRange(LOCATION_MZONE)
     e7:SetHintTiming(TIMING_END_PHASE)
+    e7:SetCondition(s.e7con)
     e7:SetCost(s.e7cost)
     e7:SetTarget(s.e7tg)
     e7:SetOperation(s.e7op)
@@ -182,6 +183,10 @@ function s.dmsfilter(c, tp)
     return c:IsControler(tp) and c:IsReason(REASON_EFFECT) and
                not c:IsReason(REASON_REPLACE) and re and re:GetHandler() == c and
                c:IsFaceup() and c:IsCode(CARD_RA)
+end
+
+function s.e7con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetCurrentPhase() ~= PHASE_END
 end
 
 function s.e7cost(e, tp, eg, ep, ev, re, r, rp, chk)

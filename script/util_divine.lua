@@ -45,7 +45,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noswitch:SetRange(LOCATION_MZONE)
     Divine.RegisterEffect(c, noswitch)
 
-    -- cannot be Tributed, or be used as a material
+    -- cannot be tributed, or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
     norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -73,6 +73,10 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         while #effs > 0 do
             local eff = table.remove(effs)
             eff:Reset()
+            -- pcall(function()
+            --     Debug.Message("OK")
+            --     eff:Reset()
+            -- end)
         end
 
         if not re then return end
@@ -221,6 +225,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         end)
         spnoattack:SetOperation(function(e)
             local c = e:GetHandler()
+            if c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) then return end
+
             local ec1 = Effect.CreateEffect(c)
             ec1:SetDescription(3206)
             ec1:SetType(EFFECT_TYPE_SINGLE)
