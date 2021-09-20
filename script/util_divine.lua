@@ -63,12 +63,12 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     Divine.RegisterEffect(c, nomaterial)
 
     -- no leave
-    local noleave1 = Effect.CreateEffect(c)
-    noleave1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    noleave1:SetCode(EVENT_CHAIN_SOLVING)
-    noleave1:SetRange(LOCATION_MZONE)
-    noleave1:SetLabelObject({})
-    noleave1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    local noleave = Effect.CreateEffect(c)
+    noleave:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    noleave:SetCode(EVENT_CHAIN_SOLVING)
+    noleave:SetRange(LOCATION_MZONE)
+    noleave:SetLabelObject({})
+    noleave:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local effs = e:GetLabelObject()
         while #effs > 0 do
             local eff = table.remove(effs)
@@ -99,7 +99,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             table.insert(e:GetLabelObject(), eff)
         end
     end)
-    Divine.RegisterEffect(c, noleave1)
+    Divine.RegisterEffect(c, noleave)
     local noleave2 = Effect.CreateEffect(c)
     noleave2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     noleave2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -118,7 +118,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         return true
     end)
     Divine.RegisterEffect(c, noleave2)
-    local noleave3=noleave2:Clone()
+    local noleave3 = noleave2:Clone()
     noleave3:SetCode(EFFECT_DESTROY_REPLACE)
     Divine.RegisterEffect(c, noleave3)
 
@@ -188,13 +188,14 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 
             local ac = Duel.GetAttacker()
             local bc = Duel.GetAttackTarget()
-            local te, tg = Duel.GetChainInfo(ev + 1,
-                                             CHAININFO_TRIGGERING_EFFECT,
-                                             CHAININFO_TARGET_CARDS)
-
-            local b1 = ac and bc and ac:CanAttack() and bc:IsControler(tp) and
-                           not ac:IsImmuneToEffect(e)
-            local b2 = te and te ~= re and
+            local p, te, tg = Duel.GetChainInfo(ev + 1,
+                                                CHAININFO_TRIGGERING_PLAYER,
+                                                CHAININFO_TRIGGERING_EFFECT,
+                                                CHAININFO_TARGET_CARDS)
+            local b1 =
+                ac and bc and ac:CanAttack() and ac:IsControler(1 - tp) and
+                    bc:IsControler(tp) and not ac:IsImmuneToEffect(e)
+            local b2 = te and te ~= re and p == 1 - tp and
                            te:IsHasProperty(EFFECT_FLAG_CARD_TARGET) and tg and
                            #tg == 1 and tg:IsExists(function(c, tp)
                 return c:IsMonster() and c:IsControler(tp)
@@ -208,7 +209,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
                 Duel.ChangeTargetCard(ev + 1, Group.FromCards(c))
             end
         end)
-        c:RegisterEffect(switchtarget)
+        Divine.RegisterEffect(c, switchtarget)
 
         -- cannot attack when special summoned from the grave
         local spnoattack = Effect.CreateEffect(c)

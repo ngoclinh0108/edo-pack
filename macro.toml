@@ -8,7 +8,7 @@ This card's Normal Summon cannot be negated.\
 """
 EGYPTIAN_EFFECT = """\
 This card's effects cannot be negated or copied. \
-Control of this card cannot switch. \
+Control of it cannot switch. \
 Cannot be Tributed, or used as a material for an Summon by your opponent. \
 Cannot change battle position or leave the field by other cards' effects, \
     except for monsters with the higher Divine Hierarchy. \
@@ -17,11 +17,11 @@ Unaffected by your opponent's monster effects, \
 Other cards' effects are only applied on it for 1 turn.\
 """
 EGYPTIAN_SPSUMMON_EFFECT = """\
-When it is Special Summoned in Defense Position, \
+When this card is Special Summoned in Defense Position, \
     while your opponent targeting exactly 1 monster you control \
-    for attack or card effect, you can switch the target to it. \
-Cannot attack the turn it is Special Summoned from the GY, \
-    and send it to the GY during the End Phase.\
+    for attack or with card effect, you can switch the target to this card. \
+During the turn this card is Special Summoned from the GY, \
+    it cannot attack, and send it to the GY during the End Phase.\
 """
 
 NORDIC_GOD_EFFECT = """\
