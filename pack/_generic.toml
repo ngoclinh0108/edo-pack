@@ -89,17 +89,19 @@ Once while face-up on the field: You can pay LP so that you only have 100 left; 
     Cards and effects cannot be activated in response to the above effects' activation. \
     You can also use this effect when this card is Normal or Special Summoned. \
 You can pay 1000 LP, then target 1 monster on the field; destroy that target. \
+While this card was Special Summoned from the GY, it gains the following effects. \
+    This card must be become Fusion Monster by its own effect to gain, activate, and resolve the following effects.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
+● Once per turn, when an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
+    this card gains ATK equal to the Tributed monsters' combined original ATK had on the field, \
+    until the end of this turn.
+● After damage calculation, if it attacked, send all monsters your opponent controls to the GY.
 """
 strings = [
     "Life Point Transfer",
     "Destroy 1 monster",
+    "Tribute monster for ATK",
 ]
-
-# ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
-# ● When an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
-#     this card gains ATK equal to the Tributed monsters' combined original ATK had on the field, \
-#     until the end of this turn.
-# ● After damage calculation, if it attacked, send all monsters your opponent controls to the GY.
 
 [card.ra-sphere]
 id = 900000004
@@ -169,10 +171,7 @@ During the End Phase, \
     with the same Divine Hierarchy (transfer materials to it), \
     or send it to the GY. \
 """
-strings = [
-    "Destroy 1 monster",
-    "Turn into Sphere Mode or to the GY",
-]
+strings = ["Destroy 1 monster", "Turn into Sphere Mode or to the GY"]
 
 [card.dreadroot]
 id = 900000006
