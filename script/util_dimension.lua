@@ -20,9 +20,13 @@ function Dimension.Zones(tp)
     return g
 end
 
-function Dimension.ZonesAddCard(c) Dimension.Zones(c:GetOwner()):AddCard(c) end
+function Dimension.ZonesAddCard(c)
+    return Dimension.Zones(c:GetOwner()):AddCard(c)
+end
 
-function Dimension.ZonesRemoveCard(c) Dimension.Zones(c:GetOwner()):RemoveCard(c) end
+function Dimension.ZonesRemoveCard(c)
+    return Dimension.Zones(c:GetOwner()):RemoveCard(c)
+end
 
 function Dimension.AddProcedure(c)
     -- startup
@@ -79,21 +83,9 @@ function Dimension.AddProcedure(c)
     c:RegisterEffect(turnback)
 end
 
-function Dimension.RegisterChange(s, c, op)
-    s.dimension_change = op
-
-    local startup = Effect.CreateEffect(c)
-    startup:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    startup:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    startup:SetCode(EVENT_STARTUP)
-    startup:SetRange(LOCATION_ALL)
-    startup:SetOperation(op)
-    c:RegisterEffect(startup)
-end
-
 function Dimension.SendToDimension(tc, reason)
     Duel.SendtoDeck(tc, nil, -2, reason)
-    Dimension.ZonesAddCard(tc)
+    return Dimension.ZonesAddCard(tc)
 end
 
 function Dimension.IsInDimensionZone(c) return c:GetLocation() == 0 end
@@ -108,14 +100,15 @@ end
 
 function Dimension.CanBeDimensionChanged(c) return c:GetLocation() == 0 end
 
-function Dimension.CanBeDimensionSummoned(c, e, sumplayer, nocheck, nolimit)
+function Dimension.CanBeDimensionSummoned(c, e, sumplayer)
     if c:GetLocation() ~= 0 then return false end
     if c:IsSummonType(SUMMON_TYPE_NORMAL) then return c:IsSummonable(true, e) end
-    return c:IsCanBeSpecialSummoned(e, c:GetSummonType(), sumplayer, nocheck,
-                                    nolimit)
+    return
+        c:IsCanBeSpecialSummoned(e, c:GetSummonType(), sumplayer, true, false)
 end
 
-function Dimension.Change(mc, sc, sumplayer, target_player, mg)
+function Dimension.Change(mc, sc, mg)
+    local tp = mc:GetControler()
     local sumtype = mc:GetSummonType()
     local sumloc = mc:GetSummonLocation()
     local seq = mc:GetSequence()
@@ -128,8 +121,7 @@ function Dimension.Change(mc, sc, sumplayer, target_player, mg)
     end
 
     Dimension.SendToDimension(mc, REASON_RULE)
-    Duel.MoveToField(sc, sumplayer, target_player, LOCATION_MZONE, pos, true,
-                     1 << seq)
+    Duel.MoveToField(sc, tp, tp, LOCATION_MZONE, pos, true, 1 << seq)
     sc:SetStatus(STATUS_FORM_CHANGED, true)
     Debug.PreSummon(sc, sumtype, sumloc)
     Dimension.ZonesRemoveCard(sc)
@@ -137,12 +129,12 @@ function Dimension.Change(mc, sc, sumplayer, target_player, mg)
     local ec1 = Effect.CreateEffect(sc)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_SET_CONTROL)
-    ec1:SetValue(target_player)
+    ec1:SetValue(tp)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD -
                      (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
     sc:RegisterEffect(ec1)
 
-    Duel.BreakEffect()
+    return true
 end
 
 function Dimension.Summon(c, sumplayer, target_player, pos, seq)
@@ -170,3 +162,54 @@ function Dimension.Summon(c, sumplayer, target_player, pos, seq)
     Duel.BreakEffect()
     return true
 end
+
+Dimension.RegisterChange = aux.FunctionWithNamedArgs(
+                               function(c, event_code, filter, custom_reg,
+                                        custom_op, flag_id)
+        if flag_id == nil then flag_id = c:GetOriginalCode() end
+
+        -- register
+        if custom_reg then
+            custom_reg(c, flag_id)
+        else
+            local reg = Effect.CreateEffect(c)
+            reg:SetType(EFFECT_TYPE_CONTINUOUS)
+            reg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+            reg:SetCode(event_code)
+            reg:SetCondition(function(e)
+                return Dimension.CanBeDimensionChanged(e:GetHandler())
+            end)
+            reg:SetOperation(function(e, _, eg)
+                local g = eg:Filter(aux.FilterFaceupFunction(filter, e), nil)
+                for tc in aux.Next(g) do
+                    tc:RegisterFlagEffect(flag_id, 0, 0, 1)
+                end
+            end)
+            Duel.RegisterEffect(reg, 0)
+        end
+
+        -- change
+        local change = Effect.CreateEffect(c)
+        change:SetType(EFFECT_TYPE_CONTINUOUS)
+        change:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+        change:SetCode(EVENT_ADJUST)
+        change:SetCondition(function(e)
+            return Dimension.CanBeDimensionChanged(e:GetHandler()) and
+                       Duel.IsExistingMatchingCard(function(c)
+                    return c:GetFlagEffect(flag_id) > 0
+                end, 0, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
+        end)
+        change:SetOperation(function(e)
+            local mc = Duel.GetFirstMatchingCard(function(c)
+                return c:GetFlagEffect(flag_id) > 0
+            end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
+            if not mc then return end
+            mc:ResetFlagEffect(flag_id)
+            if custom_op then
+                custom_op(e, c, mc)
+            else
+                Dimension.Change(mc, c)
+            end
+        end)
+        Duel.RegisterEffect(change, 0)
+    end, "handler", "event_code", "filter", "custom_reg", "custom_op", "flag_id")

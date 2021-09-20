@@ -280,6 +280,16 @@ function Divine.RegisterEffect(c, eff, forced)
     c:RegisterEffect(e, forced)
 end
 
+function Divine.RegisterRaEffect(c, eff, forced)
+    local e = eff:Clone()
+    e:SetProperty(e:GetProperty() + EFFECT_FLAG_IGNORE_IMMUNE)
+    if c:IsOriginalCode(CARD_RA) then
+        c:RegisterEffect(e, forced)
+    else
+        Divine.RegisterEffect(c, e, forced)
+    end
+end
+
 function Divine.RegisterRaFuse(c, tc, forced)
     local id = c:GetOriginalCode()
 

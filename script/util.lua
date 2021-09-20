@@ -71,7 +71,6 @@ function Utility.DeckEditAddCardToDimension(tp, code, condition_code,
     local c = Duel.CreateToken(tp, code)
     Dimension.SendToDimension(c, REASON_RULE)
     Dimension.AddProcedure(c)
-    if c.dimension_change then c.dimension_change(nil, tp) end
 end
 
 function Utility.CheckActivateEffectCanApply(ec, e, tp, neglect_con,

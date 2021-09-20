@@ -96,58 +96,42 @@ def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
 ${EGYPTIAN_EFFECT} \
+If your "The Winged Dragon of Ra" is Normal Summoned to your opponent's field, \
+    Dimension Change it to this card with the same Divine Hierarchy. \
 This card is also Machine-Type while it is on the field. \
+Cannot attack. \
+Neither player can target it for attacks or by card effects. \
+While it is in Dimension Zone: \
+    You can Normal Summon "The Winged Dragon of Ra" to your opponent's field, \
+    but you cannot activate the following effect until the end of this turn. \
+Once per turn: You can reveal 1 "Ancient Chant" from everywhere; \
+    send this card to the Dimension Zone, \
+    then Dimension Summon the Dimension Material Monster \
+    (it's Divine Hierarchy become the same as this card's). \
+    Cards and effects cannot be activated in response to this effect's activation. \
+    Both player can use this effect, but the this card's owner no need to reveal "Ancient Chant". \
+Your "The Winged Dragon of Ra" is Normal Summoned, or Dimension Summoned with the above effect gains the following effects;
+● This card's original ATK/DEF become 4000, or the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
+● You can pay 1000 LP, then target 1 monster on the field; destroy that target.
+● Once while face-up on the field: You can pay LP so that you only have 100 left; \
+    this card become Fusion Monster and gains original ATK/DEF become equal to the amount of LP paid, \
+    and also, any increase in LP is changed to increase it's original ATK/DEF instead. \
+    If "De-Fusion" targets this Fusion Monster, apply \
+    "that target loses its above effects and its ATK/DEF become 0, \
+    and if it do, its controller gains LP equal to that lost ATK" instead of. \
+    Cards and effects cannot be activated in response to the above effects' activation.
 """
-strings = []
-
-# [card.ra-sphere]
-# id = 900000004
-# alias = 10000080
-# name = "Sun Divine Beast of Ra - Sphere Mode"
-# type = "monster dimension effect"
-# attribute = "divine"
-# race = "divine-beast"
-# level = 10
-# atk = "?"
-# def = "?"
-# effect = """\
-# (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
-# If your "The Winged Dragon of Ra" is Normal Summoned to your opponent's field, \
-#     and they do not own "Ancient Chant", \
-#     Dimension Change it to this card with the same Divine Hierarchy. \
-# ${EGYPTIAN_EFFECT} \
-# This card is also Machine-Type while it is on the field. \
-# Cannot attack. \
-# Neither player can target this card for attacks or by card effects, \
-#     but does not prevent your opponent from attacking you directly. \
-# While this card is in your Dimension Zone: \
-#     You can Normal Summon "The Winged Dragon of Ra" to your opponent's field, \
-#     but you cannot activate the following effect until the end of this turn. \
-# Once per turn: The original owner of this card can send it to the Dimension Zone; \
-#     Dimension Summon the Dimension Material Monster (it's Divine Hierarchy become the same as this card's). \
-#     Cards and effects cannot be activated in response to this effect's activation. \
-# "The Winged Dragon of Ra" is Normal Summoned, or Dimension Summoned with the above effect gains the following effects;
-# ● This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, \
-#     or 4000/4000.
-# ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
-# ● Once while face-up on the field: You can pay LP so that you only have 100 left; \
-#     this card become Fusion Monster and gains original ATK/DEF become equal to the amount of LP paid, \
-#     and also, any increase in LP is changed to increase it's original ATK/DEF instead. \
-#     If "De-Fusion" targets this Fusion Monster, apply \
-#     "that target loses its above effects and its ATK/DEF become 0, \
-#     and if it do, its controller gains LP equal to that lost ATK" instead of. \
-#     Cards and effects cannot be activated in response to the above effects' activation.
-# ● You can pay 1000 LP, then target 1 monster on the field; destroy that target.
-# """
-# strings = [
-#     "Your field",
-#     "Opponent's field",
-#     "Cannot activate \"Sun Divine Beast of Ra - Sphere Mode\"'s effects",
-#     "Ancient Chant",
-#     "Unstoppable attack",
-#     "Life Point Transfer",
-#     "Destroy 1 monster on the field",
-# ]
+strings = [
+    "Summon to your field",
+    "Summon to opponent's field",
+    "Cannot activate \"Sun Divine Beast of Ra - Sphere Mode\"'s effects",
+    "Turn into Battle Mode",
+    "Show \"Ancient Chant\"?",
+    "Unstoppable attack",
+    "Destroy 1 monster",
+    "Life Point Transfer",
+]
 
 [card.ra-phoenix]
 id = 900000005
@@ -163,12 +147,19 @@ effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
 ${EGYPTIAN_EFFECT} \
 This card is also Pyro-Type while it is on the field. \
+Unaffected by other card effects that prevent it from attacking, also its attacks cannot be negated. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
     and you take no battle damage from that battle. \
+Once per Chain (Quick Effect): \
+    You can pay 1000 LP, then target 1 other monster on the field; \
+    send it to the GY, ignoring card effects. \
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \
     with the same Divine Hierarchy (transfer materials to it), \
     or send it to the GY. \
+If "The Winged Dragon of Ra" you control would be destroyed by its own effect, \
+    Dimension Change it to this card with the same Divine Hierarchy instead, \
+    and this card's original ATK/DEF become 4000. \
 If you Special Summon "The Winged Dragon of Ra" in Attack Position from the GY, \
     you can Dimension Change it to this card with the same Divine Hierarchy, \
     or you can pay LP so that you only have 100 left; it gains the following effects.
@@ -191,30 +182,10 @@ strings = [
     "Do nothing",
     "Life Point Transfer",
     "Immortal Phoenix Form",
-    "Return to the Dimension",
     "Tribtue monsters for ATK",
+    "Destroy 1 monster",
+    "Return to the Dimension",
 ]
-
-# [card.ra-phoenix]
-# id = 900000005
-# alias = 10000090
-# name = "Sun Divine Beast of Ra - Immortal Phoenix"
-# type = "monster dimension effect"
-# attribute = "divine"
-# race = "divine-beast"
-# level = 10
-# atk = 4000
-# def = 4000
-# effect = """\
-# Cannot attack unless attack directly, but must pay 1000 LP. \
-# Unaffected by other card effects that prevent it from attacking, also its attacks cannot be negated. \
-# Once per Chain (Quick Effect): \
-#     You can pay 1000 LP, then target 1 other monster on the field; \
-#     send it to the GY, ignoring card effects. \
-# """
-# strings = [
-#     "Send monster to grave",
-# ]
 
 [card.dreadroot]
 id = 900000006
