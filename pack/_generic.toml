@@ -140,8 +140,8 @@ type = "monster dimension effect"
 attribute = "divine"
 race = "divine-beast"
 level = 10
-atk = 4000
-def = 4000
+atk = "?"
+def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
 ${EGYPTIAN_EFFECT} \
