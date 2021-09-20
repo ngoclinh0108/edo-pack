@@ -24,6 +24,7 @@ function s.initial_effect(c)
                 local op = Duel.SelectOption(tp, aux.Stringid(id, 3),
                                              aux.Stringid(id, 4))
                 if op == 0 then
+                    Utility.HintCard(c)
                     s.battlemode(c, mc, 4000, 4000)
                     return
                 end
