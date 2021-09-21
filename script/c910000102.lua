@@ -74,7 +74,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
         Duel.BreakEffect()
 
-        local g = Utility.GroupSelect(HINTMSG_SPSUMMON, mg, tp, 1, ft, nil)
+        local g = Utility.GroupSelect(HINTMSG_SPSUMMON, mg, tp, 1, ft)
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
     end
 end

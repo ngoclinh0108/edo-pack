@@ -69,7 +69,12 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetDecktopGroup(tp, 6)
     Duel.ConfirmCards(tp, g)
     if g:IsExists(s.e1filter, 1, nil) and Duel.SelectYesNo(tp, 506) then
-        g = Utility.GroupSelect(HINTMSG_ATOHAND, g:Filter(s.e1filter, nil), tp, 1, 1, nil)
+        g = Utility.GroupSelect({
+            hintmsg = HINTMSG_ATOHAND,
+            g = g,
+            tp = tp,
+            filter = s.e1filter
+        })
         Duel.DisableShuffleCheck()
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
@@ -151,10 +156,10 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
                                      e, tp)
     if #rg < 2 or #sg == 0 then return end
 
-    rg = Utility.GroupSelect(HINTMSG_RELEASE, rg, tp, 2, 2, nil)
+    rg = Utility.GroupSelect(HINTMSG_RELEASE, rg, tp, 2)
     if Duel.Release(rg, REASON_EFFECT) ~= 2 then return end
 
-    sg = Utility.GroupSelect(HINTMSG_SPSUMMON, sg, tp, 1, 1, nil)
+    sg = Utility.GroupSelect(HINTMSG_SPSUMMON, sg, tp)
     if #sg > 0 then
         Duel.SpecialSummon(sg, 0, tp, tp, false, false, POS_FACEUP)
     end
@@ -180,7 +185,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         tc:RegisterEffect(ec1)
     end
 
-    local sc = Utility.GroupSelect(HINTMSG_FACEUP, g, tp, 1, 1, nil):GetFirst()
+    local sc = Utility.GroupSelect(HINTMSG_FACEUP, g, tp):GetFirst()
     if not sc then return end
     Duel.HintSelection(Group.FromCards(sc))
     local ec2 = Effect.CreateEffect(c)
