@@ -31,13 +31,9 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c, ft, e, tp)
-    if not c:IsMonster() then return false end
+function s.e1filter(c, e, tp)
     local check = c:IsRace(RACE_DIVINE) and c:IsSummonableCard()
-
-    return (ft > 0 and
-               c:IsCanBeSpecialSummoned(e, 0, tp, check, false, POS_FACEUP)) or
-               (c:IsAbleToHand() and c:GetOwner() == tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, check, false, POS_FACEUP)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -46,16 +42,14 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     if chk == 0 then
         return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE,
-                                     LOCATION_GRAVE, 1, nil, ft, e, tp)
+                                     LOCATION_GRAVE, 1, nil, e, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
     local g = Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_GRAVE,
-                                LOCATION_GRAVE, 1, 1, nil, ft, e, tp)
-
+                                LOCATION_GRAVE, 1, 1, nil, e, tp)
     Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, g, #g, 0, 0)
 end
 
@@ -64,34 +58,27 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
-    aux.ToHandOrElse(tc, tp, function(tc)
-        local check = tc:IsRace(RACE_DIVINE) and tc:IsSummonableCard()
-        return tc:IsCanBeSpecialSummoned(e, 0, tp, check, false, POS_FACEUP) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end, function(tc)
-        local check = tc:IsRace(RACE_DIVINE) and tc:IsSummonableCard()
-        if Duel.SpecialSummon(tc, 0, tp, tp, check, false, POS_FACEUP) ~= 0 and
-            check then
-            tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD +
-                                      RESET_PHASE + PHASE_END, 0, 1)
-
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetDescription(574)
-            ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-            ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-            ec1:SetCode(EVENT_PHASE + PHASE_END)
-            ec1:SetCountLimit(1)
-            ec1:SetLabelObject(tc)
-            ec1:SetCondition(function(e)
-                return e:GetLabelObject():GetFlagEffect(id) ~= 0
-            end)
-            ec1:SetOperation(function(e)
-                Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT)
-            end)
-            ec1:SetReset(RESET_PHASE + PHASE_END)
-            Duel.RegisterEffect(ec1, tp)
-        end
-    end, 2)
+    local check = tc:IsRace(RACE_DIVINE) and tc:IsSummonableCard()
+    if Duel.SpecialSummon(tc, 0, tp, tp, check, false, POS_FACEUP) ~= 0 and
+        check then
+        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                                  PHASE_END, 0, 1)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(574)
+        ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+        ec1:SetCode(EVENT_PHASE + PHASE_END)
+        ec1:SetCountLimit(1)
+        ec1:SetLabelObject(tc)
+        ec1:SetCondition(function(e)
+            return e:GetLabelObject():GetFlagEffect(id) ~= 0
+        end)
+        ec1:SetOperation(function(e)
+            Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT)
+        end)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
+    end
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

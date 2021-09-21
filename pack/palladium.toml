@@ -763,7 +763,7 @@ type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "Monster Reborn" and it is "Palladium" card.)
 During your Main Phase or your opponent's turn: \
-    Target 1 monster in either GY; Add it to your hand if it is your own, or Special Summon it. \
+    Target 1 monster in either GY; Special Summon that monster. \
     You can also Special Summon a Divine-Beast monster that can be Normal Summoned/Set with this effect, ignoring its Summoning conditions. \
     During the End Phase of the turn this effect was activated, you must send a Divine-Beast monster you control \
     that was Special Summoned with this effect to the GY. \
