@@ -44,45 +44,37 @@ function Dimension.AddProcedure(c)
     c:RegisterEffect(startup)
 
     -- leave
-    -- local turnback = Effect.CreateEffect(c)
-    -- turnback:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    -- turnback:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    -- turnback:SetRange(LOCATION_ALL - LOCATION_ONFIELD)
-    -- turnback:SetCode(EVENT_ADJUST)
-    -- turnback:SetCondition(function(e)
-    --     return e:GetHandler():GetLocation() ~= 0
-    -- end)
-    -- turnback:SetOperation(function(e)
-    --     local c = e:GetHandler()
-    --     local tp = c:GetControler()
-    --     local mc = c:GetMaterial():GetFirst()
-    --     local loc = c:GetLocation()
-    --     local r = c:GetReason()
-    --     local rp = c:GetReasonPlayer()
-    --     local re = c:GetReasonEffect()
-    --     local rc = c:GetReasonCard()
+    local leave = Effect.CreateEffect(c)
+    leave:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    leave:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    leave:SetCode(EVENT_LEAVE_FIELD)
+    leave:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        local loc = c:GetLocation()
+        local rc = c:GetReasonCard()
+        local mc = c:GetMaterial():GetFirst()
 
-    --     if mc then
-    --         if loc == LOCATION_EXTRA and c:IsFaceup() then
-    --             Duel.SendtoExtraP(mc, tp, r)
-    --         elseif loc == LOCATION_DECK or loc == LOCATION_EXTRA then
-    --             Duel.SendtoDeck(mc, tp, SEQ_DECKSHUFFLE, r)
-    --         elseif loc == LOCATION_HAND then
-    --             Duel.SendtoHand(mc, tp, r)
-    --         elseif loc == LOCATION_GRAVE then
-    --             Duel.SendtoGrave(mc, r)
-    --         elseif loc == LOCATION_REMOVED then
-    --             Duel.Remove(mc, c:GetPosition(), r, rp)
-    --         end
-    --         if re then mc:SetReasonEffect(re) end
-    --         if rc then mc:SetReasonCard(rc) end
-    --         if rp then mc:SetReasonPlayer(rp) end
-    --         Dimension.ZonesRemoveCard(mc)
-    --     end
+        if mc then
+            if loc == LOCATION_EXTRA and c:IsFaceup() then
+                Duel.SendtoExtraP(mc, tp, r)
+            elseif loc == LOCATION_DECK or loc == LOCATION_EXTRA then
+                Duel.SendtoDeck(mc, tp, SEQ_DECKSHUFFLE, r)
+            elseif loc == LOCATION_HAND then
+                Duel.SendtoHand(mc, tp, r)
+            elseif loc == LOCATION_GRAVE then
+                Duel.SendtoGrave(mc, r)
+            elseif loc == LOCATION_REMOVED then
+                Duel.Remove(mc, c:GetPosition(), r, rp)
+            end
+            if re then mc:SetReasonEffect(re) end
+            if rc then mc:SetReasonCard(rc) end
+            if rp then mc:SetReasonPlayer(rp) end
+            Dimension.ZonesRemoveCard(mc)
+        end
 
-    --     Dimension.SendToDimension(c, c:GetReason())
-    -- end)
-    -- c:RegisterEffect(turnback)
+        Dimension.SendToDimension(c, c:GetReason())
+    end)
+    c:RegisterEffect(leave)
 end
 
 function Dimension.SendToDimension(tc, reason)
