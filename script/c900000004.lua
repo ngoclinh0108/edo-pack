@@ -31,7 +31,7 @@ function s.initial_effect(c)
             end
 
             local divine_evolution = Divine.IsDivineEvolution(mc)
-            Dimension.Change(mc, c, nil, true)
+            Dimension.Change(mc, c, nil)
             if divine_evolution then Divine.DivineEvolution(c) end
         end
     })

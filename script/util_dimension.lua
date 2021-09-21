@@ -107,8 +107,7 @@ function Dimension.CanBeDimensionSummoned(c, e, sumplayer)
         c:IsCanBeSpecialSummoned(e, c:GetSummonType(), sumplayer, true, false)
 end
 
-function Dimension.Change(mc, sc, mg, break_effect)
-    if break_effect == nil then break_effect = true end
+function Dimension.Change(mc, sc, mg)
     local tp = mc:GetControler()
     local sumtype = mc:GetSummonType()
     local sumloc = mc:GetSummonLocation()
@@ -135,7 +134,6 @@ function Dimension.Change(mc, sc, mg, break_effect)
                      (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
     sc:RegisterEffect(ec1)
 
-    if break_effect then Duel.BreakEffect() end
     return true
 end
 
