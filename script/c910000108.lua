@@ -122,8 +122,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsFaceup() and c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+    return c:IsFaceup() and c:IsMonster() and
+               c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
 end
+
+function s.e2check(g) return g:IsExists(Card.IsSetCard, 1, nil, 0x13a) end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return aux.bfgcost(e, tp, eg, ep, ev, re, r, rp, chk) end
@@ -132,10 +135,10 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_REMOVED, 0, nil, e,
+                                    tp)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_REMOVED,
-                                               0, 1, nil, e, tp)
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and s.e2check(g)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
@@ -148,9 +151,16 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if ft == 0 then return end
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then ft = 1 end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_REMOVED, 0,
-                                      1, ft, nil, e, tp)
+    local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_REMOVED, 0, nil, e,
+                                    tp)
+    if #g < ft then ft = #g end
+    g = Utility.GroupSelect({
+        hintmsg = HINTMSG_SPSUMMON,
+        g = g,
+        tp = tp,
+        max = ft,
+        check = s.e2check
+    })
     if #g == 0 then return end
 
     local fid = c:GetFieldID()
