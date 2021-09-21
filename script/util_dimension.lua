@@ -125,6 +125,7 @@ function Dimension.Change(mc, sc, mg)
     Duel.MoveToField(sc, tp, tp, LOCATION_MZONE, pos, true, 1 << seq)
     sc:SetStatus(STATUS_FORM_CHANGED, true)
     Debug.PreSummon(sc, sumtype, sumloc)
+    Duel.BreakEffect()
 
     local ec1 = Effect.CreateEffect(sc)
     ec1:SetType(EFFECT_TYPE_SINGLE)
