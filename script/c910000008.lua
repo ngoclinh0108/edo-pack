@@ -40,9 +40,7 @@ function s.initial_effect(c)
     local e2b = Effect.CreateEffect(c)
     e2b:SetType(EFFECT_TYPE_SINGLE)
     e2b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    e2b:SetValue(function(e)
-        return e:GetHandler():GetFlagEffect(id) == 0 and 1 or 0
-    end)
+    e2b:SetValue(function(e) return e:GetHandler():GetFlagEffect(id) == 0 end)
     c:RegisterEffect(e2b)
 
     -- low atk
