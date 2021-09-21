@@ -60,7 +60,7 @@ function s.initial_effect(c)
     e3:SetValue(1)
     Divine.RegisterEffect(c, e3)
     local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
+    e3b:SetCode(EFFECT_IGNORE_BATTLE_TARGET)
     Divine.RegisterEffect(c, e3b)
 
     -- summon ra to opponent's field
@@ -106,9 +106,9 @@ function s.initial_effect(c)
     -- battle mode
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 4))
-    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e5:SetType(EFFECT_TYPE_IGNITION)
-    e5:SetProperty(EFFECT_FLAG_BOTH_SIDE)
+    e5:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE +
+                       EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE)
     e5:SetRange(LOCATION_MZONE)
     e5:SetCountLimit(1)
     e5:SetCondition(function(e)
@@ -179,29 +179,18 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local mc = c:GetMaterial():GetFirst()
     if chk == 0 then
-        return Dimension.IsAbleToDimension(c) and mc and
+        return mc and Dimension.CanBeDimensionChanged(mc) and
                    (c:GetControler() == tp or
-                       Duel.GetLocationCount(tp, LOCATION_MZONE) > 0) and
-                   Dimension.CanBeDimensionSummoned(mc, e, tp)
+                       Duel.GetLocationCount(tp, LOCATION_MZONE) > 0)
     end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, mc, 1, 0, 0)
-    Duel.SetChainLimit(aux.FALSE)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = c:GetMaterial():GetFirst()
-    local is_control = tp == c:GetControler()
 
-    -- send to dimension
     local divine_evolution = Divine.IsDivineEvolution(c)
-    if not Dimension.SendToDimension(c, REASON_COST) then return end
-    Duel.BreakEffect()
-
-    -- dimension summon
-    local seq = is_control and c:GetPreviousSequence() or nil
-    if not Dimension.Summon(tc, tp, tp, POS_FACEUP, seq) then return end
+    Dimension.Change(c, tc, tc:GetMaterial(), tp, tp)
     if divine_evolution then Divine.DivineEvolution(tc) end
     s.battlemode(c, tc, 4000, 4000)
 end

@@ -158,7 +158,7 @@ function s.initial_effect(c)
     end)
     Divine.RegisterEffect(c, e6b)
 
-    -- to grave
+    -- destroy
     local e7 = Effect.CreateEffect(c)
     e7:SetDescription(aux.Stringid(id, 3))
     e7:SetCategory(CATEGORY_TOGRAVE)

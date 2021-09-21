@@ -100,18 +100,12 @@ end
 
 function Dimension.CanBeDimensionChanged(c) return c:GetLocation() == 0 end
 
-function Dimension.CanBeDimensionSummoned(c, e, sumplayer)
-    if c:GetLocation() ~= 0 then return false end
-    if c:IsSummonType(SUMMON_TYPE_NORMAL) then return c:IsSummonable(true, e) end
-    return
-        c:IsCanBeSpecialSummoned(e, c:GetSummonType(), sumplayer, true, false)
-end
-
-function Dimension.Change(mc, sc, mg)
-    local tp = mc:GetControler()
+function Dimension.Change(mc, sc, mg, change_player, target_player)
+    if change_player == nil then change_player = mc:GetControler() end
+    if target_player == nil then target_player = mc:GetControler() end
     local sumtype = mc:GetSummonType()
     local sumloc = mc:GetSummonLocation()
-    local seq = mc:GetSequence()
+    local seq = target_player == mc:GetControler() and mc:GetSequence() or nil
     local pos = mc:IsAttackPos() and POS_FACEUP_ATTACK or POS_FACEUP_DEFENSE
 
     if mg then
@@ -122,45 +116,20 @@ function Dimension.Change(mc, sc, mg)
 
     Dimension.SendToDimension(mc, REASON_RULE)
     Dimension.ZonesRemoveCard(sc)
-    Duel.MoveToField(sc, tp, tp, LOCATION_MZONE, pos, true, 1 << seq)
-    sc:SetStatus(STATUS_FORM_CHANGED, true)
+    Duel.MoveToField(sc, change_player, target_player, LOCATION_MZONE, pos,
+                     true, seq and 1 << seq or nil)
     Debug.PreSummon(sc, sumtype, sumloc)
+    sc:SetStatus(STATUS_FORM_CHANGED, true)
     Duel.BreakEffect()
 
     local ec1 = Effect.CreateEffect(sc)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_SET_CONTROL)
-    ec1:SetValue(tp)
+    ec1:SetValue(target_player)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD -
                      (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
     sc:RegisterEffect(ec1)
 
-    return true
-end
-
-function Dimension.Summon(c, sumplayer, target_player, pos, seq)
-    if not pos then pos = POS_FACEUP end
-
-    if not Duel.MoveToField(c, sumplayer, target_player, LOCATION_MZONE, pos,
-                            true, seq and 1 << seq or nil) then
-        if not c:IsType(Dimension.TYPE) then
-            Duel.SendtoGrave(c, REASON_RULE)
-        end
-        return false
-    end
-
-    c:SetStatus(STATUS_FORM_CHANGED, true)
-    Dimension.ZonesRemoveCard(c)
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_SET_CONTROL)
-    ec1:SetValue(target_player)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD -
-                     (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
-    c:RegisterEffect(ec1)
-
-    Duel.BreakEffect()
     return true
 end
 

@@ -122,8 +122,9 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_MZONE,
-                                LOCATION_MZONE, 1, 1, nil)
+    local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE,
+                                      LOCATION_MZONE, 1, 1, nil)
+    Duel.SetTargetCard(g)
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
@@ -131,7 +132,7 @@ end
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
-    Duel.Destroy(tc, REASON_EFFECT)
+    Duel.Destroy(tc, REASON_EFFECT + REASON_RULE)
 end
 
 function s.e5con(e, tp, eg, ep, ev, re, r, rp)

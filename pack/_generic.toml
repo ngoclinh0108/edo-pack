@@ -88,7 +88,8 @@ Once while face-up on the field: You can pay LP so that you only have 100 left; 
     and if it do, its controller gains LP equal to that lost ATK" instead of. \
     Cards and effects cannot be activated in response to the above effects' activation. \
     You can also use this effect when this card is Normal or Special Summoned. \
-You can pay 1000 LP, then target 1 monster on the field; destroy that target. \
+You can pay 1000 LP, then choose 1 monster on the field as Target; \
+    destroy that monster, ignoring card effects. \
 While this card was Special Summoned from the GY, it gains the following effects. \
     This card must be become Fusion Monster by its own effect to gain, activate, and resolve the following effects.
 ● Once per turn, when an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
@@ -116,23 +117,22 @@ effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
 If your "The Winged Dragon of Ra" is Normal Summoned, \
     Dimension Change it to this card with the same Divine Hierarchy, \
-    or if you Summoned to your field, \
+    or if it is Summoned to your field, \
     its original ATK/DEF can become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field instead. \
 ${EGYPTIAN_EFFECT} \
 This card is also Machine-Type while it is on the field. \
 Cannot attack. \
-Neither player can target it for attacks or by card effects. \
+Neither player can target it for attacks or by card effects, \
+    but does not prevent your opponent from attacking you directly. \
 While it is in Dimension Zone: \
     You can Normal Summon "The Winged Dragon of Ra" to your opponent's field. \
 Once per turn, except the turn this card is Dimension Changed: \
     The turn player can reveal 1 "Ancient Chant" from everywhere; \
-    send this card to the Dimension Zone, \
-    then Dimension Summon the material monster \
-    (it's Divine Hierarchy become the same as this card's), \
+    Dimension Change this card to the material monster with the same Divine Hierarchy, \
     and if they do, its original ATK/DEF become 4000, \
     or the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
-    Cards and effects cannot be activated in response to this effect's activation. \
-    The owner of this card no need to reveal "Ancient Chant". \
+    This effect's activation cannot be negated. \
+    The owner no need to reveal "Ancient Chant". \
 """
 strings = [
     "Summon to your field",
