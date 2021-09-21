@@ -69,8 +69,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetDecktopGroup(tp, 6)
     Duel.ConfirmCards(tp, g)
     if g:IsExists(s.e1filter, 1, nil) and Duel.SelectYesNo(tp, 506) then
-        g = Utility.GroupFilterSelect(HINTMSG_ATOHAND, g, tp, s.e1filter, 1, 1,
-                                      nil)
+        g = Utility.GroupSelect(HINTMSG_ATOHAND, g:Filter(s.e1filter, nil), tp, 1, 1, nil)
         Duel.DisableShuffleCheck()
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
