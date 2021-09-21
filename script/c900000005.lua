@@ -166,7 +166,8 @@ function s.initial_effect(c)
     e8:SetType(EFFECT_TYPE_QUICK_O)
     e8:SetRange(LOCATION_MZONE)
     e8:SetCode(EVENT_FREE_CHAIN)
-    e8:SetHintTiming(TIMING_END_PHASE)
+    e8:SetHintTiming(TIMING_MAIN_END + TIMINGS_CHECK_MONSTER)
+    e8:SetCondition(function(e) return Duel.GetCurrentPhase() < PHASE_END end)
     e8:SetCost(s.e8cost)
     e8:SetTarget(s.e8tg)
     e8:SetOperation(s.e8op)
@@ -206,7 +207,7 @@ function s.e8tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, 0, LOCATION_MZONE)
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                             PHASE_END, 0, 1)
+                             PHASE_BATTLE, 0, 1)
 end
 
 function s.e8op(e, tp, eg, ep, ev, re, r, rp)
