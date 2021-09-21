@@ -127,36 +127,36 @@ function s.initial_effect(c)
     end)
     Divine.RegisterEffect(c, e4b)
 
-    -- immune
+    -- indes & no damage
     local e5 = Effect.CreateEffect(c)
     e5:SetType(EFFECT_TYPE_SINGLE)
     e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e5:SetRange(LOCATION_MZONE)
-    e5:SetCode(EFFECT_IMMUNE_EFFECT)
-    e5:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
-    Divine.RegisterEffect(c, e5)
-
-    -- indes & no damage
-    local e6 = Effect.CreateEffect(c)
-    e6:SetType(EFFECT_TYPE_SINGLE)
-    e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e6:SetRange(LOCATION_MZONE)
-    e6:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    e6:SetValue(function(e, tc)
+    e5:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e5:SetValue(function(e, tc)
         if Divine.GetDivineHierarchy(tc) >=
             Divine.GetDivineHierarchy(e:GetHandler()) then return false end
         c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
                                  PHASE_END, 0, 1)
         return true
     end)
-    Divine.RegisterEffect(c, e6)
-    local e6b = Effect.CreateEffect(c)
-    e6b:SetType(EFFECT_TYPE_SINGLE)
-    e6b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    e6b:SetValue(function(e)
+    Divine.RegisterEffect(c, e5)
+    local e5b = Effect.CreateEffect(c)
+    e5b:SetType(EFFECT_TYPE_SINGLE)
+    e5b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e5b:SetValue(function(e)
         return e:GetHandler():GetFlagEffect(id) == 0 and 1 or 0
     end)
-    Divine.RegisterEffect(c, e6b)
+    Divine.RegisterEffect(c, e5b)
+
+    -- immune
+    local e6 = Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_SINGLE)
+    e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e6:SetRange(LOCATION_MZONE)
+    e6:SetCode(EFFECT_IMMUNE_EFFECT)
+    e6:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
+    Divine.RegisterEffect(c, e6)
 
     -- destroy
     local e7 = Effect.CreateEffect(c)
@@ -199,7 +199,7 @@ end
 function s.e7tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetFlagEffect(id + 100000) == 0 and
+        return c:GetFlagEffect(id + 300000) == 0 and
                    Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_MZONE,
                                                LOCATION_MZONE, 1, c)
     end
@@ -210,7 +210,7 @@ function s.e7tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetTargetCard(g)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
-    c:RegisterFlagEffect(id + 100000, RESET_CHAIN, 0, 1)
+    c:RegisterFlagEffect(id + 300000, RESET_CHAIN, 0, 1)
 end
 
 function s.e7op(e, tp, eg, ep, ev, re, r, rp)
