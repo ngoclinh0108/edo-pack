@@ -30,8 +30,8 @@ function s.initial_effect(c)
     e2:SetCategory(CATEGORY_COUNTER)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e2:SetRange(LOCATION_SZONE)
-    e2:SetCountLimit(1)
     e2:SetCode(EVENT_PHASE + PHASE_END)
+    e2:SetCountLimit(1)
     e2:SetCondition(function(e, tp)
         return Duel.GetTurnPlayer() == 1 - tp and
                    e:GetHandler():GetCounter(COUNTER_SPELL) < MAX_COUNTER
@@ -42,8 +42,8 @@ function s.initial_effect(c)
     -- cannot attack
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     e3:SetRange(LOCATION_SZONE)
+    e3:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     e3:SetTargetRange(0, LOCATION_MZONE)
     e3:SetCondition(function(e)
         return e:GetHandler():GetCounter(COUNTER_SPELL) <= 2

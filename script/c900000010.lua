@@ -20,8 +20,8 @@ function s.initial_effect(c)
     -- see future
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e2:SetRange(LOCATION_HAND)
+    e2:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e2:SetCountLimit(1, {id, 2})
     e2:SetCondition(function(e, tp)
         return Duel.IsTurnPlayer(tp) and not e:GetHandler():IsPublic() and
