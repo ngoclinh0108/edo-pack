@@ -42,9 +42,6 @@ function s.initial_effect(c)
     local e3b = e3:Clone()
     e3b:SetCode(EVENT_SPSUMMON_SUCCESS)
     Divine.RegisterEffect(c, e3b)
-    local e3c = e3:Clone()
-    e3c:SetCode(EVENT_CONTROL_CHANGED)
-    Divine.RegisterEffect(c, e3c)
 end
 
 function s.e2val(e, c)
@@ -78,21 +75,21 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     for tc in aux.Next(tg) do
         if tc:IsPosition(POS_FACEUP_ATTACK) then
+            local preatk = tc:GetAttack()
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
             ec1:SetCode(EFFECT_UPDATE_ATTACK)
             ec1:SetValue(-2000)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
             tc:RegisterEffect(ec1)
-            if tc:GetAttack() == 0 then dg:AddCard(tc) end
+            if preatk > 0 and tc:GetAttack() == 0 then dg:AddCard(tc) end
         elseif tc:IsPosition(POS_FACEUP_DEFENSE) then
-            local ec2 = Effect.CreateEffect(c)
-            ec2:SetType(EFFECT_TYPE_SINGLE)
-            ec2:SetCode(EFFECT_UPDATE_DEFENSE)
-            ec2:SetValue(-2000)
-            ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec2)
-            if tc:GetDefense() == 0 then dg:AddCard(tc) end
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetCode(EFFECT_UPDATE_DEFENSE)
+            ec1:SetValue(-2000)
+            ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+            tc:RegisterEffect(ec1)
         end
     end
 
