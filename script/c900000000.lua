@@ -272,7 +272,7 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, aux.TRUE, tp,
-                                         LOCATION_REMOVED, 0, 1, 999, nil)
+                                         LOCATION_REMOVED, 0, 1, 99, nil)
     if #g == 0 then return end
     Duel.SendtoGrave(g, REASON_RULE)
 end
@@ -286,7 +286,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
 
     local g = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, aux.TRUE, tp, loc,
-                                         0, 1, 999, nil)
+                                         0, 1, 99, nil)
     if #g == 0 then return end
 
     Duel.SendtoDeck(g, nil, 2, REASON_RULE)

@@ -859,12 +859,14 @@ set = "palladium"
 name = "Ragnarok of Palladium"
 type = "spell quick-play"
 effect = """\
-Banish any number of other monster cards you control and/or hand, Deck, GY, at least 1 "Palladium" monster; \
-    choose up to that many face-up monsters your opponent controls (min. 1), and until the end of this turn, \
-    their ATK and DEF is halved, their effects are negated, banished them during the End Phase, \
-    ignoring monster's effects whose Divine Hierarchy equal or lower than \
-        the total Divine Hierarchy of the banished monster(s) had on the field for this card's activation. \
+During your turn, except the End Phase: \
+    Banish any number of monster you control and/or hand, Deck, GY, at least 1 "Palladium" monster; \
+    choose up to that many face-up monsters your opponent controls (min. 1), \
+    and their effects are negated until the end of this turn, \
     also, for the rest of this turn after this card resolves, your opponent takes no damage. \
+    During the End Phase of the turn you activated this card, \
+    banished all monsters on the field, ignoring monster's effects whose Divine Hierarchy equal or lower than \
+    the total Divine Hierarchy of the banished monster(s) had on the field for this card's activation. \
     Your opponent cannot activate cards or effects in response to this card's activation. \
     You can only activate 1 "Ragnarok of Palladium" per turn. \
 """

@@ -79,7 +79,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
     local g = Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_GRAVE,
-                                LOCATION_GRAVE, 1, 999, nil)
+                                LOCATION_GRAVE, 1, 99, nil)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
 end
 
