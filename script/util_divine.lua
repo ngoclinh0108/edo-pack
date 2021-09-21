@@ -391,14 +391,14 @@ function Divine.RegisterRaDefuse(s, c)
                 ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
                     if chk == 0 then
                         return Duel.IsExistingTarget(RaDefuseFilter, tp,
-                                                     LOCATION_MZONE,
-                                                     LOCATION_MZONE, 1, nil, id)
+                                                     LOCATION_MZONE, 0, 1, nil,
+                                                     id)
                     end
 
                     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
                     local tc = Duel.SelectTarget(tp, RaDefuseFilter, tp,
-                                                 LOCATION_MZONE, LOCATION_MZONE,
-                                                 1, 1, nil, id):GetFirst()
+                                                 LOCATION_MZONE, 0, 1, 1, nil,
+                                                 id):GetFirst()
 
                     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0,
                                           tc:GetControler(), tc:GetAttack())
