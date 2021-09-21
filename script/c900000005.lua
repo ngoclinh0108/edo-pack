@@ -7,7 +7,7 @@ local s, id = GetID()
 s.listed_names = {CARD_RA, 10000080}
 
 function s.initial_effect(c)
-    s.divine_hierarchy = 1
+    s.divine_hierarchy = 2
     Dimension.AddProcedure(c)
 
     -- dimension change (special summon)
@@ -216,7 +216,7 @@ end
 function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
-    Duel.Destroy(tc, REASON_EFFECT + REASON_RULE)
+    Duel.Destroy(tc, REASON_EFFECT + REASON_REPLACE + REASON_RULE)
 end
 
 function s.e8op(e, tp, eg, ep, ev, re, r, rp)
