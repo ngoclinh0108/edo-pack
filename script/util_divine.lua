@@ -77,8 +77,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             Divine.GetDivineHierarchy(c) then return end
 
         local eff_codes = {
-            EFFECT_UNRELEASABLE_NONSUM, EFFECT_UNRELEASABLE_EFFECT,
-            EFFECT_CANNOT_CHANGE_POS_E, EFFECT_INDESTRUCTABLE_EFFECT,
             EFFECT_CANNOT_TO_HAND, EFFECT_CANNOT_TO_DECK,
             EFFECT_CANNOT_TO_GRAVE, EFFECT_CANNOT_REMOVE
         }
@@ -105,12 +103,12 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         end
     end)
     Divine.RegisterEffect(c, noleave_solved)
-    local noleave1 = Effect.CreateEffect(c)
-    noleave1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    noleave1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noleave1:SetCode(EFFECT_SEND_REPLACE)
-    noleave1:SetRange(LOCATION_MZONE)
-    noleave1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+    local noleave_replace = Effect.CreateEffect(c)
+    noleave_replace:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    noleave_replace:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noleave_replace:SetCode(EFFECT_SEND_REPLACE)
+    noleave_replace:SetRange(LOCATION_MZONE)
+    noleave_replace:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
         if chk == 0 then
             if not (r & REASON_EFFECT ~= 0) or not c:IsReason(REASON_EFFECT) or
@@ -121,10 +119,20 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         end
         return true
     end)
-    Divine.RegisterEffect(c, noleave1)
-    local noleave2 = noleave1:Clone()
-    noleave2:SetCode(EFFECT_DESTROY_REPLACE)
-    Divine.RegisterEffect(c, noleave2)
+    Divine.RegisterEffect(c, noleave_replace)
+    local noleave_eff_1 = Effect.CreateEffect(c)
+    noleave_eff_1:SetType(EFFECT_TYPE_SINGLE)
+    noleave_eff_1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noleave_eff_1:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    noleave_eff_1:SetRange(LOCATION_MZONE)
+    noleave_eff_1:SetValue(1)
+    Divine.RegisterEffect(c, noleave_eff_1)
+    local noleave_eff_2 = noleave_eff_1:Clone()
+    noleave_eff_2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    Divine.RegisterEffect(c, noleave_eff_2)
+    local noleave_eff_3 = noleave_eff_1:Clone()
+    noleave_eff_3:SetCode(EFFECT_UNRELEASABLE_EFFECT)
+    Divine.RegisterEffect(c, noleave_eff_3)
 
     -- immune
     local immune = Effect.CreateEffect(c)
