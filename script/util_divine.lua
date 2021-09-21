@@ -206,7 +206,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
                                                 CHAININFO_TARGET_CARDS)
             local b1 =
                 ac and bc and ac:CanAttack() and ac:IsControler(1 - tp) and
-                    bc:IsControler(tp) and not ac:IsImmuneToEffect(e)
+                    bc:IsControler(tp)
             local b2 = te and te ~= re and p == 1 - tp and
                            te:IsHasProperty(EFFECT_FLAG_CARD_TARGET) and tg and
                            #tg == 1 and tg:IsExists(function(c, tp)

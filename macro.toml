@@ -19,7 +19,8 @@ Other cards' effects are only applied on it for 1 turn.\
 EGYPTIAN_SPSUMMON_EFFECT = """\
 When this card is Special Summoned in Defense Position, \
     while your opponent targeting exactly 1 monster you control \
-    for attack or with card effect, you can switch the target to this card. \
+    for attack or with card effect, you can switch the target to it, \
+    ignoring card effects. \
 During the turn this card is Special Summoned from the GY, \
     it cannot attack, and send it to the GY during the End Phase.\
 """

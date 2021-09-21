@@ -50,9 +50,8 @@ function s.initial_effect(c)
     e4:SetRange(LOCATION_MZONE)
     e4:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e4:SetValue(function(e, tc)
-        if Divine.GetDivineHierarchy(tc) >=
-            Divine.GetDivineHierarchy(e:GetHandler()) then return false end
-        return true
+        return Divine.GetDivineHierarchy(e:GetHandler()) >
+                   Divine.GetDivineHierarchy(tc)
     end)
     Divine.RegisterEffect(c, e4)
     local e4b = e4:Clone()

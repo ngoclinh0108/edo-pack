@@ -127,62 +127,64 @@ function s.initial_effect(c)
     end)
     Divine.RegisterEffect(c, e4b)
 
-    -- indes & no damage
+    -- immune & indes & no damage
     local e5 = Effect.CreateEffect(c)
     e5:SetType(EFFECT_TYPE_SINGLE)
     e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e5:SetRange(LOCATION_MZONE)
-    e5:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    e5:SetValue(function(e, tc)
-        if Divine.GetDivineHierarchy(tc) >=
-            Divine.GetDivineHierarchy(e:GetHandler()) then return false end
-        return true
+    e5:SetCode(EFFECT_IMMUNE_EFFECT)
+    e5:SetValue(function(e, te)
+        return Divine.GetDivineHierarchy(e:GetHandler()) >=
+                   Divine.GetDivineHierarchy(te:GetHandler())
     end)
     Divine.RegisterEffect(c, e5)
     local e5b = e5:Clone()
-    e5b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    e5b:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e5b:SetValue(function(e, tc)
+        return Divine.GetDivineHierarchy(e:GetHandler()) >=
+                   Divine.GetDivineHierarchy(tc)
+    end)
     Divine.RegisterEffect(c, e5b)
+    local e5c = e5b:Clone()
+    e5c:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    Divine.RegisterEffect(c, e5c)
 
-    -- cannot attack
+    -- attack limit
     local e6 = Effect.CreateEffect(c)
     e6:SetType(EFFECT_TYPE_SINGLE)
     e6:SetCode(EFFECT_CANNOT_ATTACK)
     e6:SetCondition(function(e) return e:GetHandler():GetFlagEffect(id) == 0 end)
     Divine.RegisterEffect(c, e6)
-
-    -- immune
-    local e7 = Effect.CreateEffect(c)
-    e7:SetType(EFFECT_TYPE_SINGLE)
-    e7:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e7:SetRange(LOCATION_MZONE)
-    e7:SetCode(EFFECT_IMMUNE_EFFECT)
-    e7:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
-    Divine.RegisterEffect(c, e7)
-
-    -- attack
-    local e8 = Effect.CreateEffect(c)
-    e8:SetDescription(aux.Stringid(id, 3))
-    e8:SetCategory(CATEGORY_TOGRAVE)
-    e8:SetType(EFFECT_TYPE_QUICK_O)
-    e8:SetRange(LOCATION_MZONE)
-    e8:SetCode(EVENT_FREE_CHAIN)
-    e8:SetHintTiming(TIMING_MAIN_END + TIMINGS_CHECK_MONSTER)
-    e8:SetCondition(function(e) return Duel.GetCurrentPhase() < PHASE_END end)
-    e8:SetCost(s.e8cost)
-    e8:SetTarget(s.e8tg)
-    e8:SetOperation(s.e8op)
-    Divine.RegisterEffect(c, e8)
+    local e6b = Effect.CreateEffect(c)
+    e6b:SetDescription(aux.Stringid(id, 3))
+    e6b:SetCategory(CATEGORY_TOGRAVE)
+    e6b:SetType(EFFECT_TYPE_QUICK_O)
+    e6b:SetRange(LOCATION_MZONE)
+    e6b:SetCode(EVENT_FREE_CHAIN)
+    e6b:SetHintTiming(TIMING_MAIN_END + TIMINGS_CHECK_MONSTER)
+    e6b:SetCondition(function(e) return Duel.GetCurrentPhase() < PHASE_END end)
+    e6b:SetCost(s.e6cost)
+    e6b:SetTarget(s.e6tg)
+    e6b:SetOperation(s.e6op)
+    Divine.RegisterEffect(c, e6b)
+    local e6c = Effect.CreateEffect(c)
+    e6c:SetCategory(CATEGORY_TOGRAVE)
+    e6c:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e6c:SetCode(EVENT_BATTLED)
+    e6c:SetCondition(s.e6atkcon)
+    e6c:SetOperation(s.e6atkop)
+    Divine.RegisterEffect(c, e6c)
 
     -- return
-    local e9 = Effect.CreateEffect(c)
-    e9:SetDescription(aux.Stringid(id, 4))
-    e9:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e9:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e9:SetRange(LOCATION_MZONE)
-    e9:SetCode(EVENT_PHASE + PHASE_END)
-    e9:SetCountLimit(1)
-    e9:SetOperation(s.e9op)
-    Divine.RegisterEffect(c, e9)
+    local e7 = Effect.CreateEffect(c)
+    e7:SetDescription(aux.Stringid(id, 4))
+    e7:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e7:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e7:SetRange(LOCATION_MZONE)
+    e7:SetCode(EVENT_PHASE + PHASE_END)
+    e7:SetCountLimit(1)
+    e7:SetOperation(s.e7op)
+    Divine.RegisterEffect(c, e7)
 end
 
 function s.dmsfilter(c, tp)
@@ -192,12 +194,12 @@ function s.dmsfilter(c, tp)
                c:IsControler(tp) and c:IsFaceup() and c:IsCode(CARD_RA)
 end
 
-function s.e8cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.CheckLPCost(tp, 1000) end
     Duel.PayLPCost(tp, 1000)
 end
 
-function s.e8tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetFlagEffect(id) == 0 and
@@ -210,7 +212,7 @@ function s.e8tg(e, tp, eg, ep, ev, re, r, rp, chk)
                              PHASE_BATTLE, 0, 1)
 end
 
-function s.e8op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACK)
     local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1,
@@ -220,7 +222,20 @@ function s.e8op(e, tp, eg, ep, ev, re, r, rp)
     Duel.ForceAttack(c, tc)
 end
 
-function s.e9op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6atkcon(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttacker() == e:GetHandler() and
+               e:GetHandler():GetBattleTarget()
+end
+
+function s.e6atkop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local bc = c:GetBattleTarget()
+    if not c:GetFlagEffect(id) or not bc:IsRelateToBattle() then return end
+
+    Duel.SendtoGrave(bc, REASON_EFFECT + REASON_RULE)
+end
+
+function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.HintSelection(Group.FromCards(c))
 

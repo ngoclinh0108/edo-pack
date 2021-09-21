@@ -159,23 +159,24 @@ If your "The Winged Dragon of Ra" is Special Summoned from the GY, \
     you can Dimension Change it to this card with the same Divine Hierarchy, \
 If "The Winged Dragon of Ra" you control would be destroyed by its own effect, \
     Dimension Change it to this card with the same Divine Hierarchy instead, \
-    and this card's original ATK/DEF become the same as that monster's original ATK/DEF had on the field. \
+    and its original ATK/DEF become the same as that monster's original ATK/DEF had on the field. \
 This card's effects cannot be negated or copied. \
 This card is also Pyro-Type while it is on the field. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as a material for an Summon by your opponent. \
-Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
-    and you take no battle damage from that battle. \
+Unaffected by other cards' effects, \
+    and cannot be destroyed by battle, also you take no battle damage from that battle, \
+    except for monsters with the higher Divine Hierarchy. \
 Cannot attack, except by its own effect. \
-Unaffected by other cards' effects. \
 Once per Chain, except the End Phase (Quick Effect): \
     You can pay 1000 LP; \
-    this card attack 1 monster your opponent control, and if you do, \
-    send that monster to the GY, ignoring card effects. \
+    attack 1 monster your opponent control, \
+    then send that monster to the GY after the damage calculation, \
+    ignoring card effects. \
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \
     with the same Divine Hierarchy (transfer this card's materials to that monster), \
-    or send this card to the GY. \
+    or send it to the GY. \
 """
 strings = [
     "Select the form",
@@ -201,7 +202,7 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also DARK Fiend monster while it is on the field. \
-The ATK/DEF of all other monsters on the field are halved. \
+Halve the ATK/DEF of all other monsters on the field. \
 Negate the effects of monsters destroyed by battle with it. \
 """
 strings = []
