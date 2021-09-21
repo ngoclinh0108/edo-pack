@@ -180,8 +180,9 @@ Dimension.RegisterChange = aux.FunctionWithNamedArgs(
             reg:SetCondition(function(e)
                 return Dimension.CanBeDimensionChanged(e:GetHandler())
             end)
-            reg:SetOperation(function(e, _, eg)
-                local g = eg:Filter(aux.FilterFaceupFunction(filter, e), nil)
+            reg:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+                local c = e:GetHandler()
+                local g = eg:Filter(aux.FilterFaceupFunction(filter, c, e), nil)
                 for tc in aux.Next(g) do
                     tc:RegisterFlagEffect(flag_id, 0, 0, 1)
                 end
@@ -207,7 +208,7 @@ Dimension.RegisterChange = aux.FunctionWithNamedArgs(
             if not mc then return end
             mc:ResetFlagEffect(flag_id)
             if custom_op then
-                custom_op(e, c, mc)
+                custom_op(e, c:GetOwner(), mc)
             else
                 Dimension.Change(mc, c)
             end

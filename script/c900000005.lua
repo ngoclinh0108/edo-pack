@@ -15,12 +15,12 @@ function s.initial_effect(c)
         handler = c,
         flag_id = id + 100000,
         event_code = EVENT_SPSUMMON_SUCCESS,
-        filter = function(c, e)
-            return c:IsCode(CARD_RA) and c:GetOwner() == e:GetHandler():GetOwner() and
+        filter = function(c, sc)
+            return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner() and
                        c:IsPreviousLocation(LOCATION_GRAVE)
         end,
-        custom_op = function(e, c, mc)
-            local tp = e:GetHandler():GetOwner()
+        custom_op = function(e, tp, mc)
+            local c = e:GetHandler()
             Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
             local op = Duel.SelectOption(tp, aux.Stringid(id, 1),
                                          aux.Stringid(id, 2))
@@ -41,7 +41,8 @@ function s.initial_effect(c)
             dms:SetType(EFFECT_TYPE_CONTINUOUS)
             dms:SetCode(EFFECT_DESTROY_REPLACE)
             dms:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-                local g = eg:Filter(s.dmsfilter, nil, e:GetHandler():GetOwner())
+                local sc = e:GetHandler()
+                local g = eg:Filter(s.dmsfilter, nil, sc:GetOwner())
                 if chk == 0 then return #g > 0 end
                 for tc in aux.Next(g) do
                     tc:RegisterFlagEffect(flag_id, 0, 0, 1)
@@ -52,16 +53,16 @@ function s.initial_effect(c)
                 return s.dmsfilter(c, e:GetHandler():GetOwner())
             end)
             Duel.RegisterEffect(dms, 0)
-            Duel.RegisterEffect(dms, 1)
         end,
-        custom_op = function(e, c, mc)
+        custom_op = function(e, tp, mc)
+            local c = e:GetHandler()
             local atk = mc:GetBaseAttack()
             local def = mc:GetBaseDefense()
 
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)
             if divine_evolution then Divine.DivineEvolution(c) end
-            
+
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
             ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)

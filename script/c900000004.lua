@@ -14,12 +14,12 @@ function s.initial_effect(c)
     Dimension.RegisterChange({
         handler = c,
         event_code = EVENT_SUMMON_SUCCESS,
-        filter = function(c, e)
-            return c:IsCode(CARD_RA) and c:GetOwner() == e:GetHandler():GetOwner()
+        filter = function(c, sc)
+            return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner()
         end,
-        custom_op = function(e, c, mc)
-            local tp = e:GetHandler():GetOwner()
-            if mc:IsControler(e:GetHandler():GetOwner()) then
+        custom_op = function(e, tp, mc)
+            local c = e:GetHandler()
+            if mc:IsControler(tp) then
                 Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 2))
                 local op = Duel.SelectOption(tp, aux.Stringid(id, 3),
                                              aux.Stringid(id, 4))
