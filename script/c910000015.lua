@@ -96,7 +96,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
                               PHASE_END, 0, 1)
 
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(574)
     ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     ec1:SetCode(EVENT_PHASE + PHASE_END)

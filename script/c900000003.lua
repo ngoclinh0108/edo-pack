@@ -147,7 +147,7 @@ function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
         return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
     end
 
-    local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 99, false, nil,
+    local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 999, false, nil,
                                           c)
     e:SetLabel(g:GetSum(Card.GetBaseAttack))
     Duel.Release(g, REASON_COST)

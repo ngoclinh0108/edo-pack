@@ -7,7 +7,7 @@ local s, id = GetID()
 s.listed_names = {CARD_RA, 10000080}
 
 function s.initial_effect(c)
-    s.divine_hierarchy = 2
+    s.divine_hierarchy = 1
     Dimension.AddProcedure(c)
 
     -- dimension change (special summon)
@@ -214,26 +214,9 @@ function s.e7tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e7op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE)
-    ec1:SetCode(EFFECT_DISABLE)
-    ec1:SetRange(LOCATION_MZONE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_CHAIN)
-    tc:RegisterEffect(ec1, true)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_DISABLE_EFFECT)
-    tc:RegisterEffect(ec1b, true)
-    local ec1c = ec1:Clone()
-    ec1c:SetCode(EFFECT_IMMUNE_EFFECT)
-    ec1c:SetValue(function(e, te) return te:GetHandler() == e:GetHandler() end)
-    tc:RegisterEffect(ec1c, true)
-    Duel.AdjustInstantly(tc)
-    Duel.SendtoGrave(tc, REASON_EFFECT)
+    Duel.Destroy(tc, REASON_EFFECT + REASON_RULE)
 end
 
 function s.e8op(e, tp, eg, ep, ev, re, r, rp)
