@@ -859,8 +859,8 @@ set = "palladium"
 name = "Ragnarok of Palladium"
 type = "spell quick-play"
 effect = """\
-During your turn, except the End Phase: \
-    Banish any number of monster you control and/or hand, Deck, GY, at least 1 "Palladium" monster; \
+During either turn, except the End Phase: \
+    Banish any number of monster you control and/or hand, GY, at least 1 "Palladium" monster; \
     choose up to that many face-up monsters your opponent controls (min. 1), \
     and their effects are negated until the end of this turn, \
     also, for the rest of this turn after this card resolves, your opponent takes no damage. \
@@ -869,9 +869,15 @@ During your turn, except the End Phase: \
     the total Divine Hierarchy of the banished monster(s) had on the field for this card's activation. \
     Your opponent cannot activate cards or effects in response to this card's activation. \
     You can only activate 1 "Ragnarok of Palladium" per turn. \
+During your Main Phase, except the turn this card was sent to the GY: \
+    You can banish this card from your GY and pay half your LP; \
+    Special Summon any number of your banished monsters, at least 1 "Palladium" monster, ignoring the Summoning conditions. \
+    During the End Phase, banish all monsters that were Special Summoned by this effect, ignoring card effects. \
+    You can only use this effect of "Ragnarok of Palladium" once per Duel. \
 """
 strings = [
     "Affected by effect \"Ragnarok of Palladium\": take no damage this turn",
+    "Summoned by \"Ragnarok of Palladium\"",
 ]
 
 [card.palladium-binding-circle]

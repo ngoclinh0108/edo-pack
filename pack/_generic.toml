@@ -56,7 +56,7 @@ This card's original ATK and DEF are each equal to the number of cards in your h
     (X is its Divine Hierarchy). \
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
     while this card is able to attack: \
-    Target that monster(s), ignoring card effects; \
+    Choose that monster(s) as Target; \
     it loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
     That monster(s) cannot activate its effects in response to this effect's activation. \
@@ -168,7 +168,7 @@ Unaffected by other cards' effects. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
     and you take no battle damage from that battle. \
 Once per Chain (Quick Effect): \
-    You can pay 1000 LP, then target 1 other monster on the field; \
+    You can pay 1000 LP, then choose 1 other monster on the field as Target; \
     destroy it, ignoring card effects. \
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \

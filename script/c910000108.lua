@@ -10,29 +10,37 @@ function s.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE + CATEGORY_DISABLE)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetHintTiming(TIMING_DAMAGE_STEP)
+    e1:SetHintTiming(TIMINGS_CHECK_MONSTER)
     e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e1:SetCondition(s.e1con)
     e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- special summon
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCondition(aux.exccon)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer(tp) and Duel.GetCurrentPhase() < PHASE_END and
-               (Duel.GetCurrentPhase() ~= PHASE_DAMAGE or
-                   not Duel.IsDamageCalculated())
+    return Duel.GetCurrentPhase() < PHASE_END
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(function(c)
         return c:IsMonster() and c:IsAbleToRemoveAsCost()
-    end, tp, LOCATION_MZONE + LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0,
-                                    c)
+    end, tp, LOCATION_MZONE + LOCATION_HAND + LOCATION_GRAVE, 0, c)
     if chk == 0 then return g:IsExists(Card.IsSetCard, 1, nil, 0x13a) end
 
     local sg = Utility.GroupSelect({
@@ -44,6 +52,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
             return g:IsExists(Card.IsSetCard, 1, nil, 0x13a)
         end
     })
+
     local divine_hierarchy = 0
     for tc in aux.Next(sg) do
         divine_hierarchy = divine_hierarchy + Divine.GetDivineHierarchy(tc)
@@ -110,4 +119,77 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec2:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec2, tp)
+end
+
+function s.e2filter(c, e, tp)
+    return c:IsFaceup() and c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return aux.bfgcost(e, tp, eg, ep, ev, re, r, rp, chk) end
+    aux.bfgcost(e, tp, eg, ep, ev, re, r, rp, chk)
+    Duel.PayLPCost(tp, math.floor(Duel.GetLP(tp) / 2))
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_REMOVED,
+                                               0, 1, nil, e, tp)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp,
+                          LOCATION_REMOVED)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
+    if ft == 0 then return end
+    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then ft = 1 end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_REMOVED, 0,
+                                      1, ft, nil, e, tp)
+    if #g == 0 then return end
+
+    local fid = c:GetFieldID()
+    for tc in aux.Next(g) do
+        Duel.SpecialSummonStep(tc, 0, tp, tp, true, false, POS_FACEUP)
+        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                                  PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, fid,
+                              aux.Stringid(id, 1))
+    end
+    Duel.SpecialSummonComplete()
+    g:KeepAlive()
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetCode(EVENT_PHASE + PHASE_END)
+    ec1:SetCountLimit(1)
+    ec1:SetLabel(fid)
+    ec1:SetLabelObject(g)
+    ec1:SetCondition(s.e2rmcon)
+    ec1:SetOperation(s.e2rmop)
+    Duel.RegisterEffect(ec1, tp)
+end
+
+function s.e2rmfilter(c, fid) return c:GetFlagEffectLabel(id) == fid end
+
+function s.e2rmcon(e, tp, eg, ep, ev, re, r, rp)
+    local g = e:GetLabelObject()
+    if not g:IsExists(s.e2rmfilter, 1, nil, e:GetLabel()) then
+        g:DeleteGroup()
+        e:Reset()
+        return false
+    else
+        return true
+    end
+end
+
+function s.e2rmop(e, tp, eg, ep, ev, re, r, rp)
+    local g = e:GetLabelObject()
+    local tg = g:Filter(s.e2rmfilter, nil, e:GetLabel())
+    Duel.Remove(tg, POS_FACEUP, REASON_EFFECT + REASON_REPLACE + REASON_RULE)
 end
