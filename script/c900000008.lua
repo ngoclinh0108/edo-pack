@@ -50,23 +50,14 @@ function s.initial_effect(c)
     e4:SetRange(LOCATION_MZONE)
     e4:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e4:SetValue(function(e, tc)
-        local c = e:GetHandler()
-        if Divine.GetDivineHierarchy(tc) >= Divine.GetDivineHierarchy(c) then
-            return false
-        end
-
-        c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                                 PHASE_END, 0, 1)
+        if Divine.GetDivineHierarchy(tc) >=
+            Divine.GetDivineHierarchy(e:GetHandler()) then return false end
         return true
     end)
     Divine.RegisterEffect(c, e4)
-    local e4b = Effect.CreateEffect(c)
-    e4b:SetType(EFFECT_TYPE_SINGLE)
+    local e4b = e4:Clone()
     e4b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    e4b:SetValue(function(e)
-        return e:GetHandler():GetFlagEffect(id) == 0 and 1 or 0
-    end)
-    c:RegisterEffect(e4b)
+    Divine.RegisterEffect(c, e4b)
 
     -- no effect damage
     local e5 = Effect.CreateEffect(c)

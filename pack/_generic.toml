@@ -166,10 +166,12 @@ Control of it cannot switch. \
 Cannot be Tributed, or used as a material for an Summon by your opponent. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
     and you take no battle damage from that battle. \
+Cannot attack, except by its own effect. \
 Unaffected by other cards' effects. \
 Once per Chain (Quick Effect): \
-    You can pay 1000 LP, then choose 1 other monster on the field as Target; \
-    destroy it, ignoring card effects. \
+    You can pay 1000 LP; \
+    this card attack 1 monster your opponent control, and if you do, \
+    send that monster to the GY, ignoring card effects. \
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \
     with the same Divine Hierarchy (transfer this card's materials to that monster), \
@@ -179,7 +181,7 @@ strings = [
     "Select the form",
     "Battle Mode",
     "Phoenix Mode",
-    "Send 1 monster to GY",
+    "Attack 1 monster & send it to GY",
     "Turn into Sphere Mode or to the GY",
 ]
 
