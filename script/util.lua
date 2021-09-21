@@ -160,19 +160,56 @@ function Utility.HintCard(target)
 end
 
 Utility.GroupSelect = aux.FunctionWithNamedArgs(
-                          function(hintmsg, g, tp, min, max, filter, ex)
-        if filter then g = g:Filter(filter, ex) end
+                          function(hintmsg, g, tp, min, max, ex, filter, check,
+                                   breakcon, cancelable, e)
+        -- default value
         if hintmsg == nil then hintmsg = HINTMSG_SELECT end
         if min == nil then min = 1 end
-        if #g < min then return Group.CreateGroup() end
-        if not max then max = min end
+        if max == nil then max = min end
+        if cancelable == nil then cancelable = false end
 
-        if #g > min then
+        -- init
+        local sg = Group.CreateGroup()
+        local mg = g:Clone()
+        if filter ~= nil then mg = mg:Filter(filter, ex) end
+
+        -- skip cases
+        if check ~= nil and not check(mg, e, tp, mg) then return sg end
+        if #mg < min then return sg end
+        if #mg == min then return mg end
+
+        -- normal select
+        if check == nil then
             Duel.Hint(HINT_SELECTMSG, tp, hintmsg)
-            g = g:Select(tp, min, max, ex)
+            return mg:Select(tp, min, max, cancelable, ex)
         end
-        return g
-    end, "hintmsg", "g", "tp", "min", "max", "filter", "ex")
+
+        -- select unselect
+        while true do
+            local finishable = check(sg, e, tp, mg)
+            Duel.Hint(HINT_SELECTMSG, tp, hintmsg)
+            local sc =
+                Group.SelectUnselect(mg, sg, tp, finishable, cancelable, min,
+                                     max)
+            if sc == nil then break end
+
+            if sg:IsContains(sc) then
+                sg:RemoveCard(sc)
+                mg:AddCard(sc)
+            else
+                sg:AddCard(sc)
+                mg:RemoveCard(sc)
+            end
+
+            if breakcon == nil then
+                if #sg == max and finishable then break end
+            else
+                if breakcon(sg, e, tp, mg) then break end
+            end
+        end
+        return sg
+    end, "hintmsg", "g", "tp", "min", "max", "ex", "filter", "check",
+                          "breakcon", "cancelable", "e")
 
 function Utility.SelectMatchingCard(hintmsg, sel_player, f, player, s, o, min,
                                     max, ex, ...)
