@@ -43,7 +43,7 @@ function Dimension.AddProcedure(c)
     end)
     c:RegisterEffect(startup)
 
-    -- leave
+    -- leave field
     local leave = Effect.CreateEffect(c)
     leave:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     leave:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
@@ -55,6 +55,7 @@ function Dimension.AddProcedure(c)
         local mc = c:GetMaterial():GetFirst()
 
         if mc then
+            Dimension.ZonesRemoveCard(mc)
             if loc == LOCATION_EXTRA and c:IsFaceup() then
                 Duel.SendtoExtraP(mc, tp, r)
             elseif loc == LOCATION_DECK or loc == LOCATION_EXTRA then
@@ -69,12 +70,17 @@ function Dimension.AddProcedure(c)
             if re then mc:SetReasonEffect(re) end
             if rc then mc:SetReasonCard(rc) end
             if rp then mc:SetReasonPlayer(rp) end
-            Dimension.ZonesRemoveCard(mc)
         end
 
         Dimension.SendToDimension(c, c:GetReason())
     end)
     c:RegisterEffect(leave)
+    local detach = leave:Clone()
+    detach:SetCode(EVENT_TO_GRAVE)
+    c:RegisterEffect(detach)
+    local detach2 = detach:Clone()
+    detach2:SetCode(EVENT_REMOVE)
+    c:RegisterEffect(detach2)
 end
 
 function Dimension.SendToDimension(tc, reason)
