@@ -63,12 +63,12 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     Divine.RegisterEffect(c, nomaterial)
 
     -- no leave
-    local noleave = Effect.CreateEffect(c)
-    noleave:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    noleave:SetCode(EVENT_CHAIN_SOLVING)
-    noleave:SetRange(LOCATION_MZONE)
-    noleave:SetLabelObject({})
-    noleave:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    local noleave_solving = Effect.CreateEffect(c)
+    noleave_solving:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    noleave_solving:SetCode(EVENT_CHAIN_SOLVING)
+    noleave_solving:SetRange(LOCATION_MZONE)
+    noleave_solving:SetLabelObject({})
+    noleave_solving:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         if not re then return end
         local c = e:GetHandler()
         local rc = re:GetHandler()
@@ -93,39 +93,38 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             table.insert(e:GetLabelObject(), eff)
         end
     end)
-    Divine.RegisterEffect(c, noleave)
-    local noleave2 = noleave:Clone()
-    noleave2:SetCode(EVENT_CHAIN_SOLVED)
-    noleave2:SetLabelObject(noleave)
-    noleave2:SetOperation(function()
-        local effs = noleave:GetLabelObject()
+    Divine.RegisterEffect(c, noleave_solving)
+    local noleave_solved = noleave_solving:Clone()
+    noleave_solved:SetCode(EVENT_CHAIN_SOLVED)
+    noleave_solved:SetLabelObject(noleave_solving)
+    noleave_solved:SetOperation(function(e)
+        local effs = e:GetLabelObject():GetLabelObject()
         while #effs > 0 do
             local eff = table.remove(effs)
             eff:Reset()
         end
     end)
-    Divine.RegisterEffect(c, noleave2)
-    local noleave3 = Effect.CreateEffect(c)
-    noleave3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    noleave3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noleave3:SetCode(EFFECT_SEND_REPLACE)
-    noleave3:SetRange(LOCATION_MZONE)
-    noleave3:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+    Divine.RegisterEffect(c, noleave_solved)
+    local noleave1 = Effect.CreateEffect(c)
+    noleave1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    noleave1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noleave1:SetCode(EFFECT_SEND_REPLACE)
+    noleave1:SetRange(LOCATION_MZONE)
+    noleave1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
         if chk == 0 then
             if not (r & REASON_EFFECT ~= 0) or not c:IsReason(REASON_EFFECT) or
                 not re or re:GetHandler() == c then return false end
-
             local rc = re:GetHandler()
             return not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <=
                        Divine.GetDivineHierarchy(c)
         end
         return true
     end)
-    Divine.RegisterEffect(c, noleave3)
-    local noleave4 = noleave3:Clone()
-    noleave4:SetCode(EFFECT_DESTROY_REPLACE)
-    Divine.RegisterEffect(c, noleave4)
+    Divine.RegisterEffect(c, noleave1)
+    local noleave2 = noleave1:Clone()
+    noleave2:SetCode(EFFECT_DESTROY_REPLACE)
+    Divine.RegisterEffect(c, noleave2)
 
     -- immune
     local immune = Effect.CreateEffect(c)
