@@ -36,6 +36,8 @@ Once per turn, while the total monster's Divine Hierarchy on the field are 3 or 
     during damage calculation, it gains ∞ ATK during the damage calculation only. \
 """
 strings = ["Soul Energy MAX", "Destroy & damage", "Gain ∞ ATK for 1 attack"]
+frame = "obelisk"
+name-color = "white"
 
 [card.osiris]
 id = 900000002
@@ -63,6 +65,8 @@ If a monster(s) is Normal or Special Summoned to your opponent's field, \
     That monster cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
+frame = "osiris"
+name-color = "white"
 
 [card.ra]
 id = 900000003
@@ -103,6 +107,8 @@ strings = [
     "Destroy 1 monster",
     "Tribute monster for ATK",
 ]
+frame = "ra"
+name-color = "black"
 
 [card.ra-sphere]
 id = 900000004
@@ -143,6 +149,8 @@ strings = [
     "Sphere Mode",
     "Reveal \"Ancient Chant\"?",
 ]
+frame = "ra"
+name-color = "black"
 
 [card.ra-phoenix]
 id = 900000005
@@ -186,6 +194,8 @@ strings = [
     "Attack 1 monster & send it to GY",
     "Turn into Sphere Mode or to the GY",
 ]
+frame = "ra"
+name-color = "black"
 
 [card.dreadroot]
 id = 900000006
@@ -208,6 +218,8 @@ The ATK/DEF of all other monsters on the field are halved. \
 Negate the effects of monsters destroyed by battle with this card. \
 """
 strings = []
+frame = "wicked"
+name-color = "white"
 
 [card.eraser]
 id = 900000007
@@ -233,7 +245,9 @@ If this card is sent from the field to the GY, \
     also, after that send all cards on the field to the GY, \
     except 1 face-up monster you control (if any). \
 """
-strings = ["Destroy itself"]
+strings = []
+frame = "wicked"
+name-color = "white"
 
 [card.avatar]
 id = 900000008
@@ -262,6 +276,8 @@ You take no effect damage. \
 strings = [
     "Affected by effect \"Wicked God Avatar\": cannot activate Spell/Trap Cards",
 ]
+frame = "wicked"
+name-color = "white"
 
 [card.emissary-divine-beast]
 id = 900000009
