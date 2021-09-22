@@ -37,7 +37,7 @@ Once per turn, while the total monster's Divine Hierarchy on the field are 3 or 
 """
 strings = ["Soul Energy MAX", "Destroy & damage", "Gain ∞ ATK for 1 attack"]
 frame = "obelisk"
-name-color = "white"
+name-color = "silver"
 
 [card.osiris]
 id = 900000002
@@ -66,7 +66,7 @@ If a monster(s) is Normal or Special Summoned to your opponent's field, \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 frame = "osiris"
-name-color = "white"
+name-color = "silver"
 
 [card.ra]
 id = 900000003
@@ -108,7 +108,7 @@ strings = [
     "Tribute monster for ATK",
 ]
 frame = "ra"
-name-color = "black"
+name-color = "silver"
 
 [card.ra-sphere]
 id = 900000004
@@ -150,7 +150,7 @@ strings = [
     "Reveal \"Ancient Chant\"?",
 ]
 frame = "ra"
-name-color = "black"
+name-color = "silver"
 
 [card.ra-phoenix]
 id = 900000005
@@ -195,7 +195,7 @@ strings = [
     "Turn into Sphere Mode or to the GY",
 ]
 frame = "ra"
-name-color = "black"
+name-color = "silver"
 
 [card.dreadroot]
 id = 900000006
@@ -219,7 +219,7 @@ Negate the effects of monsters destroyed by battle with this card. \
 """
 strings = []
 frame = "wicked"
-name-color = "white"
+name-color = "silver"
 
 [card.eraser]
 id = 900000007
@@ -247,7 +247,7 @@ If this card is sent from the field to the GY, \
 """
 strings = []
 frame = "wicked"
-name-color = "white"
+name-color = "silver"
 
 [card.avatar]
 id = 900000008
@@ -277,7 +277,7 @@ strings = [
     "Affected by effect \"Wicked God Avatar\": cannot activate Spell/Trap Cards",
 ]
 frame = "wicked"
-name-color = "white"
+name-color = "silver"
 
 [card.emissary-divine-beast]
 id = 900000009

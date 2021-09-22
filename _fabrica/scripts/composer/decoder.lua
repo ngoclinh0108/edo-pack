@@ -20,8 +20,11 @@ local spelltrap_types = types.CONTINUOUS + types.COUNTER + types.EQUIP +
 local frame_types = monster_types + spellortrap
 
 local function typef_ov(n, sfx, card)
-    if card.frame then return ("frame-%s.png"):format(card.frame)
-    else return ("type%u%s.png"):format(n, sfx or "") end
+    if card.frame then
+        return ("frame-%s.png"):format(card.frame)
+    else
+        return ("type%u%s.png"):format(n, sfx or "")
+    end
 end
 local function st_ov(n, sfx) return ("st%u%s.png"):format(n, sfx or "") end
 local function linka_ov(n, sfx) return ("lka%u%s.png"):format(n, sfx or "") end
@@ -41,6 +44,8 @@ end
 local colors = {
     ["black"] = {0, 0, 0},
     ["white"] = {255, 255, 255},
+    ["gold"] = {255, 215, 0},
+    ["silver"] = {181, 255, 255}
 }
 local name_colors = {
     [types.NORMAL] = {"color-normal", colors.black},
@@ -52,7 +57,7 @@ local name_colors = {
     [types.XYZ] = {"color-xyz", colors.white},
     [types.LINK] = {"color-link", colors.white},
     [types.SPELL] = {"color-spell", colors.white},
-    [types.TRAP] = {"color-trap", colors.white},
+    [types.TRAP] = {"color-trap", colors.white}
 }
 
 local automatons = {}
@@ -76,7 +81,7 @@ function automatons.anime(data, card)
         local st = Parser.match_lsb(data.type, spellortrap)
         insert(layers, MetaLayer.new("overlay", typef_ov(st)))
         return layers
-        
+
     end
 
     function states.monster()
@@ -169,7 +174,7 @@ function automatons.proxy(data, card)
         elseif Parser.bcheck(data.type, types.MONSTER) then
             frame = Parser.match_msb(data.type, frame_types)
         end
-        
+
         if frame == 0 then return nil, "Missing card type" end
         insert(layers, MetaLayer.new("overlay", typef_ov(frame, nil, card)))
 
@@ -251,7 +256,7 @@ function automatons.proxy(data, card)
                 insert(layers, MetaLayer.new("overlay", st_ov(st_type)))
             end
         end
-        insert(layers, MetaLayer.new("spelltrap_effect", data.desc))        
+        insert(layers, MetaLayer.new("spelltrap_effect", data.desc))
         return states.name()
     end
 
@@ -336,7 +341,8 @@ function automatons.proxy(data, card)
     function states.name()
         local frame = Parser.match_msb(data.type, frame_types)
         local conf, default_color = unpack(name_colors[frame])
-        local color = card["name-color"] and colors[card["name-color"]] or color_clamp(options[conf])
+        local color = card["name-color"] and colors[card["name-color"]] or
+                          color_clamp(options[conf])
 
         insert(layers, MetaLayer.new("name", data.name, color or default_color))
         if Parser.bcheck(data.type, types.TOKEN) then
