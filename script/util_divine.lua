@@ -319,7 +319,7 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
     fus:SetCondition(function(e) return e:GetHandler():IsHasEffect(id) end)
     fus:SetValue(TYPE_FUSION)
     if reset then fus:SetReset(reset) end
-    tDivine.RegisterEffect(c, fus, forced)
+    Divine.RegisterEffect(c, fus, forced)
 
     -- base atk/def
     local atk = Effect.CreateEffect(c)
@@ -331,13 +331,13 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
         return e:GetHandler():GetCardEffect(id):GetLabelObject()[1]
     end)
     if reset then atk:SetReset(reset) end
-    tDivine.RegisterEffect(c, atk, forced)
+    Divine.RegisterEffect(c, atk, forced)
     local def = atk:Clone()
     def:SetCode(EFFECT_SET_BASE_DEFENSE)
     def:SetValue(function(e)
         return e:GetHandler():GetCardEffect(id):GetLabelObject()[2]
     end)
-    tDivine.RegisterEffect(c, def, forced)
+    Divine.RegisterEffect(c, def, forced)
 
     -- life point transfer
     local lp = Effect.CreateEffect(c)
@@ -360,7 +360,7 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
         Duel.SetLP(tp, Duel.GetLP(tp) - ev, REASON_EFFECT)
     end)
     if reset then lp:SetReset(reset) end
-    tDivine.RegisterEffect(c, lp, forced)
+    Divine.RegisterEffect(c, lp, forced)
 end
 
 function Divine.RegisterRaDefuse(s, c)
@@ -385,7 +385,7 @@ function Divine.RegisterRaDefuse(s, c)
                 local eff = Effect.CreateEffect(tc)
                 eff:SetType(EFFECT_TYPE_SINGLE)
                 eff:SetCode(id)
-                tDivine.RegisterEffect(c, eff)
+                Divine.RegisterEffect(c, eff)
 
                 local ec1 = Effect.CreateEffect(tc)
                 ec1:SetDescription(666006)
@@ -436,15 +436,15 @@ function Divine.RegisterRaDefuse(s, c)
                     ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
                     ec1:SetValue(0)
                     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-                    tDivine.RegisterEffect(c, ec1)
+                    Divine.RegisterEffect(c, ec1)
                     local ec1b = ec1:Clone()
                     ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-                    tDivine.RegisterEffect(c, ec1b)
+                    Divine.RegisterEffect(c, ec1b)
                     Duel.AdjustInstantly(tc)
 
                     Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
                 end)
-                tDivine.RegisterEffect(c, ec1)
+                Divine.RegisterEffect(c, ec1)
             end
         end)
         Duel.RegisterEffect(defuse, 0)

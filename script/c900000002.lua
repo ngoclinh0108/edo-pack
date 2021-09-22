@@ -82,14 +82,14 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
             ec1:SetCode(EFFECT_UPDATE_ATTACK)
             ec1:SetValue(-2000)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tDivine.RegisterEffect(c, ec1)
+            Divine.RegisterEffect(c, ec1)
         elseif tc:IsPosition(POS_FACEUP_DEFENSE) then
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
             ec1:SetCode(EFFECT_UPDATE_DEFENSE)
             ec1:SetValue(-2000)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tDivine.RegisterEffect(c, ec1)
+            Divine.RegisterEffect(c, ec1)
         end
 
         if preatk > 0 and tc:GetAttack() == 0 then dg:AddCard(tc) end
