@@ -11,6 +11,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     if divine_hierarchy then s.divine_hierarchy = divine_hierarchy end
 
     if summon_by_three_tributes then
+        -- 3 tribute
         aux.AddNormalSummonProcedure(c, true, false, 3, 3)
         aux.AddNormalSetProcedure(c)
 
@@ -21,6 +22,34 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
         Divine.RegisterEffect(c, sumsafe)
     end
+
+    -- uncopyable
+    local uncopyable = Effect.CreateEffect(c)
+    uncopyable:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    uncopyable:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    uncopyable:SetRange(LOCATION_MZONE)
+    uncopyable:SetCode(EVENT_ADJUST)
+    uncopyable:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local effs = {c:GetCardEffect()}
+        for _, eff in ipairs(effs) do
+            if eff:GetHandler() == c and
+                (eff:GetProperty() & EFFECT_FLAG_UNCOPYABLE == 0) then
+                return true
+            end
+        end
+        return false
+    end)
+    uncopyable:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        Debug:Message(c:Code())
+        local effs = {c:GetCardEffect()}
+        for _, eff in ipairs(effs) do
+            if eff:GetHandler() == c then
+                eff:SetProperty(eff:GetProperty() + EFFECT_FLAG_UNCOPYABLE)
+            end
+        end
+    end)
+    c:RegisterEffect(uncopyable)
 
     -- effects cannot be negated
     local nodis = Effect.CreateEffect(c)
@@ -111,8 +140,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noleave_replace:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
         if chk == 0 then
-            if not (r & REASON_EFFECT ~= 0) or not c:IsReason(REASON_EFFECT) or
-                not re or re:GetHandler() == c then return false end
+            if r & REASON_EFFECT == 0 or not c:IsReason(REASON_EFFECT) or not re or
+                re:GetHandler() == c then return false end
             local rc = re:GetHandler()
             return not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <=
                        Divine.GetDivineHierarchy(c)

@@ -92,9 +92,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if #effs > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         local te
         local g = Group.CreateGroup()
-        for _, eff in pairs(effs) do g:AddCard(eff:GetHandler()) end
+        for _, eff in ipairs(effs) do g:AddCard(eff:GetHandler()) end
         local tc = Utility.GroupSelect(HINTMSG_EFFECT, g, tp):GetFirst()
-        for _, eff in pairs(effs) do
+        for _, eff in ipairs(effs) do
             if eff:GetHandler() == tc then
                 te = eff
                 break
