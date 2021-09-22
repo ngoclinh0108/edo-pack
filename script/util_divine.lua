@@ -35,42 +35,38 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
                 te:GetCode() & EFFECT_DISABLE ~= 0
     end)
     Divine.RegisterEffect(c, nodis_1)
-    -- local nodis = Effect.CreateEffect(c)
-    -- nodis:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    -- nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    -- nodis:SetRange(LOCATION_MZONE)
-    -- nodis:SetCode(EVENT_ADJUST)
-    -- nodis:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-    --     -- if Duel.GetCurrentPhase() ~= PHASE_END then return false end
-    --     -- local check = false
-    --     -- local c = e:GetHandler()
-    --     -- local effs = {c:GetCardEffect()}
-    --     -- for _, eff in ipairs(effs) do
-    --     --     if eff:GetOwner() ~= c and
-    --     --         not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
-    --     --         eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
-    --     --         (eff:GetTarget() == aux.PersistentTargetFilter or
-    --     --             not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
-    --     --         check = true
-    --     --         break
-    --     --     end
-    --     -- end
-    --     -- return check
-    -- end)
-    -- nodis:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-    --     Debug.Message("OK")
-    --     -- local c = e:GetHandler()
-    --     -- local effs = {c:GetCardEffect()}
-    --     -- for _, eff in ipairs(effs) do
-    --     --     if eff:GetOwner() ~= c and
-    --     --         not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
-    --     --         eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
-    --     --         (eff:GetTarget() == aux.PersistentTargetFilter or
-    --     --             not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
-    --     --         eff:Reset()
-    --     --     end
-    --     -- end
-    -- end)
+    local nodis_2 = Effect.CreateEffect(c)
+    nodis_2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    nodis_2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    nodis_2:SetRange(LOCATION_MZONE)
+    nodis_2:SetCode(EVENT_ADJUST)
+    nodis_2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if not c:IsDisabled() then return false end
+        local effs = {c:GetCardEffect(EFFECT_DISABLE)}
+        for _, eff in ipairs(effs) do
+            local ec = eff:GetOwner()
+            if ec ~= c and not ec:IsMonster() and
+                (eff:GetTarget() == aux.PersistentTargetFilter or
+                    not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
+                return true
+            end
+        end
+        return false
+    end)
+    nodis_2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        local effs = {c:GetCardEffect(EFFECT_DISABLE)}
+        for _, eff in ipairs(effs) do
+            local ec = eff:GetOwner()
+            if ec ~= c and not ec:IsMonster() and
+                (eff:GetTarget() == aux.PersistentTargetFilter or
+                    not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
+                eff:Reset()
+            end
+        end
+    end)
+    Divine.RegisterEffect(c, nodis_2)
 
     -- cannot switch control
     local noswitch = Effect.CreateEffect(c)
@@ -172,19 +168,19 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     Divine.RegisterEffect(c, noleave_eff_3)
 
     -- immune
-    -- local immune = Effect.CreateEffect(c)
-    -- immune:SetType(EFFECT_TYPE_SINGLE)
-    -- immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    -- immune:SetRange(LOCATION_MZONE)
-    -- immune:SetCode(EFFECT_IMMUNE_EFFECT)
-    -- immune:SetValue(function(e, te)
-    --     local c = e:GetHandler()
-    --     local tc = te:GetHandler()
-    --     local tp = e:GetHandlerPlayer()
-    --     return tc:IsControler(1 - tp) and tc:IsMonster() and
-    --                Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(c)
-    -- end)
-    -- Divine.RegisterEffect(c, immune)
+    local immune = Effect.CreateEffect(c)
+    immune:SetType(EFFECT_TYPE_SINGLE)
+    immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    immune:SetRange(LOCATION_MZONE)
+    immune:SetCode(EFFECT_IMMUNE_EFFECT)
+    immune:SetValue(function(e, te)
+        local c = e:GetHandler()
+        local tc = te:GetHandler()
+        local tp = e:GetHandlerPlayer()
+        return tc:IsControler(1 - tp) and tc:IsMonster() and
+                   Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(c)
+    end)
+    Divine.RegisterEffect(c, immune)
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
