@@ -18,22 +18,25 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         -- summon cannot be negate
         local sumsafe = Effect.CreateEffect(c)
         sumsafe:SetType(EFFECT_TYPE_SINGLE)
-        sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
         sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
-        Divine.RegisterEffect(c, sumsafe)
+        c:RegisterEffect(sumsafe)
     end
 
     -- uncopyable
     local uncopyable = Effect.CreateEffect(c)
     uncopyable:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    uncopyable:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    uncopyable:SetProperty(
+        EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE +
+            EFFECT_FLAG_UNCOPYABLE)
     uncopyable:SetRange(LOCATION_MZONE)
     uncopyable:SetCode(EVENT_ADJUST)
     uncopyable:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
-            if eff:GetHandler() == c and
-                (eff:GetProperty() & EFFECT_FLAG_UNCOPYABLE == 0) then
+            local props = eff:GetProperty()
+            if eff:GetOwner() == c and (props & EFFECT_FLAG_UNCOPYABLE == 0) then
                 return true
             end
         end
@@ -41,11 +44,11 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     end)
     uncopyable:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
-        Debug:Message(c:Code())
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
-            if eff:GetHandler() == c then
-                eff:SetProperty(eff:GetProperty() + EFFECT_FLAG_UNCOPYABLE)
+            local props = eff:GetProperty()
+            if eff:GetOwner() == c and (props & EFFECT_FLAG_UNCOPYABLE == 0) then
+                eff:SetProperty(props + EFFECT_FLAG_UNCOPYABLE)
             end
         end
     end)
@@ -55,7 +58,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     local nodis = Effect.CreateEffect(c)
     nodis:SetType(EFFECT_TYPE_SINGLE)
     nodis:SetCode(EFFECT_CANNOT_DISABLE)
-    Divine.RegisterEffect(c, nodis)
+    c:RegisterEffect(nodis)
     local nodisb = Effect.CreateEffect(c)
     nodisb:SetType(EFFECT_TYPE_FIELD)
     nodisb:SetRange(LOCATION_MZONE)
@@ -64,7 +67,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
         return te:GetHandler() == e:GetHandler()
     end)
-    Divine.RegisterEffect(c, nodisb)
+    c:RegisterEffect(nodisb)
 
     -- cannot switch control
     local noswitch = Effect.CreateEffect(c)
@@ -72,7 +75,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     noswitch:SetRange(LOCATION_MZONE)
     noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    Divine.RegisterEffect(c, noswitch)
+    c:RegisterEffect(noswitch)
 
     -- cannot be tributed, or be used as a material
     local norelease = Effect.CreateEffect(c)
@@ -82,14 +85,14 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetTargetRange(0, 1)
     norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
-    Divine.RegisterEffect(c, norelease)
+    c:RegisterEffect(norelease)
     local nomaterial = Effect.CreateEffect(c)
     nomaterial:SetType(EFFECT_TYPE_SINGLE)
     nomaterial:SetCode(EFFECT_CANNOT_BE_MATERIAL)
     nomaterial:SetValue(function(e, tc)
         return tc and tc:GetControler() ~= e:GetHandlerPlayer()
     end)
-    Divine.RegisterEffect(c, nomaterial)
+    c:RegisterEffect(nomaterial)
 
     -- no leave
     local noleave_solving = Effect.CreateEffect(c)
@@ -120,7 +123,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             table.insert(e:GetLabelObject(), eff)
         end
     end)
-    Divine.RegisterEffect(c, noleave_solving)
+    c:RegisterEffect(noleave_solving)
     local noleave_solved = noleave_solving:Clone()
     noleave_solved:SetCode(EVENT_CHAIN_SOLVED)
     noleave_solved:SetLabelObject(noleave_solving)
@@ -131,7 +134,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             eff:Reset()
         end
     end)
-    Divine.RegisterEffect(c, noleave_solved)
+    c:RegisterEffect(noleave_solved)
     local noleave_replace = Effect.CreateEffect(c)
     noleave_replace:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     noleave_replace:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -148,22 +151,22 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         end
         return true
     end)
-    Divine.RegisterEffect(c, noleave_replace)
+    c:RegisterEffect(noleave_replace)
     local noleave_eff_1 = Effect.CreateEffect(c)
     noleave_eff_1:SetType(EFFECT_TYPE_SINGLE)
     noleave_eff_1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     noleave_eff_1:SetRange(LOCATION_MZONE)
     noleave_eff_1:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
-    Divine.RegisterEffect(c, noleave_eff_1)
+    c:RegisterEffect(noleave_eff_1)
     local noleave_eff_2 = noleave_eff_1:Clone()
     noleave_eff_2:SetCode(EFFECT_UNRELEASABLE_EFFECT)
-    Divine.RegisterEffect(c, noleave_eff_2)
+    c:RegisterEffect(noleave_eff_2)
     local noleave_eff_3 = noleave_eff_1:Clone()
     noleave_eff_3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     noleave_eff_3:SetValue(function(e, te)
         return te:GetHandler() ~= e:GetHandler()
     end)
-    Divine.RegisterEffect(c, noleave_eff_3)
+    c:RegisterEffect(noleave_eff_3)
 
     -- immune
     local immune = Effect.CreateEffect(c)
@@ -178,7 +181,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         return tc:IsControler(1 - tp) and tc:IsMonster() and
                    Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(c)
     end)
-    Divine.RegisterEffect(c, immune)
+    c:RegisterEffect(immune)
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
@@ -218,7 +221,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             end
         end
     end)
-    Divine.RegisterEffect(c, reset)
+    c:RegisterEffect(reset)
 
     if spsummon_effect then
         -- switch target
@@ -252,7 +255,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
                 Duel.ChangeTargetCard(ev + 1, Group.FromCards(c))
             end
         end)
-        Divine.RegisterEffect(c, switchtarget)
+        c:RegisterEffect(switchtarget)
 
         -- cannot attack when special summoned from the grave
         local spnoattack = Effect.CreateEffect(c)
@@ -274,7 +277,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
             c:RegisterEffect(ec1)
         end)
-        Divine.RegisterEffect(c, spnoattack)
+        c:RegisterEffect(spnoattack)
 
         -- to grave
         local togy = Effect.CreateEffect(c)
@@ -293,7 +296,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
             Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
         end)
-        Divine.RegisterEffect(c, togy)
+        c:RegisterEffect(togy)
     end
 end
 
@@ -319,20 +322,10 @@ function Divine.IsDivineEvolution(c)
     return c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
 end
 
-function Divine.RegisterEffect(c, eff, forced)
-    local e = eff:Clone()
-    e:SetProperty(e:GetProperty() + EFFECT_FLAG_UNCOPYABLE)
-    c:RegisterEffect(e, forced)
-end
-
 function Divine.RegisterRaEffect(c, eff, forced)
     local e = eff:Clone()
     e:SetProperty(e:GetProperty() + EFFECT_FLAG_IGNORE_IMMUNE)
-    if c:IsOriginalCode(CARD_RA) then
-        c:RegisterEffect(e, forced)
-    else
-        Divine.RegisterEffect(c, e, forced)
-    end
+    c:RegisterEffect(e, forced)
 end
 
 function Divine.RegisterRaFuse(c, tc, reset, forced)
@@ -347,7 +340,7 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
     fus:SetCondition(function(e) return e:GetHandler():IsHasEffect(id) end)
     fus:SetValue(TYPE_FUSION)
     if reset then fus:SetReset(reset) end
-    Divine.RegisterEffect(tc, fus, forced)
+    tc:RegisterEffect(fus, forced)
 
     -- base atk/def
     local atk = Effect.CreateEffect(c)
@@ -359,13 +352,13 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
         return e:GetHandler():GetCardEffect(id):GetLabelObject()[1]
     end)
     if reset then atk:SetReset(reset) end
-    Divine.RegisterEffect(tc, atk, forced)
+    tc:RegisterEffect(atk, forced)
     local def = atk:Clone()
     def:SetCode(EFFECT_SET_BASE_DEFENSE)
     def:SetValue(function(e)
         return e:GetHandler():GetCardEffect(id):GetLabelObject()[2]
     end)
-    Divine.RegisterEffect(tc, def, forced)
+    tc:RegisterEffect(def, forced)
 
     -- life point transfer
     local lp = Effect.CreateEffect(c)
@@ -388,7 +381,7 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
         Duel.SetLP(tp, Duel.GetLP(tp) - ev, REASON_EFFECT)
     end)
     if reset then lp:SetReset(reset) end
-    Divine.RegisterEffect(tc, lp, forced)
+    tc:RegisterEffect(lp, forced)
 end
 
 function Divine.RegisterRaDefuse(s, c)

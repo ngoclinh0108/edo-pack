@@ -20,11 +20,11 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCode(EFFECT_ADD_ATTRIBUTE)
     e1:SetValue(ATTRIBUTE_DARK)
-    Divine.RegisterEffect(c, e1)
+    c:RegisterEffect(e1)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_ADD_RACE)
     e1b:SetValue(RACE_FIEND)
-    Divine.RegisterEffect(c, e1b)
+    c:RegisterEffect(e1b)
 
     -- half atk
     local e2 = Effect.CreateEffect(c)

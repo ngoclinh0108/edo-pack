@@ -43,13 +43,13 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_ADD_RACE)
     e1:SetRange(LOCATION_MZONE)
     e1:SetValue(RACE_MACHINE)
-    Divine.RegisterEffect(c, e1)
+    c:RegisterEffect(e1)
 
     -- cannot attack
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetCode(EFFECT_CANNOT_ATTACK)
-    Divine.RegisterEffect(c, e2)
+    c:RegisterEffect(e2)
 
     -- untargetable
     local e3 = Effect.CreateEffect(c)
@@ -58,10 +58,10 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e3:SetRange(LOCATION_MZONE)
     e3:SetValue(1)
-    Divine.RegisterEffect(c, e3)
+    c:RegisterEffect(e3)
     local e3b = e3:Clone()
     e3b:SetCode(EFFECT_IGNORE_BATTLE_TARGET)
-    Divine.RegisterEffect(c, e3b)
+    c:RegisterEffect(e3b)
 
     -- summon ra to opponent's field
     local e4 = Effect.CreateEffect(c)
@@ -117,7 +117,7 @@ function s.initial_effect(c)
     e5:SetCost(s.e5cost)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
-    Divine.RegisterEffect(c, e5)
+    c:RegisterEffect(e5)
 end
 
 function s.e4con(e, c, minc, zone, relzone, exeff)
