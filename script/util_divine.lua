@@ -24,21 +24,54 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     end
 
     -- effects cannot be negated
-    local nodis = Effect.CreateEffect(c)
-    nodis:SetType(EFFECT_TYPE_SINGLE)
-    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    nodis:SetRange(LOCATION_MZONE)
-    nodis:SetCode(EFFECT_IMMUNE_EFFECT)
-    nodis:SetValue(function(e, te)
-        local tc = te:GetHandler()
-        if e:GetOwner() == te:GetOwner() or tc:IsMonster() then
-            return false
-        end
-        local code = te:GetCode()
-        return code & EFFECT_DISABLE ~= 0
+    local nodis_1 = Effect.CreateEffect(c)
+    nodis_1:SetType(EFFECT_TYPE_SINGLE)
+    nodis_1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    nodis_1:SetRange(LOCATION_MZONE)
+    nodis_1:SetCode(EFFECT_IMMUNE_EFFECT)
+    nodis_1:SetValue(function(e, te)
+        return
+            e:GetOwner() ~= te:GetOwner() and te:GetCode() & EFFECT_DISABLE ~= 0 and
+                not te:GetHandler():IsMonster()
     end)
-    Divine.RegisterEffect(c, nodis)
-    
+    Divine.RegisterEffect(c, nodis_1)
+    -- local nodis = Effect.CreateEffect(c)
+    -- nodis:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    -- nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    -- nodis:SetRange(LOCATION_MZONE)
+    -- nodis:SetCode(EVENT_ADJUST)
+    -- nodis:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+    --     -- if Duel.GetCurrentPhase() ~= PHASE_END then return false end
+    --     -- local check = false
+    --     -- local c = e:GetHandler()
+    --     -- local effs = {c:GetCardEffect()}
+    --     -- for _, eff in ipairs(effs) do
+    --     --     if eff:GetOwner() ~= c and
+    --     --         not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
+    --     --         eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
+    --     --         (eff:GetTarget() == aux.PersistentTargetFilter or
+    --     --             not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
+    --     --         check = true
+    --     --         break
+    --     --     end
+    --     -- end
+    --     -- return check
+    -- end)
+    -- nodis:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    --     Debug.Message("OK")
+    --     -- local c = e:GetHandler()
+    --     -- local effs = {c:GetCardEffect()}
+    --     -- for _, eff in ipairs(effs) do
+    --     --     if eff:GetOwner() ~= c and
+    --     --         not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
+    --     --         eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
+    --     --         (eff:GetTarget() == aux.PersistentTargetFilter or
+    --     --             not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
+    --     --         eff:Reset()
+    --     --     end
+    --     -- end
+    -- end)
+
     -- cannot switch control
     local noswitch = Effect.CreateEffect(c)
     noswitch:SetType(EFFECT_TYPE_SINGLE)
