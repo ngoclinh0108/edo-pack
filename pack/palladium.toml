@@ -453,7 +453,7 @@ effect = """\
 2 Level 8 "Chaos" or "Black Luster Soldier" monsters
 (This card's Attribute is also DARK, and it is also Dragon monster.)
 Must first be Xyz Summoned. \
-This card's activation and effect cannot be negated. \
+This card's effect activations and its effects cannot be negated. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 This card gains the following effect(s), based on the material attached on it.
 ● LIGHT Warrior monster: \
@@ -599,7 +599,7 @@ If this card is Special Summoned: \
     You can target any number of Spells/Traps in any GY(s); \
     banish those targets, and if you do, \
     this card gains 100 ATK for each card banished by this effect. \
-This card's effect cannot be negated. \
+This card's effect activations and its effects cannot be negated. \
 (Quick Effect): You can send 1 other card you control or in your hand, \
     then target 1 face-up card your opponent controls; \
     Negate its effects. \
