@@ -31,8 +31,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     nodis_1:SetCode(EFFECT_IMMUNE_EFFECT)
     nodis_1:SetValue(function(e, te)
         return
-            e:GetOwner() ~= te:GetOwner() and te:GetCode() & EFFECT_DISABLE ~= 0 and
-                not te:GetHandler():IsMonster()
+            e:GetOwner() ~= te:GetOwner() and not te:GetHandler():IsMonster() and
+                te:GetCode() & EFFECT_DISABLE ~= 0
     end)
     Divine.RegisterEffect(c, nodis_1)
     -- local nodis = Effect.CreateEffect(c)
