@@ -23,21 +23,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         Divine.RegisterEffect(c, sumsafe)
     end
 
-    -- effects cannot be negated
-    local nodis = Effect.CreateEffect(c)
-    nodis:SetType(EFFECT_TYPE_SINGLE)
-    nodis:SetCode(EFFECT_CANNOT_DISABLE)
-    Divine.RegisterEffect(c, nodis)
-    local nodisb = Effect.CreateEffect(c)
-    nodisb:SetType(EFFECT_TYPE_FIELD)
-    nodisb:SetRange(LOCATION_MZONE)
-    nodisb:SetCode(EFFECT_CANNOT_DISEFFECT)
-    nodisb:SetValue(function(e, ct)
-        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetHandler() == e:GetHandler()
-    end)
-    Divine.RegisterEffect(c, nodisb)
-
     -- cannot switch control
     local noswitch = Effect.CreateEffect(c)
     noswitch:SetType(EFFECT_TYPE_SINGLE)
@@ -62,6 +47,30 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         return tc and tc:GetControler() ~= e:GetHandlerPlayer()
     end)
     Divine.RegisterEffect(c, nomaterial)
+
+    -- effects cannot be negated
+    local nodis = Effect.CreateEffect(c)
+    nodis:SetType(EFFECT_TYPE_SINGLE)
+    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    nodis:SetRange(LOCATION_MZONE)
+    nodis:SetCode(EFFECT_IMMUNE_EFFECT)
+    nodis:SetValue(function(e, te)
+        local tc = te:GetHandler()
+        return
+            e:GetOwner() ~= te:GetOwner() and te:GetCode(EFFECT_DISABLE) ~= 0 and
+                (not tc:IsMonster() or Divine.GetDivineHierarchy(tc) <
+                    Divine.GetDivineHierarchy(c))
+    end)
+    Divine.RegisterEffect(c, nodis)
+    -- local nodisb = Effect.CreateEffect(c)
+    -- nodisb:SetType(EFFECT_TYPE_FIELD)
+    -- nodisb:SetRange(LOCATION_MZONE)
+    -- nodisb:SetCode(EFFECT_CANNOT_DISEFFECT)
+    -- nodisb:SetValue(function(e, ct)
+    --     local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+    --     return te:GetHandler() == e:GetHandler()
+    -- end)
+    -- Divine.RegisterEffect(c, nodisb)
 
     -- no leave
     local noleave_solving = Effect.CreateEffect(c)
@@ -154,7 +163,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
-    reset:SetDescription(666002)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     reset:SetRange(LOCATION_MZONE)
@@ -163,7 +171,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         if Duel.GetCurrentPhase() ~= PHASE_END then return false end
         local check = false
         local c = e:GetHandler()
-
         local effs = {c:GetCardEffect()}
         for _, eff in ipairs(effs) do
             if eff:GetOwner() ~= c and
@@ -216,7 +223,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
                 return c:IsMonster() and c:IsControler(tp)
             end, 1, nil, tp)
             if not (b1 or b2) then return end
-            if not Duel.SelectYesNo(tp, 666003) then return end
+            if not Duel.SelectYesNo(tp, 666002) then return end
 
             Utility.HintCard(c)
             if b1 then Duel.ChangeAttackTarget(c) end
@@ -250,7 +257,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
 
         -- to grave
         local togy = Effect.CreateEffect(c)
-        togy:SetDescription(666004)
+        togy:SetDescription(666003)
         togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         togy:SetRange(LOCATION_MZONE)
         togy:SetCode(EVENT_PHASE + PHASE_END)
@@ -284,7 +291,7 @@ end
 
 function Divine.DivineEvolution(c)
     c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION, RESET_EVENT + RESETS_STANDARD,
-                         EFFECT_FLAG_CLIENT_HINT, 1, 0, 666005)
+                         EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
 end
 
 function Divine.IsDivineEvolution(c)
@@ -388,7 +395,7 @@ function Divine.RegisterRaDefuse(s, c)
                 Divine.RegisterEffect(c, eff)
 
                 local ec1 = Effect.CreateEffect(tc)
-                ec1:SetDescription(666006)
+                ec1:SetDescription(666005)
                 ec1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE +
                                     CATEGORY_RECOVER)
                 ec1:SetType(EFFECT_TYPE_ACTIVATE)

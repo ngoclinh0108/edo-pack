@@ -61,7 +61,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     ec1:SetProperty(EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    Divine.RegisterEffect(c, ec1)
+    c:RegisterEffect(ec1)
 
     local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, c)
     Duel.Release(g, REASON_COST)

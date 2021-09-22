@@ -70,15 +70,15 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
         ec1:SetCode(EFFECT_DISABLE)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        Divine.RegisterEffect(c, ec1)
+        tc:RegisterEffect(ec1)
         local ec2 = ec1:Clone()
         ec2:SetCode(EFFECT_DISABLE_EFFECT)
         ec2:SetValue(RESET_TURN_SET)
-        Divine.RegisterEffect(c, ec2)
+        tc:RegisterEffect(ec2)
         if tc:IsType(TYPE_TRAPMONSTER) then
             local ec3 = ec1:Clone()
             ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-            Divine.RegisterEffect(c, ec3)
+            tc:RegisterEffect(ec3)
         end
         Duel.AdjustInstantly(tc)
     end
