@@ -31,8 +31,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     nodis_1:SetCode(EFFECT_IMMUNE_EFFECT)
     nodis_1:SetValue(function(e, te)
         return e:GetOwner() ~= te:GetOwner() and
-                   te:IsActiveType(TYPE_SPELL + TYPE_TRAP) and
-                   te:GetCode() & EFFECT_DISABLE ~= 0
+                   te:IsActiveType(TYPE_SPELL + TYPE_TRAP) and te:GetCode() &
+                   EFFECT_DISABLE ~= 0
     end)
     Divine.RegisterEffect(c, nodis_1)
     local nodis_2 = Effect.CreateEffect(c)
@@ -413,7 +413,7 @@ function Divine.RegisterRaDefuse(s, c)
                 local eff = Effect.CreateEffect(tc)
                 eff:SetType(EFFECT_TYPE_SINGLE)
                 eff:SetCode(id)
-                Divine.RegisterEffect(c, eff)
+                tc:RegisterEffect(eff)
 
                 local ec1 = Effect.CreateEffect(tc)
                 ec1:SetDescription(666005)
@@ -472,7 +472,7 @@ function Divine.RegisterRaDefuse(s, c)
 
                     Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
                 end)
-                Divine.RegisterEffect(c, ec1)
+                tc:RegisterEffect(ec1)
             end
         end)
         Duel.RegisterEffect(defuse, 0)
