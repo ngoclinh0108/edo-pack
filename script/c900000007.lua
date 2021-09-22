@@ -43,7 +43,7 @@ function s.initial_effect(c)
 
     -- to grave
     local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_TOGRAVE)
+    e4:SetCategory(CATEGORY_DISABLE + CATEGORY_TOGRAVE)
     e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e4:SetCode(EVENT_TO_GRAVE)
     e4:SetCondition(s.e4con)
@@ -69,10 +69,33 @@ end
 function s.e4con(e) return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD) end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local ex = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, Card.IsFaceup,
                                           tp, LOCATION_MZONE, 0, 1, 1, nil)
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD,
-                                    LOCATION_ONFIELD, ex)
 
-    Duel.SendtoGrave(g, REASON_EFFECT)
+    local ng = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_ONFIELD,
+                                     LOCATION_ONFIELD, ex)
+    for tc in aux.Next(ng) do
+        Duel.NegateRelatedChain(tc, RESET_TURN_SET)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        ec1:SetCode(EFFECT_DISABLE)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1)
+        local ec2 = ec1:Clone()
+        ec2:SetCode(EFFECT_DISABLE_EFFECT)
+        ec2:SetValue(RESET_TURN_SET)
+        tc:RegisterEffect(ec2)
+        if tc:IsType(TYPE_TRAPMONSTER) then
+            local ec3 = ec1:Clone()
+            ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+            tc:RegisterEffect(ec3)
+        end
+        Duel.AdjustInstantly(tc)
+    end
+
+    local dg = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD,
+                                     LOCATION_ONFIELD, ex)
+    Duel.SendtoGrave(dg, REASON_EFFECT)
 end

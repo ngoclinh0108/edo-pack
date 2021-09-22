@@ -227,7 +227,9 @@ This card's original ATK and DEF are each equal to the number of cards your oppo
     (X is its Divine Hierarchy). \
 During your Main Phase: You can destroy this card. \
 If this card is sent from the field to the GY, \
-    send all cards on the field to the GY, except 1 face-up monster you control. \
+    negate the effects of all face-up cards on the fiels,
+    also, after that send all cards on the field to the GY, \
+    except 1 face-up monster you control (if any). \
 """
 strings = ["Destroy itself"]
 

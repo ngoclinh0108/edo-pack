@@ -125,13 +125,15 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     noleave_eff_1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     noleave_eff_1:SetRange(LOCATION_MZONE)
     noleave_eff_1:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
-    noleave_eff_1:SetValue(1)
     Divine.RegisterEffect(c, noleave_eff_1)
     local noleave_eff_2 = noleave_eff_1:Clone()
-    noleave_eff_2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    noleave_eff_2:SetCode(EFFECT_UNRELEASABLE_EFFECT)
     Divine.RegisterEffect(c, noleave_eff_2)
     local noleave_eff_3 = noleave_eff_1:Clone()
-    noleave_eff_3:SetCode(EFFECT_UNRELEASABLE_EFFECT)
+    noleave_eff_3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    noleave_eff_3:SetValue(function(e, te)
+        return te:GetHandler() ~= e:GetHandler()
+    end)
     Divine.RegisterEffect(c, noleave_eff_3)
 
     -- immune
