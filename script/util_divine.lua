@@ -398,6 +398,11 @@ function Divine.RegisterRaDefuse(s, c)
         return c:IsCode(95286165) and not c:IsHasEffect(id)
     end
 
+    function RaDefuseFilter(c, id)
+        return c:IsFaceup() and c:IsType(TYPE_FUSION) and c:IsCode(CARD_RA) and
+                   c:IsHasEffect(id)
+    end
+
     aux.GlobalCheck(s, function()
         local defuse = Effect.CreateEffect(c)
         defuse:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -477,9 +482,4 @@ function Divine.RegisterRaDefuse(s, c)
         end)
         Duel.RegisterEffect(defuse, 0)
     end)
-end
-
-function RaDefuseFilter(c, id)
-    return c:IsFaceup() and c:IsType(TYPE_FUSION) and c:IsCode(CARD_RA) and
-               c:IsHasEffect(id)
 end
