@@ -38,7 +38,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         return code & EFFECT_DISABLE ~= 0
     end)
     Divine.RegisterEffect(c, nodis)
-
+    
     -- cannot switch control
     local noswitch = Effect.CreateEffect(c)
     noswitch:SetType(EFFECT_TYPE_SINGLE)
