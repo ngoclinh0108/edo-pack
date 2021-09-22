@@ -22,6 +22,32 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
         Divine.RegisterEffect(c, sumsafe)
     end
+    
+    -- effects cannot be negated
+    local nodis = Effect.CreateEffect(c)
+    nodis:SetType(EFFECT_TYPE_SINGLE)
+    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    nodis:SetRange(LOCATION_MZONE)
+    nodis:SetCode(EFFECT_IMMUNE_EFFECT)
+    nodis:SetValue(function(e, te)
+        local tc = te:GetHandler()
+        if e:GetOwner() == te:GetOwner() then return false end
+        return e:GetOwner() ~= te:GetOwner() and
+                   (te:GetCode(EFFECT_DISABLE) ~= 0 or
+                       te:GetCode(EFFECT_DISABLE_EFFECT) ~= 0) and
+                   (not tc:IsMonster() or Divine.GetDivineHierarchy(tc) <
+                       Divine.GetDivineHierarchy(c))
+    end)
+    Divine.RegisterEffect(c, nodis)
+    -- local nodisb = Effect.CreateEffect(c)
+    -- nodisb:SetType(EFFECT_TYPE_FIELD)
+    -- nodisb:SetRange(LOCATION_MZONE)
+    -- nodisb:SetCode(EFFECT_CANNOT_DISEFFECT)
+    -- nodisb:SetValue(function(e, ct)
+    --     local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+    --     return te:GetHandler() == e:GetHandler()
+    -- end)
+    -- Divine.RegisterEffect(c, nodisb)
 
     -- cannot switch control
     local noswitch = Effect.CreateEffect(c)
@@ -47,30 +73,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         return tc and tc:GetControler() ~= e:GetHandlerPlayer()
     end)
     Divine.RegisterEffect(c, nomaterial)
-
-    -- effects cannot be negated
-    local nodis = Effect.CreateEffect(c)
-    nodis:SetType(EFFECT_TYPE_SINGLE)
-    nodis:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    nodis:SetRange(LOCATION_MZONE)
-    nodis:SetCode(EFFECT_IMMUNE_EFFECT)
-    nodis:SetValue(function(e, te)
-        local tc = te:GetHandler()
-        return
-            e:GetOwner() ~= te:GetOwner() and te:GetCode(EFFECT_DISABLE) ~= 0 and
-                (not tc:IsMonster() or Divine.GetDivineHierarchy(tc) <
-                    Divine.GetDivineHierarchy(c))
-    end)
-    Divine.RegisterEffect(c, nodis)
-    -- local nodisb = Effect.CreateEffect(c)
-    -- nodisb:SetType(EFFECT_TYPE_FIELD)
-    -- nodisb:SetRange(LOCATION_MZONE)
-    -- nodisb:SetCode(EFFECT_CANNOT_DISEFFECT)
-    -- nodisb:SetValue(function(e, ct)
-    --     local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-    --     return te:GetHandler() == e:GetHandler()
-    -- end)
-    -- Divine.RegisterEffect(c, nodisb)
 
     -- no leave
     local noleave_solving = Effect.CreateEffect(c)
@@ -147,19 +149,19 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     Divine.RegisterEffect(c, noleave_eff_3)
 
     -- immune
-    local immune = Effect.CreateEffect(c)
-    immune:SetType(EFFECT_TYPE_SINGLE)
-    immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    immune:SetRange(LOCATION_MZONE)
-    immune:SetCode(EFFECT_IMMUNE_EFFECT)
-    immune:SetValue(function(e, te)
-        local c = e:GetHandler()
-        local tc = te:GetHandler()
-        local tp = e:GetHandlerPlayer()
-        return tc:IsControler(1 - tp) and tc:IsMonster() and
-                   Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(c)
-    end)
-    Divine.RegisterEffect(c, immune)
+    -- local immune = Effect.CreateEffect(c)
+    -- immune:SetType(EFFECT_TYPE_SINGLE)
+    -- immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    -- immune:SetRange(LOCATION_MZONE)
+    -- immune:SetCode(EFFECT_IMMUNE_EFFECT)
+    -- immune:SetValue(function(e, te)
+    --     local c = e:GetHandler()
+    --     local tc = te:GetHandler()
+    --     local tp = e:GetHandlerPlayer()
+    --     return tc:IsControler(1 - tp) and tc:IsMonster() and
+    --                Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(c)
+    -- end)
+    -- Divine.RegisterEffect(c, immune)
 
     -- reset effect
     local reset = Effect.CreateEffect(c)

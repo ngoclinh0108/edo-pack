@@ -25,14 +25,15 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also Warrior-Type while it is on the field. \
-Once per turn (Quick Effect): You can Tribute 2 other monsters, then activate 1 of these effects;
-● While this card is able to attack: \
-    Destroy all monsters your opponent controls, \
+Once per turn, while this card is able to attack (Quick Effect): \
+    You can Tribute 2 other monsters; \
+    destroy all monsters your opponent controls, \
     also inflict damage to your opponent equal to this card's ATK. \
-    This card cannot declare an attack the turn this effect is activated.
-● Once during this turn, if this card battles an opponent's monster, \
+    This card cannot declare an attack the turn this effect is activated. \
+Once per turn, while the total monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
+    You can Tribute 2 other monsters; \
+    once during this turn, if this card battles an opponent's monster, \
     during damage calculation, it gains ∞ ATK during the damage calculation only. \
-    The total monster's Divine Hierarchy on the field must be 3 or more to activate this card's effect.
 """
 strings = ["Soul Energy MAX", "Destroy & damage", "Gain ∞ ATK for 1 attack"]
 
@@ -59,7 +60,7 @@ If a monster(s) is Normal or Special Summoned to your opponent's field, \
     Choose that monster(s) as Target; \
     it loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
-    That monster(s) cannot activate its effects in response to this effect's activation. \
+    That monster cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 

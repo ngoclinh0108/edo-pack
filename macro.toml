@@ -7,11 +7,11 @@ Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated.\
 """
 EGYPTIAN_EFFECT = """\
-This card's effects cannot be copied. \
+This card's effects cannot be copied, \
+    or be negated by Spell/Trap effects. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as a material for an Summon by your opponent. \
-Cannot be negated, change battle position, \
-    or leave the field by other cards' effects, \
+Cannot change battle position, or leave the field by other cards' effects, \
     except for monsters with the higher Divine Hierarchy. \
 Unaffected by your opponent's monster effects, \
     whose Divine Hierarchy lower than its. \
