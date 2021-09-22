@@ -198,9 +198,9 @@ atk = 4000
 def = 4000
 effect = """\
 ${HIERARCHY_ALIAS|1|The Wicked Dreadroot}
+Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also DARK Fiend monster while it is on the field. \
 Halve the ATK/DEF of all other monsters on the field. \
 Negate the effects of monsters destroyed by battle with it. \
@@ -219,15 +219,15 @@ atk = "?"
 def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|1|The Wicked Eraser}
+Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also DARK Fiend monster while it is on the field. \
 This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
     (X is its Divine Hierarchy). \
 During your Main Phase: You can destroy this card. \
 If this card is sent from the field to the GY, \
-    negate the effects of all face-up cards on the fiels,
+    negate the effects of all face-up cards on the fiels, \
     also, after that send all cards on the field to the GY, \
     except 1 face-up monster you control (if any). \
 """
@@ -245,9 +245,9 @@ atk = "?"
 def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|2|The Wicked Avatar}
+Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_SPSUMMON_EFFECT} \
 This card is also DARK Fiend monster while it is on the field. \
 If this card is Normal Summoned: \
     Your opponent cannot activate Spell/Trap Cards until the end of their 2nd turn after this effect's activation. \

@@ -32,8 +32,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, e, tp)
-    local check = c:IsRace(RACE_DIVINE) and c:IsSummonableCard()
-    return c:IsCanBeSpecialSummoned(e, 0, tp, check, false, POS_FACEUP)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, c:IsRace(RACE_DIVINE), false,
+                                    POS_FACEUP)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -58,7 +58,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then return end
 
-    local check = tc:IsRace(RACE_DIVINE) and tc:IsSummonableCard()
+    local check = tc:IsRace(RACE_DIVINE)
     if Duel.SpecialSummon(tc, 0, tp, tp, check, false, POS_FACEUP) ~= 0 and
         check then
         tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
