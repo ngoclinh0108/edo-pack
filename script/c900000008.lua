@@ -4,7 +4,7 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2, true, false)
+    Divine.DivineHierarchy(s, c, 2, true, true)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)

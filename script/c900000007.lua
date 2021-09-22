@@ -4,7 +4,7 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 1, true, false)
+    Divine.DivineHierarchy(s, c, 1, true, true)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -38,24 +38,14 @@ function s.initial_effect(c)
     e2b:SetCode(EFFECT_SET_BASE_DEFENSE)
     Divine.RegisterEffect(c, e2b)
 
-    -- suicide
+    -- to grave
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetCategory(CATEGORY_DESTROY)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetTarget(s.e3tg)
+    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_TOGRAVE)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_TO_GRAVE)
+    e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-
-    -- to grave
-    local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_DISABLE + CATEGORY_TOGRAVE)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e4:SetCode(EVENT_TO_GRAVE)
-    e4:SetCondition(s.e4con)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
 end
 
 function s.e2val(e, c)
@@ -64,18 +54,9 @@ function s.e2val(e, c)
                Divine.GetDivineHierarchy(c)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsDestructable() end
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, e:GetHandler(), 1, 0, 0)
-end
+function s.e3con(e) return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD) end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Destroy(e:GetHandler(), REASON_EFFECT)
-end
-
-function s.e4con(e) return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD) end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ex = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, Card.IsFaceup,
                                           tp, LOCATION_MZONE, 0, 1, 1, nil)
