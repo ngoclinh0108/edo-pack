@@ -11,7 +11,7 @@ function s.initial_effect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    c:RegisterEffect(splimit)
+    Divine.RegisterEffect(c, splimit)
 
     -- race
     local e1 = Effect.CreateEffect(c)
@@ -20,18 +20,18 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCode(EFFECT_ADD_ATTRIBUTE)
     e1:SetValue(ATTRIBUTE_DARK)
-    c:RegisterEffect(e1)
+    Divine.RegisterEffect(c, e1)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_ADD_RACE)
     e1b:SetValue(RACE_FIEND)
-    c:RegisterEffect(e1b)
+    Divine.RegisterEffect(c, e1b)
 
     -- act limit
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e2:SetCode(EVENT_SUMMON_SUCCESS)
     e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
+    Divine.RegisterEffect(c, e2)
 
     -- atk/def
     local e3 = Effect.CreateEffect(c)
@@ -41,14 +41,14 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCode(EFFECT_SET_ATTACK_FINAL)
     e3:SetValue(s.e3val)
-    c:RegisterEffect(e3)
+    Divine.RegisterEffect(c, e3)
     local e3b = e3:Clone()
     e3b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-    c:RegisterEffect(e3b)
+    Divine.RegisterEffect(c, e3b)
     local e3c = Effect.CreateEffect(c)
     e3c:SetType(EFFECT_TYPE_SINGLE)
     e3c:SetCode(21208154)
-    c:RegisterEffect(e3c)
+    Divine.RegisterEffect(c, e3c)
 
     -- indes & no damage
     local e4 = Effect.CreateEffect(c)
@@ -60,10 +60,10 @@ function s.initial_effect(c)
         return Divine.GetDivineHierarchy(e:GetHandler()) >
                    Divine.GetDivineHierarchy(tc)
     end)
-    c:RegisterEffect(e4)
+    Divine.RegisterEffect(c, e4)
     local e4b = e4:Clone()
     e4b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    c:RegisterEffect(e4b)
+    Divine.RegisterEffect(c, e4b)
 
     -- no effect damage
     local e5 = Effect.CreateEffect(c)
@@ -76,10 +76,10 @@ function s.initial_effect(c)
         if (r & REASON_EFFECT) ~= 0 then return 0 end
         return val
     end)
-    c:RegisterEffect(e5)
+    Divine.RegisterEffect(c, e5)
     local e5b = e5:Clone()
     e5b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-    c:RegisterEffect(e5b)
+    Divine.RegisterEffect(c, e5b)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -117,7 +117,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         s.e2turnop(e:GetLabelObject(), tp, eg, ep, ev, e, r, rp)
     end)
     ec3:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
-    c:RegisterEffect(ec3)
+    Divine.RegisterEffect(c, ec3)
 end
 
 function s.e2turnop(e, tp, eg, ep, ev, re, r, rp)

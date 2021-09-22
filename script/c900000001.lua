@@ -14,7 +14,7 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCode(EFFECT_ADD_RACE)
     e1:SetValue(RACE_WARRIOR)
-    c:RegisterEffect(e1)
+    Divine.RegisterEffect(c, e1)
 
     -- destroy & damage
     local e2 = Effect.CreateEffect(c)
@@ -29,7 +29,7 @@ function s.initial_effect(c)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
+    Divine.RegisterEffect(c, e2)
 
     -- soul energy MAX
     local e3 = Effect.CreateEffect(c)
@@ -43,7 +43,7 @@ function s.initial_effect(c)
     e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
     e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    Divine.RegisterEffect(c, e3)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():CanAttack() end
@@ -61,7 +61,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     ec1:SetProperty(EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
+    Divine.RegisterEffect(c, ec1)
 
     local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, c)
     Duel.Release(g, REASON_COST)
@@ -128,5 +128,5 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         Utility.GainInfinityAtk(e:GetHandler(), RESET_PHASE + PHASE_DAMAGE_CAL)
     end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
+    Divine.RegisterEffect(c, ec1)
 end

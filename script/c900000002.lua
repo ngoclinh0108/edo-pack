@@ -13,7 +13,7 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCode(EFFECT_ADD_RACE)
     e1:SetValue(RACE_DRAGON)
-    c:RegisterEffect(e1)
+    Divine.RegisterEffect(c, e1)
 
     -- atk/def
     local e2 = Effect.CreateEffect(c)
@@ -22,10 +22,10 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EFFECT_SET_BASE_ATTACK)
     e2:SetValue(s.e2val)
-    c:RegisterEffect(e2)
+    Divine.RegisterEffect(c, e2)
     local e2b = e2:Clone()
     e2b:SetCode(EFFECT_SET_BASE_DEFENSE)
-    c:RegisterEffect(e2b)
+    Divine.RegisterEffect(c, e2b)
 
     -- atk/def down
     local e3 = Effect.CreateEffect(c)
@@ -38,10 +38,10 @@ function s.initial_effect(c)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    Divine.RegisterEffect(c, e3)
     local e3b = e3:Clone()
     e3b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e3b)
+    Divine.RegisterEffect(c, e3b)
 end
 
 function s.e2val(e, c)
@@ -82,14 +82,14 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
             ec1:SetCode(EFFECT_UPDATE_ATTACK)
             ec1:SetValue(-2000)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec1)
+            tDivine.RegisterEffect(c, ec1)
         elseif tc:IsPosition(POS_FACEUP_DEFENSE) then
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
             ec1:SetCode(EFFECT_UPDATE_DEFENSE)
             ec1:SetValue(-2000)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec1)
+            tDivine.RegisterEffect(c, ec1)
         end
 
         if preatk > 0 and tc:GetAttack() == 0 then dg:AddCard(tc) end

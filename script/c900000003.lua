@@ -17,7 +17,7 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCode(EFFECT_ADD_RACE)
     e1:SetValue(RACE_WINGEDBEAST)
-    c:RegisterEffect(e1)
+    Divine.RegisterEffect(c, e1)
 
     -- unstoppable attack
     local e2 = Effect.CreateEffect(c)
@@ -25,7 +25,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-    c:RegisterEffect(e2)
+    Divine.RegisterEffect(c, e2)
 
     -- life point transfer
     local e3 = Effect.CreateEffect(c)
@@ -38,14 +38,14 @@ function s.initial_effect(c)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    Divine.RegisterEffect(c, e3)
     local e3b = e3:Clone()
     e3b:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3b:SetCode(EVENT_SUMMON_SUCCESS)
-    c:RegisterEffect(e3b)
+    Divine.RegisterEffect(c, e3b)
     local e3c = e3b:Clone()
     e3c:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e3c)
+    Divine.RegisterEffect(c, e3c)
 
     -- destroy
     local e4 = Effect.CreateEffect(c)
@@ -57,7 +57,7 @@ function s.initial_effect(c)
     e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+    Divine.RegisterEffect(c, e4)
 
     -- tribute monsters to up atk
     local e5 = Effect.CreateEffect(c)
@@ -70,7 +70,7 @@ function s.initial_effect(c)
     e5:SetCondition(s.e5con)
     e5:SetCost(s.e5cost)
     e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
+    Divine.RegisterEffect(c, e5)
 
     -- after damage calculation
     local e6 = Effect.CreateEffect(c)
@@ -79,7 +79,7 @@ function s.initial_effect(c)
     e6:SetCode(EVENT_BATTLED)
     e6:SetCondition(s.e6con)
     e6:SetOperation(s.e6op)
-    c:RegisterEffect(e6)
+    Divine.RegisterEffect(c, e6)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
