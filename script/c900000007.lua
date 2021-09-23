@@ -44,46 +44,37 @@ function s.initial_effect(c)
     end)
     Divine.RegisterEffect(c, spreturn)
     
-    -- race
+    -- atk/def
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCode(EFFECT_ADD_ATTRIBUTE)
-    e1:SetValue(ATTRIBUTE_DARK)
+    e1:SetCode(EFFECT_SET_BASE_ATTACK)
+    e1:SetValue(s.e1val)
     Divine.RegisterEffect(c, e1)
-
-    -- atk/def
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCode(EFFECT_SET_BASE_ATTACK)
-    e2:SetValue(s.e2val)
-    Divine.RegisterEffect(c, e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_SET_BASE_DEFENSE)
-    Divine.RegisterEffect(c, e2b)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_SET_BASE_DEFENSE)
+    Divine.RegisterEffect(c, e1b)
 
     -- to grave
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_TOGRAVE)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_TO_GRAVE)
-    e3:SetCondition(s.e3con)
-    e3:SetOperation(s.e3op)
-    Divine.RegisterEffect(c, e3)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_DISABLE + CATEGORY_TOGRAVE)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_TO_GRAVE)
+    e2:SetCondition(s.e2con)
+    e2:SetOperation(s.e2op)
+    Divine.RegisterEffect(c, e2)
 end
 
-function s.e2val(e, c)
+function s.e1val(e, c)
     local tp = c:GetControler()
     return Duel.GetFieldGroupCount(tp, 0, LOCATION_ONFIELD) * 1000 *
                Divine.GetDivineHierarchy(c)
 end
 
-function s.e3con(e) return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD) end
+function s.e2con(e) return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD) end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ex = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, Card.IsFaceup,
                                           tp, LOCATION_MZONE, 0, 1, 1, nil)

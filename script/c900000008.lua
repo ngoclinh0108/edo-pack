@@ -44,56 +44,47 @@ function s.initial_effect(c)
     end)
     Divine.RegisterEffect(c, spreturn)
     
-    -- race
+    -- act limit
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetCode(EFFECT_ADD_ATTRIBUTE)
-    e1:SetValue(ATTRIBUTE_DARK)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetOperation(s.e1op)
     Divine.RegisterEffect(c, e1)
 
-    -- act limit
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e2:SetCode(EVENT_SUMMON_SUCCESS)
-    e2:SetOperation(s.e2op)
-    Divine.RegisterEffect(c, e2)
-
     -- atk/def
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT +
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT +
                        EFFECT_FLAG_DELAY)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EFFECT_SET_ATTACK_FINAL)
-    e3:SetValue(s.e3val)
-    Divine.RegisterEffect(c, e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-    Divine.RegisterEffect(c, e3b)
-    local e3c = Effect.CreateEffect(c)
-    e3c:SetType(EFFECT_TYPE_SINGLE)
-    e3c:SetCode(21208154)
-    Divine.RegisterEffect(c, e3c)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCode(EFFECT_SET_ATTACK_FINAL)
+    e2:SetValue(s.e2val)
+    Divine.RegisterEffect(c, e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_SET_DEFENSE_FINAL)
+    Divine.RegisterEffect(c, e2b)
+    local e2c = Effect.CreateEffect(c)
+    e2c:SetType(EFFECT_TYPE_SINGLE)
+    e2c:SetCode(21208154)
+    Divine.RegisterEffect(c, e2c)
 
     -- indes & no damage
-    local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_SINGLE)
-    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    e4:SetValue(function(e, tc)
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e3:SetValue(function(e, tc)
         return Divine.GetDivineHierarchy(e:GetHandler()) >
                    Divine.GetDivineHierarchy(tc)
     end)
-    Divine.RegisterEffect(c, e4)
-    local e4b = e4:Clone()
-    e4b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    Divine.RegisterEffect(c, e4b)
+    Divine.RegisterEffect(c, e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    Divine.RegisterEffect(c, e3b)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     local ec1 = Effect.CreateEffect(c)
@@ -113,7 +104,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetLabel(0)
     ec2:SetLabelObject(ec1)
     ec2:SetCondition(function(e, tp) return Duel.GetTurnPlayer() ~= tp end)
-    ec2:SetOperation(s.e2turnop)
+    ec2:SetOperation(s.e1turnop)
     ec2:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
     Duel.RegisterEffect(ec2, tp)
 
@@ -125,13 +116,13 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetLabelObject(ec2)
     ec3:SetOwnerPlayer(tp)
     ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        s.e2turnop(e:GetLabelObject(), tp, eg, ep, ev, e, r, rp)
+        s.e1turnop(e:GetLabelObject(), tp, eg, ep, ev, e, r, rp)
     end)
     ec3:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
     Divine.RegisterEffect(c, ec3)
 end
 
-function s.e2turnop(e, tp, eg, ep, ev, re, r, rp)
+function s.e1turnop(e, tp, eg, ep, ev, re, r, rp)
     local ct = e:GetLabel() + 1
     e:GetHandler():SetTurnCounter(ct)
     e:SetLabel(ct)
@@ -142,11 +133,11 @@ function s.e2turnop(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter(c) return c:IsFaceup() and not c:IsHasEffect(21208154) end
+function s.e2filter(c) return c:IsFaceup() and not c:IsHasEffect(21208154) end
 
-function s.e3val(e)
+function s.e2val(e)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(s.e3filter, 0, LOCATION_MZONE,
+    local g = Duel.GetMatchingGroup(s.e2filter, 0, LOCATION_MZONE,
                                     LOCATION_MZONE, nil)
     if #g == 0 then
         return 100

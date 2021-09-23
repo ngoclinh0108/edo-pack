@@ -208,13 +208,12 @@ level = 10
 atk = 4000
 def = 4000
 effect = """\
-${HIERARCHY|1}
+${HIERARCHY_CUSTOM|1|, and its Attribute is also DARK}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 During the End Phase, if this card was Special Summoned, \
     return it to the location it was Special Summoned. \
-This card is also DARK-Attribute monster while it is on the field. \
 The ATK/DEF of all other monsters on the field are halved. \
 Negate the effects of monsters destroyed by battle with this card. \
 """
@@ -233,13 +232,12 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-${HIERARCHY|1}
+${HIERARCHY_CUSTOM|1|, and its Attribute is also DARK}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 During the End Phase, if this card was Special Summoned, \
     return it to the location it was Special Summoned. \
-This card is also DARK-Attribute monster while it is on the field. \
 This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
     (X is its Divine Hierarchy). \
 If this card is sent from the field to the GY, \
@@ -262,7 +260,7 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-${HIERARCHY|2}
+${HIERARCHY_CUSTOM|2|, and its Attribute is also DARK}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
