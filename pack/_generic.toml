@@ -429,7 +429,7 @@ Choose 1 monster you control \
 ● When this card declares an attack: You can make your opponent send 1 monster they control to the GY (their choice)
 During your Main Phase: \
     You can shuffle this card from your GY into the Deck; \
-    add 1 monster whose original Attribute is DIVINE from your GY to your hand. \
+    add 1 monster Level 10 from your GY to your hand. \
     You can only use this effect of "Evolution of Divine-Beast" once per turn. \
 """
 strings = ["Affected by effect of \"Evolution of Divine-Beast\""]

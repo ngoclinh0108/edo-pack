@@ -15,7 +15,7 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- call holactie
+    -- return
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_TOHAND)
     e2:SetType(EFFECT_TYPE_IGNITION)
@@ -114,7 +114,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2filter(c)
-    return c:IsOriginalAttribute(ATTRIBUTE_DIVINE) and c:IsAbleToHand()
+    return c:Islevel(10) and c:IsAbleToHand()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
