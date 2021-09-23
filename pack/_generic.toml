@@ -347,8 +347,8 @@ type = "monster fusion effect"
 attribute = "water"
 race = "aqua"
 level = 10
-atk = 2000
-def = 2000
+atk = "?"
+def = "?"
 effect = """\
 (This card's name is always treated as "Egyptian God Slime".)
 1 Aqua monster + 1 Level 10 WATER monster
