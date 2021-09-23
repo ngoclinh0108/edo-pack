@@ -38,6 +38,16 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e2:SetValue(1)
     c:RegisterEffect(e2)
+
+    -- take no damage
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e3:SetRange(LOCATION_PZONE)
+    e3:SetCode(EFFECT_CHANGE_DAMAGE)
+    e3:SetTargetRange(1, 0)
+    e3:SetValue(s.e3val)
+    c:RegisterEffect(e3)
 end
 
 function s.spfilter(c, tp, sc)
@@ -68,4 +78,12 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     if not g then return end
     Duel.Release(g, REASON_COST + REASON_MATERIAL)
     g:DeleteGroup()
+end
+
+function s.e3val(e, re, val, r, rp, rc)
+    if val ~= 0 then
+        return 0
+    else
+        return val
+    end
 end
