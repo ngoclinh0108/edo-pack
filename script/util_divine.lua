@@ -2,8 +2,17 @@
 if not aux.DivineProcedure then aux.DivineProcedure = {} end
 if not Divine then Divine = aux.DivineProcedure end
 
--- constant
-Divine.DIVINE_EVOLUTION = 513000065
+-- constant: card names
+Divine.CARD_OBELISK = 10000000
+Divine.CARD_SLIFER = 10000020
+Divine.CARD_RA = 10000010
+Divine.CARD_RA_SPHERE = 10000080
+Divine.CARD_RA_PHOENIX = 10000090
+Divine.CARD_HOLACTIE = 10000040
+Divine.CARD_DEFUSION = 95286165
+
+-- constant: flag
+Divine.FLAG_DIVINE_EVOLUTION = 513000065
 
 -- function
 function Divine.DivineHierarchy(s, c, divine_hierarchy,
@@ -303,7 +312,7 @@ function Divine.GetDivineHierarchy(c, get_base)
     if not divine_hierarchy then divine_hierarchy = 0 end
     if get_base then return divine_hierarchy end
 
-    if c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0 then
+    if c:GetFlagEffect(Divine.FLAG_DIVINE_EVOLUTION) > 0 then
         divine_hierarchy = divine_hierarchy + 1
     end
 
@@ -311,12 +320,12 @@ function Divine.GetDivineHierarchy(c, get_base)
 end
 
 function Divine.DivineEvolution(c)
-    c:RegisterFlagEffect(Divine.DIVINE_EVOLUTION, RESET_EVENT + RESETS_STANDARD,
+    c:RegisterFlagEffect(Divine.FLAG_DIVINE_EVOLUTION, RESET_EVENT + RESETS_STANDARD,
                          EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
 end
 
 function Divine.IsDivineEvolution(c)
-    return c:GetFlagEffect(Divine.DIVINE_EVOLUTION) > 0
+    return c:GetFlagEffect(Divine.FLAG_DIVINE_EVOLUTION) > 0
 end
 
 function Divine.RegisterEffect(c, eff, forced)

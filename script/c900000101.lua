@@ -3,6 +3,8 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
+s.listed_names = {DIVINE.CARD_OBELISK, DIVINE.CARD_SLIFER, DIVINE.CARD_RA}
+
 function s.initial_effect(c)
     -- activate
     local e0 = Effect.CreateEffect(c)
@@ -53,7 +55,10 @@ function s.e1filter1(c, ec)
     return res
 end
 
-function s.e1filter2(c) return c:IsRace(RACE_DIVINE) and c:IsAbleToHand() end
+function s.e1filter2(c)
+    return c:IsCode(DIVINE.CARD_OBELISK, DIVINE.CARD_SLIFER, DIVINE.CARD_RA) and
+               c:IsAbleToHand()
+end
 
 function s.e1check1(e, tp)
     return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_HAND, 0, 1,

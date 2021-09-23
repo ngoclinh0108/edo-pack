@@ -197,90 +197,8 @@ strings = [
 frame = "ra"
 name-color = "silver"
 
-[card.dreadroot]
-id = 900000006
-alias = 62180201
-name = "Wicked God Dreadroot"
-type = "monster effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = 4000
-def = 4000
-effect = """\
-${HIERARCHY_ALIAS|1|The Wicked Dreadroot}
-Cannot be Special Summoned. \
-${EGYPTIAN_SUMMON} \
-${EGYPTIAN_EFFECT} \
-${EGYPTIAN_SPSUMMON_EFFECT} \
-This card is also DARK Fiend monster while it is on the field. \
-The ATK/DEF of all other monsters on the field are halved. \
-Negate the effects of monsters destroyed by battle with this card. \
-"""
-strings = []
-frame = "wicked"
-name-color = "silver"
-
-[card.eraser]
-id = 900000007
-alias = 57793869
-name = "Wicked God Eraser"
-type = "monster effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = "?"
-def = "?"
-effect = """\
-${HIERARCHY_ALIAS|1|The Wicked Eraser}
-Cannot be Special Summoned. \
-${EGYPTIAN_SUMMON} \
-${EGYPTIAN_EFFECT} \
-${EGYPTIAN_SPSUMMON_EFFECT} \
-This card is also DARK Fiend monster while it is on the field. \
-This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
-    (X is its Divine Hierarchy). \
-If this card is sent from the field to the GY, \
-    negate the effects of all face-up cards on the fiels, \
-    also, after that send all cards on the field to the GY, \
-    except 1 face-up monster you control (if any). \
-"""
-strings = []
-frame = "wicked"
-name-color = "silver"
-
-[card.avatar]
-id = 900000008
-alias = 21208154
-name = "Wicked God Avatar"
-type = "monster effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = "?"
-def = "?"
-effect = """\
-${HIERARCHY_ALIAS|2|The Wicked Avatar}
-Cannot be Special Summoned. \
-${EGYPTIAN_SUMMON} \
-${EGYPTIAN_EFFECT} \
-${EGYPTIAN_SPSUMMON_EFFECT} \
-This card is also DARK Fiend monster while it is on the field. \
-If this card is Normal Summoned: \
-    Your opponent cannot activate Spell/Trap Cards until the end of their 2nd turn after this effect's activation. \
-This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
-Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
-    and you take no battle damage from that battle. \
-You take no effect damage. \
-"""
-strings = [
-    "Affected by effect \"Wicked God Avatar\": cannot activate Spell/Trap Cards",
-]
-frame = "wicked"
-name-color = "silver"
-
 [card.emissary-divine-beast]
-id = 900000009
+id = 900000006
 name = "Emissary of the Divine Beasts"
 type = "monster link effect"
 attribute = "light"
@@ -317,8 +235,90 @@ strings = [
     "Search \"De-Fusion\"",
 ]
 
+[card.dreadroot]
+id = 900000007
+alias = 62180201
+name = "The Wicked Dreadroot"
+type = "monster effect"
+attribute = "divine"
+race = "fiend"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+${HIERARCHY|1}
+Cannot be Special Summoned. \
+${EGYPTIAN_SUMMON} \
+${EGYPTIAN_EFFECT} \
+${EGYPTIAN_SPSUMMON_EFFECT} \
+This card is also DARK-Attribute monster while it is on the field. \
+The ATK/DEF of all other monsters on the field are halved. \
+Negate the effects of monsters destroyed by battle with this card. \
+"""
+strings = []
+frame = "wicked"
+name-color = "silver"
+
+[card.eraser]
+id = 900000008
+alias = 57793869
+name = "The Wicked Eraser"
+type = "monster effect"
+attribute = "divine"
+race = "fiend"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+${HIERARCHY|1}
+Cannot be Special Summoned. \
+${EGYPTIAN_SUMMON} \
+${EGYPTIAN_EFFECT} \
+${EGYPTIAN_SPSUMMON_EFFECT} \
+This card is also DARK-Attribute monster while it is on the field. \
+This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
+    (X is its Divine Hierarchy). \
+If this card is sent from the field to the GY, \
+    negate the effects of all face-up cards on the fiels, \
+    also, after that send all cards on the field to the GY, \
+    except 1 face-up monster you control (if any). \
+"""
+strings = []
+frame = "wicked"
+name-color = "silver"
+
+[card.avatar]
+id = 900000009
+alias = 21208154
+name = "The Wicked Avatar"
+type = "monster effect"
+attribute = "divine"
+race = "fiend"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+${HIERARCHY|2}
+Cannot be Special Summoned. \
+${EGYPTIAN_SUMMON} \
+${EGYPTIAN_EFFECT} \
+${EGYPTIAN_SPSUMMON_EFFECT} \
+This card is also DARK-Attribute monster while it is on the field. \
+If this card is Normal Summoned: \
+    Your opponent cannot activate Spell/Trap Cards until the end of their 2nd turn after this effect's activation. \
+This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
+Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
+    and you take no battle damage from that battle. \
+You take no effect damage. \
+"""
+strings = [
+    "Affected by effect \"Wicked God Avatar\": cannot activate Spell/Trap Cards",
+]
+frame = "wicked"
+name-color = "silver"
+
 [card.the-divine-name]
-id = 900000010
+id = 900000100
 name = "The Divine Name"
 type = "spell"
 effect = """\
@@ -342,7 +342,7 @@ During your Main Phase, while you control 3 monsters whose original names are \
 strings = ["Take a DIVINE monster"]
 
 [card.divine-servant]
-id = 900000011
+id = 900000101
 name = "Divine Servant"
 type = "spell quick-play"
 effect = """\
@@ -351,8 +351,8 @@ During the Main Phase or Battle Phase: Activate 1 of these effects; \
 You can only activate 1 "Divine Servant" per turn.
 ● Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster, \
     or, if you control 3 or more monsters with different names, \
-    you can add 1 Divine-Beast monster from your Deck to your hand, then, \
-    immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
+    you can add 1 "Slifer the Sky Dragon", "Obelisk the Tormentor", or "The Winged Dragon of Ra" \
+    from your Deck to your hand, then, immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
     When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them.
 ● Choose 1 monster you control \
     whose original Type is Divine-Beast monster and have Divine Hierarchy, \
