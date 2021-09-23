@@ -46,6 +46,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_PZONE)
     e3:SetCode(EFFECT_CHANGE_DAMAGE)
     e3:SetTargetRange(1, 0)
+    e3:SetCondition(s.e3con)
     e3:SetValue(s.e3val)
     c:RegisterEffect(e3)
 end
@@ -79,6 +80,8 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     Duel.Release(g, REASON_COST + REASON_MATERIAL)
     g:DeleteGroup()
 end
+
+function s.e3con(e) return e:GetHandler():IsDefensePos() end
 
 function s.e3val(e, re, val, r, rp, rc)
     if val ~= 0 then
