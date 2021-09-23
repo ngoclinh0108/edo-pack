@@ -114,7 +114,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2filter(c)
-    return c:Islevel(10) and c:IsAbleToHand()
+    return c:IsLevel(10) and c:IsAbleToHand()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
