@@ -95,7 +95,7 @@ end
 
 function s.e2filter(c, tp)
     return not c:IsOriginalCode(id) and c:IsLocation(LOCATION_MZONE) and
-               c:IsFaceup() and c:IsControler(tp)
+               c:IsFaceup() and c:IsControler(tp) and c:IsAbleToHand()
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
@@ -110,16 +110,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    if g then
-        g = g:Filter(Card.IsAbleToHand, nil)
-    else
-        g = Group.FromCards(Duel.GetAttackTarget()):Filter(Card.IsAbleToHand,
-                                                           nil)
-    end
-    if chk == 0 then
-        return #g > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-    end
+    if chk == 0 then return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
@@ -130,12 +121,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    if g then
-        g = g:Filter(Card.IsAbleToHand, nil)
-    else
-        g = Group.FromCards(Duel.GetAttackTarget()):Filter(Card.IsAbleToHand,
-                                                           nil)
-    end
     g = Utility.GroupSelect(HINTMSG_RTOHAND, g, tp)
     if #g == 0 then return end
     if Duel.SendtoHand(g, nil, REASON_EFFECT) == 0 then return end
