@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
-s.listed_names = {DIVINE.CARD_OBELISK, DIVINE.CARD_SLIFER, DIVINE.CARD_RA}
+s.listed_names = {Divine.CARD_OBELISK, Divine.CARD_SLIFER, Divine.CARD_RA}
 
 function s.initial_effect(c)
     -- activate
@@ -56,7 +56,7 @@ function s.e1filter1(c, ec)
 end
 
 function s.e1filter2(c)
-    return c:IsCode(DIVINE.CARD_OBELISK, DIVINE.CARD_SLIFER, DIVINE.CARD_RA) and
+    return c:IsCode(Divine.CARD_OBELISK, Divine.CARD_SLIFER, Divine.CARD_RA) and
                c:IsAbleToHand()
 end
 

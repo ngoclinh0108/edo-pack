@@ -2,7 +2,10 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {10000000, 10000020, CARD_RA, 10000040}
+s.listed_names = {
+    Divine.CARD_OBELISK, Divine.CARD_SLIFER, Divine.CARD_RA,
+    Divine.CARD_HOLACTIE
+}
 
 function s.initial_effect(c)
     -- activate
@@ -106,15 +109,15 @@ end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil)
-    return g:FilterCount(s.e3filter, nil, 10000000) >= 1 and
-               g:FilterCount(s.e3filter, nil, 10000020) >= 1 and
-               g:FilterCount(s.e3filter, nil, CARD_RA) >= 1
+    return g:FilterCount(s.e3filter, nil, Divine.CARD_OBELISK) >= 1 and
+               g:FilterCount(s.e3filter, nil, Divine.CARD_SLIFER) >= 1 and
+               g:FilterCount(s.e3filter, nil, Divine.CARD_RA) >= 1
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetMatchingGroup(Card.IsCode, tp,
                                     LOCATION_DECK + LOCATION_GRAVE, 0, nil,
-                                    10000040)
+                                    Divine.CARD_HOLACTIE)
     if chk == 0 then return #g == 0 or g:IsExists(Card.IsAbleToHand, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0,
@@ -125,10 +128,10 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(Card.IsCode, tp,
                                     LOCATION_DECK + LOCATION_GRAVE, 0, nil,
-                                    10000040)
+                                    Divine.CARD_HOLACTIE)
     local sc
     if #g == 0 then
-        sc = Duel.CreateToken(tp, 10000040)
+        sc = Duel.CreateToken(tp, Divine.CARD_HOLACTIE)
     else
         sc = Utility.GroupSelect(HINTMSG_ATOHAND, g, tp):GetFirst()
     end

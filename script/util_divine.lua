@@ -320,8 +320,9 @@ function Divine.GetDivineHierarchy(c, get_base)
 end
 
 function Divine.DivineEvolution(c)
-    c:RegisterFlagEffect(Divine.FLAG_DIVINE_EVOLUTION, RESET_EVENT + RESETS_STANDARD,
-                         EFFECT_FLAG_CLIENT_HINT, 1, 0, 666004)
+    c:RegisterFlagEffect(Divine.FLAG_DIVINE_EVOLUTION,
+                         RESET_EVENT + RESETS_STANDARD, EFFECT_FLAG_CLIENT_HINT,
+                         1, 0, 666004)
 end
 
 function Divine.IsDivineEvolution(c)
@@ -404,7 +405,7 @@ function Divine.RegisterRaDefuse(s, c)
     local id = c:GetOriginalCode()
 
     function DefuseFilter(c)
-        return c:IsCode(95286165) and not c:IsHasEffect(id)
+        return c:IsCode(Divine.CARD_DEFUSION) and not c:IsHasEffect(id)
     end
 
     function RaDefuseFilter(c, id)
