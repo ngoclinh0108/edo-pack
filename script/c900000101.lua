@@ -1,5 +1,6 @@
 -- The Divine Name
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 s.listed_names = {
