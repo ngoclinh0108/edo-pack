@@ -1,4 +1,4 @@
--- Wicked God Dreadroot
+-- The Wicked Dreadroot
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()

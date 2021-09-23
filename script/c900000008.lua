@@ -1,4 +1,4 @@
--- Wicked God Avatar
+-- The Wicked Avatar
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()

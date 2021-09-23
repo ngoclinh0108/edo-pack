@@ -4,7 +4,7 @@ Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("util_dimension.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_RA, 10000080}
+s.listed_names = {Divine.CARD_RA, Divine.CARD_RA_SPHERE}
 
 function s.initial_effect(c)
     s.divine_hierarchy = 2
@@ -16,8 +16,9 @@ function s.initial_effect(c)
         flag_id = id + 100000,
         event_code = EVENT_SPSUMMON_SUCCESS,
         filter = function(c, sc)
-            return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner() and
-                       c:IsPreviousLocation(LOCATION_GRAVE)
+            return
+                c:IsCode(Divine.CARD_RA) and c:GetOwner() == sc:GetOwner() and
+                    c:IsPreviousLocation(LOCATION_GRAVE)
         end,
         custom_op = function(e, tp, mc)
             local c = e:GetHandler()
@@ -198,7 +199,7 @@ function s.dmsfilter(c, tp)
     local re = c:GetReasonEffect()
     if c:IsReason(REASON_REPLACE) then return false end
     return c:IsReason(REASON_EFFECT) and re and re:GetHandler() == c and
-               c:IsControler(tp) and c:IsFaceup() and c:IsCode(CARD_RA)
+               c:IsControler(tp) and c:IsFaceup() and c:IsCode(Divine.CARD_RA)
 end
 
 function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -247,7 +248,7 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     Duel.HintSelection(Group.FromCards(c))
 
     local tc = Dimension.Zones(c:GetOwner()):Filter(function(c)
-        return c:IsCode(10000080) and c:IsType(Dimension.TYPE)
+        return c:IsCode(Divine.CARD_RA_SPHERE) and c:IsType(Dimension.TYPE)
     end, nil):GetFirst()
 
     if tc then

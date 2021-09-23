@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
-s.listed_names = {95286165}
+s.listed_names = {Divine.CARD_DEFUSION}
 
 function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 2, true, true)

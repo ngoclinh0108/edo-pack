@@ -4,7 +4,7 @@ Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("util_dimension.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_RA, 78665705}
+s.listed_names = {Divine.CARD_RA, Divine.CARD_ANCIENT_CHANT}
 
 function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 2, false, false)
@@ -15,7 +15,7 @@ function s.initial_effect(c)
         handler = c,
         event_code = EVENT_SUMMON_SUCCESS,
         filter = function(c, sc)
-            return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner()
+            return c:IsCode(Divine.CARD_RA) and c:GetOwner() == sc:GetOwner()
         end,
         custom_op = function(e, tp, mc)
             local c = e:GetHandler()
@@ -84,7 +84,7 @@ function s.initial_effect(c)
     e4grant:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
         local g = Duel.GetMatchingGroup(Card.IsCode, tp, LOCATION_ALL, 0, nil,
-                                        CARD_RA)
+                                        Divine.CARD_RA)
         for tc in aux.Next(g) do
             local eff = tc:GetCardEffect(EFFECT_LIMIT_SUMMON_PROC)
             eff:SetDescription(aux.Stringid(id, 0))
@@ -97,7 +97,7 @@ function s.initial_effect(c)
         grant:SetCondition(function(e)
             return Dimension.IsInDimensionZone(e:GetHandler())
         end)
-        grant:SetTarget(aux.TargetBoolFunction(Card.IsCode, CARD_RA))
+        grant:SetTarget(aux.TargetBoolFunction(Card.IsCode, Divine.CARD_RA))
         Duel.RegisterEffect(grant, tp)
         c:IsHasEffect(id)
     end)
@@ -164,7 +164,7 @@ end
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsCode, tp, LOCATION_ALL, 0, nil,
-                                    78665705)
+                                    Divine.CARD_ANCIENT_CHANT)
     if chk == 0 then return tp == c:GetOwner() or #g > 0 end
 
     if tp == c:GetOwner() and
