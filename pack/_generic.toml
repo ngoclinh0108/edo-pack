@@ -322,7 +322,6 @@ strings = [
 
 [card.egyptian-god-slime-2]
 id = 900000102
-alias = 42166000
 name = "Egyptian God Slime 2"
 type = "monster fusion effect"
 attribute = "water"
@@ -331,7 +330,6 @@ level = 10
 atk = 2000
 def = 2000
 effect = """\
-(This card's name is always treated as "Egyptian God Slime".)
 1 Aqua monster + 1 Level 10 WATER monster
 Must first be either Fusion Summoned, or Special Summoned from your Extra Deck \
     by Tributing 1 Level 10 Aqua monster with 0 ATK. \
@@ -345,7 +343,6 @@ name-color = "black"
 
 [card.egyptian-god-slime-3]
 id = 900000103
-alias = 42166000
 name = "Egyptian God Slime 3"
 type = "monster fusion effect"
 attribute = "water"
@@ -354,7 +351,6 @@ level = 10
 atk = 3300
 def = 1800
 effect = """\
-(This card's name is always treated as "Egyptian God Slime".)
 1 Aqua monster + 1 Level 10 WATER monster
 Must first be either Fusion Summoned, or Special Summoned from your Extra Deck \
     by Tributing 1 Level 10 Aqua monster with 0 ATK. \
