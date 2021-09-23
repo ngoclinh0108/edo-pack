@@ -241,12 +241,13 @@ During the End Phase, if this card was Special Summoned, \
     return it to the location it was Special Summoned. \
 This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
     (X is its Divine Hierarchy). \
+During your Main Phase: You can destroy this card. \
 If this card is sent from the field to the GY, \
     negate the effects of all face-up cards on the fiels, \
     also, after that send all cards on the field to the GY, \
     except 1 face-up monster you control (if any). \
 """
-strings = ["Return to the location it was Special Summoned"]
+strings = ["Return to the location it was Special Summoned", "Destroy itself"]
 frame = "wicked"
 name-color = "silver"
 

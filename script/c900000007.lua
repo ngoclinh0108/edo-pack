@@ -43,7 +43,7 @@ function s.initial_effect(c)
         end
     end)
     Divine.RegisterEffect(c, spreturn)
-    
+
     -- atk/def
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
@@ -56,14 +56,24 @@ function s.initial_effect(c)
     e1b:SetCode(EFFECT_SET_BASE_DEFENSE)
     Divine.RegisterEffect(c, e1b)
 
-    -- to grave
+    -- suicide
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_DISABLE + CATEGORY_TOGRAVE)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_TO_GRAVE)
-    e2:SetCondition(s.e2con)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetCategory(CATEGORY_DESTROY)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
-    Divine.RegisterEffect(c, e2)
+    c:RegisterEffect(e2)
+
+    -- to grave
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_TOGRAVE)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_TO_GRAVE)
+    e3:SetCondition(s.e3con)
+    e3:SetOperation(s.e3op)
+    Divine.RegisterEffect(c, e3)
 end
 
 function s.e1val(e, c)
@@ -72,9 +82,18 @@ function s.e1val(e, c)
                Divine.GetDivineHierarchy(c)
 end
 
-function s.e2con(e) return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD) end
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsDestructable() end
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, e:GetHandler(), 1, 0, 0)
+end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Destroy(e:GetHandler(), REASON_EFFECT)
+end
+
+function s.e3con(e) return e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD) end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ex = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, Card.IsFaceup,
                                           tp, LOCATION_MZONE, 0, 1, 1, nil)
