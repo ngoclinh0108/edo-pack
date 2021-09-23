@@ -214,7 +214,8 @@ ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 During the End Phase, if this card was Special Summoned, \
     return it to the location it was Special Summoned. \
-The ATK/DEF of all other monsters on the field are halved. \
+Halve the ATK/DEF of all other monsters on the field, \
+    whose Divine Hierarchy same or lower than this card's. \
 Negate the effects of monsters destroyed by battle with this card. \
 """
 strings = ["Return to the location it was Special Summoned"]
