@@ -2,7 +2,10 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {10000000, 79868386, 10000020, 42469671, CARD_RA, 95286165}
+s.listed_names = {
+    Divine.CARD_OBELISK, 79868386, Divine.CARD_SLIFER, 42469671, Divine.CARD_RA,
+    Divine.CARD_DEFUSION
+}
 s.listed_names = {0x13a}
 
 function s.initial_effect(c)
@@ -117,9 +120,11 @@ end
 function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
-    if rc:IsCode(10000000) then s.e5tohandop(e, 1, 79868386) end
-    if rc:IsCode(10000020) then s.e5tohandop(e, 2, 42469671) end
-    if rc:IsCode(CARD_RA) then s.e5tohandop(e, 3, 95286165) end
+    if rc:IsCode(Divine.CARD_OBELISK) then s.e5tohandop(e, 1, 79868386) end
+    if rc:IsCode(Divine.CARD_SLIFER) then s.e5tohandop(e, 2, 42469671) end
+    if rc:IsCode(Divine.CARD_RA) then
+        s.e5tohandop(e, 3, Divine.CARD_DEFUSION)
+    end
 end
 
 function s.e5tohandop(e, string_id, card_code)
