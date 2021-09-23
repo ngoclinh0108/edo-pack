@@ -335,14 +335,10 @@ function Divine.RegisterEffect(c, eff, forced)
     c:RegisterEffect(e, forced)
 end
 
-function Divine.RegisterRaEffect(c, eff, forced)
+function Divine.RegisterGrantEffect(c, eff, forced)
     local e = eff:Clone()
-    if c:IsOriginalCode(CARD_RA) then
-        e:SetProperty(e:GetProperty() + EFFECT_FLAG_IGNORE_IMMUNE)
-        Divine.RegisterEffect(c, e, forced)
-    else
-        Divine.RegisterEffect(c, e, forced)
-    end
+    e:SetProperty(e:GetProperty() + EFFECT_FLAG_IGNORE_IMMUNE)
+    Divine.RegisterEffect(c, e, forced)
 end
 
 function Divine.RegisterRaFuse(c, tc, reset, forced)

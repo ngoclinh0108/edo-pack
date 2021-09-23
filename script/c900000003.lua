@@ -107,7 +107,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCode(id)
     ec1:SetLabelObject(e:GetLabelObject())
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    Divine.RegisterRaEffect(c, ec1, true)
+    Divine.RegisterGrantEffect(c, ec1, true)
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -165,7 +165,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCode(EFFECT_UPDATE_ATTACK)
     ec1:SetValue(e:GetLabel())
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    Divine.RegisterRaEffect(c, ec1)
+    Divine.RegisterGrantEffect(c, ec1)
 end
 
 function s.e6con(e, tp, eg, ep, ev, re, r, rp)

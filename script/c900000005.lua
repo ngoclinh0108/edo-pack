@@ -71,11 +71,11 @@ function s.initial_effect(c)
             ec1:SetCode(EFFECT_SET_BASE_ATTACK)
             ec1:SetValue(atk)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-            Divine.RegisterRaEffect(c, ec1, true)
+            Divine.RegisterGrantEffect(c, ec1, true)
             local ec1b = ec1:Clone()
             ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
             ec1b:SetValue(def)
-            Divine.RegisterRaEffect(c, ec1b, true)
+            Divine.RegisterGrantEffect(c, ec1b, true)
         end
     })
 
