@@ -321,7 +321,7 @@ strings = [
 ]
 
 [card.the-divine-name]
-id = 900000101
+id = 900000200
 name = "The Divine Name"
 type = "spell"
 effect = """\
@@ -345,7 +345,7 @@ During your Main Phase, while you control 3 monsters whose original names are \
 strings = ["Take a DIVINE monster"]
 
 [card.divine-servant]
-id = 900000102
+id = 900000201
 name = "Divine Servant"
 type = "spell quick-play"
 effect = """\
