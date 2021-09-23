@@ -48,6 +48,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.HintSelection(Group.FromCards(tc))
     Divine.DivineEvolution(tc)
+    tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD,
+                          EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -82,6 +84,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local ec3 = Effect.CreateEffect(c)
     ec3:SetCategory(CATEGORY_TOGRAVE)
     ec3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     ec3:SetCode(EVENT_ATTACK_ANNOUNCE)
     ec3:SetTarget(s.e1gytg)
     ec3:SetOperation(s.e1gyop)
