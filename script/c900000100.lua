@@ -1,5 +1,6 @@
 -- Emissary of the Divine Beasts
 Duel.LoadScript("util.lua")
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 s.listed_names = {
