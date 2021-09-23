@@ -52,10 +52,6 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_ADD_ATTRIBUTE)
     e1:SetValue(ATTRIBUTE_DARK)
     Divine.RegisterEffect(c, e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_ADD_RACE)
-    e1b:SetValue(RACE_FIEND)
-    Divine.RegisterEffect(c, e1b)
 
     -- atk/def
     local e2 = Effect.CreateEffect(c)
