@@ -4,7 +4,7 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2, true, true)
+    Divine.DivineHierarchy(s, c, 2, true, false)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -64,29 +64,13 @@ function s.initial_effect(c)
     local e4b = e4:Clone()
     e4b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
     Divine.RegisterEffect(c, e4b)
-
-    -- no effect damage
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_FIELD)
-    e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e5:SetRange(LOCATION_MZONE)
-    e5:SetCode(EFFECT_CHANGE_DAMAGE)
-    e5:SetTargetRange(1, 0)
-    e5:SetValue(function(e, re, val, r, rp, rc)
-        if (r & REASON_EFFECT) ~= 0 then return 0 end
-        return val
-    end)
-    Divine.RegisterEffect(c, e5)
-    local e5b = e5:Clone()
-    e5b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-    Divine.RegisterEffect(c, e5b)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 0))
+    ec1:SetDescription(aux.Stringid(id, 1))
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_ACTIVATE)

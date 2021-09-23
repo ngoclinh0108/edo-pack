@@ -4,7 +4,7 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 1, true, true)
+    Divine.DivineHierarchy(s, c, 1, true, false)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -12,6 +12,37 @@ function s.initial_effect(c)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     Divine.RegisterEffect(c, splimit)
+
+    -- return
+    local spreturn = Effect.CreateEffect(c)
+    spreturn:SetDescription(0)
+    spreturn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    spreturn:SetRange(LOCATION_MZONE)
+    spreturn:SetCode(EVENT_PHASE + PHASE_END)
+    spreturn:SetCountLimit(1)
+    spreturn:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if not c:IsSummonType(SUMMON_TYPE_SPECIAL) then return false end
+        return (c:IsPreviousLocation(LOCATION_HAND) and c:IsAbleToHand()) or
+                   (c:IsPreviousLocation(LOCATION_DECK + LOCATION_EXTRA) and
+                       c:IsAbleToDeck()) or
+                   (c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()) or
+                   (c:IsPreviousLocation(LOCATION_REMOVED) and
+                       c:IsAbleToRemove())
+    end)
+    spreturn:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if c:IsPreviousLocation(LOCATION_HAND) then
+            Duel.SendtoHand(c, nil, REASON_EFFECT)
+        elseif c:IsPreviousLocation(LOCATION_DECK) then
+            Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
+        elseif c:IsPreviousLocation(LOCATION_GRAVE) then
+            Duel.SendtoGrave(c, REASON_EFFECT)
+        elseif c:IsPreviousLocation(LOCATION_REMOVED) then
+            Duel.Remove(c, c:GetPreviousPosition(), REASON_EFFECT)
+        end
+    end)
+    Divine.RegisterEffect(c, spreturn)
 
     -- race
     local e1 = Effect.CreateEffect(c)

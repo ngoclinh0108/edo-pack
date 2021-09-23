@@ -293,7 +293,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         togy:SetRange(LOCATION_MZONE)
         togy:SetCode(EVENT_PHASE + PHASE_END)
         togy:SetCountLimit(1)
-        togy:SetCode(EVENT_PHASE + PHASE_END)
         togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
             local c = e:GetHandler()
             return c:IsSummonType(SUMMON_TYPE_SPECIAL) and

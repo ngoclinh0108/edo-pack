@@ -212,12 +212,13 @@ ${HIERARCHY|1}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_SPSUMMON_EFFECT} \
+During the End Phase, if this card was Special Summoned, \
+    return it to the location it was Special Summoned. \
 This card is also DARK-Attribute monster while it is on the field. \
 The ATK/DEF of all other monsters on the field are halved. \
 Negate the effects of monsters destroyed by battle with this card. \
 """
-strings = []
+strings = ["Return to the location it was Special Summoned"]
 frame = "wicked"
 name-color = "silver"
 
@@ -236,7 +237,8 @@ ${HIERARCHY|1}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_SPSUMMON_EFFECT} \
+During the End Phase, if this card was Special Summoned, \
+    return it to the location it was Special Summoned. \
 This card is also DARK-Attribute monster while it is on the field. \
 This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
     (X is its Divine Hierarchy). \
@@ -245,7 +247,7 @@ If this card is sent from the field to the GY, \
     also, after that send all cards on the field to the GY, \
     except 1 face-up monster you control (if any). \
 """
-strings = []
+strings = ["Return to the location it was Special Summoned"]
 frame = "wicked"
 name-color = "silver"
 
@@ -264,16 +266,17 @@ ${HIERARCHY|2}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-${EGYPTIAN_SPSUMMON_EFFECT} \
+During the End Phase, if this card was Special Summoned, \
+    return it to the location it was Special Summoned. \
 This card is also DARK-Attribute monster while it is on the field. \
 If this card is Normal Summoned: \
     Your opponent cannot activate Spell/Trap Cards until the end of their 2nd turn after this effect's activation. \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
     and you take no battle damage from that battle. \
-You take no effect damage. \
 """
 strings = [
+    "Return to the location it was Special Summoned",
     "Affected by effect \"Wicked God Avatar\": cannot activate Spell/Trap Cards",
 ]
 frame = "wicked"
