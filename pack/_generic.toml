@@ -390,23 +390,16 @@ id = 900000201
 name = "Divine Servant"
 type = "spell quick-play"
 effect = """\
-This card's activation and effect cannot be negated. \
-During the Main Phase or Battle Phase: Activate 1 of these effects;
-● Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster, \
+During the Main Phase or Battle Phase: \
+    Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster, \
     or, if you control 3 or more monsters with different names, \
     you can add 1 "Slifer the Sky Dragon", "Obelisk the Tormentor", or "The Winged Dragon of Ra" \
     from your Deck to your hand, then, immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
     When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them.
-● Choose 1 monster you control \
-    whose original Type is Divine-Beast monster with Divine Hierarchy, \
-    except a monster(s) already increased its Divine Hierarchy by card effects, \
-    its Divine Hierarchy is increased by 1, \
-    its effect activations and its activated effects cannot be negated, \
-    it gains 1000 ATK/DEF. \
-    These changes ignoring its effects.
-You can only activate 1 "Divine Servant" per turn. \
+    You can only activate 1 "Divine Servant" per turn. \
+    This card's activation and effect cannot be negated. \
 """
-strings = ["Summon Divine-Beast", "Evolute Divine-Beast"]
+strings = []
 
 [card.divine-evolution]
 id = 900000202

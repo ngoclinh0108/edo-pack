@@ -7,35 +7,18 @@ s.listed_names = {Divine.CARD_OBELISK, Divine.CARD_SLIFER, Divine.CARD_RA}
 
 function s.initial_effect(c)
     -- activate
-    local e0 = Effect.CreateEffect(c)
-    e0:SetType(EFFECT_TYPE_ACTIVATE)
-    e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
-                       EFFECT_FLAG_CANNOT_INACTIVATE)
-    e0:SetCode(EVENT_FREE_CHAIN)
-    e0:SetHintTiming(0, TIMING_MAIN_END + TIMING_BATTLE_START)
-    e0:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
-    e0:SetCondition(function()
-        return Duel.IsMainPhase() or Duel.IsBattlePhase()
-    end)
-    e0:SetTarget(Utility.MultiEffectTarget(s))
-    e0:SetOperation(Utility.MultiEffectOperation(s))
-    c:RegisterEffect(e0)
-
-    -- tribute summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SUMMON)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
+                       EFFECT_FLAG_CANNOT_INACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(0, TIMING_MAIN_END + TIMING_BATTLE_START)
+    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
-    Utility.RegisterMultiEffect(s, 1, e1)
-
-    -- divine evolution
-    local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
-    Utility.RegisterMultiEffect(s, 2, e2)
+    c:RegisterEffect(e1)
 end
 
 function s.e1filter1(c, ec)
@@ -70,6 +53,10 @@ function s.e1check2(tp)
         Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_DECK, 0, 1, nil) and
             Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, 0, nil):GetClassCount(
                 Card.GetCode) >= 3
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsMainPhase() or Duel.IsBattlePhase()
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -114,56 +101,4 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     else
         Duel.MSet(tp, sc, true, nil, 1)
     end
-end
-
-function s.e2filter(c)
-    return c:IsFaceup() and c:IsOriginalRace(RACE_DIVINE) and
-               Divine.GetDivineHierarchy(c) > 0 and
-               not Divine.IsDivineEvolution(c)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1,
-                                           nil)
-    end
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e2filter, tp,
-                                          LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
-    if not tc then return end
-
-    Duel.HintSelection(Group.FromCards(tc))
-    Divine.DivineEvolution(tc)
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    ec1:SetCode(EFFECT_CANNOT_DISABLE)
-    Divine.RegisterGrantEffect(tc, ec1)
-    local ec1b = Effect.CreateEffect(c)
-    ec1b:SetType(EFFECT_TYPE_FIELD)
-    ec1b:SetRange(LOCATION_MZONE)
-    ec1b:SetCode(EFFECT_CANNOT_INACTIVATE)
-    ec1b:SetTargetRange(1, 0)
-    ec1b:SetValue(function(e, ct)
-        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetHandler() == e:GetHandler()
-    end)
-    Divine.RegisterGrantEffect(tc, ec1b)
-    local ec1c = ec1b:Clone()
-    ec1c:SetCode(EFFECT_CANNOT_DISEFFECT)
-    Divine.RegisterGrantEffect(tc, ec1c)
-
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetCode(EFFECT_UPDATE_ATTACK)
-    ec2:SetValue(1000)
-    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-    Divine.RegisterGrantEffect(tc, ec2)
-    local ec2b = ec2:Clone()
-    ec2b:SetCode(EFFECT_UPDATE_DEFENSE)
-    Divine.RegisterGrantEffect(tc, ec2b)
 end
