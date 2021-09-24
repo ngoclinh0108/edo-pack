@@ -292,7 +292,7 @@ link-rating = 1
 link-arrows = "bottom"
 atk = 0
 effect = """\
-1 "Palladium" monster
+1 Normal Summoned "Palladium" monster
 This card's Link Summon cannot be negated. \
 When Link Summoned, your opponent cannot activate cards or effects. \
 If this card is Link Summoned: \
