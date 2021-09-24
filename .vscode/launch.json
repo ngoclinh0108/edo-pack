@@ -7,7 +7,7 @@
 			"request": "launch",
 			"cwd": "${workspaceFolder}",
 			"program": "cmd.exe",
-			"args": ["/c", "ygofab make && ygofab compose && move /Y expansions\\triplesix.cdb triplesix.cdb"],
+			"args": ["/k", "ygofab make && ygofab compose && move /Y expansions\\triplesix.cdb triplesix.cdb"],
 			"console": "externalTerminal"
 		}
 	]

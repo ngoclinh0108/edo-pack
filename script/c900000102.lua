@@ -1,4 +1,4 @@
--- Egyptian God Slime 2
+-- Egyptian God Slime 3
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -30,26 +30,25 @@ function s.initial_effect(c)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
-    -- untargetable
+    -- indes
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e2:SetValue(1)
     c:RegisterEffect(e2)
 
-    -- block
+    -- take no damage
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
-    e3:SetTargetRange(0, LOCATION_MZONE)
-    e3:SetTarget(s.e3tg)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e3:SetRange(LOCATION_PZONE)
+    e3:SetCode(EFFECT_CHANGE_DAMAGE)
+    e3:SetTargetRange(1, 0)
+    e3:SetCondition(s.e3con)
+    e3:SetValue(s.e3val)
     c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_CANNOT_TRIGGER)
-    c:RegisterEffect(e3b)
 end
 
 function s.spfilter(c, tp, sc)
@@ -82,4 +81,12 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e3tg(e, c) return c:GetAttack() < e:GetHandler():GetAttack() end
+function s.e3con(e) return e:GetHandler():IsDefensePos() end
+
+function s.e3val(e, re, val, r, rp, rc)
+    if val ~= 0 then
+        return 0
+    else
+        return val
+    end
+end

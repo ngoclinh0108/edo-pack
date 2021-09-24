@@ -19,6 +19,14 @@ local spelltrap_types = types.CONTINUOUS + types.COUNTER + types.EQUIP +
                             types.LINK
 local frame_types = monster_types + spellortrap
 
+local function split(s, delimiter)
+    result = {};
+    for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+        table.insert(result, match);
+    end
+    return result;
+end
+
 local function typef_ov(n, sfx, card)
     if card.frame then
         return ("frame-%s.png"):format(card.frame)
@@ -30,7 +38,13 @@ local function st_ov(n, sfx) return ("st%u%s.png"):format(n, sfx or "") end
 local function linka_ov(n, sfx) return ("lka%u%s.png"):format(n, sfx or "") end
 local function rank_ov(n) return ("r%u.png"):format(n) end
 local function level_ov(n) return ("l%u.png"):format(n) end
-local function attr_ov(n) return ("att%u.png"):format(n) end
+
+local function attr_ov(n, c)    
+    if GameConst.code.attribute[string.upper(c.attribute)] == nil then
+        n = GameConst.code.attribute[string.upper(split(c.attribute, " ")[1])]
+    end
+    return ("att%u.png"):format(n)
+end
 
 local min, max, ceil = math.min, math.max, math.ceil
 local function clamp(v) return min(max(ceil(tonumber(v, 16)), 0), 255) end
@@ -153,7 +167,7 @@ function automatons.anime(data, card)
         local att = Parser.match_lsb(data.attribute,
                                      GameConst.code.attribute.ALL)
         if att == 0 then return nil, "No attribute" end
-        insert(layers, MetaLayer.new("overlay", attr_ov(data.attribute)))
+        insert(layers, MetaLayer.new("overlay", attr_ov(data.attribute, card)))
         return layers
     end
 
@@ -334,7 +348,7 @@ function automatons.proxy(data, card)
         local att = Parser.match_lsb(data.attribute,
                                      GameConst.code.attribute.ALL)
         if att == 0 then return nil, "No attribute" end
-        insert(layers, MetaLayer.new("overlay", attr_ov(data.attribute)))
+        insert(layers, MetaLayer.new("overlay", attr_ov(data.attribute, card)))
         return states.name()
     end
 

@@ -208,7 +208,7 @@ level = 10
 atk = 4000
 def = 4000
 effect = """\
-${HIERARCHY_CUSTOM|1|, and its Attribute is also DARK}
+${HIERARCHY_CUSTOM|1| and its Attribute is also DARK}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
@@ -233,7 +233,7 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-${HIERARCHY_CUSTOM|1|, and its Attribute is also DARK}
+${HIERARCHY_CUSTOM|1| and its Attribute is also DARK}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
@@ -262,7 +262,7 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-${HIERARCHY_CUSTOM|2|, and its Attribute is also DARK}
+${HIERARCHY_CUSTOM|2| and its Attribute is also DARK}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
@@ -321,7 +321,7 @@ strings = [
 ]
 
 [card.egyptian-god-slime-2]
-id = 900000102
+id = 900000101
 name = "Egyptian God Slime 2"
 type = "monster fusion effect"
 attribute = "water"
@@ -342,7 +342,7 @@ strings = []
 name-color = "black"
 
 [card.egyptian-god-slime-3]
-id = 900000103
+id = 900000102
 name = "Egyptian God Slime 3"
 type = "monster fusion effect"
 attribute = "water"
