@@ -210,7 +210,7 @@ end
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetFlagEffect(id) == 0 and
+        return c:GetFlagEffect(id) == 0 and c:IsAttackPos() and
                    Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE,
                                                1, c)
     end
