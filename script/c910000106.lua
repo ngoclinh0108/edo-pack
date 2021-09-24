@@ -3,16 +3,15 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.counter_place_list = {COUNTER_SPELL}
-local MAX_COUNTER = 3
 
 function s.initial_effect(c)
     c:SetUniqueOnField(1, 0, id)
     c:EnableCounterPermit(COUNTER_SPELL)
-    c:SetCounterLimit(COUNTER_SPELL, MAX_COUNTER)
+    c:SetCounterLimit(COUNTER_SPELL, 3)
 
     -- activate
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_POSITION)
+    e1:SetCategory(CATEGORY_COUNTER + CATEGORY_POSITION)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetHintTiming(TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
@@ -25,7 +24,7 @@ function s.initial_effect(c)
     e1b:SetCode(EFFECT_REMAIN_FIELD)
     c:RegisterEffect(e1b)
 
-    -- add counter
+    -- remove counter
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_COUNTER)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -33,10 +32,13 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_PHASE + PHASE_END)
     e2:SetCountLimit(1)
     e2:SetCondition(function(e, tp)
+        local c = e:GetHandler()
         return Duel.GetTurnPlayer() == 1 - tp and
-                   e:GetHandler():GetCounter(COUNTER_SPELL) < MAX_COUNTER
+                   c:IsCanRemoveCounter(tp, COUNTER_SPELL, 1, REASON_EFFECT)
     end)
-    e2:SetOperation(function(e) e:GetHandler():AddCounter(COUNTER_SPELL, 1) end)
+    e2:SetOperation(function(e, tp)
+        e:GetHandler():RemoveCounter(tp, COUNTER_SPELL, 1, REASON_EFFECT)
+    end)
     c:RegisterEffect(e2)
 
     -- cannot attack
@@ -46,7 +48,7 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     e3:SetTargetRange(0, LOCATION_MZONE)
     e3:SetCondition(function(e)
-        return e:GetHandler():GetCounter(COUNTER_SPELL) <= 2
+        return e:GetHandler():GetCounter(COUNTER_SPELL) > 0
     end)
     c:RegisterEffect(e3)
 
@@ -74,15 +76,18 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(Card.IsFacedown, tp, 0, LOCATION_MZONE, nil)
-    if #g == 0 then return end
+    local c = e:GetHandler()
+    c:AddCounter(COUNTER_SPELL, 3)
 
-    Duel.ChangePosition(g, POS_FACEUP_ATTACK, POS_FACEUP_ATTACK,
-                        POS_FACEUP_DEFENSE, POS_FACEUP_DEFENSE, true)
+    local g = Duel.GetMatchingGroup(Card.IsFacedown, tp, 0, LOCATION_MZONE, nil)
+    if #g > 0 then
+        Duel.ChangePosition(g, POS_FACEUP_ATTACK, POS_FACEUP_ATTACK,
+                            POS_FACEUP_DEFENSE, POS_FACEUP_DEFENSE, true)
+    end
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetCounter(COUNTER_SPELL) >= 3
+    return e:GetHandler():GetCounter(COUNTER_SPELL) == 0
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
