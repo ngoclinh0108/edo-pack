@@ -61,7 +61,7 @@ If a monster(s) is Normal or Special Summoned to your opponent's field, \
     while this card is able to attack: \
     Choose that monster(s) as Target; \
     it loses 2000 ATK or DEF depending on its battle position, \
-    then if its ATK has been reduced to 0 as a result, destroy it. \
+    also, after that if its ATK/DEF is 0 as a result, destroy it. \
     That monster cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
