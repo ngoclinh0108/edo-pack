@@ -57,8 +57,8 @@ function s.initial_effect(c)
         end,
         custom_op = function(e, tp, mc)
             local c = e:GetHandler()
-            local atk = mc:GetBaseAttack()
-            local def = mc:GetBaseDefense()
+            local atk = mc:GetAttack()
+            local def = mc:GetDefense()
 
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)

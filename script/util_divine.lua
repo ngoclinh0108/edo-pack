@@ -470,15 +470,13 @@ function Divine.RegisterRaDefuse(s, c)
 
                     local ec1 = Effect.CreateEffect(c)
                     ec1:SetType(EFFECT_TYPE_SINGLE)
-                    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE +
-                                        EFFECT_FLAG_UNCOPYABLE)
                     ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
                     ec1:SetValue(0)
                     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-                    Divine.RegisterEffect(c, ec1)
+                    Divine.RegisterGrantEffect(tc, ec1)
                     local ec1b = ec1:Clone()
                     ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-                    Divine.RegisterEffect(c, ec1b)
+                    Divine.RegisterGrantEffect(tc, ec1b)
                     Duel.AdjustInstantly(tc)
 
                     Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
