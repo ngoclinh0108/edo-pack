@@ -301,8 +301,6 @@ If this card is Link Summoned: \
 Cannot attack. \
 This card can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster. \
     This effect cannot be negated. \
-During your Main Phase, you can Normal Summon 1 Divine-Beast monster in addition to your Normal Summon/Set. \
-    (You can only gain this effect once per turn.) \
 If you Tribute this card for the Tribute Summon of a Divine-Beast monster, \
     that monster gains the following effects, depending on its original name; \
     You can only use this effect of "Emissary of the Divine Beasts" once per turn.
@@ -314,7 +312,6 @@ If you Tribute this card for the Tribute Summon of a Divine-Beast monster, \
     from your Deck, GY or Outside (if you do not own any.)
 """
 strings = [
-    "Summon via \"Emissary of the Divine Beasts\"",
     "Search \"Fist of Fate\"",
     "Search \"Thunderforce Attack\"",
     "Search \"De-Fusion\"",
@@ -398,8 +395,13 @@ During the Main Phase or Battle Phase: \
     When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them. \
     You can only activate 1 "Divine Servant" per turn. \
     This card's activation and effect cannot be negated. \
+During your Main Phase: \
+    You can shuffle this card from your GY into the Deck, and if you do, \
+    you can Normal Summon 1 Divine-Beast monster during your Main Phase this turn, in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+    You can only use this effect of "Divine Servant" once per turn. \
 """
-strings = []
+strings = ["Summon via \"Divine Servant\""]
 
 [card.divine-evolution]
 id = 900000202
@@ -419,7 +421,7 @@ Choose 1 monster you control \
     These changes ignoring its effects.
 ● When this card declares an attack: You can make your opponent send 1 monster they control to the GY (their choice)
 During your Main Phase: \
-    You can shuffle this card from your GY into the Deck; \
+    You can shuffle this card from your GY into the Deck, and if you do, \
     add 1 monster Level 10 from your GY to your hand. \
     You can only use this effect of "Evolution of Divine-Beast" once per turn. \
 """

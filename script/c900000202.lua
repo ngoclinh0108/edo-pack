@@ -21,7 +21,6 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_GRAVE)
     e2:SetCountLimit(1, id)
-    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -107,27 +106,24 @@ function s.e1gyop(e, tp, eg, ep, ev, re, r, rp)
     if #g > 0 then Duel.SendtoGrave(g, REASON_RULE) end
 end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsAbleToDeckAsCost() end
-    Duel.SendtoDeck(e:GetHandler(), nil, SEQ_DECKSHUFFLE, REASON_COST)
-end
-
-function s.e2filter(c)
-    return c:IsLevel(10) and c:IsAbleToHand()
-end
+function s.e2filter(c) return c:IsLevel(10) and c:IsAbleToHand() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_GRAVE, 0, 1,
-                                           nil)
+                                           nil) and c:IsAbleToDeck()
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0, LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_RTOHAND, tp,
-                                         aux.NecroValleyFilter(s.e2filter), tp,
-                                         LOCATION_GRAVE, 0, 1, 1, nil)
-    if #g > 0 then Duel.SendtoHand(g, nil, REASON_EFFECT) end
+    local c = e:GetHandler()
+    if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) ~= 0 then
+        local g = Utility.SelectMatchingCard(HINTMSG_RTOHAND, tp,
+                                             aux.NecroValleyFilter(s.e2filter),
+                                             tp, LOCATION_GRAVE, 0, 1, 1, nil)
+        if #g > 0 then Duel.SendtoHand(g, nil, REASON_EFFECT) end
+    end
 end

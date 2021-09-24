@@ -61,24 +61,14 @@ function s.initial_effect(c)
     e3:SetValue(function(e, c) return c:IsRace(RACE_DIVINE) end)
     c:RegisterEffect(e3)
 
-    -- extra summon
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetType(EFFECT_TYPE_FIELD)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
-    e4:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
-    e4:SetTarget(aux.TargetBoolFunction(Card.IsRace, RACE_DIVINE))
-    c:RegisterEffect(e4)
-
     -- gain effect
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e5:SetCode(EVENT_BE_PRE_MATERIAL)
-    e5:SetCountLimit(1, id)
-    e5:SetCondition(s.e5regcon)
-    e5:SetOperation(s.e5regop)
-    c:RegisterEffect(e5)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e4:SetCode(EVENT_BE_PRE_MATERIAL)
+    e4:SetCountLimit(1, id)
+    e4:SetCondition(s.e4regcon)
+    e4:SetOperation(s.e4regop)
+    c:RegisterEffect(e4)
 end
 
 function s.lnkfilter(c, sc, sumtype, tp)
@@ -117,23 +107,23 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 end
 
-function s.e5regcon(e, tp, eg, ep, ev, re, r, rp)
+function s.e4regcon(e, tp, eg, ep, ev, re, r, rp)
     local rc = e:GetHandler():GetReasonCard()
     return r == REASON_SUMMON and rc:IsFaceup() and
                rc:IsOriginalRace(RACE_DIVINE)
 end
 
-function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
+function s.e4regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
-    if rc:IsCode(Divine.CARD_OBELISK) then s.e5tohandop(e, 1, 79868386) end
-    if rc:IsCode(Divine.CARD_SLIFER) then s.e5tohandop(e, 2, 42469671) end
+    if rc:IsCode(Divine.CARD_OBELISK) then s.e4tohandop(e, 0, 79868386) end
+    if rc:IsCode(Divine.CARD_SLIFER) then s.e4tohandop(e, 1, 42469671) end
     if rc:IsCode(Divine.CARD_RA) then
-        s.e5tohandop(e, 3, Divine.CARD_DEFUSION)
+        s.e4tohandop(e, 2, Divine.CARD_DEFUSION)
     end
 end
 
-function s.e5tohandop(e, string_id, card_code)
+function s.e4tohandop(e, string_id, card_code)
     local rc = e:GetHandler():GetReasonCard()
 
     local ec1 = Effect.CreateEffect(rc)

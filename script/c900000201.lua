@@ -14,11 +14,20 @@ function s.initial_effect(c)
                        EFFECT_FLAG_CANNOT_INACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetHintTiming(0, TIMING_MAIN_END + TIMING_BATTLE_START)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e1:SetCountLimit(1, {id, 1}, EFFECT_COUNT_CODE_OATH)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- extra summon
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, {id, 2})
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter1(c, ec)
@@ -101,4 +110,25 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     else
         Duel.MSet(tp, sc, true, nil, 1)
     end
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsAbleToDeck() end
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 or
+        Duel.GetFlagEffect(tp, id) ~= 0 then return end
+
+    Duel.RegisterFlagEffect(tp, id, RESET_PHASE + PHASE_END, 0, 1)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 0))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+    ec1:SetTargetRange(LOCATION_HAND + LOCATION_MZONE, 0)
+    ec1:SetTarget(aux.TargetBoolFunction(Card.IsRace, RACE_DIVINE))
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end
