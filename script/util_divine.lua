@@ -46,37 +46,38 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     end)
     Divine.RegisterEffect(c, nodis_1)
     local nodis_2 = Effect.CreateEffect(c)
-    nodis_2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    nodis_2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    nodis_2:SetType(EFFECT_TYPE_FIELD)
+    nodis_2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     nodis_2:SetRange(LOCATION_MZONE)
-    nodis_2:SetCode(EVENT_ADJUST)
-    nodis_2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+    nodis_2:SetCode(EFFECT_CANNOT_DISEFFECT)
+    nodis_2:SetTargetRange(1, 0)
+    nodis_2:SetValue(function(e, ct)
         local c = e:GetHandler()
-        if not c:IsDisabled() then return false end
-        local effs = {c:GetCardEffect(EFFECT_DISABLE)}
-        for _, eff in ipairs(effs) do
-            local ec = eff:GetOwner()
-            if ec ~= c and not ec:IsMonster() and
-                (eff:GetTarget() == aux.PersistentTargetFilter or
-                    not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
-                return true
-            end
-        end
-        return false
-    end)
-    nodis_2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        local effs = {c:GetCardEffect(EFFECT_DISABLE)}
-        for _, eff in ipairs(effs) do
-            local ec = eff:GetOwner()
-            if ec ~= c and not ec:IsMonster() and
-                (eff:GetTarget() == aux.PersistentTargetFilter or
-                    not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
-                eff:Reset()
-            end
-        end
+        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+        if te:GetHandler() ~= c then return false end
+
+        Utility.ResetListEffect(c, DisableEffectFilter)
+        return #{
+            c:GetCardEffect(EFFECT_DISABLE),
+            c:GetCardEffect(EFFECT_DISABLE_EFFECT)
+        } == 0
     end)
     Divine.RegisterEffect(c, nodis_2)
+    local nodis_3 = Effect.CreateEffect(c)
+    nodis_3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    nodis_3:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    nodis_3:SetRange(LOCATION_MZONE)
+    nodis_3:SetCode(EVENT_ADJUST)
+    nodis_3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return Utility.GetListEffect(c, DisableEffectFilter, EFFECT_DISABLE,
+                                     EFFECT_DISABLE_EFFECT) and
+                   e:GetHandler():IsDisabled()
+    end)
+    nodis_3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Utility.ResetListEffect(e:GetHandler(), DisableEffectFilter,
+                                EFFECT_DISABLE, EFFECT_DISABLE_EFFECT)
+    end)
+    Divine.RegisterEffect(c, nodis_3)
 
     -- cannot switch control
     local noswitch = Effect.CreateEffect(c)
@@ -199,34 +200,11 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
     reset:SetRange(LOCATION_MZONE)
     reset:SetCode(EVENT_ADJUST)
     reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        if Duel.GetCurrentPhase() ~= PHASE_END then return false end
-        local check = false
-        local c = e:GetHandler()
-        local effs = {c:GetCardEffect()}
-        for _, eff in ipairs(effs) do
-            if eff:GetOwner() ~= c and
-                not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
-                eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
-                (eff:GetTarget() == aux.PersistentTargetFilter or
-                    not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
-                check = true
-                break
-            end
-        end
-        return check
+        return Duel.GetCurrentPhase() == PHASE_END and
+                   Utility.GetListEffect(e:GetHandler(), ResetEffectFilter)
     end)
     reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        local effs = {c:GetCardEffect()}
-        for _, eff in ipairs(effs) do
-            if eff:GetOwner() ~= c and
-                not eff:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and
-                eff:GetCode() ~= EFFECT_SPSUMMON_PROC and
-                (eff:GetTarget() == aux.PersistentTargetFilter or
-                    not eff:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD)) then
-                eff:Reset()
-            end
-        end
+        Utility.ResetListEffect(e:GetHandler(), ResetEffectFilter)
     end)
     Divine.RegisterEffect(c, reset)
 
@@ -486,4 +464,19 @@ function Divine.RegisterRaDefuse(s, c)
         end)
         Duel.RegisterEffect(defuse, 0)
     end)
+end
+
+function DisableEffectFilter(e, c)
+    local ec = e:GetOwner()
+    return ec ~= c and not ec:IsMonster() and
+               (e:GetTarget() == aux.PersistentTargetFilter or
+                   not e:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD))
+end
+
+function ResetEffectFilter(e, c)
+    if e:GetOwner() == c then return false end
+    return not e:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and e:GetCode() ~=
+               EFFECT_SPSUMMON_PROC and
+               (e:GetTarget() == aux.PersistentTargetFilter or
+                   not e:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD))
 end

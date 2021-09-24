@@ -175,9 +175,9 @@ end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsHasEffect(id) then return end
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
+    if not c:IsHasEffect(id) or #g == 0 then return end
 
     Utility.HintCard(c)
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     Duel.SendtoGrave(g, REASON_EFFECT)
 end

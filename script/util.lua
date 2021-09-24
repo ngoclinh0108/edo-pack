@@ -372,3 +372,42 @@ function Utility.AvatarInfinity(root, c)
         Duel.RegisterEffect(avataratk, 0)
     end)
 end
+
+function Utility.GetListEffect(c, filter, ...)
+    local res = {}
+    local effect_codes = {...}
+
+    if #effect_codes == 0 then
+        local effects = {c:GetCardEffect()}
+        for _, effect in ipairs(effects) do
+            if filter(effect, c) then res[#res + 1] = effect end
+        end
+    else
+        for _, effect_code in ipairs(effect_codes) do
+            local effects = {c:GetCardEffect(effect_code)}
+            for _, effect in ipairs(effects) do
+                if filter(effect, c) then res[#res + 1] = effect end
+            end
+        end
+    end
+
+    return #res == 0 and nil or res
+end
+
+function Utility.ResetListEffect(c, filter, ...)
+    local effect_codes = {...}
+
+    if #effect_codes == 0 then
+        local effects = {c:GetCardEffect()}
+        for _, effect in ipairs(effects) do
+            if filter(effect, c) then effect:Reset() end
+        end
+    else
+        for _, effect_code in ipairs(effect_codes) do
+            local effects = {c:GetCardEffect(effect_code)}
+            for _, effect in ipairs(effects) do
+                if filter(effect, c) then effect:Reset() end
+            end
+        end
+    end
+end
