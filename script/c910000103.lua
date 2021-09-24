@@ -44,7 +44,8 @@ end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE,
-                                     LOCATION_GRAVE, 1, nil, e, tp)
+                                     LOCATION_GRAVE, 1, nil, e, tp) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
@@ -56,7 +57,8 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
+    if not tc or not tc:IsRelateToEffect(e) or
+        Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
     local check = tc:IsRace(RACE_DIVINE)
     if Duel.SpecialSummon(tc, 0, tp, tp, check, false, POS_FACEUP) ~= 0 and
