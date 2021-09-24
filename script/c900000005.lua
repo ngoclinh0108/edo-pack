@@ -142,15 +142,15 @@ function s.initial_effect(c)
     e5:SetValue(function(e, te)
         local c = e:GetHandler()
         local tc = te:GetHandler()
-        return c ~= tc and Divine.GetDivineHierarchy(c) >=
-                   Divine.GetDivineHierarchy(tc)
+        return c ~= tc and Divine.GetDivineHierarchy(tc) <=
+                   Divine.GetDivineHierarchy(c)
     end)
     Divine.RegisterEffect(c, e5)
     local e5b = e5:Clone()
     e5b:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e5b:SetValue(function(e, tc)
-        return Divine.GetDivineHierarchy(e:GetHandler()) >=
-                   Divine.GetDivineHierarchy(tc)
+        return Divine.GetDivineHierarchy(tc) <=
+                   Divine.GetDivineHierarchy(e:GetHandler())
     end)
     Divine.RegisterEffect(c, e5b)
     local e5c = e5b:Clone()
