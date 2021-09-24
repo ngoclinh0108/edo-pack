@@ -60,9 +60,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 1,
-                                         nil)
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
