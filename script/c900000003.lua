@@ -137,9 +137,10 @@ end
 
 function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsHasEffect(id) then return end
-    return Duel.GetAttacker() == c or
-               (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c)
+    return c:IsHasEffect(id) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+               c:IsPreviousLocation(LOCATION_GRAVE) and
+               (Duel.GetAttacker() == c or
+                   (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c))
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -170,7 +171,10 @@ end
 
 function s.e6con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return Duel.GetAttacker() == c and c:IsHasEffect(id)
+    return
+        Duel.GetAttacker() == c and c:IsHasEffect(id) and c:IsHasEffect(id) and
+            c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+            c:IsPreviousLocation(LOCATION_GRAVE)
 end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
