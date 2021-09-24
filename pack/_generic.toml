@@ -179,13 +179,13 @@ Unaffected by other cards' effects, \
 Cannot attack, except by its own effect. \
 Once per Chain, except the End Phase (Quick Effect): \
     You can pay 1000 LP; \
-    attack 1 monster your opponent control, \
+    this card attacks 1 monster your opponent control, \
     then send that monster to the GY after the damage calculation, \
     ignoring card effects. \
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \
     with the same Divine Hierarchy (transfer this card's materials to that monster), \
-    or send it to the GY. \
+    or send this card to the GY. \
 """
 strings = [
     "Select the form",
