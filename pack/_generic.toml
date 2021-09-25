@@ -2,11 +2,11 @@
 id = 900000000
 name = "Millennium Hieroglyph"
 strings = [
-    "Go to next turn",
-    "Move monster",
-    "Return banished cards to the GY",
-    "Return cards to Deck",
-    "Reset game",
+    "Perform Destiny Draw?",
+    "Turn OFF Set Field",
+    "Turn ON Set Field",
+    "Turn OFF Destiny Draw",
+    "Turn ON Destiny Draw",
 ]
 
 [card.obelisk]
