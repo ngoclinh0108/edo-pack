@@ -201,7 +201,6 @@ function s.toggleop(e, tp, eg, ep, ev, re, r, rp)
     end
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
-    Debug.Message(op)
     if op == 1 then
         return
     elseif op == 2 then
