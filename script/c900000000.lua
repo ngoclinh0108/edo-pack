@@ -88,6 +88,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     local toggle = Effect.CreateEffect(c)
     toggle:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     toggle:SetCode(EVENT_FREE_CHAIN)
+    toggle:SetCondition(s.togglecon)
     toggle:SetOperation(s.toggleop)
     Duel.RegisterEffect(toggle, tp)
 
@@ -180,6 +181,11 @@ function s.coinop(e, tp, eg, ep, ev, re, r, rp)
 
     Duel.SetCoinResult(table.unpack(res))
     s[1] = cid
+end
+
+function s.togglecon(e, tp, eg, ep, ev, re, r, rp)
+    local ph = Duel.GetCurrentPhase()
+    return ph >= PHASE_BATTLE_START and ph < PHASE_BATTLE
 end
 
 function s.toggleop(e, tp, eg, ep, ev, re, r, rp)
