@@ -21,21 +21,13 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- see future
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetRange(LOCATION_HAND)
-    e2:SetCode(EVENT_PHASE + PHASE_STANDBY)
-    e2:SetCountLimit(1, {id, 2})
-    e2:SetCondition(function(e, tp)
-        return Duel.IsTurnPlayer(tp) and not e:GetHandler():IsPublic() and
-                   Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0
-    end)
-    e2:SetOperation(function(e, tp)
-        Duel.ConfirmCards(1 - tp, e:GetHandler())
-        Duel.SortDecktop(tp, tp, 1)
-    end)
-    c:RegisterEffect(e2)
+    -- look future
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_DRAW)
+    e1:SetRange(LOCATION_HAND)
+    e1:SetOperation(s.e2op)
+    c:RegisterEffect(e1)
 
     -- call holactie
     local e3 = Effect.CreateEffect(c)
@@ -101,6 +93,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.DisableShuffleCheck()
     end
     Duel.ShuffleHand(tp)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.ConfirmCards(1 - tp, e:GetHandler())
+    Duel.SortDecktop(tp, tp, 1)
 end
 
 function s.e3filter(c, code)

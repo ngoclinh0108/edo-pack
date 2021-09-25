@@ -370,9 +370,7 @@ Declare 1 card name; excavate the top card of your Deck, \
     1 DIVINE monster from your Deck or GY. \
     Otherwise, send it to the GY. \
     You can only activate 1 "The Divine Name" per turn. \
-During your Standby Phase, \
-    reveal this card in your hand and look at the top card of your Deck. \
-    You can only use this effect of "The Divine Name" once per turn. \
+After you draw this card, reveal it and look at the top card of your Deck. \
 During your Main Phase, while you control 3 monsters whose original names are \
     "Slifer the Sky Dragon", "Obelisk the Tormentor", and "The Winged Dragon of Ra": \
     You can banish this card from your GY; \
@@ -380,7 +378,7 @@ During your Main Phase, while you control 3 monsters whose original names are \
     Cards and effects cannot be activated in response to this effect's activation. \
     You can only use this effect of "The Divine Name" once per Duel. \
 """
-strings = ["Take a DIVINE monster"]
+strings = ["Take a DIVINE monster?"]
 
 [card.divine-servant]
 id = 900000201
