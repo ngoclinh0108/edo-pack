@@ -185,7 +185,7 @@ end
 
 function s.togglecon(e, tp, eg, ep, ev, re, r, rp)
     local ph = Duel.GetCurrentPhase()
-    return ph >= PHASE_BATTLE_START and ph < PHASE_BATTLE
+    return not (ph >= PHASE_BATTLE_START and ph < PHASE_BATTLE)
 end
 
 function s.toggleop(e, tp, eg, ep, ev, re, r, rp)
