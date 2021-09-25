@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.mode = {destiny_draw = 1, set_field = 1}
+s.mode = {destiny_draw = 0, set_field = 1}
 
 function s.initial_effect(c)
     local startup = Effect.CreateEffect(c)
@@ -88,9 +88,6 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     local toggle = Effect.CreateEffect(c)
     toggle:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     toggle:SetCode(EVENT_FREE_CHAIN)
-    toggle:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return aux.CanActivateSkill(tp)
-    end)
     toggle:SetOperation(s.toggleop)
     Duel.RegisterEffect(toggle, tp)
 
@@ -125,6 +122,25 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
     end)
     Duel.RegisterEffect(field, tp)
+
+    -- destiny draw
+    local ddraw = Effect.CreateEffect(c)
+    ddraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ddraw:SetCode(EVENT_PREDRAW)
+    ddraw:SetCountLimit(1)
+    ddraw:SetCondition(function(e, tp)
+        return s.mode["destiny_draw"] == 1 and Duel.IsTurnPlayer(tp) and
+                   Duel.GetTurnCount() > 1 and
+                   Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 1 and
+                   Duel.GetDrawCount(tp) > 0
+    end)
+    ddraw:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        if not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
+        local tc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, aux.TRUE, tp,
+                                              LOCATION_DECK, 0, 1, 1, nil):GetFirst()
+        Duel.MoveSequence(tc, 0)
+    end)
+    Duel.RegisterEffect(ddraw, tp)
 end
 
 function s.diceop(e, tp, eg, ep, ev, re, r, rp)
@@ -175,25 +191,26 @@ function s.toggleop(e, tp, eg, ep, ev, re, r, rp)
         {desc = aux.Stringid(id, 4), check = s.mode["destiny_draw"] == 0}
     }
 
-    local t = {}
-    local desc = {}
+    local opt = {}
+    local sel = {}
     for i, item in ipairs(list) do
         if item.check then
-            table.insert(t, {index = i, desc = item.desc})
-            table.insert(desc, item.desc)
+            table.insert(opt, item.desc)
+            table.insert(sel, i)
         end
     end
+    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
-    local op = Duel.SelectOption(tp, table.unpack(desc))
-    if op == 0 then
+    Debug.Message(op)
+    if op == 1 then
         return
-    elseif op == 1 then
-        s.mode["set_field"] = 0
     elseif op == 2 then
-        s.mode["set_field"] = 1
+        s.mode["set_field"] = 0
     elseif op == 3 then
-        s.mode["destiny_draw"] = 0
+        s.mode["set_field"] = 1
     elseif op == 4 then
+        s.mode["destiny_draw"] = 0
+    elseif op == 5 then
         s.mode["destiny_draw"] = 1
     end
 end
