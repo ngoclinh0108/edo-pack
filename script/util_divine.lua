@@ -56,7 +56,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy,
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
         if te:GetHandler() ~= c then return false end
 
-        Utility.ResetListEffect(c, DisableEffectFilter)
+        Utility.ResetListEffect(c, DisableEffectFilter, EFFECT_DISABLE,
+                                EFFECT_DISABLE_EFFECT)
         return #{
             c:GetCardEffect(EFFECT_DISABLE),
             c:GetCardEffect(EFFECT_DISABLE_EFFECT)
