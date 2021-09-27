@@ -7,48 +7,39 @@ function s.initial_effect(c)
     Utility.AvatarInfinity(s, c)
     Divine.DivineHierarchy(s, c, 1, true, true)
 
-    -- race
+    -- destroy & damage
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetDescription(aux.Stringid(id, 1))
+    e1:SetCategory(CATEGORY_DESTROY + CATEGORY_DAMAGE)
+    e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCode(EFFECT_ADD_RACE)
-    e1:SetValue(RACE_WARRIOR)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e1:SetCountLimit(1)
+    e1:SetCondition(s.e1con)
+    e1:SetCost(s.e1cost)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     Divine.RegisterEffect(c, e1)
 
-    -- destroy & damage
+    -- soul energy MAX
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetCategory(CATEGORY_DESTROY + CATEGORY_DAMAGE)
+    e2:SetDescription(aux.Stringid(id, 2))
     e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e2:SetHintTiming(TIMING_DAMAGE_STEP, TIMING_DAMAGE_STEP)
     e2:SetCountLimit(1)
     e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
-    e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     Divine.RegisterEffect(c, e2)
-
-    -- soul energy MAX
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 2))
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetHintTiming(TIMING_DAMAGE_STEP, TIMING_DAMAGE_STEP)
-    e3:SetCountLimit(1)
-    e3:SetCondition(s.e3con)
-    e3:SetCost(s.e3cost)
-    e3:SetOperation(s.e3op)
-    Divine.RegisterEffect(c, e3)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():CanAttack() end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():CanAttack() end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetAttackAnnouncedCount() == 0 and
@@ -67,7 +58,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Release(g, REASON_COST)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return true end
 
@@ -80,7 +71,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsAttackPos() or not c:IsRelateToEffect(e) then return end
 
@@ -91,7 +82,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Damage(p, c:GetAttack(), REASON_EFFECT)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE,
                                     LOCATION_MZONE, nil)
     local total = 0
@@ -99,7 +90,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return total >= 3
 end
 
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c)
@@ -109,7 +100,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Release(g, REASON_COST)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
                              PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,

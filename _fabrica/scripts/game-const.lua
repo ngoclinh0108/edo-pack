@@ -14,7 +14,9 @@ GameConst.code = {
     BEAST_WARRIOR = 0x8000, DINOSAUR = 0x10000, FISH = 0x20000, SEA_SERPENT = 0x40000,
     REPTILE = 0x80000, PSYCHIC = 0x100000, DIVINE_BEAST = 0x200000,
     CREATOR_GOD = 0x400000, WYRM = 0x800000, CYBERSE = 0x1000000,
-    ALL = 0x1FFFFFF
+    CYBORG = 0x2000000, MAGICAL_KNIGHT = 0x4000000, HIGH_DRAGON = 0x8000000,
+    OMEGA_PSYCHIC = 0x10000000, CELESTIAL_WARRIOR = 0x20000000,
+    ALL = 0x1FFFFFFFF
   },
   type = {
     MONSTER = 0x1, SPELL = 0x2, TRAP = 0x4, NORMAL = 0x10, EFFECT = 0x20, FUSION = 0x40,
@@ -58,7 +60,10 @@ GameConst.name = {
     [races.FISH] = "Fish", [races.SEA_SERPENT] = "Sea Serpent",
     [races.REPTILE] = "Reptile", [races.PSYCHIC] = "Psychic",
     [races.DIVINE_BEAST] = "Divine-Beast", [races.CREATOR_GOD] = "Creator God",
-    [races.WYRM] = "Wyrm", [races.CYBERSE] = "Cyberse"
+    [races.WYRM] = "Wyrm", [races.CYBERSE] = "Cyberse",
+    [races.CYBORG] = "Cyborg", [races.MAGICAL_KNIGHT] = "Magical Knight",
+    [races.HIGH_DRAGON] = "High Dragon", [races.OMEGA_PSYCHIC] = "Omega Psychic",
+    [races.CELESTIAL_WARRIOR] = "Celestial Warrior"
   },
   type = {
     [types.MONSTER] = "Monster", [types.SPELL] = "Spell", [types.TRAP] = "Trap",

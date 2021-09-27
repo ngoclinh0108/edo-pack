@@ -24,7 +24,6 @@ ${HIERARCHY_ALIAS|1|Obelisk the Tormentor}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_SPSUMMON_EFFECT} \
-This card is also Warrior-Type while it is on the field. \
 Once per turn, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; \
     destroy all monsters your opponent controls, \
@@ -33,7 +32,7 @@ Once per turn, while this card is able to attack (Quick Effect): \
 Once per turn, while the total monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
     You can Tribute 2 other monsters; \
     once during this turn, if this card battles an opponent's monster, \
-    during damage calculation, it gains ∞ ATK during the damage calculation only. \
+    it gains ∞ ATK during the damage calculation only. \
 """
 strings = ["Soul Energy MAX", "Destroy & damage", "Gain ∞ ATK for 1 attack"]
 frame = "obelisk"
@@ -54,15 +53,14 @@ ${HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_SPSUMMON_EFFECT} \
-This card is also Dragon-Type while it is on the field. \
 This card's original ATK and DEF are each equal to the number of cards in your hand x X000. \
-    (X is its Divine Hierarchy). \
+    (X is this card's Divine Hierarchy). \
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
     while this card is able to attack: \
     Choose that monster(s) as Target; \
     it loses 2000 ATK or DEF depending on its battle position, \
-    also, after that if its ATK/DEF is 0 as a result, destroy it. \
-    That monster cannot activate its effects in response to this effect's activation. \
+    also, after that if its ATK or DEF is 0 as a result, destroy it, \
+    it cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 frame = "osiris"
@@ -83,19 +81,18 @@ ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
 ${EGYPTIAN_SPSUMMON_EFFECT} \
-This card is also Winged-Beast-Type while it is on the field. \
-Unaffected by other card effects that prevent it from attacking, also its attacks cannot be negated. \
 Once while face-up on the field: You can pay LP so that you only have 100 left; \
     this card become Fusion Monster and gains original ATK/DEF become equal to the amount of LP paid, \
-    and also, any increase in LP is changed to increase it's original ATK/DEF instead. \
+    also any increase in LP is changed to increase it's original ATK/DEF instead. \
     If your "De-Fusion" targets this Fusion Monster, apply \
     "that target loses its above effects and its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK" instead of. \
     Cards and effects cannot be activated in response to the above effects' activation. \
     You can also use this effect when this card is Normal or Special Summoned. \
 You can pay 1000 LP, then choose 1 monster on the field as Target; \
-    destroy that monster, ignoring card effects. \
+    destroy it, ignoring card effects. \
 While this card was Special Summoned from the GY, it gains the following effects. \
     This card must be become Fusion Monster by its own effect to gain, to activate, and to resolve the following effects.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 ● Once per turn, when an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined original ATK had on the field, \
     until the end of this turn.
@@ -123,14 +120,13 @@ effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
 If your "The Winged Dragon of Ra" is Normal Summoned, \
     Dimension Change it to this card with the same Divine Hierarchy, \
-    or if it is Summoned to your field, \
+    or if that monster is Summoned to your field, \
     its original ATK/DEF can become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field instead. \
 ${EGYPTIAN_EFFECT} \
-This card is also Machine-Type while it is on the field. \
 Cannot attack. \
 Neither player can target it for attacks or by card effects, \
     but does not prevent your opponent from attacking you directly. \
-While it is in Dimension Zone: \
+While this card is in Dimension Zone: \
     You can Normal Summon "The Winged Dragon of Ra" to your opponent's field. \
 Once per turn, except the turn this card is Dimension Changed: \
     The turn player can reveal 1 "Ancient Chant" from everywhere; \
@@ -169,7 +165,6 @@ If "The Winged Dragon of Ra" you control would be destroyed by its own effect, \
     Dimension Change it to this card with the same Divine Hierarchy instead, \
     and its original ATK/DEF become the same as that monster's ATK/DEF had on the field. \
 This card's effects cannot be copied. \
-This card is also Pyro-Type while it is on the field. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as a material for an Summon by your opponent. \
 Unaffected by other cards' effects, \
@@ -179,7 +174,7 @@ Unaffected by other cards' effects, \
 Cannot attack, except by its own effect. \
 Once per Chain, except the End Phase (Quick Effect): \
     You can pay 1000 LP; \
-    attacks 1 monster your opponent control, \
+    this card attacks 1 monster your opponent control, \
     then send that monster to the GY after the damage calculation, \
     ignoring card effects. \
 During the End Phase, \
@@ -240,7 +235,7 @@ ${EGYPTIAN_EFFECT} \
 During the End Phase, if this card was Special Summoned, \
     return it to the location it was Special Summoned. \
 This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
-    (X is its Divine Hierarchy). \
+    (X is this card's Divine Hierarchy). \
 During your Main Phase: You can destroy this card. \
 If this card is sent from the field to the GY, \
     negate the effects of all face-up cards on the fiels, \

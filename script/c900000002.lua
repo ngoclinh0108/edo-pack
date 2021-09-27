@@ -6,71 +6,62 @@ local s, id = GetID()
 function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 1, true, true)
 
-    -- race
+    -- atk/def
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCode(EFFECT_ADD_RACE)
-    e1:SetValue(RACE_DRAGON)
+    e1:SetCode(EFFECT_SET_BASE_ATTACK)
+    e1:SetValue(s.e1val)
     Divine.RegisterEffect(c, e1)
-
-    -- atk/def
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCode(EFFECT_SET_BASE_ATTACK)
-    e2:SetValue(s.e2val)
-    Divine.RegisterEffect(c, e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_SET_BASE_DEFENSE)
-    Divine.RegisterEffect(c, e2b)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_SET_BASE_DEFENSE)
+    Divine.RegisterEffect(c, e1b)
 
     -- atk/def down
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
-    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EVENT_SUMMON_SUCCESS)
-    e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    Divine.RegisterEffect(c, e3)
-    local e3b = e3:Clone()
-    e3b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    Divine.RegisterEffect(c, e3b)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCode(EVENT_SUMMON_SUCCESS)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    Divine.RegisterEffect(c, e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
+    Divine.RegisterEffect(c, e2b)
 end
 
-function s.e2val(e, c)
+function s.e1val(e, c)
     local tp = c:GetControler()
     return Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) * 1000 *
                Divine.GetDivineHierarchy(c)
 end
 
-function s.e3filter(c, e, tp)
+function s.e2filter(c, e, tp)
     return c:IsPosition(POS_FACEUP) and c:IsLocation(LOCATION_MZONE) and
                (not e or c:IsRelateToEffect(e)) and c:IsControler(1 - tp)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return c:CanAttack() and eg:IsExists(s.e3filter, 1, nil, nil, tp)
+    return c:CanAttack() and eg:IsExists(s.e2filter, 1, nil, nil, tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsRelateToEffect(e) end
 
-    local g = eg:Filter(s.e3filter, nil, nil, tp)
+    local g = eg:Filter(s.e2filter, nil, nil, tp)
     Duel.SetTargetCard(g)
     Duel.SetChainLimit(function(e) return not eg:IsContains(e:GetHandler()) end)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tg = Duel.GetTargetCards(e):Filter(s.e3filter, nil, e, tp)
+    local tg = Duel.GetTargetCards(e):Filter(s.e2filter, nil, e, tp)
     local dg = Group.CreateGroup()
 
     for tc in aux.Next(tg) do

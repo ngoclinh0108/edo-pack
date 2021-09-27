@@ -445,13 +445,13 @@ set = "chaos"
 name = "Chaos End Ruler - Ruler of the Beginning and the End"
 type = "monster xyz effect"
 attribute = "light dark"
-race = "warrior dragon"
+race = "magical-knight"
 rank = 8
 atk = 3500
 def = 2000
 effect = """\
 2 Level 8 "Chaos" or "Black Luster Soldier" monsters
-(This card's is also DARK Dragon monster.)
+(This card's Attribute is also DARK.)
 Must first be Xyz Summoned. \
 This card's effect activations and its effects cannot be negated. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
