@@ -100,6 +100,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetLabelObject(e:GetLabelObject())
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     Divine.RegisterGrantEffect(c, ec1, true)
+
+    if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) then
+        Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)
+    end
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

@@ -380,13 +380,17 @@ function Utility.GetListEffect(c, filter, ...)
     if #effect_codes == 0 then
         local effects = {c:GetCardEffect()}
         for _, effect in ipairs(effects) do
-            if filter(effect, c) then res[#res + 1] = effect end
+            if filter == nil or filter(effect, c) then
+                res[#res + 1] = effect
+            end
         end
     else
         for _, effect_code in ipairs(effect_codes) do
             local effects = {c:GetCardEffect(effect_code)}
             for _, effect in ipairs(effects) do
-                if filter(effect, c) then res[#res + 1] = effect end
+                if filter == nil or filter(effect, c) then
+                    res[#res + 1] = effect
+                end
             end
         end
     end
@@ -400,13 +404,15 @@ function Utility.ResetListEffect(c, filter, ...)
     if #effect_codes == 0 then
         local effects = {c:GetCardEffect()}
         for _, effect in ipairs(effects) do
-            if filter(effect, c) then effect:Reset() end
+            if filter == nil or filter(effect, c) then effect:Reset() end
         end
     else
         for _, effect_code in ipairs(effect_codes) do
             local effects = {c:GetCardEffect(effect_code)}
             for _, effect in ipairs(effects) do
-                if filter(effect, c) then effect:Reset() end
+                if filter == nil or filter(effect, c) then
+                    effect:Reset()
+                end
             end
         end
     end
