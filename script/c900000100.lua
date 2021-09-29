@@ -11,7 +11,7 @@ s.listed_names = {0x13a}
 
 function s.initial_effect(c)
     -- link summon
-    Link.AddProcedure(c, s.lnkfilter, 1, 1)
+    Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x13a), 1, 1)
 
     -- summon cannot be negate & act limit
     local sumsafe = Effect.CreateEffect(c)
@@ -69,11 +69,6 @@ function s.initial_effect(c)
     e4:SetCondition(s.e4regcon)
     e4:SetOperation(s.e4regop)
     c:RegisterEffect(e4)
-end
-
-function s.lnkfilter(c, sc, sumtype, tp)
-    return c:IsSetCard(0x13a, sc, sumtype, tp) and
-               c:IsSummonType(SUMMON_TYPE_NORMAL)
 end
 
 function s.e1filter(c) return c:GetAttack() > 0 end
