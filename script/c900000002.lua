@@ -48,7 +48,8 @@ end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return c:CanAttack() and eg:IsExists(s.e2filter, 1, nil, nil, tp)
+    return eg:IsExists(s.e2filter, 1, nil, nil, tp) and c:CanAttack() and
+               c:IsAttackPos()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -61,6 +62,8 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    if not c:IsAttackPos() then return end
+
     local tg = Duel.GetTargetCards(e):Filter(s.e2filter, nil, e, tp)
     local dg = Group.CreateGroup()
 

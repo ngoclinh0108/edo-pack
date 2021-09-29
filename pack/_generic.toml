@@ -60,7 +60,8 @@ If a monster(s) is Normal or Special Summoned to your opponent's field, \
     Choose that monster(s) as Target; \
     it loses 2000 ATK or DEF depending on its battle position, \
     also, after that if its ATK or DEF is 0 as a result, destroy it, \
-    it cannot activate its effects in response to this effect's activation. \
+    that monster(s) cannot activate its effects in response to this effect's activation. \
+    This card must be in Attack Position to activate and to resolve this effect. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 frame = "osiris"
