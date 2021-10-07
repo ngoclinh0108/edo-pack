@@ -80,6 +80,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Divine.RegisterGrantEffect(tc, ec2b)
 
     local ec3 = Effect.CreateEffect(c)
+    ec3:SetDescription(aux.Stringid(id, 1))
     ec3:SetCategory(CATEGORY_TOGRAVE)
     ec3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     ec3:SetCode(EVENT_ATTACK_ANNOUNCE)

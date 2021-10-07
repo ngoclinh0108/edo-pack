@@ -419,4 +419,7 @@ During your Main Phase: \
     add 1 monster Level 10 from your GY to your hand. \
     You can only use this effect of "Evolution of Divine-Beast" once per turn. \
 """
-strings = ["Affected by effect of \"Evolution of Divine-Beast\""]
+strings = [
+    "Affected by effect of \"Evolution of Divine-Beast\"",
+    "Make your opponent send 1 monster to the GY",
+]
