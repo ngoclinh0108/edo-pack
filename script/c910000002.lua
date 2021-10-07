@@ -7,7 +7,7 @@ s.counter_place_list = {COUNTER_SPELL}
 
 function s.initial_effect(c)
     c:EnableCounterPermit(COUNTER_SPELL)
-    c:SetCounterLimit(COUNTER_SPELL, 1)
+    c:SetCounterLimit(COUNTER_SPELL, 2)
 
     -- special summon
     local e1 = Effect.CreateEffect(c)
