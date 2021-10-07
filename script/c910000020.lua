@@ -50,7 +50,7 @@ function s.initial_effect(c)
 end
 
 function s.spfilter(c)
-    return c:IsFaceup() and c:GetCounter(COUNTER_SPELL) > 0 and
+    return c:IsFaceup() and c:GetCounter(COUNTER_SPELL) >= 3 and
                c:IsCode(71703785)
 end
 

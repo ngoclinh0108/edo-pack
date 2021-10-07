@@ -37,7 +37,7 @@ If you Normal or Special Summon "Palladium Oracle Mahad", \
     You can Special Summon this card. \
     You can only use this effects of "Illusory Palladium Oracle Mana" once per turn. \
 Each time a Spell Card is activated, place 1 Spell Counter on this card when that Spell resolves (max 1). \
-While this card has a Spell Counters, it cannot be destroyed by card effects. \
+While this card has 2 or more Spell Counters, it cannot be destroyed by card effects. \
 Once per turn, during damage calculation, \
     if your other Spellcaster monster battles an opponent's monster (Quick Effect): \
     That monster you control gains ATK/DEF equal to this card's ATK during that damage calculation only. \
@@ -485,7 +485,7 @@ def = 2100
 effect = """\
 Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
-    by stacking it on top of 1 "Palladium Oracle Mahad" you control with 1 or more Spell Counters. \
+    by stacking it on top of 1 "Palladium Oracle Mahad" you control with 3 or more Spell Counters. \
 The original ATK of this card become 1000 x the number of Spell Counters of the monster used for its Summon. \
     This effect cannot be negated. \
 Unaffected by your opponent's card effects. \
@@ -507,7 +507,7 @@ def = 2000
 effect = """\
 Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
-    by stacking it on top of 1 "Palladium Oracle Mana" you control with 1 or more Spell Counters. \
+    by stacking it on top of 1 "Palladium Oracle Mana" you control with 2 or more Spell Counters. \
 Cannot be destroyed by card effects. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium Oracle Mana" from your hand, Deck, or GY. \

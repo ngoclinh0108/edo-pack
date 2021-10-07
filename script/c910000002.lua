@@ -59,7 +59,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e3:SetCondition(function(e)
-        return e:GetHandler():GetCounter(COUNTER_SPELL) > 0
+        return e:GetHandler():GetCounter(COUNTER_SPELL) >= 2
     end)
     e3:SetValue(1)
     c:RegisterEffect(e3)
