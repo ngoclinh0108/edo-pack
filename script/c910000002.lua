@@ -7,7 +7,7 @@ s.counter_place_list = {COUNTER_SPELL}
 
 function s.initial_effect(c)
     c:EnableCounterPermit(COUNTER_SPELL)
-    c:SetCounterLimit(COUNTER_SPELL, 3)
+    c:SetCounterLimit(COUNTER_SPELL, 1)
 
     -- special summon
     local e1 = Effect.CreateEffect(c)
@@ -58,7 +58,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e3:SetCondition(function(e)
-        return e:GetHandler():GetCounter(COUNTER_SPELL) >= 3
+        return e:GetHandler():GetCounter(COUNTER_SPELL) > 0
     end)
     e3:SetValue(1)
     c:RegisterEffect(e3)

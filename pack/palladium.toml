@@ -36,8 +36,8 @@ If you Normal or Special Summon "Palladium Oracle Mahad", \
     while this card is in your hand or GY: \
     You can Special Summon this card. \
     You can only use this effects of "Illusory Palladium Oracle Mana" once per turn. \
-Each time a Spell Card is activated, place 1 Spell Counter on this card when that Spell resolves (max 3). \
-While this card has 3 or more Spell Counters, it cannot be destroyed by card effects. \
+Each time a Spell Card is activated, place 1 Spell Counter on this card when that Spell resolves (max 1). \
+While this card has a Spell Counters, it cannot be destroyed by card effects. \
 Once per turn, during damage calculation, \
     if your other Spellcaster monster battles an opponent's monster (Quick Effect): \
     That monster you control gains ATK/DEF equal to this card's ATK during that damage calculation only. \
@@ -508,6 +508,7 @@ effect = """\
 Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
     by stacking it on top of 1 "Palladium Oracle Mana" you control with 1 or more Spell Counters. \
+Cannot be destroyed by card effects. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium Oracle Mana" from your hand, Deck, or GY. \
 """
@@ -526,13 +527,14 @@ def = 2300
 effect = """\
 "Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
 Must first be Fusion Summoned with the above materials. \
-Cannot be destroyed by card effects. \
+Spellcaster monster you control cannot be destroyed by card effects. \
 Your opponent cannot target Spells/Traps you control with card effects, \
     also they cannot be destroyed by your opponent's card effects. \
 Once per turn, when a monster declares an attack or a card or effect is activated: \
     You can draw 1 card, then if it was a Spell/Trap, \
     you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
 If this card is destroyed by battle or card effect: \
+    You can shuffle it into the Extra Deck; \
     You can Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana", \
     that are banished or are in your hand, Deck, GY. \
 """
