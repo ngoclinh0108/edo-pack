@@ -37,43 +37,16 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1)
 
-    -- act qp/trap in hand
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
-    e2:SetTargetRange(LOCATION_HAND, 0)
-    e2:SetCountLimit(1)
-    e2:SetCondition(function(e)
-        return Duel.GetTurnPlayer() ~= e:GetHandlerPlayer()
-    end)
-    c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
-    c:RegisterEffect(e2b)
-
-    -- atk
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_ATKCHANGE)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
-    e3:SetCondition(s.e3con)
-    e3:SetCost(s.e3cost)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3, false, REGISTER_FLAG_DETACH_XMAT)
-
     -- special summon (destroyed)
-    local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e4:SetProperty(EFFECT_FLAG_DELAY)
-    e4:SetCode(EVENT_DESTROYED)
-    e4:SetCondition(s.e4con)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_DESTROYED)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
 end
 
 function s.spfilter(c)
@@ -119,47 +92,19 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     mg:DeleteGroup()
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetBattleTarget() ~= nil
-end
-
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return c:CheckRemoveOverlayCard(tp, 1, REASON_COST) and
-                   c:GetFlagEffect(id) == 0
-    end
-
-    c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                             PHASE_DAMAGE_CAL, 0, 1)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
-    ec1:SetReset(RESET_PHASE + PHASE_DAMAGE_CAL)
-    ec1:SetValue(function(e, c) return e:GetHandler():GetAttack() * 2 end)
-    c:RegisterEffect(ec1)
-end
-
-function s.e4filter(c, e, tp)
+function s.e1filter(c, e, tp)
     return c:IsCode(71703785) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
@@ -169,11 +114,11 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
-                                         aux.NecroValleyFilter(s.e4filter), tp,
+                                         aux.NecroValleyFilter(s.e1filter), tp,
                                          LOCATION_HAND + LOCATION_DECK +
                                              LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end

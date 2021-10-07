@@ -490,17 +490,13 @@ Must be Special Summoned (from your Extra Deck) \
 The original ATK of this card become 1000 x the number of Spell Counters of the monster used for its Summon. \
     This effect cannot be negated. \
 Unaffected by your opponent's card effects. \
-Once per turn, you can activate a Quick-Play Spell Card or a Trap Card from your hand during your opponent's turn. \
-Once per Chain, during damage calculation, if this card battles an opponent's monster (Quick Effect): \
-    You can detach 1 materials from this card; \
-    This card's ATK is doubled during the Damage Step only. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium Oracle Mahad" from your hand, Deck, or GY. \
 """
-strings = ["Double ATK"]
+strings = ["Activate Spell/Trap effect"]
 
 [card.palladium-oracles]
-id = 910000021
+id = 910000022
 set = "palladium"
 name = "The Palladium Oracles"
 type = "monster fusion effect"
@@ -525,7 +521,7 @@ If this card is destroyed by battle or card effect: You can shuffle it into the 
 strings = []
 
 [card.chaos-eyes-oracle-dragoon]
-id = 910000022
+id = 910000023
 set = "chaos"
 name = "Chaos-Eyes Oracle Dragoon"
 type = "monster fusion effect"
@@ -556,7 +552,7 @@ strings = [
 ]
 
 [card.palladium-master-chaos]
-id = 910000023
+id = 910000024
 set = "palladium chaos"
 name = "Palladium Master of Chaos"
 type = "monster fusion effect"
@@ -583,7 +579,7 @@ strings = [
 ]
 
 [card.palladium-archfiend]
-id = 910000024
+id = 910000025
 set = "palladium archfiend"
 name = "Archfiend Palladium Necromancer"
 type = "monster fusion effect"
@@ -608,7 +604,7 @@ This card's effect activations and its effects cannot be negated. \
 strings = ["Banish Spells/Traps to gain ATK"]
 
 [card.dark-flare-knight-palladium]
-id = 910000025
+id = 910000026
 set = "palladium"
 name = "Dark Flare Knight of Palladium"
 type = "monster fusion effect"
@@ -631,7 +627,7 @@ If this card is destroyed by battle or card effect: \
 strings = []
 
 [card.arcana-royal-joker]
-id = 910000026
+id = 910000027
 name = "Arcana Royal Joker"
 type = "fusion monster effect"
 attribute = "light"
@@ -651,7 +647,7 @@ If this Fusion Summoned card is destroyed by battle or card effect: \
 strings = []
 
 [card.palladium-beast-chimera]
-id = 910000027
+id = 910000028
 set = "palladium"
 name = "Palladium Beast Chimera"
 type = "monster fusion effect"
