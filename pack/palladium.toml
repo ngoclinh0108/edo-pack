@@ -88,9 +88,8 @@ effect = """\
 You can Ritual Summon this card with "Forbidden Art of Palladium". \
 Must first be either Ritual Summoned, \
     or Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
-Your opponent cannot target it with card effects. \
-If this card attacks an opponent's monster, during the Damage Step only, \
-    negate the effects of that monster while it is face-up on the field (but its effects can still be activated). \
+Your opponent cannot target this Ritual Summoned card with card effects, \
+    also it cannot be destroyed by your opponent's card effects. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
 ● This card gains 1500 ATK.
 ● Banish 1 card your opponent control.
