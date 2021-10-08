@@ -38,14 +38,18 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- indes
+    -- indes & untargetable
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e2:SetValue(1)
+    e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e2:SetValue(aux.tgoval)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e2b:SetValue(1)
+    c:RegisterEffect(e2b)
 
     -- destroy
     local e3 = Effect.CreateEffect(c)

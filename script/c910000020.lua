@@ -32,9 +32,7 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCode(EFFECT_IMMUNE_EFFECT)
-    e1:SetValue(function(e, te)
-        return te:GetHandler():GetOwner() ~= e:GetHandlerPlayer()
-    end)
+    e1:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
     c:RegisterEffect(e1)
 
     -- copy effect
