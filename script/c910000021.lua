@@ -26,25 +26,50 @@ function s.initial_effect(c)
     sp:SetOperation(s.spop)
     c:RegisterEffect(sp)
 
-    -- indes
+    -- search
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e1:SetValue(1)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- special summon (destroyed)
+    -- indes
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_DESTROYED)
-    e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e2:SetValue(1)
     c:RegisterEffect(e2)
+
+    -- destroy
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_DESTROY)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetCountLimit(1)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3, false, REGISTER_FLAG_DETACH_XMAT)
+
+    -- special summon
+    local e4 = Effect.CreateEffect(c)
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_DELAY)
+    e4:SetCode(EVENT_DESTROYED)
+    e4:SetCondition(s.e4con)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.spfilter(c)
@@ -75,25 +100,69 @@ end
 function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     local mg = e:GetLabelObject()
     if not mg then return end
-    
+
     local mc = mg:GetFirst()
     Duel.Overlay(c, mc)
     mg:DeleteGroup()
 end
 
-function s.e2filter(c, e, tp)
+function s.e1filter(c)
+    return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToHand()
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler() == re:GetHandler()
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp,
+                                         LOCATION_DECK, 0, 1, 1, nil)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:CheckRemoveOverlayCard(tp, 1, REASON_COST) end
+    c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1,
+                                           nil)
+    end
+
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
+    Duel.Destroy(g, REASON_EFFECT)
+end
+
+function s.e4filter(c, e, tp)
     return c:IsCode(42006475) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
@@ -103,11 +172,11 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
-                                         aux.NecroValleyFilter(s.e2filter), tp,
+                                         aux.NecroValleyFilter(s.e4filter), tp,
                                          LOCATION_HAND + LOCATION_DECK +
                                              LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end

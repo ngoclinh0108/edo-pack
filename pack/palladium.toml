@@ -486,13 +486,21 @@ effect = """\
 Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
     by stacking it on top of 1 "Palladium Oracle Mahad" you control with 3 or more Spell Counters. \
-The original ATK of this card become 1000 x the number of Spell Counters of the monster used for its Summon. \
+This card's original ATK become 1000 x the number of Spell Counters of the monster used for its Summon. \
     This effect cannot be negated. \
 Unaffected by your opponent's card effects. \
+Once per turn (Quick Effect): \
+    You can target 1 Spell/Trap Card that meets its activation conditions \
+    is banished or is in either GY; \
+    this effect becomes that card's effect when that card is activated, \
+    then shuffle it into the Deck. \
+Once per turn (Quick Effect): \
+    You can detach 1 material from this card; \
+    double this card's current ATK until the end of this turn. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium Oracle Mahad" from your hand, Deck, or GY. \
 """
-strings = []
+strings = ["Copy Spell/Trap effect", "Double ATK"]
 
 [card.dark-sorceress-palladium]
 id = 910000021
@@ -508,11 +516,15 @@ effect = """\
 Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
     by stacking it on top of 1 "Palladium Oracle Mana" you control with 2 or more Spell Counters. \
+If Special Summoned this way: Add 1 Spell/Trap Card from your Deck to your hand. \
 Cannot be destroyed by card effects. \
+Once per turn (Quick Effect): \
+    You can detach 1 material from this card; \
+    Destroy all cards your opponent controls. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium Oracle Mana" from your hand, Deck, or GY. \
 """
-strings = []
+strings = ["Search Spell/Trap Card", "Destroy all cards your opponent controls"]
 
 [card.palladium-oracles]
 id = 910000022

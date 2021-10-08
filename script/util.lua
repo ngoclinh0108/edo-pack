@@ -99,7 +99,7 @@ function Utility.ApplyEffect(te, e, tp, rc)
     if not rc then rc = te:GetHandler() end
     local tg = te:GetTarget()
     local op = te:GetOperation()
-
+    
     if tg then
         tg(te, tp, Group.CreateGroup(), PLAYER_NONE, 0, e, REASON_EFFECT,
            PLAYER_NONE, 1)

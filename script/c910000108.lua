@@ -69,12 +69,16 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                            1, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, nil, e:GetLabelObject()[1], 0, 0)
+    local label = e:GetLabelObject()
+    if label then
+        Duel.SetOperationInfo(0, CATEGORY_DISABLE, nil, label[1], 0, 0)
+    end
     Duel.SetChainLimit(function(e, rp, tp) return tp == rp end)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local label = e:GetLabelObject()
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(aux.Stringid(id, 0))
@@ -89,9 +93,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     Duel.RegisterEffect(ec1b, tp)
 
+    if label == nil then return end
     local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, Card.IsFaceup, tp,
-                                         0, LOCATION_MZONE, 1,
-                                         e:GetLabelObject()[1], nil)
+                                         0, LOCATION_MZONE, 1, label[1], nil)
     Duel.HintSelection(g)
     for tc in aux.Next(g) do
         Duel.NegateRelatedChain(tc, RESET_TURN_SET)
@@ -110,7 +114,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     ec2:SetCode(EVENT_PHASE + PHASE_END)
     ec2:SetCountLimit(1)
-    ec2:SetLabel(e:GetLabelObject()[2])
+    ec2:SetLabel(label[2])
     ec2:SetOperation(function(e, tp)
         Utility.HintCard(e)
         local g = Duel.GetMatchingGroup(function(c)

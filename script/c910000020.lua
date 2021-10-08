@@ -37,16 +37,44 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1)
 
-    -- special summon (destroyed)
+    -- copy effect
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_DESTROYED)
-    e2:SetCondition(s.e2con)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetHintTiming(TIMINGS_CHECK_MONSTER + TIMING_BATTLE_START +
+                         TIMING_MAIN_END)
+    e2:SetCountLimit(1)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- double ATK
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_ATKCHANGE)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetHintTiming(TIMING_DAMAGE_STEP)
+    e3:SetCountLimit(1)
+    e3:SetCondition(s.e3con)
+    e3:SetCost(s.e3cost)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3, false, REGISTER_FLAG_DETACH_XMAT)
+
+    -- special summon
+    local e4 = Effect.CreateEffect(c)
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_DELAY)
+    e4:SetCode(EVENT_DESTROYED)
+    e4:SetCondition(s.e4con)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.spfilter(c)
@@ -93,18 +121,80 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsCode(71703785) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
+    return c:IsFaceup() and c:IsType(TYPE_SPELL + TYPE_TRAP) and
+               c:IsAbleToDeck() and
+               Utility.CheckActivateEffectCanApply(c, e, tp, false, true, true)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
+        return Duel.IsExistingTarget(s.e2filter, tp,
+                                     LOCATION_GRAVE + LOCATION_REMOVED,
+                                     LOCATION_GRAVE + LOCATION_REMOVED, 1, nil,
+                                     e, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local tc = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE,
+                                 LOCATION_GRAVE, 1, 1, nil, e, tp):GetFirst()
+
+    local te, ceg, cep, cev, cre, cr, crp =
+        tc:CheckActivateEffect(false, true, true)
+    e:SetProperty(te:GetProperty())
+    local tg = te:GetTarget()
+    if tg then tg(e, tp, ceg, cep, cev, cre, cr, crp, 1) end
+    e:SetLabelObject(te)
+    Duel.ClearOperationInfo(0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local te = e:GetLabelObject()
+    local tc = te:GetHandler()
+    if not tc or not tc:IsRelateToEffect(e) then return end
+
+    local op = te:GetOperation()
+    if op then op(e, tp, eg, ep, ev, re, r, rp) end
+
+    Duel.BreakEffect()
+    Duel.SendtoDeck(tc, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or
+               not Duel.IsDamageCalculated()
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:CheckRemoveOverlayCard(tp, 1, REASON_COST) end
+    c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec1:SetValue(c:GetAttack() * 2)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+end
+
+function s.e4filter(c, e, tp)
+    return c:IsCode(71703785) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
@@ -114,11 +204,11 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
-                                         aux.NecroValleyFilter(s.e2filter), tp,
+                                         aux.NecroValleyFilter(s.e4filter), tp,
                                          LOCATION_HAND + LOCATION_DECK +
                                              LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
