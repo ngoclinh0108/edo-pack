@@ -138,11 +138,12 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local te, ceg, cep, cev, cre, cr, crp =
         tc:CheckActivateEffect(false, true, true)
-    e:SetProperty(te:GetProperty())
+    e:SetLabelObject(te)
+    Duel.ClearTargetCard()
+
     local tg = te:GetTarget()
     if tg then tg(e, tp, ceg, cep, cev, cre, cr, crp, 1) end
-    e:SetLabelObject(te)
-    Duel.ClearOperationInfo(0)
+    e:SetProperty(te:GetProperty())
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
