@@ -24,7 +24,7 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
     e2:SetCondition(s.e2con)
-    e2:SetCost(aux.bfgcost)
+    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -113,14 +113,19 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
                    LOCATION_MZONE, 0, 1, nil)
 end
 
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsAbleToDeckAsCost() end
+    Duel.SendtoDeck(e:GetHandler(), nil, SEQ_DECKSHUFFLE, REASON_COST)
+end
+
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.disfilter2, tp, 0, LOCATION_ONFIELD, 1,
+        return Duel.IsExistingTarget(aux.disfilter3, tp, 0, LOCATION_ONFIELD, 1,
                                      nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
-    Duel.SelectTarget(tp, aux.disfilter2, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
+    Duel.SelectTarget(tp, aux.disfilter3, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

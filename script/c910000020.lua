@@ -121,17 +121,15 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsFaceup() and c:IsType(TYPE_SPELL + TYPE_TRAP) and
-               c:IsAbleToDeck() and
+    return (c:GetType() == TYPE_SPELL or c:GetType() == TYPE_TRAP or
+               c:IsType(TYPE_QUICKPLAY + TYPE_COUNTER)) and c:IsAbleToDeck() and
                Utility.CheckActivateEffectCanApply(c, e, tp, false, true, true)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp,
-                                     LOCATION_GRAVE + LOCATION_REMOVED,
-                                     LOCATION_GRAVE + LOCATION_REMOVED, 1, nil,
-                                     e, tp)
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE,
+                                     LOCATION_GRAVE, 1, nil, e, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
