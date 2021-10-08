@@ -37,9 +37,8 @@ function s.initial_effect(c)
     e2:SetCategory(CATEGORY_TOHAND)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_DESTROYED)
+    e2:SetCode(EVENT_TO_GRAVE)
     e2:SetCountLimit(1, {id, 2})
-    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -160,16 +159,10 @@ function s.e2filter(c)
                c:IsAbleToHand()
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:IsPreviousControler(tp)
-end
-
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingTarget(s.e2filter, tp, LOCATION_REMOVED, 0, 1,
-                                         nil)
+        return
+            Duel.IsExistingTarget(s.e2filter, tp, LOCATION_REMOVED, 0, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
