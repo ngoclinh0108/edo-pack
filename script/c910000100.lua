@@ -3,6 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_series = {0x13a}
+s.counter_place_list = {COUNTER_SPELL}
 
 function s.initial_effect(c)
     -- activate
@@ -47,12 +48,20 @@ function s.initial_effect(c)
     e4:SetOperation(s.e4op)
     Utility.RegisterMultiEffect(s, 4, e4)
 
-    -- protect & atk up
+    -- spell counter
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 4))
-    e5:SetCategory(CATEGORY_ATKCHANGE)
+    e5:SetCategory(CATEGORY_COUNTER)
+    e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     Utility.RegisterMultiEffect(s, 5, e5)
+
+    -- protect & atk up
+    local e6 = Effect.CreateEffect(c)
+    e6:SetDescription(aux.Stringid(id, 5))
+    e6:SetCategory(CATEGORY_ATKCHANGE)
+    e6:SetOperation(s.e6op)
+    Utility.RegisterMultiEffect(s, 6, e6)
 end
 
 function s.e1filter(c) return c:IsSetCard(0x13a) and c:IsAbleToHand() end
@@ -164,11 +173,35 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e5filter(c) return c:IsFaceup() and c:IsSetCard(0x13a) end
+function s.e5filter(c)
+    return c:IsFaceup() and c:IsCanAddCounter(COUNTER_SPELL, 1)
+end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetMatchingGroup(s.e5filter, tp, LOCATION_ONFIELD,
+                                     LOCATION_ONFIELD, nil)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_COUNTER, nil, 1, 0, COUNTER_SPELL)
+end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Utility.SelectMatchingCard(aux.Stringid(id, 4), tp, s.e5filter,
+                                          tp, LOCATION_ONFIELD,
+                                          LOCATION_ONFIELD, 1, 1, nil):GetFirst()
+                                          
+    local max = tc:IsCanAddCounter(COUNTER_SPELL, 2) and 2 or 1
+    local ct = 1
+    if max > 1 then ct = Duel.AnnounceNumber(tp, 1, max) end
+    tc:AddCounter(COUNTER_SPELL, ct)
+end
+
+function s.e6filter(c) return c:IsFaceup() and c:IsSetCard(0x13a) end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(s.e5filter, tp, LOCATION_MZONE, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e6filter, tp, LOCATION_MZONE, 0, nil)
 
     for tc in aux.Next(g) do
         local ec1 = Effect.CreateEffect(c)
