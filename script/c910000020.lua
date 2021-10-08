@@ -119,8 +119,10 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
 end
 
 function s.e2filter(c, e, tp)
-    return (c:GetType() == TYPE_SPELL or c:GetType() == TYPE_TRAP or
-               c:IsType(TYPE_QUICKPLAY + TYPE_COUNTER)) and c:IsAbleToDeck() and
+    return c:IsType(TYPE_SPELL + TYPE_TRAP) and
+               (c:GetType() == TYPE_SPELL or c:GetType() == TYPE_TRAP or
+                   c:IsType(TYPE_RITUAL + TYPE_QUICKPLAY + TYPE_COUNTER)) and
+               c:IsAbleToDeck() and
                Utility.CheckActivateEffectCanApply(c, e, tp, false, true, true)
 end
 
