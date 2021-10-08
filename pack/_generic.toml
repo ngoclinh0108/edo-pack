@@ -290,7 +290,7 @@ atk = 0
 effect = """\
 1 "Palladium" monster, except Token
 This card's Link Summon cannot be negated. \
-When Link Summoned, your opponent cannot activate cards or effects. \
+When Special Summoned, your opponent cannot activate cards or effects. \
 If this card is Link Summoned: \
     You can target up to 3 monsters in your GY; \
     this turn, this card gains ATK equal to the combined ATK of those monsters. \

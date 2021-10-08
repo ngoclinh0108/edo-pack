@@ -42,7 +42,6 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DELAY +
                        EFFECT_FLAG_DAMAGE_STEP)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -77,10 +76,6 @@ function s.lnkfilter(c, sc, sumtype, tp)
 end
 
 function s.e1filter(c) return c:GetAttack() > 0 end
-
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetSummonType() == SUMMON_TYPE_LINK
-end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
