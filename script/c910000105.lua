@@ -107,10 +107,10 @@ end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsCanRemoveCounter(tp, 1, 0, COUNTER_SPELL, 1, REASON_COST)
+        return Duel.IsCanRemoveCounter(tp, 1, 0, COUNTER_SPELL, 2, REASON_COST)
     end
 
-    Duel.RemoveCounter(tp, 1, 0, COUNTER_SPELL, 1, REASON_COST)
+    Duel.RemoveCounter(tp, 1, 0, COUNTER_SPELL, 2, REASON_COST)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
