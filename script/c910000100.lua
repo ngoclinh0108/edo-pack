@@ -144,7 +144,8 @@ end
 function s.e4filter1(c) return c:IsFaceup() and c:IsReleasableByEffect() end
 
 function s.e4filter2(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsSetCard(0x13a) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -190,7 +191,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Utility.SelectMatchingCard(aux.Stringid(id, 4), tp, s.e5filter,
                                           tp, LOCATION_ONFIELD,
                                           LOCATION_ONFIELD, 1, 1, nil):GetFirst()
-                                          
+
     local max = tc:IsCanAddCounter(COUNTER_SPELL, 2) and 2 or 1
     local ct = 1
     if max > 1 then ct = Duel.AnnounceNumber(tp, 1, max) end
