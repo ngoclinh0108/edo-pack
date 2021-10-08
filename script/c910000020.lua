@@ -142,7 +142,12 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ClearTargetCard()
 
     local tg = te:GetTarget()
-    if tg then tg(e, tp, ceg, cep, cev, cre, cr, crp, 1) end
+    if tg then
+        tg(e, tp, ceg, cep, cev, cre, cr, crp, 1)
+        local ctg = Duel.GetTargetCards(e)
+        if #ctg > 0 then Duel.HintSelection(ctg) end
+    end
+
     e:SetProperty(te:GetProperty())
 end
 
