@@ -129,18 +129,3 @@ strings = [
     "Special Summon a Dragon monster",
     "Affected by effect \"Blue-Eyes Chaos Infinity Dragon\": cannot Special Summon monsters from the Extra Deck, except \"Blue-Eyes\" monsters",
 ]
-
-[card.fusion-with-eyes-of-blue]
-id = 911000005
-alias = 24094653
-name = "Fusion with Eyes of Blue"
-type = "spell"
-effect = """\
-(This card's name is always treated as "Polymerization".)
-Fusion Summon 1 Fusion Monster that lists "Blue-Eyes White Dragon" as material from your Extra Deck, \
-    by shuffling the Fusion Materials listed on it into the Deck, from your hand, field, GY and/or your face-up banished cards, \
-    and if you do, it gains the following effect.
-● This card cannot be destroyed by battle.
-● If this card attacks a Defense POsition monster, inflict piercing battle damage.
-"""
-strings = []
