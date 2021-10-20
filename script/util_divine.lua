@@ -460,6 +460,25 @@ function Divine.RegisterRaDefuse(s, c)
                     Duel.AdjustInstantly(tc)
 
                     Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
+                    tc:RegisterFlagEffect(95286165, RESET_EVENT +
+                                              RESETS_STANDARD + RESET_PHASE +
+                                              PHASE_END, 0, 1)
+
+                    local ec2 = Effect.CreateEffect(c)
+                    ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+                    ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+                    ec2:SetCode(EVENT_PHASE + PHASE_END)
+                    ec2:SetCountLimit(1)
+                    ec2:SetLabelObject(tc)
+                    ec2:SetCondition(function(e)
+                        return e:GetLabelObject():GetFlagEffect(95286165) ~= 0
+                    end)
+                    ec2:SetOperation(function(e)
+                        Duel.SendtoGrave(e:GetLabelObject(),
+                                         REASON_EFFECT + REASON_RULE)
+                    end)
+                    ec2:SetReset(RESET_PHASE + PHASE_END)
+                    Duel.RegisterEffect(ec2, tp)
                 end)
                 tc:RegisterEffect(ec1)
             end

@@ -85,8 +85,9 @@ ${EGYPTIAN_SPSUMMON_EFFECT} \
 Once while face-up on the field: You can pay LP so that you only have 100 left; \
     this card become Fusion Monster and gains original ATK/DEF become equal to the amount of LP paid, \
     also any increase in LP is changed to increase it's original ATK/DEF instead. \
-    If your "De-Fusion" targets this Fusion Monster, apply \
-    "that target loses its above effects and its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK" instead of. \
+    If your "De-Fusion" targets this Fusion Monster, apply these effect instead, \
+    "that target loses its above effects and its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK, \
+    send it to the GY during the End Phase, ignoring card effects". \
     Cards and effects cannot be activated in response to the above effects' activation. \
     You can also use this effect when this card is Normal or Special Summoned. \
 You can pay 1000 LP, then choose 1 monster on the field as Target; \
