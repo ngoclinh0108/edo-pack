@@ -130,6 +130,7 @@ function Dimension.Change(mc, sc, mg, change_player, target_player, pos)
     sc:RegisterEffect(ec1)
     sc:SetStatus(STATUS_FORM_CHANGED, true)
 
+    Duel.BreakEffect()
     return true
 end
 
