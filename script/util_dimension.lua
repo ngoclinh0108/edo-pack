@@ -121,8 +121,6 @@ function Dimension.Change(mc, sc, mg, change_player, target_player, pos)
     Duel.MoveToField(sc, change_player, target_player, LOCATION_MZONE, pos,
                      true, seq and 1 << seq or nil)
     Debug.PreSummon(sc, sumtype, sumloc)
-    sc:SetStatus(STATUS_FORM_CHANGED, true)
-
     local ec1 = Effect.CreateEffect(sc)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_SET_CONTROL)
@@ -130,8 +128,8 @@ function Dimension.Change(mc, sc, mg, change_player, target_player, pos)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD -
                      (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
     sc:RegisterEffect(ec1)
+    sc:SetStatus(STATUS_FORM_CHANGED, true)
 
-    -- Duel.BreakEffect()
     return true
 end
 
