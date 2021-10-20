@@ -181,7 +181,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = c:GetMaterial():GetFirst()
 
     local divine_evolution = Divine.IsDivineEvolution(c)
-    Dimension.Change(c, tc, tc:GetMaterial(), tp, tp)
+    Dimension.Change(c, tc, tc:GetMaterial(), tp, tp, POS_FACEUP)
     if divine_evolution then Divine.DivineEvolution(tc) end
     s.battlemode(c, tc, 4000, 4000)
 end

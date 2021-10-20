@@ -100,13 +100,15 @@ end
 
 function Dimension.CanBeDimensionChanged(c) return c:GetLocation() == 0 end
 
-function Dimension.Change(mc, sc, mg, change_player, target_player)
+function Dimension.Change(mc, sc, mg, change_player, target_player, pos)
     if change_player == nil then change_player = mc:GetControler() end
     if target_player == nil then target_player = mc:GetControler() end
     local sumtype = mc:GetSummonType()
     local sumloc = mc:GetSummonLocation()
     local seq = target_player == mc:GetControler() and mc:GetSequence() or nil
-    local pos = mc:IsAttackPos() and POS_FACEUP_ATTACK or POS_FACEUP_DEFENSE
+    if pos == nil then
+        pos = mc:IsAttackPos() and POS_FACEUP_ATTACK or POS_FACEUP_DEFENSE
+    end
 
     if mg then
         sc:SetMaterial(mg)
