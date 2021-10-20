@@ -122,7 +122,6 @@ function Dimension.Change(mc, sc, mg, change_player, target_player, pos)
                      true, seq and 1 << seq or nil)
     Debug.PreSummon(sc, sumtype, sumloc)
     sc:SetStatus(STATUS_FORM_CHANGED, true)
-    Duel.BreakEffect()
 
     local ec1 = Effect.CreateEffect(sc)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -132,6 +131,7 @@ function Dimension.Change(mc, sc, mg, change_player, target_player, pos)
                      (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
     sc:RegisterEffect(ec1)
 
+    -- Duel.BreakEffect()
     return true
 end
 
@@ -155,7 +155,7 @@ Dimension.RegisterChange = aux.FunctionWithNamedArgs(
                 local c = e:GetHandler()
                 local g = eg:Filter(aux.FilterFaceupFunction(filter, c, e), nil)
                 for tc in aux.Next(g) do
-                    tc:RegisterFlagEffect(flag_id, 0, 0, 1)
+                    tc:RegisterFlagEffect(flag_id + 1000000000 * (c:GetOwner() + 1), 0, 0, 1)
                 end
             end)
             Duel.RegisterEffect(reg, 0)
@@ -167,19 +167,22 @@ Dimension.RegisterChange = aux.FunctionWithNamedArgs(
         change:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
         change:SetCode(EVENT_ADJUST)
         change:SetCondition(function(e)
+            local tp = e:GetHandler():GetOwner()
             return Dimension.CanBeDimensionChanged(e:GetHandler()) and
                        Duel.IsExistingMatchingCard(function(c)
-                    return c:GetFlagEffect(flag_id) > 0
+                    return c:GetFlagEffect(flag_id + 1000000000 * (tp + 1)) > 0
                 end, 0, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
         end)
         change:SetOperation(function(e)
+            local tp = e:GetHandler():GetOwner()
+            tp_flag_id = flag_id + 1000000000 * (tp + 1)
             local mc = Duel.GetFirstMatchingCard(function(c)
-                return c:GetFlagEffect(flag_id) > 0
+                return c:GetFlagEffect(tp_flag_id) > 0
             end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
             if not mc then return end
-            mc:ResetFlagEffect(flag_id)
+            mc:ResetFlagEffect(tp_flag_id)
             if custom_op then
-                custom_op(e, c:GetOwner(), mc)
+                custom_op(e, tp, mc)
             else
                 Dimension.Change(mc, c)
             end
