@@ -157,6 +157,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     if not tc then return end
+    Utility.HintCard(c)
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
     Duel.ConfirmCards(1 - tp, tc)
 end
