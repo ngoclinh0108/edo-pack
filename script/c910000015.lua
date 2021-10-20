@@ -15,7 +15,7 @@ function s.initial_effect(c)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
-    -- monster reborn
+    -- special summon
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e2:SetType(EFFECT_TYPE_QUICK_O)
@@ -51,8 +51,7 @@ function s.e2filter2(c, e, tp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
-               (Duel.IsTurnPlayer(1 - tp) and Duel.IsBattlePhase())
+    return Duel.IsTurnPlayer(1 - tp)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

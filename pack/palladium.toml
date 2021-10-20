@@ -147,6 +147,7 @@ def = 0
 effect = """\
 You can reveal this card in your hand; \
     add 1 "Blue-Eyes" monster from your Deck or GY to your hand. \
+    You cannot Normal Summon other monsters the turn you activate this effect. \
 You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
     Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
     using it as the Fusion Material. \
@@ -158,6 +159,7 @@ You can only use 1 "Azure Palladium Oracle Seto" effect per turn, and only once 
 strings = [
     "Add 1 \"Blue-Eyes\" monster",
     "Summon 3 \"Blue-Eyes White Dragon\"",
+    "Affected by effect \"Azure Palladium Oracle Seto\": cannot Normal Summon monsters",
     "Affected by effect \"Azure Palladium Oracle Seto\": cannot Special Summon monsters",
 ]
 
@@ -325,7 +327,7 @@ If this card is Normal or Special Summoned: \
     up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
     This card cannot declare an attack the turn this effect is activated. \
 You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
-    using monsters you control as Fusion Materials, including this card. \
+    using monsters you control as materials, including this card. \
 You can only use each effect of "Palladium Knight of Jack" once per turn. \
 A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
 ● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
@@ -368,13 +370,13 @@ def = 200
 effect = """\
 When you Ritual Summon, you can banish this card from your GY as 1 of the monsters required for the Ritual Summon. \
 You can only use each of the following effects of "Palladium Ankuriboh" once per turn. \
-During your Main Phase or your opponent's Battle Phase (Quick Effect): \
+During your opponent's turn (Quick Effect): \
     You can discard this card and banish 1 "Monster Reborn" from your Deck or GY, \
     then target 1 monster in either GY, except "Palladium Ankuriboh"; \
     Special Summon it to your field, but send it to the GY during the End Phase. \
 If a monster(s) you control, except "Palladium Ankuriboh" is sent to the GY, \
     while this card is banished or in your GY: \
-    Shuffle this card into the Deck, and if you do, \
+    You can shuffle this card into the Deck, and if you do, \
     add to your hand or Set 1 banished "Monster Reborn". \
 """
 strings = []

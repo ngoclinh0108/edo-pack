@@ -42,6 +42,11 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
+function s.e1filter(c, tp)
+    return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x13a) and
+               c:IsType(TYPE_MONSTER)
+end
+
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
@@ -51,7 +56,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     end
 
     return Duel.IsChainNegatable(ev) and tg:IsContains(c) or
-               tg:IsExists(aux.FilterFaceupFunction(Card.IsSetCard, 0x13a), 1, c)
+               tg:IsExists(s.e1filter, 1, c, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
