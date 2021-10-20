@@ -439,6 +439,11 @@ function Divine.RegisterRaDefuse(s, c)
                     if tc:IsFacedown() or not tc:IsRelateToEffect(e) or
                         not tc:IsHasEffect(id) then return end
 
+                    tc:RegisterFlagEffect(95286165, RESET_EVENT +
+                                              RESETS_STANDARD + RESET_PHASE +
+                                              PHASE_END,
+                                          EFFECT_FLAG_CLIENT_HINT, 1, 0, 666006)
+
                     local atk = tc:GetAttack()
                     tc:GetCardEffect(id):Reset()
                     if tc:GetCardEffect(EFFECT_SET_BASE_ATTACK) then
@@ -458,27 +463,30 @@ function Divine.RegisterRaDefuse(s, c)
                     ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
                     Divine.RegisterGrantEffect(tc, ec1b)
                     Duel.AdjustInstantly(tc)
-
                     Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
-                    tc:RegisterFlagEffect(95286165, RESET_EVENT +
-                                              RESETS_STANDARD + RESET_PHASE +
-                                              PHASE_END, 0, 1)
 
                     local ec2 = Effect.CreateEffect(c)
-                    ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-                    ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-                    ec2:SetCode(EVENT_PHASE + PHASE_END)
-                    ec2:SetCountLimit(1)
-                    ec2:SetLabelObject(tc)
-                    ec2:SetCondition(function(e)
+                    ec2:SetType(EFFECT_TYPE_SINGLE)
+                    ec2:SetCode(EFFECT_CANNOT_TRIGGER)
+                    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
+                                     PHASE_END)
+                    tc:RegisterEffect(ec2)
+
+                    local ec3 = Effect.CreateEffect(c)
+                    ec3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+                    ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+                    ec3:SetCode(EVENT_PHASE + PHASE_END)
+                    ec3:SetCountLimit(1)
+                    ec3:SetLabelObject(tc)
+                    ec3:SetCondition(function(e)
                         return e:GetLabelObject():GetFlagEffect(95286165) ~= 0
                     end)
-                    ec2:SetOperation(function(e)
+                    ec3:SetOperation(function(e)
                         Duel.SendtoGrave(e:GetLabelObject(),
                                          REASON_EFFECT + REASON_RULE)
                     end)
-                    ec2:SetReset(RESET_PHASE + PHASE_END)
-                    Duel.RegisterEffect(ec2, tp)
+                    ec3:SetReset(RESET_PHASE + PHASE_END)
+                    Duel.RegisterEffect(ec3, tp)
                 end)
                 tc:RegisterEffect(ec1)
             end

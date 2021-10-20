@@ -27,8 +27,11 @@ function s.initial_effect(c)
     e1b:SetCode(EVENT_SUMMON_SUCCESS)
     Divine.RegisterEffect(c, e1b)
     local e1c = e1b:Clone()
-    e1c:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
     Divine.RegisterEffect(c, e1c)
+    local e1d = e1b:Clone()
+    e1d:SetCode(EVENT_SPSUMMON_SUCCESS)
+    Divine.RegisterEffect(c, e1d)
 
     -- destroy
     local e2 = Effect.CreateEffect(c)
