@@ -11,7 +11,8 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DELAY)
     e1:SetCode(EVENT_SUMMON_SUCCESS)
-    e1:SetCountLimit(1, id)
+    e1:SetCountLimit(1, {id, 1})
+    e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -26,7 +27,7 @@ function s.initial_effect(c)
     e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
+    e2:SetCountLimit(1, {id, 2})
     e2:SetTarget(Fusion.SummonEffTG(table.unpack(params)))
     e2:SetOperation(Fusion.SummonEffOP(table.unpack(params)))
     c:RegisterEffect(e2)
@@ -43,6 +44,19 @@ end
 function s.e1filter(c)
     return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_LIGHT) and
                c:IsRace(RACE_WARRIOR)
+end
+
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(3206)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

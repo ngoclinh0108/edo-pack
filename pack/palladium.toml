@@ -274,6 +274,7 @@ You can Special Summon this card (from your hand) by revealing 1 other Warrior m
     You can only Special Summon "Palladium Knight of Queen" once per turn this way. \
 If this card is Normal or Special Summoned: \
     You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Queen's Knight". \
+    This card cannot declare an attack the turn this effect is activated. \
     You can only use this effect of "Palladium Knight of Queen" once per turn. \
 A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
 ● If this card destroys an opponent's monster by battle: You can draw 1 card.
@@ -292,18 +293,19 @@ atk = 1600
 def = 1400
 effect = """\
 (This card's name is always treated as "King's Knight" and it is "Palladium" card.)
-During the Main Phase, if you control a Warrior monster other than "King's Knight" (Quick Effect): \
-    You can Special Summon this card from your hand. \
+If this card is added to your hand, except by drawing it: \
+    You can Special Summon this card from your hand, \
+    also you cannot Special Summon for the rest of this turn, except LIGHT Warrior monster. \
 If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
-    You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY, \
-    but that monster cannot be used as material for an Summon this turn, except for the Summon of a LIGHT Warrior monster. \
+    You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY. \
+    This card cannot declare an attack the turn this effect is activated. \
 You can only use each effect of "Palladium Knight of King" once per turn. \
 A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
 ● If this card attacks, your opponent cannot activate any Spell/Trap until the end of the Damage Step.
 """
 strings = [
     "Summoned using \"Palladium Knight of King\"",
-    "Cannot be used as material, except for a LIGHT Warrior monster",
+    "Affected by effect \"Palladium Knight of King\": cannot Special Summon, except LIGHT Warrior monster",
 ]
 
 [card.palladium-knight-jack]
@@ -321,10 +323,10 @@ effect = """\
 If this card is Normal or Special Summoned: \
     You can target face-up cards your opponent control, \
     up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
-    You can only use this effect of "Palladium Knight of Jack" once per turn. \
-Once per turn: \
-    You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
+    This card cannot declare an attack the turn this effect is activated. \
+You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters you control as Fusion Materials, including this card. \
+You can only use each effect of "Palladium Knight of Jack" once per turn. \
 A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
 ● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
 """

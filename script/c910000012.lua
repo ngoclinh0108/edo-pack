@@ -5,20 +5,19 @@ local s, id = GetID()
 function s.initial_effect(c)
     c:AddSetcodesRule(0x13a)
 
-    -- special summon (self)
+    -- special summon itself
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e1:SetType(EFFECT_TYPE_QUICK_O)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetHintTiming(TIMING_MAIN_END)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_TO_HAND)
     e1:SetCountLimit(1, {id, 1})
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- special summon (other)
+    -- special summon other
     local e2 = Effect.CreateEffect(c)
     e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
@@ -26,6 +25,7 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_SUMMON_SUCCESS)
     e2:SetCountLimit(1, {id, 2})
     e2:SetCondition(s.e2con)
+    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -42,29 +42,36 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsFaceup() and c:IsRace(RACE_WARRIOR) and not c:IsCode(64788463)
-end
-
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return
-        Duel.IsMainPhase() and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-            Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1,
-                                        nil)
+    return not e:GetHandler():IsReason(REASON_DRAW)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
-
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    end
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) ==
-        0 then return end
+    if not c:IsRelateToEffect(e) then return end
+
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 1))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH +
+                        EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetTarget(function(e, c)
+        return not (c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR))
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e2filter1(c)
@@ -81,6 +88,19 @@ end
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1,
                                        e:GetHandler())
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(3206)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -108,17 +128,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not tc then return end
 
     Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 1))
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    ec1:SetValue(function(e, tc)
-        if not tc then return false end
-        return not (tc:IsAttribute(ATTRIBUTE_LIGHT) and tc:IsRace(RACE_WARRIOR))
-    end)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    tc:RegisterEffect(ec1)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)

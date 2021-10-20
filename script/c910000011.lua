@@ -24,6 +24,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_SUMMON_SUCCESS)
     e2:SetCountLimit(1, {id, 2})
+    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -77,6 +78,19 @@ function s.e2filter(c)
     return c:IsLevel(4) and c:IsAttribute(ATTRIBUTE_LIGHT) and
                c:IsRace(RACE_WARRIOR) and not c:IsCode(25652259) and
                c:IsAbleToHand()
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(3206)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
