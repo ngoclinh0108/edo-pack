@@ -5,6 +5,7 @@ local s, id = GetID()
 s.listed_names = {910000101}
 
 function s.initial_effect(c)
+    c:SetSPSummonOnce(id)
     c:EnableReviveLimit()
 
     -- special summon procedure

@@ -7,30 +7,27 @@ s.listed_names = {910000101, 71703785}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- search
+    -- summon success
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
-    e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetCountLimit(1, {id, 1})
-    e1:SetCost(s.e1cost)
-    e1:SetTarget(s.e1tg)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- no activate
+    -- search
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e2:SetCountLimit(1, {id, 2})
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_HAND)
+    e2:SetCountLimit(1, {id, 1})
+    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
     -- to hand
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -46,20 +43,35 @@ function s.ritual_custom_check(e, tp, g, c)
     return g:IsExists(Card.IsRace, 1, nil, RACE_SPELLCASTER)
 end
 
-function s.e1filter(c)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    Utility.HintCard(c)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 0))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+    ec1:SetTargetRange(0, 1)
+    ec1:SetValue(function(e, re) return re:IsActiveType(TYPE_MONSTER) end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+end
+
+function s.e2filter(c)
     if not c:IsAbleToHand() then return false end
     return (aux.IsCodeListed(c, 71703785) and c:IsMonster() and
                not c:IsType(TYPE_RITUAL)) or c:IsCode(71703785)
 end
 
-function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return not e:GetHandler():IsPublic() end
     Duel.ConfirmCards(1 - tp, e:GetHandler())
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+        return Duel.IsExistingMatchingCard(s.e2filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                            nil)
     end
@@ -69,9 +81,9 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_HAND)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp,
-                                          aux.NecroValleyFilter(s.e1filter), tp,
+                                          aux.NecroValleyFilter(s.e2filter), tp,
                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
                                           1, nil):GetFirst()
     if tc and Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 and
@@ -86,27 +98,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                                              LOCATION_HAND, 0, 1, 1, nil)
         Duel.SendtoDeck(g, nil, SEQ_DECKTOP, REASON_EFFECT)
     end
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-    Duel.SetChainLimit(function(e, rp, tp) return tp == rp end)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 1))
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
-    ec1:SetTargetRange(0, 1)
-    ec1:SetValue(function(e, re)
-        return re:GetHandler():IsOnField() or re:IsHasType(EFFECT_TYPE_ACTIVATE)
-    end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e3filter(c)

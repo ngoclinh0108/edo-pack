@@ -59,19 +59,17 @@ def = 2600
 effect = """\
 You can Ritual Summon this card with "Forbidden Art of Palladium". \
 Must first be Ritual Summoned, with using at least 1 Spellcaster monster. \
-You can reveal this card in your hand; \
+After this card was Special Summoned, your opponent cannot activate monster effects for the rest of that turn. \
+You can only use the following effect of "Chaos Palladium Oracle Aknamkanon" once per turn.
+● You can reveal this card in your hand; \
     add 1 "Palladium Oracle Mahad" or 1 non-Ritual Monster that specifically lists that card in its text, \
-    from your Deck or GY to your hand, then place 1 card from your hand on top of the Deck. \
-If this card is Special Summoned: You can activate this effect; \
-    for the rest of this turn, your opponent cannot activate cards, also cards your opponent controls cannot activate their effects. \
-    Your opponent cannot activate cards or effects in response to this effect's activation. \
-If this card destroys an opponent's monster by battle: \
-    You can target 1 Spell/Trap in your GY; add it to your hand. \
-You can only use each effect of "Chaos Palladium Oracle Aknamkanon" once per turn. \
+    from your Deck or GY to your hand, then place 1 card from your hand on top of the Deck.
+● If this card destroys an opponent's monster by battle: \
+    You can target 1 Spell/Trap in your GY; add it to your hand.
 """
 strings = [
+    "Affected by effect \"Chaos Palladium Oracle Aknamkanon\": cannot activate monster effects",
     "Add 1 Spell/Trap from the GY",
-    "Affected by effect \"Chaos Palladium Oracle Aknamkanon\": cannot activate cards",
 ]
 
 [card.black-luster-soldier-palladium]
@@ -88,6 +86,7 @@ effect = """\
 You can Ritual Summon this card with "Forbidden Art of Palladium". \
 Must first be either Ritual Summoned, \
     or Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
+You can only Special Summon "Black Luster Soldier - Palladium Soldier(s)" once per turn. \
 Your opponent cannot target this Ritual Summoned card with card effects, \
     also it cannot be destroyed by your opponent's card effects. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
