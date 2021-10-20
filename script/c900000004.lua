@@ -24,8 +24,7 @@ function s.initial_effect(c)
                 local op = Duel.SelectOption(tp, aux.Stringid(id, 3),
                                              aux.Stringid(id, 4))
                 if op == 0 then
-                    Utility.HintCard(c)
-                    s.battlemode(c, mc, 4000, 4000)
+                    s.battlemode(c, mc, 4000, 4000, true)
                     return
                 end
             end
@@ -183,10 +182,10 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local divine_evolution = Divine.IsDivineEvolution(c)
     Dimension.Change(c, tc, tc:GetMaterial(), tp, tp, POS_FACEUP)
     if divine_evolution then Divine.DivineEvolution(tc) end
-    s.battlemode(c, tc, 4000, 4000)
+    s.battlemode(c, tc, 4000, 4000, false)
 end
 
-function s.battlemode(c, tc, base_atk, base_def)
+function s.battlemode(c, tc, base_atk, base_def, hint)
     -- calculate atk/def
     local atk = 0
     local def = 0
@@ -206,6 +205,7 @@ function s.battlemode(c, tc, base_atk, base_def)
     end
 
     -- set base atk/def
+    if hint and (atk > 0 or def > 0) then Utility.HintCard(c) end
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)

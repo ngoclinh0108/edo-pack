@@ -5,7 +5,7 @@ local s, id = GetID()
 
 s.listed_names = {
     Divine.CARD_OBELISK, 79868386, Divine.CARD_SLIFER, 42469671, Divine.CARD_RA,
-    Divine.CARD_DEFUSION
+    4059313, Divine.CARD_DEFUSION
 }
 s.listed_names = {0x13a}
 
@@ -60,13 +60,13 @@ function s.initial_effect(c)
     e3:SetValue(function(e, c) return c:IsRace(RACE_DIVINE) end)
     c:RegisterEffect(e3)
 
-    -- gain effect
+    -- add card
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e4:SetCode(EVENT_BE_PRE_MATERIAL)
     e4:SetCountLimit(1, id)
-    e4:SetCondition(s.e4regcon)
-    e4:SetOperation(s.e4regop)
+    e4:SetCondition(s.e4con)
+    e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 end
 
@@ -102,57 +102,61 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 end
 
-function s.e4regcon(e, tp, eg, ep, ev, re, r, rp)
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local rc = e:GetHandler():GetReasonCard()
-    return r == REASON_SUMMON and rc:IsFaceup() and
-               rc:IsOriginalRace(RACE_DIVINE)
+    return r == REASON_SUMMON and rc:IsFaceup()
 end
 
-function s.e4regop(e, tp, eg, ep, ev, re, r, rp)
+function s.e4check(tp, code)
+    return not Utility.IsOwnAny(Card.IsCode, tp, code) or
+               Duel.IsExistingMatchingCard(function(c)
+            return c:IsCode(code) and c:IsAbleToHand()
+        end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
-    if rc:IsCode(Divine.CARD_OBELISK) then s.e4tohandop(e, 0, 79868386) end
-    if rc:IsCode(Divine.CARD_SLIFER) then s.e4tohandop(e, 1, 42469671) end
-    if rc:IsCode(Divine.CARD_RA) then
-        s.e4tohandop(e, 2, Divine.CARD_DEFUSION)
+
+    local sel = {}
+    local opt = {}
+    table.insert(opt, 666000)
+    table.insert(sel, 0)
+    if (rc:IsOriginalCodeRule(Divine.CARD_OBELISK)) then
+        if s.e4check(tp, 79868386) then
+            table.insert(opt, aux.Stringid(id, 0))
+            table.insert(sel, 79868386)
+        end
+    elseif (rc:IsOriginalCodeRule(Divine.CARD_SLIFER)) then
+        if s.e4check(tp, 42469671) then
+            table.insert(opt, aux.Stringid(id, 1))
+            table.insert(sel, 42469671)
+        end
+    elseif (rc:IsOriginalCodeRule(Divine.CARD_RA)) then
+        if s.e4check(tp, 4059313) then
+            table.insert(opt, aux.Stringid(id, 2))
+            table.insert(sel, 4059313)
+        end
+        if s.e4check(tp, Divine.CARD_DEFUSION) then
+            table.insert(opt, aux.Stringid(id, 3))
+            table.insert(sel, Divine.CARD_DEFUSION)
+        end
     end
-end
 
-function s.e4tohandop(e, string_id, card_code)
-    local rc = e:GetHandler():GetReasonCard()
+    if #opt <= 1 then return end
+    local code = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
+    if code == 0 then return end
 
-    local ec1 = Effect.CreateEffect(rc)
-    ec1:SetDescription(aux.Stringid(id, string_id))
-    ec1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
-    ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    ec1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_UNCOPYABLE)
-    ec1:SetCode(EVENT_SUMMON_SUCCESS)
-    ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then
-            return not Utility.IsOwnAny(Card.IsCode, tp, card_code) or
-                       Duel.IsExistingMatchingCard(function(c)
-                    return c:IsCode(card_code) and c:IsAbleToHand()
-                end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
-        end
+    local tc
+    if not Utility.IsOwnAny(Card.IsCode, tp, code) then
+        tc = Duel.CreateToken(tp, code)
+    else
+        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, function(c)
+            return c:IsCode(code) and c:IsAbleToHand()
+        end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
+    end
 
-        Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                              LOCATION_DECK + LOCATION_GRAVE)
-    end)
-    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local tc
-        if not Utility.IsOwnAny(Card.IsCode, tp, card_code) then
-            tc = Duel.CreateToken(tp, card_code)
-        else
-            tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, function(c)
-                return c:IsCode(card_code) and c:IsAbleToHand()
-            end, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
-        end
-
-        if tc then
-            Duel.SendtoHand(tc, nil, REASON_EFFECT)
-            Duel.ConfirmCards(1 - tp, tc)
-        end
-    end)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    rc:RegisterEffect(ec1, true)
+    if not tc then return end
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, tc)
 end

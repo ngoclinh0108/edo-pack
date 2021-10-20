@@ -299,20 +299,19 @@ If this card is Special Summoned: \
 Cannot attack. \
 This card can be treated as 3 Tributes for the Tribute Summon of a Divine-Beast monster. \
     This effect cannot be negated. \
-If you Tribute this card for the Tribute Summon of a Divine-Beast monster, \
-    that monster gains the following effects, depending on its original name; \
+If you Tribute this card for the Tribute Summon, \
+    you can add 1 of these cards to your hand, from your Deck, GY or Outside (if you do not own any), \
+    depending on that monster's original name. \
     You can only use this effect of "Emissary of the Divine Beasts" once per turn.
-● "Obelisk the Tormentor": If this card is Normal Summoned: You can add 1 "Fist of Fate" to your hand, \
-    from your Deck, GY or Outside (if you do not own any.)
-● "Slifer the Sky Dragon": If this card is Normal Summoned: You can add 1 "Thunderforce Attack" to your hand, \
-    from your Deck, GY or Outside (if you do not own any.)
-● "The Winged Dragon of Ra": If this card is Normal Summoned: You can add 1 "De-Fusion" to your hand, \
-    from your Deck, GY or Outside (if you do not own any.)
+● "Obelisk the Tormentor": "Fist of Fate".
+● "Slifer the Sky Dragon": "Thunderforce Attack".
+● "The Winged Dragon of Ra": "Blaze Cannon" or "De-Fusion".
 """
 strings = [
-    "Search \"Fist of Fate\"",
-    "Search \"Thunderforce Attack\"",
-    "Search \"De-Fusion\"",
+    "Add \"Fist of Fate\"",
+    "Add \"Thunderforce Attack\"",
+    "Add \"Blaze Cannon\"",
+    "Add \"De-Fusion\"",
 ]
 
 [card.egyptian-god-slime-2]
