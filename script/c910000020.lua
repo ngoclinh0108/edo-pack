@@ -26,6 +26,13 @@ function s.initial_effect(c)
     sp:SetOperation(s.spop)
     c:RegisterEffect(sp)
 
+    -- summon cannot be negated
+	local spsafe=Effect.CreateEffect(c)
+	spsafe:SetType(EFFECT_TYPE_SINGLE)
+	spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+    spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+	c:RegisterEffect(spsafe)
+
     -- immune
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
@@ -43,7 +50,7 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetHintTiming(TIMINGS_CHECK_MONSTER + TIMING_BATTLE_START +
                          TIMING_MAIN_END)
-    e2:SetCountLimit(1)
+    e2:SetCountLimit(1, id)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)

@@ -26,6 +26,13 @@ function s.initial_effect(c)
     sp:SetOperation(s.spop)
     c:RegisterEffect(sp)
 
+    -- summon cannot be negated
+    local spsafe = Effect.CreateEffect(c)
+    spsafe:SetType(EFFECT_TYPE_SINGLE)
+    spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    c:RegisterEffect(spsafe)
+
     -- search
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
@@ -51,29 +58,42 @@ function s.initial_effect(c)
     e2b:SetValue(1)
     c:RegisterEffect(e2b)
 
-    -- destroy
+    -- act spell/trap in hand
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetCategory(CATEGORY_DESTROY)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetType(EFFECT_TYPE_FIELD)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetCountLimit(1)
-    e3:SetCost(s.e3cost)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3, false, REGISTER_FLAG_DETACH_XMAT)
+    e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+    e3:SetTargetRange(LOCATION_HAND, 0)
+    e3:SetCountLimit(1, id)
+    e3:SetCondition(function(e, tp) return Duel.IsTurnPlayer(1 - tp) end)
+    c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
+    c:RegisterEffect(e3b)
 
-    -- special summon
+    -- destroy
     local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e4:SetProperty(EFFECT_FLAG_DELAY)
-    e4:SetCode(EVENT_DESTROYED)
-    e4:SetCondition(s.e4con)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_DESTROY)
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetCountLimit(1)
+    e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+    c:RegisterEffect(e4, false, REGISTER_FLAG_DETACH_XMAT)
+
+    -- special summon
+    local e5 = Effect.CreateEffect(c)
+    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e5:SetProperty(EFFECT_FLAG_DELAY)
+    e5:SetCode(EVENT_DESTROYED)
+    e5:SetCondition(s.e5con)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.spfilter(c)
@@ -133,13 +153,13 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:CheckRemoveOverlayCard(tp, 1, REASON_COST) end
     c:RemoveOverlayCard(tp, 1, 1, REASON_COST)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1,
                                            nil)
@@ -149,24 +169,24 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
     Duel.Destroy(g, REASON_EFFECT)
 end
 
-function s.e4filter(c, e, tp)
+function s.e5filter(c, e, tp)
     return c:IsCode(42006475) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_HAND +
+                   Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
                                                    LOCATION_GRAVE, 0, 1, nil, e,
                                                tp)
@@ -176,11 +196,11 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
                           LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
-                                         aux.NecroValleyFilter(s.e4filter), tp,
+                                         aux.NecroValleyFilter(s.e5filter), tp,
                                          LOCATION_HAND + LOCATION_DECK +
                                              LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
