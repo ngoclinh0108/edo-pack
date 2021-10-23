@@ -50,7 +50,10 @@ end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return not c:IsPublic() end
+    if chk == 0 then
+        return
+            not c:IsPublic() and Duel.GetActivityCount(tp, ACTIVITY_SUMMON) == 0
+    end
 
     Duel.ConfirmCards(1 - tp, c)
 
