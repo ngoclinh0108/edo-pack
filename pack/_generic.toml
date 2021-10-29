@@ -382,6 +382,7 @@ id = 900000201
 name = "Divine Servant"
 type = "spell quick-play"
 effect = """\
+This card's activation and effect cannot be negated. \
 During the Main Phase or Battle Phase: \
     Immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster, \
     or, if you control 3 or more monsters with different names, \
@@ -389,11 +390,9 @@ During the Main Phase or Battle Phase: \
     from your Deck to your hand, then, immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
     When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them. \
     You can only activate 1 "Divine Servant" per turn. \
-    This card's activation and effect cannot be negated. \
-During your Main Phase: \
-    You can shuffle this card from your GY into the Deck, and if you do, \
-    you can Normal Summon 1 Divine-Beast monster during your Main Phase this turn, in addition to your Normal Summon/Set. \
-    (You can only gain this effect once per turn.) \
+During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
+    You can target 3 monsters that is banished or in your GY, including at least 1 original DIVINE monster; \
+    shuffle this card and all the targeted cards into the Deck, then draw 1 card. \
     You can only use this effect of "Divine Servant" once per turn. \
 """
 strings = ["Summon via \"Divine Servant\""]
@@ -414,13 +413,16 @@ Choose 1 monster you control \
     it gains 1000 ATK/DEF, \
     also it gains these effects. \
     These changes ignoring its effects.
-● When this card declares an attack: You can make your opponent send 1 monster they control to the GY (their choice)
-During your Main Phase: \
-    You can shuffle this card from your GY into the Deck, and if you do, \
-    add 1 monster Level 10 from your GY to your hand. \
+● When this card declares an attack: You can make your opponent send 1 monster they control to the GY (their choice).
+During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
+    You can target 1 Level 10 monster that can be Normal Summoned in your GY; \
+    shuffle this card into the Deck and add the targeted card to your hand, \
+    and if you do, you can Tribute Summon 1 Level 10 monster during your Main Phase this turn, \
+    in addition to your Normal Summon/Set. (You can only gain this effect once per turn.) \
     You can only use this effect of "Evolution of Divine-Beast" once per turn. \
 """
 strings = [
     "Affected by effect of \"Evolution of Divine-Beast\"",
     "Make your opponent send 1 monster to the GY",
+    "Tribute Summon via \"Evolution of Divine-Beast\"",
 ]
