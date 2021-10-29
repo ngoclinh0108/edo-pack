@@ -87,8 +87,7 @@ You can Ritual Summon this card with "Forbidden Art of Palladium". \
 Must first be either Ritual Summoned, \
     or Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
 You can only Special Summon "Black Luster Soldier - Palladium Soldier(s)" once per turn. \
-Your opponent cannot target this Ritual Summoned card with card effects, \
-    also it cannot be destroyed by your opponent's card effects. \
+Your opponent cannot target or destroy this Ritual Summoned card with card effects. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
 ● This card gains 1500 ATK.
 ● Banish 1 card your opponent control.
@@ -923,7 +922,7 @@ Send any number of other cards from your hand and/or field to the GY, at least 1
     with the same original type (Monster/Spell/Trap) as the cards sent to the GY to activate this card. \
     You can only activate 1 "Palladium Ragnarok" per turn. \
 During your Main Phase 2, except the turn this card was sent to the GY, \
-    while you control 2 Level 6 or 7 LIGHT Spellcaster "Palladium" monsters with different names: \
+    while you control 2 Level 6 or higher LIGHT Spellcaster "Palladium" monsters with different names: \
     You can banish this card from your GY and all monsters in your hand, Deck, and GY; \
     Banished all monsters your opponent controls, ignoring monster's effects whose Divine Hierarchy equal or lower than \
     the total Divine Hierarchy of your monsters banished for this effect's activation. \
@@ -939,8 +938,10 @@ type = "spell continuous"
 effect = """\
 When this card is activated: You can add 1 DIVINE monster from your Deck to your hand. \
 You can only control 1 "Tablet of Lost Memories". \
+Summons of your "Palladium" monster cannot be negated. \
+If this face-up card leaves the field: Destroy all monsters you control. \
 """
-strings = ["Add 1 DIVINE or \"Palladium\" monster to your hand"]
+strings = ["Add 1 DIVINE monster to your hand"]
 
 [card.palladium-binding-circle]
 id = 910000110

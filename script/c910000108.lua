@@ -112,7 +112,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter1(c)
-    return c:IsLevel(6, 7) and c:IsAttribute(ATTRIBUTE_LIGHT) and
+    return c:IsLevelAbove(6) and c:IsAttribute(ATTRIBUTE_LIGHT) and
                c:IsRace(RACE_SPELLCASTER) and c:IsSetCard(0x13a)
 end
 
