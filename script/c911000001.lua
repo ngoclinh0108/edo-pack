@@ -22,7 +22,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e1)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e1b:SetValue(function(e, re, tp) return tp ~= e:GetHandlerPlayer() end)
+    e1b:SetValue(function(e, re, rp) return rp ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(e1b)
 
     -- act limit

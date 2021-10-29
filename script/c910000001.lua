@@ -61,7 +61,7 @@ function s.initial_effect(c)
     e3:SetCondition(function(e)
         return e:GetHandler():GetCounter(COUNTER_SPELL) >= 2
     end)
-    e3:SetValue(1)
+    e3:SetValue(function(e, re, rp) return rp ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(e3)
 
     -- atk/def up

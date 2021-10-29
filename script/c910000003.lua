@@ -130,7 +130,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local ec1b = ec1:Clone()
     ec1b:SetDescription(3030)
     ec1b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    ec1b:SetValue(function(e, re, tp) return tp ~= e:GetHandlerPlayer() end)
+    ec1b:SetValue(function(e, re, rp) return rp ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(ec1b)
 end
 
