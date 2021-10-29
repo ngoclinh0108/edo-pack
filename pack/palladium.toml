@@ -933,7 +933,7 @@ During your Main Phase 2, except the turn this card was sent to the GY, \
 strings = []
 
 [card.palladium-binding-circle]
-id = 910000109
+id = 910000110
 set = "palladium"
 name = "Palladium Binding Circle"
 type = "trap"
@@ -950,7 +950,7 @@ If this card is in your GY: \
 strings = []
 
 [card.palladium-mirror-force]
-id = 910000110
+id = 910000111
 set = "palladium"
 name = "Palladium Mirror Force"
 type = "trap counter"
@@ -967,7 +967,7 @@ If this Set card is destroyed by your opponent's card effect and sent to your GY
 strings = []
 
 [card.palladium-shattering-arrow]
-id = 910000111
+id = 910000112
 set = "palladium"
 name = "Palladium Shattering Arrow"
 type = "trap counter"
