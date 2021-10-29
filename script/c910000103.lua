@@ -19,8 +19,13 @@ function s.initial_effect(c)
     table.insert(GhostBelleTable, e1)
 end
 
+function s.e1sumcheck(c, e, tp)
+    return (c:IsRace(RACE_DIVINE) or c:IsSummonableCard()) and
+               not c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)
+end
+
 function s.e1filter(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, c:IsRace(RACE_DIVINE), false,
+    return c:IsCanBeSpecialSummoned(e, 0, tp, s.e1sumcheck(c, e, tp), false,
                                     POS_FACEUP)
 end
 
@@ -48,7 +53,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not tc or not tc:IsRelateToEffect(e) or
         Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
-    local check = tc:IsRace(RACE_DIVINE)
+    local check = s.e1sumcheck(tc, e, tp)
     if Duel.SpecialSummon(tc, 0, tp, tp, check, false, POS_FACEUP) ~= 0 and
         check then
         tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +

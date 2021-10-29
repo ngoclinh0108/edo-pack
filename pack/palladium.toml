@@ -823,9 +823,9 @@ effect = """\
 (This card's name is always treated as "Monster Reborn" and it is "Palladium" card.)
 During your Main Phase or your opponent's turn: \
     Target 1 monster in either GY; Special Summon that monster. \
-You can also Special Summon a Divine-Beast monster with this effect, ignoring its Summoning conditions, \
-    but during the End Phase of the turn this effect was activated, \
-    you must send that Divine-Beast monster to the GY. \
+You can also Special Summon a Divine-Beast monster, or monster that can be Normal Summoned with this effect, \
+    ignoring its Summoning conditions, but during the End Phase of the turn this effect was activated, \
+    you must send that monster to the GY. \
 """
 strings = []
 
