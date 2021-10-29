@@ -42,22 +42,22 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
                                                LOCATION_MZONE, 1, nil)
     end
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_EQUIP, tp, Card.IsFaceup, tp,
-                                          0, LOCATION_MZONE, 1, 1, nil):GetFirst()
     Duel.SetOperationInfo(0, CATEGORY_EQUIP, e:GetHandler(), 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, nil, 1, 0, LOCATION_MZONE)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
+    local tc = Utility.SelectMatchingCard(HINTMSG_EQUIP, tp, Card.IsFaceup, tp,
+                                          0, LOCATION_MZONE, 1, 1, nil):GetFirst()
     if not c:IsLocation(LOCATION_SZONE) or not c:IsRelateToEffect(e) or
         c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
-    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() then
+    if not tc then
         c:CancelToGrave(false)
         return
     end
 
+    Duel.HintSelection(tc)
     Duel.Equip(tp, c, tc)
     local ec0 = Effect.CreateEffect(c)
     ec0:SetType(EFFECT_TYPE_SINGLE)
