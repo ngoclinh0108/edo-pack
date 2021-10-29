@@ -124,12 +124,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-
-    local ct = math.min(5, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
-    if ct ~= 0 then
-        local ac = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
-        Duel.SortDecktop(tp, tp, ct)
-    end
+    Duel.SortDecktop(tp, tp, 5)
 
     if Duel.GetFlagEffect(tp, id) ~= 0 then return end
     Duel.RegisterFlagEffect(tp, id, RESET_PHASE + PHASE_END, 0, 1)
