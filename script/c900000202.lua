@@ -21,7 +21,7 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_GRAVE)
     e2:SetCountLimit(1, id)
-    e2:SetCondition(aux.exccon)
+    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -112,44 +112,41 @@ function s.e2filter(c)
     return c:IsLevel(10) and c:IsSummonableCard() and c:IsAbleToHand()
 end
 
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsAbleToDeckAsCost() end
+    Duel.SendtoDeck(e:GetHandler(), nil, SEQ_DECKBOTTOM, REASON_COST)
+end
+
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
     if chk == 0 then
-        return
-            Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 1, nil) and
-                c:IsAbleToDeck()
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
     local tg = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 1, 1,
                                  nil)
-
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, tg, #tg, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) then
-        return
+    if not tc or not tc:IsRelateToEffect(e) then return end
+
+    if Duel.SendtoHand(tc, nil, REASON_EFFECT) > 0 then
+        if Duel.GetFlagEffect(tp, id) ~= 0 then return end
+        Duel.RegisterFlagEffect(tp, id, RESET_PHASE + PHASE_END, 0, 1)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(aux.Stringid(id, 2))
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+        ec1:SetTargetRange(LOCATION_HAND, 0)
+        ec1:SetTarget(aux.TargetBoolFunction(Card.IsLevel, 10))
+        ec1:SetValue(0x1)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_EXTRA_SET_COUNT)
+        Duel.RegisterEffect(ec1b, tp)
     end
-
-    if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 or
-        Duel.SendtoHand(tc, nil, REASON_EFFECT) == 0 then return end
-
-    if Duel.GetFlagEffect(tp, id) ~= 0 then return end
-    Duel.RegisterFlagEffect(tp, id, RESET_PHASE + PHASE_END, 0, 1)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 2))
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
-    ec1:SetTargetRange(LOCATION_HAND, 0)
-    ec1:SetTarget(aux.TargetBoolFunction(Card.IsLevel, 10))
-    ec1:SetValue(0x1)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_EXTRA_SET_COUNT)
-    Duel.RegisterEffect(ec1b, tp)
 end

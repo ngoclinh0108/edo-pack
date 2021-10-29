@@ -390,8 +390,14 @@ During the Main Phase or Battle Phase: \
     from your Deck to your hand, then, immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
     When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them. \
     You can only activate 1 "Divine Servant" per turn. \
+During your Main Phase, while this card is in the GY: \
+    You can return this card to the bottom of the Deck; \
+    Look at up to 5 cards from the top of your Deck, then place them on the top of the Deck in any order, \
+    also you can Tribute Summon 1 Divine-Beast monster during your Main Phase this turn, \
+    in addition to your Normal Summon/Set. (You can only gain this effect once per turn.) \
+    You can only use this effect of "Divine Servant" once per turn. \
 """
-strings = []
+strings = ["Tribute Summon via \"Divine Servant\""]
 
 [card.divine-evolution]
 id = 900000202
@@ -410,10 +416,10 @@ Choose 1 monster you control \
     also it gains these effects. \
     These changes ignoring its effects.
 ● When this card declares an attack: You can make your opponent send 1 monster they control to the GY (their choice).
-During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
-    You can target 1 Level 10 monster that can be Normal Summoned in your GY; \
-    shuffle this card into the Deck and add the targeted card to your hand, \
-    and if you do, you can Tribute Summon 1 Level 10 monster during your Main Phase this turn, \
+During your Main Phase, while this card is in the GY: \
+    You can return this card to the bottom of the Deck, \
+    then target 1 Level 10 monster that can be Normal Summoned in your GY; \
+    add it to your hand, and if you do, you can Tribute Summon 1 Level 10 monster during your Main Phase this turn, \
     in addition to your Normal Summon/Set. (You can only gain this effect once per turn.) \
     You can only use this effect of "Evolution of Divine-Beast" once per turn. \
 """
