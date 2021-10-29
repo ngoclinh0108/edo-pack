@@ -13,7 +13,7 @@ effect = """\
 (This card's name is always treated as "Palladium Oracle Mahad")
 If this card is added to your hand: You can reveal this card; Special Summon it from your hand. \
 Each time a Spell Card is activated, place 1 Spell Counter on this card when that Spell resolves (max 5). \
-While this card has 3 or more Spell Counters, it is unaffected by your opponent's card effects. \
+Unaffected by your opponent's card effects while it has 3 or more Spell Counters. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 """
 strings = []
@@ -36,8 +36,8 @@ If you Normal or Special Summon "Palladium Oracle Mahad", \
     while this card is in your hand or GY: \
     You can Special Summon this card. \
     You can only use this effects of "Illusory Palladium Oracle Mana" once per turn. \
-Each time a Spell Card is activated, place 1 Spell Counter on this card when that Spell resolves (max 1). \
-While this card has 2 or more Spell Counters, it cannot be destroyed by your opponent's card effects. \
+Each time a Spell Card is activated, place 1 Spell Counter on this card when that Spell resolves (max 2). \
+Cannot be destroyed by your opponent's card effects while it has 2 Spell Counters. \
 Once per turn, during damage calculation, \
     if your other Spellcaster monster battles an opponent's monster (Quick Effect): \
     That monster gains ATK/DEF equal to this card's ATK during that damage calculation only. \
