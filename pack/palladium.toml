@@ -1,5 +1,5 @@
 [card.palladium-oracle-mahad]
-id = 910000001
+id = 910000000
 alias = 71703785
 set = "palladium"
 name = "Sacred Palladium Oracle Mahad"
@@ -19,7 +19,7 @@ If this card battles a DARK monster, its ATK is doubled during the Damage Step o
 strings = []
 
 [card.palladium-oracle-mana]
-id = 910000002
+id = 910000001
 alias = 42006475
 set = "palladium"
 name = "Illusory Palladium Oracle Mana"
@@ -47,7 +47,7 @@ Once per turn, during damage calculation, \
 strings = ["Gain ATK/DEF"]
 
 [card.palladium-oracle-aknamkanon]
-id = 910000003
+id = 910000002
 set = "chaos palladium"
 name = "Chaos Palladium Oracle Aknamkanon"
 type = "monster ritual effect"
@@ -73,7 +73,7 @@ strings = [
 ]
 
 [card.black-luster-soldier-palladium]
-id = 910000004
+id = 910000003
 set = "palladium black-luster-soldier"
 name = "Black Luster Soldier - Palladium Soldier"
 type = "monster ritual effect"
@@ -104,7 +104,7 @@ strings = [
 ]
 
 [card.chaos-emperor-dragon-palladium]
-id = 910000005
+id = 910000004
 set = "chaos palladium"
 name = "Chaos Emperor Dragon - Envoy of the Palladium"
 type = "monster effect"
@@ -162,27 +162,34 @@ strings = [
     "Affected by effect \"Azure Palladium Oracle Seto\": cannot Special Summon monsters",
 ]
 
-[card.palladium-oracle-hassan]
+[card.palladium-maiden-isis]
 id = 910000007
 set = "palladium"
-name = "Mysterious Palladium Oracle Hassan"
+name = "Palladium Maiden Isis"
 type = "monster effect"
-attribute = "dark"
+attribute = "light"
 race = "spellcaster"
-level = 8
-atk = 2300
-def = 2800
+level = 4
+atk = 800
+def = 2000
 effect = """\
-When an opponent's monster declares a direct attack, \
-    or your opponent activates a card or effect that would inflict damage (Quick Effect): \
-    You can Special Summon this card from your hand. \
-You take no effect damage, also your opponent cannot attack directly. \
-If a "Palladium" monster(s) you control is destroyed by battle or an opponent's card effect, \
-    except "Mysterious Palladium Oracle Hassan": \
-    You can add this card from your GY to your hand. \
-    You can only use this effect of "Mysterious Palladium Oracle Hassan" once per turn. \
+This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
+    This effect cannot be negated. \
+When your opponent activates a card or effect \
+    in response to your "Palladium" monster's effect activation (Quick Effect): \
+    You can Tribute this card from your hand or face-up field; \
+    negate that effect. \
+During your Main Phase: \
+    You can change this card from face-up Attack Position to face-up Defense Position; \
+    Immediately after this effect resolves, Normal Summon 1 "Palladium" monster, \
+    also you cannot Special Summon monsters for the rest of this turn, \
+    except "Palladium" monsters (even if this card leaves the field). \
+You can only use each effect of "Palladium Maiden Isis" once per turn. \
 """
-strings = []
+strings = [
+    "Normal Summon a \"Palladium\" monster",
+    "Affected by effect \"Palladium Maiden Isis\": cannot Special Summon monsters, except \"Palladium\" monsters",
+]
 
 [card.palladium-guardian-shada]
 id = 910000008
@@ -230,34 +237,27 @@ If this Defense Position card is attacked, it loses 800 DEF. \
 """
 strings = []
 
-[card.palladium-maiden-isis]
+[card.palladium-oracle-hassan]
 id = 910000010
 set = "palladium"
-name = "Palladium Maiden Isis"
+name = "Mysterious Palladium Oracle Hassan"
 type = "monster effect"
-attribute = "light"
+attribute = "dark"
 race = "spellcaster"
-level = 4
-atk = 800
-def = 2000
+level = 8
+atk = 2300
+def = 2800
 effect = """\
-This card can be treated as 2 Tributes for the Tribute Summon of a "Palladium" monster. \
-    This effect cannot be negated. \
-When your opponent activates a card or effect \
-    in response to your "Palladium" monster's effect activation (Quick Effect): \
-    You can Tribute this card from your hand or face-up field; \
-    negate that effect. \
-During your Main Phase: \
-    You can change this card from face-up Attack Position to face-up Defense Position; \
-    Immediately after this effect resolves, Normal Summon 1 "Palladium" monster, \
-    also you cannot Special Summon monsters for the rest of this turn, \
-    except "Palladium" monsters (even if this card leaves the field). \
-You can only use each effect of "Palladium Maiden Isis" once per turn. \
+When an opponent's monster declares a direct attack, \
+    or your opponent activates a card or effect that would inflict damage (Quick Effect): \
+    You can Special Summon this card from your hand. \
+You take no effect damage, also your opponent cannot attack directly. \
+If a "Palladium" monster(s) you control is destroyed by battle or an opponent's card effect, \
+    except "Mysterious Palladium Oracle Hassan": \
+    You can add this card from your GY to your hand. \
+    You can only use this effect of "Mysterious Palladium Oracle Hassan" once per turn. \
 """
-strings = [
-    "Normal Summon a \"Palladium\" monster",
-    "Affected by effect \"Palladium Maiden Isis\": cannot Special Summon monsters, except \"Palladium\" monsters",
-]
+strings = []
 
 [card.palladium-knight-queen]
 id = 910000011

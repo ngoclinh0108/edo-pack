@@ -1,109 +1,108 @@
--- Mysterious Palladium Oracle Hassan
+-- Palladium Maiden Isis
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    -- special summon
+    -- double tribute
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e1:SetCondition(s.e1con1)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
+    e1:SetCode(EFFECT_DOUBLE_TRIBUTE)
+    e1:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetType(EFFECT_TYPE_QUICK_O)
-    e1b:SetCode(EVENT_CHAINING)
-    e1b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e1b:SetCondition(s.e1con2)
-    c:RegisterEffect(e1b)
 
-    -- no damage & no directly attack
+    -- disable
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCode(EFFECT_CHANGE_DAMAGE)
-    e2:SetTargetRange(1, 0)
-    e2:SetValue(function(e, re, val, r, rp, rc)
-        if (r & REASON_EFFECT) ~= 0 then return 0 end
-        return val
-    end)
+    e2:SetDescription(1117)
+    e2:SetCategory(CATEGORY_DISABLE)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetRange(LOCATION_HAND + LOCATION_MZONE)
+    e2:SetCode(EVENT_CHAINING)
+    e2:SetCountLimit(1, {id, 1})
+    e2:SetCondition(s.e2con)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-    c:RegisterEffect(e2b)
-    local e2c = Effect.CreateEffect(c)
-    e2c:SetType(EFFECT_TYPE_FIELD)
-    e2c:SetRange(LOCATION_MZONE)
-    e2c:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
-    e2c:SetTargetRange(0, LOCATION_MZONE)
-    c:RegisterEffect(e2c)
 
-    -- to hand
+    -- summon
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TOHAND)
-    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetCode(EVENT_DESTROYED)
-    e3:SetCountLimit(1, id)
-    e3:SetCondition(s.e3con)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_SUMMON)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1, {id, 2})
+    e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e1con1(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttackTarget() == nil and
-               Duel.GetAttacker():IsControler(1 - tp)
-end
-
-function s.e1con2(e, tp, eg, ep, ev, re, r, rp)
-    return ep ~= tp and aux.damcon1(e, tp, eg, ep, ev, re, r, rp)
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local ch = Duel.GetCurrentChain(true) - 1
+    if ch <= 0 then return false end
+    local cp = Duel.GetChainInfo(ch, CHAININFO_TRIGGERING_CONTROLER)
+    local ceff = Duel.GetChainInfo(ch, CHAININFO_TRIGGERING_EFFECT)
+    if re:GetHandler():IsDisabled() or not Duel.IsChainDisablable(ev) then
+        return false
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+    local cec = ceff:GetHandler()
+    return ep == 1 - tp and cp == tp and cec:IsSetCard(0x13a) and
+               cec:IsMonster()
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsReleasable() end
+    Duel.Release(e:GetHandler(), REASON_COST)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return not re:GetHandler():IsStatus(STATUS_DISABLED) end
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateEffect(ev) end
+
+function s.e3filter(c) return c:IsSetCard(0x13a) and c:IsSummonable(true, nil) end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
+    if chk == 0 then
+        return c:IsPosition(POS_FACEUP_ATTACK) and c:IsCanChangePosition()
+    end
 
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
-end
-
-function s.e3filter(c, tp)
-    return c:IsPreviousControler(tp) and c:IsPreviousPosition(POS_FACEUP) and
-               c:IsPreviousLocation(LOCATION_MZONE) and
-               c:IsPreviousSetCard(0x13a) and c:GetPreviousCodeOnField() ~= id and
-               (c:IsReason(REASON_BATTLE) or
-                   (c:IsReason(REASON_EFFECT) and c:GetReasonPlayer() == 1 - tp))
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e3filter, 1, nil, tp)
+    Duel.ChangePosition(c, POS_FACEUP_DEFENSE)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:IsAbleToHand() end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3filter, tp,
+                                           LOCATION_HAND + LOCATION_MZONE, 0, 1,
+                                           nil)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SUMMON, nil, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
-    Duel.SendtoHand(c, nil, REASON_EFFECT)
+
+    local tc = Utility.SelectMatchingCard(HINTMSG_SUMMON, tp, s.e3filter, tp,
+                                          LOCATION_HAND + LOCATION_MZONE, 0, 1,
+                                          1, nil):GetFirst()
+    if tc then Duel.Summon(tp, tc, true, nil) end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 1))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetTarget(function(e, c) return not c:IsSetCard(0x13a) end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end
