@@ -7,6 +7,7 @@ s.counter_list = {COUNTER_SPELL}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    c:SetSPSummonOnce(id)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)

@@ -7,6 +7,7 @@ s.counter_list = {COUNTER_SPELL}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    c:SetSPSummonOnce(id)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -27,11 +28,11 @@ function s.initial_effect(c)
     c:RegisterEffect(sp)
 
     -- summon cannot be negated
-	local spsafe=Effect.CreateEffect(c)
-	spsafe:SetType(EFFECT_TYPE_SINGLE)
-	spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+    local spsafe = Effect.CreateEffect(c)
+    spsafe:SetType(EFFECT_TYPE_SINGLE)
+    spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-	c:RegisterEffect(spsafe)
+    c:RegisterEffect(spsafe)
 
     -- immune
     local e1 = Effect.CreateEffect(c)

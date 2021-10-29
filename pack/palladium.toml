@@ -514,6 +514,7 @@ effect = """\
 Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
     by stacking it on top of 1 "Palladium Oracle Mahad" you control with 3 or more Spell Counters. \
+You can only Special Summon "Dark Sorcerer of Palladium(s)" once per turn. \
 This card's Special Summon cannot be negated. \
 This card's original ATK become 1000 x the number of Spell Counters of the monster used for its Summon. \
     This effect cannot be negated. \
@@ -546,10 +547,11 @@ effect = """\
 Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
     by stacking it on top of 1 "Palladium Oracle Mana" you control with 2 or more Spell Counters. \
+You can only Special Summon "Dark Sorceress of Palladium(s)" once per turn. \
 This card's Special Summon cannot be negated. \
 If Special Summoned this way: Add 1 Spell/Trap Card from your Deck to your hand. \
-Your opponent cannot target it with card effects. \
 Cannot be destroyed by card effects. \
+Your opponent cannot target this card with card effects. \
 You can activate a Quick-Play Spell Card or a Trap Card from your hand during your opponent's turn. \
     You can only use this effect of "Dark Sorceress of Palladium" once per turn. \
 Once per turn (Quick Effect): \
