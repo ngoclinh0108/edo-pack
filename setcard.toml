@@ -23,6 +23,9 @@ code = 0x3008
 code = 0x6008
 
 [set.exodia]
+code = 0xde
+
+[set.forbidden-one]
 code = 0x40
 
 [set.fusion]

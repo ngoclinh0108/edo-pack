@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {83764718}
-s.listed_series = {0x13a, 0x40}
+s.listed_series = {0x13a, 0x40, 0xde}
 
 function s.initial_effect(c)
     -- special summon
@@ -44,8 +44,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsSetCard(0x13a) and c:IsMonster() and not c:IsCode(id) and
-               (c:IsLocation(LOCATION_HAND) or c:IsFaceup())
+    return not c:IsCode(id) and Utility.IsSetCard(c, 0x13a, 0xde, 0x40) and
+               c:IsMonster() and (c:IsLocation(LOCATION_HAND) or c:IsFaceup())
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -112,7 +112,7 @@ end
 
 function s.e3filter(c)
     if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
-    return Utility.IsSetCard(c, 0x13a, 0x40) and c:IsMonster() and
+    return Utility.IsSetCard(c, 0x13a, 0xde, 0x40) and c:IsMonster() and
                not c:IsCode(id) and c:IsAbleToDeck()
 end
 
