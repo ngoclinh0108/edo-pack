@@ -702,9 +702,10 @@ A Fusion Summon of this card can only be done with the above materials. \
 This card gains effects of material monsters used to Fusion Summon it. \
 If this card destroys an opponent's monster by battle, \
     it can make a second attack in a row. \
-If this card is destroyed by battle or card effect: You can Special Summon \
+If this card is destroyed by battle or card effect: \
+    You can add to your hand, or Special Summon \
     1 "Palladium Beast Gazelle" or "Palladium Beast Berfomet" \
-    that is banished or in your hand, Deck, GY. \
+    that is banished or in your Deck, GY. \
 """
 strings = ["Make a second attack in a row"]
 

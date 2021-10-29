@@ -55,28 +55,34 @@ end
 function s.e3filter(c, e, tp)
     if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
     return c:IsCode(910000017, 910000018) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+               (c:IsCanBeSpecialSummoned(e, 0, tp, false, false) or
+                   c:IsAbleToHand())
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
-                    LOCATION_REMOVED
+    local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
                                                e, tp)
     end
 
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, loc)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
-
-    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
+    local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp,
                                          aux.NecroValleyFilter(s.e3filter), tp,
-                                         LOCATION_HAND + LOCATION_DECK +
-                                             LOCATION_GRAVE + LOCATION_REMOVED,
-                                         0, 1, 1, nil, e, tp)
-    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, true, false, POS_FACEUP) end
+                                         LOCATION_DECK + LOCATION_GRAVE +
+                                             LOCATION_REMOVED, 0, 1, 1, nil, e,
+                                         tp)
+    if #g == 0 then return end
+
+    aux.ToHandOrElse(g, tp, function(tc)
+        return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+    end, function(g)
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    end, 2)
 end
