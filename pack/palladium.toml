@@ -934,14 +934,21 @@ strings = []
 [card.tablet-of-lost-memories]
 id = 910000109
 name = "Tablet of Lost Memories"
-type = "spell continuous"
+type = "trap continuous"
 effect = """\
-When this card is activated: You can add 1 DIVINE monster from your Deck to your hand. \
 You can only control 1 "Tablet of Lost Memories". \
+If you control no cards, you can activate this card from your hand. \
 Summons of your "Palladium" monster cannot be negated. \
 If this face-up card leaves the field: Destroy all monsters you control. \
+You can only use the following effect of "Tablet of Lost Memories" once per turn. You can activate 1 of these effects;
+● Special Summon 1 "Palladium Oracle Mahad" from your hand or GY.
+● Add 1 DIVINE monster from your Deck to your hand. \
+    This effect can only be used once while this card is face-up on the field.
 """
-strings = ["Add 1 DIVINE monster to your hand"]
+strings = [
+    "Special Summon \"Palladium Oracle Mahad\"",
+    "Add 1 DIVINE monster to your hand",
+]
 
 [card.palladium-binding-circle]
 id = 910000110
