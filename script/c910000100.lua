@@ -44,6 +44,7 @@ function s.initial_effect(c)
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 3))
     e4:SetCategory(CATEGORY_ATKCHANGE)
+    e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     Utility.RegisterMultiEffect(s, 4, e4)
 end
@@ -131,31 +132,38 @@ end
 
 function s.e4filter(c) return c:IsFaceup() and c:IsSetCard(0x13a) end
 
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetMatchingGroup(s.e4filter, tp, LOCATION_MZONE, 0, nil)
+    end
+end
+
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e4filter, tp, LOCATION_MZONE, 0, nil)
 
-    for tc in aux.Next(g) do
+    local sc = Utility.GroupSelect(HINTMSG_FACEUP, g, tp):GetFirst()
+    if sc then
+        Duel.HintSelection(Group.FromCards(sc))
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3110)
         ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_IMMUNE_EFFECT)
-        ec1:SetOwnerPlayer(tp)
-        ec1:SetValue(function(e, re)
-            return e:GetHandler():GetOwner() ~= re:GetHandler():GetOwner()
-        end)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(1000)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec1)
+        sc:RegisterEffect(ec1)
     end
 
-    local sc = Utility.GroupSelect(HINTMSG_FACEUP, g, tp):GetFirst()
-    if not sc then return end
-    Duel.HintSelection(Group.FromCards(sc))
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetCode(EFFECT_UPDATE_ATTACK)
-    ec2:SetValue(1000)
-    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    sc:RegisterEffect(ec2)
+    for tc in aux.Next(g) do
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetDescription(3110)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+        ec2:SetCode(EFFECT_IMMUNE_EFFECT)
+        ec2:SetOwnerPlayer(tp)
+        ec2:SetValue(function(e, re)
+            return e:GetHandler():GetOwner() ~= re:GetHandler():GetOwner()
+        end)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec2)
+    end
 end

@@ -760,8 +760,8 @@ Activate 1 of these effects.
 ● Tribute 2 monsters on the field, and if you do, \
     Special Summon 1 "Palladium" monster from your hand or Deck.
 ● Place up to 2 Spell Counters on 1 face-up card on the field that can place a Spell Counter.
-● This turn, "Palladium" monsters you currently control are unaffected by your opponent's card effects, \
-    also 1 "Palladium" monster on the field gains 1000 ATK. \
+● This turn, 1 "Palladium" monster you control gains 1000 ATK, \
+    also "Palladium" monsters you currently control are unaffected by your opponent's card effects. \
 """
 strings = [
     "Add card to hand",
