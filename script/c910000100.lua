@@ -48,7 +48,10 @@ function s.initial_effect(c)
     Utility.RegisterMultiEffect(s, 4, e4)
 end
 
-function s.e1filter(c) return c:IsSetCard(0x13a) and c:IsAbleToHand() end
+function s.e1filter(c)
+    return c:IsSetCard(0x13a) and c:IsType(TYPE_SPELL + TYPE_TRAP) and
+               c:IsAbleToHand()
+end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
@@ -69,7 +72,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2filter1(c) return c:IsFaceup() and c:IsReleasableByEffect() end
+function s.e2filter1(c) return c:IsReleasableByEffect() end
 
 function s.e2filter2(c, e, tp)
     return c:IsSetCard(0x13a) and
