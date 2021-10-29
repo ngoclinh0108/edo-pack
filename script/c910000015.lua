@@ -73,7 +73,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not tc or not tc:IsRelateToEffect(e) then return end
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
-    Duel.SpecialSummon(tc, SUMMON_WITH_MONSTER_REBORN0, tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(tc, SUMMON_WITH_MONSTER_REBORN, tp, tp, false, false, POS_FACEUP)
     tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
                               PHASE_END, 0, 1)
 
