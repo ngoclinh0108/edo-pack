@@ -73,7 +73,7 @@ function s.initial_effect(c)
     e3b:SetCode(EFFECT_TRAP_ACT_IN_HAND)
     c:RegisterEffect(e3b)
 
-    -- destroy
+    -- destroy & atk up
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
     e4:SetCategory(CATEGORY_DESTROY)
@@ -173,7 +173,15 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
-    Duel.Destroy(g, REASON_EFFECT)
+    local ct = Duel.Destroy(g, REASON_EFFECT)
+    if ct > 0 and c:IsFaceup() and c:IsRelateToEffect(e) then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(ct * 200)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
+        c:RegisterEffect(ec1)
+    end
 end
 
 function s.e5filter(c, e, tp)

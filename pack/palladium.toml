@@ -554,7 +554,8 @@ You can activate a Quick-Play Spell Card or a Trap Card from your hand during yo
     You can only use this effect of "Dark Sorceress of Palladium" once per turn. \
 Once per turn (Quick Effect): \
     You can detach 1 material from this card; \
-    Destroy all cards your opponent controls. \
+    destroy all cards your opponent controls, \
+    and if you do, this card gains 200 ATK for each. \
 If this card is destroyed by battle or card effect: \
     You can Special Summon 1 "Palladium Oracle Mana" from your hand, Deck, or GY. \
 """
