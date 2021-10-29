@@ -133,22 +133,8 @@ strings = [
     "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
 ]
 
-[card.palladium-oracle-shimon]
-id = 910000005
-set = "palladium"
-name = "Old Palladium Oracle Shimon"
-type = "monster effect"
-attribute = "light"
-race = "spellcaster"
-level = 6
-atk = 1800
-def = 2200
-effect = """\
-"""
-strings = []
-
 [card.palladium-oracle-seto]
-id = 910000006
+id = 910000005
 set = "palladium"
 name = "Azure Palladium Oracle Seto"
 type = "monster tuner effect"
@@ -175,6 +161,20 @@ strings = [
     "Affected by effect \"Azure Palladium Oracle Seto\": cannot Normal Summon monsters",
     "Affected by effect \"Azure Palladium Oracle Seto\": cannot Special Summon monsters",
 ]
+
+[card.palladium-oracle-shimon]
+id = 910000006
+set = "palladium"
+name = "Old Palladium Oracle Shimon"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 6
+atk = 1800
+def = 2200
+effect = """\
+"""
+strings = []
 
 [card.palladium-maiden-isis]
 id = 910000007
@@ -254,7 +254,7 @@ strings = []
 [card.palladium-oracle-hassan]
 id = 910000010
 set = "palladium"
-name = "Mysterious Palladium Oracle Hassan"
+name = "Palladium Oracle Hassan"
 type = "monster effect"
 attribute = "dark"
 race = "spellcaster"
