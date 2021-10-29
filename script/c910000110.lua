@@ -89,8 +89,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c)
-    return c:IsSSetable() and c:IsSetCard(0x13a) and
-               c:IsType(TYPE_SPELL + TYPE_TRAP) and not c:IsCode(id)
+    return c:IsSSetable() and c:IsSetCard(0x13a) and c:IsType(TYPE_TRAP) and
+               not c:IsCode(id)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
