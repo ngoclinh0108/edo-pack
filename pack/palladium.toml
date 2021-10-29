@@ -943,8 +943,7 @@ Target 1 face-up monster your opponent controls; equip this card to it. \
     Also if you would Tribute a monster(s) for a Tribute Summon, \
     you can Tribute it, even though you do not control it. \
 If this card is in your GY: \
-    You can remove 1 Spell Counter from your side of the field; \
-    Set this card. \
+    You can remove 1 Spell Counter from your side of the field; set this card. \
     You can only use this effect of "Palladium Binding Circle" once per turn. \
 """
 strings = []
@@ -961,8 +960,8 @@ Activate 1 of these effects.
 ● When an opponent's monster declares an attack: \
     Negate that attack, and also destroy all your opponent's Attack Position monsters.
 If this Set card is destroyed by your opponent's card effect and sent to your GY: \
-    You can Set this card from your GY and 1 other "Palladium" Trap from your hand, Deck, or GY. \
-    They can be activated this turn. \
+    You can Set this card from your GY and 1 "Palladium" Spell/Trap Card from your hand, Deck, or GY, \
+    except "Palladium Mirror Force". They can be activated this turn. \
 """
 strings = []
 

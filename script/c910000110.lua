@@ -89,7 +89,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c)
-    return c:IsSSetable() and c:IsSetCard(0x13a) and c:IsType(TYPE_TRAP)
+    return c:IsSSetable() and c:IsSetCard(0x13a) and
+               c:IsType(TYPE_SPELL + TYPE_TRAP) and not c:IsCode(id)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -107,7 +108,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
                    e:GetHandler():IsSSetable() and
                    Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND +
                                                    LOCATION_DECK +
-                                                   LOCATION_GRAVE, 0, 1, c)
+                                                   LOCATION_GRAVE, 0, 1, nil)
     end
 end
 
@@ -119,7 +120,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Utility.SelectMatchingCard(HINTMSG_SET, tp,
                                           aux.NecroValleyFilter(s.e3filter), tp,
                                           LOCATION_HAND + LOCATION_DECK +
-                                              LOCATION_GRAVE, 0, 1, 1, c):GetFirst()
+                                              LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
     if not tc then return end
 
     Duel.SSet(tp, Group.FromCards(c, tc))

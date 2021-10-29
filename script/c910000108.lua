@@ -84,24 +84,30 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     local tg = Utility.GroupSelect(HINTMSG_NEGATE, g, tp, ct, ct)
     for tc in aux.Next(tg) do
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
-        ec1:SetValue(math.ceil(tc:GetAttack() / 2))
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec1)
+        if tc:IsMonster() then
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+            ec1:SetValue(math.ceil(tc:GetAttack() / 2))
+            ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+            tc:RegisterEffect(ec1)
+        end
 
         Duel.NegateRelatedChain(tc, RESET_TURN_SET)
         local ec2 = Effect.CreateEffect(c)
         ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
         ec2:SetCode(EFFECT_DISABLE)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         tc:RegisterEffect(ec2)
         local ec2b = ec2:Clone()
         ec2b:SetCode(EFFECT_DISABLE_EFFECT)
         ec2b:SetValue(RESET_TURN_SET)
         tc:RegisterEffect(ec2b)
+        if tc:IsType(TYPE_TRAPMONSTER) then
+            local ec2c = ec2:Clone()
+            ec2c:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+            tc:RegisterEffect(ec2c)
+        end
     end
 end
 
