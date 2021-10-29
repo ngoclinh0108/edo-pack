@@ -932,6 +932,14 @@ During your Main Phase 2, except the turn this card was sent to the GY, \
 """
 strings = []
 
+[card.tablet-of-lost-memories]
+id = 910000109
+name = "Tablet of Lost Memories"
+type = "spell continuous"
+effect = """\
+"""
+strings = []
+
 [card.palladium-binding-circle]
 id = 910000110
 set = "palladium"
