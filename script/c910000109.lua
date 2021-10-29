@@ -12,14 +12,13 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 end
 
 function s.e1filter(c)
-    return (c:IsAttribute(ATTRIBUTE_DIVINE) or c:IsSetCard(0x13a)) and
-               c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+    return c:IsAttribute(ATTRIBUTE_DIVINE) and c:IsType(TYPE_MONSTER) and
+               c:IsAbleToHand()
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)

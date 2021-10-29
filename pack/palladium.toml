@@ -937,8 +937,7 @@ id = 910000109
 name = "Tablet of Lost Memories"
 type = "spell continuous"
 effect = """\
-When this card is activated: You can add 1 DIVINE or "Palladium" monster from your Deck to your hand. \
-You can only activate 1 "Tablet of Lost Memories" per turn. \
+When this card is activated: You can add 1 DIVINE monster from your Deck to your hand. \
 You can only control 1 "Tablet of Lost Memories". \
 """
 strings = ["Add 1 DIVINE or \"Palladium\" monster to your hand"]
