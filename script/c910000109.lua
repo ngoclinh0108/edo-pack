@@ -93,6 +93,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local ec7 = ec1:Clone()
     ec7:SetCode(EFFECT_EXTRA_RELEASE_SUM)
     c:RegisterEffect(ec7)
+    local ec8 = ec1:Clone()
+    ec8:SetCode(EFFECT_EXTRA_RELEASE_NONSUM)
+    c:RegisterEffect(ec8)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

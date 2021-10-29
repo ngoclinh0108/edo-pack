@@ -945,7 +945,7 @@ effect = """\
 Target 1 face-up monster your opponent controls; equip this card to it. \
     Negate its effects and it cannot activate its effect, \
     loses 1000 ATK/DEF, cannot attack or change its battle position. \
-    Also if you would Tribute a monster(s) for a Tribute Summon, \
+    Also if you would Tribute a monster(s) for a Tribute Summon, or to activate a card effect, \
     you can Tribute it, even though you do not control it. \
 If this card is in your GY: \
     You can remove 1 Spell Counter from your side of the field; \
