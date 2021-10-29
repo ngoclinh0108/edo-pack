@@ -46,7 +46,8 @@ function s.initial_effect(c)
                 local g = eg:Filter(s.dmsfilter, nil, sc:GetOwner())
                 if chk == 0 then return #g > 0 end
                 for tc in aux.Next(g) do
-                    tc:RegisterFlagEffect(flag_id, 0, 0, 1)
+                    tc:RegisterFlagEffect(
+                        flag_id + 1000000000 * (tc:GetOwner() + 1), 0, 0, 1)
                 end
                 return true
             end)

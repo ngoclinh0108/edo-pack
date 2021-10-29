@@ -823,7 +823,7 @@ effect = """\
 During your Main Phase or your opponent's turn: \
     Target 1 monster in either GY; Special Summon that monster. \
 You can also Special Summon a monster that can be Normal Summoned with this effect, ignoring its Summoning conditions, \
-    but during the End Phase of the turn this effect was activated, you must send that monster to the GY. \
+    but send that monster to the GY during the End Phase. \
 """
 strings = []
 
@@ -938,16 +938,24 @@ type = "trap continuous"
 effect = """\
 You can only control 1 "Lost Memories Tablet". \
 If you control no other Set cards, you can activate this card the turn it was Set. \
+You can Special Summon "The Winged Dragon of Ra" from your GY with "Monster Reborn", \
+    ignoring its Summoning conditions, but send it to the GY during the End Phase. \
 Summons of your "Palladium" monsters cannot be negated. \
 If this face-up card leaves the field: Destroy all monsters you control. \
 You can only use the following effect of "Lost Memories Tablet" once per turn. You can activate 1 of these effects;
 ● Special Summon 1 "Palladium Oracle Mahad" from your hand or GY.
-● Add 1 DIVINE monster from your Deck to your hand. \
+● Add 1 card from your Deck that specifically lists the card "Palladium Oracle Mahad" in its text, \
+    except "Lost Memories Tablet".
+● Add 1 DIVINE monster from your Deck or GY to your hand. \
     This effect can only be used once while this card is face-up on the field.
+● Discard 1 DIVINE monster; add 1 "Monster Reborn" from your Deck or GY to your hand.
 """
 strings = [
+    "Special Summoned by \"Monster Reborn\"",
     "Special Summon \"Palladium Oracle Mahad\"",
-    "Add 1 DIVINE monster to your hand",
+    "Add 1 card specifically lists \"Palladium Oracle Mahad\"",
+    "Add 1 DIVINE monster",
+    "Add 1 \"Monster Reborn\"",
 ]
 
 [card.palladium-binding-circle]
