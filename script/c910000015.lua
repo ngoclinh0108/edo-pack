@@ -30,55 +30,38 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- to hand
+    -- search
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_TODECK)
-    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
-    e3:SetRange(LOCATION_GRAVE + LOCATION_REMOVED)
-    e3:SetCode(EVENT_TO_GRAVE)
-    e3:SetCountLimit(1, {id, 2})
+    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_DESTROYED)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter1(c) return c:IsCode(83764718) and c:IsAbleToRemoveAsCost() end
-
-function s.e2filter2(c, e, tp)
-    return not c:IsCode(id) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e2filter(c, e, tp)
+    return not c:IsCode(id) and c:IsCanBeSpecialSummoned(e, SUMMON_WITH_MONSTER_REBORN, tp, false, false)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsTurnPlayer(1 - tp)
-end
+function s.e2con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(1 - tp) end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsDiscardable() and
-                   Duel.IsExistingMatchingCard(s.e2filter1, tp,
-                                               LOCATION_DECK + LOCATION_GRAVE,
-                                               0, 1, nil)
-    end
-
-    Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
-    local g = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter1, tp,
-                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                         1, nil)
-    Duel.Remove(g, POS_FACEUP, REASON_COST)
+    if chk == 0 then return e:GetHandler():IsDiscardable() end
+    Duel.SendtoGrave(e:GetHandler(), REASON_COST + REASON_DISCARD)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingTarget(s.e2filter2, tp, LOCATION_GRAVE,
+                   Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE,
                                          LOCATION_GRAVE, 1, nil, e, tp)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectTarget(tp, s.e2filter2, tp, LOCATION_GRAVE,
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE,
                                 LOCATION_GRAVE, 1, 1, nil, e, tp)
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
@@ -90,7 +73,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not tc or not tc:IsRelateToEffect(e) then return end
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
-    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(tc, SUMMON_WITH_MONSTER_REBORN0, tp, tp, false, false, POS_FACEUP)
     tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
                               PHASE_END, 0, 1)
 
@@ -110,43 +93,27 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e3filter1(c, tp)
-    return not c:IsCode(id) and c:IsPreviousLocation(LOCATION_MZONE) and
-               c:IsPreviousControler(tp)
-end
-
-function s.e3filter2(c)
-    return c:IsFaceup() and c:IsCode(83764718) and
-               (c:IsAbleToHand() or c:IsSSetable())
-end
+function s.e3filter(c) return c:IsCode(83764718) and c:IsAbleToHand() end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e3filter1, 1, nil, tp)
+    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
     if chk == 0 then
-        return c:IsAbleToDeck() and
-                   Duel.IsExistingMatchingCard(s.e3filter2, tp,
-                                               LOCATION_REMOVED, 0, 1, nil)
+        return Duel.IsExistingMatchingCard(s.e3filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_REMOVED)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
-        return
-    end
-
-    local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e3filter2, tp,
-                                         LOCATION_REMOVED, 0, 1, 1, nil)
-    if #g == 0 then return end
-
-    aux.ToHandOrElse(g, tp, function(tc)
-        return tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
-    end, function(g) Duel.SSet(tp, g) end, HINTMSG_SET)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp,
+                                         aux.NecroValleyFilter(s.e3filter), tp,
+                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                         1, nil)
+    if #g > 0 then Duel.SendtoHand(g, nil, REASON_EFFECT) end
 end
