@@ -762,7 +762,8 @@ You can only activate 1 "Millennium Memories" once per turn. Activate 1 of these
     Special Summon 1 "Palladium" monster from your hand or Deck.
 ● Place up to 2 Spell Counters on 1 face-up card on the field that can place a Spell Counter.
 ● This turn, 1 "Palladium" monster you control gains 1000 ATK, \
-    also "Palladium" monsters you currently control are unaffected by your opponent's card effects. \
+    also "Palladium" monsters you currently control are unaffected by your opponent's card effects.
+If you control "Palladium Oracle Mahad", your opponent cannot activate cards or effects in response to this card's activation. \
 """
 strings = [
     "Add card to hand",

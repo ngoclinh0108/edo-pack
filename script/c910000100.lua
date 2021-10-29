@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {71703785}
 s.listed_series = {0x13a}
 s.counter_place_list = {COUNTER_SPELL}
 
@@ -13,7 +14,7 @@ function s.initial_effect(c)
     e0:SetCode(EVENT_FREE_CHAIN)
     e0:SetHintTiming(TIMING_DAMAGE_STEP)
     e0:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
-    e0:SetTarget(Utility.MultiEffectTarget(s))
+    e0:SetTarget(Utility.MultiEffectTarget(s, s.extg))
     e0:SetOperation(Utility.MultiEffectOperation(s))
     c:RegisterEffect(e0)
 
@@ -48,6 +49,15 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     Utility.RegisterMultiEffect(s, 4, e4)
+end
+
+function s.extg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if e:IsHasType(EFFECT_TYPE_ACTIVATE) and e:GetHandler() == e:GetOwner() and
+        Duel.IsExistingMatchingCard(
+            aux.FilterFaceupFunction(Card.IsCode, 71703785), tp,
+            LOCATION_ONFIELD, 0, 1, nil) then
+        Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
+    end
 end
 
 function s.e1filter(c)

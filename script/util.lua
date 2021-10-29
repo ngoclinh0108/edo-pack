@@ -234,7 +234,7 @@ function Utility.RegisterMultiEffect(s, index, eff)
     s.effects[index] = eff
 end
 
-function Utility.MultiEffectTarget(s)
+function Utility.MultiEffectTarget(s, extg)
     return function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then
             for i = 1, #s.effects, 1 do
@@ -264,6 +264,7 @@ function Utility.MultiEffectTarget(s)
         end
 
         s.sel_effect = op
+        if extg then extg(e, tp, eg, ep, ev, re, r, rp, chk) end
     end
 end
 
