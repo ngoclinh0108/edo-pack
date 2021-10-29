@@ -165,7 +165,7 @@ strings = [
 [card.palladium-oracle-shimon]
 id = 910000006
 set = "palladium"
-name = "Old Palladium Oracle Shimon"
+name = "Palladium Oracle Shimon"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
