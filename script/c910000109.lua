@@ -9,7 +9,7 @@ function s.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_EQUIP)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
+    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetHintTiming(TIMING_DAMAGE_STEP)
     e1:SetCondition(s.e1con)
@@ -38,14 +38,12 @@ end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return e:IsHasType(EFFECT_TYPE_ACTIVATE) and
-                   Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_MZONE,
-                                         1, nil)
+                   Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0,
+                                               LOCATION_MZONE, 1, nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_EQUIP)
-    local tc = Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1,
-                                 nil)
-
+    local tc = Utility.SelectMatchingCard(HINTMSG_EQUIP, tp, Card.IsFaceup, tp,
+                                          0, LOCATION_MZONE, 1, 1, nil):GetFirst()
     Duel.SetOperationInfo(0, CATEGORY_EQUIP, e:GetHandler(), 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
 end
