@@ -32,9 +32,9 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    if not Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,
-                                                                71703785), tp,
-                                       LOCATION_ONFIELD, 0, 1, nil) then
+    if not Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsSetCard,
+                                                                0x13a), tp,
+                                       LOCATION_MZONE, 0, 1, nil) then
         return false
     end
 
@@ -116,8 +116,9 @@ end
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return aux.exccon(e) and
                Duel.IsExistingMatchingCard(
-                   aux.FilterFaceupFunction(Card.IsSetCard, 0x13a), tp,
-                   LOCATION_MZONE, 0, 1, nil)
+                   aux.FilterFaceupFunction(Card.IsCode, 71703785), tp,
+                   LOCATION_ONFIELD, 0, 1, nil)
+
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

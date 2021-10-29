@@ -944,8 +944,10 @@ Summons of your "Palladium" monsters cannot be negated. \
 If this face-up card leaves the field: Destroy all monsters you control. \
 You can only use the following effect of "Lost Memories Tablet" once per turn. You can activate 1 of these effects;
 ● Special Summon 1 "Palladium Oracle Mahad" from your hand or GY.
-● Add 1 card from your Deck that specifically lists the card "Palladium Oracle Mahad" in its text, \
-    except "Lost Memories Tablet".
+● Add 1 card, or Set 1 Spell/Trap directly from your Deck \
+    that specifically lists the card "Palladium Oracle Mahad" in its text, \
+    with a different name from the cards you control and in your GY, \
+    and if it was a Trap or Quick-Play Spell, you can activate it this turn.
 ● Add 1 DIVINE monster from your Deck or GY to your hand. \
     This effect can only be used once while this card is face-up on the field.
 ● Discard 1 DIVINE monster; add 1 "Monster Reborn" from your Deck or GY to your hand.
@@ -953,9 +955,9 @@ You can only use the following effect of "Lost Memories Tablet" once per turn. Y
 strings = [
     "Special Summoned by \"Monster Reborn\"",
     "Special Summon \"Palladium Oracle Mahad\"",
-    "Add 1 card specifically lists \"Palladium Oracle Mahad\"",
-    "Add 1 DIVINE monster",
-    "Add 1 \"Monster Reborn\"",
+    "Search 1 card specifically lists \"Palladium Oracle Mahad\"",
+    "Search 1 DIVINE monster",
+    "Search 1 \"Monster Reborn\"",
 ]
 
 [card.palladium-binding-circle]
@@ -969,6 +971,7 @@ Equip this card to 1 face-up monster your opponent controls. \
     loses 1000 ATK/DEF, cannot attack or change its battle position, \
     also if you would Tribute a monster(s) for a Tribute Summon, \
     you can Tribute it, even though you do not control it. \
+If you control "Palladium Oracle Mahad", you can activate this card from your hand. \
 If this card is in your GY: \
     You can remove 1 Spell Counter from your side of the field; set this card. \
     You can only use this effect of "Palladium Binding Circle" once per turn. \
@@ -998,11 +1001,11 @@ set = "palladium"
 name = "Palladium Shattering Arrow"
 type = "trap counter"
 effect = """\
-If you control "Palladium Oracle Mahad" monster: Activate as Chain Link 2 or higher; \
+If you control "Palladium" monster: Activate as Chain Link 2 or higher; \
     negate the activations of your opponent's Spell/Trap Cards and monster effects activated before this card in this Chain, \
     and if you do, destroy the negated cards on the field, \
     also you can apply 1 of those negated effects that targets a card(s). \
-If you control "Palladium" monster, except the turn this card was sent to the GY: \
+If you control "Palladium Oracle Mahad", except the turn this card was sent to the GY: \
     You can shuffle this card from your GY into the Deck, \
     then target 1 face-up card your opponent controls; \
     negate its effects until the end of this turn. \

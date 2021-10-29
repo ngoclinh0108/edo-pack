@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {71703785}
 s.counter_list = {COUNTER_SPELL}
 
 function s.initial_effect(c)
@@ -18,16 +19,27 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- set itself
+    -- act in hand
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetRange(LOCATION_GRAVE)
-    e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetCountLimit(1, id)
-    e2:SetCost(s.e2cost)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_TRAP_ACT_IN_HAND)
+    e2:SetCondition(function(e)
+        return Duel.IsExistingMatchingCard(
+                   aux.FilterFaceupFunction(Card.IsCode, 71703785),
+                   e:GetHandlerPlayer(), LOCATION_ONFIELD, 0, 1, nil)
+    end)
     c:RegisterEffect(e2)
+
+    -- set itself
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetCountLimit(1, id)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -93,7 +105,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec7)
 end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsCanRemoveCounter(tp, 1, 0, COUNTER_SPELL, 1, REASON_COST)
     end
@@ -101,13 +113,13 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RemoveCounter(tp, 1, 0, COUNTER_SPELL, 1, REASON_COST)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:IsSSetable() end
     Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, c, 1, 0, 0)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or not c:IsSSetable() then return end
     Duel.SSet(tp, c)

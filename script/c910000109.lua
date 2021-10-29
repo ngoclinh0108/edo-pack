@@ -206,15 +206,19 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
-function s.e6filter(c)
-    return not c:IsCode(id) and aux.IsCodeListed(c, 71703785) and
+function s.e6filter(c, tp)
+    if not aux.IsCodeListed(c, 71703785) or
+        Duel.IsExistingMatchingCard(
+            aux.FilterFaceupFunction(Card.IsCode, c:GetCode()), tp,
+            LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, nil) then return false end
+    return (c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsSSetable()) or
                c:IsAbleToHand()
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_DECK, 0, 1,
-                                           nil)
+                                           nil, tp)
     end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
@@ -225,12 +229,29 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e6filter, tp,
-                                         LOCATION_DECK, 0, 1, 1, nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
-    end
+    local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e6filter, tp,
+                                         LOCATION_DECK, 0, 1, 1, nil, tp)
+    if #g == 0 then return end
+
+    aux.ToHandOrElse(g, tp, function(tc)
+        return tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
+    end, function(g)
+        Duel.SSet(tp, g)
+        for tc in aux.Next(g) do
+            if tc:IsType(TYPE_QUICKPLAY + TYPE_TRAP) then
+                local ec1 = Effect.CreateEffect(c)
+                ec1:SetType(EFFECT_TYPE_SINGLE)
+                ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+                if tc:IsType(TYPE_QUICKPLAY) then
+                    ec1:SetCode(EFFECT_QP_ACT_IN_SET_TURN)
+                elseif tc:IsType(TYPE_TRAP) then
+                    ec1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
+                end
+                ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+                tc:RegisterEffect(ec1)
+            end
+        end
+    end, 1159)
 end
 
 function s.e7filter(c)
