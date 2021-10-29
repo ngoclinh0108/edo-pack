@@ -17,18 +17,6 @@ function s.initial_effect(c)
     c:RegisterEffect(e1)
     if not GhostBelleTable then GhostBelleTable = {} end
     table.insert(GhostBelleTable, e1)
-
-    -- to hand
-    local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_TOHAND)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_GRAVE)
-    e2:SetCountLimit(1, id)
-    e2:SetCondition(aux.exccon)
-    e2:SetCost(s.e2cost)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
 end
 
 function s.e1filter(c, e, tp)
@@ -81,25 +69,4 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_PHASE + PHASE_END)
         Duel.RegisterEffect(ec1, tp)
     end
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsDiscardable, tp,
-                                           LOCATION_HAND, 0, 2, nil)
-    end
-
-    Duel.DiscardHand(tp, Card.IsDiscardable, 2, 2, REASON_COST + REASON_DISCARD)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:IsAbleToHand() end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
-    Duel.SendtoHand(c, nil, REASON_EFFECT)
 end

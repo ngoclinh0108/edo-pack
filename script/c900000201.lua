@@ -19,17 +19,6 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-
-    -- shuffle & draw
-    local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_TODECK + CATEGORY_DRAW)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_GRAVE)
-    e2:SetCountLimit(1, {id, 2})
-    e2:SetCondition(aux.exccon)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
 end
 
 function s.e1filter1(c, ec)
@@ -111,56 +100,5 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.Summon(tp, sc, true, nil, 1)
     else
         Duel.MSet(tp, sc, true, nil, 1)
-    end
-end
-
-function s.e2filter1(c)
-    return (not c:IsLocation(LOCATION_REMOVED) or c:IsFaceup()) and
-               c:IsAbleToDeck() and c:IsMonster()
-end
-
-function s.e2filter2(c)
-    return s.e2filter1(c) and c:IsOriginalAttribute(ATTRIBUTE_DIVINE)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(s.e2filter1, tp,
-                                    LOCATION_GRAVE + LOCATION_REMOVED, 0, c)
-    if chk == 0 then
-        return c:IsAbleToDeck() and #g >= 3 and g:IsExistingTarget(s.e2filter2, 1, nil)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local tg = Duel.SelectTarget(tp, s.e2filter2, tp,
-                                 LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, c)
-    tg:Merge(Duel.SelectTarget(tp, s.e2filter1, tp,
-                               LOCATION_GRAVE + LOCATION_REMOVED, 0, 2, 2, tg))
-    tg:AddCard(c)
-
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, tg, #tg, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    if not tg or not c:IsRelateToEffect(e) or
-        tg:FilterCount(Card.IsRelateToEffect, nil, e) ~= tg:GetCount() then
-        return
-    end
-
-    local sg = tg:Clone():AddCard(c)
-    Duel.SendtoDeck(sg, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
-
-    local g = Duel.GetOperatedGroup()
-    if g:IsExists(Card.IsLocation, 1, nil, LOCATION_DECK) then
-        Duel.ShuffleDeck(tp)
-    end
-
-    if g:FilterCount(Card.IsLocation, nil, LOCATION_DECK + LOCATION_EXTRA) ==
-        sg:GetCount() then
-        Duel.BreakEffect()
-        Duel.Draw(tp, 1, REASON_EFFECT)
     end
 end

@@ -390,12 +390,8 @@ During the Main Phase or Battle Phase: \
     from your Deck to your hand, then, immediately after this effect resolves, Tribute Summon 1 Divine-Beast monster. \
     When you do, you can Tribute a monster(s) your opponent controls, even though you do not control them. \
     You can only activate 1 "Divine Servant" per turn. \
-During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
-    You can target 3 monsters that is banished or in your GY, including at least 1 original DIVINE monster; \
-    shuffle this card and all the targeted cards into the Deck, then draw 1 card. \
-    You can only use this effect of "Divine Servant" once per turn. \
 """
-strings = ["Summon via \"Divine Servant\""]
+strings = []
 
 [card.divine-evolution]
 id = 900000202

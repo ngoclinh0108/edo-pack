@@ -22,6 +22,9 @@ code = 0x3008
 [set.evil-hero]
 code = 0x6008
 
+[set.exodia]
+code = 0x40
+
 [set.fusion]
 code = 0x46
 

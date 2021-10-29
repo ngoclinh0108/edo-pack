@@ -173,6 +173,16 @@ level = 6
 atk = 1800
 def = 2200
 effect = """\
+During the Main Phase (Quick Effect): \
+    You can destroy 1 "Palladium" monster you control or in your hand, except "Palladium Oracle Shimon", \
+    and if you do, Special Summon this card from your hand in Defense Position. \
+If this card is Normal or Special Summoned: \
+    You can Set 1 "Monster Reborn" or 1 Spell/Trap Card that specifically lists that card in its text, \
+    directly from your Deck or GY, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
+During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
+    You can target 5 "Palldium" or "Exodia" monsters that is banished or in your GY, except "Palladium Oracle Shimon"; \
+    shuffle this card and all the targeted cards into the Deck, then draw 1 card. \
+You can only use each effect of "Palladium Oracle Shimon" once per turn. \
 """
 strings = []
 
@@ -268,7 +278,7 @@ When your opponent activates a card or effect that would inflict damage, \
     or when you would take battle damage during damage calculation (Quick Effect): \
     You can discard this card; you take no damage from that effect or battle. \
 If this card is destroyed by battle or card effect: \
-    You can shuffle this card into the Deck; \
+    You can return this card to the bottom of the Deck; \
     look at the top 3 cards of your Deck, then you can reveal 1 "Palladium" card, and add it to your hand, \
     also place the remaining cards on top of your Deck in any order. \
 You can only use each effect of "Palladium Oracle Hassan" once per turn. \
@@ -812,9 +822,6 @@ During your Main Phase or your opponent's turn: \
 You can also Special Summon a Divine-Beast monster with this effect, ignoring its Summoning conditions, \
     but during the End Phase of the turn this effect was activated, \
     you must send that Divine-Beast monster to the GY. \
-During your Main Phase, except the turn this card was sent to the GY: \
-    You can discard 2 cards; add this card to your hand. \
-    You can only use this effect of "Palladium Reborn" once per turn. \
 """
 strings = []
 
