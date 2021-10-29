@@ -1,4 +1,4 @@
--- Tablet of Lost Memories
+-- Lost Memories Tablet
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -16,13 +16,15 @@ function s.initial_effect(c)
     act:SetOperation(s.e2op)
     c:RegisterEffect(act)
 
-    -- act in hand
+    -- can be activated during the turn it was Set
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_TRAP_ACT_IN_HAND)
-    e1:SetCondition(function(e)
-        local tp = e:GetHandlerPlayer()
-        return Duel.GetFieldGroupCount(tp, LOCATION_ONFIELD, 0) == 0
+    e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+    e1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
+    e1:SetCondition(function(e, tp)
+        return not Duel.IsExistingMatchingCard(Card.IsFacedown, tp,
+                                               LOCATION_ONFIELD, 0, 1,
+                                               e:GetHandler())
     end)
     c:RegisterEffect(e1)
 

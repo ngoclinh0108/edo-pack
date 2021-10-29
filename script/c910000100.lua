@@ -1,4 +1,4 @@
--- Millennium Memory
+-- Millennium Memories
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -12,6 +12,7 @@ function s.initial_effect(c)
     e0:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e0:SetCode(EVENT_FREE_CHAIN)
     e0:SetHintTiming(TIMING_DAMAGE_STEP)
+    e0:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
     e0:SetTarget(Utility.MultiEffectTarget(s))
     e0:SetOperation(Utility.MultiEffectOperation(s))
     c:RegisterEffect(e0)

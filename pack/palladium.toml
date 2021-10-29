@@ -751,12 +751,12 @@ Special Summoned with the effect of "Palladium's Sanctuary". \
 """
 strings = []
 
-[card.millennium-memory]
+[card.millennium-memories]
 id = 910000100
-name = "Millennium Memory"
+name = "Millennium Memories"
 type = "spell quick-play"
 effect = """\
-Activate 1 of these effects.
+You can only activate 1 "Millennium Memories" once per turn. Activate 1 of these effects.
 ● Add 1 "Palladium" Spell/Trap from your Deck or GY to your hand.
 ● Tribute 2 monsters on the field, and if you do, \
     Special Summon 1 "Palladium" monster from your hand or Deck.
@@ -931,16 +931,16 @@ During your Main Phase 2, except the turn this card was sent to the GY, \
 """
 strings = []
 
-[card.tablet-of-lost-memories]
+[card.lost-memories-tablet]
 id = 910000109
-name = "Tablet of Lost Memories"
+name = "Lost Memories Tablet"
 type = "trap continuous"
 effect = """\
-You can only control 1 "Tablet of Lost Memories". \
-If you control no cards, you can activate this card from your hand. \
-Summons of your "Palladium" monster cannot be negated. \
+You can only control 1 "Lost Memories Tablet". \
+If you control no other Set cards, you can activate this card the turn it was Set. \
+Summons of your "Palladium" monsters cannot be negated. \
 If this face-up card leaves the field: Destroy all monsters you control. \
-You can only use the following effect of "Tablet of Lost Memories" once per turn. You can activate 1 of these effects;
+You can only use the following effect of "Lost Memories Tablet" once per turn. You can activate 1 of these effects;
 ● Special Summon 1 "Palladium Oracle Mahad" from your hand or GY.
 ● Add 1 DIVINE monster from your Deck to your hand. \
     This effect can only be used once while this card is face-up on the field.
