@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {71703785}
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
@@ -31,6 +32,12 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    if not Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsCode,
+                                                                71703785), tp,
+                                       LOCATION_ONFIELD, 0, 1, nil) then
+        return false
+    end
+
     for i = 1, ev do
         local te, tgp = Duel.GetChainInfo(i, CHAININFO_TRIGGERING_EFFECT,
                                           CHAININFO_TRIGGERING_PLAYER)

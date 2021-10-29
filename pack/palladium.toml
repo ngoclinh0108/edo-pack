@@ -998,7 +998,7 @@ set = "palladium"
 name = "Palladium Shattering Arrow"
 type = "trap counter"
 effect = """\
-Activate as Chain Link 2 or higher; \
+If you control "Palladium Oracle Mahad" monster: Activate as Chain Link 2 or higher; \
     negate the activations of your opponent's Spell/Trap Cards and monster effects activated before this card in this Chain, \
     and if you do, destroy the negated cards on the field, \
     also you can apply 1 of those negated effects that targets a card(s). \
