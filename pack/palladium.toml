@@ -133,6 +133,20 @@ strings = [
     "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
 ]
 
+[card.palladium-oracle-shimon]
+id = 910000005
+set = "palladium"
+name = "Old Palladium Oracle Shimon"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 6
+atk = 1800
+def = 2200
+effect = """\
+"""
+strings = []
+
 [card.palladium-oracle-seto]
 id = 910000006
 set = "palladium"
