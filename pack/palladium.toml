@@ -357,7 +357,7 @@ You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters you control as materials, including this card. \
 You can only use each effect of "Palladium Knight of Jack" once per turn. \
 A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
-● The first time this card would be destroyed by battle or card effect each turn, it is not destroyed.
+● The first time this card would be destroyed by card effect each turn, it is not destroyed.
 """
 strings = ["Summoned using \"Palladium Knight of Jack\""]
 

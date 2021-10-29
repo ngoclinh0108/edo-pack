@@ -113,9 +113,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetRange(LOCATION_MZONE)
     ec3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
     ec3:SetCountLimit(1)
-    ec3:SetValue(function(e, re, r, rp)
-        return (r & REASON_BATTLE + REASON_EFFECT) ~= 0
-    end)
+    ec3:SetValue(function(e, re, r) return (r & REASON_EFFECT) ~= 0 end)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
     rc:RegisterEffect(ec3, true)
 end
