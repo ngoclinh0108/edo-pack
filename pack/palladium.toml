@@ -169,7 +169,7 @@ name = "Palladium Oracle Shimon"
 type = "monster effect"
 attribute = "light"
 race = "spellcaster"
-level = 6
+level = 5
 atk = 1800
 def = 2200
 effect = """\
@@ -912,29 +912,24 @@ strings = [
 [card.ragnarok-palladium]
 id = 910000108
 set = "palladium"
-name = "Ragnarok of Palladium"
+name = "Palladium Ragnarok"
 type = "spell quick-play"
 effect = """\
-During either turn, except the End Phase: \
-    Banish any number of monster you control and/or hand, GY, at least 1 "Palladium" monster; \
-    choose up to that many face-up monsters your opponent controls (min. 1), \
-    and their effects are negated until the end of this turn, \
-    also, for the rest of this turn after this card resolves, your opponent takes no damage. \
-    During the End Phase of the turn you activated this card, \
-    banished all monsters on the field, ignoring monster's effects whose Divine Hierarchy equal or lower than \
-    the total Divine Hierarchy of the banished monster(s) had on the field for this card's activation. \
-    Your opponent cannot activate cards or effects in response to this card's activation. \
-    You can only activate 1 "Ragnarok of Palladium" per turn. \
-During your Main Phase, except the turn this card was sent to the GY: \
-    You can banish this card from your GY and pay half your LP; \
-    Special Summon any number of your banished monsters, at least 1 "Palladium" monster, ignoring the Summoning conditions. \
-    During the End Phase, banish all monsters that were Special Summoned by this effect, ignoring card effects. \
-    You can only use this effect of "Ragnarok of Palladium" once per Duel. \
+Send any number of other cards from your hand and/or field to the GY, at least 1 "Palladium" card; \
+    choose that many face-up cards your opponent controls, \
+    their ATK is halved if they ware monster, also their effects are negated. \
+    In response to this card's activation, your opponent cannot activate cards, or the effects of cards, \
+    with the same original type (Monster/Spell/Trap) as the cards sent to the GY to activate this card. \
+    You can only activate 1 "Palladium Ragnarok" per turn. \
+During your Main Phase 2, except the turn this card was sent to the GY, \
+    while you control 2 Level 6 or 7 LIGHT Spellcaster "Palldium" monsters with different names: \
+    You can banish this card from your GY and all monsters in your hand, Deck, and GY; \
+    Banished all monsters your opponent controls, ignoring monster's effects whose Divine Hierarchy equal or lower than \
+    the total Divine Hierarchy of your monsters banished for this effect's activation. \
+    Cards and effects cannot be activated in response to this effect's activation. \
+    You can only use this effect of "Palladium Ragnarok" once per Duel. \
 """
-strings = [
-    "Affected by effect \"Ragnarok of Palladium\": take no damage this turn",
-    "Summoned by \"Ragnarok of Palladium\"",
-]
+strings = []
 
 [card.palladium-binding-circle]
 id = 910000109

@@ -188,7 +188,7 @@ Utility.GroupSelect = aux.FunctionWithNamedArgs(
 
         -- select unselect
         while true do
-            local finishable = check(sg, e, tp, mg)
+            local finishable = #sg >= min and #sg <= max and finishable
             Duel.Hint(HINT_SELECTMSG, tp, hintmsg)
             local sc =
                 Group.SelectUnselect(mg, sg, tp, finishable, cancelable, min,
@@ -204,7 +204,9 @@ Utility.GroupSelect = aux.FunctionWithNamedArgs(
             end
 
             if breakcon == nil then
-                if #sg == max and finishable then break end
+                if #sg >= min and #sg <= max and check(sg, e, tp, mg) then
+                    break
+                end
             else
                 if breakcon(sg, e, tp, mg) then break end
             end
