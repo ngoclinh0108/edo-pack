@@ -20,8 +20,8 @@ function s.initial_effect(c)
 end
 
 function s.e1sumcheck(c, e, tp)
-    return (c:IsRace(RACE_DIVINE) or c:IsSummonableCard()) and
-               not c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)
+    return not c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
+               c:IsSummonableCard()
 end
 
 function s.e1filter(c, e, tp)
