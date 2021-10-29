@@ -48,8 +48,6 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetHintTiming(TIMINGS_CHECK_MONSTER + TIMING_BATTLE_START +
-                         TIMING_MAIN_END)
     e2:SetCountLimit(1, id)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
