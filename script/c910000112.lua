@@ -123,7 +123,7 @@ end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsAbleToDeckAsCost() end
-    Duel.SendtoDeck(e:GetHandler(), nil, SEQ_DECKSHUFFLE, REASON_COST)
+    Duel.SendtoDeck(e:GetHandler(), nil, SEQ_DECKBOTTOM, REASON_COST)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
