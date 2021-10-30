@@ -1,28 +1,44 @@
--- Palladium Fusion Control
+-- Palladium Fusion Mastery
 Duel.LoadScript("util.lua")
 local s, id = GetID()
+
+s.listed_series = {0x46}
 
 function s.initial_effect(c)
     c:AddSetcodesRule(0x13a)
 
     -- activate
+    local e0 = Effect.CreateEffect(c)
+    e0:SetType(EFFECT_TYPE_ACTIVATE)
+    e0:SetCode(EVENT_FREE_CHAIN)
+    e0:SetTarget(Utility.MultiEffectTarget(s))
+    e0:SetOperation(Utility.MultiEffectOperation(s))
+    c:RegisterEffect(e0)
+
+    -- activate
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 1))
     e1:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
-    e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
-    c:RegisterEffect(e1)
+    Utility.RegisterMultiEffect(s, 1, e1)
 
     -- prevent fusion negation
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 2))
-    e2:SetType(EFFECT_TYPE_ACTIVATE)
-    e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
+    Utility.RegisterMultiEffect(s, 2, e2)
+
+    -- search fusion
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCountLimit(1, id)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1filter1(c)
@@ -135,3 +151,34 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec3, tp)
 end
 
+function s.e3filter(c)
+    return c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand() and
+               not c:IsCode(id)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           nil) and c:IsAbleToDeck()
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, c, 1, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp,
+                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                         1, nil)
+    if #g == 0 or Duel.SendtoHand(g, nil, REASON_EFFECT) == 0 then return end
+    Duel.ConfirmCards(1 - tp, g)
+
+    if c:IsRelateToEffect(e) then
+        Duel.BreakEffect()
+        Duel.SendtoDeck(c, nil, SEQ_DECKBOTTOM, REASON_EFFECT)
+    end
+end

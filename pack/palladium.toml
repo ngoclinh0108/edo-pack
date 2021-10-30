@@ -780,10 +780,10 @@ Activate 1 of these effects.
 """
 strings = []
 
-[card.palladium-fusion-control]
+[card.palladium-fusion-mastery]
 id = 910000102
 alias = 95286165
-name = "Palladium Fusion Control"
+name = "Palladium Fusion Mastery"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "De-Fusion" and it is "Palladium" card.)
@@ -793,6 +793,11 @@ Activate 1 of these effects.
     you can Special Summon all of them.
 ● This turn, the activation of your cards and effects that include an effect that Fusion Summons a Fusion Monster cannot be negated, \
     also your opponent cannot activate cards or effects when a monster is Fusion Summoned this way.
+During your Main Phase, while this card is in the GY: \
+    You add 1 "Fusion" or "Polymerization" Spell from your Deck or GY to your hand, \
+    except "Palladium Fusion Mastery", \
+    then return this card to the bottom of the Deck. \
+    You can only use this effect of "Palladium Fusion Mastery" once per turn. \
 """
 strings = [
     "Special Summon all Fusion Materials",
