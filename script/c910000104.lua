@@ -24,7 +24,7 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- salvage
+    -- to hand
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_IGNITION)
@@ -113,7 +113,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_REMOVED, 0, nil)
 
-    if #g > 0 and Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
+    if #g > 0 and Duel.SendtoDeck(c, nil, SEQ_DECKBOTTOM, REASON_EFFECT) > 0 then
         Duel.BreakEffect()
         g = Utility.GroupSelect(HINTMSG_RTOHAND, g, tp)
         Duel.SendtoHand(g, nil, REASON_EFFECT)

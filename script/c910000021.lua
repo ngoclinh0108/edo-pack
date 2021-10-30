@@ -27,13 +27,6 @@ function s.initial_effect(c)
     sp:SetOperation(s.spop)
     c:RegisterEffect(sp)
 
-    -- summon cannot be negated
-    local spsafe = Effect.CreateEffect(c)
-    spsafe:SetType(EFFECT_TYPE_SINGLE)
-    spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    c:RegisterEffect(spsafe)
-
     -- search
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))

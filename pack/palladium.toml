@@ -514,14 +514,13 @@ Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
     by stacking it on top of 1 "Palladium Oracle Mahad" you control with 3 or more Spell Counters. \
 You can only Special Summon "Dark Sorcerer of Palladium(s)" once per turn. \
-This card's Special Summon cannot be negated. \
 This card's original ATK become 1000 x the number of Spell Counters of the monster used for its Summon. \
 Unaffected by other cards' effects. \
 (Quick Effect): \
     You can target 1 Normal/Ritual/Quick-Play Spell, or Normal/Counter Trap, \
     that meets its activation conditions in either GY; \
     this effect becomes that card's effect when it is activated, \
-    then shuffle it into the Deck. \
+    then return it to the bottom of the Deck. \
     You can only use this effect of "Dark Sorcerer of Palladium" once per turn. \
 Once per turn (Quick Effect): \
     You can detach 1 material from this card; \
@@ -546,7 +545,6 @@ Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
     by stacking it on top of 1 "Palladium Oracle Mana" you control with 2 or more Spell Counters. \
 You can only Special Summon "Dark Sorceress of Palladium(s)" once per turn. \
-This card's Special Summon cannot be negated. \
 If Special Summoned this way: Add 1 Spell/Trap Card from your Deck to your hand. \
 Cannot be destroyed by card effects. \
 Your opponent cannot target this card with card effects. \
@@ -828,7 +826,7 @@ Banish 1 card from your Deck or in either GY, \
     as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
     You can only activate 1 "Palladium Sacrophagus" per turn. \
 During your Main Phase, except the turn this card was sent to the GY: \
-    You can shuffle this card from your GY into the Deck, \
+    You can return this card to the bottom of the Deck, \
     and if you do, add 1 your face-up banished card to your hand. \
     You can only use this effect of "Palladium Sacrophagus" once per turn. \
 """
