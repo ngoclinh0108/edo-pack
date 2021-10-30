@@ -2,18 +2,19 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {71703785}
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    c:AddSetcodesRule(0x13a)
-
     -- activate
     local e0 = Effect.CreateEffect(c)
     e0:SetType(EFFECT_TYPE_ACTIVATE)
     e0:SetCode(EVENT_FREE_CHAIN)
     e0:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
-                   Duel.IsTurnPlayer(1 - tp)
+                   Duel.IsExistingMatchingCard(function(c)
+                return c:IsFaceup() and c:IsSetCard(71703785)
+            end, tp, LOCATION_ONFIELD, 0, 1, nil)
     end)
     e0:SetTarget(Utility.MultiEffectTarget(s))
     e0:SetOperation(Utility.MultiEffectOperation(s))
@@ -46,39 +47,4 @@ function s.initial_effect(c)
         end
     })
     Utility.RegisterMultiEffect(s, 2, e2)
-
-    -- to hand
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TOHAND)
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetCountLimit(1, id)
-    e3:SetCondition(aux.exccon)
-    e3:SetCost(s.e3cost)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
-end
-
-function s.e3filter(c) return c:IsType(TYPE_SPELL) and c:IsDiscardable() end
-
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND, 0, 1,
-                                           nil)
-    end
-
-    Duel.DiscardHand(tp, s.e3filter, 1, 1, REASON_COST + REASON_DISCARD)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:IsAbleToHand() end
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
-    Duel.SendtoHand(c, nil, REASON_EFFECT)
 end

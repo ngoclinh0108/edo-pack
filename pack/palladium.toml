@@ -762,29 +762,22 @@ You can only activate 1 "Millennium Memories" once per turn. Activate 1 of these
 ● This turn, "Palladium" monsters you currently control gains 1000 ATK, and are unaffected by your opponent's card effects.
 If you control "Palladium Oracle Mahad", your opponent cannot activate cards or effects in response to this card's activation. \
 """
-strings = [
-    "Add card to hand",
-    "Place Spell Counter",
-    "Boost ATK & unaffected",
-]
+strings = ["Add card to hand", "Place Spell Counter", "Boost ATK & unaffected"]
 
 [card.forbidden-art-palladium]
 id = 910000101
-alias = 24094653
+set = "palladium"
 name = "Forbidden Art of Palladium"
-type = "spell ritual"
+type = "spell quick-play"
 effect = """\
-(This card's name is always treated as "Polymerization" and it is "Palladium" card.)
-This card can be used to Ritual Summon any "Palladium" Ritual Monster. Activate 1 of these effects.
+You can only activate this card during your Main Phase, unless you control "Palladium Oracle Mahad". \
+Activate 1 of these effects.
 ● Ritual Summon 1 "Palladium" Ritual Monster from your hand or Deck, \
     by Tributing monsters from your hand or field, \
     whose total Levels equal or exceed the Level of the Ritual Monster.
 ● Fusion Summon 1 Fusion Monster from your Extra Deck, \
     using monsters from your hand or field as Fusion Material, including a "Palladium" monster, \
     you can use 1 "Palladium" monster from your Deck as material.
-During your Main Phase, except the turn this card was sent to the GY: \
-    You can discard 1 Spell; add this card to your hand. \
-    You can only use this effect of "Forbidden Art of Palladium" once per turn. \
 """
 strings = []
 
