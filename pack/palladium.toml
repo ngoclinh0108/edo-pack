@@ -57,7 +57,7 @@ level = 8
 atk = 2800
 def = 2600
 effect = """\
-You can Ritual Summon this card with "Forbidden Art of Palladium". \
+You can Ritual Summon this card with a "Palladium" card. \
 Must first be Ritual Summoned, with using at least 1 Spellcaster monster. \
 After this card was Special Summoned, your opponent cannot activate monster effects for the rest of that turn. \
 You can only use the following effect of "Chaos Palladium Oracle Aknamkanon" once per turn.
@@ -83,7 +83,7 @@ level = 8
 atk = 3000
 def = 2500
 effect = """\
-You can Ritual Summon this card with "Forbidden Art of Palladium". \
+You can Ritual Summon this card with a "Palladium" card. \
 Must first be either Ritual Summoned, \
     or Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
 You can only Special Summon "Black Luster Soldier - Palladium Soldier(s)" once per turn. \
