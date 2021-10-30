@@ -210,8 +210,8 @@ ${HIERARCHY_CUSTOM|1| and its Attribute is also DARK}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-During the End Phase, if this card was Special Summoned, \
-    return it to the location it was Special Summoned. \
+During the turn this card is Special Summoned from the GY, \
+    it cannot attack, and send it to the GY during the End Phase. \
 Halve the ATK/DEF of all other monsters on the field, \
     whose Divine Hierarchy same or lower than this card's. \
 Negate the effects of monsters destroyed by battle with this card. \
@@ -235,8 +235,8 @@ ${HIERARCHY_CUSTOM|1| and its Attribute is also DARK}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-During the End Phase, if this card was Special Summoned, \
-    return it to the location it was Special Summoned. \
+During the turn this card is Special Summoned from the GY, \
+    it cannot attack, and send it to the GY during the End Phase. \
 This card's original ATK and DEF are each equal to the number of cards your opponent controls x X000. \
     (X is this card's Divine Hierarchy). \
 During your Main Phase: You can destroy this card. \
@@ -264,11 +264,11 @@ ${HIERARCHY_CUSTOM|2| and its Attribute is also DARK}
 Cannot be Special Summoned. \
 ${EGYPTIAN_SUMMON} \
 ${EGYPTIAN_EFFECT} \
-During the End Phase, if this card was Special Summoned, \
-    return it to the location it was Special Summoned. \
+During the turn this card is Special Summoned from the GY, \
+    it cannot attack, and send it to the GY during the End Phase. \
 This card is also DARK-Attribute monster while it is on the field. \
-If this card is Normal Summoned: \
-    Your opponent cannot activate Spell/Trap Cards until the end of their 2nd turn after this effect's activation. \
+After this card was Normal Summoned, your opponent cannot activate Spell/Trap Cards \
+    until the end of their 2nd turn after this effect's activation. \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
     and you take no battle damage from that battle. \

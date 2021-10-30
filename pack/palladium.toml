@@ -789,18 +789,16 @@ name = "Palladium Fusion Control"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "De-Fusion" and it is "Palladium" card.)
-Target 1 Fusion Monster on the field; \
-    return it to the Extra Deck, \
-    then, if all the Fusion Materials that were used for its Fusion Summon are banished and/or are in your hand, Deck, GY, \
-    you can Special Summon as many of them. \
-You can discard this card from your hand; \
-    this turn, the activation of your cards and effects that include an effect that Fusion Summons a Fusion Monster cannot be negated, \
-    also your opponent cannot activate cards or effects when a monster is Fusion Summoned this way. \
-    You can only use this effect of "Palladium Fusion Control" once per turn. \
+Activate 1 of these effects.
+● Target 1 Fusion Monster on the field; return it to the Extra Deck, then, \
+    if all the Fusion Materials that were used for its Fusion Summon are banished and/or are in your hand, Deck, GY, \
+    you can Special Summon all of them.
+● This turn, the activation of your cards and effects that include an effect that Fusion Summons a Fusion Monster cannot be negated, \
+    also your opponent cannot activate cards or effects when a monster is Fusion Summoned this way.
 """
 strings = [
-    "Target Fusion Monster",
     "Special Summon all Fusion Materials",
+    "De-fuse a Fusion Monster",
     "Prevent Fusion Negation",
 ]
 

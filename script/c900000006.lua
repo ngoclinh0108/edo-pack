@@ -13,36 +13,44 @@ function s.initial_effect(c)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     Divine.RegisterEffect(c, splimit)
 
-    -- return
-    local spreturn = Effect.CreateEffect(c)
-    spreturn:SetDescription(0)
-    spreturn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    spreturn:SetRange(LOCATION_MZONE)
-    spreturn:SetCode(EVENT_PHASE + PHASE_END)
-    spreturn:SetCountLimit(1)
-    spreturn:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        if not c:IsSummonType(SUMMON_TYPE_SPECIAL) then return false end
-        return (c:IsPreviousLocation(LOCATION_HAND) and c:IsAbleToHand()) or
-                   (c:IsPreviousLocation(LOCATION_DECK + LOCATION_EXTRA) and
-                       c:IsAbleToDeck()) or
-                   (c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()) or
-                   (c:IsPreviousLocation(LOCATION_REMOVED) and
-                       c:IsAbleToRemove())
+    -- cannot attack when special summoned from the grave
+    local spnoattack = Effect.CreateEffect(c)
+    spnoattack:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    spnoattack:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    spnoattack:SetCode(EVENT_SPSUMMON_SUCCESS)
+    spnoattack:SetCondition(function(e)
+        return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
     end)
-    spreturn:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    spnoattack:SetOperation(function(e)
         local c = e:GetHandler()
-        if c:IsPreviousLocation(LOCATION_HAND) then
-            Duel.SendtoHand(c, nil, REASON_EFFECT)
-        elseif c:IsPreviousLocation(LOCATION_DECK) then
-            Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
-        elseif c:IsPreviousLocation(LOCATION_GRAVE) then
-            Duel.SendtoGrave(c, REASON_EFFECT)
-        elseif c:IsPreviousLocation(LOCATION_REMOVED) then
-            Duel.Remove(c, c:GetPreviousPosition(), REASON_EFFECT)
-        end
+        if c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) then return end
+
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3206)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        Divine.RegisterEffect(c, ec1)
     end)
-    Divine.RegisterEffect(c, spreturn)
+    Divine.RegisterEffect(c, spnoattack)
+
+    -- to grave
+    local togy = Effect.CreateEffect(c)
+    togy:SetDescription(666003)
+    togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    togy:SetRange(LOCATION_MZONE)
+    togy:SetCode(EVENT_PHASE + PHASE_END)
+    togy:SetCountLimit(1)
+    togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+                   c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()
+    end)
+    togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
+    end)
+    Divine.RegisterEffect(c, togy)
 
     -- half atk
     local e1 = Effect.CreateEffect(c)

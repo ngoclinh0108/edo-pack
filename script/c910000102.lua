@@ -7,7 +7,7 @@ function s.initial_effect(c)
 
     -- activate
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetDescription(aux.Stringid(id, 1))
     e1:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -19,10 +19,8 @@ function s.initial_effect(c)
     -- prevent fusion negation
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 2))
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_HAND)
-    e2:SetCountLimit(1, id)
-    e2:SetCost(s.e2cost)
+    e2:SetType(EFFECT_TYPE_ACTIVATE)
+    e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 end
@@ -58,30 +56,17 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
 
-    local sumtype = tc:GetSummonType()
     local mg = tc:GetMaterial()
-    if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) == 0 then return end
-
-    mg = mg:Filter(aux.NecroValleyFilter(s.e1filter2), nil, e, tp, tc, mg)
-    if #mg == 0 then return end
-
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    if ft == 0 then return end
-    if ft > #mg then ft = #mg end
-    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then ft = 1 end
-
-    if (sumtype & SUMMON_TYPE_FUSION) == SUMMON_TYPE_FUSION and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
+    local sumtype = tc:GetSummonType()
+    if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) ~= 0 and
+        (sumtype & SUMMON_TYPE_FUSION) == SUMMON_TYPE_FUSION and
+        mg:FilterCount(aux.NecroValleyFilter(s.e1filter2), nil, e, tp, tc, mg) ==
+        #mg and #mg > 0 and #mg <= Duel.GetLocationCount(tp, LOCATION_MZONE) and
+        (#mg == 1 or not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)) and
+        Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
-
-        local g = Utility.GroupSelect(HINTMSG_SPSUMMON, mg, tp, 1, ft)
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+        Duel.SpecialSummon(mg, 0, tp, tp, false, false, POS_FACEUP)
     end
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return e:GetHandler():IsDiscardable() end
-    Duel.SendtoGrave(e:GetHandler(), REASON_COST + REASON_DISCARD)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
