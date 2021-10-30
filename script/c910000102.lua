@@ -152,8 +152,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c)
-    return c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand() and
-               not c:IsCode(id)
+    return c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand()
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -161,7 +160,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e3filter, tp,
                                            LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil) and c:IsAbleToDeck()
+                                           c) and c:IsAbleToDeck()
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
@@ -173,9 +172,10 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp,
                                          LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                         1, nil)
+                                         1, c)
     if #g == 0 or Duel.SendtoHand(g, nil, REASON_EFFECT) == 0 then return end
     Duel.ConfirmCards(1 - tp, g)
+    Duel.ShuffleDeck(tp)
 
     if c:IsRelateToEffect(e) then
         Duel.BreakEffect()
