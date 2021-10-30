@@ -459,7 +459,7 @@ effect = """\
 You can discard this card; \
     add 1 "Fusion" or "Polymerization" Spell, or 1 Level 4 or lower "Palladium" monster from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Beast Berfomet" once per turn. \
-When this card destroys an opponent's monster by battle: \
+When this card destroys a monster by battle: \
     Inflict damage to your opponent equal to the ATK of the destroyed monster. \
 When you Fusion Summon a "Palladium" monster, you can banish this card from your GY as 1 of materials. \
 """
