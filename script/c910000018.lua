@@ -2,8 +2,7 @@
 local s, id = GetID()
 Duel.LoadScript("util.lua")
 
-s.listed_names = {CARD_POLYMERIZATION}
-s.listed_series = {0x13a}
+s.listed_series = {0x13a, 0x46}
 
 function s.initial_effect(c)
     -- to hand
@@ -44,7 +43,7 @@ end
 
 function s.e1filter(c)
     if not c:IsAbleToHand() then return false end
-    return c:IsCode(CARD_POLYMERIZATION) or
+    return (c:IsSetCard(0x46) and c:IsType(TYPE_SPELL)) or
                (c:IsLevelBelow(4) and c:IsSetCard(0x13a))
 end
 

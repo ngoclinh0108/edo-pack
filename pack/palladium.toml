@@ -438,7 +438,7 @@ def = 1200
 effect = """\
 If this card is Normal or Special Summoned: \
     You can send 1 Level 5 or higher "Palladium" monster from your Deck to the GY; \
-    add 1 "Polymerization" from your Deck or GY to your hand. \
+    add 1 "Fusion" or "Polymerization" Spell from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Beast Gazelle" once per turn. \
 If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
 If this card is used as material for a Fusion Summon: You can draw 1 card. \
@@ -457,7 +457,7 @@ atk = 1400
 def = 1800
 effect = """\
 You can discard this card; \
-    add 1 "Polymerization" or 1 Level 4 or lower "Palladium" monster from your Deck or GY to your hand. \
+    add 1 "Fusion" or "Polymerization" Spell, or 1 Level 4 or lower "Palladium" monster from your Deck or GY to your hand. \
     You can only use this effect of "Palladium Beast Berfomet" once per turn. \
 When this card destroys an opponent's monster by battle: \
     Inflict damage to your opponent equal to the ATK of the destroyed monster. \
@@ -766,10 +766,11 @@ strings = ["Add card to hand", "Place Spell Counter", "Boost ATK & unaffected"]
 
 [card.forbidden-art-palladium]
 id = 910000101
-set = "palladium"
+set = "palladium fusion"
 name = "Forbidden Art of Palladium"
 type = "spell quick-play"
 effect = """\
+(This card is always treated as an "Fusion" card.)
 You can only activate this card during your Main Phase, unless you control "Palladium Oracle Mahad". \
 Activate 1 of these effects.
 ● Ritual Summon 1 "Palladium" Ritual Monster from your hand or Deck, \
