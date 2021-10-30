@@ -173,6 +173,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
     local ct = Duel.Destroy(g, REASON_EFFECT)
     if ct > 0 and c:IsFaceup() and c:IsRelateToEffect(e) then
