@@ -85,7 +85,8 @@ function s.initial_effect(c)
 end
 
 function s.spfilter1(c)
-    return c:IsType(TYPE_SPELL) and c:IsType(TYPE_RITUAL) and c:IsDiscardable()
+    return c:IsType(TYPE_SPELL) and c:IsType(TYPE_RITUAL) and
+               c:IsAbleToGraveAsCost() and (c:IsFacedown() or not c:IsOnField())
 end
 
 function s.spfilter2(c, sc, tp)
@@ -98,7 +99,8 @@ function s.spcon(e, c)
     if c == nil then return true end
     local tp = c:GetControler()
 
-    local g1 = Duel.GetMatchingGroup(s.spfilter1, tp, LOCATION_HAND, 0, c)
+    local g1 = Duel.GetMatchingGroup(s.spfilter1, tp,
+                                     LOCATION_HAND + LOCATION_ONFIELD, 0, c)
     local g2 = Duel.GetMatchingGroup(s.spfilter2, tp, LOCATION_MZONE, 0, nil, c,
                                      tp)
     return #g1 > 0 and #g2 > 0 and
@@ -108,8 +110,9 @@ end
 
 function s.sptg(e, tp, eg, ep, ev, re, r, rp, c)
     local c = e:GetHandler()
-    local g1 = Duel.GetMatchingGroup(s.spfilter1, tp, LOCATION_HAND, 0, c)
-    g1 = aux.SelectUnselectGroup(g1, e, tp, 1, 1, nil, 1, tp, HINTMSG_DISCARD,
+    local g1 = Duel.GetMatchingGroup(s.spfilter1, tp,
+                                     LOCATION_HAND + LOCATION_ONFIELD, 0, c)
+    g1 = aux.SelectUnselectGroup(g1, e, tp, 1, 1, nil, 1, tp, HINTMSG_TOGRAVE,
                                  nil, nil, true)
     local g2 = Duel.GetMatchingGroup(s.spfilter2, tp, LOCATION_MZONE, 0, nil, c,
                                      tp)
