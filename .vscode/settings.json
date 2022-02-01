@@ -1,13 +1,13 @@
 {
   "files.exclude": {
-    "**/.git": false,
-    "**/.svn": false,
-    "**/.hg": false,
-    "**/CVS": false,
-    "**/.DS_Store": false,
-    "**/Thumbs.db": false,
-    ".gitignore": false,
-    ".vscode": false,
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".gitignore": true,
+    ".vscode": true
   },
 	"Lua.diagnostics.disable": ["undefined-global", "lowercase-global"],
 	"explorerExclude.backup": null
