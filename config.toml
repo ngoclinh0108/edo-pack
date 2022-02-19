@@ -4,8 +4,8 @@ recipe  = [
     "macro.toml",
     "setcard.toml",
     "pack/_generic.toml",
-    "pack/blue-eye.toml",
-    "pack/palladium.toml",
+    # "pack/blue-eye.toml",
+    # "pack/palladium.toml",
 ]
 
 [picset.triplesix]
