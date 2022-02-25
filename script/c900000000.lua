@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.mode = {destiny_draw = 0, set_field = 1}
+s.mode = {destiny_draw = 1, set_field = 1}
 
 function s.initial_effect(c)
     local startup = Effect.CreateEffect(c)
