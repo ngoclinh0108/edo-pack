@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.mode = {destiny_draw = 1, set_field = 1}
+s.mode = {destiny_draw = 0}
 
 function s.initial_effect(c)
     local startup = Effect.CreateEffect(c)
@@ -65,44 +65,32 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     local mulligan = Effect.CreateEffect(c)
     mulligan:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     mulligan:SetCode(EVENT_ADJUST)
-    mulligan:SetCountLimit(1)
-    mulligan:SetCondition(function(e, tp)
-        return
-            Duel.GetCurrentPhase() == PHASE_DRAW and Duel.GetTurnCount() == 1 and
-                Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) > 0 and
-                Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0
-    end)
-    mulligan:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        if not Duel.SelectYesNo(tp, 507) then return end
-        local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_HAND, 0, 1,
-                                          Duel.GetFieldGroupCount(tp,
-                                                                  LOCATION_HAND,
-                                                                  0), nil)
-        local ct = Duel.SendtoDeck(g, nil, SEQ_DECKBOTTOM, REASON_RULE)
-        Duel.Draw(tp, ct, REASON_RULE)
-        Duel.ShuffleDeck(tp)
+    mulligan:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
+    mulligan:SetCondition(function() return Duel.GetTurnCount() == 1 end)
+    mulligan:SetOperation(function(e, tp)
+        if Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) > 0 and
+            Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and
+            Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+            local max = Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0)
+            local g = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, aux.TRUE,
+                                                 tp, LOCATION_HAND, 0, 1, max,
+                                                 nil)
+            local ct = Duel.SendtoDeck(g, nil, SEQ_DECKBOTTOM, REASON_RULE)
+            Duel.Draw(tp, ct, REASON_RULE)
+            Duel.ShuffleDeck(tp)
+        end
+
+        s.mode["destiny_draw"] = 1
     end)
     Duel.RegisterEffect(mulligan, tp)
 
-    -- mode toggle
-    local toggle = Effect.CreateEffect(c)
-    toggle:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    toggle:SetCode(EVENT_FREE_CHAIN)
-    toggle:SetCondition(function()
-        local ph = Duel.GetCurrentPhase()
-        return not (ph >= PHASE_BATTLE_START and ph < PHASE_BATTLE)
-    end)
-    toggle:SetOperation(s.toggleop)
-    Duel.RegisterEffect(toggle, tp)
-
-    -- activate field
+    -- place field
     local field = Effect.CreateEffect(c)
     field:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     field:SetCode(EVENT_ADJUST)
     field:SetCountLimit(1)
     field:SetCondition(function(e, tp)
-        return s.mode["set_field"] == 1 and Duel.IsTurnPlayer(tp) and
-                   Duel.GetCurrentPhase() == PHASE_DRAW
+        return Duel.IsTurnPlayer(tp) and Duel.GetCurrentPhase() == PHASE_DRAW
     end)
     field:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local g = Duel.GetMatchingGroup(function(c)
@@ -111,10 +99,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
                                                            true, false)
         end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                                             LOCATION_REMOVED, 0, nil)
-        if #g == 0 then return end
-        if Duel.GetTurnCount() > 2 and not Duel.SelectYesNo(tp, 2204) then
-            return
-        end
+        if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
 
         local sc = Utility.GroupSelect(HINTMSG_TOFIELD, g, tp):GetFirst()
         aux.PlayFieldSpell(sc, e, tp, eg, ep, ev, re, r, rp)
@@ -126,25 +111,6 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
     end)
     Duel.RegisterEffect(field, tp)
-
-    -- destiny draw
-    local ddraw = Effect.CreateEffect(c)
-    ddraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    ddraw:SetCode(EVENT_PREDRAW)
-    ddraw:SetCountLimit(1)
-    ddraw:SetCondition(function(e, tp)
-        return s.mode["destiny_draw"] == 1 and Duel.IsTurnPlayer(tp) and
-                   Duel.GetTurnCount() > 1 and
-                   Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 1 and
-                   Duel.GetDrawCount(tp) > 0
-    end)
-    ddraw:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        if not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
-        local tc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, aux.TRUE, tp,
-                                              LOCATION_DECK, 0, 1, 1, nil):GetFirst()
-        Duel.MoveSequence(tc, 0)
-    end)
-    Duel.RegisterEffect(ddraw, tp)
 end
 
 function s.diceop(e, tp, eg, ep, ev, re, r, rp)
@@ -186,34 +152,22 @@ function s.coinop(e, tp, eg, ep, ev, re, r, rp)
     s[1] = cid
 end
 
-function s.toggleop(e, tp, eg, ep, ev, re, r, rp)
-    local list = {
-        {desc = 666000, check = true, op = nil},
-        {desc = aux.Stringid(id, 1), check = s.mode["set_field"] == 1},
-        {desc = aux.Stringid(id, 2), check = s.mode["set_field"] == 0},
-        {desc = aux.Stringid(id, 3), check = s.mode["destiny_draw"] == 1},
-        {desc = aux.Stringid(id, 4), check = s.mode["destiny_draw"] == 0}
-    }
+local ddr = Duel.Draw
+Duel.Draw = function(...)
+    local tb = {...}
+    local tp = tb[1]
+    local count = tb[2]
 
-    local opt = {}
-    local sel = {}
-    for i, item in ipairs(list) do
-        if item.check then
-            table.insert(opt, item.desc)
-            table.insert(sel, i)
+    if (s.mode["destiny_draw"] == 1 and
+        Duel.SelectYesNo(tp, aux.Stringid(id, 2))) then
+        local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, aux.TRUE, tp,
+                                             LOCATION_DECK, 0, count, count, nil)
+        local i = 0
+        for tc in aux.Next(g) do
+            Duel.MoveSequence(tc, i)
+            i = i + 1
         end
     end
-    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
-    if op == 1 then
-        return
-    elseif op == 2 then
-        s.mode["set_field"] = 0
-    elseif op == 3 then
-        s.mode["set_field"] = 1
-    elseif op == 4 then
-        s.mode["destiny_draw"] = 0
-    elseif op == 5 then
-        s.mode["destiny_draw"] = 1
-    end
+    return ddr(...)
 end
