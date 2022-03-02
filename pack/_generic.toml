@@ -3,8 +3,8 @@ id = 900000000
 name = "Millennium Hieroglyph"
 strings = [
     "Mulligan?",
-    "Perform Destiny Draw?",
     "Place field?",
+    "Perform Destiny Draw?",
 ]
 
 [card.obelisk]
