@@ -16,7 +16,7 @@ end
 
 function s.startup(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-
+    
     -- remove from duel
     Duel.DisableShuffleCheck(true)
     Duel.SendtoDeck(c, tp, -2, REASON_RULE)
@@ -39,6 +39,9 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
             tc.deck_edit(tp)
             deck_edit:AddCard(tc)
         end
+
+        Duel.ShuffleDeck(tp)
+        Duel.ShuffleExtra(tp)
     end
     for tc in aux.Next(g) do
         if tc.global_effect and not global_effect:IsExists(function(c)
