@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.mode = {destiny_draw = 0}
+s.destiny_draw = 0
 
 function s.initial_effect(c)
     local startup = Effect.CreateEffect(c)
@@ -49,18 +49,6 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
     end
 
-    -- set dice & coin result
-    local dice = Effect.CreateEffect(c)
-    dice:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    dice:SetCode(EVENT_TOSS_DICE_NEGATE)
-    dice:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return rp == tp end)
-    dice:SetOperation(s.diceop)
-    Duel.RegisterEffect(dice, tp)
-    local coin = dice:Clone()
-    coin:SetCode(EVENT_TOSS_COIN_NEGATE)
-    coin:SetOperation(s.coinop)
-    Duel.RegisterEffect(coin, tp)
-
     -- mulligan
     local mulligan = Effect.CreateEffect(c)
     mulligan:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -80,7 +68,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
             Duel.ShuffleDeck(tp)
         end
 
-        s.mode["destiny_draw"] = 1
+        s.destiny_draw = 1
     end)
     Duel.RegisterEffect(mulligan, tp)
 
@@ -99,7 +87,9 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
                                                            true, false)
         end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                                             LOCATION_REMOVED, 0, nil)
-        if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
+        if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
+            return
+        end
 
         local sc = Utility.GroupSelect(HINTMSG_TOFIELD, g, tp):GetFirst()
         aux.PlayFieldSpell(sc, e, tp, eg, ep, ev, re, r, rp)
@@ -113,52 +103,14 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(field, tp)
 end
 
-function s.diceop(e, tp, eg, ep, ev, re, r, rp)
-    local cc = Duel.GetCurrentChain()
-    local cid = Duel.GetChainInfo(cc, CHAININFO_CHAIN_ID)
-    if s[0] == cid or not Duel.SelectYesNo(tp, 553) then return end
-    Utility.HintCard(id)
-
-    local t = {}
-    for i = 1, 7 do t[i] = i end
-
-    local res = {Duel.GetDiceResult()}
-    local ct = bit.band(ev, 0xff) + bit.rshift(ev, 16)
-    for i = 1, ct do res[i] = Duel.AnnounceNumber(tp, table.unpack(t)) end
-
-    Duel.SetDiceResult(table.unpack(res))
-    s[0] = cid
-end
-
-function s.coinop(e, tp, eg, ep, ev, re, r, rp)
-    local cc = Duel.GetCurrentChain()
-    local cid = Duel.GetChainInfo(cc, CHAININFO_CHAIN_ID)
-    if s[1] == cid or not Duel.SelectYesNo(tp, 552) then return end
-    Utility.HintCard(id)
-
-    local res = {Duel.GetCoinResult()}
-    local ct = ev
-    for i = 1, ct do
-        local ac = Duel.SelectOption(tp, 60, 61)
-        if ac == 0 then
-            ac = 1
-        else
-            ac = 0
-        end
-        res[i] = ac
-    end
-
-    Duel.SetCoinResult(table.unpack(res))
-    s[1] = cid
-end
-
+-- destiny draw
 local ddr = Duel.Draw
 Duel.Draw = function(...)
     local tb = {...}
     local tp = tb[1]
     local count = tb[2]
 
-    if (s.mode["destiny_draw"] == 1 and
+    if (s.destiny_draw == 1 and
         Duel.SelectYesNo(tp, aux.Stringid(id, 2))) then
         local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, aux.TRUE, tp,
                                              LOCATION_DECK, 0, count, count, nil)
