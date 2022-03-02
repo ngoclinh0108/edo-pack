@@ -101,24 +101,44 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
     end)
     Duel.RegisterEffect(field, tp)
+
+    -- destiny draw (draw phase)
+    local ddraw = Effect.CreateEffect(c)
+    ddraw:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ddraw:SetCode(EVENT_PREDRAW)
+    ddraw:SetCountLimit(1)
+    ddraw:SetCondition(function(e, tp)
+        return s.destiny_draw == 1 and Duel.IsTurnPlayer(tp) and
+                   Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 1 and
+                   Duel.GetTurnCount() > 1
+    end)
+    ddraw:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        s.destinydraw(tp, Duel.GetDrawCount(tp))
+    end)
+    Duel.RegisterEffect(ddraw, tp)
 end
 
--- destiny draw
+-- destiny draw (effect)
 local ddr = Duel.Draw
 Duel.Draw = function(...)
     local tb = {...}
     local tp = tb[1]
     local count = tb[2]
 
-    if (s.destiny_draw == 1 and Duel.SelectYesNo(tp, aux.Stringid(id, 2))) then
-        local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, aux.TRUE, tp,
-                                             LOCATION_DECK, 0, count, count, nil)
-        local i = 0
-        for tc in aux.Next(g) do
-            Duel.MoveSequence(tc, i)
-            i = i + 1
-        end
+    if s.destiny_draw == 1 then s.destinydraw(tp, count) end
+    return ddr(...)
+end
+
+function s.destinydraw(tp, count)
+    if count == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
+        return
     end
 
-    return ddr(...)
+    local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, aux.TRUE, tp,
+                                         LOCATION_DECK, 0, count, count, nil)
+    local i = 0
+    for tc in aux.Next(g) do
+        Duel.MoveSequence(tc, i)
+        i = i + 1
+    end
 end
