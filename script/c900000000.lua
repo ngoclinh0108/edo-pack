@@ -87,9 +87,9 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
                                                            true, false)
         end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                                             LOCATION_REMOVED, 0, nil)
-        if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
-            return
-        end
+        if Duel.IsExistingMatchingCard(Card.IsFaceup, 0, LOCATION_FZONE, 0, 1,
+                                       nil) or #g == 0 or
+            not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
 
         local sc = Utility.GroupSelect(HINTMSG_TOFIELD, g, tp):GetFirst()
         aux.PlayFieldSpell(sc, e, tp, eg, ep, ev, re, r, rp)
@@ -110,8 +110,7 @@ Duel.Draw = function(...)
     local tp = tb[1]
     local count = tb[2]
 
-    if (s.destiny_draw == 1 and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 2))) then
+    if (s.destiny_draw == 1 and Duel.SelectYesNo(tp, aux.Stringid(id, 2))) then
         local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, aux.TRUE, tp,
                                              LOCATION_DECK, 0, count, count, nil)
         local i = 0
