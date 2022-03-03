@@ -90,7 +90,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
                                                            true, false)
         end, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE +
                                             LOCATION_REMOVED, 0, nil)
-        if Duel.IsExistingMatchingCard(Card.IsFaceup, 0, LOCATION_FZONE, 0, 1,
+        if Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_FZONE, 0, 1,
                                        nil) or #g == 0 or
             not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then return end
 
