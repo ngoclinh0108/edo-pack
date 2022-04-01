@@ -1,0 +1,11 @@
+[messiah]
+code = 990000000
+name = "Messiah, the Genesis Dracodeity"
+type = "monster link effect"
+attribute = "divine"
+race = "high-dragon"
+link = 7
+link_arrow = "top-left left bottom-left bottom bottom-right right top-right"
+atk = 5000
+effect = """\
+"""
