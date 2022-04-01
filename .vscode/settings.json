@@ -9,7 +9,8 @@
     ".gitignore": true,
     ".vscode": true,
     "old.zip": true,
-    "_generator": true
+    "_generator": true,
+    "triplesix.cdb": true
   },
 	"Lua.diagnostics.disable": ["undefined-global", "lowercase-global"],
 	"explorerExclude.backup": null
