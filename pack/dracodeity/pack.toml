@@ -1,21 +1,90 @@
 [messiah]
 code = 990000000
 rarity = "gold"
-name = "Messiah, the Genesis Dracodeity"
+name = "Messiah, Genesis of Dracodeity"
 type = "monster link effect"
 attribute = "divine"
 race = "creator-god"
 link = 7
 link_arrow = "bottom left right top-left top-right bottom-left bottom-right"
 atk = "?"
+effect = """\
+"""
 
 [greisen]
 code = 990000001
 rarity = "gold"
-name = "Greisen, Dracodeity of Light"
+name = "Greisen, Dracodeity of the Cosmogony"
 type = "monster link effect"
 attribute = "light"
 race = "high-dragon"
 link = 5
 link_arrow = "top bottom left right bottom-right"
 atk = 4000
+effect = """\
+"""
+
+[obsidian]
+code = 990000002
+rarity = "gold"
+name = "Obsidian, Dracodeity of the Void"
+type = "monster link effect"
+attribute = "dark"
+race = "high-dragon"
+link = 5
+link_arrow = "top bottom left right bottom-left"
+atk = 4000
+effect = """\
+"""
+
+[amber]
+code = 990000003
+rarity = "gold"
+name = "Amber, Dracodeity of the Inferno"
+type = "monster link effect"
+attribute = "fire"
+race = "high-dragon"
+link = 5
+link_arrow = "bottom left top-right bottom-left bottom-right"
+atk = 3800
+effect = """\
+"""
+
+[lapis]
+code = 990000004
+rarity = "gold"
+name = "Lapis, Dracodeity of the Abyss"
+type = "monster link effect"
+attribute = "water"
+race = "high-dragon"
+link = 5
+link_arrow = "bottom right top-left bottom-left bottom-right"
+atk = 3800
+effect = """\
+"""
+
+[andalusite]
+code = 990000005
+rarity = "gold"
+name = "Andalusite, Dracodeity of the Continent"
+type = "monster link effect"
+attribute = "earth"
+race = "high-dragon"
+link = 5
+link_arrow = "bottom left right top-left bottom-left"
+atk = 3800
+effect = """\
+"""
+
+[chrysoprase]
+code = 990000006
+rarity = "gold"
+name = "Chrysoprase, Dracodeity of the Air"
+type = "monster link effect"
+attribute = "wind"
+race = "high-dragon"
+link = 5
+link_arrow = "bottom left right top-right bottom-right"
+atk = 3800
+effect = """\
+"""
