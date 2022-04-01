@@ -1,9 +1,21 @@
 [messiah]
 code = 990000000
+rarity = "gold"
 name = "Messiah, the Genesis Dracodeity"
 type = "monster link effect"
 attribute = "divine"
 race = "creator-god"
 link = 7
-link_arrow = "top-left left bottom-left bottom bottom-right right top-right"
+link_arrow = "bottom left right top-left top-right bottom-left bottom-right"
 atk = "?"
+
+[greisen]
+code = 990000001
+rarity = "gold"
+name = "Greisen, Dracodeity of Light"
+type = "monster link effect"
+attribute = "light"
+race = "high-dragon"
+link = 5
+link_arrow = "top bottom left right bottom-right"
+atk = 4000
