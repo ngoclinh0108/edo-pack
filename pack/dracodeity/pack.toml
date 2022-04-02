@@ -1,14 +1,20 @@
-[messiah]
+[goshenite]
 id = 990000000
 rarity = "gold"
-name = "Messiah, Genesis of Dracodeity"
+name = "Goshenite of Dracodeity"
 type = "monster link effect"
-attribute = "divine"
-race = "creator-god"
-link = 6
-link_arrow = "left right top-left top-right bottom-left bottom-right"
-atk = "?"
+attribute = "light"
+race = "dragon"
+link = 3
+link_arrow = "top left right"
+atk = 0
 effect = """\
+3 monsters
+You can only control 1 {CARD_NAME}. \
+While face-up on the field, this card is not treated as LIGHT-Attribute. \
+    This effect cannot be negated. \
+You can use face-up monsters your opponent control as material to Link Summon a High Dragon Link Monster, \
+    as if they were Dragon monsters. \
 """
 
 [greisen]
@@ -22,6 +28,7 @@ link = 5
 link_arrow = "top bottom left right bottom-right"
 atk = 4000
 effect = """\
+3+ Dragon monsters, including a LIGHT monster
 """
 
 [obsidian]
@@ -35,6 +42,7 @@ link = 5
 link_arrow = "top bottom left right bottom-left"
 atk = 4000
 effect = """\
+3+ Dragon monsters, including a DARK monster
 """
 
 [amber]
@@ -48,6 +56,7 @@ link = 5
 link_arrow = "bottom left top-right bottom-left bottom-right"
 atk = 3800
 effect = """\
+3+ Dragon monsters, including a FIRE monster
 """
 
 [lapis]
@@ -61,6 +70,7 @@ link = 5
 link_arrow = "bottom right top-left bottom-left bottom-right"
 atk = 3800
 effect = """\
+3+ Dragon monsters, including a WATER monster
 """
 
 [andalusite]
@@ -74,6 +84,7 @@ link = 5
 link_arrow = "bottom left right top-left bottom-left"
 atk = 3800
 effect = """\
+3+ Dragon monsters, including a EARTH monster
 """
 
 [chrysoprase]
@@ -86,5 +97,19 @@ race = "high-dragon"
 link = 5
 link_arrow = "bottom left right top-right bottom-right"
 atk = 3800
+effect = """\
+3+ Dragon monsters, including a WIND monster
+"""
+
+[messiah]
+id = 990000007
+rarity = "gold"
+name = "Messiah, Genesis of Dracodeity"
+type = "monster link effect"
+attribute = "divine"
+race = "creator-god"
+link = 6
+link_arrow = "left right top bottom top-left top-right"
+atk = "?"
 effect = """\
 """
