@@ -5,5 +5,8 @@ packs = [
     "./pack/dracodeity/pack.toml",
 ]
 
-marcos = [ "./marco.toml" ]
+marcos = [
+    "./pack/dracodeity/marco.toml"
+]
+
 setcodes = [ "./setcode.toml" ]

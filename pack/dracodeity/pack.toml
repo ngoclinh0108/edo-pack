@@ -10,7 +10,7 @@ link_arrow = "top left right"
 atk = 0
 effect = """\
 3 monsters
-You can only control 1 {CARD_NAME}. \
+{DRACODEITY_EFFECT} \
 While face-up on the field, this card is not treated as LIGHT-Attribute. \
     This effect cannot be negated. \
 You can use face-up monsters your opponent control as material to Link Summon a High Dragon Link Monster, \
@@ -28,7 +28,8 @@ link = 5
 link_arrow = "top bottom left right bottom-right"
 atk = 4000
 effect = """\
-3+ Dragon monsters, including a LIGHT monster
+{DRACODEITY_SUMMON|LIGHT}
+{DRACODEITY_EFFECT} \
 """
 
 [obsidian]
@@ -42,7 +43,8 @@ link = 5
 link_arrow = "top bottom left right bottom-left"
 atk = 4000
 effect = """\
-3+ Dragon monsters, including a DARK monster
+{DRACODEITY_SUMMON|DARK}
+{DRACODEITY_EFFECT} \
 """
 
 [amber]
@@ -54,9 +56,10 @@ attribute = "fire"
 race = "high-dragon"
 link = 5
 link_arrow = "bottom left top-right bottom-left bottom-right"
-atk = 3800
+atk = 4000
 effect = """\
-3+ Dragon monsters, including a FIRE monster
+{DRACODEITY_SUMMON|FIRE}
+{DRACODEITY_EFFECT} \
 """
 
 [lapis]
@@ -68,9 +71,10 @@ attribute = "water"
 race = "high-dragon"
 link = 5
 link_arrow = "bottom right top-left bottom-left bottom-right"
-atk = 3800
+atk = 4000
 effect = """\
-3+ Dragon monsters, including a WATER monster
+{DRACODEITY_SUMMON|WATER}
+{DRACODEITY_EFFECT} \
 """
 
 [andalusite]
@@ -82,9 +86,10 @@ attribute = "earth"
 race = "high-dragon"
 link = 5
 link_arrow = "bottom left right top-left bottom-left"
-atk = 3800
+atk = 4000
 effect = """\
-3+ Dragon monsters, including a EARTH monster
+{DRACODEITY_SUMMON|EARTH}
+{DRACODEITY_EFFECT} \
 """
 
 [chrysoprase]
@@ -96,9 +101,10 @@ attribute = "wind"
 race = "high-dragon"
 link = 5
 link_arrow = "bottom left right top-right bottom-right"
-atk = 3800
+atk = 4000
 effect = """\
-3+ Dragon monsters, including a WIND monster
+{DRACODEITY_SUMMON|WIND}
+{DRACODEITY_EFFECT} \
 """
 
 [messiah]

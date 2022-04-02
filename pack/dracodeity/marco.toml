@@ -1,0 +1,8 @@
+DRACODEITY_SUMMON = """\
+3+ Dragon monsters, including a {0} monster\
+"""
+
+DRACODEITY_EFFECT = """\
+You can only control 1 {CARD_NAME}. \
+This card's Link Summon cannot be negated.\
+"""

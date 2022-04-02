@@ -1,9 +1,11 @@
 -- Goshenite of Dracodeity
+Duel.LoadScript("util.lua")
+Duel.LoadScript("util_dracodeity.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    c:SetUniqueOnField(1, 0, id)
     c:EnableReviveLimit()
+    UtilityDracodeity.RegisterEffect(c, id)
 
     -- link summon
     Link.AddProcedure(c, nil, 3, 3)
