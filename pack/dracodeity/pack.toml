@@ -3,7 +3,6 @@ id = 990000000
 rarity = "gold"
 name = "Goshenite of Dracodeity"
 type = "monster link effect"
-attribute = "light"
 race = "dragon"
 link = 3
 link_arrow = "top left right"
@@ -11,8 +10,6 @@ atk = 0
 effect = """\
 3 monsters
 {DRACODEITY_EFFECT} \
-While face-up on the field, this card is not treated as LIGHT-Attribute. \
-    This effect cannot be negated. \
 You can use face-up monsters your opponent control as material to Link Summon a High Dragon Link Monster, \
     as if they were Dragon monsters. \
 """
