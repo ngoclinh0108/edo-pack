@@ -1,6 +1,6 @@
 [millennium-hieroglyph]
 id = 900000000
-compose = false
+template = "artwork"
 name = "Millennium Hieroglyph"
 strings = [
     "Mulligan?",
