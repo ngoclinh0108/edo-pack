@@ -12,7 +12,9 @@
     "_generator": true,
     "triplesix.cdb": true,
     "pics": true,
-    "script": true
+    "script": true,
+    "*.cdb-shm": true,
+    "*.cdb-wal": true
   },
 	"Lua.diagnostics.disable": ["undefined-global", "lowercase-global"],
 	"explorerExclude.backup": null
