@@ -10,7 +10,9 @@
     ".vscode": true,
     "old.zip": true,
     "_generator": true,
-    "triplesix.cdb": true
+    "triplesix.cdb": true,
+    "pics": true,
+    "script": true
   },
 	"Lua.diagnostics.disable": ["undefined-global", "lowercase-global"],
 	"explorerExclude.backup": null

@@ -8,7 +8,7 @@
             "program": "cmd.exe",
             "cwd": "${workspaceFolder}/_generator",
             "console": "internalConsole",
-            "args": ["/c", "YgoCardGenerator compose ../index.toml -o ../pics"],
+            "args": ["/c", "YgoCardGenerator compile ../index.toml -o ../"],
         }
     ]
 }

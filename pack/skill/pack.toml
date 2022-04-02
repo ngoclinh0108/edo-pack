@@ -1,0 +1,9 @@
+[millennium-hieroglyph]
+id = 900000000
+compose = false
+name = "Millennium Hieroglyph"
+strings = [
+    "Mulligan?",
+    "Place field?",
+    "Perform Destiny Draw?",
+]

@@ -1,18 +1,19 @@
 [messiah]
-code = 990000000
+id = 990000000
+set = "fusion utopia"
 rarity = "gold"
 name = "Messiah, Genesis of Dracodeity"
 type = "monster link effect"
 attribute = "divine"
 race = "creator-god"
-link = 7
-link_arrow = "bottom left right top-left top-right bottom-left bottom-right"
+link = 6
+link_arrow = "left right top-left top-right bottom-left bottom-right"
 atk = "?"
 effect = """\
 """
 
 [greisen]
-code = 990000001
+id = 990000001
 rarity = "gold"
 name = "Greisen, Dracodeity of the Cosmogony"
 type = "monster link effect"
@@ -25,7 +26,7 @@ effect = """\
 """
 
 [obsidian]
-code = 990000002
+id = 990000002
 rarity = "gold"
 name = "Obsidian, Dracodeity of the Void"
 type = "monster link effect"
@@ -38,7 +39,7 @@ effect = """\
 """
 
 [amber]
-code = 990000003
+id = 990000003
 rarity = "gold"
 name = "Amber, Dracodeity of the Inferno"
 type = "monster link effect"
@@ -51,7 +52,7 @@ effect = """\
 """
 
 [lapis]
-code = 990000004
+id = 990000004
 rarity = "gold"
 name = "Lapis, Dracodeity of the Abyss"
 type = "monster link effect"
@@ -64,7 +65,7 @@ effect = """\
 """
 
 [andalusite]
-code = 990000005
+id = 990000005
 rarity = "gold"
 name = "Andalusite, Dracodeity of the Continent"
 type = "monster link effect"
@@ -77,7 +78,7 @@ effect = """\
 """
 
 [chrysoprase]
-code = 990000006
+id = 990000006
 rarity = "gold"
 name = "Chrysoprase, Dracodeity of the Air"
 type = "monster link effect"
