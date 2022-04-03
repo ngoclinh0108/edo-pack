@@ -48,8 +48,6 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_GRAVE)
     e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetCountLimit(1, id)
-    e3:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
-    e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -84,10 +82,6 @@ end
 
 function s.e3filter(c)
     return c:IsFaceup() and c:IsLinkMonster() and c:IsAbleToRemoveAsCost()
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp and Duel.IsMainPhase()
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -126,9 +120,8 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
-
-    if Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP) > 0 then
+    if c:IsRelateToEffect(e) and
+        Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP) > 0 then
         c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
                                  PHASE_END, 0, 1)
 
@@ -148,4 +141,16 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_PHASE + PHASE_END)
         Duel.RegisterEffect(ec1, tp)
     end
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_FIELD)
+    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec2:SetCode(EFFECT_CHANGE_DAMAGE)
+    ec2:SetTargetRange(0, 1)
+    ec2:SetValue(0)
+    ec2:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec2, tp)
+    local ec2b = ec2:Clone()
+    ec2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    Duel.RegisterEffect(ec2b, tp)
 end
