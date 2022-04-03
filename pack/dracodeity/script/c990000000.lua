@@ -48,6 +48,8 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_GRAVE)
     e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetCountLimit(1, id)
+    e3:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
+    e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -82,6 +84,10 @@ end
 
 function s.e3filter(c)
     return c:IsFaceup() and c:IsLinkMonster() and c:IsAbleToRemoveAsCost()
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetCurrentPhase() ~= PHASE_END
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
