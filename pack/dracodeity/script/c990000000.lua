@@ -59,16 +59,15 @@ function s.initial_effect(c)
     c:RegisterEffect(e3b)
     aux.GlobalCheck(s, function() s.flagmap = {} end)
 
-    -- special summon
+    -- banish & special summon
     local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_QUICK_O)
     e4:SetRange(LOCATION_GRAVE)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetCountLimit(1, id)
-    e4:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
-    e4:SetCondition(s.e4con)
-    e4:SetCost(s.e4cost)
+    e4:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e4:SetCondition(aux.exccon)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -84,10 +83,13 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 990000007)
 end
 
+function s.e3filter(c) return c:GetFlagEffect(id) > 0 end
+
 function s.e3tg(e, c) return c:IsFaceup() and c:IsCanBeLinkMaterial() end
 
 function s.e3con(c, e, tp, sg, mg, sc, og, chk)
-    return (sg + mg):IsExists(Card.IsCode, 1, og, id)
+    return (sg + mg):IsExists(Card.IsCode, 1, og, id) and
+               sg:FilterCount(s.e3filter, nil) < 3
 end
 
 function s.e3val(chk, summon_type, e, ...)
@@ -117,83 +119,73 @@ function s.e3val(chk, summon_type, e, ...)
 end
 
 function s.e4filter(c)
-    return c:IsFaceup() and c:IsLinkMonster() and c:IsAbleToRemoveAsCost()
-end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() ~= PHASE_END and
-               aux.exccon(e, tp, eg, ep, ev, re, r, rp)
-end
-
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_MZONE, 0, 1,
-                                           nil)
-    end
-
-    local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e4filter, tp,
-                                          LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
-    if Duel.Remove(tc, POS_FACEUP, REASON_COST + REASON_TEMPORARY) ~= 0 then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(aux.Stringid(id, 1))
-        ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        ec1:SetCode(EVENT_PHASE + PHASE_END)
-        ec1:SetLabelObject(tc)
-        ec1:SetCountLimit(1)
-        ec1:SetOperation(function(e)
-            Duel.ReturnToField(e:GetLabelObject())
-        end)
-        ec1:SetReset(RESET_PHASE + PHASE_END)
-        Duel.RegisterEffect(ec1, tp)
-    end
+    return c:IsFaceup() and c:IsLinkMonster() and c:IsAbleToRemove()
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+        return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
+                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_MZONE,
+                                               0, 1, nil)
     end
 
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 0, LOCATION_MZONE)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsRelateToEffect(e) and
-        Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP) > 0 then
-        c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                                 PHASE_END, 0, 1)
-
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(aux.Stringid(id, 2))
-        ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-        ec1:SetCode(EVENT_PHASE + PHASE_END)
-        ec1:SetLabelObject(c)
-        ec1:SetCountLimit(1)
-        ec1:SetCondition(function(e)
-            return e:GetLabelObject():GetFlagEffect(id) ~= 0
-        end)
-        ec1:SetOperation(function(e)
-            Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT)
-        end)
-        ec1:SetReset(RESET_PHASE + PHASE_END)
-        Duel.RegisterEffect(ec1, tp)
-    end
 
     aux.RegisterClientHint(c, EFFECT_FLAG_OATH, 1 - tp, 1, 0,
                            aux.Stringid(id, 0), nil)
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetType(EFFECT_TYPE_FIELD)
-    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec2:SetCode(EFFECT_CHANGE_DAMAGE)
-    ec2:SetTargetRange(0, 1)
-    ec2:SetValue(0)
-    ec2:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec2, tp)
-    local ec2b = ec2:Clone()
-    ec2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-    Duel.RegisterEffect(ec2b, tp)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_CHANGE_DAMAGE)
+    ec1:SetTargetRange(0, 1)
+    ec1:SetValue(0)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    Duel.RegisterEffect(ec1b, tp)
+
+    local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e4filter, tp,
+                                          LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
+    if tc and Duel.Remove(tc, POS_FACEUP, REASON_EFFECT + REASON_TEMPORARY) ~= 0 then
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetDescription(aux.Stringid(id, 1))
+        ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        ec2:SetCode(EVENT_PHASE + PHASE_END)
+        ec2:SetLabelObject(tc)
+        ec2:SetCountLimit(1)
+        ec2:SetOperation(function(e)
+            Duel.ReturnToField(e:GetLabelObject())
+        end)
+        ec2:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec2, tp)
+
+        if c:IsRelateToEffect(e) and
+            Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP) > 0 then
+
+            c:RegisterFlagEffect(id + 100, RESET_EVENT + RESETS_STANDARD +
+                                     RESET_PHASE + PHASE_END, 0, 1)
+            local ec3 = Effect.CreateEffect(c)
+            ec3:SetDescription(aux.Stringid(id, 2))
+            ec3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+            ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+            ec3:SetCode(EVENT_PHASE + PHASE_END)
+            ec3:SetLabelObject(c)
+            ec3:SetCountLimit(1)
+            ec3:SetCondition(function(e)
+                return e:GetLabelObject():GetFlagEffect(id + 100) ~= 0
+            end)
+            ec3:SetOperation(function(e)
+                Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT)
+            end)
+            ec3:SetReset(RESET_PHASE + PHASE_END)
+            Duel.RegisterEffect(ec3, tp)
+        end
+    end
 end
