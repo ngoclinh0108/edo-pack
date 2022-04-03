@@ -9,10 +9,19 @@ link_arrow = "top left right"
 atk = 0
 effect = """\
 3 monsters
-{DRACODEITY_EFFECT} \
+You can only control 1 {CARD_NAME}. \
+This card's Link Summon cannot be negated. \
 You can use face-up monsters your opponent control as material to Link Summon a High Dragon Link Monster, \
     as if they were Dragon monsters. \
+During your Main Phase, while this card is in your GY (Quick Effect): \
+    You can banish 1 Link Monster until the End Phase this turn; \
+    Special Summon this card, but send it to the GY during the End Phase. \
+    You can only use this effect of {CARD_NAME} once per turn. \
 """
+strings = [
+    "Return banished monster to field",
+    "Send this card to the GY"
+]
 
 [greisen]
 id = 990000001
