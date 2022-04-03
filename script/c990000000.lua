@@ -34,23 +34,30 @@ function s.initial_effect(c)
     -- extra material
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_SET_AVAILABLE)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCode(EFFECT_EXTRA_MATERIAL)
-    e3:SetTargetRange(1, 0)
+    e3:SetTargetRange(0, 1)
+    e3:SetOperation(s.e3con)
     e3:SetValue(s.e3val)
-    c:RegisterEffect(e3)
+    local e3grant = Effect.CreateEffect(c)
+    e3grant:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_GRANT)
+    e3grant:SetRange(LOCATION_MZONE)
+    e3grant:SetTargetRange(0, LOCATION_MZONE)
+    e3grant:SetTarget(s.e3tg)
+    e3grant:SetLabelObject(e3)
+    c:RegisterEffect(e3grant)
     local e3b = Effect.CreateEffect(c)
     e3b:SetType(EFFECT_TYPE_FIELD)
     e3b:SetRange(LOCATION_MZONE)
     e3b:SetCode(EFFECT_ADD_RACE)
     e3b:SetTargetRange(0, LOCATION_MZONE)
-    e3b:SetCondition(function(e)
-        return Duel.GetFlagEffect(e:GetHandlerPlayer(), id) > 0
+    e3b:SetTarget(function(e, c)
+        return c:IsFaceup() and c:GetFlagEffect(id) > 0
     end)
-    e3b:SetTarget(aux.TargetBoolFunction(Card.IsFaceup))
     e3b:SetValue(RACE_DRAGON)
     c:RegisterEffect(e3b)
+    aux.GlobalCheck(s, function() s.flagmap = {} end)
 
     -- special summon
     local e4 = Effect.CreateEffect(c)
@@ -77,19 +84,35 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 990000007)
 end
 
+function s.e3tg(e, c) return c:IsFaceup() and c:IsCanBeLinkMaterial() end
+
+function s.e3con(c, e, tp, sg, mg, sc, og, chk)
+    return (sg + mg):IsExists(Card.IsCode, 1, og, id)
+end
+
 function s.e3val(chk, summon_type, e, ...)
+    local c = e:GetHandler()
     if chk == 0 then
         local tp, sc = ...
-        if summon_type ~= SUMMON_TYPE_LINK or
-            not (sc and sc:IsRace(RACE_HIGHDRAGON)) then
+        if summon_type ~= SUMMON_TYPE_LINK or not sc:IsRace(RACE_HIGHDRAGON) or
+            Duel.GetFlagEffect(tp, id) > 0 then
             return Group.CreateGroup()
         else
-            Duel.RegisterFlagEffect(tp, id, 0, 0, 1)
-            return Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE,
-                                         nil)
+            s.flagmap[c] = c:RegisterFlagEffect(id, 0, 0, 1)
+            return Group.FromCards(c)
+        end
+    elseif chk == 1 then
+        local sg, sc, tp = ...
+        if summon_type & SUMMON_TYPE_LINK == SUMMON_TYPE_LINK and #sg > 0 and
+            Duel.GetFlagEffect(tp, id) == 0 then
+            Duel.Hint(HINT_CARD, tp, id)
+            Duel.RegisterFlagEffect(tp, id, RESET_PHASE + PHASE_END, 0, 1)
         end
     elseif chk == 2 then
-        Duel.ResetFlagEffect(e:GetHandlerPlayer(), id)
+        if s.flagmap[c] then
+            s.flagmap[c]:Reset()
+            s.flagmap[c] = nil
+        end
     end
 end
 
