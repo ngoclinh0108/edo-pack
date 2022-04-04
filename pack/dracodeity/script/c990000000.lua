@@ -126,16 +126,21 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
-                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_MZONE,
-                                               0, 1, nil)
+                   Duel.IsExistingTarget(s.e4filter, tp, LOCATION_MZONE, 0, 1,
+                                         nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 0, LOCATION_MZONE)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
+    local tc = Duel.SelectTarget(tp, s.e4filter, tp, 0, LOCATION_MZONE, 1, 1,
+                                 nil):GetFirst()
+
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, tc, 1, 0, LOCATION_MZONE)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
 
     aux.RegisterClientHint(c, EFFECT_FLAG_OATH, 1 - tp, 1, 0,
                            aux.Stringid(id, 0), nil)
@@ -151,9 +156,8 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec1b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     Duel.RegisterEffect(ec1b, tp)
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e4filter, tp,
-                                          LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
-    if tc and Duel.Remove(tc, POS_FACEUP, REASON_EFFECT + REASON_TEMPORARY) ~= 0 then
+    if tc and tc:IsRelateToEffect(e) and
+        Duel.Remove(tc, POS_FACEUP, REASON_EFFECT + REASON_TEMPORARY) ~= 0 then
         local ec2 = Effect.CreateEffect(c)
         ec2:SetDescription(aux.Stringid(id, 1))
         ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)

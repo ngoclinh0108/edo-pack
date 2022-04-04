@@ -12,7 +12,7 @@
     "_generator": true,
     "triplesix.cdb": true,
     "pics": true,
-    "script": true,
+    "script": false,
     "*.cdb-shm": true,
     "*.cdb-wal": true
   },

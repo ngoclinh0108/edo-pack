@@ -17,8 +17,9 @@ If this card you control would be used as Link Material for a High Dragon monste
     you can also use up to 2 face-up monsters your opponent controls as material, \
     as if they were Dragon monsters. \
 While this card is in your GY, except the turn this card was sent to the GY (Quick Effect): \
-    You can banish 1 Link Monster until the End Phase this turn, \
-    and if you do, Special Summon this card, but send it to the GY during the End Phase, \
+    You can target 1 Link Monster; \
+    banish it until the End Phase this turn, and if you do, \
+    Special Summon this card, but send it to the GY during the End Phase, \
     also, for the rest of this turn after this card resolves, your opponent takes no damage. \
     You can only use this effect of {CARD_NAME} once per turn. \
 """
