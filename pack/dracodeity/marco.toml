@@ -1,10 +1,10 @@
 DRACODEITY_SUMMON = """\
-3+ Dragon monsters, including a {0} monster \
+3+ Dragon monsters, including a {0} monster, except Tokens \
 """
 
 DRACODEITY_EFFECT = """\
 You can only control 1 {CARD_NAME}. \
+Must first be Link Summoned. \
 This card's Link Summon cannot be negated. \
-Cannot be Tributed, or used as a material for an Summon by your opponent. \
 Control of it cannot switch. \
 """

@@ -8,13 +8,13 @@ function s.initial_effect(c)
     c:SetUniqueOnField(1, 0, id)
 
     -- link summon
-    Link.AddProcedure(c, nil, 3, 3)
+    Link.AddProcedure(c, aux.NOT(aux.FilterBoolFunctionEx(Card.IsType,TYPE_TOKEN)), 3, 3)
 
     -- attribute
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetOperation(s.e1top)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
     -- summon cannot be negated
@@ -34,7 +34,7 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
     e3:SetValue(function(e, c)
         if not c then return false end
-        return not c:IsRace(RACE_HIGHDRAGON)
+        return not c:IsRace(RACE_DRAGON)
     end)
     c:RegisterEffect(e3)
 
@@ -115,7 +115,7 @@ function s.e4val(chk, summon_type, e, ...)
     local c = e:GetHandler()
     if chk == 0 then
         local tp, sc = ...
-        if summon_type ~= SUMMON_TYPE_LINK or not sc:IsRace(RACE_HIGHDRAGON) or
+        if summon_type ~= SUMMON_TYPE_LINK or not sc:IsRace(RACE_DRAGON) or
             Duel.GetFlagEffect(tp, id) > 0 then
             return Group.CreateGroup()
         else

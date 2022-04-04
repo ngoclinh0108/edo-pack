@@ -8,14 +8,14 @@ link = 3
 link_arrow = "top left right"
 atk = 0
 effect = """\
-3 monsters
+3 monsters, except Tokens
 You can only control 1 {CARD_NAME}. \
 This card's Link Summon cannot be negated. \
 After this card is Special Summoned, \
     declare 1 Attribute, this card becomes that Attribute. \
 Cannot be used as material for the Link Summon, \
-    except for the Link Summon of a High Dragon monster. \
-If this card you control would be used as Link Material for a High Dragon monster, \
+    except for the Link Summon of a Dragon monster. \
+If this card you control would be used as Link Material for a Dragon monster, \
     you can also use up to 2 face-up monsters your opponent controls as material, \
     as if they were Dragon monsters. \
 While this card is in your GY, except the turn this card was sent to the GY (Quick Effect): \
@@ -37,13 +37,15 @@ rarity = "gold"
 name = "Greisen, Dracodeity of the Cosmogony"
 type = "monster link effect"
 attribute = "light"
-race = "high-dragon"
+race = "dragon"
 link = 5
 link_arrow = "top bottom left right bottom-right"
-atk = 4000
+atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|LIGHT}
 {DRACODEITY_EFFECT}\
+The activation and effects of co-linked monsters activated on your field cannot be negated. \
+    This effect cannot be negated. \
 """
 
 [obsidian]
@@ -52,13 +54,14 @@ rarity = "gold"
 name = "Obsidian, Dracodeity of the Void"
 type = "monster link effect"
 attribute = "dark"
-race = "high-dragon"
+race = "dragon"
 link = 5
 link_arrow = "top bottom left right bottom-left"
-atk = 4000
+atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|DARK}
 {DRACODEITY_EFFECT}\
+Co-linked monsters you control cannot be returned to Deck, or be sent to GY, or be banished by your opponent's activated effects. \
 """
 
 [amber]
@@ -67,13 +70,14 @@ rarity = "gold"
 name = "Amber, Dracodeity of the Inferno"
 type = "monster link effect"
 attribute = "fire"
-race = "high-dragon"
+race = "dragon"
 link = 5
 link_arrow = "bottom left top-right bottom-left bottom-right"
-atk = 4000
+atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
+Your opponent cannot Tributed, or use co-linked monsters you control as a material for an Summon. \
 You can target cards your opponent controls, \
     up to the number of cards this card points to; destroy them. \
     Your opponent cannot activate the targeted card(s) in response to this effect's activation. \
@@ -92,13 +96,14 @@ rarity = "gold"
 name = "Lapis, Dracodeity of the Abyss"
 type = "monster link effect"
 attribute = "water"
-race = "high-dragon"
+race = "dragon"
 link = 5
 link_arrow = "bottom right top-left bottom-left bottom-right"
-atk = 4000
+atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WATER}
 {DRACODEITY_EFFECT}\
+Your opponent cannot target co-linked monsters you control with card effects. \
 """
 
 [andalusite]
@@ -107,10 +112,10 @@ rarity = "gold"
 name = "Andalusite, Dracodeity of the Continent"
 type = "monster link effect"
 attribute = "earth"
-race = "high-dragon"
+race = "dragon"
 link = 5
 link_arrow = "bottom left right top-left bottom-left"
-atk = 4000
+atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|EARTH}
 {DRACODEITY_EFFECT}\
@@ -123,10 +128,10 @@ rarity = "gold"
 name = "Chrysoprase, Dracodeity of the Air"
 type = "monster link effect"
 attribute = "wind"
-race = "high-dragon"
+race = "dragon"
 link = 5
 link_arrow = "bottom left right top-right bottom-right"
-atk = 4000
+atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WIND}
 {DRACODEITY_EFFECT}\
