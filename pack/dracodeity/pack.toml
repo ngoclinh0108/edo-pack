@@ -44,7 +44,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|LIGHT}
 {DRACODEITY_EFFECT}\
-The activation and activated effects of co-linked monsters you control cannot be negated. \
+The activation and effects of co-linked monsters you control cannot be negated. \
     This effect cannot be negated. \
 """
 
