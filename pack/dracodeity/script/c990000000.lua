@@ -10,67 +10,74 @@ function s.initial_effect(c)
     -- link summon
     Link.AddProcedure(c, nil, 3, 3)
 
-    -- summon cannot be negated
+    -- attribute
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    e1:SetCondition(function(e)
-        return e:GetHandler():GetSummonType() == SUMMON_TYPE_LINK
-    end)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetOperation(s.e1top)
     c:RegisterEffect(e1)
 
-    -- link limit
+    -- summon cannot be negated
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
-    e2:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
-    e2:SetValue(function(e, c)
-        if not c then return false end
-        return not c:IsRace(RACE_HIGHDRAGON)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e2:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    e2:SetCondition(function(e)
+        return e:GetHandler():GetSummonType() == SUMMON_TYPE_LINK
     end)
     c:RegisterEffect(e2)
 
-    -- extra material
+    -- link limit
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EFFECT_EXTRA_MATERIAL)
-    e3:SetTargetRange(0, 1)
-    e3:SetOperation(s.e3con)
-    e3:SetValue(s.e3val)
-    local e3grant = Effect.CreateEffect(c)
-    e3grant:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_GRANT)
-    e3grant:SetRange(LOCATION_MZONE)
-    e3grant:SetTargetRange(0, LOCATION_MZONE)
-    e3grant:SetTarget(s.e3tg)
-    e3grant:SetLabelObject(e3)
-    c:RegisterEffect(e3grant)
-    local e3b = Effect.CreateEffect(c)
-    e3b:SetType(EFFECT_TYPE_FIELD)
-    e3b:SetRange(LOCATION_MZONE)
-    e3b:SetCode(EFFECT_ADD_RACE)
-    e3b:SetTargetRange(0, LOCATION_MZONE)
-    e3b:SetTarget(function(e, c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
+    e3:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
+    e3:SetValue(function(e, c)
+        if not c then return false end
+        return not c:IsRace(RACE_HIGHDRAGON)
+    end)
+    c:RegisterEffect(e3)
+
+    -- extra material
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCode(EFFECT_EXTRA_MATERIAL)
+    e4:SetTargetRange(0, 1)
+    e4:SetOperation(s.e4con)
+    e4:SetValue(s.e4val)
+    local e4grant = Effect.CreateEffect(c)
+    e4grant:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_GRANT)
+    e4grant:SetRange(LOCATION_MZONE)
+    e4grant:SetTargetRange(0, LOCATION_MZONE)
+    e4grant:SetTarget(s.e4tg)
+    e4grant:SetLabelObject(e4)
+    c:RegisterEffect(e4grant)
+    local e4b = Effect.CreateEffect(c)
+    e4b:SetType(EFFECT_TYPE_FIELD)
+    e4b:SetRange(LOCATION_MZONE)
+    e4b:SetCode(EFFECT_ADD_RACE)
+    e4b:SetTargetRange(0, LOCATION_MZONE)
+    e4b:SetTarget(function(e, c)
         return c:IsFaceup() and c:GetFlagEffect(id) > 0
     end)
-    e3b:SetValue(RACE_DRAGON)
-    c:RegisterEffect(e3b)
+    e4b:SetValue(RACE_DRAGON)
+    c:RegisterEffect(e4b)
     aux.GlobalCheck(s, function() s.flagmap = {} end)
 
     -- banish & special summon
-    local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetRange(LOCATION_GRAVE)
-    e4:SetCode(EVENT_FREE_CHAIN)
-    e4:SetCountLimit(1, id)
-    e4:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
-    e4:SetCondition(aux.exccon)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+    local e5 = Effect.CreateEffect(c)
+    e5:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON)
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetRange(LOCATION_GRAVE)
+    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetCountLimit(1, id)
+    e5:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e5:SetCondition(aux.exccon)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.deck_edit(tp)
@@ -83,16 +90,28 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 990000007)
 end
 
-function s.e3filter(c) return c:GetFlagEffect(id) > 0 end
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local att = c:AnnounceAnotherAttribute(tp)
 
-function s.e3tg(e, c) return c:IsFaceup() and c:IsCanBeLinkMaterial() end
-
-function s.e3con(c, e, tp, sg, mg, sc, og, chk)
-    return (sg + mg):IsExists(Card.IsCode, 1, og, id) and
-               sg:FilterCount(s.e3filter, nil) < 3
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_CHANGE_ATTRIBUTE)
+    ec1:SetValue(att)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
+    c:RegisterEffect(ec1)
 end
 
-function s.e3val(chk, summon_type, e, ...)
+function s.e4filter(c) return c:GetFlagEffect(id) > 0 end
+
+function s.e4tg(e, c) return c:IsFaceup() and c:IsCanBeLinkMaterial() end
+
+function s.e4con(c, e, tp, sg, mg, sc, og, chk)
+    return (sg + mg):IsExists(Card.IsCode, 1, og, id) and
+               sg:FilterCount(s.e4filter, nil) < 3
+end
+
+function s.e4val(chk, summon_type, e, ...)
     local c = e:GetHandler()
     if chk == 0 then
         local tp, sc = ...
@@ -118,27 +137,27 @@ function s.e3val(chk, summon_type, e, ...)
     end
 end
 
-function s.e4filter(c)
+function s.e5filter(c)
     return c:IsFaceup() and c:IsLinkMonster() and c:IsAbleToRemove()
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
-                   Duel.IsExistingTarget(s.e4filter, tp, LOCATION_MZONE, 0, 1,
+                   Duel.IsExistingTarget(s.e5filter, tp, LOCATION_MZONE, 0, 1,
                                          nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
-    local tc = Duel.SelectTarget(tp, s.e4filter, tp, 0, LOCATION_MZONE, 1, 1,
+    local tc = Duel.SelectTarget(tp, s.e5filter, tp, LOCATION_MZONE, 0, 1, 1,
                                  nil):GetFirst()
 
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, tc, 1, 0, LOCATION_MZONE)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
 
@@ -186,7 +205,8 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
                 return e:GetLabelObject():GetFlagEffect(id + 100) ~= 0
             end)
             ec3:SetOperation(function(e)
-                Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT)
+                Duel.SendtoDeck(e:GetLabelObject(), nil, SEQ_DECKSHUFFLE,
+                                REASON_EFFECT)
             end)
             ec3:SetReset(RESET_PHASE + PHASE_END)
             Duel.RegisterEffect(ec3, tp)
