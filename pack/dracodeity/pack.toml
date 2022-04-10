@@ -78,16 +78,16 @@ effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
 Your opponent cannot Tributed, or use co-linked monsters you control as a material for an Summon. \
-You can target cards your opponent controls, \
+If this card destroys an monster by battle or by its effects: \
+    You can inflict damage to your opponent equal to the highest original ATK among those destroyed monsters. \
+    This card must be face-up on the field to activate and to resolve this effect. \
+Once per turn, you can target other cards on the field, \
     up to the number of cards this card points to; destroy them. \
     Your opponent cannot activate the targeted card(s) in response to this effect's activation. \
-    You can only use this effect of {CARD_NAME} once per turn. \
-When this card destroys a monster by battle: \
-    You can inflict damage to your opponent equal to either the ATK or DEF (whichever is higher) of the destroyed monster. \
 """
 strings = [
-    "Destroy card(s) on the field",
-    "Inflict damage equal to the ATK/DEF of the destroyed monster"
+    "Inflict damage equal to the highest original ATK of destroyed monsters",
+    "Destroy other card(s) on the field",
 ]
 
 [lapis]
