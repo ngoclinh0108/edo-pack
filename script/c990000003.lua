@@ -79,7 +79,7 @@ end
 
 function s.e2tg2(e, tp, eg, ep, ev, re, r, rp, chk)
     local _, dmg = eg:Filter(Card.IsType, nil, TYPE_MONSTER):GetMaxGroup(Card.GetBaseAttack)
-    if chk == 0 then return dmg > 0 end
+    if chk == 0 then return dmg and dmg > 0 end
 
     Duel.SetTargetPlayer(1 - tp)
     Duel.SetTargetParam(dmg)
