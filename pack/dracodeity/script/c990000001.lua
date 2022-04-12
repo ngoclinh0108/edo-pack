@@ -32,9 +32,10 @@ end
 function s.e1filter(e, ct)
     local p = e:GetHandler():GetControler()
     local te, tp, loc = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT,
-                                          CHAININFO_TRIGGERING_PLAYER,
-                                          CHAININFO_TRIGGERING_LOCATION)
+        CHAININFO_TRIGGERING_PLAYER,
+        CHAININFO_TRIGGERING_LOCATION)
     local tc = te:GetHandler()
+    if tc == e:GetHandler() then return true end
     return p == tp and (loc & LOCATION_ONFIELD) ~= 0 and
-               tc:GetMutualLinkedGroupCount() > 0
+        tc:GetMutualLinkedGroupCount() > 0
 end

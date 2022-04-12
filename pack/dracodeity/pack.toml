@@ -9,7 +9,8 @@ link_arrow = "top left right"
 atk = 0
 effect = """\
 3 monsters, except Tokens
-You can only control 1 {CARD_NAME}. \
+You can only control 1 "{CARD_NAME}". \
+You can only Special Summon "{CARD_NAME}(s)" once per turn. \
 This card's Link Summon cannot be negated. \
 After this card is Special Summoned, \
     declare 1 Attribute, this card becomes that Attribute. \
@@ -18,16 +19,15 @@ Cannot be used as material for the Link Summon, \
 If this card you control would be used as Link Material for a Divine-Beast monster, \
     you can also use up to 2 face-up monsters your opponent controls as material, \
     as if they were Dragon monsters. \
-While this card is banished or is in your GY, except the turn this card was sent to the GY or banished (Quick Effect): \
-    You can target 1 Link Monster you control; \
-    banish it until the End Phase this turn, and if you do, \
+While this card is banished or is in your GY: \
+    You can banish 1 Link Monster you control until the End Phase; \
     Special Summon this card, but shuffle it into the Extra Deck during the End Phase, \
     also, for the rest of this turn after this card resolves, your opponent takes no damage. \
-    You can only use this effect of {CARD_NAME} once per turn. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
-    "Take no damage this turn",
     "Return banished monster to field",
+    "Take no damage this turn",
     "Shuffle this card into the Extra Deck"
 ]
 
@@ -44,7 +44,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|LIGHT}
 {DRACODEITY_EFFECT}\
-The activation and effects of co-linked monsters you control cannot be negated. \
+The activation and effects of this card and co-linked monsters you control cannot be negated. \
     This effect cannot be negated. \
 """
 
@@ -61,7 +61,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|DARK}
 {DRACODEITY_EFFECT}\
-Co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
+This card and co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
 """
 
 [amber]
@@ -77,7 +77,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
-Your opponent cannot Tributed, or use co-linked monsters you control as a material for an Summon. \
+Your opponent cannot Tributed, or use this card and co-linked monsters you control as a material for an Summon. \
 If this card destroys an monster by battle or by its effects: \
     You can inflict damage to your opponent equal to the highest original ATK among those destroyed monsters. \
     This card must be face-up on the field to activate and to resolve this effect. \
@@ -103,7 +103,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WATER}
 {DRACODEITY_EFFECT}\
-Co-linked monsters you control cannot be returned to hand or Deck by your opponent's activated effects. \
+This card and co-linked monsters you control cannot be returned to hand or Deck by your opponent's activated effects. \
 """
 
 [andalusite]
@@ -119,7 +119,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|EARTH}
 {DRACODEITY_EFFECT}\
-Co-linked monsters you control cannot be destroyed by battle. \
+This card and co-linked monsters you control cannot be destroyed by battle. \
 """
 
 [chrysoprase]
@@ -135,7 +135,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WIND}
 {DRACODEITY_EFFECT}\
-Co-linked monsters you control cannot be destroyed by card effects. \
+This card and co-linked monsters you control cannot be destroyed by card effects. \
 """
 
 [messiah]

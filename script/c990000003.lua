@@ -15,6 +15,7 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_CANNOT_RELEASE)
     e1:SetTargetRange(0, 1)
     e1:SetTarget(function(e, tc)
+        if tc == e:GetHandler() then return true end
         return tc:GetControler() == e:GetHandlerPlayer() and
             tc:GetMutualLinkedGroupCount() > 0
     end)

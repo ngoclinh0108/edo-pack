@@ -13,7 +13,7 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     e1:SetTargetRange(LOCATION_MZONE, 0)
-    e1:SetTarget(function(e, c) return c:GetMutualLinkedGroupCount() > 0 end)
+    e1:SetTarget(function(e, tc) return tc == e:GetHandler() or tc:GetMutualLinkedGroupCount() > 0 end)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 end

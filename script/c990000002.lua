@@ -24,6 +24,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end, tp, LOCATION_MZONE, 0, nil)
     if #g == 0 then return end
 
+    g:AddCard(c)
     for tc in aux.Next(g) do
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
