@@ -61,7 +61,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|DARK}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
+Your opponent cannot Tributed, or use this card and co-linked monsters you control as a material for an Summon. \
 """
 
 [amber]
@@ -77,11 +77,11 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
-Your opponent cannot Tributed, or use this card and co-linked monsters you control as a material for an Summon. \
+This card and co-linked monsters you control cannot be destroyed by card effects. \
 If this card destroys an monster by battle or by its effects: \
     You can inflict damage to your opponent equal to the highest original ATK among those destroyed monsters. \
     This card must be face-up on the field to activate and to resolve this effect. \
-Once per turn, you can target other cards on the field, \
+Once per turn, you can target cards your opponent controls, \
     up to the number of cards this card points to; destroy them. \
     Your opponent cannot activate the targeted card(s) in response to this effect's activation. \
 """
@@ -103,7 +103,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WATER}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be returned to hand or Deck by your opponent's activated effects. \
+This card and co-linked monsters you control cannot be destroyed by battle. \
 """
 
 [andalusite]
@@ -119,13 +119,13 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|EARTH}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be destroyed by battle. \
+This card and co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
 """
 
 [chrysoprase]
 id = 990000006
 rarity = "gold"
-name = "Chrysoprase, Dracodeity of the Air"
+name = "Chrysoprase, Dracodeity of the Atmosphere"
 type = "monster link effect"
 attribute = "wind"
 race = "divine-beast"
@@ -135,7 +135,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WIND}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be destroyed by card effects. \
+This card and co-linked monsters you control cannot be returned to hand or Deck by your opponent's activated effects. \
 """
 
 [messiah]

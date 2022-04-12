@@ -7,29 +7,15 @@ function s.initial_effect(c)
     UtilityDracodeity.RegisterSummon(c, ATTRIBUTE_FIRE)
     UtilityDracodeity.RegisterEffect(c, id)
 
-    -- cannot be tributed, or be used as a material
+    -- effect indes
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCode(EFFECT_CANNOT_RELEASE)
-    e1:SetTargetRange(0, 1)
-    e1:SetTarget(function(e, tc)
-        if tc == e:GetHandler() then return true end
-        return tc:GetControler() == e:GetHandlerPlayer() and
-            tc:GetMutualLinkedGroupCount() > 0
-    end)
+    e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e1:SetTargetRange(LOCATION_MZONE, 0)
+    e1:SetTarget(function(e, tc) return tc == e:GetHandler() or tc:GetMutualLinkedGroupCount() > 0 end)
+    e1:SetValue(1)
     c:RegisterEffect(e1)
-    local e1b = Effect.CreateEffect(c)
-    e1b:SetType(EFFECT_TYPE_FIELD)
-    e1b:SetRange(LOCATION_MZONE)
-    e1b:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    e1b:SetTargetRange(LOCATION_MZONE, 0)
-    e1b:SetTarget(function(e, c) return c:GetMutualLinkedGroupCount() > 0 end)
-    e1b:SetValue(function(e, tc)
-        return tc and tc:GetControler() ~= e:GetHandlerPlayer()
-    end)
-    c:RegisterEffect(e1b)
 
     -- inflict damage
     local e2 = Effect.CreateEffect(c)
@@ -101,13 +87,13 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local ct = c:GetLinkedGroupCount()
 
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c) and
+        return Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil) and
             ct > 0
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, ct,
-        c)
+    local g = Duel.SelectTarget(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, ct,
+        nil)
 
     for tc in aux.Next(g) do Duel.SetChainLimit(s.e3limit(tc)) end
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
