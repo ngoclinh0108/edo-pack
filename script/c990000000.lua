@@ -9,8 +9,8 @@ function s.initial_effect(c)
 
     -- link summon
     Link.AddProcedure(c, aux.NOT(
-                          aux.FilterBoolFunctionEx(Card.IsType, TYPE_TOKEN)), 3,
-                      3)
+        aux.FilterBoolFunctionEx(Card.IsType, TYPE_TOKEN)), 3,
+        3)
 
     -- attribute
     local e1 = Effect.CreateEffect(c)
@@ -72,7 +72,7 @@ function s.initial_effect(c)
     local e5 = Effect.CreateEffect(c)
     e5:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON)
     e5:SetType(EFFECT_TYPE_QUICK_O)
-    e5:SetRange(LOCATION_GRAVE)
+    e5:SetRange(LOCATION_GRAVE + LOCATION_REMOVED)
     e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetCountLimit(1, id)
     e5:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
@@ -110,7 +110,7 @@ function s.e4tg(e, c) return c:IsFaceup() and c:IsCanBeLinkMaterial() end
 
 function s.e4con(c, e, tp, sg, mg, sc, og, chk)
     return (sg + mg):IsExists(Card.IsCode, 1, og, id) and
-               sg:FilterCount(s.e4filter, nil) < 3
+        sg:FilterCount(s.e4filter, nil) < 3
 end
 
 function s.e4val(chk, summon_type, e, ...)
@@ -146,14 +146,14 @@ end
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
-                   Duel.IsExistingTarget(s.e5filter, tp, LOCATION_MZONE, 0, 1,
-                                         nil)
+        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+            Duel.IsExistingTarget(s.e5filter, tp, LOCATION_MZONE, 0, 1,
+                nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
     local tc = Duel.SelectTarget(tp, s.e5filter, tp, LOCATION_MZONE, 0, 1, 1,
-                                 nil):GetFirst()
+        nil):GetFirst()
 
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, tc, 1, 0, LOCATION_MZONE)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
@@ -164,7 +164,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
 
     aux.RegisterClientHint(c, EFFECT_FLAG_OATH, 1 - tp, 1, 0,
-                           aux.Stringid(id, 0), nil)
+        aux.Stringid(id, 0), nil)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -195,7 +195,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
             Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP) > 0 then
 
             c:RegisterFlagEffect(id + 100, RESET_EVENT + RESETS_STANDARD +
-                                     RESET_PHASE + PHASE_END, 0, 1)
+            RESET_PHASE + PHASE_END, 0, 1)
             local ec3 = Effect.CreateEffect(c)
             ec3:SetDescription(aux.Stringid(id, 2))
             ec3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -208,7 +208,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
             end)
             ec3:SetOperation(function(e)
                 Duel.SendtoDeck(e:GetLabelObject(), nil, SEQ_DECKSHUFFLE,
-                                REASON_EFFECT)
+                    REASON_EFFECT)
             end)
             ec3:SetReset(RESET_PHASE + PHASE_END)
             Duel.RegisterEffect(ec3, tp)
