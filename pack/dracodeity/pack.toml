@@ -77,7 +77,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be destroyed by card effects. \
+This card and co-linked monsters you control cannot be returned to hand or Deck by your opponent's activated effects. \
 Once per turn: You can destroy other cards on the field, up to the number of cards this card points to. \
 If this card destroys an opponent's monster by battle or by its effects: \
     You can inflict damage to your opponent equal to the highest original ATK among those destroyed monsters. \
@@ -101,7 +101,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WATER}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be destroyed by battle. \
+This card and co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
 """
 
 [andalusite]
@@ -117,7 +117,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|EARTH}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
+This card and co-linked monsters you control cannot be destroyed by battle. \
 """
 
 [chrysoprase]
@@ -133,7 +133,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WIND}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be returned to hand or Deck by your opponent's activated effects. \
+This card and co-linked monsters you control cannot be destroyed by card effects. \
 """
 
 [messiah]
