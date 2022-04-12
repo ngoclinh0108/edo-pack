@@ -78,10 +78,10 @@ effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be destroyed by card effects. \
-If this card destroys an monster by battle or by its effects: \
+If this card destroys an opponent's monster by battle or by its effects: \
     You can inflict damage to your opponent equal to the highest original ATK among those destroyed monsters. \
     This card must be face-up on the field to activate and to resolve this effect. \
-Once per turn, you can target cards your opponent controls, \
+Once per turn, you can target other cards on the field, \
     up to the number of cards this card points to; destroy them. \
     Your opponent cannot activate the targeted card(s) in response to this effect's activation. \
 """

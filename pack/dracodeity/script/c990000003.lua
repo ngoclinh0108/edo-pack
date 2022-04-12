@@ -49,6 +49,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
+function s.e2filter(c, tp)
+    return c:IsType(TYPE_MONSTER) and c:IsControler(tp)
+end
+
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return (r & REASON_EFFECT) ~= 0 and re and re:GetOwner() == e:GetHandler()
 end
@@ -57,7 +61,7 @@ function s.e2tg1(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
     local dmg = bc:GetBaseAttack()
-    if chk == 0 then return dmg > 0 end
+    if chk == 0 then return bc:IsControler(1 - tp) and dmg > 0 end
 
     Duel.SetTargetPlayer(1 - tp)
     Duel.SetTargetParam(dmg)
@@ -65,7 +69,7 @@ function s.e2tg1(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2tg2(e, tp, eg, ep, ev, re, r, rp, chk)
-    local _, dmg = eg:Filter(Card.IsType, nil, TYPE_MONSTER):GetMaxGroup(Card.GetBaseAttack)
+    local _, dmg = eg:Filter(s.e2filter, nil, 1 - tp):GetMaxGroup(Card.GetBaseAttack)
     if chk == 0 then return dmg and dmg > 0 end
 
     Duel.SetTargetPlayer(1 - tp)
@@ -87,19 +91,20 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local ct = c:GetLinkedGroupCount()
 
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil) and
+        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, nil) and
             ct > 0
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, ct,
+    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, ct,
         nil)
 
     for tc in aux.Next(g) do Duel.SetChainLimit(s.e3limit(tc)) end
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
-function s.e3limit(tc) return function(e, lp, tp) return e:GetHandler() ~= tc end
+function s.e3limit(tc)
+    return function(e) return e:GetHandler() ~= tc end
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
