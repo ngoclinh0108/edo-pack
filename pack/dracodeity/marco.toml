@@ -6,5 +6,5 @@ DRACODEITY_EFFECT = """\
 You can only control 1 "{CARD_NAME}". \
 Must first be Link Summoned. \
 This card's Link Summon cannot be negated. \
-Control of it cannot switch. \
+Control of this card cannot switch. \
 """

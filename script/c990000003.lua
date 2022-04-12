@@ -7,38 +7,30 @@ function s.initial_effect(c)
     UtilityDracodeity.RegisterSummon(c, ATTRIBUTE_FIRE)
     UtilityDracodeity.RegisterEffect(c, id)
 
-    -- cannot be returned
+    -- cannot be tributed, or be used as a material
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCode(EVENT_CHAIN_SOLVING)
-    e1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        if rp == tp then return end
-        local g = Duel.GetMatchingGroup(function(tc)
-            return tc:GetMutualLinkedGroupCount() > 0
-        end, tp, LOCATION_MZONE, 0, nil)
-        if #g == 0 then return end
-
-        g:AddCard(c)
-        for tc in aux.Next(g) do
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetCode(EFFECT_CANNOT_TO_HAND)
-            ec1:SetRange(LOCATION_MZONE)
-            ec1:SetLabelObject(re)
-            ec1:SetTarget(function(e, c, tp, r, re)
-                return re == e:GetLabelObject()
-            end)
-            ec1:SetReset(RESET_CHAIN)
-            tc:RegisterEffect(ec1)
-            local ec2 = ec1:Clone()
-            ec2:SetCode(EFFECT_CANNOT_TO_DECK)
-            tc:RegisterEffect(ec2)
-        end
+    e1:SetCode(EFFECT_CANNOT_RELEASE)
+    e1:SetTargetRange(0, 1)
+    e1:SetTarget(function(e, tc)
+        if tc == e:GetHandler() then return true end
+        return tc:GetControler() == e:GetHandlerPlayer() and
+            tc:GetMutualLinkedGroupCount() > 0
     end)
     c:RegisterEffect(e1)
-
+    local e1b = Effect.CreateEffect(c)
+    e1b:SetType(EFFECT_TYPE_FIELD)
+    e1b:SetRange(LOCATION_MZONE)
+    e1b:SetCode(EFFECT_CANNOT_BE_MATERIAL)
+    e1b:SetTargetRange(LOCATION_MZONE, 0)
+    e1b:SetTarget(function(e, c) return c:GetMutualLinkedGroupCount() > 0 end)
+    e1b:SetValue(function(e, tc)
+        return tc and tc:GetControler() ~= e:GetHandlerPlayer()
+    end)
+    c:RegisterEffect(e1b)
+    
     -- destroy
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 1))
