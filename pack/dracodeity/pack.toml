@@ -101,8 +101,7 @@ effect = """\
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be returned to Deck by your opponent's activated effects. \
 At the start of your Battle Phase: You can activate this effect; \
-    this Battle Phase, this card can make attacks on your opponent's monsters, \
-    up to the number of monsters this card currently points to +1. \
+    this Battle Phase, this card gains 1 additional attack for every monster this card currently points to. \
 At the end of your Battle Phase, \
     you can gain LP equal to combined original ATK of those monsters are destroyed by battle with this card this turn. \
 """

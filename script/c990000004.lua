@@ -82,10 +82,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) then return end
 
     local ct = c:GetLinkedGroupCount()
-    if ct ~= 0 then
+    if ct > 0 then
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
+        ec1:SetCode(EFFECT_EXTRA_ATTACK)
         ec1:SetValue(ct)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_BATTLE)
         c:RegisterEffect(ec1)
