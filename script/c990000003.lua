@@ -30,37 +30,32 @@ function s.initial_effect(c)
         return tc and tc:GetControler() ~= e:GetHandlerPlayer()
     end)
     c:RegisterEffect(e1b)
-    
+
     -- destroy
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_DESTROY)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetRange(LOCATION_MZONE)
+    e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetCountLimit(1)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- inflict damage
+    -- gain atk
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DAMAGE)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_PLAYER_TARGET)
-    e3:SetCode(EVENT_BATTLE_DESTROYING)
-    e3:SetCondition(aux.bdcon)
-    e3:SetTarget(s.e3tg1)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCode(EVENT_DESTROYED)
+    e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3b:SetRange(LOCATION_MZONE)
-    e3b:SetCode(EVENT_DESTROYED)
-    e3b:SetCondition(s.e3con)
-    e3b:SetTarget(s.e3tg2)
-    c:RegisterEffect(e3b)
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() == tp and not Duel.IsBattlePhase()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -83,39 +78,27 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Destroy(g, REASON_EFFECT)
 end
 
-function s.e3filter(c, tp)
-    return c:IsType(TYPE_MONSTER) and c:IsControler(tp)
-end
-
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return (r & REASON_EFFECT) ~= 0 and re and re:GetOwner() == e:GetHandler()
-end
-
-function s.e3tg1(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local bc = c:GetBattleTarget()
-    local dmg = bc:GetBaseAttack()
-    if chk == 0 then return bc:IsControler(1 - tp) and dmg > 0 end
-
-    Duel.SetTargetPlayer(1 - tp)
-    Duel.SetTargetParam(dmg)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
-end
-
-function s.e3tg2(e, tp, eg, ep, ev, re, r, rp, chk)
-    local _, dmg = eg:Filter(s.e3filter, nil, 1 - tp):GetMaxGroup(Card.GetBaseAttack)
-    if chk == 0 then return dmg and dmg > 0 end
-
-    Duel.SetTargetPlayer(1 - tp)
-    Duel.SetTargetParam(dmg)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
+    return (r & REASON_EFFECT) ~= 0 and re and re:GetOwner() == e:GetHandler() and eg:IsExists(Card.IsType, 1, nil, TYPE_MONSTER)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-        CHAININFO_TARGET_PARAM)
-    Duel.Damage(p, d, REASON_EFFECT)
+    local atk = 0
+    local g = eg:Filter(Card.IsType, nil, TYPE_MONSTER)
+    for tc in aux.Next(g) do
+        if tc:GetTextAttack() > 0 then
+            atk = atk + tc:GetTextAttack()
+        end
+    end
+
+    if atk > 0 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(atk)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END, 2)
+        c:RegisterEffect(ec1)
+    end
 end

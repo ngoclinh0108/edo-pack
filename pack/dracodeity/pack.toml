@@ -28,7 +28,7 @@ While this card is banished or is in your GY: \
 strings = [
     "Return banished monster to field",
     "Take no damage this turn",
-    "Shuffle this card into the Extra Deck"
+    "Shuffle this card into the Extra Deck",
 ]
 
 [greisen]
@@ -78,15 +78,13 @@ effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
 Your opponent cannot Tributed, or use this card and co-linked monsters you control as a material for an Summon. \
-Once per turn: You can destroy other cards on the field, up to the number of cards this card points to. \
-If this card destroys an opponent's monster by battle or by its effects: \
-    You can inflict damage to your opponent equal to the highest original ATK among those destroyed monsters. \
-    This card must be face-up on the field to activate and to resolve this effect. \
+Once per turn, during your turn, except during the Battle Phase (Quick Effect): \
+    You can destroy other cards on the field, \
+    up to the number of monsters this card currently points to. \
+If this card's effect destroys a monster, \
+    it gains ATK equal to the destroyed monster's original ATK until the end of the next turn. \
 """
-strings = [
-    "Inflict damage equal to the highest original ATK of destroyed monsters",
-    "Destroy other card(s) on the field",
-]
+strings = ["Destroy other card(s) on the field"]
 
 [lapis]
 id = 990000004
@@ -102,7 +100,13 @@ effect = """\
 {DRACODEITY_SUMMON|WATER}
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be returned to Deck by your opponent's activated effects. \
+At the start of your Battle Phase: You can activate this effect; \
+    this Battle Phase, this card can make attacks on your opponent's monsters, \
+    up to the number of monsters this card currently points to +1. \
+At the end of your Battle Phase, \
+    you can gain LP equal to combined original ATK of those monsters are destroyed by battle with this card this turn. \
 """
+strings = ["Gain multiple attacks"]
 
 [andalusite]
 id = 990000005
@@ -144,7 +148,7 @@ type = "monster link effect"
 attribute = "divine"
 race = "creator-god"
 link = 6
-link_arrow = "left right top bottom top-left top-right"
+link_arrow = "left right top-left top-right bottom-left bottom-right"
 atk = "?"
 effect = """\
 """
