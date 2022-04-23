@@ -9,7 +9,7 @@ function UtilityDracodeity.RegisterSummon(c, attribute)
     -- link summon
     Link.AddProcedure(c, function(c, sc, sumtype, tp)
         return c:IsRace(RACE_DRAGON, sc, sumtype, tp) and
-                   not c:IsType(TYPE_TOKEN, sc, sumtype, tp)
+            not c:IsType(TYPE_TOKEN, sc, sumtype, tp)
     end, 3, nil, function(g, sc, sumtype, tp)
         return g:IsExists(Card.IsAttribute, 1, nil, attribute, sc, sumtype, tp)
     end)
@@ -18,12 +18,10 @@ end
 function UtilityDracodeity.RegisterEffect(c, id)
     c:SetUniqueOnField(1, 0, id)
 
-    -- must first be link summoned
+    -- must be link summoned
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE +
-                            EFFECT_FLAG_SINGLE_RANGE)
-    splimit:SetRange(LOCATION_EXTRA)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     splimit:SetValue(aux.lnklimit)
     c:RegisterEffect(splimit)

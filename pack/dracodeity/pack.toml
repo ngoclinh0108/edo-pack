@@ -78,13 +78,17 @@ effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
 Your opponent cannot Tributed, or use this card and co-linked monsters you control as a material for an Summon. \
-Once per turn, during your turn, except during the Battle Phase (Quick Effect): \
+During your turn (Quick Effect): \
     You can destroy other cards on the field, \
-    up to the number of monsters this card currently points to. \
+    up to the number of cards currently co-linked to this card. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+Once per turn, before damage calculation, if this card attacks an opponent's monster: \
+    You can destroy that monster, and if you do, \
+    inflict damage to your opponent equal to the destroyed monster's original ATK. \
 If this card's effect destroys a monster, \
-    it gains ATK equal to the destroyed monster's original ATK until the end of the next turn. \
+    it gains ATK equal to the destroyed monster's original ATK until the end of this turn. \
 """
-strings = ["Destroy other card(s) on the field"]
+strings = ["Destroy other card(s) on the field", "Destroy battling monster & inflict damage"]
 
 [lapis]
 id = 990000004
@@ -100,12 +104,16 @@ effect = """\
 {DRACODEITY_SUMMON|WATER}
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be returned to Deck by your opponent's activated effects. \
-At the start of your Battle Phase: You can activate this effect; \
-    this Battle Phase, this card gains 1 additional attack for every monster this card currently points to. \
-At the end of your Battle Phase, \
+At the start of your Battle Phase: \
+    You can target 1 face-up monster you control; \
+    this Battle Phase, that monster gains 1 additional attack for every card currently co-linked to this card. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+Once per turn, during damage calculation, if this card attacks an opponent's monster: \
+    You can halve the ATK of that opponent's monster, during that damage calculation only. \
+At the end of each Battle Phase, \
     you can gain LP equal to combined original ATK of those monsters are destroyed by battle with this card this turn. \
 """
-strings = ["Gain multiple attacks"]
+strings = ["Gain multiple attacks", "Halve ATK"]
 
 [andalusite]
 id = 990000005

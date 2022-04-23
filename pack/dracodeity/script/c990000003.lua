@@ -31,37 +31,49 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1b)
 
-    -- destroy
+    -- destroy effect
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetCountLimit(1)
+    e2:SetCountLimit(1, id)
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- gain atk
+    -- destroy & damage
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EVENT_DESTROYED)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_DESTROY + CATEGORY_DAMAGE)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3:SetCode(EVENT_BATTLE_CONFIRM)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e3:SetCountLimit(1)
     e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- gain atk
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCode(EVENT_DESTROYED)
+    e4:SetCondition(s.e4con)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp and not Duel.IsBattlePhase()
+    return Duel.GetTurnPlayer() == tp
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
-    local ct = c:GetLinkedGroupCount()
-
+    local ct = c:GetMutualLinkedGroupCount()
     if chk == 0 then
         return ct > 0 and Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c)
     end
@@ -71,7 +83,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local ct = c:GetLinkedGroupCount()
+    local ct = c:GetMutualLinkedGroupCount()
     if ct <= 0 then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, ct, c)
@@ -79,10 +91,37 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return (r & REASON_EFFECT) ~= 0 and re and re:GetOwner() == e:GetHandler() and eg:IsExists(Card.IsType, 1, nil, TYPE_MONSTER)
+    local c = e:GetHandler()
+    local tc = c:GetBattleTarget()
+    return Duel.GetAttacker() == c and tc and tc:IsRelateToBattle()
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    local c = e:GetHandler()
+    local tc = c:GetBattleTarget()
+
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, tc, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, tc:GetBaseAttack())
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = c:GetBattleTarget()
+    local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
+
+    if c:IsRelateToBattle() and tc:IsRelateToBattle() and Duel.Destroy(tc, REASON_EFFECT) > 0 then
+        local dmg = tc:GetBaseAttack()
+        if dmg > 0 then Duel.Damage(p, dmg, REASON_EFFECT) end
+    end
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return (r & REASON_EFFECT) ~= 0 and re and re:GetOwner() == e:GetHandler() and eg:IsExists(Card.IsType, 1, nil, TYPE_MONSTER)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     local atk = 0
@@ -98,7 +137,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_UPDATE_ATTACK)
         ec1:SetValue(atk)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END, 2)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
         c:RegisterEffect(ec1)
     end
 end

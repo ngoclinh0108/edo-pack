@@ -157,14 +157,14 @@
           }
         }
       },
-      "Magick.NET-Q16-AnyCPU/11.0.0": {
+      "Magick.NET-Q16-AnyCPU/11.1.0": {
         "dependencies": {
-          "Magick.NET.Core": "11.0.0"
+          "Magick.NET.Core": "11.1.0"
         },
         "runtime": {
           "lib/netstandard21/Magick.NET-Q16-AnyCPU.dll": {
-            "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.0.0"
+            "assemblyVersion": "11.1.0.0",
+            "fileVersion": "11.1.0.0"
           }
         },
         "runtimeTargets": {
@@ -191,25 +191,25 @@
           "runtimes/win-arm64/native/Magick.Native-Q16-arm64.dll": {
             "rid": "win-arm64",
             "assetType": "native",
-            "fileVersion": "7.1.0.28"
+            "fileVersion": "7.1.0.30"
           },
           "runtimes/win-x64/native/Magick.Native-Q16-x64.dll": {
             "rid": "win-x64",
             "assetType": "native",
-            "fileVersion": "7.1.0.28"
+            "fileVersion": "7.1.0.30"
           },
           "runtimes/win-x86/native/Magick.Native-Q16-x86.dll": {
             "rid": "win-x86",
             "assetType": "native",
-            "fileVersion": "7.1.0.28"
+            "fileVersion": "7.1.0.30"
           }
         }
       },
-      "Magick.NET.Core/11.0.0": {
+      "Magick.NET.Core/11.1.0": {
         "runtime": {
           "lib/netstandard21/Magick.NET.Core.dll": {
-            "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.0.0"
+            "assemblyVersion": "11.1.0.0",
+            "fileVersion": "11.1.0.0"
           }
         }
       },
@@ -1828,11 +1828,11 @@
           "System.Xml.XmlDocument": "4.3.0"
         }
       },
-      "Tomlyn/0.14.0": {
+      "Tomlyn/0.14.1": {
         "runtime": {
           "lib/netstandard2.0/Tomlyn.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.14.0.0"
+            "assemblyVersion": "0.14.0.0",
+            "fileVersion": "0.14.1.0"
           }
         }
       },
@@ -1865,9 +1865,9 @@
       },
       "GeneratorCore/1.0.0": {
         "dependencies": {
-          "Magick.NET-Q16-AnyCPU": "11.0.0",
+          "Magick.NET-Q16-AnyCPU": "11.1.0",
           "System.Drawing.Common": "6.0.0",
-          "Tomlyn": "0.14.0",
+          "Tomlyn": "0.14.1",
           "TripleSix.Core": "5.0.42"
         },
         "runtime": {
@@ -1966,19 +1966,19 @@
       "path": "linqkit.microsoft.entityframeworkcore/5.0.27",
       "hashPath": "linqkit.microsoft.entityframeworkcore.5.0.27.nupkg.sha512"
     },
-    "Magick.NET-Q16-AnyCPU/11.0.0": {
+    "Magick.NET-Q16-AnyCPU/11.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-fX/Ab4SVYcFl6ozIRD7zoSrW+pDbOsaJ9Hl1c1xgJ5HsB2Wl2r61gP4FkxSqYkguxQxmSJJKN48LqoVb+yNiJw==",
-      "path": "magick.net-q16-anycpu/11.0.0",
-      "hashPath": "magick.net-q16-anycpu.11.0.0.nupkg.sha512"
+      "sha512": "sha512-DMyq7hOBqHBpLYv07mrWu69C2n+EUCr0cvDuIMiMvsEV0ARswz9R8hgr26Jw9FRn78wXKaol6iqTz+dQPWOF3Q==",
+      "path": "magick.net-q16-anycpu/11.1.0",
+      "hashPath": "magick.net-q16-anycpu.11.1.0.nupkg.sha512"
     },
-    "Magick.NET.Core/11.0.0": {
+    "Magick.NET.Core/11.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-zCRE8N9PtEqTeHuxxadKNcU5FC/UuqJ/LZTunOHX4qECYjESddATK8WPTrauoLYQfnc5SyRLR5SIv/OQJAiLyA==",
-      "path": "magick.net.core/11.0.0",
-      "hashPath": "magick.net.core.11.0.0.nupkg.sha512"
+      "sha512": "sha512-7RwpV2lmVKNocoZsMJniV8CqEhnA1a58uxFCwxK9mtzE6o45eXG3Xm+gC18aQ4Ue/rS1NGEeubasURVrV3OEqA==",
+      "path": "magick.net.core/11.1.0",
+      "hashPath": "magick.net.core.11.1.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.JsonPatch/5.0.0": {
       "type": "package",
@@ -3086,12 +3086,12 @@
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
     },
-    "Tomlyn/0.14.0": {
+    "Tomlyn/0.14.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Pg8Iada6dIW+eTcJeXbiHWLRCNBuiYAh/LphhYhrzbYufSrC2Z2su7x4my0QyhlaVaOx1x20Q7Th3hJ84sqZ8g==",
-      "path": "tomlyn/0.14.0",
-      "hashPath": "tomlyn.0.14.0.nupkg.sha512"
+      "sha512": "sha512-64nZjtY9xNWGnh3H4TsYnpG97U5csQlp/Z69aNOKTlJf/5Z6mC237v1CAJ4KL2gIX6od5d2l3dZy67/kWYl2AA==",
+      "path": "tomlyn/0.14.1",
+      "hashPath": "tomlyn.0.14.1.nupkg.sha512"
     },
     "TripleSix.Core/5.0.42": {
       "type": "package",

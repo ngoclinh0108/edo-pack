@@ -11,8 +11,8 @@
     "old.zip": true,
     "_generator": true,
     "triplesix.cdb": true,
-    "pics": true,
-    "script": true,
+    "pics": false,
+    "script": false,
     "*.cdb-shm": true,
     "*.cdb-wal": true
   },
