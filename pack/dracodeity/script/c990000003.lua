@@ -31,10 +31,10 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1b)
 
-    -- destroy effect
+    -- negate & destroy
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_DESTROY)
+    e2:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EVENT_FREE_CHAIN)
@@ -71,13 +71,14 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local ct = c:GetMutualLinkedGroupCount()
     if chk == 0 then
         return ct > 0 and Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c)
     end
 
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, nil, ct, 0, LOCATION_ONFIELD)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, ct, 0, LOCATION_ONFIELD)
 end
 
@@ -87,6 +88,23 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if ct <= 0 then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, ct, c)
+    for tc in aux.Next(g) do
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_DISABLE)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1)
+        local ec2 = ec1:Clone()
+        ec2:SetCode(EFFECT_DISABLE_EFFECT)
+        tc:RegisterEffect(ec2)
+        if tc:IsType(TYPE_TRAPMONSTER) then
+            local ec3 = ec1:Clone()
+            ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+            tc:RegisterEffect(ec3)
+        end
+    end
+
+    Duel.BreakEffect()
     Duel.Destroy(g, REASON_EFFECT)
 end
 
@@ -100,10 +118,11 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
     local c = e:GetHandler()
     local tc = c:GetBattleTarget()
+    local dmg = tc:GetBaseAttack() > tc:GetBaseDefense() and tc:GetBaseAttack() or tc:GetBaseDefense()
 
     Duel.SetTargetPlayer(1 - tp)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, tc, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, tc:GetBaseAttack())
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -112,7 +131,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
 
     if c:IsRelateToBattle() and tc:IsRelateToBattle() and Duel.Destroy(tc, REASON_EFFECT) > 0 then
-        local dmg = tc:GetBaseAttack()
+        local dmg = tc:GetBaseAttack() > tc:GetBaseDefense() and tc:GetBaseAttack() or tc:GetBaseDefense()
         if dmg > 0 then Duel.Damage(p, dmg, REASON_EFFECT) end
     end
 end

@@ -52,15 +52,15 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- halve atk
+    -- steal atk
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_ATKCHANGE)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetRange(LOCATION_MZONE)
     e3:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
     e3:SetCountLimit(1)
     e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
@@ -82,20 +82,23 @@ function s.initial_effect(c)
     end)
 end
 
+function s.e2filter(c)
+    return c:IsFaceup() and c:GetMutualLinkedGroupCount() > 0
+end
+
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:GetMutualLinkedGroupCount() > 0 and Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, nil) end
-    Duel.SelectTarget(tp, Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, 1, nil)
+    if chk == 0 then return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, 0, 1, nil) end
+    Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    local ct = c:GetMutualLinkedGroupCount()
+    local ct = tc:GetMutualLinkedGroupCount()
     if not tc or not tc:IsRelateToEffect(e) or ct == 0 then return end
 
     local ec1 = Effect.CreateEffect(c)
@@ -108,20 +111,38 @@ end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return Duel.GetAttacker() == c and c:GetBattleTarget()
+    local tc = c:GetBattleTarget()
+    return Duel.GetAttacker() == c and tc and tc:IsFaceup()
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return true end
+    c:GetBattleTarget():CreateEffectRelation(e)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = c:GetBattleTarget()
-    if tc:IsFacedown() or not tc:IsRelateToBattle() then return end
+    if not c:IsRelateToEffect(e) or c:IsFacedown() or not tc or tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
 
+    local atk = tc:GetAttack()
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
-    ec1:SetValue(tc:GetAttack() / 2)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_DAMAGE_CAL)
-    tc:RegisterEffect(ec1)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(math.ceil(atk / 2))
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+
+    if not tc:IsImmuneToEffect(e) then
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetCode(EFFECT_SET_ATTACK_FINAL)
+        ec2:SetValue(math.ceil(atk / 2))
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec2)
+    end
 end
 
 function s.e4filter(c, rc)

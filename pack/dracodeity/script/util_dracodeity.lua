@@ -5,7 +5,7 @@ if not UtilityDracodeity then UtilityDracodeity = aux.UtilityDracodeityProcedure
 -- function
 function UtilityDracodeity.RegisterSummon(c, attribute)
     c:EnableReviveLimit()
-
+    
     -- link summon
     Link.AddProcedure(c, function(c, sc, sumtype, tp)
         return c:IsRace(RACE_DRAGON, sc, sumtype, tp) and
@@ -15,9 +15,7 @@ function UtilityDracodeity.RegisterSummon(c, attribute)
     end)
 end
 
-function UtilityDracodeity.RegisterEffect(c, id)
-    c:SetUniqueOnField(1, 0, id)
-
+function UtilityDracodeity.RegisterEffect(c, id)    
     -- must be link summoned
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)

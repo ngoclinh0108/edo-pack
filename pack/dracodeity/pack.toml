@@ -9,27 +9,21 @@ link_arrow = "top left right"
 atk = 0
 effect = """\
 3 monsters, except Tokens
-You can only control 1 "{CARD_NAME}". \
-You can only Special Summon "{CARD_NAME}(s)" once per turn. \
 This card's Link Summon cannot be negated. \
-After this card is Special Summoned, \
-    declare 1 Attribute, this card becomes that Attribute. \
-Cannot be used as material for the Link Summon, \
-    except for the Link Summon of a Divine-Beast monster. \
+After this card is Special Summoned, declare 1 Attribute, this card becomes that Attribute. \
+Once per turn, during your opponent's Main Phase, you can (Quick Effect): \
+    Immediately after this effect resolves, Link Summon 1 Link Monster using materials you control, \
+    including this card. \
 If this card you control would be used as Link Material for a Divine-Beast monster, \
-    you can also use up to 2 face-up monsters your opponent controls as material, \
+    you can also use up to 2 face-up Special Summoned monsters your opponent controls as material, \
     as if they were Dragon monsters. \
-While this card is banished or is in your GY: \
-    You can banish 1 Link Monster you control until the End Phase; \
-    Special Summon this card, but shuffle it into the Extra Deck during the End Phase, \
+During the Main Phase, while this card is in your GY, except the turn this card was sent to the GY (Quick Effect): \
+    You can target 1 Link-5 or higher monster you control; \
+    banish it until the End Phase, and if you do, Special Summon this card, \
     also, for the rest of this turn after this card resolves, your opponent takes no damage. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = [
-    "Return banished monster to field",
-    "Take no damage this turn",
-    "Shuffle this card into the Extra Deck",
-]
+strings = ["Take no damage this turn", "Return banished monster to field"]
 
 [greisen]
 id = 990000001
@@ -47,6 +41,7 @@ effect = """\
 The activation and effects of this card and co-linked monsters you control cannot be negated. \
     This effect cannot be negated. \
 """
+strings = []
 
 [obsidian]
 id = 990000002
@@ -63,6 +58,7 @@ effect = """\
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
 """
+strings = []
 
 [amber]
 id = 990000003
@@ -78,17 +74,19 @@ effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
 Your opponent cannot Tributed, or use this card and co-linked monsters you control as a material for an Summon. \
-During your turn (Quick Effect): \
-    You can destroy other cards on the field, \
-    up to the number of cards currently co-linked to this card. \
+During your turn (Quick Effect): You can negate the effects of other cards on the field, \
+    up to the number of cards currently co-linked to this card, and if you do, destroy them. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 Once per turn, before damage calculation, if this card attacks an opponent's monster: \
     You can destroy that monster, and if you do, \
-    inflict damage to your opponent equal to the destroyed monster's original ATK. \
+    inflict damage to your opponent equal to either the original ATK or original DEF (whichever is higher) of the destroyed monster. \
 If this card's effect destroys a monster, \
     it gains ATK equal to the destroyed monster's original ATK until the end of this turn. \
 """
-strings = ["Destroy other card(s) on the field", "Destroy battling monster & inflict damage"]
+strings = [
+    "Negate & destroy other card(s) on the field",
+    "Destroy battling monster & inflict damage",
+]
 
 [lapis]
 id = 990000004
@@ -105,15 +103,17 @@ effect = """\
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be returned to Deck by your opponent's activated effects. \
 At the start of your Battle Phase: \
-    You can target 1 face-up monster you control; \
-    this Battle Phase, that monster gains 1 additional attack for every card currently co-linked to this card. \
+    You can target 1 co-linked monster you control; \
+    this Battle Phase, that monster gains 1 additional attack for every card currently co-linked to it. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-Once per turn, during damage calculation, if this card attacks an opponent's monster: \
-    You can halve the ATK of that opponent's monster, during that damage calculation only. \
+Once per turn, if this card attacks a face-up monster, during damage calculation: \
+    You can activate this effect; until the end of this turn, \
+    this card gains ATK equal to half that monster's current ATK, \
+    and if it does, that monster's current ATK is halved. \
 At the end of each Battle Phase, \
     you can gain LP equal to combined original ATK of those monsters are destroyed by battle with this card this turn. \
 """
-strings = ["Gain multiple attacks", "Halve ATK"]
+strings = ["Gain multiple attacks", "Steal ATK of battling monster"]
 
 [andalusite]
 id = 990000005
@@ -129,7 +129,18 @@ effect = """\
 {DRACODEITY_SUMMON|EARTH}
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be destroyed by battle. \
+At the start of your opponent's Battle Phase: \
+    You can target 1 face-up monster you control; \
+    change all monsters your opponent controls to face-up Attack Position, \
+    also all monsters your opponent currently controls must attack it this turn, if able. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+If this card battles, during the Damage Step only, \
+    if that monster's ATK is higher than its original, its ATK becomes its original ATK. \
+During damage calculation, if you would take battle damage: \
+    this card gains ATK equal to that amount instead until the end of this turn. \
+    You can use this effect a number of times per turn up to the number of cards currently co-linked to this card. \
 """
+strings = ["Force your opponent attack", "Absorpt battle damage"]
 
 [chrysoprase]
 id = 990000006
@@ -146,6 +157,7 @@ effect = """\
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be destroyed by card effects. \
 """
+strings = []
 
 [messiah]
 id = 990000007
@@ -159,3 +171,4 @@ link_arrow = "left right top-left top-right bottom-left bottom-right"
 atk = "?"
 effect = """\
 """
+strings = []
