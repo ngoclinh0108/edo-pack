@@ -109,8 +109,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
 	local max = c:GetMutualLinkedGroupCount()
 	local ct = c:GetFlagEffect(id) == 0 and 0 or e:GetLabel()
 	if chk == 0 then
-		return Duel.GetBattleDamage(tp) > 0 and not c:IsStatus(STATUS_CHAINING)
-			and ct < max
+		return Duel.GetBattleDamage(tp) > 0 and not c:IsStatus(STATUS_CHAINING) and ct < max
 	end
 
 	e:SetLabel(ct + 1)

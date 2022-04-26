@@ -78,7 +78,7 @@ During your turn (Quick Effect): You can negate the effects of other cards on th
     You can only use this effect of "{CARD_NAME}" once per turn. \
 Once per turn, before damage calculation, if this card attacks an opponent's monster: \
     You can destroy that monster, and if you do, \
-    inflict damage to your opponent equal to either the original ATK or original DEF (whichever is higher) of the destroyed monster. \
+    inflict damage to your opponent equal to the original ATK of the destroyed monster. \
 If this card's effect destroys a monster, \
     it gains ATK equal to the destroyed monster's original ATK until the end of this turn. \
 """
@@ -133,11 +133,11 @@ At the start of your opponent's Battle Phase: \
     change all monsters your opponent controls to face-up Attack Position, \
     also all monsters your opponent currently controls must attack it this turn, if able. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-If this card battles, during the Damage Step only, \
-    if that monster's ATK is higher than its original, its ATK becomes its original ATK. \
+If this card battles an opponent's monster with ATK is higher than its original, \
+    that monster's ATK becomes its original ATK during the Damage Step only. \
 During damage calculation, if you would take battle damage: \
     this card gains ATK equal to that amount instead until the end of this turn. \
-    You can use this effect a number of times per turn up to the number of cards currently co-linked to this card. \
+    You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
 """
 strings = ["Force your opponent attack", "Absorpt battle damage"]
 
@@ -155,8 +155,16 @@ effect = """\
 {DRACODEITY_SUMMON|WIND}
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be destroyed by card effects. \
+(Quick Effect): \
+    You can negate the effects of 1 other Effect Monster on the field until the end of this turn, \
+    and you can activate 1 of its effects as this card's effect once this turn. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+If this card battles an opponent's monster has its effects negated, \
+    that monster's ATK becomes 0 during the Damage Step only. \
+You can negate a card or effect activated on your opponent's field. \
+    You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
 """
-strings = []
+strings = ["Drain effect", "Negate activated effect?"]
 
 [messiah]
 id = 990000007

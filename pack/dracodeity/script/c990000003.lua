@@ -118,11 +118,10 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
     local c = e:GetHandler()
     local tc = c:GetBattleTarget()
-    local dmg = tc:GetBaseAttack() > tc:GetBaseDefense() and tc:GetBaseAttack() or tc:GetBaseDefense()
 
     Duel.SetTargetPlayer(1 - tp)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, tc, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, tc:GetBaseAttack())
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -131,7 +130,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
 
     if c:IsRelateToBattle() and tc:IsRelateToBattle() and Duel.Destroy(tc, REASON_EFFECT) > 0 then
-        local dmg = tc:GetBaseAttack() > tc:GetBaseDefense() and tc:GetBaseAttack() or tc:GetBaseDefense()
+        local dmg = tc:GetBaseAttack()
         if dmg > 0 then Duel.Damage(p, dmg, REASON_EFFECT) end
     end
 end
