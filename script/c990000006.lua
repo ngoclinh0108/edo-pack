@@ -17,15 +17,15 @@ function s.initial_effect(c)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
-    -- drain effect
+    -- disable
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_DISABLE)
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
     e2:SetCountLimit(1, id)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -41,7 +41,7 @@ function s.initial_effect(c)
     e3:SetValue(s.e3val)
     c:RegisterEffect(e3)
 
-    -- negate activated effect
+    -- negate & destroy
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
     e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -53,37 +53,35 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e2filter(c)
-    return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() == tp
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, c) end
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, nil, 1, 0, LOCATION_MZONE)
+    if chk == 0 then return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil) end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e2filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, c):GetFirst()
-    if not tc then return end
 
-    Duel.MajesticCopy(c, tc)
-    Duel.NegateRelatedChain(tc, RESET_TURN_SET)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    ec1:SetCode(EFFECT_DISABLE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    tc:RegisterEffect(ec1)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_DISABLE_EFFECT)
-    ec1b:SetValue(RESET_TURN_SET)
-    tc:RegisterEffect(ec1b)
-    if tc:IsType(TYPE_TRAPMONSTER) then
-        local ec1c = ec1:Clone()
-        ec1c:SetCode(EFFECT_DISABLE_TRAPMONSTER)
-        tc:RegisterEffect(ec1c)
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
+    for tc in aux.Next(g) do
+        Duel.NegateRelatedChain(tc, RESET_TURN_SET)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        ec1:SetCode(EFFECT_DISABLE)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec1)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_DISABLE_EFFECT)
+        ec1b:SetValue(RESET_TURN_SET)
+        tc:RegisterEffect(ec1b)
+        if tc:IsType(TYPE_TRAPMONSTER) then
+            local ec1c = ec1:Clone()
+            ec1c:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+            tc:RegisterEffect(ec1c)
+        end
     end
 end
 
@@ -111,11 +109,14 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    local rc = re:GetHandler()
     local ct = c:GetFlagEffect(id) == 0 and 0 or e:GetLabel()
 
     if Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
         Duel.Hint(HINT_CARD, 0, id)
-        Duel.NegateEffect(ev)
+        if Duel.NegateEffect(ev) and rc:IsRelateToEffect(re) then
+            Duel.Destroy(rc, REASON_EFFECT)
+        end
 
         e:SetLabel(ct + 1)
         if c:GetFlagEffect(id) == 0 then c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 1) end

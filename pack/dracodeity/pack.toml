@@ -73,7 +73,8 @@ effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
 Your opponent cannot Tributed, or use this card and co-linked monsters you control as a material for an Summon. \
-During your turn (Quick Effect): You can negate the effects of other cards on the field, \
+During your turn (Quick Effect): \
+    You can negate the effects of other cards on the field, \
     up to the number of cards currently co-linked to this card, and if you do, destroy them. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 Once per turn, before damage calculation, if this card attacks an opponent's monster: \
@@ -155,16 +156,19 @@ effect = """\
 {DRACODEITY_SUMMON|WIND}
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be destroyed by card effects. \
-(Quick Effect): \
-    You can negate the effects of 1 other Effect Monster on the field until the end of this turn, \
-    and you can activate 1 of its effects as this card's effect once this turn. \
+During your turn (Quick Effect): \
+    You can negate the effects of all face-up monsters your opponent currently controls, until the end of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 If this card battles an opponent's monster has its effects negated, \
     that monster's ATK becomes 0 during the Damage Step only. \
-You can negate a card or effect activated on your opponent's field. \
+You can negate a card or effect activated on your opponent's field, \
+    and if you do, destroy that card. \
     You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
 """
-strings = ["Drain effect", "Negate activated effect?"]
+strings = [
+    "Negate the effects of all face-up monsters your opponent currently controls",
+    "Negate activated effect?",
+]
 
 [messiah]
 id = 990000007
