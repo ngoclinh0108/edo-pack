@@ -38,8 +38,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|LIGHT}
 {DRACODEITY_EFFECT}\
-The activation and effects of this card and co-linked monsters you control cannot be negated. \
-    This effect cannot be negated. \
+The effects of this card and co-linked monsters you control cannot be negated. This effect cannot be negated. \
 """
 strings = []
 
@@ -101,7 +100,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WATER}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be returned to Deck by your opponent's activated effects. \
+This card and co-linked monsters you control cannot be returned to Deck. \
 At the start of your Battle Phase: \
     You can target 1 co-linked monster you control; \
     this Battle Phase, that monster gains 1 additional attack for every card currently co-linked to it. \
