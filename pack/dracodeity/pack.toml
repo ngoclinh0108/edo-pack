@@ -17,13 +17,13 @@ Once per turn, during your opponent's Main Phase, you can (Quick Effect): \
 If this card you control would be used as Link Material for a Divine-Beast monster, \
     you can also use up to 2 face-up Special Summoned monsters your opponent controls as material, \
     as if they were Dragon monsters. \
-During the Main Phase, while this card is in your GY, except the turn this card was sent to the GY (Quick Effect): \
+While this card is in your GY, except the turn this card was sent to the GY and during the Battle Phase (Quick Effect): \
     You can target 1 Link-5 or higher monster you control; \
     banish it until the End Phase, and if you do, Special Summon this card, \
     also, for the rest of this turn after this card resolves, your opponent takes no damage. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = ["Take no damage this turn", "Return banished monster to field"]
+strings = ["Take no damage this turn"]
 
 [greisen]
 id = 990000001
@@ -56,6 +56,7 @@ effect = """\
 {DRACODEITY_SUMMON|DARK}
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
+Negate the effects of monsters destroyed by your monsters you control (by battle or card effect). \
 """
 strings = []
 

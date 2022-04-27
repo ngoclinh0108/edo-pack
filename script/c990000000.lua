@@ -172,7 +172,7 @@ function s.e5filter(c)
 end
 
 function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsMainPhase() and aux.exccon(e, tp, eg, ep, ev, re, r, rp)
+    return aux.exccon(e, tp, eg, ep, ev, re, r, rp) and not Duel.IsBattlePhase()
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -209,7 +209,6 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
 
     if tc:IsRelateToEffect(e) and Duel.Remove(tc, POS_FACEUP, REASON_COST + REASON_TEMPORARY) ~= 0 then
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(aux.Stringid(id, 1))
         ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         ec1:SetCode(EVENT_PHASE + PHASE_END)
         ec1:SetLabelObject(tc)

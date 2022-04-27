@@ -19,7 +19,7 @@ function s.initial_effect(c)
             return tc:GetMutualLinkedGroupCount() > 0
         end, tp, LOCATION_MZONE, 0, nil)
         if #g == 0 then return end
-    
+
         g:AddCard(c)
         for tc in aux.Next(g) do
             local ec1 = Effect.CreateEffect(c)
@@ -38,4 +38,34 @@ function s.initial_effect(c)
         end
     end)
     c:RegisterEffect(e1)
+
+    -- disable
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCode(EVENT_DESTROYED)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+end
+
+function s.e2filter(c, tp)
+    return c:IsReason(REASON_BATTLE + REASON_EFFECT)
+        and c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_ONFIELD)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = eg:Filter(s.e2filter, nil, 1 - tp)
+    if #g == 0 then return end
+
+    for tc in aux.Next(g) do
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_DISABLE)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_EXC_GRAVE)
+        tc:RegisterEffect(ec1)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_DISABLE_EFFECT)
+        tc:RegisterEffect(ec1b)
+    end
 end
