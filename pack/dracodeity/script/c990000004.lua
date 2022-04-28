@@ -19,9 +19,10 @@ function s.initial_effect(c)
     e1b:SetCode(EFFECT_CANNOT_TO_HAND)
     c:RegisterEffect(e1b)
 
-    -- multiple attack
+    -- multiple attack & ATK
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_ATKCHANGE)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EVENT_PHASE + PHASE_BATTLE_START)
@@ -31,11 +32,15 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- lower ATK
+    -- reset ATK
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_BATTLE_DESTROYING)
-    e3:SetOperation(s.e3op)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCode(EFFECT_SET_ATTACK_FINAL)
+    e3:SetTargetRange(0, LOCATION_MZONE)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetValue(s.e3val)
     c:RegisterEffect(e3)
 
     -- recover
@@ -79,20 +84,35 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_EXTRA_ATTACK)
-    ec1:SetValue(ct)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_BATTLE)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(ct * 500)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec1)
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(1115)
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+    ec2:SetCode(EFFECT_EXTRA_ATTACK)
+    ec2:SetValue(ct)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    tc:RegisterEffect(ec2)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3con(e)
     local c = e:GetHandler()
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(1000)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
+    local ac = Duel.GetAttacker()
+    return (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL)
+        and ac:GetBattleTarget()
+        and (ac == c or ac:GetBattleTarget() == c)
+end
+
+function s.e3tg(e, tc)
+    return tc == e:GetHandler():GetBattleTarget()
+end
+
+function s.e3val(e, tc)
+    return tc:GetAttack() > tc:GetBaseAttack() and tc:GetBaseAttack() or tc:GetAttack()
 end
 
 function s.e4filter(c, rc)

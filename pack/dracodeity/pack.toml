@@ -28,7 +28,7 @@ strings = ["Take no damage this turn"]
 [greisen]
 id = 990000001
 rarity = "gold"
-name = "Greisen, Dracodeity of the Cosmogony"
+name = "Greisen, Dracodeity of the Chronology "
 type = "monster link effect"
 attribute = "light"
 race = "divine-beast"
@@ -39,8 +39,22 @@ effect = """\
 {DRACODEITY_SUMMON|LIGHT}
 {DRACODEITY_EFFECT}\
 The effects of this card and co-linked monsters you control cannot be negated. This effect cannot be negated. \
+Each time a card or effect is activated, this card gain 1000 ATK until the end of this turn. \
+During your Draw Phase, before you draw: \
+    You can look at cards from the top of your Deck, \
+    up to the number of cards currently co-linked to this card, \
+    then place them on the top or bottom of the Deck in any order. \
+During the Main Phase (Quick Effect): \
+    You can take 1 other card is banished, in GY, or on the field, \
+    return, or special summon it to the state they were at the start of this turn. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = [
+    "Look and sort top of your Deck",
+    "Place on top of the Deck",
+    "Place on bottom of the Deck",
+    "Return card to its previous state",
+]
 
 [obsidian]
 id = 990000002
@@ -91,10 +105,7 @@ Once per turn, if this card destroys a monster by battle: \
     You can inflict damage to your opponent \
     equal to double the destroyed monster's original ATK or DEF (whichever is higher). \
 """
-strings = [
-    "Destroy other card(s) on the field",
-    "Inflict damage",
-]
+strings = ["Destroy other card(s) on the field", "Inflict damage"]
 
 [lapis]
 id = 990000004
@@ -111,10 +122,11 @@ effect = """\
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be returned to Deck. \
 At the start of your Battle Phase: \
-    You can make 1 co-linked monster you control gains 1 additional attack \
-    for every card currently co-linked to it, during this Battle Phase; \
+    You can make 1 co-linked monster you control gains 500 ATK and 1 additional attack \
+    for every card currently co-linked to it, during this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-If this card destroys a monster by battle, it gains 1000 ATK until the end of this turn. \
+If this card battles an opponent's monster whose ATK is higher than its original ATK, \
+    its ATK becomes its original ATK during the Damage Step only. \
 Once per turn, at the end of the Battle Phase: \
     You can gain LP equal to combined original ATK of those monsters \
     are destroyed by battle with this card this turn. \
@@ -168,7 +180,10 @@ If this card battles an opponent's monster has its effects negated, \
 You can negate a card effect activated on your opponent's field, and if you do, destroy that card. \
     You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
 """
-strings = ["Negate effects your opponent monsters", "Negate activated effect?"]
+strings = [
+    "Negate effects all opponent monsters",
+    "Negate activated effect & destroy?",
+]
 
 [messiah]
 id = 990000007
