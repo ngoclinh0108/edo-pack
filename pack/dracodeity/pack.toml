@@ -137,7 +137,7 @@ effect = """\
 This card and co-linked monsters you control cannot be destroyed by battle. \
 You take no Battle Damage from battles involving this card. \
 At the start of your Battle Phase: \
-    You can make 1 other face-up monster on the field lose ATK equal to half its current ATK, \
+    You can make 1 other face-up monster on the field lose half its current ATK, \
     and if it does, this card gains that lost ATK, these changes last until the end of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 Once per turn Chain, when an opponent's monster declares an attack: \
