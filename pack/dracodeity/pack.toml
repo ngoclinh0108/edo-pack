@@ -46,7 +46,7 @@ During your Draw Phase, before you draw: \
     then place them on the top or bottom of the Deck in any order. \
 During the Main Phase (Quick Effect): \
     You can take 1 other card is banished, in GY, or on the field, \
-    return, or special summon it to the state they were at the start of this turn. \
+    return or Special Summon it to the state they were at the start of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
