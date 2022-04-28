@@ -1,4 +1,4 @@
--- Chrysoprase, Dracodeity of the Atmosphere
+-- Peridot, Dracodeity of the Atmosphere
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_dracodeity.lua")
 local s, id = GetID()

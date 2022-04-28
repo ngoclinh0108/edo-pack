@@ -137,8 +137,8 @@ effect = """\
 This card and co-linked monsters you control cannot be destroyed by battle. \
 You take no Battle Damage from battles involving this card. \
 At the start of your Battle Phase: \
-    You can make 1 other face-up monster on the field lose half its current ATK, \
-    and if it does, this card gains that lost ATK, these changes last until the end of this turn. \
+    You can make 1 other face-up monster on the field lose half its ATK, and if it does, \
+    this card gains that lost ATK, these changes last until the end of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 Once per turn Chain, when an opponent's monster declares an attack: \
     You can change the attack target to this card and perform damage calculation. \
@@ -146,10 +146,10 @@ Once per turn Chain, when an opponent's monster declares an attack: \
 """
 strings = ["Absorpt ATK", "Attack redirect"]
 
-[chrysoprase]
+[peridot]
 id = 990000006
 rarity = "gold"
-name = "Chrysoprase, Dracodeity of the Atmosphere"
+name = "Peridot, Dracodeity of the Atmosphere"
 type = "monster link effect"
 attribute = "wind"
 race = "divine-beast"
@@ -165,7 +165,7 @@ During your turn (Quick Effect): \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 If this card battles an opponent's monster has its effects negated, \
     that monster's ATK becomes 0 during the Damage Step only. \
-You can negate a card or effect activated on your opponent's field, and if you do, destroy that card. \
+You can negate a card effect activated on your opponent's field, and if you do, destroy that card. \
     You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
 """
 strings = ["Negate effects your opponent monsters", "Negate activated effect?"]
