@@ -17,100 +17,84 @@ function s.initial_effect(c)
 	e1:SetValue(1)
 	c:RegisterEffect(e1)
 
-	-- force attack
+	-- avoid battle damage
 	local e2 = Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(id, 0))
-	e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e2:SetRange(LOCATION_MZONE)
-	e2:SetCode(EVENT_PHASE + PHASE_BATTLE_START)
-	e2:SetCountLimit(1, id)
-	e2:SetCondition(s.e2con)
-	e2:SetTarget(s.e2tg)
-	e2:SetOperation(s.e2op)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+	e2:SetValue(1)
 	c:RegisterEffect(e2)
 
-	-- reset atk
+	-- absorpt attack
 	local e3 = Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_FIELD)
+	e3:SetDescription(aux.Stringid(id, 0))
+	e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCode(EFFECT_SET_ATTACK_FINAL)
-	e3:SetTargetRange(0, LOCATION_MZONE)
+	e3:SetCode(EVENT_PHASE + PHASE_BATTLE_START)
+	e3:SetCountLimit(1, id)
 	e3:SetCondition(s.e3con)
 	e3:SetTarget(s.e3tg)
-	e3:SetValue(s.e3val)
+	e3:SetOperation(s.e3op)
 	c:RegisterEffect(e3)
 
-	-- damage absorpt
+	-- attack redirect
 	local e4 = Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id, 1))
-	e4:SetCategory(CATEGORY_ATKCHANGE)
 	e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
 	e4:SetRange(LOCATION_MZONE)
-	e4:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+	e4:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e4:SetLabel(0)
+	e4:SetCondition(s.e4con)
 	e4:SetTarget(s.e4tg)
 	e4:SetOperation(s.e4op)
 	c:RegisterEffect(e4)
 end
 
-function s.e2con(e)
-	return Duel.GetTurnPlayer() == 1 - e:GetHandlerPlayer() and Duel.IsBattlePhase()
+function s.e3filter(c)
+	return c:IsFaceup() and c:GetAttack() > 0
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-	if chk == 0 then return Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, nil)
-			and Duel.GetFieldGroupCount(tp, 0, LOCATION_MZONE) > 0
-	end
-	Duel.SelectTarget(tp, Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, 1, nil)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+	return Duel.GetTurnPlayer() == tp
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 	local c = e:GetHandler()
-	local tc = Duel.GetFirstTarget()
-	local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
-	if not tc:IsRelateToEffect(e) or #g == 0 then return end
-
-	local fid = tc:GetRealFieldID()
-	Duel.ChangePosition(g, POS_FACEUP_ATTACK)
-	for sc in aux.Next(g) do
-		local ec1 = Effect.CreateEffect(c)
-		ec1:SetType(EFFECT_TYPE_SINGLE)
-		ec1:SetCode(EFFECT_MUST_ATTACK)
-		ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-		sc:RegisterEffect(ec1)
-		local ec1b = ec1:Clone()
-		ec1b:SetCode(EFFECT_MUST_ATTACK_MONSTER)
-		ec1b:SetValue(function(e, c)
-			return c:GetRealFieldID() == e:GetLabel()
-		end)
-		ec1b:SetLabel(fid)
-		sc:RegisterEffect(ec1b)
-	end
+	if chk == 0 then return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, c) end
 end
 
-function s.e3con(e)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 	local c = e:GetHandler()
-	return (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL)
-		and c:GetBattleTarget()
+	local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e3filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, c):GetFirst()
+
+	if c:IsFacedown() or not tc or tc:IsFacedown() or tc:IsImmuneToEffect(e) then return end
+	Duel.HintSelection(Group.FromCards(tc))
+	local atk = tc:GetAttack()
+
+	local ec1 = Effect.CreateEffect(c)
+	ec1:SetType(EFFECT_TYPE_SINGLE)
+	ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+	ec1:SetValue(math.ceil(atk / 2))
+	ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+	tc:RegisterEffect(ec1)
+
+	local ec2 = Effect.CreateEffect(c)
+	ec2:SetType(EFFECT_TYPE_SINGLE)
+	ec2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+	ec2:SetCode(EFFECT_UPDATE_ATTACK)
+	ec2:SetValue(math.ceil(atk / 2))
+	ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+	c:RegisterEffect(ec2)
 end
 
-function s.e3tg(e, tc)
-	local c = e:GetHandler()
-	return c:GetBattleTarget() == tc
-end
-
-function s.e3val(e, tc)
-	return tc:GetAttack() > tc:GetBaseAttack() and tc:GetBaseAttack() or tc:GetAttack()
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+	return Duel.GetTurnPlayer() ~= tp and Duel.GetAttackTarget() ~= e:GetHandler()
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
 	local c = e:GetHandler()
 	local max = c:GetMutualLinkedGroupCount()
 	local ct = c:GetFlagEffect(id) == 0 and 0 or e:GetLabel()
-	if chk == 0 then
-		return Duel.GetBattleDamage(tp) > 0 and not c:IsStatus(STATUS_CHAINING) and ct < max
-	end
+	if chk == 0 then return not c:IsStatus(STATUS_CHAINING) and ct < max end
 
 	e:SetLabel(ct + 1)
 	if c:GetFlagEffect(id) == 0 then c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 1) end
@@ -118,24 +102,10 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 	local c = e:GetHandler()
-	local dmg = Duel.GetBattleDamage(tp)
+	if not c:IsRelateToEffect(e) then return end
 
-	local ec1 = Effect.CreateEffect(c)
-	ec1:SetType(EFFECT_TYPE_FIELD)
-	ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	ec1:SetCode(EFFECT_CHANGE_BATTLE_DAMAGE)
-	ec1:SetTargetRange(1, 0)
-	ec1:SetValue(0)
-	ec1:SetReset(RESET_PHASE + PHASE_DAMAGE)
-	Duel.RegisterEffect(ec1, tp)
-
-	if c:IsRelateToEffect(e) and c:IsFaceup() then
-		local ec2 = Effect.CreateEffect(c)
-		ec2:SetType(EFFECT_TYPE_SINGLE)
-		ec2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		ec2:SetCode(EFFECT_UPDATE_ATTACK)
-		ec2:SetValue(dmg)
-		ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-		c:RegisterEffect(ec2)
+	local ac = Duel.GetAttacker()
+	if ac:CanAttack() and not ac:IsImmuneToEffect(e) then
+		Duel.CalculateDamage(ac, c)
 	end
 end

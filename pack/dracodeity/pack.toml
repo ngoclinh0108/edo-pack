@@ -56,9 +56,16 @@ effect = """\
 {DRACODEITY_SUMMON|DARK}
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
-Negate the effects of monsters destroyed by your monsters you control (by battle or card effect). \
+Negate the effects of your opponent's monsters destroyed by monsters you control (by battle or card effect). \
+Once per turn, during the Main Phase (Quick Effect): \
+    You can destroy all your opponent's monsters with 0 ATK, and if you do, banish them, \
+    then this card gains 1000 ATK for each destroyed card until the end of this turn. \
+During the End Phase: \
+    You can make all monsters your opponent controls lose 1000 ATK for each cards currently co-linked to this card, \
+    then if those monster's ATK has been reduced to 0 as a result, they cannot activate theirs effects while on the field. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = ["Destroy monsters with 0 ATK", "Lower ATK of your monsters"]
 
 [amber]
 id = 990000003
@@ -74,19 +81,19 @@ effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
 Your opponent cannot Tributed, or use this card and co-linked monsters you control as a material for an Summon. \
-During your turn (Quick Effect): \
-    You can negate the effects of other cards on the field, \
-    up to the number of cards currently co-linked to this card, and if you do, destroy them. \
+During your Main Phase (Quick Effect): \
+    You can destroy of other cards on the field, up to the number of cards currently co-linked to this card, \
+    and if you do, this card gains ATK equal to the combined original ATK of the destroyed monsters. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-Once per turn, before damage calculation, if this card attacks an opponent's monster: \
-    You can destroy that monster, and if you do, \
-    inflict damage to your opponent equal to the original ATK of the destroyed monster. \
-If this card's effect destroys a monster, \
-    it gains ATK equal to the destroyed monster's original ATK until the end of this turn. \
+If this card battles an opponent's monster, \
+    negate the effects of that monster during the Damage Step only. \
+Once per turn, if this card destroys a monster by battle: \
+    You can inflict damage to your opponent \
+    equal to double the destroyed monster's original ATK or DEF (whichever is higher). \
 """
 strings = [
-    "Negate & destroy other card(s) on the field",
-    "Destroy battling monster & inflict damage",
+    "Destroy other card(s) on the field",
+    "Inflict damage",
 ]
 
 [lapis]
@@ -104,17 +111,15 @@ effect = """\
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be returned to Deck. \
 At the start of your Battle Phase: \
-    You can target 1 co-linked monster you control; \
-    this Battle Phase, that monster gains 1 additional attack for every card currently co-linked to it. \
+    You can make 1 co-linked monster you control gains 1 additional attack \
+    for every card currently co-linked to it, during this Battle Phase; \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-Once per turn, if this card attacks a face-up monster, during damage calculation: \
-    You can activate this effect; until the end of this turn, \
-    this card gains ATK equal to half that monster's current ATK, \
-    and if it does, that monster's current ATK is halved. \
-At the end of each Battle Phase, \
-    you can gain LP equal to combined original ATK of those monsters are destroyed by battle with this card this turn. \
+If this card destroys a monster by battle, it gains 1000 ATK until the end of this turn. \
+Once per turn, at the end of the Battle Phase: \
+    You can gain LP equal to combined original ATK of those monsters \
+    are destroyed by battle with this card this turn. \
 """
-strings = ["Gain multiple attacks", "Steal ATK of battling monster"]
+strings = ["Gain multiple attacks", "Gain LP equal to destroyed monster"]
 
 [andalusite]
 id = 990000005
@@ -130,18 +135,16 @@ effect = """\
 {DRACODEITY_SUMMON|EARTH}
 {DRACODEITY_EFFECT}\
 This card and co-linked monsters you control cannot be destroyed by battle. \
-At the start of your opponent's Battle Phase: \
-    You can target 1 face-up monster you control; \
-    change all monsters your opponent controls to face-up Attack Position, \
-    also all monsters your opponent currently controls must attack it this turn, if able. \
+You take no Battle Damage from battles involving this card. \
+At the start of your Battle Phase: \
+    You can make 1 other face-up monster on the field lose ATK equal to half its current ATK, \
+    and if it does, this card gains that lost ATK, these changes last until the end of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-If this card battles an opponent's monster with ATK is higher than its original, \
-    that monster's ATK becomes its original ATK during the Damage Step only. \
-During damage calculation, if you would take battle damage: \
-    this card gains ATK equal to that amount instead until the end of this turn. \
+Once per turn Chain, when an opponent's monster declares an attack: \
+    You can change the attack target to this card and perform damage calculation. \
     You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
 """
-strings = ["Force your opponent attack", "Absorpt battle damage"]
+strings = ["Absorpt ATK", "Attack redirect"]
 
 [chrysoprase]
 id = 990000006
@@ -162,14 +165,10 @@ During your turn (Quick Effect): \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 If this card battles an opponent's monster has its effects negated, \
     that monster's ATK becomes 0 during the Damage Step only. \
-You can negate a card or effect activated on your opponent's field, \
-    and if you do, destroy that card. \
+You can negate a card or effect activated on your opponent's field, and if you do, destroy that card. \
     You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
 """
-strings = [
-    "Negate the effects of all face-up monsters your opponent currently controls",
-    "Negate activated effect?",
-]
+strings = ["Negate effects your opponent monsters", "Negate activated effect?"]
 
 [messiah]
 id = 990000007
