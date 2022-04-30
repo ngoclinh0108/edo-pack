@@ -45,8 +45,8 @@ During your Draw Phase, before you draw: \
     up to the number of cards currently co-linked to this card, \
     then place them on the top or bottom of the Deck in any order. \
 During the Main Phase (Quick Effect): \
-    You can add 1 card to your hand, that is banished or in either GY, \
-    if it was a Monster Card, you can also Special Summon it. \
+    You can take 1 card, that is banished or in either GY, \
+    add it to your hand, or you can also Special Summon it if it was a Monster Card. \
     Neither player can activate cards, or the effects of cards, with that name for the rest of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """

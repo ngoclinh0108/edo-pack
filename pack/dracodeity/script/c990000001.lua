@@ -131,4 +131,16 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     else
         Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP)
     end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+    ec1:SetTargetRange(1, 1)
+    ec1:SetLabelObject(tc)
+    ec1:SetValue(function(e, re)
+        return re:GetHandler():IsCode(e:GetLabelObject():GetCode())
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end
