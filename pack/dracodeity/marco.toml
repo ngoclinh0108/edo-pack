@@ -1,5 +1,5 @@
 DRACODEITY_SUMMON = """\
-3+ Dragon monsters, except Tokens, including a {0} monster \
+3+ Special Summoned non-Token monsters, including a {0} monster \
 """
 
 DRACODEITY_EFFECT = """\

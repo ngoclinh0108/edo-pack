@@ -10,8 +10,8 @@ function s.initial_effect(c)
     -- cannot to GY or banish
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1:SetRange(LOCATION_MZONE)
     e1:SetCode(EVENT_CHAIN_SOLVING)
+    e1:SetRange(LOCATION_MZONE)
     e1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
         if rp == tp then return end
@@ -42,8 +42,8 @@ function s.initial_effect(c)
     -- disable
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EVENT_DESTROYED)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 

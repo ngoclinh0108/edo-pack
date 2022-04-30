@@ -3,7 +3,8 @@ id = 990000000
 rarity = "gold"
 name = "Goshenite of Dracodeity"
 type = "monster link effect"
-race = "dragon"
+attribute = "divine"
+race = "divine-beast"
 link = 3
 link_arrow = "top left right"
 atk = 0
@@ -15,8 +16,7 @@ Once per turn, during your opponent's Main Phase, you can (Quick Effect): \
     Immediately after this effect resolves, Link Summon 1 Link Monster using materials you control, \
     including this card. \
 If this card you control would be used as Link Material for a Divine-Beast monster, \
-    you can also use up to 2 face-up Special Summoned monsters your opponent controls as material, \
-    as if they were Dragon monsters. \
+    you can also use up to 2 face-up Special Summoned monsters your opponent controls as material. \
 While this card is in your GY, except the turn this card was sent to the GY and during the Battle Phase (Quick Effect): \
     You can target 1 Link-5 or higher monster you control; \
     banish it until the End Phase, and if you do, Special Summon this card, \
@@ -192,9 +192,16 @@ name = "Messiah, Genesis of Dracodeity"
 type = "monster link effect"
 attribute = "divine"
 race = "creator-god"
-link = 6
-link_arrow = "left right top-left top-right bottom-left bottom-right"
+link = 7
+link_arrow = "left right top-left top-right bottom-left bottom-right bottom"
 atk = "?"
 effect = """\
+Cannot be Link Summoned. \
+Must be Special Summoned (from your Extra Deck) by stacking 7 co-linked monsters. \
+This card's Special Summon cannot be negated. \
+The original ATK of this card becomes 1000 x the number of monster's Attribute used for its Summon. \
+This card gains effects of all monsters used for its Summon. \
+Unaffected by other cards' effects. \
+After this card is Special Summoned, you can move it to another of your Main Monster Zones. \
 """
-strings = []
+strings = ["Move to another Main Monster Zones?"]
