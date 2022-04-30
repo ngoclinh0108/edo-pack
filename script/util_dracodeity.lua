@@ -8,7 +8,7 @@ function UtilityDracodeity.RegisterSummon(c, attribute)
 
     -- link summon
     Link.AddProcedure(c, function(c, sc, sumtype, tp)
-        return c:IsSummonType(SUMMON_TYPE_SPECIAL, sc, sumtype, tp) and not c:IsType(TYPE_TOKEN, sc, sumtype, tp)
+        return c:IsSummonType(SUMMON_TYPE_SPECIAL) and not c:IsType(TYPE_TOKEN, sc, sumtype, tp)
     end, 3, nil, function(g, sc, sumtype, tp)
         return g:IsExists(Card.IsAttribute, 1, nil, attribute, sc, sumtype, tp)
     end)
