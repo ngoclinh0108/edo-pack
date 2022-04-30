@@ -62,10 +62,11 @@ function s.initial_effect(c)
 
     -- take card & block activate
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 4))
+    e4:SetDescription(aux.Stringid(id, 3))
     e4:SetType(EFFECT_TYPE_QUICK_O)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
+    e4:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
     e4:SetCountLimit(1, id)
     e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
@@ -129,6 +130,18 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         or not Duel.SelectYesNo(tp, 1075) then
         Duel.SendtoHand(tc, tp, REASON_EFFECT)
     else
-        Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP)
+        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+    ec1:SetTargetRange(1, 1)
+    ec1:SetLabelObject(tc)
+    ec1:SetValue(function(e, re)
+        return re:GetHandler():IsCode(e:GetLabelObject():GetCode())
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end

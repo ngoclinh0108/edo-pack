@@ -198,10 +198,10 @@ link_arrow = "left right top-left top-right bottom-left bottom-right bottom"
 atk = "?"
 effect = """\
 Cannot be Link Summoned. \
-Must be Special Summoned (from your Extra Deck) by stacking 7 co-linked monsters. \
+Must be Special Summoned (from your Extra Deck) by stacking all co-linked monsters you control. \
 This card's Special Summon cannot be negated. \
 The original ATK of this card becomes 1000 x the number of monster's Attribute used for its Summon. \
-This card gains effects of all monsters used for its Summon. \
+This card gains effects of all Divine-Beast monsters used for its Summon. \
 Unaffected by other cards' effects. \
 After this card is Special Summoned, you can move it to another of your Main Monster Zones. \
 """

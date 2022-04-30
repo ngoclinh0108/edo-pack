@@ -62,7 +62,7 @@ function s.initial_effect(c)
 
     -- take card & block activate
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 4))
+    e4:SetDescription(aux.Stringid(id, 3))
     e4:SetType(EFFECT_TYPE_QUICK_O)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
@@ -130,7 +130,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         or not Duel.SelectYesNo(tp, 1075) then
         Duel.SendtoHand(tc, tp, REASON_EFFECT)
     else
-        Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP)
+        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     end
 
     local ec1 = Effect.CreateEffect(c)

@@ -53,13 +53,11 @@ end
 function s.sprcon(e, c)
     if c == nil then return true end
     local tp = c:GetControler()
-    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
-    return #g > 0 and aux.SelectUnselectGroup(g, e, tp, 7, 7, aux.ChkfMMZ(1), 0)
+    return Duel.IsExistingMatchingCard(s.sprfilter, tp, LOCATION_MZONE, 0, 1, nil)
 end
 
 function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
-    local mg = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
-    local g = aux.SelectUnselectGroup(mg, e, tp, 7, 7, aux.ChkfMMZ(1), 1, tp, HINTMSG_TOGRAVE, nil, nil, true)
+    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
     if #g > 0 then
         g:KeepAlive()
         e:SetLabelObject(g)
@@ -79,7 +77,9 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE - RESET_TOFIELD)
     c:RegisterEffect(ec1)
     for tc in aux.Next(g) do
-        c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD_DISABLE - RESET_TOFIELD)
+        if tc:IsRace(RACE_DIVINE) then
+            c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD_DISABLE - RESET_TOFIELD)
+        end
     end
 
     Duel.Overlay(c, g)
