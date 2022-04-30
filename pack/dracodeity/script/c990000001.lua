@@ -60,7 +60,7 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- return previous state
+    -- take card & block activate
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 4))
     e4:SetType(EFFECT_TYPE_QUICK_O)
@@ -71,14 +71,6 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-    aux.GlobalCheck(s, function()
-        local e4reg = Effect.CreateEffect(c)
-        e4reg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        e4reg:SetCode(EVENT_ADJUST)
-        e4reg:SetCountLimit(1)
-        e4reg:SetOperation(s.e4regop)
-        Duel.RegisterEffect(e4reg, 0)
-    end)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -110,16 +102,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4filter(c, e, tp)
-    local prev_loc = c:GetFlagEffectLabel(id + 100)
-    local prev_tp = c:GetFlagEffectLabel(id + 200)
-    local prev_pos = c:GetFlagEffectLabel(id + 300)
-    local prev_seq = c:GetFlagEffectLabel(id + 400)
-    if c:IsLocation(prev_loc) and c:IsControler(prev_tp)
-        and c:IsPosition(prev_pos) and c:IsSequence(prev_seq) then return false end
-
-    if not c:IsType(TYPE_MONSTER) then return true end
-    return (prev_loc & LOCATION_ONFIELD) == 0 or c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-
+    return c:IsAbleToHand() or c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
@@ -128,48 +111,24 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local loc = LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED
+    local loc = LOCATION_GRAVE + LOCATION_REMOVED
     if chk == 0 then return Duel.IsExistingMatchingCard(s.e4filter, tp, loc, loc, 1, c, e, tp) end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, PLAYER_ALL, loc)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, PLAYER_ALL, loc)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local loc = LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED
+    local loc = LOCATION_GRAVE + LOCATION_REMOVED
     local tc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e4filter, tp, loc, loc, 1, 1, c, e, tp):GetFirst()
     if not tc then return end
     Duel.HintSelection(Group.FromCards(tc))
 
-    local prev_loc = tc:GetFlagEffectLabel(id + 100)
-    local prev_tp = tc:GetFlagEffectLabel(id + 200)
-    local prev_pos = tc:GetFlagEffectLabel(id + 300)
-    local prev_seq = tc:GetFlagEffectLabel(id + 400)
-
-    if prev_loc == LOCATION_HAND then
-        Duel.SendtoHand(tc, prev_tp, REASON_EFFECT)
-    elseif prev_loc == LOCATION_GRAVE then
-        Duel.SendtoGrave(tc, REASON_EFFECT, prev_tp)
-    elseif prev_loc == LOCATION_REMOVED then
-        Duel.Remove(tc, prev_pos, REASON_EFFECT, prev_tp)
-    elseif prev_loc == LOCATION_DECK then
-        Duel.SendtoDeck(tc, prev_tp, prev_seq, REASON_EFFECT)
-    elseif prev_loc == LOCATION_EXTRA then
-        Duel.SendtoDeck(tc, prev_tp, prev_seq, REASON_EFFECT)
+    if not tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) or Duel.GetLocationCount(tp, LOCATION_MZONE) == 0
+        or not Duel.SelectYesNo(tp, 1075) then
+        Duel.SendtoHand(tc, tp, REASON_EFFECT)
     else
-        if tc:IsStatus(STATUS_LEAVE_CONFIRMED) then tc:CancelToGrave() end
-        if tc:IsType(TYPE_FIELD) then prev_loc = LOCATION_FZONE end
-        Duel.SpecialSummon(tc, 0, tp, prev_tp, false, false, prev_pos)
-        if not tc:IsPosition(prev_pos) then Duel.ChangePosition(tc, prev_pos, prev_pos, prev_pos, prev_pos, true, true) end
-    end
-
-    Duel.NegateRelatedChain(tc, RESET_TURN_SET)
-end
-
-function s.e4regop(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0x7f, 0x7f, nil)
-    for tc in aux.Next(g) do
-        tc:RegisterFlagEffect(id + 100, RESET_PHASE + PHASE_END, 0, 1, tc:GetLocation())
-        tc:RegisterFlagEffect(id + 200, RESET_PHASE + PHASE_END, 0, 1, tc:GetControler())
-        tc:RegisterFlagEffect(id + 300, RESET_PHASE + PHASE_END, 0, 1, tc:GetPosition())
-        tc:RegisterFlagEffect(id + 400, RESET_PHASE + PHASE_END, 0, 1, tc:GetSequence())
+        Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP)
     end
 end

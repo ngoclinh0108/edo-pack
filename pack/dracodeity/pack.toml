@@ -45,15 +45,16 @@ During your Draw Phase, before you draw: \
     up to the number of cards currently co-linked to this card, \
     then place them on the top or bottom of the Deck in any order. \
 During the Main Phase (Quick Effect): \
-    You can take 1 other card is banished, in GY, or on the field, \
-    return or Special Summon it to the state they were at the start of this turn. \
+    You can add 1 card to your hand, that is banished or in either GY, \
+    if it was a Monster Card, you can also Special Summon it. \
+    Neither player can activate cards, or the effects of cards, with that name for the rest of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
     "Look and sort top of your Deck",
     "Place on top of the Deck",
     "Place on bottom of the Deck",
-    "Return card to its previous state",
+    "Take card and block activate"
 ]
 
 [obsidian]
