@@ -7,9 +7,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- link summon
-    Link.AddProcedure(c, aux.NOT(
-        aux.FilterBoolFunctionEx(Card.IsType, TYPE_TOKEN)), 3,
-        3)
+    Link.AddProcedure(c, aux.NOT(aux.FilterBoolFunctionEx(Card.IsType, TYPE_TOKEN)), 2)
 
     -- summon cannot be negated
     local e1 = Effect.CreateEffect(c)

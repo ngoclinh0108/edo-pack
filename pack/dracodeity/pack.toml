@@ -9,7 +9,7 @@ link = 3
 link_arrow = "top left right"
 atk = 0
 effect = """\
-3 monsters, except Tokens
+2+ monsters, except Tokens
 This card's Link Summon cannot be negated. \
 After this card is Special Summoned, declare 1 Attribute, this card becomes that Attribute. \
 Once per turn, during your opponent's Main Phase, you can (Quick Effect): \
