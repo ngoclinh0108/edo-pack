@@ -41,12 +41,13 @@ effect = """\
 The effects of this card and co-linked monsters you control cannot be negated. This effect cannot be negated. \
 Each time a card or effect is activated, this card gain 1000 ATK until the end of this turn. \
 During your Draw Phase, before you draw: \
-    You can look at cards from the top of your Deck, \
-    up to the number of cards currently co-linked to this card, \
+    You can look at up to 3 cards from the top of your Deck, \
     then place them on the top or bottom of the Deck in any order. \
 During the Main Phase (Quick Effect): \
-    You can take 1 card, that is banished or in either GY, \
-    add it to your hand, or you can also Special Summon it if it was a Monster Card. \
+    You can take cards that is banished or in either GY, \
+    up to the number of cards currently co-linked to this card, \
+    add them to your hand, shuffle them into the Deck, \
+    or you can also Special Summon them if they were a Monster Card. \
     Neither player can activate cards, or the effects of cards, with that name for the rest of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """

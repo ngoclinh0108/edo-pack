@@ -88,12 +88,10 @@ end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return tp == Duel.GetTurnPlayer() and Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0
-        and e:GetHandler():GetMutualLinkedGroupCount() > 0
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ct = math.min(c:GetMutualLinkedGroupCount(), Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
+    local ct = math.min(3, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
     if ct == 0 then return end
 
     local _ = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
@@ -102,8 +100,20 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if opt == 1 then Duel.MoveToDeckBottom(ct, tp) end
 end
 
+function s.e4check1(c)
+    return c:IsAbleToHand()
+end
+
+function s.e4check2(c)
+    return c:IsAbleToDeck()
+end
+
+function s.e4check3(c, e, tp)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
 function s.e4filter(c, e, tp)
-    return c:IsAbleToHand() or c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return s.e4check1(c) or s.e4check2(c) or s.e4check3(c, e, tp)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
@@ -113,35 +123,59 @@ end
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
-    if chk == 0 then return Duel.IsExistingMatchingCard(s.e4filter, tp, loc, loc, 1, c, e, tp) end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e4filter, tp, loc, loc, 1, c, e, tp)
+            and c:GetMutualLinkedGroupCount() > 0
+    end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, PLAYER_ALL, loc)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, PLAYER_ALL, loc)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, PLAYER_ALL, loc)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local loc = LOCATION_GRAVE + LOCATION_REMOVED
-    local tc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e4filter, tp, loc, loc, 1, 1, c, e, tp):GetFirst()
-    if not tc then return end
-    Duel.HintSelection(Group.FromCards(tc))
+    local max = c:GetMutualLinkedGroupCount()
+    if max == 0 then return end
 
-    if not tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) or Duel.GetLocationCount(tp, LOCATION_MZONE) == 0
-        or not Duel.SelectYesNo(tp, 1075) then
-        Duel.SendtoHand(tc, tp, REASON_EFFECT)
-    else
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    local loc = LOCATION_GRAVE + LOCATION_REMOVED
+    local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e4filter, tp, loc, loc, 1, max, nil, e, tp)
+    if #g == 0 then return end
+    Duel.HintSelection(g)
+
+    for tc in aux.Next(g) do
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+        ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+        ec1:SetTargetRange(1, 1)
+        ec1:SetLabelObject(tc)
+        ec1:SetValue(function(e, re) return re:GetHandler():IsCode(e:GetLabelObject():GetCode()) end)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
     end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
-    ec1:SetTargetRange(1, 1)
-    ec1:SetLabelObject(tc)
-    ec1:SetValue(function(e, re)
-        return re:GetHandler():IsCode(e:GetLabelObject():GetCode())
-    end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
+    local opt = {}
+    local sel = {}
+    if g:IsExists(s.e4check1, #g, nil) then
+        table.insert(opt, 1105)
+        table.insert(sel, 1)
+    end
+    if g:IsExists(s.e4check2, #g, nil) then
+        table.insert(opt, 1106)
+        table.insert(sel, 2)
+    end
+    if g:IsExists(s.e4check3, #g, nil, e, tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) >= #g then
+        table.insert(opt, 1120)
+        table.insert(sel, 3)
+    end
+    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
+
+    Debug.Message(op)
+    if op == 1 then
+        Duel.SendtoHand(g, tp, REASON_EFFECT)
+    elseif op == 2 then
+        Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
+    elseif op == 3 then
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    end
 end
