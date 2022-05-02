@@ -87,7 +87,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local att = Duel.AnnounceAttribute(tp, 1, ATTRIBUTE_ALL)
+    local att = c:AnnounceAnotherAttribute(tp)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
