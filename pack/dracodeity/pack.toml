@@ -204,14 +204,16 @@ This card's Special Summon cannot be negated. \
 After this card is Special Summoned, you can move it to another of your Main Monster Zones. \
 The original ATK of this card becomes 1000 x the number of monster's original Attribute used for its Summon. \
 This card gains effects of all original Divine-Beast monsters used for its Summon. \
-Unaffected by other cards' effects. \
-(Quick Effect): \
+Once per turn (Quick Effect): \
     You can move 1 monster stacked underneath this card to your zone this card points to, \
     that monster is treated as Link Spell if it was move to Spell & Trap Zone, \
     and also it cannot declare attacks or activate its effects. \
-    You can only use this effect of "{CARD_NAME}" once per turn. \
+Once per turn, if this card have 7 or more co-link cards (Quick Effect): \
+    You can shuffle all cards that are banished, on the field, and in the GYs into the Decks. \
+    Neither player can activate cards or effects in response to this effect's activation. \
 """
 strings = [
     "Move to another Main Monster Zones?",
     "Move stacked monster to zone",
+    "Shuffle all cards into the Deck",
 ]

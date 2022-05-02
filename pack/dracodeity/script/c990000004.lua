@@ -45,21 +45,20 @@ function s.initial_effect(c)
 
     -- recover
     local e4 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
+    e4:SetDescription(aux.Stringid(id, 1))
     e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e4:SetCode(EVENT_PHASE + PHASE_BATTLE)
     e4:SetRange(LOCATION_MZONE)
     e4:SetCountLimit(1)
-    e4:SetTarget(s.e4tg)
+    e4:SetCondition(s.e4con)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-    aux.GlobalCheck(s, function()
-        local e4reg = Effect.CreateEffect(c)
-        e4reg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        e4reg:SetCode(EVENT_DESTROYED)
-        e4reg:SetOperation(s.e4regop)
-        Duel.RegisterEffect(e4reg, 0)
-    end)
+    local e4reg = Effect.CreateEffect(c)
+    e4reg:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e4reg:SetCode(EVENT_BATTLE_DESTROYING)
+    e4reg:SetCondition(aux.bdcon)
+    e4reg:SetOperation(s.e4regop)
+    c:RegisterEffect(e4reg)
 end
 
 function s.e2filter(c)
@@ -115,24 +114,25 @@ function s.e3val(e, tc)
     return tc:GetAttack() > tc:GetBaseAttack() and tc:GetBaseAttack() or tc:GetAttack()
 end
 
-function s.e4filter(c, rc)
-    return c:IsReason(REASON_BATTLE) and c:GetReasonCard() == rc
+function s.e4filter(c)
+    return c:GetFlagEffect(id) > 0
 end
 
 function s.e4regop(e, tp, eg, ep, ev, re, r, rp)
-    local g = eg:Filter(s.e4filter, nil, e:GetHandler())
-    for tc in aux.Next(g) do
-        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
-    end
+    local c = e:GetHandler()
+    local bc = c:GetBattleTarget()
+    if not bc then return end
+    
+    bc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.IsExistingMatchingCard(function(c) return c:GetFlagEffect(id) > 0 end, tp, LOCATION_ALL, LOCATION_ALL, 1, nil) end
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_ALL, LOCATION_ALL, 1, nil)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(function(c) return c:GetFlagEffect(id) > 0 end, tp, LOCATION_ALL, LOCATION_ALL, nil, c)
+    local g = Duel.GetMatchingGroup(s.e4filter, tp, LOCATION_ALL, LOCATION_ALL, nil, c)
 
     local lp = 0
     for tc in aux.Next(g) do

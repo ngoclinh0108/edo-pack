@@ -37,23 +37,27 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- immune
+    -- move material
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetCode(EFFECT_IMMUNE_EFFECT)
+    e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
+    e3:SetCountLimit(1)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- move material
+    -- to deck
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetDescription(aux.Stringid(id, 2))
+    e4:SetCategory(CATEGORY_TODECK)
     e4:SetType(EFFECT_TYPE_QUICK_O)
     e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1, id)
+    e4:SetCountLimit(1)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -110,7 +114,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.MoveSequence(c, math.log(seq, 2))
 end
 
-function s.e4zone(e, tp, type)
+function s.e3zone(e, tp, type)
     if type ~= LOCATION_MZONE and type ~= LOCATION_SZONE then return 0 end
 
     local c = e:GetHandler()
@@ -144,35 +148,35 @@ function s.e4zone(e, tp, type)
     return result
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return (s.e4zone(e, tp, LOCATION_MZONE) > 0 or s.e4zone(e, tp, LOCATION_SZONE) > 0)
+        return (s.e3zone(e, tp, LOCATION_MZONE) > 0 or s.e3zone(e, tp, LOCATION_SZONE) > 0)
             and c:GetOverlayCount() > 0
     end
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = c:GetOverlayGroup():Select(tp, 1, 1, nil):GetFirst()
     if not tc then return end
 
     local opt = {}
     local sel = {}
-    if s.e4zone(e, tp, LOCATION_MZONE) > 0 then
+    if s.e3zone(e, tp, LOCATION_MZONE) > 0 then
         table.insert(opt, 2201)
         table.insert(sel, 1)
     end
-    if s.e4zone(e, tp, LOCATION_SZONE) > 0 then
+    if s.e3zone(e, tp, LOCATION_SZONE) > 0 then
         table.insert(opt, 2202)
         table.insert(sel, 2)
     end
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
     if op == 1 then
-        Duel.MoveToField(tc, tp, tp, LOCATION_MZONE, POS_FACEUP, true, s.e4zone(e, tp, LOCATION_MZONE))
+        Duel.MoveToField(tc, tp, tp, LOCATION_MZONE, POS_FACEUP, true, s.e3zone(e, tp, LOCATION_MZONE))
     elseif op == 2 then
-        Duel.MoveToField(tc, tp, tp, LOCATION_SZONE, POS_FACEUP, true, s.e4zone(e, tp, LOCATION_SZONE))
+        Duel.MoveToField(tc, tp, tp, LOCATION_SZONE, POS_FACEUP, true, s.e3zone(e, tp, LOCATION_SZONE))
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
@@ -193,4 +197,20 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec2b:SetDescription(3302)
     ec2b:SetCode(EFFECT_CANNOT_TRIGGER)
     tc:RegisterEffect(ec2b)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:GetMutualLinkedGroupCount() >= 7 end
+
+    local loc = LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, loc, loc, nil)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, tp, 0)
+    Duel.SetChainLimit(aux.FALSE)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp, chk)
+    local loc = LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, loc, loc, nil)
+    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
 end
