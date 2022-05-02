@@ -53,7 +53,7 @@ function s.initial_effect(c)
     e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
-    -- e4:SetCountLimit(1, id)
+    e4:SetCountLimit(1, id)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -84,12 +84,12 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
     if not g then return end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-    ec1:SetValue(g:GetClassCount(Card.GetOriginalAttribute) * 1000)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE - RESET_TOFIELD)
-    c:RegisterEffect(ec1)
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetCode(EFFECT_SET_BASE_ATTACK)
+    ec2:SetValue(g:GetClassCount(Card.GetOriginalAttribute) * 1000)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE - RESET_TOFIELD)
+    c:RegisterEffect(ec2)
     for tc in aux.Next(g) do
         if tc:IsOriginalRace(RACE_DIVINE) then
             c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD_DISABLE - RESET_TOFIELD)
@@ -110,20 +110,87 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.MoveSequence(c, math.log(seq, 2))
 end
 
+function s.e4zone(e, tp, type)
+    if type ~= LOCATION_MZONE and type ~= LOCATION_SZONE then return 0 end
+
+    local c = e:GetHandler()
+    local seq = c:GetSequence()
+    if type == LOCATION_SZONE and seq > 4 then return 0 end
+
+    local zones = {}
+    if seq == 0 then
+        zones = { 1, 2 }
+        if type == LOCATION_MZONE then table.insert(zones, 32) end
+    elseif seq == 1 or seq == 5 then zones = { 1, 2, 4 }
+    elseif seq == 2 then
+        zones = { 2, 4, 8 }
+        if type == LOCATION_MZONE then
+            table.insert(zones, 32)
+            table.insert(zones, 64)
+        end
+    elseif seq == 3 or seq == 6 then zones = { 4, 8, 16 }
+    elseif seq == 4 then
+        zones = { 8, 16 }
+        if type == LOCATION_MZONE then table.insert(zones, 64) end
+    else return 0 end
+
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, type, 0, nil)
+    local result = 0
+    for _, zone in ipairs(zones) do
+        if not g:IsExists(function(c) return aux.IsZone(c, zone, tp) end, 1, nil) then
+            result = result + zone
+        end
+    end
+    return result
+end
+
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetLink() - c:GetLinkedGroupCount() > 0
+        return (s.e4zone(e, tp, LOCATION_MZONE) > 0 or s.e4zone(e, tp, LOCATION_SZONE) > 0)
             and c:GetOverlayCount() > 0
     end
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local max = c:GetLink() - c:GetLinkedGroupCount()
-    if max == 0 or c:GetOverlayCount() == 0 then return end
+    local tc = c:GetOverlayGroup():Select(tp, 1, 1, nil):GetFirst()
+    if not tc then return end
 
-    local tc = c:GetOverlayGroup():Select(tp, 1, max, nil):GetFirst()
-    -- local seq = Duel.SelectFieldZone(tp, 1, LOCATION_ONFIELD, 0, ~c:GetFreeLinkedZone(), true)
-    Duel.MoveToField(tc, tp, tp, LOCATION_MZONE, POS_FACEUP, true)
+    local opt = {}
+    local sel = {}
+    if s.e4zone(e, tp, LOCATION_MZONE) > 0 then
+        table.insert(opt, 2201)
+        table.insert(sel, 1)
+    end
+    if s.e4zone(e, tp, LOCATION_SZONE) > 0 then
+        table.insert(opt, 2202)
+        table.insert(sel, 2)
+    end
+    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
+
+    if op == 1 then
+        Duel.MoveToField(tc, tp, tp, LOCATION_MZONE, POS_FACEUP, true, s.e4zone(e, tp, LOCATION_MZONE))
+    elseif op == 2 then
+        Duel.MoveToField(tc, tp, tp, LOCATION_SZONE, POS_FACEUP, true, s.e4zone(e, tp, LOCATION_SZONE))
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        ec1:SetCode(EFFECT_CHANGE_TYPE)
+        ec1:SetValue(TYPE_SPELL + TYPE_LINK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        c:RegisterEffect(ec1)
+    end
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetDescription(3206)
+    ec2:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+    ec2:SetCode(EFFECT_CANNOT_ATTACK)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+    tc:RegisterEffect(ec2)
+    local ec2b = ec2:Clone()
+    ec2b:SetDescription(3302)
+    ec2b:SetCode(EFFECT_CANNOT_TRIGGER)
+    tc:RegisterEffect(ec2b)
 end

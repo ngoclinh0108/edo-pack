@@ -4,7 +4,7 @@ rarity = "gold"
 name = "Goshenite of Dracodeity"
 type = "monster link effect"
 attribute = "divine"
-race = "dragon"
+race = "creator-god"
 link = 3
 link_arrow = "top left right"
 atk = 0
@@ -38,7 +38,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|LIGHT}
 {DRACODEITY_EFFECT}\
-The effects of this card and co-linked monsters you control cannot be negated. This effect cannot be negated. \
+The effects of this card and co-linked cards you control cannot be negated. This effect cannot be negated. \
 Each time a card or effect is activated, this card gain 1000 ATK until the end of this turn. \
 During your Draw Phase, before you draw: \
     You can look at up to 3 cards from the top of your Deck, \
@@ -70,7 +70,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|DARK}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be sent to GY, or be banished by your opponent's activated effects. \
+This card and co-linked cards you control cannot be sent to GY, or be banished by your opponent's activated effects. \
 Negate the effects of your opponent's monsters destroyed by monsters you control (by battle or card effect). \
 Once per turn, during the Main Phase (Quick Effect): \
     You can destroy all your opponent's monsters with 0 ATK, and if you do, banish them, \
@@ -95,7 +95,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
-Your opponent cannot Tributed, or use this card and co-linked monsters you control as a material for an Summon. \
+Your opponent cannot Tributed, or use this card and co-linked cards you control as a material for an Summon. \
 During your Main Phase (Quick Effect): \
     You can destroy of other cards on the field, up to the number of cards currently co-linked to this card, \
     and if you do, this card gains ATK equal to the combined original ATK of the destroyed monsters. \
@@ -121,7 +121,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WATER}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be returned to Deck. \
+This card and co-linked cards you control cannot be returned to Deck. \
 At the start of your Battle Phase: \
     You can make 1 co-linked monster you control gains 500 ATK and 1 additional attack \
     for every card currently co-linked to it, during this turn. \
@@ -147,7 +147,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|EARTH}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be destroyed by battle. \
+This card and co-linked cards you control cannot be destroyed by battle. \
 You take no Battle Damage from battles involving this card. \
 At the start of your Battle Phase: \
     You can make 1 other face-up monster on the field lose half its ATK, and if it does, \
@@ -172,7 +172,7 @@ atk = 3500
 effect = """\
 {DRACODEITY_SUMMON|WIND}
 {DRACODEITY_EFFECT}\
-This card and co-linked monsters you control cannot be destroyed by card effects. \
+This card and co-linked cards you control cannot be destroyed by card effects. \
 During your turn (Quick Effect): \
     You can negate the effects of all face-up monsters your opponent currently controls, until the end of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
@@ -206,11 +206,12 @@ The original ATK of this card becomes 1000 x the number of monster's original At
 This card gains effects of all original Divine-Beast monsters used for its Summon. \
 Unaffected by other cards' effects. \
 (Quick Effect): \
-    You can move any number of monsters stacked underneath this card to the zone it points to, \
-    until the end of this turn, those monsters cannot declare attacks or activate their effects. \
+    You can move 1 monster stacked underneath this card to your zone this card points to, \
+    that monster is treated as Link Spell if it was move to Spell & Trap Zone, \
+    and also it cannot declare attacks or activate its effects. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
     "Move to another Main Monster Zones?",
-    "Move stacked monsters to zone",
+    "Move stacked monster to zone",
 ]
