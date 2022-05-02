@@ -2,6 +2,7 @@
 local s, id = GetID()
 
 function s.initial_effect(c)
+    c:SetUniqueOnField(1, 0, id)
     c:EnableReviveLimit()
 
     -- special summon limit
@@ -29,21 +30,33 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
     c:RegisterEffect(e1)
 
-    -- immune
+    -- move zone
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_IMMUNE_EFFECT)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- attribute
+    -- immune
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e3:SetOperation(s.e3op)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetCode(EFFECT_IMMUNE_EFFECT)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
     c:RegisterEffect(e3)
+
+    -- move material
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetRange(LOCATION_MZONE)
+    -- e4:SetCountLimit(1, id)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.sprfilter(c)
@@ -53,7 +66,8 @@ end
 function s.sprcon(e, c)
     if c == nil then return true end
     local tp = c:GetControler()
-    return Duel.IsExistingMatchingCard(s.sprfilter, tp, LOCATION_MZONE, 0, 1, nil)
+    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
+    return #g > 0 and Duel.GetLocationCountFromEx(tp, tp, g, c) > 0
 end
 
 function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
@@ -73,11 +87,11 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-    ec1:SetValue(g:GetClassCount(Card.GetAttribute) * 1000)
+    ec1:SetValue(g:GetClassCount(Card.GetOriginalAttribute) * 1000)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE - RESET_TOFIELD)
     c:RegisterEffect(ec1)
     for tc in aux.Next(g) do
-        if tc:IsRace(RACE_DIVINE) then
+        if tc:IsOriginalRace(RACE_DIVINE) then
             c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD_DISABLE - RESET_TOFIELD)
         end
     end
@@ -86,7 +100,7 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
         and not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then return end
@@ -94,4 +108,22 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOZONE)
     local seq = Duel.SelectDisableField(tp, 1, LOCATION_MZONE, 0, 0)
     Duel.MoveSequence(c, math.log(seq, 2))
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:GetLink() - c:GetLinkedGroupCount() > 0
+            and c:GetOverlayCount() > 0
+    end
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local max = c:GetLink() - c:GetLinkedGroupCount()
+    if max == 0 or c:GetOverlayCount() == 0 then return end
+
+    local tc = c:GetOverlayGroup():Select(tp, 1, max, nil):GetFirst()
+    -- local seq = Duel.SelectFieldZone(tp, 1, LOCATION_ONFIELD, 0, ~c:GetFreeLinkedZone(), true)
+    Duel.MoveToField(tc, tp, tp, LOCATION_MZONE, POS_FACEUP, true)
 end

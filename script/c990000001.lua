@@ -104,16 +104,12 @@ function s.e4check1(c)
     return c:IsAbleToHand()
 end
 
-function s.e4check2(c)
-    return c:IsAbleToDeck()
-end
-
-function s.e4check3(c, e, tp)
+function s.e4check2(c, e, tp)
     return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e4filter(c, e, tp)
-    return s.e4check1(c) or s.e4check2(c) or s.e4check3(c, e, tp)
+    return s.e4check1(c) or s.e4check2(c, e, tp)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
@@ -128,7 +124,6 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, PLAYER_ALL, loc)
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, PLAYER_ALL, loc)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, PLAYER_ALL, loc)
 end
 
@@ -160,22 +155,15 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         table.insert(opt, 1105)
         table.insert(sel, 1)
     end
-    if g:IsExists(s.e4check2, #g, nil) then
-        table.insert(opt, 1106)
-        table.insert(sel, 2)
-    end
-    if g:IsExists(s.e4check3, #g, nil, e, tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) >= #g then
+    if g:IsExists(s.e4check2, #g, nil, e, tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) >= #g then
         table.insert(opt, 1120)
-        table.insert(sel, 3)
+        table.insert(sel, 2)
     end
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
-    Debug.Message(op)
     if op == 1 then
         Duel.SendtoHand(g, tp, REASON_EFFECT)
     elseif op == 2 then
-        Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
-    elseif op == 3 then
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
     end
 end
