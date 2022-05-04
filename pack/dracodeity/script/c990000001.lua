@@ -90,8 +90,8 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local ct = math.min(3, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
     if ct == 0 then return end
+    ct = Duel.AnnounceNumberRange(tp, 1, ct)
 
-    local _ = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
     Duel.SortDecktop(tp, tp, ct)
     local opt = Duel.SelectOption(tp, aux.Stringid(id, 1), aux.Stringid(id, 2))
     if opt == 1 then Duel.MoveToDeckBottom(ct, tp) end
