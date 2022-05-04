@@ -159,7 +159,7 @@ When your opponent activates a card or effect (Quick Effect): \
 """
 strings = [
     "Negate effects all opponent monsters",
-    "Negate activation & destroy?",
+    "Negate activation & destroy",
 ]
 
 [andalusite]
@@ -178,7 +178,7 @@ effect = """\
 This card and co-linked cards you control cannot be destroyed by battle. \
 You take no Battle Damage from battles involving this card. \
 At the start of your Battle Phase: \
-    You can make 1 other face-up monster on the field lose half its ATK, and if it does, \
+    You can make 1 other face-up monster's ATK on the field become 0, and if it does, \
     this card gains that lost ATK, these changes last until the end of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 Once per Chain, when an opponent's monster declares an attack: \
