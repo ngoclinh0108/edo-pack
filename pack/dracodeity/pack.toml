@@ -98,7 +98,7 @@ effect = """\
 Your opponent cannot Tributed, or use this card and co-linked cards you control as a material for an Summon. \
 During your Main Phase (Quick Effect): \
     You can destroy of other cards on the field, up to the number of cards currently co-linked to this card, \
-    and if you do, this card gains ATK equal to the combined original ATK of the destroyed monsters. \
+    and if you do, this card gains 500 ATK for each destroyed card. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 If this card battles an opponent's monster, \
     negate the effects of that monster during the Damage Step only. \
@@ -134,8 +134,36 @@ Once per turn, at the end of the Battle Phase: \
 """
 strings = ["Gain multiple attacks", "Gain LP equal to destroyed monster"]
 
-[andalusite]
+[peridot]
 id = 990000005
+rarity = "gold"
+name = "Peridot, Dracodeity of the Atmosphere"
+type = "monster link effect"
+attribute = "wind"
+race = "divine-beast"
+link = 5
+link_arrow = "bottom left right top-right bottom-right"
+atk = 3500
+effect = """\
+{DRACODEITY_SUMMON|WIND}
+{DRACODEITY_EFFECT}\
+This card and co-linked cards you control cannot be destroyed by card effects. \
+You can negate the effects of all face-up monsters your opponent currently controls, until the end of this turn. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+If this card battles an opponent's monster has its effects negated, \
+    that monster's ATK becomes 0 during the Damage Step only. \
+When your opponent activates a card or effect (Quick Effect): \
+    You can negate the activation, and if you do, destroy that card, \
+    then if it was a Monster Card, this card gains ATK equal to the its original ATK until the end of this turn. \
+    You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
+"""
+strings = [
+    "Negate effects all opponent monsters",
+    "Negate activation & destroy?",
+]
+
+[andalusite]
+id = 990000006
 rarity = "gold"
 name = "Andalusite, Dracodeity of the Continent"
 type = "monster link effect"
@@ -153,38 +181,11 @@ At the start of your Battle Phase: \
     You can make 1 other face-up monster on the field lose half its ATK, and if it does, \
     this card gains that lost ATK, these changes last until the end of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-Once per turn Chain, when an opponent's monster declares an attack: \
+Once per Chain, when an opponent's monster declares an attack: \
     You can change the attack target to this card and perform damage calculation. \
     You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
 """
 strings = ["Absorpt ATK", "Attack redirect"]
-
-[peridot]
-id = 990000006
-rarity = "gold"
-name = "Peridot, Dracodeity of the Atmosphere"
-type = "monster link effect"
-attribute = "wind"
-race = "divine-beast"
-link = 5
-link_arrow = "bottom left right top-right bottom-right"
-atk = 3500
-effect = """\
-{DRACODEITY_SUMMON|WIND}
-{DRACODEITY_EFFECT}\
-This card and co-linked cards you control cannot be destroyed by card effects. \
-During your turn (Quick Effect): \
-    You can negate the effects of all face-up monsters your opponent currently controls, until the end of this turn. \
-    You can only use this effect of "{CARD_NAME}" once per turn. \
-If this card battles an opponent's monster has its effects negated, \
-    that monster's ATK becomes 0 during the Damage Step only. \
-You can negate a card effect activated on your opponent's field, and if you do, destroy that card. \
-    You can use this effect a number of times per turn up to the number of cards co-linked to this card. \
-"""
-strings = [
-    "Negate effects all opponent monsters",
-    "Negate activated effect & destroy?",
-]
 
 [messiah]
 id = 990000007

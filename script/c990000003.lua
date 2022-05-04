@@ -28,7 +28,7 @@ function s.initial_effect(c)
     e1b:SetValue(function(e, tc) return tc and tc:GetControler() ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(e1b)
 
-    -- destroy
+    -- destroy & gain ATK
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_DESTROY + CATEGORY_ATKCHANGE)
@@ -88,18 +88,12 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if max <= 0 then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, max, c)
-    if Duel.Destroy(g, REASON_EFFECT) == 0 then return end
-
-    local atk = 0
-    local og = Duel.GetOperatedGroup()
-    for tc in aux.Next(og) do
-        if tc:GetBaseAttack() > 0 then atk = atk + tc:GetBaseAttack() end
-    end
+    local ct = Duel.Destroy(g, REASON_EFFECT)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(atk)
+    ec1:SetValue(ct * 500)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
 end
