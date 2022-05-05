@@ -43,10 +43,8 @@ Each time a card or effect is activated, this card gain 1000 ATK until the end o
 During your Draw Phase, before you draw: \
     You can look at up to 3 cards from the top of your Deck, \
     then place them on the top or bottom of the Deck in any order. \
-During the Main Phase (Quick Effect): \
-    You can take cards that is banished or in either GY, \
-    up to the number of cards currently co-linked to this card, \
-    add them to your hand, or Special Summon them if they were a Monster Card. \
+You can Special Summon monsters that is banished or in either GY, \
+    to either player's field up to the number of cards currently co-linked to this card. \
     Neither player can activate cards, or the effects of cards, with that name for the rest of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
@@ -54,7 +52,9 @@ strings = [
     "Look and sort top of your Deck",
     "Place on top of the Deck",
     "Place on bottom of the Deck",
-    "Take card and block activate",
+    "Special Summon monster to either player's field",
+    "Special Summon to your field",
+    "Special Summon to your's opponent field",
 ]
 
 [obsidian]
@@ -96,8 +96,7 @@ effect = """\
 {DRACODEITY_SUMMON|FIRE}
 {DRACODEITY_EFFECT}\
 Your opponent cannot Tributed, or use this card and co-linked cards you control as a material for an Summon. \
-During your Main Phase (Quick Effect): \
-    You can destroy of other cards on the field, up to the number of cards currently co-linked to this card, \
+You can destroy of other cards on the field, up to the number of cards currently co-linked to this card, \
     and if you do, this card gains 500 ATK for each destroyed card. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 If this card battles an opponent's monster, \

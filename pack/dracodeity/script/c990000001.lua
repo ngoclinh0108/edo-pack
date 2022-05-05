@@ -57,15 +57,13 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- take card & block activate
+    -- special summon
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 3))
-    e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
     e4:SetCountLimit(1, id)
-    e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -97,36 +95,30 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if opt == 1 then Duel.MoveToDeckBottom(ct, tp) end
 end
 
-function s.e4check1(c)
-    return c:IsAbleToHand()
-end
-
-function s.e4check2(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
 function s.e4filter(c, e, tp)
-    return s.e4check1(c) or s.e4check2(c, e, tp)
-end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsMainPhase()
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
-    if chk == 0 then return Duel.IsExistingMatchingCard(s.e4filter, tp, loc, loc, 1, c, e, tp)
-            and c:GetMutualLinkedGroupCount() > 0
+    local ft1 = Duel.GetLocationCount(tp, LOCATION_MZONE)
+    local ft2 = Duel.GetLocationCount(tp, LOCATION_MZONE)
+    if chk == 0 then return c:GetMutualLinkedGroupCount() > 0
+            and Duel.IsExistingMatchingCard(s.e4filter, tp, loc, loc, 1, c, e, tp)
+            and (ft1 > 0 or ft2 > 0)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, PLAYER_ALL, loc)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, PLAYER_ALL, loc)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local max = c:GetMutualLinkedGroupCount()
+    local ft1 = Duel.GetLocationCount(tp, LOCATION_MZONE)
+    local ft2 = Duel.GetLocationCount(tp, LOCATION_MZONE)
+    if ft1 < max then max = ft1 end
+    if ft2 < max then max = ft2 end
     if max == 0 then return end
 
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
@@ -148,19 +140,19 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 
     local opt = {}
     local sel = {}
-    if g:IsExists(s.e4check1, #g, nil) then
-        table.insert(opt, 1105)
+    if ft1 > 0 then
+        table.insert(opt, aux.Stringid(id, 4))
         table.insert(sel, 1)
     end
-    if g:IsExists(s.e4check2, #g, nil, e, tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) >= #g then
-        table.insert(opt, 1120)
+    if ft2 > 0 then
+        table.insert(opt, aux.Stringid(id, 5))
         table.insert(sel, 2)
     end
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
     if op == 1 then
-        Duel.SendtoHand(g, tp, REASON_EFFECT)
-    elseif op == 2 then
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    elseif op == 2 then
+        Duel.SpecialSummon(g, 0, tp, 1 - tp, false, false, POS_FACEUP)
     end
 end

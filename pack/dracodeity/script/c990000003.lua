@@ -32,11 +32,9 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_DESTROY + CATEGORY_ATKCHANGE)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1, id)
-    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -66,10 +64,6 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp and Duel.IsMainPhase()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
