@@ -103,7 +103,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local loc = LOCATION_GRAVE + LOCATION_REMOVED
     local ft1 = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    local ft2 = Duel.GetLocationCount(tp, LOCATION_MZONE)
+    local ft2 = Duel.GetLocationCount(1 - tp, LOCATION_MZONE)
     if chk == 0 then return c:GetMutualLinkedGroupCount() > 0
             and Duel.IsExistingMatchingCard(s.e4filter, tp, loc, loc, 1, c, e, tp)
             and (ft1 > 0 or ft2 > 0)
@@ -116,27 +116,8 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local max = c:GetMutualLinkedGroupCount()
     local ft1 = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    local ft2 = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    if ft1 < max then max = ft1 end
-    if ft2 < max then max = ft2 end
-    if max == 0 then return end
-
-    local loc = LOCATION_GRAVE + LOCATION_REMOVED
-    local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e4filter, tp, loc, loc, 1, max, nil, e, tp)
-    if #g == 0 then return end
-    Duel.HintSelection(g)
-
-    for tc in aux.Next(g) do
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_FIELD)
-        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-        ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
-        ec1:SetTargetRange(1, 1)
-        ec1:SetLabelObject(tc)
-        ec1:SetValue(function(e, re) return re:GetHandler():IsCode(e:GetLabelObject():GetCode()) end)
-        ec1:SetReset(RESET_PHASE + PHASE_END)
-        Duel.RegisterEffect(ec1, tp)
-    end
+    local ft2 = Duel.GetLocationCount(1 - tp, LOCATION_MZONE)
+    if max == 0 or (ft1 == 0 and ft2 == 0) then return end
 
     local opt = {}
     local sel = {}
@@ -150,9 +131,29 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
+    local loc = LOCATION_GRAVE + LOCATION_REMOVED
+    local g = Group.CreateGroup()
     if op == 1 then
+        if max > ft1 then max = ft1 end
+        g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e4filter, tp, loc, loc, 1, max, nil, e, tp)
+        Duel.HintSelection(g)
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
     elseif op == 2 then
+        if max > ft2 then max = ft2 end
+        g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e4filter, tp, loc, loc, 1, max, nil, e, tp)
+        Duel.HintSelection(g)
         Duel.SpecialSummon(g, 0, tp, 1 - tp, false, false, POS_FACEUP)
+    end
+
+    for tc in aux.Next(g) do
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+        ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+        ec1:SetTargetRange(1, 1)
+        ec1:SetLabelObject(tc)
+        ec1:SetValue(function(e, re) return re:GetHandler():IsCode(e:GetLabelObject():GetCode()) end)
+        ec1:SetReset(RESET_PHASE + PHASE_END)
+        Duel.RegisterEffect(ec1, tp)
     end
 end
