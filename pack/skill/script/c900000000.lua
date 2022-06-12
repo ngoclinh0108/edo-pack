@@ -139,9 +139,7 @@ function s.destinydraw(tp, count)
 
     local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, aux.TRUE, tp,
                                          LOCATION_DECK, 0, count, count, nil)
-    local i = 0
     for tc in aux.Next(g) do
-        Duel.MoveSequence(tc, i)
-        i = i + 1
+        Duel.MoveSequence(tc, 0)
     end
 end
