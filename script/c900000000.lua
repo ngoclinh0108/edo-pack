@@ -141,7 +141,7 @@ function s.destinydraw(tp, count)
                                          LOCATION_DECK, 0, count, count, nil)
     local i = 0
     for tc in aux.Next(g) do
-        Duel.MoveSequence(tc, i)
+        Duel.MoveSequence(tc, 0)
         i = i + 1
     end
 end
