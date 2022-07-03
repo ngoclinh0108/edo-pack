@@ -2,11 +2,11 @@ set_name = "triplesix"
 
 packs = [
     "./pack/skill/pack.toml",
-    "./pack/dracodeity/pack.toml",
+    # "./pack/dracodeity/pack.toml",
 ]
 
 marcos = [
-    "./pack/dracodeity/marco.toml"
+    #"./pack/dracodeity/marco.toml"
 ]
 
 setcodes = [ "./setcode.toml" ]
