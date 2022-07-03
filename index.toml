@@ -1,7 +1,7 @@
 set_name = "triplesix"
 
 packs = [
-    "./pack/skill/pack.toml",
+    "./pack/egyptian/pack.toml",
     # "./pack/dracodeity/pack.toml",
 ]
 
