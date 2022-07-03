@@ -6,6 +6,7 @@ packs = [
 ]
 
 marcos = [
+    "./pack/egyptian/marco.toml"
     #"./pack/dracodeity/marco.toml"
 ]
 

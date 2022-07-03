@@ -1836,7 +1836,7 @@
           }
         }
       },
-      "TripleSix.Core/5.0.42": {
+      "TripleSix.Core/5.0.51": {
         "dependencies": {
           "AutoMapper": "11.0.1",
           "AutoMapper.Extensions.ExpressionMapping": "5.0.0",
@@ -1858,8 +1858,8 @@
         },
         "runtime": {
           "lib/net5.0/TripleSix.Core.dll": {
-            "assemblyVersion": "5.0.42.0",
-            "fileVersion": "5.0.42.0"
+            "assemblyVersion": "5.0.51.0",
+            "fileVersion": "5.0.51.0"
           }
         }
       },
@@ -1868,7 +1868,7 @@
           "Magick.NET-Q16-AnyCPU": "11.1.0",
           "System.Drawing.Common": "6.0.0",
           "Tomlyn": "0.14.1",
-          "TripleSix.Core": "5.0.42"
+          "TripleSix.Core": "5.0.51"
         },
         "runtime": {
           "GeneratorCore.dll": {}
@@ -3093,12 +3093,12 @@
       "path": "tomlyn/0.14.1",
       "hashPath": "tomlyn.0.14.1.nupkg.sha512"
     },
-    "TripleSix.Core/5.0.42": {
+    "TripleSix.Core/5.0.51": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-egj9VbF4KLCDOA2FwV+pwE7ogqy8p/uFOy6Wq3EejmYufbzWSHzf8rU+8ag+UiV0sI7l2I45Th7ctL3/iW+0Nw==",
-      "path": "triplesix.core/5.0.42",
-      "hashPath": "triplesix.core.5.0.42.nupkg.sha512"
+      "sha512": "sha512-GvXLejtuDaxKYhBmK5O5woCbuGQehfWGpoW9M3YGb/OUWhxIG+VA4DqXO/TofbfgSf+3jTTZl9r6VvAyDF4obw==",
+      "path": "triplesix.core/5.0.51",
+      "hashPath": "triplesix.core.5.0.51.nupkg.sha512"
     },
     "GeneratorCore/1.0.0": {
       "type": "project",

@@ -7,3 +7,31 @@ strings = [
     "Place field?",
     "Perform Destiny Draw?",
 ]
+
+[obelisk]
+id = 900000001
+alias = 10000000
+rarity = "gold"
+name = "Giant Divine Soldier of Obelisk"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+{HIERARCHY_ALIAS|1|Obelisk the Tormentor}
+{EGYPTIAN_SUMMON} \
+{EGYPTIAN_EFFECT} \
+{EGYPTIAN_SPSUMMON_EFFECT} \
+Once per turn, while this card can declare an attack (Quick Effect): \
+    You can Tribute 2 other monsters; \
+    destroy all monsters your opponent controls, \
+    also inflict damage to your opponent equal to this card's ATK. \
+    This card cannot declare an attack the turn this effect is activated. \
+Once per turn, while the total monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
+    You can Tribute 2 other monsters; \
+    during this turn, if this card battles an opponent's monster, \
+    it gains ∞ ATK during the damage calculation only. \
+"""
+strings = ["Soul Energy MAX", "Destroy & damage", "Gain ∞ ATK"]
