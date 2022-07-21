@@ -11,7 +11,8 @@
     ".gitignore": true,
     "old.zip": true,
     "expansions": true,
-    "triplesix.cdb": true
+    "triplesix.cdb": true,
+    "pics": true
   },
 	"explorerExclude.backup": null
 }
