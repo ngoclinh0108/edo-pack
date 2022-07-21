@@ -1,0 +1,3 @@
+[expansion.triplesix]
+default = true
+recipe = ["pack/egyptian.toml"]

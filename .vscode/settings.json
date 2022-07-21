@@ -6,17 +6,12 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    ".gitignore": true,
     ".vscode": true,
+    "ygofabrica": true,
+    ".gitignore": true,
     "old.zip": true,
-    "_generator": true,
-    "triplesix.cdb": true,
-    "pics": true,
-    "script": true,
-    "*.cdb-shm": true,
-    "*.cdb-wal": true,
-    "ygofabrica": true
+    "expansions": true,
+    "triplesix.cdb": true
   },
-	"Lua.diagnostics.disable": ["undefined-global", "lowercase-global"],
 	"explorerExclude.backup": null
 }

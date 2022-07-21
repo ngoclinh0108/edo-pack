@@ -6,9 +6,9 @@
             "request": "launch",
             "name": "Build",
             "program": "cmd.exe",
-            "cwd": "${workspaceFolder}/_generator",
+            "cwd": "${workspaceFolder}",
             "console": "internalConsole",
-            "args": ["/c", "YgoCardGenerator compile ../index.toml -o ../"],
+            "args": ["/c", "ygofab make && ygofab compose && copy expansions\\triplesix.cdb triplesix.cdb"],
         }
     ]
 }
