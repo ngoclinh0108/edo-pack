@@ -12,7 +12,7 @@
     "old.zip": true,
     "expansions": true,
     "triplesix.cdb": true,
-    "pics": true
+    "pics": false
   },
 	"explorerExclude.backup": null
 }
