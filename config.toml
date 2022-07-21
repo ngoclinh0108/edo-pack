@@ -1,3 +1,7 @@
 [expansion.triplesix]
 default = true
-recipe = ["pack/egyptian.toml"]
+recipe = [
+    "setcode.toml",
+    "pack/egyptian.toml",
+    "pack/signer-dragons.toml"
+]
