@@ -1,0 +1,9 @@
+rock_manifest = {
+   doc = {
+      ["README.md"] = "96a867244ad739f2f08df347f0043340"
+   },
+   lib = {
+      ["utf8.dll"] = "ef0f2bde79ece674ed545ae3a0ec1831"
+   },
+   ["utf8-1.2-0.rockspec"] = "e62c242cc3e7e4deea04990e89433277"
+}

@@ -1,0 +1,451 @@
+commands = {}
+dependencies = {
+   i18n = {
+      ["0.9.2-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   lsqlite3complete = {
+      ["0.9.5-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<",
+                  version = {
+                     5, 5, string = "5.5"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   ["lua-path"] = {
+      ["0.3.1-2"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<",
+                  version = {
+                     5, 5, string = "5.5"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   ["lua-toml"] = {
+      ["2.0-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   ["lua-vips"] = {
+      ["1.1-9"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   ["lua-zlib"] = {
+      ["1.2-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<",
+                  version = {
+                     5, 5, string = "5.5"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   struct = {
+      ["1.4-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<",
+                  version = {
+                     5, 3, string = "5.3"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   utf8 = {
+      ["1.2-0"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   },
+   zipwriter = {
+      ["0.1.5-1"] = {
+         {
+            constraints = {
+               {
+                  op = ">=",
+                  version = {
+                     5, 1, string = "5.1"
+                  }
+               },
+               {
+                  op = "<",
+                  version = {
+                     5, 4, string = "5.4"
+                  }
+               }
+            },
+            name = "lua"
+         }
+      }
+   }
+}
+modules = {
+   ZipWriter = {
+      "zipwriter/0.1.5-1"
+   },
+   ["ZipWriter.binary_converter"] = {
+      "zipwriter/0.1.5-1"
+   },
+   ["ZipWriter.bit"] = {
+      "zipwriter/0.1.5-1"
+   },
+   ["ZipWriter.charset"] = {
+      "zipwriter/0.1.5-1"
+   },
+   ["ZipWriter.encrypt.aes"] = {
+      "zipwriter/0.1.5-1"
+   },
+   ["ZipWriter.encrypt.aes.AesFileEncrypt"] = {
+      "zipwriter/0.1.5-1"
+   },
+   ["ZipWriter.module"] = {
+      "zipwriter/0.1.5-1"
+   },
+   ["ZipWriter.utils"] = {
+      "zipwriter/0.1.5-1"
+   },
+   ["ZipWriter.win.cp"] = {
+      "zipwriter/0.1.5-1"
+   },
+   ["i18n.init"] = {
+      "i18n/0.9.2-1"
+   },
+   ["i18n.interpolate"] = {
+      "i18n/0.9.2-1"
+   },
+   ["i18n.plural"] = {
+      "i18n/0.9.2-1"
+   },
+   ["i18n.variants"] = {
+      "i18n/0.9.2-1"
+   },
+   ["i18n.version"] = {
+      "i18n/0.9.2-1"
+   },
+   lsqlite3complete = {
+      "lsqlite3complete/0.9.5-1"
+   },
+   path = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.findfile"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.fs"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.lfs.fs"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.lfs.impl.fs"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.module"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.syscall.fs"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.win32.alien.fs"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.win32.alien.types"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.win32.alien.utils"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.win32.alien.wcs"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.win32.ffi.fs"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.win32.ffi.types"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.win32.ffi.wcs"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.win32.fs"] = {
+      "lua-path/0.3.1-2"
+   },
+   ["path.win32.wcs"] = {
+      "lua-path/0.3.1-2"
+   },
+   struct = {
+      "struct/1.4-1"
+   },
+   toml = {
+      "lua-toml/2.0-1"
+   },
+   utf8 = {
+      "utf8/1.2-0"
+   },
+   vips = {
+      "lua-vips/1.1-9"
+   },
+   ["vips.Image"] = {
+      "lua-vips/1.1-9"
+   },
+   ["vips.Image_methods"] = {
+      "lua-vips/1.1-9"
+   },
+   ["vips.cdefs"] = {
+      "lua-vips/1.1-9"
+   },
+   ["vips.gvalue"] = {
+      "lua-vips/1.1-9"
+   },
+   ["vips.log"] = {
+      "lua-vips/1.1-9"
+   },
+   ["vips.verror"] = {
+      "lua-vips/1.1-9"
+   },
+   ["vips.version"] = {
+      "lua-vips/1.1-9"
+   },
+   ["vips.vobject"] = {
+      "lua-vips/1.1-9"
+   },
+   ["vips.voperation"] = {
+      "lua-vips/1.1-9"
+   },
+   zlib = {
+      "lua-zlib/1.2-1"
+   }
+}
+repository = {
+   i18n = {
+      ["0.9.2-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               ["i18n.init"] = "i18n/init.lua",
+               ["i18n.interpolate"] = "i18n/interpolate.lua",
+               ["i18n.plural"] = "i18n/plural.lua",
+               ["i18n.variants"] = "i18n/variants.lua",
+               ["i18n.version"] = "i18n/version.lua"
+            }
+         }
+      }
+   },
+   lsqlite3complete = {
+      ["0.9.5-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               lsqlite3complete = "lsqlite3complete.dll"
+            }
+         }
+      }
+   },
+   ["lua-path"] = {
+      ["0.3.1-2"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               path = "path.lua",
+               ["path.findfile"] = "path/findfile.lua",
+               ["path.fs"] = "path/fs.lua",
+               ["path.lfs.fs"] = "path/lfs/fs.lua",
+               ["path.lfs.impl.fs"] = "path/lfs/impl/fs.lua",
+               ["path.module"] = "path/module.lua",
+               ["path.syscall.fs"] = "path/syscall/fs.lua",
+               ["path.win32.alien.fs"] = "path/win32/alien/fs.lua",
+               ["path.win32.alien.types"] = "path/win32/alien/types.lua",
+               ["path.win32.alien.utils"] = "path/win32/alien/utils.lua",
+               ["path.win32.alien.wcs"] = "path/win32/alien/wcs.lua",
+               ["path.win32.ffi.fs"] = "path/win32/ffi/fs.lua",
+               ["path.win32.ffi.types"] = "path/win32/ffi/types.lua",
+               ["path.win32.ffi.wcs"] = "path/win32/ffi/wcs.lua",
+               ["path.win32.fs"] = "path/win32/fs.lua",
+               ["path.win32.wcs"] = "path/win32/wcs.lua"
+            }
+         }
+      }
+   },
+   ["lua-toml"] = {
+      ["2.0-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               toml = "toml.lua"
+            }
+         }
+      }
+   },
+   ["lua-vips"] = {
+      ["1.1-9"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               vips = "vips.lua",
+               ["vips.Image"] = "vips/Image.lua",
+               ["vips.Image_methods"] = "vips/Image_methods.lua",
+               ["vips.cdefs"] = "vips/cdefs.lua",
+               ["vips.gvalue"] = "vips/gvalue.lua",
+               ["vips.log"] = "vips/log.lua",
+               ["vips.verror"] = "vips/verror.lua",
+               ["vips.version"] = "vips/version.lua",
+               ["vips.vobject"] = "vips/vobject.lua",
+               ["vips.voperation"] = "vips/voperation.lua"
+            }
+         }
+      }
+   },
+   ["lua-zlib"] = {
+      ["1.2-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               zlib = "zlib.dll"
+            }
+         }
+      }
+   },
+   struct = {
+      ["1.4-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               struct = "struct.dll"
+            }
+         }
+      }
+   },
+   utf8 = {
+      ["1.2-0"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               utf8 = "utf8.dll"
+            }
+         }
+      }
+   },
+   zipwriter = {
+      ["0.1.5-1"] = {
+         {
+            arch = "installed",
+            commands = {},
+            dependencies = {},
+            modules = {
+               ZipWriter = "ZipWriter.lua",
+               ["ZipWriter.binary_converter"] = "ZipWriter/binary_converter.lua",
+               ["ZipWriter.bit"] = "ZipWriter/bit.lua",
+               ["ZipWriter.charset"] = "ZipWriter/charset.lua",
+               ["ZipWriter.encrypt.aes"] = "ZipWriter/encrypt/aes.lua",
+               ["ZipWriter.encrypt.aes.AesFileEncrypt"] = "ZipWriter/encrypt/aes/AesFileEncrypt.lua",
+               ["ZipWriter.module"] = "ZipWriter/module.lua",
+               ["ZipWriter.utils"] = "ZipWriter/utils.lua",
+               ["ZipWriter.win.cp"] = "ZipWriter/win/cp.lua"
+            }
+         }
+      }
+   }
+}

@@ -1,9 +1,0 @@
-DRACODEITY_SUMMON = """\
-3+ Special Summoned non-Token monsters, including a {0} monster \
-"""
-
-DRACODEITY_EFFECT = """\
-Must be Link Summoned. \
-This card's Link Summon cannot be negated. \
-Control of this card cannot switch. \
-"""
