@@ -3,6 +3,6 @@ id = 900003000
 name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 effect = """
-Synchro Summons of your Synchro Monsters cannot be negated. \
+Special Summons of your Synchro Monsters cannot be negated. \
 """
 strings = []
