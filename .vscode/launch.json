@@ -8,7 +8,7 @@
             "program": "cmd.exe",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
-            "args": ["/c", "ygofab make && ygopic proxy artwork expansions\\triplesix.cdb pics --field && copy expansions\\triplesix.cdb triplesix.cdb"],
+            "args": ["/c", "ygofab make && copy expansions\\triplesix.cdb triplesix.cdb && ygopic proxy artwork expansions\\triplesix.cdb pics --field"],
         }
     ]
 }
