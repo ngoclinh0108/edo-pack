@@ -14,7 +14,8 @@
     "pics": true,
     "script": true,
     "*.cdb-shm": true,
-    "*.cdb-wal": true
+    "*.cdb-wal": true,
+    "ygofabrica": true
   },
 	"Lua.diagnostics.disable": ["undefined-global", "lowercase-global"],
 	"explorerExclude.backup": null
