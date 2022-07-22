@@ -7,12 +7,11 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     ".vscode": true,
-    "ygofabrica": true,
     ".gitignore": true,
     "old.zip": true,
-    "expansions": true,
     "triplesix.cdb": true,
-    "pics": true
+    "pics": false,
+    "script": false
   },
 	"explorerExclude.backup": null
 }
