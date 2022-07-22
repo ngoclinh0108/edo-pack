@@ -10,8 +10,8 @@
     ".gitignore": true,
     "old.zip": true,
     "triplesix.cdb": true,
-    "pics": false,
-    "script": false
+    "pics": true,
+    "script": true
   },
 	"explorerExclude.backup": null
 }

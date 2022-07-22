@@ -1,0 +1,11 @@
+set_name = "triplesix"
+
+packs = [
+    "./pack/egyptian/pack.toml",
+]
+
+marcos = [
+    "./pack/egyptian/marco.toml"
+]
+
+setcodes = [ "./setcode.toml" ]

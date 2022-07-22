@@ -1,7 +1,0 @@
-[expansion.triplesix]
-default = true
-recipe = [
-    "setcode.toml",
-    "pack/egyptian.toml",
-    "pack/signer-dragons.toml"
-]
