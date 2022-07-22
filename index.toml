@@ -1,7 +1,6 @@
 set_name = "triplesix"
+setcodes = [ "./setcode.toml" ]
 
 packs = [
     "./pack/egyptian",
 ]
-
-setcodes = [ "./setcode.toml" ]
