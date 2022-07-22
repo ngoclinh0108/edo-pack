@@ -1,11 +1,7 @@
 set_name = "triplesix"
 
 packs = [
-    "./pack/egyptian/pack.toml",
-]
-
-marcos = [
-    "./pack/egyptian/marco.toml"
+    "./pack/egyptian",
 ]
 
 setcodes = [ "./setcode.toml" ]
