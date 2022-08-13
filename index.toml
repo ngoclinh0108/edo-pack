@@ -3,4 +3,5 @@ setcodes = [ "./setcode.toml" ]
 
 packs = [
     "./pack/egyptian",
+    "./pack/signer-dragons",
 ]
