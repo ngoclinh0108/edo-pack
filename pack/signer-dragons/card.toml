@@ -1,23 +1,9 @@
 [mausoleum-signer-dragons]
 id = 900003000
+rarity = "gold"
 name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 effect = """
 Special Summons of your Synchro Monsters cannot be negated. \
-"""
-strings = []
-
-[stardust-junk-synchron]
-id = 900003001
-set = "stardust junk synchron"
-name = "Startdust Junk Synchron"
-type = "monster effect"
-attribute = "wind"
-race = "warrior"
-level = 3
-atk = 1300
-def = 500
-effect = """
-When this card is Normal Summoned: You can target 1 Level 2 or lower monster in your GY; Special Summon that target in Defense Position, but negate its effects.
 """
 strings = []
