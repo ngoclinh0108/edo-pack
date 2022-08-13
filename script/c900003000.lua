@@ -1,4 +1,4 @@
-﻿-- Mausoleum of the Signer Dragons
+-- Mausoleum of the Signer Dragons
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
