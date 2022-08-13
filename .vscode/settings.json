@@ -9,7 +9,8 @@
         "pics": true,
         "script": true,
         ".vscode": true,
-        "triplesix.cdb": true
+        "triplesix.cdb": true,
+        "generator": true
     },
     "explorerExclude.backup": {}
 }
