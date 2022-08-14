@@ -8,6 +8,8 @@ end
 
 -- constant
 SignerDragon.CARD_MAJESTIC_DRAGON = 21159309
+SignerDragon.CARD_ANCIENT_FAIRY_DRAGON = 25862681
+SignerDragon.CARD_LIFE_STREAM_DRAGON = 25165047
 
 -- function
 function SignerDragon.AddMajesticProcedure(c, s, card_code)

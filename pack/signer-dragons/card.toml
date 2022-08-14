@@ -40,16 +40,48 @@ strings = []
 
 [majestic-rose-dragon]
 id = 900000303
-set = "majestic"
+set = "majestic rose-dragon"
 name = "Majestic Rose Dragon"
 type = "monster synchro effect"
 attribute = "fire"
 race = "dragon"
-level = 10
+level = 9
 atk = 3760
 def = 2800
 effect = """
 "Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
 {MAJESTIC_RETURN|Black Rose Dragon} \
+"""
+strings = []
+
+[majestic-fairy-dragon]
+id = 900000304
+set = "majestic"
+name = "Majestic Fairy Dragon"
+type = "monster synchro effect"
+attribute = "light"
+race = "dragon"
+level = 9
+atk = 3640
+def = 4000
+effect = """
+"Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
+{MAJESTIC_RETURN|Ancient Fairy Dragon} \
+"""
+strings = []
+
+[majestic-life-dragon]
+id = 900000305
+set = "majestic"
+name = "Majestic Life Dragon"
+type = "monster synchro tuner effect"
+attribute = "earth"
+race = "dragon"
+level = 10
+atk = 3960
+def = 3400
+effect = """
+"Majestic Dragon" + "Life Stream Dragon" + 1 non-Tuner monster
+{MAJESTIC_RETURN|Life Stream Dragon} \
 """
 strings = []
