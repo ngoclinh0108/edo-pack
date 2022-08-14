@@ -1,4 +1,4 @@
-﻿-- Majestic Black Dragon
+-- Majestic Black Dragon
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 

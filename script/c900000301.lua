@@ -1,4 +1,4 @@
-﻿-- Cosmic Ultimaya Dragon
+-- Cosmic Ultimaya Dragon
 Duel.LoadScript("util.lua")
 
 local s, id = GetID()
