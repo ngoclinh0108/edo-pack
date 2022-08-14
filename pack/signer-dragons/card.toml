@@ -226,5 +226,7 @@ atk = 1500
 def = 200
 effect = """
 1 Tuner + 1 non-Tuner monster
+If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
+    This effect cannot be negated. \
 """
 strings = []
