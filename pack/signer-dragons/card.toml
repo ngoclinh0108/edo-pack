@@ -8,10 +8,10 @@ Neither player can return Dragon Synchro Monster from the field to the Extra Dec
 """
 strings = []
 
-[cosmic-ultimaya-dragon]
+[ultimaya-cosmic-dragon]
 id = 900000301
 rarity = "gold"
-name = "Cosmic Ultimaya Dragon"
+name = "Ultimaya Cosmic Dragon"
 type = "monster synchro effect"
 attribute = "divine"
 race = "creator-god"
@@ -19,7 +19,9 @@ level = 13
 show-level = false
 effect = """
 (This card's original Level is always treated as 13.)
-Cannot be Synchro Summoned. \
+Cannot be Synchro Summoned.
+------------------------------------------------------------
+Add "Majestic" version of your Signer Dragons to your Extra Deck. \
 """
 strings = []
 
@@ -84,5 +86,23 @@ def = 3400
 effect = """
 "Majestic Dragon" + "Life Stream Dragon" + 1 non-Tuner monster
 {MAJESTIC_RETURN|Life Stream Dragon} \
+"""
+strings = []
+
+[ultimaya-stardust-dragon]
+id = 900000306
+set = "stardust"
+name = "Ultimaya Stardust Dragon"
+type = "monster synchro tuner effect"
+attribute = "light"
+race = "dragon"
+level = 8
+atk = 2500
+def = 2000
+effect = """
+1 Tuner + 1+ non-Tuner monsters
+(This card's name is also treated as "Stardust Dragon".)
+If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
+    This effect cannot be negated. \
 """
 strings = []

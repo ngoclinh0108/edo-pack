@@ -42,7 +42,6 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
 
         Duel.ShuffleDeck(tp)
-        Duel.ShuffleExtra(tp)
     end
     for tc in aux.Next(g) do
         if tc.global_effect and not global_effect:IsExists(function(c)
