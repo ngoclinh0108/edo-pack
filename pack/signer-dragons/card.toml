@@ -21,3 +21,19 @@ effect = """
 Cannot be Synchro Summoned. \
 """
 strings = []
+
+[majestic-black-dragon]
+id = 900000302
+set = "majestic"
+name = "Majestic Black Dragon"
+type = "monster synchro effect"
+attribute = "dark"
+race = "dragon"
+level = 10
+atk = 3900
+def = 2600
+effect = """
+"Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
+{MAJESTIC_RETURN|Black-Winged Dragon} \
+"""
+strings = []
