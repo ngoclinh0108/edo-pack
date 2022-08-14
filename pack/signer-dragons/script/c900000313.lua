@@ -5,6 +5,7 @@ local s, id = GetID()
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    c:SetSPSummonOnce(id)
 
     -- synchro summon
     Synchro.AddProcedure(c, nil, 1, 1, Synchro.NonTuner(nil), 1, 1)
@@ -15,7 +16,7 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetProperty(EFFECT_FLAG_DELAY)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetCountLimit(1, {id, 1})
+    e1:SetCountLimit(1, id)
     e1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then
             return Duel.IsPlayerCanDraw(tp, 1)
@@ -38,7 +39,6 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_SPSUMMON_SUCCESS)
     e2:SetRange(LOCATION_GRAVE)
-    e2:SetCountLimit(1, {id, 2})
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -61,7 +61,7 @@ function s.e2filter(c, tp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return aux.exccon(e) and eg:IsExists(s.e2filter, 1, nil, tp)
+    return eg:IsExists(s.e2filter, 1, nil, tp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
