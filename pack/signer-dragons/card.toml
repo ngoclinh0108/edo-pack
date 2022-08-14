@@ -12,6 +12,12 @@ id = 900000301
 rarity = "gold"
 name = "Cosmic Ultimaya Dragon"
 type = "monster synchro effect"
+attribute = "divine"
+race = "creator-god"
+level = 13
+show-level = false
 effect = """
+(This card's original Level is always treated as 13.)
+Cannot be Synchro Summoned. \
 """
 strings = []
