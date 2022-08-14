@@ -9,23 +9,14 @@ function s.initial_effect(c)
     -- synchro summon
     Synchro.AddProcedure(c, nil, 1, 1, Synchro.NonTuner(nil), 1, 1)
 
-    -- non-tuner for a synchro summon
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    e1:SetCode(EFFECT_NONTUNER)
-    e1:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(e1)
-
     -- draw
-    local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_DRAW)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e2:SetCountLimit(1, id)
-    e2:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_DRAW)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCountLimit(1, {id, 1})
+    e1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then
             return Duel.IsPlayerCanDraw(tp, 1)
         end
@@ -34,10 +25,23 @@ function s.initial_effect(c)
         Duel.SetTargetParam(1)
         Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
     end)
-    e2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    e1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
         Duel.Draw(p, d, REASON_EFFECT)
     end)
+    c:RegisterEffect(e1)
+
+    -- special summon
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e2:SetProperty(EFFECT_FLAG_DELAY)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, {id, 2})
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
     -- gain effect
@@ -50,6 +54,32 @@ function s.initial_effect(c)
     end)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+end
+
+function s.e2filter(c, tp)
+    return c:IsRace(RACE_DRAGON) and c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:IsSummonPlayer(tp)
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return aux.exccon(e) and eg:IsExists(s.e2filter, 1, nil, tp)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
