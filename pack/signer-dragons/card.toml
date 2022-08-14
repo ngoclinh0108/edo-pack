@@ -19,9 +19,11 @@ level = 13
 show-level = false
 effect = """
 (This card's original Level is always treated as 13.)
-Cannot be Synchro Summoned.
-------------------------------------------------------------
-Add "Majestic" version of your Signer Dragons to your Extra Deck. \
+[Add "Majestic" version of your Signer Dragons to your Extra Deck.]
+Cannot be Synchro Summoned. \
+Must be Special Summoned (from your Extra Deck) by sending 2 Level 8 or higher Dragon Synchro Monsters you control with the same Level to the GY (1 Tuner and 1 non-Tuner). \
+Unaffected by other cards' effects. This effect cannot be negated. \
+While you control another Synchro Monster, your opponent cannot target this card for attacks or by card effects. \
 """
 strings = []
 
@@ -48,7 +50,7 @@ name = "Majestic Rose Dragon"
 type = "monster synchro effect"
 attribute = "fire"
 race = "dragon"
-level = 9
+level = 10
 atk = 3760
 def = 2800
 effect = """
@@ -64,7 +66,7 @@ name = "Majestic Fairy Dragon"
 type = "monster synchro effect"
 attribute = "light"
 race = "dragon"
-level = 9
+level = 10
 atk = 3640
 def = 4000
 effect = """
@@ -145,7 +147,7 @@ name = "Ultimaya Black Rose Dragon"
 type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
-level = 7
+level = 8
 atk = 2400
 def = 1800
 effect = """
@@ -160,7 +162,7 @@ name = "Ultimaya Ancient Fairy Dragon"
 type = "monster synchro effect"
 attribute = "light"
 race = "dragon"
-level = 7
+level = 8
 atk = 2100
 def = 3000
 effect = """
