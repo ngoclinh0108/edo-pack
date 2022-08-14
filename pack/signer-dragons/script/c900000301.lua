@@ -14,4 +14,5 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 900000303, CARD_BLACK_ROSE_DRAGON, true)
     Utility.DeckEditAddCardToDeck(tp, 900000304, SignerDragon.CARD_ANCIENT_FAIRY_DRAGON, true)
     Utility.DeckEditAddCardToDeck(tp, 900000305, SignerDragon.CARD_LIFE_STREAM_DRAGON, true)
+    Utility.DeckEditAddCardToDeck(tp, 40939228, SignerDragon.CARD_SHOOTING_STAR_DRAGON, true)    
 end

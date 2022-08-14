@@ -11,6 +11,7 @@ SignerDragon.CARD_MAJESTIC_DRAGON = 21159309
 SignerDragon.CARD_RED_DRAGON_ARCHFIEND = 70902743
 SignerDragon.CARD_ANCIENT_FAIRY_DRAGON = 25862681
 SignerDragon.CARD_LIFE_STREAM_DRAGON = 25165047
+SignerDragon.CARD_SHOOTING_STAR_DRAGON = 24696097
 
 -- function
 function SignerDragon.AddMajesticProcedure(c, s, card_code)
