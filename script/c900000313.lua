@@ -57,12 +57,16 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter(c, tp)
+function s.e2filter1(c, tp)
     return c:IsRace(RACE_DRAGON) and c:IsSummonPlayer(tp)
 end
 
+function s.e2filter2(c, tp, mc)
+    return c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:IsSummonPlayer(tp) and c:GetMaterial():IsContains(mc)
+end
+
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e2filter, 1, nil, tp)
+    return eg:IsExists(s.e2filter1, 1, nil, tp) and not eg:IsExists(s.e2filter2, 1, nil, tp, e:GetHandler())
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
