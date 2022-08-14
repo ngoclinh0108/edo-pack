@@ -34,9 +34,7 @@ function Utility.DeckEditAddCardToDeck(tp, code, condition_code, count_alias)
         end
     end
 
-    local c = Duel.CreateToken(tp, code)
-    Duel.SendtoDeck(c, tp, SEQ_DECKBOTTOM, REASON_RULE)
-    Duel.MoveSequence(c, 1)
+    Duel.SendtoDeck(Duel.CreateToken(tp, code), tp, SEQ_DECKBOTTOM, REASON_RULE)
 end
 
 function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code, count_alias)

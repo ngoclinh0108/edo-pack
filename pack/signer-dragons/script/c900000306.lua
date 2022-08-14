@@ -14,7 +14,7 @@ function s.initial_effect(c)
     code:SetType(EFFECT_TYPE_SINGLE)
     code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(44508094)
+    code:SetValue(CARD_STARDUST_DRAGON)
     c:RegisterEffect(code)
 
     -- non-tuner for a synchro summon

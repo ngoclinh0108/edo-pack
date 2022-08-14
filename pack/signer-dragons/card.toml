@@ -106,3 +106,80 @@ If this card you control is used as Synchro Material, you can treat it as a non-
     This effect cannot be negated. \
 """
 strings = []
+
+[ultimaya-red-archfiend-dragon]
+id = 900000307
+set = "red-dragon-archfiend"
+name = "Ultimaya Red Archfiend Dragon"
+type = "monster synchro effect"
+attribute = "dark"
+race = "dragon"
+level = 8
+atk = 3000
+def = 2000
+effect = """
+1 Tuner + 1+ non-Tuner monsters
+(This card's name is also treated as "Red Dragon Archfiend".)
+"""
+strings = []
+
+[ultimaya-black-winged-dragon]
+id = 900000308
+name = "Ultimaya Black-Winged Dragon"
+type = "monster synchro effect"
+attribute = "dark"
+race = "dragon"
+level = 8
+atk = 2800
+def = 1600
+effect = """
+1 Tuner + 1+ non-Tuner monsters
+(This card's name is also treated as "Black-Winged Dragon".)
+"""
+strings = []
+
+[ultimaya-black-rose-dragon]
+id = 900000309
+set = "rose-dragon"
+name = "Ultimaya Black Rose Dragon"
+type = "monster synchro effect"
+attribute = "dark"
+race = "dragon"
+level = 7
+atk = 2400
+def = 1800
+effect = """
+1 Tuner + 1+ non-Tuner monsters
+(This card's name is also treated as "Black Rose Dragon".)
+"""
+strings = []
+
+[ultimaya-ancient-fairy-dragon]
+id = 900000310
+name = "Ultimaya Ancient Fairy Dragon"
+type = "monster synchro effect"
+attribute = "light"
+race = "dragon"
+level = 7
+atk = 2100
+def = 3000
+effect = """
+1 Tuner + 1+ non-Tuner monsters
+(This card's name is also treated as "Ancient Fairy Dragon".)
+"""
+strings = []
+
+[ultimaya-life-stream-dragon]
+id = 900000311
+name = "Ultimaya Life Stream Dragon"
+type = "monster synchro tuner effect"
+attribute = "light"
+race = "dragon"
+level = 8
+atk = 2900
+def = 2400
+effect = """
+1 Tuner + 1+ non-Tuner monsters
+(This card's name is also treated as "Life Stream Dragon".)
+"""
+strings = []
