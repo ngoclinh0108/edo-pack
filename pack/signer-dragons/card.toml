@@ -1,9 +1,17 @@
 [mausoleum-signer-dragons]
 id = 900000300
-rarity = "gold"
 name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 effect = """
 Special Summons of your Synchro Monsters cannot be negated. \
+"""
+strings = []
+
+[cosmic-ultimaya-dragon]
+id = 900000301
+rarity = "gold"
+name = "Cosmic Ultimaya Dragon"
+type = "monster synchro effect"
+effect = """
 """
 strings = []
