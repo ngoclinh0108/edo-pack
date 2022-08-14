@@ -16,8 +16,7 @@ function s.initial_effect(c)
         if c:IsSummonCode(sc, sumtype, tp, CARD_STARDUST_DRAGON) then
             return true
         end
-        return not c:IsType(TYPE_TUNER, sc, sumtype, tp) and c:IsType(TYPE_SYNCHRO, sc, sumtype, tp) and
-                   c:IsRace(RACE_DRAGON, sc, sumtype, tp)
+        return not c:IsType(TYPE_TUNER, sc, sumtype, tp) and c:IsType(TYPE_SYNCHRO, sc, sumtype, tp)
     end, 1, 1)
 
     -- add code
