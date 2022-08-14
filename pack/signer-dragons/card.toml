@@ -30,10 +30,26 @@ type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
 level = 10
-atk = 3900
+atk = 3920
 def = 2600
 effect = """
 "Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
 {MAJESTIC_RETURN|Black-Winged Dragon} \
+"""
+strings = []
+
+[majestic-rose-dragon]
+id = 900000303
+set = "majestic"
+name = "Majestic Rose Dragon"
+type = "monster synchro effect"
+attribute = "fire"
+race = "dragon"
+level = 10
+atk = 3760
+def = 2800
+effect = """
+"Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
+{MAJESTIC_RETURN|Black Rose Dragon} \
 """
 strings = []
