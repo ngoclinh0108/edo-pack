@@ -228,5 +228,9 @@ effect = """
 1 Tuner + 1 non-Tuner monster
 If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
     This effect cannot be negated. \
+If this card is Special Summoned: You can draw 1 card. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+A Synchro Monster that used this card as material is unaffected by your opponent's activated effects \
+    during the turn it is Synchro Summoned. \
 """
-strings = []
+strings = ["Draw 1 card"]

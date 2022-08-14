@@ -32,7 +32,7 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetRange(LOCATION_EXTRA)
-    e1:SetHintTiming(0, TIMING_END_PHASE)
+    e1:SetHintTiming(0, TIMING_MAIN_END + TIMING_END_PHASE)
     e1:SetCountLimit(1)
     e1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return Duel.GetTurnPlayer() ~= tp
