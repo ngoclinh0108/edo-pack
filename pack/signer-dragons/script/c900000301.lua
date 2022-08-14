@@ -24,6 +24,13 @@ function s.initial_effect(c)
     spr:SetOperation(s.sprop)
     c:RegisterEffect(spr)
 
+    -- summon cannot be negated
+    local spsafe = Effect.CreateEffect(c)
+    spsafe:SetType(EFFECT_TYPE_SINGLE)
+    spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    c:RegisterEffect(spsafe)
+
     -- immune
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
@@ -64,7 +71,7 @@ function s.deck_edit(tp)
 end
 
 function s.sprfilter(c)
-    return c:IsFaceup() and c:IsLevelAbove(8) and c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON) and
+    return c:IsFaceup() and c:IsLevelAbove(7) and c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON) and
                c:IsAbleToGraveAsCost()
 end
 
