@@ -13,10 +13,8 @@ function s.initial_effect(c)
 
     -- synhcro summon
     Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsType, TYPE_SYNCHRO), 1, 1, function(c, sc, sumtype, tp)
-        if c:IsSummonCode(sc, sumtype, tp, CARD_STARDUST_DRAGON) then
-            return true
-        end
-        return not c:IsType(TYPE_TUNER, sc, sumtype, tp) and c:IsType(TYPE_SYNCHRO, sc, sumtype, tp)
+        return c:IsSummonCode(sc, sumtype, tp, CARD_STARDUST_DRAGON) or
+                   (not c:IsType(TYPE_TUNER, sc, sumtype, tp) and c:IsType(TYPE_SYNCHRO, sc, sumtype, tp))
     end, 1, 1)
 
     -- add code
