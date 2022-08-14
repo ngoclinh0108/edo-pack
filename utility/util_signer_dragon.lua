@@ -66,6 +66,9 @@ function SignerDragon.AddMajesticReturn(c, card_code)
         end
     end)
     c:RegisterEffect(ret)
+
+    local ret2 = ret:Clone()
+    c:RegisterEffect(ret2)
 end
 
 function majesticReturnFilter(c, e, tp, card_code)
