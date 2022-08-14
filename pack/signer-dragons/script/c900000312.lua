@@ -43,6 +43,22 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- indes
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(LOCATION_ONFIELD, 0)
+    e2:SetValue(function(e, re, r, rp)
+        if (r & REASON_BATTLE + REASON_EFFECT) ~= 0 then
+            return 1
+        else
+            return 0
+        end
+    end)
+    c:RegisterEffect(e2)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

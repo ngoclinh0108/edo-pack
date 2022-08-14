@@ -201,5 +201,6 @@ effect = """
 (This card's name is also treated as "Shooting Star Dragon".)
 Once per turn, during your opponent's turn, you can (Quick Effect): \
     Immediately after this effect resolves, Synchro Summon this card from your Extra Deck using monsters you control. \
+The first time each card you control would be destroyed each turn, by battle or card effect, it is not destroyed. \
 """
 strings = []
