@@ -228,7 +228,7 @@ def = 200
 effect = """
 1 Tuner + 1 non-Tuner monster
 If this card is Special Summoned: You can draw 1 card. \
-If you Synchro Summon a Dragon Synchro Monster while this card is in your GY \
+If you Special Summon a Dragon Synchro Monster while this card is in your GY \
     (except during the Damage Step, or the turn this card was sent to the GY): \
     You can Special Summon this card in Defense Position. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
