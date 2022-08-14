@@ -25,7 +25,7 @@ function s.initial_effect(c)
     code:SetValue(SignerDragon.CARD_SHOOTING_STAR_DRAGON)
     c:RegisterEffect(code)
 
-    -- opponent's turn synchro
+    -- quick synchro
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(1172)
     e1:SetType(EFFECT_TYPE_QUICK_O)
@@ -57,8 +57,7 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp and
-               (Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2)
+    return Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
