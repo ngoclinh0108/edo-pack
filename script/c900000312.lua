@@ -32,11 +32,9 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetRange(LOCATION_EXTRA)
-    e1:SetHintTiming(0, TIMING_MAIN_END + TIMING_END_PHASE)
+    e1:SetHintTiming(0, TIMING_MAIN_END)
     e1:SetCountLimit(1)
-    e1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return Duel.GetTurnPlayer() ~= tp
-    end)
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -58,12 +56,20 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() ~= tp and
+               (Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2)
+end
+
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return e:GetHandler():IsSynchroSummonable(nil)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, e:GetHandler(), 1, tp, LOCATION_EXTRA)
+    Duel.SetChainLimit(function(e, rp, tp)
+        return tp == rp
+    end)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
