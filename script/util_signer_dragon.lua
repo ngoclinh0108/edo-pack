@@ -39,7 +39,7 @@ end
 
 function SignerDragon.AddMajesticReturn(c, card_code)
     local ret = Effect.CreateEffect(c)
-    ret:SetDescription(900000001)
+    ret:SetDescription(666001)
     ret:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
     ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
     ret:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -66,11 +66,10 @@ function SignerDragon.AddMajesticReturn(c, card_code)
         end
     end)
     c:RegisterEffect(ret)
-
-    local ret2 = ret:Clone()
-    c:RegisterEffect(ret2)
 end
 
 function majesticReturnFilter(c, e, tp, card_code)
     return c:IsCode(card_code) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+ and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
