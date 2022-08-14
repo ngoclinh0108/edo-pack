@@ -4,6 +4,7 @@ name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 effect = """
 Special Summons of your Synchro Monsters cannot be negated. \
+Neither player can return Dragon Synchro Monster from the field to the Extra Deck. \
 """
 strings = []
 
