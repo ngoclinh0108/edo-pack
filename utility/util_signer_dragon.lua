@@ -39,7 +39,7 @@ end
 
 function SignerDragon.AddMajesticReturn(c, card_code)
     local ret = Effect.CreateEffect(c)
-    ret:SetDescription(aux.Stringid(id, 2))
+    ret:SetDescription(900000001)
     ret:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
     ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
     ret:SetProperty(EFFECT_FLAG_CARD_TARGET)

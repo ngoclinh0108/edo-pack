@@ -9,5 +9,5 @@ function s.initial_effect(c)
 
     -- synchro summon
     SignerDragon.AddMajesticProcedure(c, s, CARD_BLACK_WINGED_DRAGON)
-    -- SignerDragon.AddMajesticReturn(c, CARD_BLACK_WINGED_DRAGON)
+    SignerDragon.AddMajesticReturn(c, CARD_BLACK_WINGED_DRAGON)
 end
