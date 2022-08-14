@@ -3,11 +3,19 @@ id = 900000300
 name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 effect = """
+When this card is activated: You can place 1 Level 1 Dragon monster from your hand, Deck or GY on top of the Deck. \
 Special Summons of your Dragon Synchro Monsters cannot be negated. \
 Neither player can return your Dragon Synchro Monster from the field to the Extra Deck. \
 If you Synchro Summon a Dragon Synchro Monster: You can draw 1 card. \
+If a Dragon Synchro Monster(s) you control leaves the field by your card effect, or to activate the effect of your card: \
+    You can Special Summon 1 of those monsters. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = ["Draw 1 card"]
+strings = [
+    "Place 1 Level 1 Dragon monster on top of the Deck?",
+    "Draw 1 card",
+    "Special Summon the leaved monster",
+]
 
 [ultimaya-cosmic-dragon]
 id = 900000301

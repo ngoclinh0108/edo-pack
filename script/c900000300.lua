@@ -5,58 +5,101 @@ local s, id = GetID()
 
 function s.initial_effect(c)
     -- activate
-    local act = Effect.CreateEffect(c)
-    act:SetType(EFFECT_TYPE_ACTIVATE)
-    act:SetCode(EVENT_FREE_CHAIN)
-    c:RegisterEffect(act)
-
-    -- cannot disable summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
-    e1:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    e1:SetRange(LOCATION_FZONE)
-    e1:SetTarget(function(e, c)
-        return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsControler(e:GetHandlerPlayer())
-    end)
+    e1:SetCategory(CATEGORY_TODECK)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- cannot to extra
+    -- cannot disable summon
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetCode(EFFECT_CANNOT_TO_DECK)
+    e2:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
     e2:SetRange(LOCATION_FZONE)
-    e2:SetTargetRange(LOCATION_ONFIELD, LOCATION_ONFIELD)
     e2:SetTarget(function(e, c)
-        return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsControler(e:GetHandlerPlayer())
+        return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsControler(e:GetHandlerPlayer())
     end)
-    e2:SetValue(1)
     c:RegisterEffect(e2)
 
-    -- draw
+    -- cannot to extra
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DRAW)
-    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_CANNOT_TO_DECK)
     e3:SetRange(LOCATION_FZONE)
-    e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetTargetRange(LOCATION_ONFIELD, LOCATION_ONFIELD)
+    e3:SetTarget(function(e, c)
+        return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsControler(e:GetHandlerPlayer())
+    end)
+    e3:SetValue(1)
     c:RegisterEffect(e3)
+
+    -- draw
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_DRAW)
+    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e4:SetRange(LOCATION_FZONE)
+    e4:SetCondition(s.e4con)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
+
+    -- special summon
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e5:SetProperty(EFFECT_FLAG_DELAY)
+    e5:SetCode(EVENT_LEAVE_FIELD)
+    e5:SetRange(LOCATION_FZONE)
+    e5:SetCountLimit(1, id)
+    e5:SetCondition(s.e5con)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
-function s.e3filter(c, tp)
+function s.e1filter(c)
+    return c:IsLevel(1) and c:IsRace(RACE_DRAGON) and (c:IsLocation(LOCATION_DECK) or c:IsAbleToDeck())
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+        return
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local tc = g:Select(tp, 1, 1, nil):GetFirst()
+
+    if tc:IsLocation(LOCATION_DECK) then
+        Duel.ShuffleDeck(tp)
+        Duel.MoveSequence(tc, SEQ_DECKTOP)
+    else
+        Duel.SendtoDeck(tc, nil, SEQ_DECKTOP, REASON_EFFECT)
+    end
+    Duel.ConfirmDecktop(tp, 1)
+end
+
+function s.e4filter(c, tp)
     return c:IsFaceup() and c:IsSummonPlayer(tp) and c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:IsType(TYPE_SYNCHRO) and
                c:IsRace(RACE_DRAGON)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e3filter, 1, e:GetHandler(), tp)
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.e4filter, 1, e:GetHandler(), tp)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsPlayerCanDraw(tp, 1)
     end
@@ -66,7 +109,43 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     Duel.Draw(p, d, REASON_EFFECT)
+end
+
+function s.e5filter1(c, r, rp, tp)
+    return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousControler(tp) and
+               (c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)) and rp == tp and
+               ((r & REASON_EFFECT) == REASON_EFFECT or (r & REASON_COST) == REASON_COST)
+end
+
+function s.e5filter2(c, e, tp)
+    return c:IsFaceup() and c:IsLocation(LOCATION_GRAVE + LOCATION_REMOVED) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.e5filter1, 1, nil, r, rp, tp)
+end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
+
+    Duel.SetPossibleOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE + LOCATION_REMOVED)
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local lg = eg:Filter(s.e5filter1, nil, r, rp, tp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or
+        not lg:IsExists(s.e5filter2, 1, nil, e, tp) then
+        return
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local tc = lg:FilterSelect(tp, s.e5filter2, 1, 1, nil, e, tp)
+    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
 end
