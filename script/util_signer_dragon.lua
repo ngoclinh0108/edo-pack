@@ -71,5 +71,3 @@ end
 function majesticReturnFilter(c, e, tp, card_code)
     return c:IsCode(card_code) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
- and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
