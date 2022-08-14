@@ -8,5 +8,6 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    -- Synchro.AddMajesticSynchro(c, s, CARD_BLACK_WINGED_DRAGON)
+    SignerDragon.AddMajesticProcedure(c, s, CARD_BLACK_WINGED_DRAGON)
+    SignerDragon.AddMajesticReturn(c, CARD_BLACK_WINGED_DRAGON)
 end
