@@ -159,8 +159,15 @@ def = 1600
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Black-Winged Dragon".)
+If you take damage from a card effect or from an attack not involving this card, \
+    place 1 Black Feather Counter on this card. \
+This card gains 100 ATK for each Black Feather Counter on it. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    the target loses 700 ATK for each Black Feather Counter on this card, \
+    and if it does, remove all Black Feather Counters on this card \
+    and inflict damage to your opponent equal to that lost ATK. \
 """
-strings = []
+strings = ["Remove counter to low ATK and inflict damage"]
 
 [ultimaya-black-rose-dragon]
 id = 900000309
