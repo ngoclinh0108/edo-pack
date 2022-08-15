@@ -51,7 +51,8 @@ effect = """
 "Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
 Each time another monster effect is activated, place 1 Black Feather Counter on this card when it resolves. \
 Once per turn: You can target 1 face-up monster your opponent controls; \
-    negate its effects until the end of this turn. \
+    negate its effects until the end of this turn, and if you do, \
+    inflict damage to your opponent equal to the ATK of that target. \
 {MAJESTIC_RETURN|Black-Winged Dragon} \
 """
 strings = ["Negate effect of 1 face-up monster"]
