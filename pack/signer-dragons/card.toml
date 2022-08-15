@@ -51,16 +51,16 @@ effect = """
 "Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
 Each time another monster effect is activated, place 1 Black Feather Counter on this card when it resolves. \
 If you would take damage from a card effect, place 1 Black Feather Counter on this card instead. \
+(Quick Effect): You can Tribute this card with 4 or more Black Feather Counters; \
+    banish all cards your opponent controls. \
 Once per turn: You can target 1 face-up monster your opponent controls; \
     negate its effects until the end of this turn, and if you do, \
     inflict damage to your opponent equal to the ATK of that target. \
-(Quick Effect): You can Tribute this card with 4 or more Black Feather Counters; \
-    banish all cards your opponent controls. \
 {MAJESTIC_RETURN|Black-Winged Dragon} \
 """
 strings = [
-    "Negate effect & inflict damage",
     "Tribute to banish your opponent cards",
+    "Negate effect & inflict damage",
 ]
 
 [majestic-rose-dragon]
@@ -75,13 +75,18 @@ atk = 3760
 def = 2800
 effect = """
 "Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
-If this card is Synchro Summoned: You can banish all cards from your opponent's GY. \
+If this card is Synchro Summoned: You can banish all cards from your opponent's GY face-down. \
+Once per turn, if a monster(s) is Special Summoned to your opponent's field: \
+    You can return 1 Special Summoned monster your opponent controls. \
 Once per turn: You can target 1 face-up monster your opponent controls; \
     until the end of this turn, negate its effects, and if you do, change its ATK to 0. \
     Change the targeted monster to face-up Attack Position if it is in Defense Position. \
 {MAJESTIC_RETURN|Black Rose Dragon} \
 """
-strings = ["Negate effect & down ATK",]
+strings = [
+    "Return 1 Special Summoned monster to hand",
+    "Negate effect & down ATK",
+]
 
 [majestic-fairy-dragon]
 id = 900000304

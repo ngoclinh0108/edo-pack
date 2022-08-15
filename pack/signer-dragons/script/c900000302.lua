@@ -52,49 +52,71 @@ function s.initial_effect(c)
     e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     c:RegisterEffect(e2b)
 
-    -- negate & damage
+    -- banish
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DISABLE)
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetCategory(CATEGORY_REMOVE)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
+    e3:SetHintTiming(0, TIMING_MAIN_END + TIMINGS_CHECK_MONSTER_E)
+    e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- banish
+    -- negate & damage
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_REMOVE)
-    e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetCategory(CATEGORY_DISABLE)
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetHintTiming(0, TIMING_MAIN_END + TIMINGS_CHECK_MONSTER_E)
-    e4:SetCost(s.e4cost)
+    e4:SetCountLimit(1)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 end
 
-function s.e3filter(c)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:GetCounter(COUNTER_FEATHER) >= 4 and c:IsReleasable()
+    end
+    Duel.Release(c, REASON_COST)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(nil, tp, 0, LOCATION_ONFIELD, 1, nil)
+    end
+
+    local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
+    Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
+end
+
+function s.e4filter(c)
     return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
+        return Duel.IsExistingTarget(s.e4filter, tp, 0, LOCATION_MZONE, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
-    local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
+    local tc = Duel.SelectTarget(tp, s.e4filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, tc:GetAttack())
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then
@@ -115,26 +137,4 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
     Duel.AdjustInstantly(tc)
     Duel.Damage(1 - tp, tc:GetAttack(), REASON_EFFECT)
-end
-
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return c:GetCounter(COUNTER_FEATHER) >= 4 and c:IsReleasable()
-    end
-    Duel.Release(c, REASON_COST)
-end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(nil, tp, 0, LOCATION_ONFIELD, 1, nil)
-    end
-
-    local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
-end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
-    Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
 end
