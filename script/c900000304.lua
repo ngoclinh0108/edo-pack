@@ -72,16 +72,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE,
         LOCATION_GRAVE, 1, 1, nil, e, tp):GetFirst()
-    if tc and Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3302)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_CANNOT_TRIGGER)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec1)
+    if tc then
+        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     end
-    Duel.SpecialSummonComplete()
 end
 
 function s.e3filter(c)

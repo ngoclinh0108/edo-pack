@@ -102,8 +102,7 @@ effect = """
 "Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
 This card gains ATK equal to the difference between your LP and your opponent's. \
 Once per turn, during your Main Phase 1: \
-    You can Special Summon 1 Level 4 or lower monster from your hand or in either GY, \
-    but it cannot activate its effects this turn. \
+    You can Special Summon 1 Level 4 or lower monster from your hand or in either GY. \
 Once per turn: You can target 1 face-up monster your opponent controls; \
     negate its effects until the end of this turn, and if you do, gain LP equal to its ATK. \
 {MAJESTIC_RETURN|Ancient Fairy Dragon} \
@@ -266,12 +265,12 @@ effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Life Stream Dragon".)
 If this card was Synchro Summoned using a Synchro Monster as material: \
-    You can make your LP become 8000. \
+    You can make your LP become 4000. \
 You take no effect damage. \
 Once per turn: You can add 1 Equip Spell from your Deck or GY to your hand. \
 When using this card as Synchro Material, the other Synchro Material(s) can be treated as Level 1 or 2. \
 """
-strings = ["Make your LP become 8000"]
+strings = ["Make your LP become 4000"]
 
 [assault-shooting-star-dragon]
 id = 900000312

@@ -70,7 +70,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.SetLP(tp, 8000)
+    Duel.SetLP(tp, 4000)
 end
 
 function s.e3filter(c)
