@@ -116,14 +116,14 @@ effect = """
 (This card's name is also treated as "Stardust Dragon".)
 If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
     This effect cannot be negated. \
-Once per turn, you can activate 1 of these Quick Effects;
-● Once during this turn, this card cannot be destroyed by battle or card effects.
-● Tribute this card, then target 1 other face-up card you control; \
-    once during this turn, it cannot be destroyed by battle or card effects. \
-    During the End Phase, if this effect was activated this turn (and was not negated): \
-    You can Special Summon this card from your GY. \
+Once per turn, you can apply 1 of these effects;
+● If this card would be destroyed by battle or card effect, it is not destroyed.
+● When a card or effect is activated that would destroy another card(s) on the field (Quick Effect): \
+    You can Tribute this card; negate the activation. \
+    During the End Phase, if this effect was activated this turn (and was not negated), \
+    Special Summon this card from your GY.
 """
-strings = ["Protect itself", "Make other face-up card cannot be destroyed"]
+strings = ["Negate the activation"]
 
 [ultimaya-red-archfiend-dragon]
 id = 900000307
@@ -217,12 +217,12 @@ effect = """
 Once per turn, during the Main Phase, you can (Quick Effect): \
     Immediately after this effect resolves, Synchro Summon this card from your Extra Deck using monsters you control, including "Stardust Dragon". \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
-The first time each card you control would be destroyed each turn, by battle or card effect, it is not destroyed. \
+The first time each card you control would be destroyed by card effect each turn, it is not destroyed. \
 Once per turn: You can excavate the top 5 cards of your Deck, shuffle them back in, \
     also this card gains 1 additional attack each Battle Phase for every Tuner monsters excavated. \
-Once per turn, during your opponent's turn (Quick Effect): You can banish this card, \
+Once per turn, when an opponent's monster declares an attack, or when your opponent activates a card or effect (Quick Effect): \
+    You can banish this card (until the End Phase), \
     and if you do, you can negate 1 attack this turn from a monster your opponent controls. \
-    During the next End Phase, Special Summon this card banished by this effect. \
 """
 strings = [
     "Multi-attack",

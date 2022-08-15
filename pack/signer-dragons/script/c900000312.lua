@@ -46,7 +46,7 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(LOCATION_ONFIELD, 0)
     e2:SetValue(function(e, re, r, rp)
-        if (r & REASON_BATTLE + REASON_EFFECT) ~= 0 then
+        if (r & REASON_EFFECT) ~= 0 then
             return 1
         else
             return 0
@@ -68,21 +68,20 @@ function s.initial_effect(c)
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
     e4:SetCategory(CATEGORY_REMOVE)
-    e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e4:SetCode(EVENT_ATTACK_ANNOUNCE)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetCondition(s.e4con)
+    e4:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e4:SetCondition(s.e4con1)
+    e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-    local e4ret = Effect.CreateEffect(c)
-    e4ret:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e4ret:SetCode(EVENT_PHASE + PHASE_END)
-    e4ret:SetRange(LOCATION_REMOVED)
-    e4ret:SetCountLimit(1)
-    e4ret:SetOperation(s.e4retop)
-    c:RegisterEffect(e4ret)
+    local e4b = e4:Clone()
+    e4b:SetType(EFFECT_TYPE_QUICK_O)
+    e4b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e4b:SetCode(EVENT_CHAINING)
+    e4b:SetCondition(s.e4con2)
+    c:RegisterEffect(e4b)
 end
 
 function s.e1filter(c, tp)
@@ -142,29 +141,49 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp and
-               (Duel.IsAbleToEnterBP() or
-                   (Duel.GetCurrentPhase() >= PHASE_BATTLE_START and Duel.GetCurrentPhase() <= PHASE_BATTLE))
+function s.e4con1(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttacker():GetControler() ~= tp
+end
+
+function s.e4con2(e, tp, eg, ep, ev, re, r, rp)
+    return rp == 1 - tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:IsAbleToRemove()
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, c, 1, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.Remove(c, POS_FACEUP, REASON_EFFECT) == 0 then
+    if not c:IsRelateToEffect(e) or Duel.Remove(c, POS_FACEUP, REASON_COST + REASON_TEMPORARY) == 0 then
         return
     end
 
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetCode(EVENT_PHASE + PHASE_END)
+    ec1:SetLabelObject(c)
+    ec1:SetCountLimit(1)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Duel.ReturnToField(e:GetLabelObject())
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 
-    if Duel.GetAttacker() and Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
+    if Duel.GetAttacker() and Duel.GetAttacker():GetControler() ~= tp and Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
         Duel.NegateAttack()
     else
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        ec1:SetCode(EVENT_ATTACK_ANNOUNCE)
-        ec1:SetRange(LOCATION_REMOVED)
-        ec1:SetLabel(0)
-        ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        ec2:SetCode(EVENT_ATTACK_ANNOUNCE)
+        ec2:SetRange(LOCATION_REMOVED)
+        ec2:SetLabel(0)
+        ec2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
             if e:GetLabel() ~= 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
                 return
             end
@@ -173,17 +192,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
             Duel.NegateAttack()
             e:SetLabel(1)
         end)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        c:RegisterEffect(ec1)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec2)
     end
-end
-
-function s.e4retop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or c:GetFlagEffect(id) == 0 or
-        not c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
-        return
-    end
-
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
