@@ -118,7 +118,7 @@ If this card you control is used as Synchro Material, you can treat it as a non-
     This effect cannot be negated. \
 The first time this card would be destroyed by battle or card effect each turn, it is not destroyed. \
 When a card or effect is activated that would destroy another card(s) on the field (Quick Effect): \
-    You can Tribute this card; negate the activation. \
+    You can Tribute this card; negate the activation, and if you do, destroy it. \
     During the End Phase, if this effect was activated this turn (and was not negated), \
     Special Summon this card from your GY.
 """
@@ -137,8 +137,14 @@ def = 2000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Red Dragon Archfiend".)
+Once per turn: You can destroy all other face-up Attack Position monsters on the field with ATK less than or equal to this card's. \
+After damage calculation, if this card attacked an opponent's Defense Position monster: \
+    You can destroy all Defense Position monsters your opponent controls. \
 """
-strings = []
+strings = [
+    "Destroy monster with ATK less than or equal to this card's",
+    "Destroy all your opponent's defense position monsters",
+]
 
 [ultimaya-black-winged-dragon]
 id = 900000308
