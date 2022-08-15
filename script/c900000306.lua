@@ -55,6 +55,7 @@ function s.initial_effect(c)
     e3ret:SetCode(EVENT_PHASE + PHASE_END)
     e3ret:SetRange(LOCATION_GRAVE)
     e3ret:SetCountLimit(1)
+    e3ret:SetCondition(s.e3retcon)
     e3ret:SetOperation(s.e3retop)
     c:RegisterEffect(e3ret)
 end
@@ -96,12 +97,12 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3retop(e, tp, eg, ep, ev, re, r, rp)
+function s.e3retcon(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:GetFlagEffect(id) == 0 or Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or
-        not c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
-        return
-    end
+    return c:GetFlagEffect(id) == 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
 
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
+function s.e3retop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP)
 end

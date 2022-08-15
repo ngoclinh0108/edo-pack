@@ -58,7 +58,7 @@ function s.initial_effect(c)
 end
 
 function s.e2filter1(c, tp)
-    return c:IsRace(RACE_DRAGON) and c:IsSummonPlayer(tp)
+    return c:IsRace(RACE_DRAGON) and c:IsType((TYPE_SYNCHRO)) and c:IsSummonPlayer(tp)
 end
 
 function s.e2filter2(c, tp, mc)
