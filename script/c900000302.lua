@@ -33,16 +33,24 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1)
 
-    -- atk up
+    -- damage reduce
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_UPDATE_ATTACK)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EFFECT_CHANGE_DAMAGE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(function(e, c)
-        return c:GetCounter(COUNTER_FEATHER) * 200
+    e2:SetTargetRange(1, 0)
+    e2:SetValue(function(e, re, val, r, rp, rc)
+        if (r & REASON_EFFECT) ~= 0 then
+            e:GetHandler():AddCounter(COUNTER_FEATHER, 1)
+            return 0
+        end
+        return val
     end)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    c:RegisterEffect(e2b)
 
     -- negate
     local e3 = Effect.CreateEffect(c)
@@ -55,6 +63,19 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- banish
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_REMOVE)
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetHintTiming(0, TIMING_MAIN_END + TIMINGS_CHECK_MONSTER_E)
+    e4:SetCost(s.e4cost)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e3filter(c)
@@ -94,4 +115,26 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
     Duel.AdjustInstantly(tc)
     Duel.Damage(1 - tp, tc:GetAttack(), REASON_EFFECT)
+end
+
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:GetCounter(COUNTER_FEATHER) >= 4 and c:IsReleasable()
+    end
+    Duel.Release(c, REASON_COST)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(nil, tp, 0, LOCATION_ONFIELD, 1, nil)
+    end
+
+    local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
+    Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
 end
