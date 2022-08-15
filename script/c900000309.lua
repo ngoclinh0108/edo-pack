@@ -27,10 +27,10 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- down atk
+    -- down atk/def
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_ATKCHANGE)
+    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e2:SetRange(LOCATION_MZONE)
@@ -99,4 +99,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetValue(-1000)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec1)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_UPDATE_DEFENSE)
+    tc:RegisterEffect(ec1b)
 end

@@ -49,13 +49,14 @@ atk = 3900
 def = 2600
 effect = """
 "Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
-Each time another monster effect is activated, place 1 Black Feather Counter on this card when it resolves. \
-If you would take damage from a card effect, place 1 Black Feather Counter on this card instead. \
+Each time another monster effect is activated, \
+    place 1 Black Feather Counter on this card immediately after it resolves, \
+    and if you do, inflict 700 damage to them. \
 (Quick Effect): You can Tribute this card with 4 or more Black Feather Counters; \
     banish all cards your opponent controls. \
 Once per turn: You can target 1 face-up monster your opponent controls; \
-    negate its effects until the end of this turn, and if you do, \
-    inflict damage to your opponent equal to the ATK of that target. \
+    negate its effects until the end of this turn, \
+    and if you do, inflict damage to your opponent equal to the ATK of that target. \
 {MAJESTIC_RETURN|Black-Winged Dragon} \
 """
 strings = [
@@ -76,17 +77,13 @@ def = 2800
 effect = """
 "Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
 If this card is Synchro Summoned: You can banish all cards from your opponent's GY face-down. \
-Once per turn, if a monster(s) is Special Summoned to your opponent's field: \
-    You can return 1 Special Summoned monster your opponent controls. \
+If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
 Once per turn: You can target 1 face-up monster your opponent controls; \
-    until the end of this turn, negate its effects, and if you do, change its ATK to 0. \
-    Change the targeted monster to face-up Attack Position if it is in Defense Position. \
+    negate its effects, and if you do, change its ATK and DEF to 0. \
+    These changes last until the end of this turn. \
 {MAJESTIC_RETURN|Black Rose Dragon} \
 """
-strings = [
-    "Return 1 Special Summoned monster to hand",
-    "Negate effect & down ATK",
-]
+strings = ["Negate effect & down ATK/DEF"]
 
 [majestic-fairy-dragon]
 id = 900000304
@@ -100,12 +97,18 @@ atk = 3600
 def = 4000
 effect = """
 "Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
+This card gains ATK equal to the difference between your LP and your opponent's. \
+Once per turn, during your Main Phase 1: \
+    You can Special Summon 1 Level 4 or lower monster from your hand or in either GY, \
+    but it cannot activate its effects this turn. \
 Once per turn: You can target 1 face-up monster your opponent controls; \
-    negate its effects until the end of this turn, and if you do, \
-    gain LP equal to its ATK. \
+    negate its effects until the end of this turn, and if you do, gain LP equal to its ATK. \
 {MAJESTIC_RETURN|Ancient Fairy Dragon} \
 """
-strings = ["Negate effect & recover LP"]
+strings = [
+    "Special Summon 1 Level 4 or lower monster",
+    "Negate effect & recover LP",
+]
 
 [majestic-life-dragon]
 id = 900000305
@@ -209,9 +212,9 @@ If this card is Summoned: You can destroy any number of cards you control, \
     and if you do, destroy the same number of cards your opponent controls. \
 Once per turn: You can shuffle 1 Tuner into the Deck, that is banished or in your GY, \
     then target 1 face-up monster your opponent controls; \
-    it loses 1000 ATK until the End Phase. \
+    it loses 1000 ATK and DEF until the End Phase. \
 """
-strings = ["Make monster ATK become 0"]
+strings = ["Down monster's ATK/DEF"]
 
 [ultimaya-ancient-fairy-dragon]
 id = 900000310

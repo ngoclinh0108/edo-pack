@@ -29,56 +29,41 @@ function s.initial_effect(c)
         return re:IsActiveType(TYPE_MONSTER) and re:GetHandler() ~= c and c:GetFlagEffect(1) ~= 0
     end)
     e1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        e:GetHandler():AddCounter(COUNTER_FEATHER, 1)
+        local c = e:GetHandler()
+        if c:AddCounter(COUNTER_FEATHER, 1) then
+            Duel.Hint(HINT_CARD, 0, id)
+            Duel.Damage(1 - tp, 700, REASON_EFFECT)
+        end
     end)
     c:RegisterEffect(e1)
 
-    -- damage reduce
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2:SetCode(EFFECT_CHANGE_DAMAGE)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(1, 0)
-    e2:SetValue(function(e, re, val, r, rp, rc)
-        if (r & REASON_EFFECT) ~= 0 then
-            e:GetHandler():AddCounter(COUNTER_FEATHER, 1)
-            return 0
-        end
-        return val
-    end)
-    c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-    c:RegisterEffect(e2b)
-
     -- banish
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_REMOVE)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetHintTiming(0, TIMING_MAIN_END + TIMINGS_CHECK_MONSTER_E)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+
+    -- negate & damage
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_REMOVE)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_DAMAGE)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetHintTiming(0, TIMING_MAIN_END + TIMINGS_CHECK_MONSTER_E)
-    e3:SetCost(s.e3cost)
+    e3:SetCountLimit(1)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-
-    -- negate & damage
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_DISABLE + CATEGORY_DAMAGE)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
 end
 
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetCounter(COUNTER_FEATHER) >= 4 and c:IsReleasable()
@@ -86,7 +71,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Release(c, REASON_COST)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(nil, tp, 0, LOCATION_ONFIELD, 1, nil)
     end
@@ -95,28 +80,28 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
     Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
 end
 
-function s.e4filter(c)
+function s.e3filter(c)
     return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e4filter, tp, 0, LOCATION_MZONE, 1, nil)
+        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
-    local tc = Duel.SelectTarget(tp, s.e4filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
+    local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, tc:GetAttack())
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then
@@ -136,6 +121,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
     Duel.AdjustInstantly(tc)
-    
+
     Duel.Damage(1 - tp, tc:GetAttack(), REASON_EFFECT)
 end
