@@ -40,7 +40,7 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_UPDATE_ATTACK)
     e2:SetRange(LOCATION_MZONE)
     e2:SetValue(function(e, c)
-        return c:GetCounter(COUNTER_FEATHER) * 100
+        return c:GetCounter(COUNTER_FEATHER) * 200
     end)
     c:RegisterEffect(e2)
 
