@@ -116,9 +116,8 @@ effect = """
 (This card's name is also treated as "Stardust Dragon".)
 If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
     This effect cannot be negated. \
-Once per turn, you can apply 1 of these effects;
-● If this card would be destroyed by battle or card effect, it is not destroyed.
-● When a card or effect is activated that would destroy another card(s) on the field (Quick Effect): \
+The first time this card would be destroyed by battle or card effect each turn, it is not destroyed. \
+When a card or effect is activated that would destroy another card(s) on the field (Quick Effect): \
     You can Tribute this card; negate the activation. \
     During the End Phase, if this effect was activated this turn (and was not negated), \
     Special Summon this card from your GY.

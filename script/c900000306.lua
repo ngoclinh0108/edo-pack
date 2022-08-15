@@ -31,7 +31,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e2:SetCountLimit(1)
     e2:SetValue(function(e, re, r, rp)
         return (r & REASON_BATTLE + REASON_EFFECT) ~= 0
     end)
@@ -45,7 +45,6 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
     e3:SetCode(EVENT_CHAINING)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
     e3:SetCondition(s.e3con)
     e3:SetCost(aux.StardustCost)
     e3:SetTarget(s.e3tg)
@@ -76,6 +75,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
         return true
     end
@@ -86,7 +86,6 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
-
     Duel.NegateActivation(ev)
 end
 
