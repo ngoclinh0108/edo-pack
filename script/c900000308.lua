@@ -2,11 +2,11 @@
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
-s.counter_list = {0x10}
+s.counter_list = {COUNTER_FEATHER}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    c:EnableCounterPermit(0x10)
+    c:EnableCounterPermit(COUNTER_FEATHER)
 
     -- synhcro summon
     Synchro.AddProcedure(c, nil, 1, 1, Synchro.NonTuner(nil), 1, 99)
@@ -36,7 +36,7 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_UPDATE_ATTACK)
     e2:SetRange(LOCATION_MZONE)
     e2:SetValue(function(e, c)
-        return c:GetCounter(0x10) * 100
+        return c:GetCounter(COUNTER_FEATHER) * 100
     end)
     c:RegisterEffect(e2)
 
@@ -46,10 +46,18 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
+    e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e3:SetCondition(s.e3con1)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetType(EFFECT_TYPE_QUICK_O)
+    e3b:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
+    e3b:SetCode(EVENT_FREE_CHAIN)
+    e3b:SetHintTiming(TIMING_DAMAGE_STEP, TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
+    e3b:SetCondition(s.e3con2)
+    c:RegisterEffect(e3b)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -62,12 +70,21 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    c:AddCounter(0x10, 1)
+    c:AddCounter(COUNTER_FEATHER, 1)
+end
+
+function s.e3con1(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetCounter(COUNTER_FEATHER) < 4
+end
+
+function s.e3con2(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetCounter(COUNTER_FEATHER) >= 4
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return e:GetHandler():GetCounter(0x10) > 0 and Duel.IsExistingTarget(aux.nzatk, tp, 0, LOCATION_MZONE, 1, nil)
+        return e:GetHandler():GetCounter(COUNTER_FEATHER) > 0 and
+                   Duel.IsExistingTarget(aux.nzatk, tp, 0, LOCATION_MZONE, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
@@ -77,7 +94,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    local ct = c:GetCounter(0x10)
+    local ct = c:GetCounter(COUNTER_FEATHER)
     if not tc:IsRelateToEffect(e) or tc:IsFacedown() or ct == 0 then
         return
     end
@@ -89,7 +106,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetValue(ct * -700)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec1)
-    
-    c:RemoveCounter(tp, 0x10, ct, REASON_EFFECT)
+
+    c:RemoveCounter(tp, COUNTER_FEATHER, ct, REASON_EFFECT)
     Duel.Damage(1 - tp, preatk - tc:GetAttack(), REASON_EFFECT)
 end

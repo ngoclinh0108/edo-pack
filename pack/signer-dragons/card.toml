@@ -49,9 +49,12 @@ atk = 3920
 def = 2600
 effect = """
 "Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
+Each time another monster effect is activated, place 1 Black Feather Counter on this card when it resolves. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects until the end of this turn. \
 {MAJESTIC_RETURN|Black-Winged Dragon} \
 """
-strings = []
+strings = ["Negate effect of 1 face-up monster"]
 
 [majestic-rose-dragon]
 id = 900000303
@@ -166,6 +169,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
     the target loses 700 ATK for each Black Feather Counter on this card, \
     and if it does, remove all Black Feather Counters on this card \
     and inflict damage to your opponent equal to that lost ATK. \
+    This is a Quick Effect if this card has 4 or more Black Feather Counter on it. \
 """
 strings = ["Remove counter to low ATK and inflict damage"]
 
