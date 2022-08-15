@@ -3,7 +3,6 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
 
-s.material = {CARD_STARDUST_DRAGON}
 s.listed_names = {CARD_STARDUST_DRAGON}
 s.synchro_tuner_required = 1
 s.synchro_nt_required = 1
@@ -12,10 +11,10 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synhcro summon
-    Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsType, TYPE_SYNCHRO), 1, 1, function(c, sc, sumtype, tp)
-        return c:IsSummonCode(sc, sumtype, tp, CARD_STARDUST_DRAGON) or
-                   (not c:IsType(TYPE_TUNER, sc, sumtype, tp) and c:IsType(TYPE_SYNCHRO, sc, sumtype, tp))
-    end, 1, 1)
+    Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsType, TYPE_SYNCHRO), 1, 1,
+        Synchro.NonTunerEx(function(c, val, sc, sumtype, tp)
+            return c:IsRace(RACE_DRAGON, sc, sumtype, tp) and c:IsType(TYPE_SYNCHRO, sc, sumtype, tp)
+        end), 1, 1)
 
     -- add code
     local code = Effect.CreateEffect(c)
@@ -56,16 +55,22 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
+function s.e1filter(c, tp)
+    return c:IsFaceup() and c:IsCode(CARD_STARDUST_DRAGON) and
+               Duel.IsExistingMatchingCard(Card.IsSynchroSummonable, tp, LOCATION_EXTRA, 0, 1, nil, c)
+end
+
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
-        return e:GetHandler():IsSynchroSummonable(nil)
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, e:GetHandler(), 1, tp, LOCATION_EXTRA)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, tp, LOCATION_EXTRA)
     Duel.SetChainLimit(function(e, rp, tp)
         return tp == rp
     end)
@@ -77,5 +82,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    Duel.SynchroSummon(tp, c, nil)
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_MZONE, 0, nil, tp)
+    local mc = Utility.GroupSelect(HINTMSG_SMATERIAL, g, tp):GetFirst()
+    if not mc then
+        return
+    end
+
+    Duel.SynchroSummon(tp, c, mc)
 end

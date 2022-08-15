@@ -212,10 +212,10 @@ level = 10
 atk = 3300
 def = 2500
 effect = """
-1 Tuner Synchro Monster + 1 "Stardust Dragon" or 1 non-Tuner Synchro Monster
+1 Tuner Synchro Monster + 1 non-Tuner Dragon Synchro Monster
 (This card's name is also treated as "Shooting Star Dragon".)
 Once per turn, during the Main Phase, you can (Quick Effect): \
-    Immediately after this effect resolves, Synchro Summon this card from your Extra Deck using monsters you control. \
+    Immediately after this effect resolves, Synchro Summon this card from your Extra Deck using monsters you control, including "Stardust Dragon". \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
 The first time each card you control would be destroyed each turn, by battle or card effect, it is not destroyed. \
 """
