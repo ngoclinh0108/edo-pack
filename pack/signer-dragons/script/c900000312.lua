@@ -12,9 +12,7 @@ function s.initial_effect(c)
 
     -- synhcro summon
     Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsType, TYPE_SYNCHRO), 1, 1,
-        Synchro.NonTunerEx(function(c, val, sc, sumtype, tp)
-            return c:IsRace(RACE_DRAGON, sc, sumtype, tp) and c:IsType(TYPE_SYNCHRO, sc, sumtype, tp)
-        end), 1, 1)
+        Synchro.NonTunerEx(Card.IsType, TYPE_SYNCHRO), 1, 1)
 
     -- add code
     local code = Effect.CreateEffect(c)
