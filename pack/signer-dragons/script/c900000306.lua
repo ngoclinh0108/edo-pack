@@ -99,7 +99,7 @@ end
 
 function s.e3retcon(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return c:GetFlagEffect(id) == 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+    return c:GetFlagEffect(id) > 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
