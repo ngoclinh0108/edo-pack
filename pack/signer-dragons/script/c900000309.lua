@@ -61,32 +61,28 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2filter1(c)
-    return c:IsType(TYPE_TUNER) and c:IsAbleToRemoveAsCost() and
+function s.e2filter(c)
+    return c:IsType(TYPE_TUNER) and c:IsAbleToDeckAsCost() and
                (c:IsLocation(LOCATION_HAND) or aux.SpElimFilter(c, false, true))
-end
-
-function s.e2filter2(c)
-    return c:IsFaceup()
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, nil)
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter1, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil)
-    Duel.Remove(g, POS_FACEUP, REASON_COST)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil)
+    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter2, tp, 0, LOCATION_MZONE, 1, nil)
+        return Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    Duel.SelectTarget(tp, s.e2filter2, tp, 0, LOCATION_MZONE, 1, 1, nil)
+    Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1, nil)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
