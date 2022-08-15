@@ -100,9 +100,12 @@ atk = 3640
 def = 4000
 effect = """
 "Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects until the end of this turn, and if you do, \
+    gain LP equal to its ATK. \
 {MAJESTIC_RETURN|Ancient Fairy Dragon} \
 """
-strings = []
+strings = ["Negate effect & recover LP"]
 
 [majestic-life-dragon]
 id = 900000305

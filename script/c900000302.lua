@@ -68,7 +68,7 @@ function s.initial_effect(c)
     -- negate & damage
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_DISABLE)
+    e4:SetCategory(CATEGORY_DISABLE + CATEGORY_DAMAGE)
     e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetRange(LOCATION_MZONE)
@@ -136,5 +136,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
     Duel.AdjustInstantly(tc)
+    
     Duel.Damage(1 - tp, tc:GetAttack(), REASON_EFFECT)
 end
