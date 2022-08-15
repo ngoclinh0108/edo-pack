@@ -75,9 +75,12 @@ atk = 3760
 def = 2800
 effect = """
 "Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    Until the end of this turn, negate its effects, and if you do, change its ATK to 0. \
+    Change the targeted monster to face-up Attack Position if it is in Defense Position. \
 {MAJESTIC_RETURN|Black Rose Dragon} \
 """
-strings = []
+strings = ["Negate effect & down ATK",]
 
 [majestic-fairy-dragon]
 id = 900000304

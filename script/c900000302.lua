@@ -52,7 +52,7 @@ function s.initial_effect(c)
     e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     c:RegisterEffect(e2b)
 
-    -- negate
+    -- negate & damage
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_DISABLE)
