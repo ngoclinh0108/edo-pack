@@ -222,8 +222,16 @@ def = 3000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Ancient Fairy Dragon".)
+Each time a Field Spell Card is activated, you can gain 1000 LP when that Spell resolves. \
+Once per turn: You can destroy as many Field Spells on the field as possible, \
+    and if you do, this card gain 1000 ATK until the end of your opponent's turn, \
+    then you can add 1 Field Spell from your Deck or GY to your hand. \
 """
-strings = []
+strings = [
+    "Gain 1000 LP?",
+    "Destroy Field Spells",
+    "Add 1 Field Spell to your hand?",
+]
 
 [ultimaya-life-stream-dragon]
 id = 900000311
