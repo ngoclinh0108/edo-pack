@@ -54,6 +54,16 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2)
 
+    -- multi attack
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
+    e3:SetCondition(s.e3con)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+
     -- banish
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
@@ -109,6 +119,27 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.SynchroSummon(tp, c, mc)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsAbleToEnterBP() and Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) >= 5
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    Duel.ConfirmDecktop(tp, 5)
+    local ct = Duel.GetDecktopGroup(tp, 5):FilterCount(Card.IsType, nil, TYPE_TUNER)
+    Duel.ShuffleDeck(tp)
+
+    if ct > 1 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        ec1:SetCode(EFFECT_EXTRA_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        ec1:SetValue(ct)
+        c:RegisterEffect(ec1)
+    end
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
