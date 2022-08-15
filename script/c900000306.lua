@@ -47,17 +47,19 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+    local e3ret = Effect.CreateEffect(c)
+    e3ret:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3ret:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_FIELD)
+    e3ret:SetCode(EVENT_PHASE + PHASE_END)
+    e3ret:SetRange(LOCATION_GRAVE)
+    e3ret:SetCountLimit(1)
+    e3ret:SetTarget(s.e3rettg)
+    e3ret:SetOperation(s.e3retop)
+    c:RegisterEffect(e3ret)
+end
 
-    -- revive
-    local e4 = Effect.CreateEffect(c)
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_TRIGGER_O + EFFECT_TYPE_FIELD)
-    e4:SetCode(EVENT_PHASE + PHASE_END)
-    e4:SetRange(LOCATION_GRAVE)
-    e4:SetCountLimit(1)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+function s.indescon(e, re, r, rp)
+    return (r & REASON_BATTLE + REASON_EFFECT) ~= 0
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -104,11 +106,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
 end
 
-function s.indescon(e, re, r, rp)
-    return (r & REASON_BATTLE + REASON_EFFECT) ~= 0
-end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3rettg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:GetFlagEffect(id) > 0 and
@@ -118,7 +116,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3retop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsRelateToEffect(e) then
         Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
