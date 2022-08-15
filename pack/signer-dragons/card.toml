@@ -45,7 +45,7 @@ type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
 level = 10
-atk = 3920
+atk = 3900
 def = 2600
 effect = """
 "Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
@@ -71,7 +71,7 @@ type = "monster synchro effect"
 attribute = "fire"
 race = "dragon"
 level = 10
-atk = 3760
+atk = 3750
 def = 2800
 effect = """
 "Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
@@ -96,7 +96,7 @@ type = "monster synchro effect"
 attribute = "light"
 race = "dragon"
 level = 10
-atk = 3640
+atk = 3600
 def = 4000
 effect = """
 "Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
@@ -115,7 +115,7 @@ type = "monster synchro tuner effect"
 attribute = "earth"
 race = "dragon"
 level = 10
-atk = 3960
+atk = 3950
 def = 3400
 effect = """
 "Majestic Dragon" + "Life Stream Dragon" + 1 non-Tuner monster
