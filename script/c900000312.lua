@@ -111,7 +111,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_MZONE, 0, nil, tp)
+    local g = Utility.SelectMatchingCard(HINTMSG_SMATERIAL, tp, s.e1filter, tp, LOCATION_MZONE, 0, 1, 1, nil, tp)
     local mc = Utility.GroupSelect(HINTMSG_SMATERIAL, g, tp):GetFirst()
     if not mc then
         return
