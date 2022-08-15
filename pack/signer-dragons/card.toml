@@ -137,7 +137,8 @@ def = 2000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Red Dragon Archfiend".)
-Once per turn: You can destroy all other face-up Attack Position monsters on the field with ATK less than or equal to this card's. \
+Once per turn: You can destroy all face-up Attack Position monsters on the field \
+    with ATK less than or equal to this card's (other than this card). \
 After damage calculation, if this card attacked an opponent's Defense Position monster: \
     You can destroy all Defense Position monsters your opponent controls. \
 """
