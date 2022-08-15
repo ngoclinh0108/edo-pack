@@ -54,6 +54,14 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- synchro level
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e4:SetCode(EFFECT_SYNCHRO_MATERIAL_CUSTOM)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -84,4 +92,10 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
     end
+end
+
+function s.e4op(e, tg, ntg, sg, lv, sc, tp)
+    local check1 = #sg - 1 + e:GetHandler():GetLevel() == lv
+    local check2 = (#sg - 1) * 2 + e:GetHandler():GetLevel() == lv
+    return check1 or check2, true
 end

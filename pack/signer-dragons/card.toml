@@ -269,6 +269,7 @@ If this card was Synchro Summoned using a Synchro Monster as material: \
     You can make your LP become 8000. \
 You take no effect damage. \
 Once per turn: You can add 1 Equip Spell from your Deck or GY to your hand. \
+When using this card as Synchro Material, the other Synchro Material(s) can be treated as Level 1 or 2. \
 """
 strings = ["Make your LP become 8000"]
 
