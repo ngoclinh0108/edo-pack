@@ -12,6 +12,7 @@ function s.initial_effect(c)
 
     -- banish
     local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_REMOVE)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetProperty(EFFECT_FLAG_DELAY)
@@ -29,7 +30,7 @@ function s.initial_effect(c)
 
     -- negate & down atk/def
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_DISABLE + CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)

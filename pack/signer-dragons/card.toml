@@ -83,7 +83,10 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
     These changes last until the end of this turn. \
 {MAJESTIC_RETURN|Black Rose Dragon} \
 """
-strings = ["Negate effect & down ATK/DEF"]
+strings = [
+    "Banish all cards from your opponent's GY face-down",
+    "Negate effect & down ATK/DEF",
+]
 
 [majestic-fairy-dragon]
 id = 900000304
@@ -122,16 +125,27 @@ atk = 3950
 def = 3400
 effect = """
 "Majestic Dragon" + "Life Stream Dragon" + 1 non-Tuner monster
+If this card is Special Summoned: \
+    You can equip up to 3 Equip Spells with different names from your Deck and/or GY to this card. \
+Your opponent cannot target Equip Spells you control with card effects, \
+    also they cannot be destroyed by your opponent's card effects. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects until the end of this turn, \
+    and if you do, you can change its battle position. \
 {MAJESTIC_RETURN|Life Stream Dragon} \
 """
-strings = []
+strings = [
+    "Equip Spells to this card",
+    "Negate effect & change position",
+    "Change position?",
+]
 
 [ultimaya-stardust-dragon]
 id = 900000306
 set = "stardust"
 name = "Ultimaya Stardust Dragon"
 type = "monster synchro tuner effect"
-attribute = "light"
+attribute = "wind"
 race = "dragon"
 level = 8
 atk = 2500
@@ -200,7 +214,7 @@ id = 900000309
 set = "rose-dragon"
 name = "Ultimaya Black Rose Dragon"
 type = "monster synchro effect"
-attribute = "dark"
+attribute = "fire"
 race = "dragon"
 level = 8
 atk = 2400
@@ -243,7 +257,7 @@ strings = [
 id = 900000311
 name = "Ultimaya Life Stream Dragon"
 type = "monster synchro tuner effect"
-attribute = "light"
+attribute = "earth"
 race = "dragon"
 level = 8
 atk = 2900
@@ -251,8 +265,12 @@ def = 2400
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Life Stream Dragon".)
+If this card was Synchro Summoned using a Synchro Monster as material: \
+    You can make your LP become 8000. \
+You take no effect damage. \
+Once per turn: You can add 1 Equip Spell from your Deck or GY to your hand. \
 """
-strings = []
+strings = ["Make your LP become 8000"]
 
 [assault-shooting-star-dragon]
 id = 900000312
