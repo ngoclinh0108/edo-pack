@@ -49,7 +49,7 @@ function s.initial_effect(c)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
     e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
     e3:SetCode(EVENT_DESTROYED)
@@ -109,7 +109,8 @@ end
 function s.e3filter(c, tp, mc)
     return c:IsReason(REASON_BATTLE + REASON_EFFECT) and c:IsPreviousControler(tp) and
                c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousPosition(POS_FACEUP) and
-               c:GetMaterial():IsContains(mc) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
+               c:GetMaterial():IsContains(mc) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and
+               c:IsLocation(LOCATION_GRAVE + LOCATION_REMOVED)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -118,16 +119,22 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
+    local g = eg:Filter(s.e3filter, nil, tp, e:GetHandler())
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
     end
 
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
+    local g = eg:Filter(s.e3filter, nil, tp, e:GetHandler())
+    local tc = Utility.GroupSelect(HINTMSG_TODECK, g, tp, 1, 1):GetFirst()
+
+    if not tc or Duel.SendtoDeck(tc, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 or not c:IsRelateToEffect(e) or
+        Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
         return
     end
 
