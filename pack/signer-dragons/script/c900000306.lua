@@ -33,7 +33,7 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1)
     e2:SetValue(function(e, re, r, rp)
-        return (r & REASON_BATTLE + REASON_EFFECT) ~= 0
+        return (r & REASON_EFFECT) ~= 0
     end)
     c:RegisterEffect(e2)
 

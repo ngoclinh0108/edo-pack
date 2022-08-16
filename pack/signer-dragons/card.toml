@@ -154,7 +154,7 @@ effect = """
 (This card's name is also treated as "Stardust Dragon".)
 If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
     This effect cannot be negated. \
-The first time this card would be destroyed by battle or card effect each turn, it is not destroyed. \
+The first time this card would be destroyed by card effect each turn, it is not destroyed. \
 When a card or effect is activated that would destroy another card(s) on the field (Quick Effect): \
     You can Tribute this card; negate the activation, and if you do, destroy it. \
     During the End Phase, if this effect was activated this turn (and was not negated), \
@@ -241,13 +241,13 @@ def = 3000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Ancient Fairy Dragon".)
-Each time a Field Spell Card is activated, you can gain 1000 LP when that Spell resolves. \
+Once per turn, if a Field Spell is activated, \
+    this card gain 1000 ATK until the end of your opponent's turn when that Spell resolves. \
 Once per turn: You can destroy as many Field Spells on the field as possible, \
-    and if you do, this card gain 1000 ATK until the end of your opponent's turn, \
+    and if you do, gain 1000 LP for each destroyed cards, \
     then you can add 1 Field Spell from your Deck or GY to your hand. \
 """
 strings = [
-    "Gain 1000 LP?",
     "Destroy Field Spells",
     "Add 1 Field Spell to your hand?",
 ]

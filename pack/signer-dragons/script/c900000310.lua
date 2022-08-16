@@ -17,25 +17,25 @@ function s.initial_effect(c)
     code:SetValue(SignerDragon.CARD_ANCIENT_FAIRY_DRAGON)
     c:RegisterEffect(code)
 
-    -- recover
-    local e1reg = Effect.CreateEffect(c)
-    e1reg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1reg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e1reg:SetCode(EVENT_CHAINING)
-    e1reg:SetRange(LOCATION_MZONE)
-    e1reg:SetOperation(aux.chainreg)
-    c:RegisterEffect(e1reg)
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1:SetCode(EVENT_CHAIN_SOLVED)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetOperation(s.e1op)
-    c:RegisterEffect(e1)
+    -- atk up
+    -- local e1reg = Effect.CreateEffect(c)
+    -- e1reg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    -- e1reg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    -- e1reg:SetCode(EVENT_CHAINING)
+    -- e1reg:SetRange(LOCATION_MZONE)
+    -- e1reg:SetOperation(aux.chainreg)
+    -- c:RegisterEffect(e1reg)
+    -- local e1 = Effect.CreateEffect(c)
+    -- e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    -- e1:SetCode(EVENT_CHAIN_SOLVED)
+    -- e1:SetRange(LOCATION_MZONE)
+    -- e1:SetOperation(s.e1op)
+    -- c:RegisterEffect(e1)
 
     -- destroy field
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetCategory(CATEGORY_DESTROY + CATEGORY_ATKCHANGE + CATEGORY_SEARCH)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_DESTROY + CATEGORY_RECOVER + CATEGORY_SEARCH)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1)
@@ -44,13 +44,20 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:IsActiveType(TYPE_FIELD) and c:GetFlagEffect(1) > 0 and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
-        Duel.Recover(tp, 1000, REASON_EFFECT)
-    end
-end
+-- function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+--     local c = e:GetHandler()
+--     if not re:IsHasType(EFFECT_TYPE_ACTIVATE) or not re:IsActiveType(TYPE_FIELD) or c:GetFlagEffect(1) == 0 then
+--         return
+--     end
+
+--     local ec1 = Effect.CreateEffect(c)
+--     ec1:SetType(EFFECT_TYPE_SINGLE)
+--     ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+--     ec1:SetCode(EFFECT_UPDATE_ATTACK)
+--     ec1:SetValue(1000)
+--     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END + RESET_OPPO_TURN)
+--     c:RegisterEffect(ec1)
+-- end
 
 function s.e2filter(c)
     return c:IsType(TYPE_FIELD) and c:IsAbleToHand()
@@ -63,6 +70,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, #g * 1000)
     Duel.SetPossibleOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
 end
 
@@ -73,13 +81,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(1000)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END + RESET_OPPO_TURN)
-    c:RegisterEffect(ec1)
+    Duel.Recover(tp, 1000, REASON_EFFECT)
 
     local sg = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, nil)
     if #sg > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
