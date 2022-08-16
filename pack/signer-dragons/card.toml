@@ -35,7 +35,12 @@ If this card you control is used as Synchro Material, you can treat it as a non-
 When a card or effect is activated that would destroy a card(s) on the field (Quick Effect): \
     You can Tribute this card; negate the activation, and if you do, destroy it. \
     During the End Phase, if this effect was activated this turn (and was not negated), \
-    Special Summon this card from your GY.
+    Special Summon this card from your GY. \
+If a Dragon Synchro Monster you control that used this card as Synchro Material is destroyed by battle or card effect \
+    while this card is in your GY (Quick Effect): \
+    You can Special Summon this card, and if you do, \
+    it cannot be destroyed by battle or card effects this turn. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Negate the activation"]
 
