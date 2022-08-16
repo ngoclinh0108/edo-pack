@@ -63,14 +63,19 @@ function s.initial_effect(c)
     e4:SetDescription(aux.Stringid(id, 2))
     e4:SetCategory(CATEGORY_REMOVE)
     e4:SetType(EFFECT_TYPE_QUICK_O)
-    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetCode(EVENT_ATTACK_ANNOUNCE)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetHintTiming(0, TIMINGS_CHECK_MONSTER_E)
-    e4:SetCountLimit(1)
-    e4:SetCondition(s.e4con)
+    e4:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e4:SetCondition(s.e4con1)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetType(EFFECT_TYPE_QUICK_O)
+    e4b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e4b:SetCode(EVENT_CHAINING)
+    e4b:SetCondition(s.e4con2)
+    c:RegisterEffect(e4b)
     local e4ret = Effect.CreateEffect(c)
     e4ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e4ret:SetCode(EVENT_PHASE + PHASE_END)
@@ -172,8 +177,12 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp
+function s.e4con1(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() ~= tp and Duel.GetAttacker():GetControler() ~= tp
+end
+
+function s.e4con2(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() ~= tp and rp == 1 - tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
