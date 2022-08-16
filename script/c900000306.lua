@@ -29,25 +29,14 @@ function s.initial_effect(c)
 
     -- damage reduce
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2:SetCode(EFFECT_CHANGE_DAMAGE)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(1, 0)
-    e2:SetValue(function(e, re, val, r, rp, rc)
-        if r & REASON_EFFECT ~= 0 then
-            return 0
-        end
-        return val
-    end)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
-    c:RegisterEffect(e2b)
 
     -- to hand
     local e3 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 1))
+    e1:SetDescription(aux.Stringid(id, 2))
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
@@ -73,6 +62,35 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SetLP(tp, 4000)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_CHANGE_DAMAGE)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(function(e, re, val, r, rp, rc)
+        if r & REASON_EFFECT ~= 0 then
+            return 0
+        else
+            return val
+        end
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN)
+    Duel.RegisterEffect(ec1, tp)
+    local ec2 = e1:Clone()
+    ec2:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    Duel.RegisterEffect(ec2, tp)
+
+    local ec3 = Effect.CreateEffect(c)
+    ec3:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_OATH)
+    ec3:SetDescription(aux.Stringid(id, 1))
+    ec3:SetTargetRange(1, 0)
+    ec3:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN)
+    Duel.RegisterEffect(ec3, tp)
 end
 
 function s.e3filter1(c)

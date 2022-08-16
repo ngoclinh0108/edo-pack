@@ -145,12 +145,16 @@ effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Life Stream Dragon".)
 If this card was Synchro Summoned using a Synchro Monster as material: You can make your LP become 4000. \
-You take no effect damage. \
+After this card is Special Summoned, you take no effect damage until the end of your opponent's turn. \
 Once per turn: You can discard 1 Tuner; \
     add 1 Equip Spell from your Deck or GY to your hand. \
 When using this card as Synchro Material, the other Synchro Material(s) can be treated as Level 1 or 2. \
 """
-strings = ["Make your LP become 4000", "Add 1 Equip Spell to your hand"]
+strings = [
+    "Make your LP become 4000",
+    "Take no effect damage",
+    "Add 1 Equip Spell to your hand",
+]
 
 [ultimaya-cosmic-dragon]
 id = 900000307
