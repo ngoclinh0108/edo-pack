@@ -32,7 +32,7 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 1))
     e2:SetCategory(CATEGORY_DESTROY)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e2:SetCode(EVENT_BATTLED)
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
@@ -47,7 +47,6 @@ end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_MZONE, LOCATION_MZONE, c, c:GetAttack())
-
     if chk == 0 then
         return #g > 0
     end

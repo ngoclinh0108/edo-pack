@@ -82,6 +82,7 @@ function s.e3con2(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
     if chk == 0 then
         return e:GetHandler():GetCounter(COUNTER_FEATHER) > 0 and
                    Duel.IsExistingTarget(aux.nzatk, tp, 0, LOCATION_MZONE, 1, nil)
@@ -89,6 +90,8 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     Duel.SelectTarget(tp, aux.nzatk, tp, 0, LOCATION_MZONE, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)

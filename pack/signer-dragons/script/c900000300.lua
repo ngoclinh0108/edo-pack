@@ -139,7 +139,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
         return true
     end
 
-    Duel.SetPossibleOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE + LOCATION_REMOVED)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE + LOCATION_REMOVED)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)

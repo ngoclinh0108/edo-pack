@@ -19,6 +19,7 @@ function s.initial_effect(c)
 
     -- destroy
     local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_DESTROY)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetProperty(EFFECT_FLAG_DELAY)
@@ -29,13 +30,12 @@ function s.initial_effect(c)
 
     -- down atk/def
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_TODECK + CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1)
-    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -62,44 +62,46 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c)
-    return c:IsType(TYPE_TUNER) and c:IsAbleToDeckAsCost()
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil)
-    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
+    return (not c:IsLocation(LOCATION_REMOVED) or c:IsFaceup()) and c:IsType(TYPE_TUNER) and c:IsAbleToDeck()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil)
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil) and
+                   Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil)
     end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local tc1 = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil):GetFirst()
+    e:SetLabelObject(tc1)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, tc1, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then
-        return
+    local tc1 = e:GetLabelObject()
+    local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
+    local tc2 = tg:GetFirst()
+    if tc1 == tc2 then
+        tc2 = tg:GetNext()
     end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetRange(LOCATION_MZONE)
-    ec1:SetValue(-1000)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    tc:RegisterEffect(ec1)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_UPDATE_DEFENSE)
-    tc:RegisterEffect(ec1b)
+    if tc1 and tc1:IsRelateToEffect(e) and Duel.SendtoDeck(tc1, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) ~= 0 then
+        if tc2 and tc2:IsRelateToEffect(e) and tc2:IsFaceup() then
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+            ec1:SetValue(math.floor(tc2:GetAttack() / 2))
+            ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+            tc2:RegisterEffect(ec1)
+            local ec1b = ec1:Clone()
+            ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
+            ec1b:SetValue(math.floor(tc2:GetDefense() / 2))
+            tc2:RegisterEffect(ec1b)
+        end
+    end
 end

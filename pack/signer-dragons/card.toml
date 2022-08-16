@@ -17,28 +17,8 @@ strings = [
     "Special Summon the leaved monster",
 ]
 
-[ultimaya-cosmic-dragon]
-id = 900000301
-rarity = "gold"
-name = "Ultimaya Cosmic Dragon"
-type = "monster synchro effect"
-attribute = "divine"
-race = "creator-god"
-level = 13
-show-level = false
-effect = """
-(This card's original Level is always treated as 13.)
-[Add "Majestic" version of your Signer Dragons to your Extra Deck.]
-Cannot be Synchro Summoned. \
-Must be Special Summoned (from your Extra Deck) by sending 2 Level 7 or higher Dragon Synchro Monsters you control with the same Level to the GY (1 Tuner and 1 non-Tuner). \
-    This card's Special Summon cannot be negated. \
-Unaffected by other cards' effects. This effect cannot be negated. \
-While you control another Synchro Monster, your opponent cannot target this card for attacks or by card effects. \
-"""
-strings = []
-
 [ultimaya-stardust-dragon]
-id = 900000306
+id = 900000301
 set = "stardust"
 name = "Ultimaya Stardust Dragon"
 type = "monster synchro tuner effect"
@@ -61,7 +41,7 @@ When a card or effect is activated that would destroy another card(s) on the fie
 strings = ["Negate the activation"]
 
 [ultimaya-red-archfiend-dragon]
-id = 900000307
+id = 900000302
 set = "red-dragon-archfiend"
 name = "Ultimaya Red Archfiend Dragon"
 type = "monster synchro effect"
@@ -76,7 +56,7 @@ effect = """
 Once per turn: You can destroy all face-up Attack Position monsters on the field \
     with ATK less than or equal to this card's (other than this card). \
 After damage calculation, if this card attacked an opponent's Defense Position monster: \
-    You can destroy all Defense Position monsters your opponent controls. \
+    Destroy all Defense Position monsters your opponent controls. \
 """
 strings = [
     "Destroy monster with ATK less than or equal to this card's",
@@ -84,7 +64,7 @@ strings = [
 ]
 
 [ultimaya-black-winged-dragon]
-id = 900000308
+id = 900000303
 name = "Ultimaya Black-Winged Dragon"
 type = "monster synchro effect"
 attribute = "dark"
@@ -107,7 +87,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 strings = ["Remove counter to low ATK and inflict damage"]
 
 [ultimaya-black-rose-dragon]
-id = 900000309
+id = 900000304
 set = "rose-dragon"
 name = "Ultimaya Black Rose Dragon"
 type = "monster synchro effect"
@@ -121,14 +101,15 @@ effect = """
 (This card's name is also treated as "Black Rose Dragon".)
 If this card is Summoned: You can destroy any number of cards you control, \
     and if you do, destroy the same number of cards your opponent controls. \
-Once per turn: You can shuffle 1 Tuner into the Deck, that is banished or in your GY, \
-    then target 1 face-up monster your opponent controls; \
-    it loses 1000 ATK and DEF until the End Phase. \
+Once per turn: \
+    You can target 1 Tuner that is banished or in your GY, and 1 face-up monster your opponent controls; \
+    shuffle the first target into the Deck, and if you do, \
+    the second target's ATK/DEF becomes half its current ATK/DEF until the End Phase. \
 """
-strings = ["Down monster's ATK/DEF"]
+strings = ["Destroy cards on the field", "Halve ATK/DEF of 1 monster"]
 
 [ultimaya-ancient-fairy-dragon]
-id = 900000310
+id = 900000305
 name = "Ultimaya Ancient Fairy Dragon"
 type = "monster synchro effect"
 attribute = "light"
@@ -139,19 +120,16 @@ def = 3000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Ancient Fairy Dragon".)
-Once per turn, if a Field Spell is activated, \
-    this card gain 1000 ATK until the end of your opponent's turn when that Spell resolves. \
+Once per turn, after resolving a Field Spell that was activated during your turn: \
+    This card gain 1000 ATK until the end of your opponent's turn. \
 Once per turn: You can destroy as many Field Spells on the field as possible, \
     and if you do, gain 1000 LP for each destroyed cards, \
     then you can add 1 Field Spell from your Deck or GY to your hand. \
 """
-strings = [
-    "Destroy Field Spells",
-    "Add 1 Field Spell to your hand?",
-]
+strings = ["Destroy Field Spells", "Add 1 Field Spell to your hand?"]
 
 [ultimaya-life-stream-dragon]
-id = 900000311
+id = 900000306
 name = "Ultimaya Life Stream Dragon"
 type = "monster synchro tuner effect"
 attribute = "earth"
@@ -162,16 +140,37 @@ def = 2400
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Life Stream Dragon".)
-If this card was Synchro Summoned using a Synchro Monster as material: \
-    You can make your LP become 4000. \
+If this card was Synchro Summoned using a Synchro Monster as material: You can make your LP become 4000. \
 You take no effect damage. \
-Once per turn: You can add 1 Equip Spell from your Deck or GY to your hand. \
+Once per turn: You can discard 1 Tuner; \
+    add 1 Equip Spell from your Deck or GY to your hand. \
 When using this card as Synchro Material, the other Synchro Material(s) can be treated as Level 1 or 2. \
 """
-strings = ["Make your LP become 4000"]
+strings = ["Make your LP become 4000", "Add 1 Equip Spell to your hand"]
+
+[ultimaya-cosmic-dragon]
+id = 900000307
+rarity = "gold"
+name = "Ultimaya Cosmic Dragon"
+type = "monster synchro effect"
+attribute = "divine"
+race = "creator-god"
+level = 13
+show-level = false
+effect = """
+(This card's original Level is always treated as 13.)
+[Add "Majestic" version of your Signer Dragons to your Extra Deck.]
+Cannot be Synchro Summoned. \
+Must be Special Summoned (from your Extra Deck) by sending 2 Level 7 or higher Dragon Synchro Monsters you control with the same Level to the GY (1 Tuner and 1 non-Tuner). \
+    This card's Special Summon cannot be negated. \
+Cannot be Tributed, or used as a material for an Summon. \
+Unaffected by other cards' effects. This effect cannot be negated. \
+While you control another Synchro Monster, your opponent cannot target this card for attacks or by card effects. \
+"""
+strings = []
 
 [majestic-black-dragon]
-id = 900000302
+id = 900000308
 set = "majestic"
 name = "Majestic Black Dragon"
 type = "monster synchro effect"
@@ -198,7 +197,7 @@ strings = [
 ]
 
 [majestic-rose-dragon]
-id = 900000303
+id = 900000309
 set = "majestic rose-dragon"
 name = "Majestic Rose Dragon"
 type = "monster synchro effect"
@@ -222,7 +221,7 @@ strings = [
 ]
 
 [majestic-fairy-dragon]
-id = 900000304
+id = 900000310
 set = "majestic"
 name = "Majestic Fairy Dragon"
 type = "monster synchro effect"
@@ -246,7 +245,7 @@ strings = [
 ]
 
 [majestic-life-dragon]
-id = 900000305
+id = 900000311
 set = "majestic"
 name = "Majestic Life Dragon"
 type = "monster synchro tuner effect"
