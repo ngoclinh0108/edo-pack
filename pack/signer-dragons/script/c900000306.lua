@@ -1,4 +1,4 @@
--- Ultimaya Stardust Dragon
+-- Ultimaya Life Stream Dragon
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
@@ -14,95 +14,88 @@ function s.initial_effect(c)
     code:SetType(EFFECT_TYPE_SINGLE)
     code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     code:SetCode(EFFECT_ADD_CODE)
-    code:SetValue(CARD_STARDUST_DRAGON)
+    code:SetValue(SignerDragon.CARD_LIFE_STREAM_DRAGON)
     c:RegisterEffect(code)
 
-    -- non-tuner for a synchro summon
+    -- change lp
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    e1:SetCode(EFFECT_NONTUNER)
-    e1:SetRange(LOCATION_MZONE)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- indes
+    -- damage reduce
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EFFECT_CHANGE_DAMAGE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetValue(function(e, re, r, rp)
-        return (r & REASON_EFFECT) ~= 0
+    e2:SetTargetRange(1, 0)
+    e2:SetValue(function(e, re, val, r, rp, rc)
+        if r & REASON_EFFECT ~= 0 then
+            return 0
+        end
+        return val
     end)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    c:RegisterEffect(e2b)
 
-    -- negate activation
+    -- to hand
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e3:SetCode(EVENT_CHAINING)
+    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCondition(s.e3con)
-    e3:SetCost(aux.StardustCost)
+    e3:SetCountLimit(1)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-    local e3ret = Effect.CreateEffect(c)
-    e3ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e3ret:SetCode(EVENT_PHASE + PHASE_END)
-    e3ret:SetRange(LOCATION_GRAVE)
-    e3ret:SetCountLimit(1)
-    e3ret:SetCondition(s.e3retcon)
-    e3ret:SetOperation(s.e3retop)
-    c:RegisterEffect(e3ret)
+
+    -- synchro level
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e4:SetCode(EFFECT_SYNCHRO_MATERIAL_CUSTOM)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
-        return false
-    end
+    return c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:GetMaterial():IsExists(Card.IsType, 1, nil, TYPE_SYNCHRO)
+end
 
-    if re:IsHasCategory(CATEGORY_NEGATE) and
-        Duel.GetChainInfo(ev - 1, CHAININFO_TRIGGERING_EFFECT):IsHasType(EFFECT_TYPE_ACTIVATE) then
-        return false
-    end
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.SetLP(tp, 4000)
+end
 
-    local ex, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
-    return ex and tg ~= nil and tc + tg:FilterCount(Card.IsOnField, c) - #tg > 0
+function s.e3filter(c)
+    return c:IsType(TYPE_EQUIP) and c:IsAbleToHand()
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local rc = re:GetHandler()
     if chk == 0 then
-        return true
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, #eg, 0, 0)
-    if rc:IsDestructable() and rc:IsRelateToEffect(re) then
-        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
-    end
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
-
-    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
-        Duel.Destroy(eg, REASON_EFFECT)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectMatchingCard(tp, s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
     end
 end
 
-function s.e3retcon(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:GetFlagEffect(id) > 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
-function s.e3retop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP)
+function s.e4op(e, tg, ntg, sg, lv, sc, tp)
+    local check1 = #sg - 1 + e:GetHandler():GetLevel() == lv
+    local check2 = (#sg - 1) * 2 + e:GetHandler():GetLevel() == lv
+    return check1 or check2, true
 end

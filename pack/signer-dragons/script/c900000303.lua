@@ -1,110 +1,112 @@
--- Majestic Rose Dragon
+-- Ultimaya Black-Winged Dragon
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
+s.counter_list = {COUNTER_FEATHER}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    c:EnableCounterPermit(COUNTER_FEATHER)
 
-    -- synchro summon
-    SignerDragon.AddMajesticProcedure(c, s, CARD_BLACK_ROSE_DRAGON)
-    SignerDragon.AddMajesticReturn(c, CARD_BLACK_ROSE_DRAGON)
+    -- synhcro summon
+    Synchro.AddProcedure(c, nil, 1, 1, Synchro.NonTuner(nil), 1, 99)
 
-    -- banish
+    -- add code
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(CARD_BLACK_WINGED_DRAGON)
+    c:RegisterEffect(code)
+
+    -- place counter
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_REMOVE)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e1:SetProperty(EFFECT_FLAG_DELAY)
-    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e1:SetCode(EVENT_DAMAGE)
+    e1:SetRange(LOCATION_MZONE)
     e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- piercing damage
+    -- atk up
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_PIERCE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_UPDATE_ATTACK)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetValue(function(e, c)
+        return c:GetCounter(COUNTER_FEATHER) * 100
+    end)
     c:RegisterEffect(e2)
 
-    -- negate & down atk/def
+    -- atk down
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e3:SetDescription(aux.Stringid(id, 0))
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
+    e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e3:SetCondition(s.e3con1)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetType(EFFECT_TYPE_QUICK_O)
+    e3b:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
+    e3b:SetCode(EVENT_FREE_CHAIN)
+    e3b:SetHintTiming(TIMING_DAMAGE_STEP, TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
+    e3b:SetCondition(s.e3con2)
+    c:RegisterEffect(e3b)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, 1, nil)
+    if ep ~= tp then
+        return false
     end
 
-    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, nil)
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
+    return (r & REASON_EFFECT) ~= 0 or not e:GetHandler():IsRelateToBattle()
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, nil)
-    if #g > 0 then
-        Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
-    end
+    c:AddCounter(COUNTER_FEATHER, 1)
 end
 
-function s.e3filter(c)
-    return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
+function s.e3con1(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetCounter(COUNTER_FEATHER) < 4
+end
+
+function s.e3con2(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():GetCounter(COUNTER_FEATHER) >= 4
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
+        return e:GetHandler():GetCounter(COUNTER_FEATHER) > 0 and
+                   Duel.IsExistingTarget(aux.nzatk, tp, 0, LOCATION_MZONE, 1, nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
-    local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
-
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
+    Duel.SelectTarget(tp, aux.nzatk, tp, 0, LOCATION_MZONE, 1, 1, nil)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then
+    local ct = c:GetCounter(COUNTER_FEATHER)
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or ct == 0 then
         return
     end
 
+    local preatk = tc:GetAttack()
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_DISABLE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(ct * -700)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec1)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_DISABLE_EFFECT)
-    tc:RegisterEffect(ec1b)
 
-    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec1b) then
-        return
-    end
-    Duel.AdjustInstantly(tc)
-
-    local ec2 = Effect.CreateEffect(e:GetHandler())
-    ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetCode(EFFECT_SET_ATTACK_FINAL)
-    ec2:SetValue(0)
-    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    tc:RegisterEffect(ec2)
-    local ec2b = ec2:Clone()
-    ec2b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-    tc:RegisterEffect(ec2b)
+    c:RemoveCounter(tp, COUNTER_FEATHER, ct, REASON_EFFECT)
+    Duel.Damage(1 - tp, preatk - tc:GetAttack(), REASON_EFFECT)
 end
