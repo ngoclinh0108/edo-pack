@@ -19,69 +19,89 @@ function s.initial_effect(c)
     code:SetValue(CARD_BLACK_WINGED_DRAGON)
     c:RegisterEffect(code)
 
-    -- place counter
+    -- place counter (effect damage)
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
-    e1:SetCode(EVENT_DAMAGE)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e1:SetCode(EFFECT_CHANGE_DAMAGE)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCondition(s.e1con)
-    e1:SetOperation(s.e1op)
+    e1:SetTargetRange(1, 0)
+    e1:SetValue(s.e1val)
     c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    c:RegisterEffect(e1b)
 
-    -- atk up
+    -- place counter (battle damage)
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_UPDATE_ATTACK)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e2:SetCode(EVENT_DAMAGE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(function(e, c)
-        return c:GetCounter(COUNTER_FEATHER) * 100
-    end)
+    e2:SetCondition(s.e2con)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- atk down
+    -- atk up
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetCode(EFFECT_UPDATE_ATTACK)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
-    e3:SetCondition(s.e3con1)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetValue(function(e, c)
+        return c:GetCounter(COUNTER_FEATHER) * 100
+    end)
     c:RegisterEffect(e3)
-    local e3b = e3:Clone()
-    e3b:SetType(EFFECT_TYPE_QUICK_O)
-    e3b:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
-    e3b:SetCode(EVENT_FREE_CHAIN)
-    e3b:SetHintTiming(TIMING_DAMAGE_STEP, TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
-    e3b:SetCondition(s.e3con2)
-    c:RegisterEffect(e3b)
+
+    -- atk down
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e4:SetCondition(s.e4con1)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetType(EFFECT_TYPE_QUICK_O)
+    e4b:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DAMAGE_STEP)
+    e4b:SetCode(EVENT_FREE_CHAIN)
+    e4b:SetHintTiming(TIMING_DAMAGE_STEP, TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
+    e4b:SetCondition(s.e4con2)
+    c:RegisterEffect(e4b)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1val(e, re, val, r, rp, rc)
+    if (r & REASON_EFFECT) ~= 0 then
+        e:GetHandler():AddCounter(COUNTER_FEATHER, 1)
+        return 0
+    end
+    return val
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     if ep ~= tp then
         return false
     end
 
-    return (r & REASON_EFFECT) ~= 0 or not e:GetHandler():IsRelateToBattle()
+    return (r & REASON_BATTLE) ~= 0 and not e:GetHandler():IsRelateToBattle()
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    c:AddCounter(COUNTER_FEATHER, 1)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    e:GetHandler():AddCounter(COUNTER_FEATHER, 1)
 end
 
-function s.e3con1(e, tp, eg, ep, ev, re, r, rp)
+function s.e4con1(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():GetCounter(COUNTER_FEATHER) < 4
 end
 
-function s.e3con2(e, tp, eg, ep, ev, re, r, rp)
+function s.e4con2(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():GetCounter(COUNTER_FEATHER) >= 4
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return e:GetHandler():GetCounter(COUNTER_FEATHER) > 0 and
@@ -94,7 +114,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, 0)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     local ct = c:GetCounter(COUNTER_FEATHER)
