@@ -295,7 +295,7 @@ Once per turn: You can excavate the top 5 cards of your Deck, shuffle them back 
 Once per Chain, when a card or effect is activated that would destroy a card(s) on the field (Quick Effect): \
     You can negate the effect, and if you do, destroy it. \
 Once per turn, during your opponent's turn, \
-    when an opponent's monster declares an attack, or when your opponent activates a card or effect (Quick Effect): \
+    when your opponent activates a card or effect, or when an opponent's monster declares an attack (Quick Effect): \
     You can banish this card, and if you do, you can negate 1 attack this turn from a monster your opponent controls. \
     During the next End Phase, Special Summon this card banished by this effect. \
 """
