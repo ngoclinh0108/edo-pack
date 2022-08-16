@@ -81,7 +81,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec1:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN)
     Duel.RegisterEffect(ec1, tp)
-    local ec2 = e1:Clone()
+    local ec2 = ec1:Clone()
     ec2:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     Duel.RegisterEffect(ec2, tp)
 

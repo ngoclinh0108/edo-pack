@@ -21,21 +21,17 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- protect equip spells
+    -- damage conversion
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EFFECT_REVERSE_DAMAGE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(LOCATION_ONFIELD, 0)
-    e2:SetTarget(aux.TargetBoolFunction(Card.IsType, TYPE_EQUIP))
-    e2:SetValue(aux.indoval)
+    e2:SetTargetRange(1, 0)
+    e2:SetValue(function(e, re, r, rp, rc)
+        return (r & REASON_EFFECT) ~= 0
+    end)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e2b:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_IGNORE_IMMUNE)
-    e2b:SetValue(aux.tgoval)
-    c:RegisterEffect(e2b)
 
     -- negate & change position
     local e3 = Effect.CreateEffect(c)
@@ -81,6 +77,21 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if #sg > 0 then
         for tc in sg:Iter() do
             Duel.Equip(tp, tc, c, true, true)
+
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetDescription(3060)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+            ec1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+            ec1:SetRange(LOCATION_MZONE)
+            ec1:SetValue(aux.indoval)
+            tc:RegisterEffect(ec1)
+            local ec1b = ec1:Clone()
+            ec1b:SetDescription(3061)
+            ec1b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+            ec1b:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_CLIENT_HINT)
+            ec1b:SetValue(aux.tgoval)
+            tc:RegisterEffect(ec1b)
         end
         Duel.EquipComplete()
     end
