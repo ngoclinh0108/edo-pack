@@ -25,18 +25,6 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     c:RegisterEffect(e1)
 
-    -- indes
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetValue(function(e, re, r, rp)
-        return (r & REASON_EFFECT) ~= 0
-    end)
-    c:RegisterEffect(e2)
-
     -- negate activation
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
@@ -61,8 +49,7 @@ function s.initial_effect(c)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if c:IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
+    if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
         return false
     end
 
@@ -72,11 +59,10 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     end
 
     local ex, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
-    return ex and tg ~= nil and tc + tg:FilterCount(Card.IsOnField, c) - #tg > 0
+    return ex and tg ~= nil and tc + tg:FilterCount(Card.IsOnField, nil) - #tg > 0
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
     local rc = re:GetHandler()
     if chk == 0 then
         return true

@@ -22,7 +22,7 @@ function s.initial_effect(c)
     code:SetValue(SignerDragon.CARD_SHOOTING_STAR_DRAGON)
     c:RegisterEffect(code)
 
-    -- quick synchro
+    -- accel synchro
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(1172)
     e1:SetType(EFFECT_TYPE_QUICK_O)
@@ -36,25 +36,21 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- indes
+    -- negate effect
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_CHAINING)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(LOCATION_ONFIELD, 0)
-    e2:SetValue(function(e, re, r, rp)
-        if (r & REASON_EFFECT) ~= 0 then
-            return 1
-        else
-            return 0
-        end
-    end)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
     -- multi attack
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetDescription(aux.Stringid(id, 1))
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1)
@@ -64,7 +60,7 @@ function s.initial_effect(c)
 
     -- banish
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetDescription(aux.Stringid(id, 2))
     e4:SetCategory(CATEGORY_REMOVE)
     e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e4:SetCode(EVENT_ATTACK_ANNOUNCE)
@@ -80,6 +76,14 @@ function s.initial_effect(c)
     e4b:SetCode(EVENT_CHAINING)
     e4b:SetCondition(s.e4con2)
     c:RegisterEffect(e4b)
+    local e4ret = Effect.CreateEffect(c)
+    e4ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e4ret:SetCode(EVENT_PHASE + PHASE_END)
+    e4ret:SetRange(LOCATION_REMOVED)
+    e4ret:SetCountLimit(1)
+    e4ret:SetCondition(s.e4retcon)
+    e4ret:SetOperation(s.e4retop)
+    c:RegisterEffect(e4ret)
 end
 
 function s.e1filter(c, tp)
@@ -118,6 +122,38 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SynchroSummon(tp, c, mc)
 end
 
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
+        return false
+    end
+
+    if re:IsHasCategory(CATEGORY_NEGATE) and
+        Duel.GetChainInfo(ev - 1, CHAININFO_TRIGGERING_EFFECT):IsHasType(EFFECT_TYPE_ACTIVATE) then
+        return false
+    end
+
+    local ex, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
+    return ex and tg ~= nil and tc + tg:FilterCount(Card.IsOnField, nil) - #tg > 0
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local rc = re:GetHandler()
+    if chk == 0 then
+        return true
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, #eg, 0, 0)
+    if rc:IsRelateToEffect(re) and rc:IsDestructable() then
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
+    end
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.NegateEffect(ev) and re:GetHandler():IsRelateToEffect(re) then
+        Duel.Destroy(eg, REASON_EFFECT)
+    end
+end
+
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.IsAbleToEnterBP() and Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) >= 5
 end
@@ -140,11 +176,11 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4con1(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttacker():GetControler() ~= tp
+    return Duel.GetTurnPlayer() ~= tp and Duel.GetAttacker():GetControler() ~= tp
 end
 
 function s.e4con2(e, tp, eg, ep, ev, re, r, rp)
-    return rp == 1 - tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
+    return Duel.GetTurnPlayer() ~= tp and rp == 1 - tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -158,31 +194,21 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.Remove(c, POS_FACEUP, REASON_COST + REASON_TEMPORARY) == 0 then
+    if not c:IsRelateToEffect(e) or Duel.Remove(c, POS_FACEUP, REASON_EFFECT) == 0 then
         return
     end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    ec1:SetCode(EVENT_PHASE + PHASE_END)
-    ec1:SetLabelObject(c)
-    ec1:SetCountLimit(1)
-    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Duel.ReturnToField(e:GetLabelObject())
-    end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
-
-    if Duel.GetAttacker() and Duel.GetAttacker():GetControler() ~= tp and Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
+    if Duel.GetAttacker() and Duel.GetAttacker():GetControler() ~= tp and Duel.SelectYesNo(tp, aux.Stringid(id, 3)) then
         Duel.NegateAttack()
     else
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        ec2:SetCode(EVENT_ATTACK_ANNOUNCE)
-        ec2:SetRange(LOCATION_REMOVED)
-        ec2:SetLabel(0)
-        ec2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            if e:GetLabel() ~= 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        ec1:SetCode(EVENT_ATTACK_ANNOUNCE)
+        ec1:SetRange(LOCATION_REMOVED)
+        ec1:SetLabel(0)
+        ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+            if e:GetLabel() ~= 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 3)) then
                 return
             end
 
@@ -190,7 +216,17 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
             Duel.NegateAttack()
             e:SetLabel(1)
         end)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        c:RegisterEffect(ec2)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec1)
     end
+end
+
+function s.e4retcon(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:GetFlagEffect(id) > 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e4retop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP)
 end

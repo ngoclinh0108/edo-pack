@@ -99,7 +99,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, tc:GetAttack())
+    Duel.SetPossibleOperationInfo(0, CATEGORY_POSITION, tc, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)

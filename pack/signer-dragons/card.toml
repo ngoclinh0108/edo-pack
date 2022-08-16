@@ -32,8 +32,7 @@ effect = """
 (This card's name is also treated as "Stardust Dragon".)
 If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
     This effect cannot be negated. \
-The first time this card would be destroyed by card effect each turn, it is not destroyed. \
-When a card or effect is activated that would destroy another card(s) on the field (Quick Effect): \
+When a card or effect is activated that would destroy a card(s) on the field (Quick Effect): \
     You can Tribute this card; negate the activation, and if you do, destroy it. \
     During the End Phase, if this effect was activated this turn (and was not negated), \
     Special Summon this card from your GY.
@@ -217,7 +216,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 """
 strings = [
     "Banish all cards from your opponent's GY face-down",
-    "Negate effect & down ATK/DEF",
+    "Negate effect & make ATK/DEF become 0",
 ]
 
 [majestic-fairy-dragon]
@@ -283,19 +282,22 @@ def = 2500
 effect = """
 1 Tuner Synchro Monster + 1 non-Tuner Synchro Monster
 (This card's name is also treated as "Shooting Star Dragon".)
-Once per turn, during the Main Phase, you can (Quick Effect): \
-    Immediately after this effect resolves, Synchro Summon this card from your Extra Deck using monsters you control, including "Stardust Dragon". \
+Once per turn, during the Main Phase, you can (Quick Effect): Immediately after this effect resolves, \
+    Synchro Summon this card from your Extra Deck using monsters you control, including "Stardust Dragon". \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
-The first time each card you control would be destroyed by card effect each turn, it is not destroyed. \
+When a card or effect is activated that would destroy a card(s) on the field (Quick Effect): \
+    You can negate the effect, and if you do, destroy it. \
 Once per turn: You can excavate the top 5 cards of your Deck, shuffle them back in, \
     also this card gains 1 additional attack each Battle Phase for every Tuner monsters excavated. \
-Once per turn, when an opponent's monster declares an attack, or when your opponent activates a card or effect (Quick Effect): \
-    You can banish this card (until the End Phase), \
-    and if you do, you can negate 1 attack this turn from a monster your opponent controls. \
+Once per turn, during your opponent's turn, \
+    when an opponent's monster declares an attack, or when your opponent activates a card or effect (Quick Effect): \
+    You can banish this card, and if you do, you can negate 1 attack this turn from a monster your opponent controls. \
+    During the next End Phase, Special Summon this card banished by this effect. \
 """
 strings = [
-    "Multi-attack",
-    "Banish this card",
+    "Negate the effect",
+    "Excavate Tuner to gain multi-attack",
+    "Banish this card until the end phase",
     "Do you want negate the attack by effect of \"{CARD_NAME}\"?",
 ]
 
