@@ -140,15 +140,12 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) ~= 0 then
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3008)
+        ec1:SetDescription(3000)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
         ec1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
         ec1:SetValue(1)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         c:RegisterEffect(ec1)
-        local ec1b = ec1:Clone()
-        ec1b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-        c:RegisterEffect(ec1b)
     end
 end

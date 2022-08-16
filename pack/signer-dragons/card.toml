@@ -39,7 +39,7 @@ When a card or effect is activated that would destroy a card(s) on the field (Qu
 While this card is in your GY, if a Dragon Synchro Monster(s) you control that used this card as Synchro Material \
     is destroyed by battle or card effect and sent to the GY or banished (Quick Effect): \
     You can return that monster to the Extra Deck, and if you do, Special Summon this card, \
-    also it cannot be destroyed by battle or card effects this turn. \
+    also it cannot be destroyed by battle this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Negate the activation"]
