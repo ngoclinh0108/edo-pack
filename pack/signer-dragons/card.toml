@@ -290,18 +290,17 @@ effect = """
 Once per turn, during the Main Phase, you can (Quick Effect): Immediately after this effect resolves, \
     Synchro Summon this card from your Extra Deck using monsters you control, including "Stardust Dragon". \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
-Once per Chain, when a card or effect is activated that would destroy a card(s) on the field (Quick Effect): \
-    You can negate the effect, and if you do, destroy it. \
 Once per turn: You can excavate the top 5 cards of your Deck, shuffle them back in, \
     also this card gains 1 additional attack each Battle Phase for every Tuner monsters excavated. \
-Once per turn, during your opponent's turn, \
-    when an opponent's monster declares an attack, or when your opponent activates a card or effect (Quick Effect): \
+Once per Chain, when a card or effect is activated that would destroy a card(s) on the field (Quick Effect): \
+    You can negate the effect, and if you do, destroy it. \
+Once per turn, during your opponent's turn (Quick Effect): \
     You can banish this card, and if you do, you can negate 1 attack this turn from a monster your opponent controls. \
     During the next End Phase, Special Summon this card banished by this effect. \
 """
 strings = [
-    "Negate the effect",
     "Excavate Tuner to gain multi-attack",
+    "Negate the effect",
     "Banish this card until the end phase",
     "Do you want negate the attack by effect of \"{CARD_NAME}\"?",
 ]

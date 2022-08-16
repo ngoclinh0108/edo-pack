@@ -36,25 +36,25 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- negate effect
+    -- multi attack
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetCode(EVENT_CHAINING)
+    e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
     e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- multi attack
+    -- negate effect
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_CHAINING)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
     e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
@@ -62,20 +62,15 @@ function s.initial_effect(c)
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 2))
     e4:SetCategory(CATEGORY_REMOVE)
-    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e4:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
-    e4:SetCondition(s.e4con1)
+    e4:SetHintTiming(0, TIMINGS_CHECK_MONSTER_E)
+    e4:SetCountLimit(1)
+    e4:SetCondition(s.e4con)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-    local e4b = e4:Clone()
-    e4b:SetType(EFFECT_TYPE_QUICK_O)
-    e4b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e4b:SetCode(EVENT_CHAINING)
-    e4b:SetCondition(s.e4con2)
-    c:RegisterEffect(e4b)
     local e4ret = Effect.CreateEffect(c)
     e4ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e4ret:SetCode(EVENT_PHASE + PHASE_END)
@@ -123,44 +118,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
-        return false
-    end
-
-    if re:IsHasCategory(CATEGORY_NEGATE) and
-        Duel.GetChainInfo(ev - 1, CHAININFO_TRIGGERING_EFFECT):IsHasType(EFFECT_TYPE_ACTIVATE) then
-        return false
-    end
-
-    local ex, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
-    return ex and tg ~= nil and tc + tg:FilterCount(Card.IsOnField, nil) - #tg > 0
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local rc = re:GetHandler()
-    if chk == 0 then
-        return c:GetFlagEffect(id) == 0
-    end
-
-    c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, #eg, 0, 0)
-    if rc:IsRelateToEffect(re) and rc:IsDestructable() then
-        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
-    end
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.NegateEffect(ev) and re:GetHandler():IsRelateToEffect(re) then
-        Duel.Destroy(eg, REASON_EFFECT)
-    end
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.IsAbleToEnterBP() and Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) >= 5
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.ConfirmDecktop(tp, 5)
     local ct = Duel.GetDecktopGroup(tp, 5):FilterCount(Card.IsType, nil, TYPE_TUNER)
@@ -177,12 +138,42 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4con1(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp and Duel.GetAttacker():GetControler() ~= tp
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
+        return false
+    end
+
+    if re:IsHasCategory(CATEGORY_NEGATE) and
+        Duel.GetChainInfo(ev - 1, CHAININFO_TRIGGERING_EFFECT):IsHasType(EFFECT_TYPE_ACTIVATE) then
+        return false
+    end
+
+    local ex, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
+    return ex and tg ~= nil and tc + tg:FilterCount(Card.IsOnField, nil) - #tg > 0
 end
 
-function s.e4con2(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp and rp == 1 - tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    local rc = re:GetHandler()
+    if chk == 0 then
+        return c:GetFlagEffect(id) == 0
+    end
+
+    c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, #eg, 0, 0)
+    if rc:IsRelateToEffect(re) and rc:IsDestructable() then
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
+    end
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.NegateEffect(ev) and re:GetHandler():IsRelateToEffect(re) then
+        Duel.Destroy(eg, REASON_EFFECT)
+    end
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() ~= tp
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
