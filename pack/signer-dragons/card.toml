@@ -285,7 +285,7 @@ strings = [
 ]
 
 [assault-shooting-star-dragon]
-id = 900000312
+id = 900000313
 name = "Assault Shooting Star Dragon"
 type = "monster synchro effect"
 attribute = "wind"
@@ -316,7 +316,7 @@ strings = [
 ]
 
 [shooting-star-synchron]
-id = 900000313
+id = 900000314
 set = "synchron"
 name = "Shooting Star Synchron"
 type = "monster synchro tuner effect"
