@@ -284,6 +284,19 @@ strings = [
     "Change position?",
 ]
 
+[shooting-quasar-dragon]
+id = 900000312
+name = "Shooting Quasar Dragon"
+type = "monster synchro effect"
+attribute = "light"
+race = "dragon"
+level = 12
+atk = 4000
+def = 4000
+effect = """
+"""
+strings = []
+
 [assault-shooting-star-dragon]
 id = 900000313
 name = "Assault Shooting Star Dragon"
