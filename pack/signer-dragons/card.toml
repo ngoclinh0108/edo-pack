@@ -295,8 +295,10 @@ atk = 4000
 def = 4000
 effect = """
 1 Dragon Tuner Synchro Monster + 2+ non-Tuner Synchro Monsters
-Must first be Synchro Summoned. This card's Synchro Summon cannot be negated. \
+Must first be Synchro Summoned.
+This card's Synchro Summon and its effects cannot be negated. \
 When Synchro Summoned, cards and effects cannot be activated. \
+Unaffected by other monsters' effects. \
 """
 strings = []
 

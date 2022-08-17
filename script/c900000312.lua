@@ -23,7 +23,7 @@ function s.initial_effect(c)
     splimit:SetValue(aux.synlimit)
     c:RegisterEffect(splimit)
 
-    -- summon cannot be negated
+    -- summon & effect cannot be negated
     local spsafe = Effect.CreateEffect(c)
     spsafe:SetType(EFFECT_TYPE_SINGLE)
     spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
@@ -32,6 +32,19 @@ function s.initial_effect(c)
         return e:GetHandler():GetSummonType() == SUMMON_TYPE_SYNCHRO
     end)
     c:RegisterEffect(spsafe)
+    local nodis1 = Effect.CreateEffect(c)
+    nodis1:SetType(EFFECT_TYPE_SINGLE)
+    nodis1:SetCode(EFFECT_CANNOT_DISABLE)
+    c:RegisterEffect(nodis1)
+    local nodis2 = Effect.CreateEffect(c)
+    nodis2:SetType(EFFECT_TYPE_FIELD)
+    nodis2:SetCode(EFFECT_CANNOT_DISEFFECT)
+    nodis2:SetRange(LOCATION_MZONE)
+    nodis2:SetValue(function(e, ct)
+        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+        return te:GetHandler() == e:GetHandler()
+    end)
+    c:RegisterEffect(nodis2)
 
     -- summon success
     local e1 = Effect.CreateEffect(c)
@@ -39,6 +52,17 @@ function s.initial_effect(c)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- immune
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_IMMUNE_EFFECT)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetValue(function(e, re)
+        return re:IsActiveType(TYPE_MONSTER) and re:GetOwner() ~= e:GetOwner()
+    end)
+    c:RegisterEffect(e2)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
