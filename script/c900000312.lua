@@ -50,7 +50,11 @@ function s.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetOperation(s.e1op)
+    e1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        if e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) then
+            Duel.SetChainLimitTillChainEnd(aux.FALSE)
+        end
+    end)
     c:RegisterEffect(e1)
 
     -- immune
@@ -63,10 +67,4 @@ function s.initial_effect(c)
         return re:IsActiveType(TYPE_MONSTER) and re:GetOwner() ~= e:GetOwner()
     end)
     c:RegisterEffect(e2)
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    if e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) then
-        Duel.SetChainLimitTillChainEnd(aux.FALSE)
-    end
 end
