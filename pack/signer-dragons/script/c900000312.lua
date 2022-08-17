@@ -68,14 +68,6 @@ function s.initial_effect(c)
         return re:IsActiveType(TYPE_MONSTER) and re:GetOwner() ~= e:GetOwner()
     end)
     c:RegisterEffect(e2)
-
-    local test = Effect.CreateEffect(c)
-    test:SetType(EFFECT_TYPE_IGNITION)
-    test:SetRange(LOCATION_MZONE)
-    test:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        e:GetHandler():AddCounter(SignerDragon.COUNTER_COSMIC, 1)
-    end)
-    c:RegisterEffect(test)
 end
 
 function s.e1filter(c)
