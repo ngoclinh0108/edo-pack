@@ -3,13 +3,13 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
 
-s.counter_list = {SignerDragon.COUNTER_COSMIC}
+s.counter_list = {SignerDragon.COUNTER_SIGNER}
 s.synchro_tuner_required = 1
 s.synchro_nt_required = 2
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    c:EnableCounterPermit(SignerDragon.COUNTER_COSMIC)
+    c:EnableCounterPermit(SignerDragon.COUNTER_SIGNER)
 
     -- synchro summon
     Synchro.AddProcedure(c, function(c, sc, sumtype, tp)
@@ -69,12 +69,13 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c)
-    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
+function s.max_counter(e)
+    e:GetHandler():GetMaterial():FilterCount(function(c)
+        return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
+    end, nil)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local ct = c:GetMaterial():FilterCount(s.e1filter, nil)
-    c:AddCounter(SignerDragon.COUNTER_COSMIC, ct)
+    c:AddCounter(SignerDragon.COUNTER_SIGNER, s.max_counter(e))
 end
