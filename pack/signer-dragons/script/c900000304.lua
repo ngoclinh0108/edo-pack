@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
+
 s.counter_list = {COUNTER_FEATHER}
 
 function s.initial_effect(c)

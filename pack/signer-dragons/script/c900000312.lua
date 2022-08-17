@@ -3,11 +3,13 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
 
+s.counter_list = {SignerDragon.COUNTER_COSMIC}
 s.synchro_tuner_required = 1
 s.synchro_nt_required = 2
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    c:EnableCounterPermit(SignerDragon.COUNTER_COSMIC)
 
     -- synchro summon
     Synchro.AddProcedure(c, function(c, sc, sumtype, tp)
@@ -46,15 +48,14 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(nodis2)
 
-    -- summon success
+    -- counter (synchro summoned)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        if e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) then
-            Duel.SetChainLimitTillChainEnd(aux.FALSE)
-        end
+    e1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
     end)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
     -- immune
@@ -67,4 +68,22 @@ function s.initial_effect(c)
         return re:IsActiveType(TYPE_MONSTER) and re:GetOwner() ~= e:GetOwner()
     end)
     c:RegisterEffect(e2)
+
+    local test = Effect.CreateEffect(c)
+    test:SetType(EFFECT_TYPE_IGNITION)
+    test:SetRange(LOCATION_MZONE)
+    test:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        e:GetHandler():AddCounter(SignerDragon.COUNTER_COSMIC, 1)
+    end)
+    c:RegisterEffect(test)
+end
+
+function s.e1filter(c)
+    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ct = c:GetMaterial():FilterCount(s.e1filter, nil)
+    c:AddCounter(SignerDragon.COUNTER_COSMIC, ct)
 end
