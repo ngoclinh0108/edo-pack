@@ -295,7 +295,7 @@ atk = 4000
 def = 4000
 effect = """
 1 Dragon Tuner Synchro Monster + 2+ non-Tuner Synchro Monsters
-Must first be Synchro Summoned. \
+Must be Synchro Summoned. \
 This card's Synchro Summon and its effects cannot be negated. \
 After this card is Synchro Summoned, place Cosmic Counters on this card \
     equal to the number of Dragon Synchro Monsters used as its Synchro Material. \
