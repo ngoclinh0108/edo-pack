@@ -70,7 +70,7 @@ function s.initial_effect(c)
 end
 
 function s.max_counter(e)
-    e:GetHandler():GetMaterial():FilterCount(function(c)
+    return e:GetHandler():GetMaterial():FilterCount(function(c)
         return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
     end, nil)
 end
