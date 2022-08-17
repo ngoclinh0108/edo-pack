@@ -17,8 +17,29 @@ strings = [
     "Special Summon the leaved monster",
 ]
 
-[ultimaya-stardust-dragon]
+[ultimaya-cosmic-dragon]
 id = 900000301
+rarity = "gold"
+name = "Ultimaya Cosmic Dragon"
+type = "monster synchro effect"
+attribute = "divine"
+race = "creator-god"
+level = 13
+show-level = false
+effect = """
+(This card's original Level is always treated as 13.)
+[Add "Majestic" version of your Signer Dragons to your Extra Deck.]
+Cannot be Synchro Summoned. \
+Must be Special Summoned (from your Extra Deck) by sending 2 Level 7 or higher Dragon Synchro Monsters you control with the same Level to the GY (1 Tuner and 1 non-Tuner). \
+    This card's Special Summon cannot be negated. \
+Cannot be Tributed, or used as a material for an Summon. \
+Unaffected by other cards' effects. This effect cannot be negated. \
+While you control another Synchro Monster, your opponent cannot target this card for attacks or by card effects. \
+"""
+strings = []
+
+[ultimaya-stardust-dragon]
+id = 900000302
 set = "stardust"
 name = "Ultimaya Stardust Dragon"
 type = "monster synchro tuner effect"
@@ -45,7 +66,7 @@ While this card is in your GY, if a Dragon Synchro Monster(s) you control that u
 strings = ["Negate the activation"]
 
 [ultimaya-red-archfiend-dragon]
-id = 900000302
+id = 900000303
 set = "red-dragon-archfiend"
 name = "Ultimaya Red Archfiend Dragon"
 type = "monster synchro effect"
@@ -68,7 +89,7 @@ strings = [
 ]
 
 [ultimaya-black-winged-dragon]
-id = 900000303
+id = 900000304
 name = "Ultimaya Black-Winged Dragon"
 type = "monster synchro effect"
 attribute = "dark"
@@ -91,7 +112,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 strings = ["Remove counter to low ATK and inflict damage"]
 
 [ultimaya-black-rose-dragon]
-id = 900000304
+id = 900000305
 set = "rose-dragon"
 name = "Ultimaya Black Rose Dragon"
 type = "monster synchro effect"
@@ -113,7 +134,7 @@ Once per turn: \
 strings = ["Destroy cards on the field", "Halve ATK/DEF of 1 monster"]
 
 [ultimaya-ancient-fairy-dragon]
-id = 900000305
+id = 900000306
 name = "Ultimaya Ancient Fairy Dragon"
 type = "monster synchro effect"
 attribute = "light"
@@ -133,7 +154,7 @@ Once per turn: You can destroy as many Field Spells on the field as possible, \
 strings = ["Destroy Field Spells", "Add 1 Field Spell to your hand?"]
 
 [ultimaya-life-stream-dragon]
-id = 900000306
+id = 900000307
 name = "Ultimaya Life Stream Dragon"
 type = "monster synchro tuner effect"
 attribute = "earth"
@@ -148,34 +169,17 @@ If this card was Synchro Summoned using a Synchro Monster as material: You can m
 After this card is Special Summoned, you take no effect damage until the end of your opponent's turn. \
 Once per turn: You can discard 1 Tuner; \
     add 1 Equip Spell from your Deck or GY to your hand. \
-When using this card as Synchro Material, the other Synchro Material(s) can be treated as Level 1 or 2. \
+Once per turn: You can declare a Level from 1 to 12; \
+    all other Synchro Monsters you currently control become that Level until the end of this turn, \
+    also for the rest of this turn, you cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters. \
 """
 strings = [
     "Make your LP become 4000",
     "Take no effect damage",
     "Add 1 Equip Spell to your hand",
+    "Change Level of other Synchro Monsters",
+    "Cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters",
 ]
-
-[ultimaya-cosmic-dragon]
-id = 900000307
-rarity = "gold"
-name = "Ultimaya Cosmic Dragon"
-type = "monster synchro effect"
-attribute = "divine"
-race = "creator-god"
-level = 13
-show-level = false
-effect = """
-(This card's original Level is always treated as 13.)
-[Add "Majestic" version of your Signer Dragons to your Extra Deck.]
-Cannot be Synchro Summoned. \
-Must be Special Summoned (from your Extra Deck) by sending 2 Level 7 or higher Dragon Synchro Monsters you control with the same Level to the GY (1 Tuner and 1 non-Tuner). \
-    This card's Special Summon cannot be negated. \
-Cannot be Tributed, or used as a material for an Summon. \
-Unaffected by other cards' effects. This effect cannot be negated. \
-While you control another Synchro Monster, your opponent cannot target this card for attacks or by card effects. \
-"""
-strings = []
 
 [majestic-black-dragon]
 id = 900000308
@@ -326,9 +330,10 @@ effect = """
 If this card is Special Summoned: You can draw 1 card. \
 If you Special Summon a Dragon Synchro Monster while this card is in your GY \
     (except during the Damage Step, or when this card is used as a Synchro Material): \
-    You can Special Summon this card in Defense Position. \
+    You can Special Summon this card in Defense Position, \
+    also for the rest of this turn, you cannot Special Summon from the Extra Deck, except Synchro Monsters. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 A Synchro Monster that used this card as material is unaffected by your opponent's activated effects \
     during the turn it is Synchro Summoned. \
 """
-strings = []
+strings = ["Cannot Special Summon from the Extra Deck, except Synchro Monsters"]

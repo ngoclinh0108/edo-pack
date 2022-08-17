@@ -1,4 +1,4 @@
--- Ultimaya Cosmic Dragon
+-- Ultimaya Life Stream Dragon
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
@@ -6,147 +6,165 @@ local s, id = GetID()
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    c:RegisterEffect(splimit)
+    -- synhcro summon
+    Synchro.AddProcedure(c, nil, 1, 1, Synchro.NonTuner(nil), 1, 99)
 
-    -- special summon procedure
-    local spr = Effect.CreateEffect(c)
-    spr:SetType(EFFECT_TYPE_FIELD)
-    spr:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-    spr:SetCode(EFFECT_SPSUMMON_PROC)
-    spr:SetRange(LOCATION_EXTRA)
-    spr:SetCondition(s.sprcon)
-    spr:SetTarget(s.sprtg)
-    spr:SetOperation(s.sprop)
-    c:RegisterEffect(spr)
+    -- add code
+    local code = Effect.CreateEffect(c)
+    code:SetType(EFFECT_TYPE_SINGLE)
+    code:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    code:SetCode(EFFECT_ADD_CODE)
+    code:SetValue(SignerDragon.CARD_LIFE_STREAM_DRAGON)
+    c:RegisterEffect(code)
 
-    -- summon cannot be negated
-    local spsafe = Effect.CreateEffect(c)
-    spsafe:SetType(EFFECT_TYPE_SINGLE)
-    spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    c:RegisterEffect(spsafe)
-
-    -- cannot be release, or be material
-    local matlimit = Effect.CreateEffect(c)
-    matlimit:SetType(EFFECT_TYPE_SINGLE)
-    matlimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    matlimit:SetCode(EFFECT_UNRELEASABLE_SUM)
-    matlimit:SetValue(1)
-    c:RegisterEffect(matlimit)
-    local matlimit2 = matlimit:Clone()
-    matlimit2:SetCode(EFFECT_UNRELEASABLE_NONSUM)
-    c:RegisterEffect(matlimit2)
-    local matlimit3 = matlimit:Clone()
-    matlimit3:SetCode(EFFECT_CANNOT_BE_FUSION_MATERIAL)
-    c:RegisterEffect(matlimit3)
-    local matlimit4 = matlimit:Clone()
-    matlimit4:SetCode(EFFECT_CANNOT_BE_SYNCHRO_MATERIAL)
-    c:RegisterEffect(matlimit4)
-    local matlimit5 = matlimit:Clone()
-    matlimit5:SetCode(EFFECT_CANNOT_BE_XYZ_MATERIAL)
-    c:RegisterEffect(matlimit5)
-    local matlimit6 = matlimit:Clone()
-    matlimit6:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
-    c:RegisterEffect(matlimit6)
-
-    -- immune
+    -- change lp
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    e1:SetCode(EFFECT_IMMUNE_EFFECT)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(function(e, te)
-        return te:GetOwner() ~= e:GetOwner()
-    end)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- cannot be target
+    -- damage reduce
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCondition(function(e)
-        return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsType, TYPE_SYNCHRO), e:GetHandlerPlayer(),
-            LOCATION_MZONE, 0, 1, e:GetHandler())
-    end)
-    e2:SetValue(aux.imval2)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e2b:SetValue(aux.tgoval)
-    c:RegisterEffect(e2b)
+
+    -- to hand
+    local e3 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 2))
+    e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+
+    -- change lv
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 3))
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
-function s.deck_edit(tp)
-    Utility.DeckEditAddCardToDeck(tp, 7841112, CARD_STARDUST_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 67030233, SignerDragon.CARD_RED_DRAGON_ARCHFIEND, true)
-    Utility.DeckEditAddCardToDeck(tp, 900000308, CARD_BLACK_WINGED_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 900000309, CARD_BLACK_ROSE_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 900000310, SignerDragon.CARD_ANCIENT_FAIRY_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 900000311, SignerDragon.CARD_LIFE_STREAM_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 40939228, SignerDragon.CARD_SHOOTING_STAR_DRAGON, true)
-end
-
-function s.sprfilter(c)
-    return c:IsFaceup() and c:IsLevelAbove(7) and c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON) and
-               c:IsAbleToGraveAsCost()
-end
-
-function s.sprfilter1(c, tp, g, sc)
-    local lv = c:GetLevel()
-    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
-    return c:IsType(TYPE_TUNER) and g:IsExists(s.sprfilter2, 1, c, tp, c, sc, lv)
-end
-
-function s.sprfilter2(c, tp, mc, sc, lv)
-    local sg = Group.FromCards(c, mc)
-    return c:GetLevel() == lv and not c:IsType(TYPE_TUNER) and Duel.GetLocationCountFromEx(tp, tp, sg, sc) > 0
-end
-
-function s.sprcon(e, c)
-    if c == nil then
-        return true
-    end
-    local tp = c:GetControler()
-
-    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
-    return g:IsExists(s.sprfilter1, 1, nil, tp, g, c)
-end
-
-function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
-    local mg1 = aux.SelectUnselectGroup(g:Filter(s.sprfilter1, nil, tp, g, c), e, tp, 1, 1, nil, 1, tp, HINTMSG_TOGRAVE,
-        nil, nil, true)
-
-    if #mg1 > 0 then
-        local mc = mg1:GetFirst()
-        local mg2 = aux.SelectUnselectGroup(g:Filter(s.sprfilter2, mc, tp, mc, c, mc:GetLevel()), e, tp, 1, 1, nil, 1,
-            tp, HINTMSG_TOGRAVE, nil, nil, true)
-        mg1:Merge(mg2)
-    end
-
-    if #mg1 == 2 then
-        mg1:KeepAlive()
-        e:SetLabelObject(mg1)
-        return true
-    end
-
-    return false
+    return c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:GetMaterial():IsExists(Card.IsType, 1, nil, TYPE_SYNCHRO)
 end
 
-function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = e:GetLabelObject()
-    if not g then
-        return
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.SetLP(tp, 4000)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
+    local ec0 = Effect.CreateEffect(c)
+    ec0:SetDescription(aux.Stringid(id, 1))
+    ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_OATH)
+    ec0:SetTargetRange(1, 0)
+    ec0:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN)
+    Duel.RegisterEffect(ec0, tp)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_CHANGE_DAMAGE)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(function(e, re, val, r, rp, rc)
+        if r & REASON_EFFECT ~= 0 then
+            return 0
+        else
+            return val
+        end
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN)
+    Duel.RegisterEffect(ec1, tp)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+    Duel.RegisterEffect(ec1b, tp)
+end
+
+function s.e3filter1(c)
+    return c:IsType(TYPE_TUNER) and c:IsDiscardable()
+end
+
+function s.e3filter2(c)
+    return c:IsType(TYPE_EQUIP) and c:IsAbleToHand()
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_HAND, 0, 1, nil)
     end
 
-    Duel.SendtoGrave(g, REASON_COST)
-    g:DeleteGroup()
+    Duel.DiscardHand(tp, s.e3filter1, 1, 1, REASON_COST + REASON_DISCARD)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectMatchingCard(tp, s.e3filter2, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
+
+function s.e4filter(c)
+    return c:IsFaceup() and c:IsType(TYPE_SYNCHRO)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_MZONE, 0, 1, e:GetHandler())
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)
+    e:SetLabel(Duel.AnnounceLevel(tp, 1, 12))
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+
+    local lv = e:GetLabel()
+    local g = Duel.GetMatchingGroup(s.e4filter, tp, LOCATION_MZONE, 0, c)
+    for tc in aux.Next(g) do
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        ec1:SetCode(EFFECT_CHANGE_LEVEL)
+        ec1:SetValue(lv)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec1)
+    end
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 4))
+    ec2:SetType(EFFECT_TYPE_FIELD)
+    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_OATH)
+    ec2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec2:SetTargetRange(1, 0)
+    ec2:SetTarget(function(e, c, sump, sumtype, sumpos, targetp, se)
+        return c:IsLocation(LOCATION_EXTRA) and not (c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON))
+    end)
+    ec2:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec2, tp)
 end

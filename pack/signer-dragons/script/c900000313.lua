@@ -80,11 +80,21 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
+    if c:IsRelateToEffect(e) then
+        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
     end
 
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 0))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_OATH)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetTarget(function(e, c, sump, sumtype, sumpos, targetp, se)
+        return c:IsLocation(LOCATION_EXTRA) and not (c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON))
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
