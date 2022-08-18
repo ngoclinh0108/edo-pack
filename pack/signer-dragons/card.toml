@@ -380,3 +380,59 @@ A Synchro Monster that used this card as material is unaffected by your opponent
     during the turn it is Synchro Summoned. \
 """
 strings = ["Cannot Special Summon from the Extra Deck, except Synchro Monsters"]
+
+[red-archfiend-warrior]
+id = 900000316
+set = "archfiend warrior"
+name = "Red Archfiend Warrior"
+type = "monster synchro effect"
+strings = []
+
+[assault-stardust-warrior]
+id = 900000317
+set = "stardust warrior"
+name = "Assault Stardust Warrior"
+type = "monster synchro effect"
+strings = []
+
+[stardust-lancer]
+id = 900000318
+set = "stardust"
+name = "Stardust Lancer"
+type = "monster synchro effect"
+strings = []
+
+[quickdraw-warrior]
+id = 900000319
+set = "warrior"
+name = "Quickdraw Warrior"
+type = "monster synchro effect"
+strings = []
+
+[quickspan-warrior]
+id = 900000320
+set = "warrior"
+name = "Quick-Span Warrior"
+type = "monster synchro effect"
+strings = []
+
+[steam-warrior]
+id = 900000321
+set = "warrior"
+name = "Steam Warrior"
+type = "monster synchro effect"
+strings = []
+
+[junk-accelerator]
+id = 900000322
+set = "junk"
+name = "Junk Accelerator"
+type = "monster synchro effect"
+strings = []
+
+[starjunk-warrior]
+id = 900000323
+set = "junk warrior"
+name = "Starjunk Warrior"
+type = "monster synchro effect"
+strings = []
