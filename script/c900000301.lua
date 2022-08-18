@@ -84,6 +84,12 @@ function s.initial_effect(c)
 end
 
 function s.deck_edit(tp)
+    Utility.DeckEditAddCardToDeck(tp, 900000302)
+    Utility.DeckEditAddCardToDeck(tp, 900000303)
+    Utility.DeckEditAddCardToDeck(tp, 900000304)
+    Utility.DeckEditAddCardToDeck(tp, 900000305)
+    Utility.DeckEditAddCardToDeck(tp, 900000306)
+    Utility.DeckEditAddCardToDeck(tp, 900000307)
     Utility.DeckEditAddCardToDeck(tp, 7841112, CARD_STARDUST_DRAGON, true)
     Utility.DeckEditAddCardToDeck(tp, 67030233, SignerDragon.CARD_RED_DRAGON_ARCHFIEND, true)
     Utility.DeckEditAddCardToDeck(tp, 900000308, CARD_BLACK_WINGED_DRAGON, true)
