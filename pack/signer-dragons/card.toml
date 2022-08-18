@@ -373,8 +373,8 @@ type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
 level = 8
-atk = 2400
-def = 1800
+atk = 2500
+def = 2000
 effect = """
 """
 strings = []
