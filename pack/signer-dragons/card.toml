@@ -300,8 +300,16 @@ This card's Synchro Summon and its effects cannot be negated. \
 After this card is Synchro Summoned, place Signer Counters on this card \
     equal to the number of Dragon Synchro Monsters used as its Synchro Material. \
 Unaffected by other monsters' effects. \
+When a card or effect is activated (Quick Effect):
+    You can remove 1 Signer Counter from this card; \
+    negate that effect, and if you do, destroy it. \
+If this card attacks, your opponent cannot activate cards or effects until the end of the Damage Step, \
+    also negate the effects of the battling monster during the Damage Step only. \
+At the end of the Damage Step, if this card attacked, \
+    you can remove 1 Signer Counter from this card, \
+    and if you do, this card can attack gain. \
 """
-strings = []
+strings = ["Negate the effect", "Attack again?"]
 
 [shooting-stardust-dragon]
 id = 900000313
@@ -322,7 +330,7 @@ Once per turn, during the Main Phase, you can (Quick Effect): Immediately after 
 Once per turn: You can excavate the top 5 cards of your Deck, shuffle them back in, \
     also this card gains 1 additional attack each Battle Phase for every Tuner monsters excavated. \
 Once per Chain, when a card or effect is activated that would destroy a card(s) on the field (Quick Effect): \
-    You can negate the effect, and if you do, destroy it. \
+    You can negate that effect, and if you do, destroy it. \
 Once per turn, during your opponent's turn, \
     when your opponent activates a card or effect, or when an opponent's monster declares an attack (Quick Effect): \
     You can banish this card, and if you do, you can negate 1 attack this turn from a monster your opponent controls. \

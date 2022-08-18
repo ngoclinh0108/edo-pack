@@ -105,7 +105,7 @@ end
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return e:GetHandler():GetCounter(COUNTER_FEATHER) > 0 and
+        return e:GetHandler():IsCanRemoveCounter(tp, COUNTER_FEATHER, 1, REASON_EFFECT) and
                    Duel.IsExistingTarget(aux.nzatk, tp, 0, LOCATION_MZONE, 1, nil)
     end
 
