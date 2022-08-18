@@ -395,10 +395,10 @@ name = "Assault Stardust Warrior"
 type = "monster synchro effect"
 strings = []
 
-[stardust-lancer]
+[stardust-maiden]
 id = 900000318
 set = "stardust"
-name = "Stardust Lancer"
+name = "Stardust Maiden"
 type = "monster synchro effect"
 strings = []
 
