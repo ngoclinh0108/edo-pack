@@ -200,7 +200,8 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     c:RegisterFlagEffect(id + 10000, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
-    if Duel.GetAttacker() and Duel.GetAttacker():GetControler() ~= tp and Duel.SelectYesNo(tp, aux.Stringid(id, 3)) then
+    if Duel.GetAttacker() and Duel.GetAttacker():GetControler() ~= tp and
+        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 3)) then
         Duel.NegateAttack()
     else
         local ec1 = Effect.CreateEffect(c)
@@ -209,7 +210,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetRange(LOCATION_REMOVED)
         ec1:SetLabel(0)
         ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            if e:GetLabel() ~= 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 3)) then
+            if e:GetLabel() ~= 0 or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 3)) then
                 return
             end
 

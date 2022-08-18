@@ -66,7 +66,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2)
 
-    -- negate effect
+    -- negate effect (activate)
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
@@ -79,29 +79,18 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- act limit & negate effect
+    -- negate effect (battle)
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_FIELD)
-    e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e4:SetCode(EFFECT_CANNOT_ACTIVATE)
+    e4:SetCode(EFFECT_DISABLE)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetTargetRange(0, 1)
-    e4:SetCondition(function(e)
-        return Duel.GetAttacker() == e:GetHandler()
-    end)
-    e4:SetValue(1)
+    e4:SetTargetRange(0, LOCATION_MZONE)
+    e4:SetCondition(s.e4con)
+    e4:SetTarget(s.e4tg)
     c:RegisterEffect(e4)
-    local e4dis = Effect.CreateEffect(c)
-    e4dis:SetType(EFFECT_TYPE_FIELD)
-    e4dis:SetCode(EFFECT_DISABLE)
-    e4dis:SetRange(LOCATION_MZONE)
-    e4dis:SetTargetRange(0, LOCATION_MZONE)
-    e4dis:SetCondition(s.e4discon)
-    e4dis:SetTarget(s.e4distg)
-    c:RegisterEffect(e4dis)
-    local e4dis2 = e4dis:Clone()
-    e4dis2:SetCode(EFFECT_DISABLE_EFFECT)
-    c:RegisterEffect(e4dis2)
+    local e4b = e4:Clone()
+    e4b:SetCode(EFFECT_DISABLE_EFFECT)
+    c:RegisterEffect(e4b)
 
     -- chain attack
     local e5 = Effect.CreateEffect(c)
@@ -111,6 +100,15 @@ function s.initial_effect(c)
     e5:SetCondition(s.e5con)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
+
+    -- special Summon
+    local e6 = Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e6:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e6:SetCode(EVENT_LEAVE_FIELD)
+    e6:SetCondition(s.e6con)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
 function s.max_counter(e)
@@ -129,7 +127,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
+    return e ~= re and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -159,13 +157,13 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4discon(e)
+function s.e4con(e)
     local c = e:GetHandler()
     return Duel.GetAttacker() == c and c:GetBattleTarget() and
                (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL)
 end
 
-function s.e4distg(e, c)
+function s.e4tg(e, c)
     return c == e:GetHandler():GetBattleTarget()
 end
 
@@ -176,10 +174,38 @@ end
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsCanRemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_EFFECT) or
-        not c:CanChainAttack(0) or not Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
+        not c:CanChainAttack(0) or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
         return
     end
 
     c:RemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_EFFECT)
     Duel.ChainAttack()
+end
+
+function s.e6filter(c, e, tp)
+    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsLevelBelow(10) and
+               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+end
+
+function s.e6con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_ONFIELD) and
+               Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_REMOVED + LOCATION_EXTRA + LOCATION_GRAVE, 0, 1,
+            nil, e, tp)
+end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then
+        return
+    end
+
+    local sc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e6filter, tp,
+        LOCATION_REMOVED + LOCATION_EXTRA + LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
+    if sc then
+        Utility.HintCard(c)
+        Duel.SpecialSummon(sc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
+        sc:CompleteProcedure()
+    end
 end

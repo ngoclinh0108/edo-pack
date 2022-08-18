@@ -300,16 +300,22 @@ This card's Synchro Summon and its effects cannot be negated. \
 After this card is Synchro Summoned, place Signer Counters on this card \
     equal to the number of Dragon Synchro Monsters used as its Synchro Material. \
 Unaffected by other monsters' effects. \
-When a card or effect is activated (Quick Effect):
+When another card or effect is activated (Quick Effect): \
     You can remove 1 Signer Counter from this card; \
     negate that effect, and if you do, destroy it. \
-If this card attacks, your opponent cannot activate cards or effects until the end of the Damage Step, \
-    also negate the effects of the battling monster during the Damage Step only. \
+If this card attacks an opponent's monster, \
+    negate the effects of that monster during the Damage Step only. \
 At the end of the Damage Step, if this card attacked, \
     you can remove 1 Signer Counter from this card, \
     and if you do, this card can attack gain. \
+When this face-up card leaves the field, you can Special Summon 1 Level 10 or lower Dragon Synchro Monster \
+    that is banished, or in your Extra Deck, GY. (This Special Summon is treated as a Synchro Summon.) \
 """
-strings = ["Negate the effect", "Attack again?"]
+strings = [
+    "Negate the effect",
+    "Attack again?",
+    "Special Summon 1 Level 10 or lower Dragon Synchro Monster?",
+]
 
 [shooting-stardust-dragon]
 id = 900000313

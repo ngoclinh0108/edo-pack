@@ -74,7 +74,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, nil)
-    if #g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+    if #g == 0 or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
         return
     end
 
