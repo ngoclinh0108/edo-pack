@@ -4,6 +4,7 @@ Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
 
 s.counter_list = {SignerDragon.COUNTER_SIGNER}
+s.listed_names = {SignerDragon.CARD_SHOOTING_STAR_DRAGON}
 s.synchro_tuner_required = 1
 s.synchro_nt_required = 2
 
@@ -12,9 +13,8 @@ function s.initial_effect(c)
     c:EnableCounterPermit(SignerDragon.COUNTER_SIGNER)
 
     -- synchro summon
-    Synchro.AddProcedure(c, function(c, sc, sumtype, tp)
-        return c:IsRace(RACE_DRAGON, sc, sumtype, tp) and c:IsType(TYPE_SYNCHRO, sc, sumtype, tp)
-    end, 1, 1, Synchro.NonTunerEx(Card.IsType, TYPE_SYNCHRO), 2, 99)
+    Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsType, TYPE_SYNCHRO), 1, 1,
+        Synchro.NonTunerEx(Card.IsType, TYPE_SYNCHRO), 2, 99)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -173,27 +173,31 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local rc = re:GetHandler()
     if chk == 0 then
         return true
     end
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, #eg, 0, 0)
-    if rc:IsRelateToEffect(re) and rc:IsDestructable() then
-        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
-    end
+    local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, e:GetHandler())
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.NegateEffect(ev) and re:GetHandler():IsRelateToEffect(re) then
-        Duel.Destroy(eg, REASON_EFFECT)
+    if not Duel.NegateEffect(ev) then
+        return
+    end
+
+    local g = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1,
+        e:GetHandler())
+    if #g > 0 then
+        Duel.HintSelection(g)
+        Duel.Destroy(g, REASON_EFFECT)
     end
 end
 
 function s.e4con(e)
-    local c = e:GetHandler()
-    return Duel.GetAttacker() == c and c:GetBattleTarget() and
-               (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL)
+    return (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL) and
+               e:GetHandler():GetBattleTarget()
 end
 
 function s.e4tg(e, c)
@@ -247,9 +251,33 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
 
     local sc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e7filter, tp,
         LOCATION_REMOVED + LOCATION_EXTRA + LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
-    if sc then
-        Utility.HintCard(c)
-        Duel.SpecialSummon(sc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
+    if not sc then
+        return
+    end
+
+    Utility.HintCard(c)
+    if Duel.SpecialSummon(sc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) ~= 0 then
         sc:CompleteProcedure()
+
+        if sc:IsCode(SignerDragon.CARD_SHOOTING_STAR_DRAGON) then
+            local ec0 = Effect.CreateEffect(c)
+            ec0:SetDescription(aux.Stringid(id, 3))
+            ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_OATH)
+            ec0:SetTargetRange(1, 0)
+            ec0:SetReset(RESET_PHASE + PHASE_END)
+            Duel.RegisterEffect(ec0, tp)
+
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetType(EFFECT_TYPE_FIELD)
+            ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+            ec1:SetCode(EFFECT_CHANGE_DAMAGE)
+            ec1:SetTargetRange(1, 0)
+            ec1:SetValue(0)
+            ec1:SetReset(RESET_PHASE + PHASE_END)
+            Duel.RegisterEffect(ec1, tp)
+            local ec1b = ec1:Clone()
+            ec1b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+            Duel.RegisterEffect(ec1b, tp)
+        end
     end
 end

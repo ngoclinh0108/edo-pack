@@ -46,29 +46,23 @@ function s.initial_effect(c)
     e2ret:SetCondition(s.e2retcon)
     e2ret:SetOperation(s.e2retop)
     c:RegisterEffect(e2ret)
-
-    -- special summon
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DELAY)
-    e3:SetCode(EVENT_DESTROYED)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetCountLimit(1, id)
-    e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
+    if e == re or e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
         return false
     end
 
     if re:IsHasCategory(CATEGORY_NEGATE) and
         Duel.GetChainInfo(ev - 1, CHAININFO_TRIGGERING_EFFECT):IsHasType(EFFECT_TYPE_ACTIVATE) then
         return false
+    end
+
+    if re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
+        local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+        if tg and tg:IsExists(Card.IsOnField, 1, nil) then
+            return true
+        end
     end
 
     local ex, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
@@ -104,48 +98,4 @@ end
 
 function s.e2retop(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP)
-end
-
-function s.e3filter(c, tp, mc)
-    return c:IsReason(REASON_BATTLE + REASON_EFFECT) and c:IsPreviousControler(tp) and
-               c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousPosition(POS_FACEUP) and
-               c:GetMaterial():IsContains(mc) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and
-               c:IsLocation(LOCATION_GRAVE + LOCATION_REMOVED)
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e3filter, 1, nil, tp, e:GetHandler())
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local g = eg:Filter(s.e3filter, nil, tp, e:GetHandler())
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local g = eg:Filter(s.e3filter, nil, tp, e:GetHandler())
-    local tc = Utility.GroupSelect(HINTMSG_TODECK, g, tp, 1, 1):GetFirst()
-
-    if not tc or Duel.SendtoDeck(tc, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 or not c:IsRelateToEffect(e) or
-        Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return
-    end
-
-    if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) ~= 0 then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3000)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-        ec1:SetValue(1)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        c:RegisterEffect(ec1)
-    end
 end

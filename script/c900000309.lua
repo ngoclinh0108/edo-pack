@@ -53,6 +53,7 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetCode(EVENT_CHAINING)
     e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -143,13 +144,20 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    if e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
+    if e == re or e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
         return false
     end
 
     if re:IsHasCategory(CATEGORY_NEGATE) and
         Duel.GetChainInfo(ev - 1, CHAININFO_TRIGGERING_EFFECT):IsHasType(EFFECT_TYPE_ACTIVATE) then
         return false
+    end
+
+    if re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
+        local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+        if tg and tg:IsExists(Card.IsOnField, 1, nil) then
+            return true
+        end
     end
 
     local ex, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
@@ -160,10 +168,9 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local rc = re:GetHandler()
     if chk == 0 then
-        return c:GetFlagEffect(id) == 0
+        return true
     end
 
-    c:RegisterFlagEffect(id, RESET_CHAIN, 0, 1)
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, #eg, 0, 0)
     if rc:IsRelateToEffect(re) and rc:IsDestructable() then
         Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
@@ -199,7 +206,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    c:RegisterFlagEffect(id + 10000, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
     if Duel.GetAttacker() and Duel.GetAttacker():GetControler() ~= tp and
         Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 3)) then
         Duel.NegateAttack()
@@ -225,7 +232,7 @@ end
 
 function s.e4retcon(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return c:GetFlagEffect(id + 10000) > 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+    return c:GetFlagEffect(id) > 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
