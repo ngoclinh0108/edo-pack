@@ -397,15 +397,26 @@ name = "Stardust Maiden"
 type = "monster synchro effect"
 attribute = "wind"
 race = "dragon"
-level = 5
-atk = 1900
-def = 1400
+effect = """
+"""
+strings = []
+
+[quickspan-warrior]
+id = 900000318
+set = "warrior"
+name = "Quick-Span Warrior"
+type = "monster synchro effect"
+attribute = "earth"
+race = "warrior"
+level = 8
+atk = 2800
+def = 1700
 effect = """
 """
 strings = []
 
 [quickdraw-warrior]
-id = 900000318
+id = 900000319
 set = "warrior"
 name = "Quickdraw Warrior"
 type = "monster synchro effect"
@@ -414,18 +425,6 @@ race = "warrior"
 level = 7
 atk = 2600
 def = 2000
-effect = """
-"""
-strings = []
-
-[quickspan-warrior]
-id = 900000319
-set = "warrior"
-name = "Quick-Span Warrior"
-type = "monster synchro effect"
-attribute = "earth"
-race = "warrior"
-level = 6
 effect = """
 """
 strings = []
