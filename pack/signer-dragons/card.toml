@@ -398,6 +398,8 @@ type = "monster synchro effect"
 attribute = "wind"
 race = "dragon"
 level = 5
+atk = 1900
+def = 1400
 effect = """
 """
 strings = []
@@ -410,6 +412,8 @@ type = "monster synchro effect"
 attribute = "wind"
 race = "warrior"
 level = 7
+atk = 2600
+def = 2000
 effect = """
 """
 strings = []
@@ -421,7 +425,6 @@ name = "Quick-Span Warrior"
 type = "monster synchro effect"
 attribute = "earth"
 race = "warrior"
-level = 5
 effect = """
 """
 strings = []
@@ -433,7 +436,6 @@ name = "Steam Warrior"
 type = "monster synchro effect"
 attribute = "water"
 race = "warrior"
-level = 5
 effect = """
 """
 strings = []
