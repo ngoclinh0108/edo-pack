@@ -383,9 +383,9 @@ name = "Stardust Armory Dragon"
 type = "monster synchro effect"
 attribute = "wind"
 race = "dragon"
-level = 8
-atk = 2800
-def = 2000
+level = 10
+atk = 3000
+def = 2500
 effect = """
 """
 strings = []
