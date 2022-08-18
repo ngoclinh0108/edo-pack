@@ -1,4 +1,4 @@
--- Steam Warrior
+-- Starjunk Warrior
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
