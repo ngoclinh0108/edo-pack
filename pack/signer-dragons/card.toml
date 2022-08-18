@@ -352,8 +352,14 @@ strings = [
     "Change position?",
 ]
 
-[shooting-star-synchron]
+[nova-rising-dragon]
 id = 900000314
+name = "Nova Rising Dragon"
+type = "monster synchro effect"
+strings = []
+
+[shooting-star-synchron]
+id = 900000315
 set = "synchron"
 name = "Shooting Star Synchron"
 type = "monster synchro tuner effect"
