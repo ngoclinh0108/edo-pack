@@ -364,8 +364,11 @@ atk = 3000
 def = 2500
 effect = """
 1 Tuner Synchro Monster + 1+ non-Tuner Synchro Monster
-Must be either Synchro Summoned, or Special Summoned by shuffling \
+Must first be either Synchro Summoned, or Special Summoned by shuffling \
     1 Tuner Synchro Monster and 1 "Stardust Dragon" from your field and/or GY into the Extra Deck. \
+If this card is destroyed by battle, or if this card in its owner's possession is destroyed by an opponent's card effect: \
+    You can Special Summon 1 Level 8 or lower "Warrior" or "Stardust" Synchro Monster from your Extra Deck. \
+    (This Special Summon is treated as a Synchro Summon.) \
 """
 strings = []
 
