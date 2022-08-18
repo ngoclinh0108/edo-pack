@@ -1,4 +1,4 @@
--- Nova Rising Dragon
+-- Red Archfiend Blader
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()

@@ -352,14 +352,122 @@ strings = [
     "Change position?",
 ]
 
-[nova-rising-dragon]
+[red-archfiend-blader]
 id = 900000314
+set = "archfiend"
+name = "Red Archfiend Blader"
+type = "monster synchro effect"
+attribute = "fire"
+race = "warrior"
+level = 8
+atk = 2800
+def = 2600
+effect = """
+"""
+strings = []
+
+[nova-rising-dragon]
+id = 900000315
 name = "Nova Rising Dragon"
 type = "monster synchro effect"
+attribute = "dark"
+race = "dragon"
+effect = """
+"""
+strings = []
+
+[stardust-armory-dragon]
+id = 900000316
+set = "stardust"
+name = "Stardust Armory Dragon"
+type = "monster synchro effect"
+attribute = "wind"
+race = "dragon"
+level = 8
+atk = 2800
+def = 2000
+effect = """
+"""
+strings = []
+
+[stardust-maiden]
+id = 900000317
+set = "stardust"
+name = "Stardust Maiden"
+type = "monster synchro effect"
+attribute = "wind"
+race = "dragon"
+level = 5
+effect = """
+"""
+strings = []
+
+[quickdraw-warrior]
+id = 900000318
+set = "warrior"
+name = "Quickdraw Warrior"
+type = "monster synchro effect"
+attribute = "wind"
+race = "warrior"
+level = 7
+effect = """
+"""
+strings = []
+
+[quickspan-warrior]
+id = 900000319
+set = "warrior"
+name = "Quick-Span Warrior"
+type = "monster synchro effect"
+attribute = "earth"
+race = "warrior"
+level = 5
+effect = """
+"""
+strings = []
+
+[steam-warrior]
+id = 900000320
+set = "warrior"
+name = "Steam Warrior"
+type = "monster synchro effect"
+attribute = "water"
+race = "warrior"
+level = 5
+effect = """
+"""
+strings = []
+
+[junk-accelerator]
+id = 900000321
+set = "junk"
+name = "Junk Accelerator"
+type = "monster synchro effect"
+attribute = "wind"
+race = "warrior"
+level = 5
+atk = 1300
+def = 2300
+effect = """
+"""
+strings = []
+
+[starjunk-warrior]
+id = 900000322
+set = "junk warrior"
+name = "Starjunk Warrior"
+type = "monster synchro effect"
+attribute = "wind"
+race = "warrior"
+level = 5
+atk = 2300
+def = 1300
+effect = """
+"""
 strings = []
 
 [shooting-star-synchron]
-id = 900000315
+id = 900000323
 set = "synchron"
 name = "Shooting Star Synchron"
 type = "monster synchro tuner effect"
@@ -380,59 +488,3 @@ A Synchro Monster that used this card as material is unaffected by your opponent
     during the turn it is Synchro Summoned. \
 """
 strings = ["Cannot Special Summon from the Extra Deck, except Synchro Monsters"]
-
-[red-archfiend-warrior]
-id = 900000316
-set = "archfiend warrior"
-name = "Red Archfiend Warrior"
-type = "monster synchro effect"
-strings = []
-
-[assault-stardust-warrior]
-id = 900000317
-set = "stardust warrior"
-name = "Assault Stardust Warrior"
-type = "monster synchro effect"
-strings = []
-
-[stardust-maiden]
-id = 900000318
-set = "stardust"
-name = "Stardust Maiden"
-type = "monster synchro effect"
-strings = []
-
-[quickdraw-warrior]
-id = 900000319
-set = "warrior"
-name = "Quickdraw Warrior"
-type = "monster synchro effect"
-strings = []
-
-[quickspan-warrior]
-id = 900000320
-set = "warrior"
-name = "Quick-Span Warrior"
-type = "monster synchro effect"
-strings = []
-
-[steam-warrior]
-id = 900000321
-set = "warrior"
-name = "Steam Warrior"
-type = "monster synchro effect"
-strings = []
-
-[junk-accelerator]
-id = 900000322
-set = "junk"
-name = "Junk Accelerator"
-type = "monster synchro effect"
-strings = []
-
-[starjunk-warrior]
-id = 900000323
-set = "junk warrior"
-name = "Starjunk Warrior"
-type = "monster synchro effect"
-strings = []
