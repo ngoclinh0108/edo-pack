@@ -1,126 +1,255 @@
--- Majestic Black Dragon
+-- Cosmic Quasar Dragon
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
-s.counter_list = {COUNTER_FEATHER}
+
+s.counter_list = {SignerDragon.COUNTER_SIGNER}
+s.synchro_tuner_required = 1
+s.synchro_nt_required = 2
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    c:EnableCounterPermit(COUNTER_FEATHER)
+    c:EnableCounterPermit(SignerDragon.COUNTER_SIGNER)
 
     -- synchro summon
-    SignerDragon.AddMajesticProcedure(c, s, CARD_BLACK_WINGED_DRAGON)
-    SignerDragon.AddMajesticReturn(c, CARD_BLACK_WINGED_DRAGON)
+    Synchro.AddProcedure(c, function(c, sc, sumtype, tp)
+        return c:IsRace(RACE_DRAGON, sc, sumtype, tp) and c:IsType(TYPE_SYNCHRO, sc, sumtype, tp)
+    end, 1, 1, Synchro.NonTunerEx(Card.IsType, TYPE_SYNCHRO), 2, 99)
 
-    -- place counter
-    local e1reg = Effect.CreateEffect(c)
-    e1reg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1reg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e1reg:SetCode(EVENT_CHAINING)
-    e1reg:SetRange(LOCATION_MZONE)
-    e1reg:SetOperation(aux.chainreg)
-    c:RegisterEffect(e1reg)
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(aux.synlimit)
+    c:RegisterEffect(splimit)
+
+    -- summon & effect cannot be negated
+    local spsafe = Effect.CreateEffect(c)
+    spsafe:SetType(EFFECT_TYPE_SINGLE)
+    spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    spsafe:SetCondition(function(e)
+        return e:GetHandler():GetSummonType() == SUMMON_TYPE_SYNCHRO
+    end)
+    c:RegisterEffect(spsafe)
+    local nodis1 = Effect.CreateEffect(c)
+    nodis1:SetType(EFFECT_TYPE_SINGLE)
+    nodis1:SetCode(EFFECT_CANNOT_DISABLE)
+    c:RegisterEffect(nodis1)
+    local nodis2 = Effect.CreateEffect(c)
+    nodis2:SetType(EFFECT_TYPE_FIELD)
+    nodis2:SetCode(EFFECT_CANNOT_DISEFFECT)
+    nodis2:SetRange(LOCATION_MZONE)
+    nodis2:SetValue(function(e, ct)
+        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+        return te:GetHandler() == e:GetHandler()
+    end)
+    c:RegisterEffect(nodis2)
+
+    -- cannot be release, or be material
+    local matlimit = Effect.CreateEffect(c)
+    matlimit:SetType(EFFECT_TYPE_SINGLE)
+    matlimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    matlimit:SetCode(EFFECT_UNRELEASABLE_SUM)
+    matlimit:SetValue(1)
+    c:RegisterEffect(matlimit)
+    local matlimit2 = matlimit:Clone()
+    matlimit2:SetCode(EFFECT_UNRELEASABLE_NONSUM)
+    c:RegisterEffect(matlimit2)
+    local matlimit3 = matlimit:Clone()
+    matlimit3:SetCode(EFFECT_CANNOT_BE_FUSION_MATERIAL)
+    c:RegisterEffect(matlimit3)
+    local matlimit4 = matlimit:Clone()
+    matlimit4:SetCode(EFFECT_CANNOT_BE_SYNCHRO_MATERIAL)
+    c:RegisterEffect(matlimit4)
+    local matlimit5 = matlimit:Clone()
+    matlimit5:SetCode(EFFECT_CANNOT_BE_XYZ_MATERIAL)
+    c:RegisterEffect(matlimit5)
+    local matlimit6 = matlimit:Clone()
+    matlimit6:SetCode(EFFECT_CANNOT_BE_LINK_MATERIAL)
+    c:RegisterEffect(matlimit6)
+
+    -- place counter (synchro summoned)
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1:SetCode(EVENT_CHAIN_SOLVED)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        return re:IsActiveType(TYPE_MONSTER) and re:GetHandler() ~= c and c:GetFlagEffect(1) ~= 0
-    end)
-    e1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        if c:AddCounter(COUNTER_FEATHER, 1) then
-            Duel.Hint(HINT_CARD, 0, id)
-            Duel.Damage(1 - tp, 700, REASON_EFFECT)
-        end
-    end)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- banish
+    -- immune
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_REMOVE)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_IMMUNE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetHintTiming(0, TIMING_MAIN_END + TIMINGS_CHECK_MONSTER_E)
-    e2:SetCost(s.e2cost)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetValue(function(e, re)
+        return re:IsActiveType(TYPE_MONSTER) and re:GetOwner() ~= e:GetOwner()
+    end)
     c:RegisterEffect(e2)
 
-    -- negate & damage
+    -- negate effect (activate)
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_DAMAGE)
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_CHAINING)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
+    e3:SetCondition(s.e3con)
+    e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- negate effect (battle)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetCode(EFFECT_DISABLE)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetTargetRange(0, LOCATION_MZONE)
+    e4:SetCondition(s.e4con)
+    e4:SetTarget(s.e4tg)
+    c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetCode(EFFECT_DISABLE_EFFECT)
+    c:RegisterEffect(e4b)
+
+    -- chain attack
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e5:SetCode(EVENT_DAMAGE_STEP_END)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCondition(s.e5con)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
+
+    -- place counter (end phase)
+    local e6 = Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e6:SetCode(EVENT_PHASE + PHASE_END)
+    e6:SetRange(LOCATION_MZONE)
+    e6:SetCountLimit(1)
+    e6:SetCondition(s.e6con)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
+
+    -- special summon
+    local e7 = Effect.CreateEffect(c)
+    e7:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e7:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
+    e7:SetCode(EVENT_LEAVE_FIELD)
+    e7:SetCondition(s.e7con)
+    e7:SetOperation(s.e7op)
+    c:RegisterEffect(e7)
 end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.max_counter(e)
+    return e:GetHandler():GetMaterial():FilterCount(function(c)
+        return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
+    end, nil)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    c:AddCounter(SignerDragon.COUNTER_SIGNER, s.max_counter(e))
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return e ~= re and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetCounter(COUNTER_FEATHER) >= 4 and c:IsReleasable()
+        return c:IsCanRemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_COST)
     end
-    Duel.Release(c, REASON_COST)
+
+    c:RemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_COST)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local rc = re:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(nil, tp, 0, LOCATION_ONFIELD, 1, nil)
+        return true
     end
 
-    local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
-    Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
-end
-
-function s.e3filter(c)
-    return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, #eg, 0, 0)
+    if rc:IsRelateToEffect(re) and rc:IsDestructable() then
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
     end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
-    local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
-
-    Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, tc:GetAttack())
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.NegateEffect(ev) and re:GetHandler():IsRelateToEffect(re) then
+        Duel.Destroy(eg, REASON_EFFECT)
+    end
+end
+
+function s.e4con(e)
     local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then
+    return Duel.GetAttacker() == c and c:GetBattleTarget() and
+               (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL)
+end
+
+function s.e4tg(e, c)
+    return c == e:GetHandler():GetBattleTarget()
+end
+
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttacker() == e:GetHandler()
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsFacedown() or not c:IsCanRemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_EFFECT) or
+        not c:CanChainAttack(0) or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
         return
     end
 
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_DISABLE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    tc:RegisterEffect(ec1)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_DISABLE_EFFECT)
-    tc:RegisterEffect(ec1b)
+    c:RemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_EFFECT)
+    Duel.ChainAttack()
+end
 
-    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec1b) then
+function s.e6con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsFaceup() and c:GetCounter(SignerDragon.COUNTER_SIGNER) < s.max_counter(e)
+end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ct = s.max_counter(e) - c:GetCounter(SignerDragon.COUNTER_SIGNER)
+    c:AddCounter(SignerDragon.COUNTER_SIGNER, ct)
+end
+
+function s.e7filter(c, e, tp)
+    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsLevelBelow(10) and
+               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+end
+
+function s.e7con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_ONFIELD) and
+               Duel.IsExistingMatchingCard(s.e7filter, tp, LOCATION_REMOVED + LOCATION_EXTRA + LOCATION_GRAVE, 0, 1,
+            nil, e, tp)
+end
+
+function s.e7op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then
         return
     end
-    Duel.AdjustInstantly(tc)
 
-    Duel.Damage(1 - tp, tc:GetAttack(), REASON_EFFECT)
+    local sc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e7filter, tp,
+        LOCATION_REMOVED + LOCATION_EXTRA + LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
+    if sc then
+        Utility.HintCard(c)
+        Duel.SpecialSummon(sc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
+        sc:CompleteProcedure()
+    end
 end

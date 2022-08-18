@@ -181,111 +181,8 @@ strings = [
     "Cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters",
 ]
 
-[majestic-black-dragon]
-id = 900000308
-set = "majestic"
-name = "Majestic Black Dragon"
-type = "monster synchro effect"
-attribute = "dark"
-race = "dragon"
-level = 10
-atk = 3900
-def = 2600
-effect = """
-"Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
-Each time another monster effect is activated, \
-    place 1 Black Feather Counter on this card immediately after it resolves, \
-    and if you do, inflict 700 damage to them. \
-(Quick Effect): You can Tribute this card with 4 or more Black Feather Counters; \
-    banish all cards your opponent controls. \
-Once per turn: You can target 1 face-up monster your opponent controls; \
-    negate its effects until the end of this turn, \
-    and if you do, inflict damage to your opponent equal to the ATK of that target. \
-{MAJESTIC_RETURN|Black-Winged Dragon} \
-"""
-strings = [
-    "Tribute to banish your opponent cards",
-    "Negate effect & inflict damage",
-]
-
-[majestic-rose-dragon]
-id = 900000309
-set = "majestic rose-dragon"
-name = "Majestic Rose Dragon"
-type = "monster synchro effect"
-attribute = "fire"
-race = "dragon"
-level = 10
-atk = 3750
-def = 2800
-effect = """
-"Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
-If this card is Synchro Summoned: You can banish all cards from your opponent's GY face-down. \
-If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
-Once per turn: You can target 1 face-up monster your opponent controls; \
-    negate its effects, and if you do, change its ATK and DEF to 0. \
-    These changes last until the end of this turn. \
-{MAJESTIC_RETURN|Black Rose Dragon} \
-"""
-strings = [
-    "Banish all cards from your opponent's GY face-down",
-    "Negate effect & make ATK/DEF become 0",
-]
-
-[majestic-fairy-dragon]
-id = 900000310
-set = "majestic"
-name = "Majestic Fairy Dragon"
-type = "monster synchro effect"
-attribute = "light"
-race = "dragon"
-level = 10
-atk = 3600
-def = 4000
-effect = """
-"Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
-This card gains ATK equal to the difference between your LP and your opponent's. \
-Once per turn, during your Main Phase 1: \
-    You can Special Summon 1 Level 4 or lower monster from your hand or in either GY. \
-Once per turn: You can target 1 face-up monster your opponent controls; \
-    negate its effects until the end of this turn, and if you do, gain LP equal to its ATK. \
-{MAJESTIC_RETURN|Ancient Fairy Dragon} \
-"""
-strings = [
-    "Special Summon 1 Level 4 or lower monster",
-    "Negate effect & recover LP",
-]
-
-[majestic-life-dragon]
-id = 900000311
-set = "majestic"
-name = "Majestic Life Dragon"
-type = "monster synchro tuner effect"
-attribute = "earth"
-race = "dragon"
-level = 10
-atk = 3950
-def = 3400
-effect = """
-"Majestic Dragon" + "Life Stream Dragon" + 1 non-Tuner monster
-If this card is Special Summoned: \
-    You can equip up to 3 Equip Spells with different names from your Deck and/or GY to this card, \
-    and if you do, your opponent cannot target those cards with card effects, \
-    also they cannot be destroyed by your opponent's card effects. \
-Any effect that would inflict damage to you makes you gain that much LP, instead. \
-Once per turn: You can target 1 face-up monster your opponent controls; \
-    negate its effects until the end of this turn, \
-    and if you do, you can change its battle position. \
-{MAJESTIC_RETURN|Life Stream Dragon} \
-"""
-strings = [
-    "Equip Spells to this card",
-    "Negate effect & change position",
-    "Change position?",
-]
-
 [cosmic-quasar-dragon]
-id = 900000312
+id = 900000308
 name = "Cosmic Quasar Dragon"
 type = "monster synchro effect"
 attribute = "light"
@@ -299,6 +196,7 @@ Must be Synchro Summoned. \
 This card's Synchro Summon and its effects cannot be negated. \
 After this card is Synchro Summoned, place Signer Counters on this card \
     equal to the number of Dragon Synchro Monsters used as its Synchro Material. \
+Cannot be Tributed, or used as a material for an Summon. \
 Unaffected by other monsters' effects. \
 When another card or effect is activated (Quick Effect): \
     You can remove 1 Signer Counter from this card; \
@@ -308,6 +206,8 @@ If this card attacks an opponent's monster, \
 At the end of the Damage Step, if this card attacked, \
     you can remove 1 Signer Counter from this card, \
     and if you do, this card can attack gain. \
+Once per turn, during the End Phase, place Signer Counters on this card \
+    until it has equal to the number of Dragon Synchro Monsters used as its Synchro Material. \
 When this face-up card leaves the field, you can Special Summon 1 Level 10 or lower Dragon Synchro Monster \
     that is banished, or in your Extra Deck, GY. (This Special Summon is treated as a Synchro Summon.) \
 """
@@ -318,7 +218,7 @@ strings = [
 ]
 
 [shooting-stardust-dragon]
-id = 900000313
+id = 900000309
 set = "stardust"
 name = "Shooting Stardust Dragon"
 type = "monster synchro effect"
@@ -347,6 +247,109 @@ strings = [
     "Negate the effect",
     "Banish this card until the end phase",
     "Do you want negate the attack by effect of \"{CARD_NAME}\"?",
+]
+
+[majestic-black-dragon]
+id = 900000310
+set = "majestic"
+name = "Majestic Black Dragon"
+type = "monster synchro effect"
+attribute = "dark"
+race = "dragon"
+level = 10
+atk = 3900
+def = 2600
+effect = """
+"Majestic Dragon" + "Black-Winged Dragon" + 1 non-Tuner monster
+Each time another monster effect is activated, \
+    place 1 Black Feather Counter on this card immediately after it resolves, \
+    and if you do, inflict 700 damage to them. \
+(Quick Effect): You can Tribute this card with 4 or more Black Feather Counters; \
+    banish all cards your opponent controls. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects until the end of this turn, \
+    and if you do, inflict damage to your opponent equal to the ATK of that target. \
+{MAJESTIC_RETURN|Black-Winged Dragon} \
+"""
+strings = [
+    "Tribute to banish your opponent cards",
+    "Negate effect & inflict damage",
+]
+
+[majestic-rose-dragon]
+id = 900000311
+set = "majestic rose-dragon"
+name = "Majestic Rose Dragon"
+type = "monster synchro effect"
+attribute = "fire"
+race = "dragon"
+level = 10
+atk = 3750
+def = 2800
+effect = """
+"Majestic Dragon" + "Black Rose Dragon" + 1 non-Tuner monster
+If this card is Synchro Summoned: You can banish all cards from your opponent's GY face-down. \
+If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects, and if you do, change its ATK and DEF to 0. \
+    These changes last until the end of this turn. \
+{MAJESTIC_RETURN|Black Rose Dragon} \
+"""
+strings = [
+    "Banish all cards from your opponent's GY face-down",
+    "Negate effect & make ATK/DEF become 0",
+]
+
+[majestic-fairy-dragon]
+id = 900000312
+set = "majestic"
+name = "Majestic Fairy Dragon"
+type = "monster synchro effect"
+attribute = "light"
+race = "dragon"
+level = 10
+atk = 3600
+def = 4000
+effect = """
+"Majestic Dragon" + "Ancient Fairy Dragon" + 1 non-Tuner monster
+This card gains ATK equal to the difference between your LP and your opponent's. \
+Once per turn, during your Main Phase 1: \
+    You can Special Summon 1 Level 4 or lower monster from your hand or in either GY. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects until the end of this turn, and if you do, gain LP equal to its ATK. \
+{MAJESTIC_RETURN|Ancient Fairy Dragon} \
+"""
+strings = [
+    "Special Summon 1 Level 4 or lower monster",
+    "Negate effect & recover LP",
+]
+
+[majestic-life-dragon]
+id = 900000313
+set = "majestic"
+name = "Majestic Life Dragon"
+type = "monster synchro tuner effect"
+attribute = "earth"
+race = "dragon"
+level = 10
+atk = 3950
+def = 3400
+effect = """
+"Majestic Dragon" + "Life Stream Dragon" + 1 non-Tuner monster
+If this card is Special Summoned: \
+    You can equip up to 3 Equip Spells with different names from your Deck and/or GY to this card, \
+    and if you do, your opponent cannot target those cards with card effects, \
+    also they cannot be destroyed by your opponent's card effects. \
+Any effect that would inflict damage to you makes you gain that much LP, instead. \
+Once per turn: You can target 1 face-up monster your opponent controls; \
+    negate its effects until the end of this turn, \
+    and if you do, you can change its battle position. \
+{MAJESTIC_RETURN|Life Stream Dragon} \
+"""
+strings = [
+    "Equip Spells to this card",
+    "Negate effect & change position",
+    "Change position?",
 ]
 
 [shooting-star-synchron]

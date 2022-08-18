@@ -1,4 +1,4 @@
--- Majestic Life Dragon
+-- Majestic Rose Dragon
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
@@ -7,36 +7,31 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    SignerDragon.AddMajesticProcedure(c, s, SignerDragon.CARD_LIFE_STREAM_DRAGON)
-    SignerDragon.AddMajesticReturn(c, SignerDragon.CARD_LIFE_STREAM_DRAGON)
+    SignerDragon.AddMajesticProcedure(c, s, CARD_BLACK_ROSE_DRAGON)
+    SignerDragon.AddMajesticReturn(c, CARD_BLACK_ROSE_DRAGON)
 
-    -- equip spells
+    -- banish
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_EQUIP)
+    e1:SetCategory(CATEGORY_REMOVE)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetProperty(EFFECT_FLAG_DELAY)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- damage conversion
+    -- piercing damage
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2:SetCode(EFFECT_REVERSE_DAMAGE)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(1, 0)
-    e2:SetValue(function(e, re, r, rp, rc)
-        return (r & REASON_EFFECT) ~= 0
-    end)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_PIERCE)
     c:RegisterEffect(e2)
 
-    -- negate & change position
+    -- negate & down atk/def
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_POSITION)
+    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetRange(LOCATION_MZONE)
@@ -46,54 +41,24 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c, tp, ec)
-    return c:IsType(TYPE_EQUIP) and c:CheckEquipTarget(ec) and c:CheckUniqueOnField(tp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, tp, c)
+        return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, 1, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_EQUIP, nil, 1, 0, LOCATION_DECK + LOCATION_GRAVE)
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, nil)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsFacedown() or not c:IsRelateToEffect(e) then
-        return
-    end
-
-    local g =
-        Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp, LOCATION_DECK + LOCATION_GRAVE, 0, nil, tp, c)
-    if #g == 0 then
-        return
-    end
-
-    local ft = math.min(Duel.GetLocationCount(tp, LOCATION_SZONE), 3)
-    local sg = Utility.GroupSelect(HINTMSG_EQUIP, g, tp, 1, ft)
-    if #sg > 0 then
-        for tc in sg:Iter() do
-            Duel.Equip(tp, tc, c, true, true)
-
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetDescription(3060)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-            ec1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-            ec1:SetRange(LOCATION_MZONE)
-            ec1:SetValue(aux.indoval)
-            tc:RegisterEffect(ec1)
-            local ec1b = ec1:Clone()
-            ec1b:SetDescription(3061)
-            ec1b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-            ec1b:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_CLIENT_HINT)
-            ec1b:SetValue(aux.tgoval)
-            tc:RegisterEffect(ec1b)
-        end
-        Duel.EquipComplete()
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, nil)
+    if #g > 0 then
+        Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
     end
 end
 
@@ -110,7 +75,6 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
-    Duel.SetPossibleOperationInfo(0, CATEGORY_POSITION, tc, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -134,7 +98,13 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
     Duel.AdjustInstantly(tc)
 
-    if Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
-        Duel.ChangePosition(tc, POS_FACEUP_DEFENSE, 0, POS_FACEUP_ATTACK, 0)
-    end
+    local ec2 = Effect.CreateEffect(e:GetHandler())
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec2:SetValue(0)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    tc:RegisterEffect(ec2)
+    local ec2b = ec2:Clone()
+    ec2b:SetCode(EFFECT_SET_DEFENSE_FINAL)
+    tc:RegisterEffect(ec2b)
 end
