@@ -364,6 +364,8 @@ atk = 3000
 def = 2500
 effect = """
 1 Tuner Synchro Monster + 1+ non-Tuner Synchro Monster
+Must be either Synchro Summoned, or Special Summoned by shuffling \
+    1 Tuner Synchro Monster and 1 "Stardust Dragon" from your field and/or GY into the Extra Deck. \
 """
 strings = []
 

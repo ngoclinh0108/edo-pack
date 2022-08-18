@@ -16,7 +16,7 @@ function s.initial_effect(c)
     -- special summon procedure
     local spr = Effect.CreateEffect(c)
     spr:SetType(EFFECT_TYPE_FIELD)
-    spr:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    spr:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     spr:SetCode(EFFECT_SPSUMMON_PROC)
     spr:SetRange(LOCATION_EXTRA)
     spr:SetCondition(s.sprcon)
