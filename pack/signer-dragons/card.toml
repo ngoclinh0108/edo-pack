@@ -369,8 +369,13 @@ Must first be either Synchro Summoned, or Special Summoned by shuffling \
 If this card is destroyed by battle, or if this card in its owner's possession is destroyed by an opponent's card effect: \
     You can Special Summon 1 Level 8 or lower "Warrior" or "Stardust" Synchro Monster from your Extra Deck. \
     (This Special Summon is treated as a Synchro Summon.) \
+(Quick Effect): You can Tribute this card to activate 1 of these effects; \
+    during the End Phase, if this effect was activated this turn (and was not negated), \
+    Special Summon this card from your GY.
+● When your opponent activates a card or effect: Negate the activation, and if you do, destroy that card.
+● When your opponent would Special Summon a monster(s): Negate the Special Summon, and if you do, destroy that monster(s)
 """
-strings = []
+strings = ["Negate the activation", "Negate the Special Summon"]
 
 [converging-wills-maiden]
 id = 900000315

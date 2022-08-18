@@ -28,15 +28,52 @@ function s.initial_effect(c)
     c:RegisterEffect(spr)
 
     -- special summon
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_DESTROYED)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
+    -- negate activation
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_DESTROYED)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e2:SetCode(EVENT_CHAINING)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetCondition(s.e2con)
+    e2:SetCost(aux.StardustCost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- disable special summon
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_DISABLE_SUMMON + CATEGORY_DESTROY)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_SPSUMMON)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCondition(s.e3con)
+    e3:SetCost(aux.StardustCost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+
+    -- revive
+    local ret = Effect.CreateEffect(c)
+    ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ret:SetCode(EVENT_PHASE + PHASE_END)
+    ret:SetRange(LOCATION_GRAVE)
+    ret:SetCountLimit(1)
+    ret:SetCondition(s.retcon)
+    ret:SetOperation(s.retop)
+    c:RegisterEffect(ret)
 end
 
 function s.sprfilter1(c)
@@ -86,35 +123,88 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e2filter(c, e, tp)
+function s.e1filter(c, e, tp)
     return Utility.IsSetCard(c, 0x66, 0xa3) and c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and
                Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsReason(REASON_BATTLE) or (rp == 1 - tp and c:IsReason(REASON_EFFECT) and c:IsPreviousControler(tp))
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp)
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
         return
     end
 
     local tc =
-        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
+        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
     if tc then
         Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
         tc:CompleteProcedure()
     end
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return rp ~= tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local rc = re:GetHandler()
+    if chk == 0 then
+        return true
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, #eg, 0, 0)
+    if rc:IsDestructable() and rc:IsRelateToEffect(re) then
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
+    end
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
+
+    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
+        Duel.Destroy(eg, REASON_EFFECT)
+    end
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return tp ~= ep and Duel.GetCurrentChain() == 0
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE_SUMMON, eg, #eg, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    Duel.NegateSummon(eg)
+    Duel.Destroy(eg, REASON_EFFECT)
+end
+
+function s.retcon(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:GetFlagEffect(id) > 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.retop(e, tp, eg, ep, ev, re, r, rp)
+    Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP)
 end
