@@ -372,6 +372,9 @@ name = "Nova Rising Dragon"
 type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
+level = 8
+atk = 2400
+def = 1800
 effect = """
 """
 strings = []
@@ -390,13 +393,16 @@ effect = """
 """
 strings = []
 
-[stardust-maiden]
+[stardust-converging-maiden]
 id = 900000317
 set = "stardust"
-name = "Stardust Maiden"
+name = "Stardust Converging Maiden"
 type = "monster synchro effect"
 attribute = "wind"
 race = "dragon"
+level = 6
+atk = 1900
+def = 1400
 effect = """
 """
 strings = []
@@ -437,6 +443,8 @@ type = "monster synchro effect"
 attribute = "water"
 race = "warrior"
 level = 7
+atk = 2400
+def = 2200
 effect = """
 """
 strings = []
