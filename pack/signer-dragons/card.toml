@@ -425,9 +425,10 @@ type = "monster synchro effect"
 attribute = "wind"
 race = "warrior"
 level = 7
-atk = 2600
-def = 2000
+atk = 2400
+def = 1800
 effect = """
+"Quickdraw Synchron" or 1 "Synchron" Tuner + 1+ non-Tuner monsters
 """
 strings = []
 
@@ -438,9 +439,9 @@ name = "Steam Warrior"
 type = "monster synchro effect"
 attribute = "water"
 race = "warrior"
-level = 7
-atk = 2400
-def = 2200
+level = 6
+atk = 2200
+def = 2000
 effect = """
 "Steam Synchron" or 1 "Synchron" Tuner + 1+ non-Tuner monsters
 """
