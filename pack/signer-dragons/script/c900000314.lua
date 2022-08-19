@@ -4,7 +4,7 @@ Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_STARDUST_DRAGON}
-s.listed_series = {0x66, 0xa3}
+s.listed_series = {0xa3}
 s.synchro_tuner_required = 1
 s.synchro_nt_required = 1
 
@@ -124,7 +124,7 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
 end
 
 function s.e1filter(c, e, tp)
-    return Utility.IsSetCard(c, 0x66, 0xa3) and c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and
+    return c:IsSetCard(0xa3) and c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and
                Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end

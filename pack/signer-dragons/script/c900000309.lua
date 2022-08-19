@@ -86,9 +86,9 @@ function s.initial_effect(c)
     c:RegisterEffect(e4ret)
 end
 
-function s.e1filter(c, tp)
-    return c:IsFaceup() and c:IsCode(CARD_STARDUST_DRAGON) and
-               Duel.IsExistingMatchingCard(Card.IsSynchroSummonable, tp, LOCATION_EXTRA, 0, 1, nil, c)
+function s.e1filter(c, sc, tp)
+    local g = Duel.GetMatchingGroup(Card.IsSynchroSummonable, tp, LOCATION_EXTRA, 0, nil, c)
+    return c:IsFaceup() and c:IsCode(CARD_STARDUST_DRAGON) and g:IsContains(sc)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -98,7 +98,7 @@ end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil, tp)
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil, c, tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, tp, LOCATION_EXTRA)

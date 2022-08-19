@@ -363,7 +363,7 @@ effect = """
 Must first be either Synchro Summoned, or Special Summoned by shuffling \
     1 Tuner Synchro Monster and 1 "Stardust Dragon" from your field and/or GY into the Extra Deck. \
 If this card is destroyed by battle, or if this card in its owner's possession is destroyed by an opponent's card effect: \
-    You can Special Summon 1 Level 8 or lower "Warrior" or "Stardust" Synchro Monster from your Extra Deck. \
+    You can Special Summon 1 Level 8 or lower "Stardust" Synchro Monster from your Extra Deck. \
     (This Special Summon is treated as a Synchro Summon.) \
 (Quick Effect): You can Tribute this card to activate 1 of these effects; \
     during the End Phase, if this effect was activated this turn (and was not negated), \
@@ -429,8 +429,21 @@ atk = 2400
 def = 1800
 effect = """
 "Quickdraw Synchron" or 1 "Synchron" Tuner + 1+ non-Tuner monsters
+If this card is Synchro Summoned using "Quickdraw Synchron": \
+    You can target 1 card in your GY; add it to your hand. \
+During your opponent's turn (Quick Effect): You can banish this card you control; \
+    Special Summon 1 Level 8 or lower Synchro Monster that lists a "Synchron" Tuner as material from your Extra Deck, \
+    except "{CARD_NAME}". (This Special Summon is treated as a Synchro Summon.) \
+During your Standby Phase, while this card is banished: \
+    You can return 1 Synchro Monster you control to the Extra Deck; \
+    Special Summon this banished card, then draw 1 card. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = [
+    "Add 1 card from the GY to your hand",
+    "Banish to Special Summon a Synchro Monster",
+    "Return 1 Synchro Monster to Special Summon this card",
+]
 
 [steam-warrior]
 id = 900000318
