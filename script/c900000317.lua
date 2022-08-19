@@ -48,6 +48,19 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- special summon from banished
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 2))
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e3:SetCode(EVENT_PHASE + PHASE_STANDBY)
+    e3:SetRange(LOCATION_REMOVED)
+    e3:SetCountLimit(1, {id, 3})
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1matcheck(e, c)
@@ -116,5 +129,40 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if tc then
         Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
         tc:CompleteProcedure()
+    end
+end
+
+function s.e3filter(c)
+    return c:IsType(TYPE_SYNCHRO) and c:IsAbleToDeck()
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() == tp
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_MZONE, 0, 1, nil) and
+                   c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, 0, LOCATION_MZONE)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, s.e3filter, tp, LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
+    if not tc or Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) == 0 then
+        return
+    end
+
+    if c:IsRelateToEffect(e) then
+        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
+
+        Duel.BreakEffect()
+        Duel.Draw(tp, 1, REASON_EFFECT)
     end
 end
