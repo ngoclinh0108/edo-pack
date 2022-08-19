@@ -187,7 +187,7 @@ effect = """
 Must be Synchro Summoned. \
 This card's Synchro Summon and its effects cannot be negated. \
 After this card is Synchro Summoned, place Signer Counters on this card \
-    equal to the number of Dragon Synchro Monsters used as its Synchro Material. \
+    equal to the number of original Dragon Synchro Monsters used as its Synchro Material. \
 Cannot be Tributed, or used as a material for an Summon. \
 Unaffected by other monsters' effects. \
 When another card or effect is activated (Quick Effect): \
@@ -199,7 +199,7 @@ At the end of the Damage Step, if this card attacked, \
     you can remove 1 Signer Counter from this card, \
     and if you do, this card can attack gain. \
 Once per turn, during the End Phase, place Signer Counters on this card \
-    until it has equal to the number of Dragon Synchro Monsters used as its Synchro Material. \
+    until it has equal to the number of original Dragon Synchro Monsters used as its Synchro Material. \
 When this face-up card leaves the field, you can Special Summon 1 Level 10 or lower Dragon Synchro Monster \
     that is banished, or in your Extra Deck, GY. (This Special Summon is treated as a Synchro Summon.) \
     If you Special Summoned "Shooting Star Dragon" by this effect, \

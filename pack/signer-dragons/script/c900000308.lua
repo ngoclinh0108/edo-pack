@@ -146,7 +146,7 @@ end
 
 function s.max_counter(e)
     return e:GetHandler():GetMaterial():FilterCount(function(c)
-        return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
+        return c:IsOriginalRace(RACE_DRAGON) and c:IsOriginalType(TYPE_SYNCHRO)
     end, nil)
 end
 
