@@ -3,6 +3,8 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
 
+s.listed_names = {CARD_STARDUST_DRAGON}
+
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
@@ -108,8 +110,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter1(c, e, tp, rc)
-    return c:IsType(TYPE_TUNER) and Duel.GetLocationCountFromEx(tp, tp, rc, c) > 0 and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+    return
+        (c:IsCode(CARD_STARDUST_DRAGON) or c:IsType(TYPE_TUNER)) and Duel.GetLocationCountFromEx(tp, tp, rc, c) > 0 and
+            c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
 function s.e3filter2(c, mg)
