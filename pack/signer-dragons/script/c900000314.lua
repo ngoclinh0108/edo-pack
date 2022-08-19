@@ -104,7 +104,7 @@ function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
     local g1 = Duel.GetMatchingGroup(s.sprfilter1, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, nil, tp)
     local g2 = Duel.GetMatchingGroup(s.sprfilter2, tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0, nil, tp)
     local rg = g1:Clone():Merge(g2)
-    local g = aux.SelectUnselectGroup(rg, e, tp, 2, 2, s.sprescon, 1, tp, HINTMSG_REMOVE, nil, nil, true)
+    local g = aux.SelectUnselectGroup(rg, e, tp, 2, 2, s.sprescon, 1, tp, HINTMSG_TODECK, nil, nil, true)
     if #g > 0 then
         g:KeepAlive()
         e:SetLabelObject(g)
@@ -197,7 +197,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
-    
+
     Duel.NegateSummon(eg)
     Duel.Destroy(eg, REASON_EFFECT)
 end
