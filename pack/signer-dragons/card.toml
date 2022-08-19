@@ -520,5 +520,6 @@ level = 8
 atk = 2800
 def = 2600
 effect = """
+2 Tuners + 1+ non-Tuner monsters
 """
 strings = []
