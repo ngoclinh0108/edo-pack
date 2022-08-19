@@ -442,6 +442,7 @@ level = 7
 atk = 2400
 def = 2200
 effect = """
+"Steam Synchron" or 1 "Synchron" Tuner + 1+ non-Tuner monsters
 """
 strings = []
 
