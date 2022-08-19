@@ -249,7 +249,7 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local sc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e7filter, tp,
+    local sc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e7filter), tp,
         LOCATION_REMOVED + LOCATION_EXTRA + LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
     if not sc then
         return

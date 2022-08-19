@@ -143,7 +143,6 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-
     local lv = e:GetLabel()
     local g = Duel.GetMatchingGroup(s.e4filter, tp, LOCATION_MZONE, 0, c)
     for tc in aux.Next(g) do
@@ -155,16 +154,4 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         tc:RegisterEffect(ec1)
     end
-
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetDescription(aux.Stringid(id, 4))
-    ec2:SetType(EFFECT_TYPE_FIELD)
-    ec2:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_OATH)
-    ec2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec2:SetTargetRange(1, 0)
-    ec2:SetTarget(function(e, c, sump, sumtype, sumpos, targetp, se)
-        return c:IsLocation(LOCATION_EXTRA) and not (c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON))
-    end)
-    ec2:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec2, tp)
 end
