@@ -71,7 +71,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     local ec0 = Effect.CreateEffect(c)
     ec0:SetDescription(aux.Stringid(id, 1))
-    ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_OATH)
+    ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
     ec0:SetTargetRange(1, 0)
     ec0:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN)
     Duel.RegisterEffect(ec0, tp)

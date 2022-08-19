@@ -168,7 +168,7 @@ Once per turn: You can declare a Level from 1 to 12; \
 """
 strings = [
     "Make your LP become 4000",
-    "Affected by effect of \"{CARD_NAME}\": Take no effect damage",
+    "Affected by \"{CARD_NAME}\": Take no effect damage",
     "Add 1 Equip Spell to your hand",
     "Change Level of other Synchro Monsters",
 ]
@@ -209,7 +209,7 @@ strings = [
     "Negate the effect & destroy 1 card on the field",
     "Remove Signer Counter to attack again?",
     "Special Summon 1 Level 10 or lower Dragon Synchro Monster?",
-    "Affected by effect of \"{CARD_NAME}\": Take no damage this turn",
+    "Affected by \"{CARD_NAME}\": Take no damage this turn",
 ]
 
 [shooting-stardust-dragon]
@@ -397,7 +397,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
     "Special Summon a Tuner in GY",
-    "Affected by effect of \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters",
+    "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters",
     "Change level of the Summoned monster?",
     "Tribute to Special Summon a Synchro Monster from Extra Deck",
     "Perform Synchro Summon?",
@@ -456,8 +456,26 @@ level = 5
 atk = 1300
 def = 2300
 effect = """
+1 "Synchron" Tuner + 1+ non-Tuner monsters
+You can only Synchro Summon "{CARD_NAME}" once per turn. \
+If this card is Synchro Summoned using "Junk Synchron" as material, \
+    Your opponent cannot activate cards or effects in response to this card's effect activations, \
+    also its Synchro Summon cannot be negated. \
+If this card is Synchro Summoned: \
+    You can Special Summon as many "Synchron" monsters as possible with different Levels from your hand, Deck or GY in Defense Position. \
+    You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this effect. \
+Once per turn: You can send 1 "Synchron" monster from your hand or Deck to the GY, then activate 1 of these effects;
+● Increase this card's Level by the Level of the sent monster.
+● Reduce this card's Level by the Level of the sent monster.
 """
-strings = []
+strings = [
+    "Synchro Summoned with \"Junk Synchron\"",
+    "Special Summon \"Synchron\" monsters",
+    "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
+    "Change level by \"Synchro\" monster",
+    "Increase Level",
+    "Reduce Level",
+]
 
 [starjunk-warrior]
 id = 900000320
@@ -470,6 +488,7 @@ level = 5
 atk = 2300
 def = 1300
 effect = """
+"Junk Synchron" + 1+ non-Tuner monsters
 """
 strings = []
 
@@ -495,7 +514,7 @@ A Synchro Monster that used this card as material is unaffected by your opponent
     during the turn it is Synchro Summoned. \
 """
 strings = [
-    "Affected by effect of \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
+    "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
 ]
 
 [nova-rising-dragon]
