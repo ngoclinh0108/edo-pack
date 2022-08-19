@@ -94,10 +94,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2filter(c, e, tp)
+function s.e2filter(c, e, tp, mg)
     return
         c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and aux.IsMaterialListSetCard(c, 0x1017) and not c:IsCode(id) and
-            Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
+            Duel.GetLocationCountFromEx(tp, tp, mg, c) > 0 and
             c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
@@ -107,25 +107,21 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    if c:GetSequence() < 5 then
-        ft = ft + 1
-    end
-
     if chk == 0 then
-        return ft > 0 and Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp)
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp, c)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
+    local c = e:GetHandler()
+    if Duel.GetLocationCountFromEx(tp, tp) <= 0 then
         return
     end
 
     local tc =
-        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
+        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp, c):GetFirst()
     if tc then
         Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
         tc:CompleteProcedure()
@@ -159,9 +155,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    if c:IsRelateToEffect(e) then
-        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
-
+    if c:IsRelateToEffect(e) and Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) ~= 0 then
         Duel.BreakEffect()
         Duel.Draw(tp, 1, REASON_EFFECT)
     end
