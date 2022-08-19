@@ -31,7 +31,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetHintTiming(0, TIMING_MAIN_END)
     e3:SetCountLimit(1, {id, 2})
-    -- e3:SetCondition(s.e3con)
+    e3:SetCondition(s.e3con)
     e3:SetCost(aux.CostWithReplace(s.e3cost, 84012625, function()
         return e3:GetLabel() == 1
     end))
@@ -110,11 +110,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter1(c, e, tp, rc)
-    local mg = Duel.GetMatchingGroup(Card.IsCanBeSynchroMaterial, tp, LOCATION_MZONE, 0, rc)
-    local pg = aux.GetMustBeMaterialGroup(tp, Group.CreateGroup(), tp, c, nil, REASON_SYNCHRO)
-    return #pg <= 0 and c:IsType(TYPE_TUNER) and Duel.GetLocationCountFromEx(tp, tp, rc, c) > 0 and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and aux.CheckSummonGate(tp, 2) and
-               Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_EXTRA, 0, 1, nil, mg + c)
+    return c:IsType(TYPE_TUNER) and Duel.GetLocationCountFromEx(tp, tp, rc, c) > 0 and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
 function s.e3filter2(c, mg)
@@ -123,23 +120,23 @@ end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() ~= tp and
-               (Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2)
+               (Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2) and
+               e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:IsReleasable() and Duel.IsPlayerCanSpecialSummonCount(tp, 2) and
-                   Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_EXTRA, 0, 1, nil, e, tp, c)
+        return c:IsReleasable() and Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_EXTRA, 0, 1, nil, e, tp, c)
     end
+
     Duel.Release(c, REASON_COST)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        if c:IsReleasable() and Duel.IsPlayerCanSpecialSummonCount(tp, 2) and
-            Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_EXTRA, 0, 1, nil, e, tp) then
+        if c:IsReleasable() and Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_EXTRA, 0, 1, nil, e, tp) then
             e:SetLabel(1)
         else
             e:SetLabel(0)
@@ -160,7 +157,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     tc:CompleteProcedure()
     local mg = Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsCanBeSynchroMaterial), tp, LOCATION_MZONE, 0, nil)
     local eg = Duel.GetMatchingGroup(s.e3filter2, tp, LOCATION_EXTRA, 0, nil, mg)
-    if #eg > 0 then
+    if #eg > 0 and Duel.IsPlayerCanSpecialSummonCount(tp, 2) and Duel.SelectYesNo(tp, aux.Stringid(id, 4)) then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         local sc = eg:Select(tp, 1, 1, nil):GetFirst()
         if not sc then
