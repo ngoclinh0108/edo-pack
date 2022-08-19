@@ -388,20 +388,16 @@ def = 1400
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card is always treated as an "Stardust" card.)
-If this card is Special Summoned: \
-    You can add 1 card from your Deck or GY to your hand \
-    that specifically lists "Stardust Dragon" in its text. \
 You can target 1 Dragon Synchro Monter in your GY, except "{CARD_NAME}"; \
     Special Summon it in Defense Position, \
     and if you do, you can declare a Level from 1 to 12, it becomes that Level, \
     also for the rest of this turn, you cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters. \
 During your Opponent's Main Phase (Quick Effect): You can Tribute this card; \
-    Special Summon 1 Tuner Synchro Monster from your Extra Deck (this is treated as a Synchro Summon), \
+    Special Summon 1 Tuner Synchro Monster from your Extra Deck in Defense Position (this is treated as a Synchro Summon), \
     then, immediately after this effect resolves, Synchro Summon 1 Synchro Monster using monsters you control as material. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
-    "Add 1 card to hand, that specifically lists \"Stardust Dragon\"",
     "Special Summon a Dragon Synchro Monster",
     "Cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters",
     "Change level of the Summoned monster?",
