@@ -50,9 +50,7 @@ atk = 2500
 def = 2000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
-(This card's name is also treated as "Stardust Dragon".)
-If this card you control is used as Synchro Material, you can treat it as a non-Tuner. \
-    This effect cannot be negated. \
+(This card's name is also treated as "Stardust Dragon" and non-Tuner Monter)
 When another card or effect is activated \
     that targets, or would destroy, a card(s) on the field (Quick Effect): \
     You can Tribute this card; negate the activation, and if you do, destroy it. \

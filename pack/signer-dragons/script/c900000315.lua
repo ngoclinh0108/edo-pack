@@ -31,7 +31,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetHintTiming(0, TIMING_MAIN_END)
     e3:SetCountLimit(1, {id, 2})
-    e3:SetCondition(s.e3con)
+    -- e3:SetCondition(s.e3con)
     e3:SetCost(aux.CostWithReplace(s.e3cost, 84012625, function()
         return e3:GetLabel() == 1
     end))
