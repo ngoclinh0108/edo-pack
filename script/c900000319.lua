@@ -67,7 +67,7 @@ function s.initial_effect(c)
 
     -- level
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 2))
+    e2:SetDescription(aux.Stringid(id, 3))
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1)
@@ -182,7 +182,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if e:GetLabel() < lv then
         opt = Duel.SelectOption(tp, aux.Stringid(id, 4), aux.Stringid(id, 5))
     else
-        opt = Duel.SelectOption(tp, aux.Stringid(id, 5))
+        opt = Duel.SelectOption(tp, aux.Stringid(id, 4))
     end
 
     if opt == 0 then
