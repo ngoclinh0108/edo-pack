@@ -488,11 +488,18 @@ level = 5
 atk = 2300
 def = 1300
 effect = """
-"Junk Synchron" + 1+ non-Tuner monsters
+"Junk Synchron" or 1 "Synchron" Tuner + 1+ non-Tuner monsters
 (This card's name is also treated as "Junk Warrior")
-This Synchro Summoned card gains ATK equal to the total ATK of all Level 2 or lower monsters you control. \
+If this card is Synchro Summoned: \
+    You can Special Summon 1 Level 2 or lower Warrior or Machine monster from your hand, Deck or GY. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+If this card is Synchro Summoned using "Junk Synchron" as material, it gains these effects.
+● This card gains ATK equal to the total ATK of all Level 2 or lower monsters you control. \
 """
-strings = []
+strings = [
+    "Synchro Summoned with \"Junk Synchron\"",
+    "Special Summon a Level 2 or lower Warrior or Machine monster",
+]
 
 [shooting-star-synchron]
 id = 900000321
