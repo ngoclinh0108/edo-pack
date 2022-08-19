@@ -168,7 +168,7 @@ Once per turn: You can declare a Level from 1 to 12; \
 """
 strings = [
     "Make your LP become 4000",
-    "Take no effect damage",
+    "Affected by effect of \"{CARD_NAME}\": Take no effect damage",
     "Add 1 Equip Spell to your hand",
     "Change Level of other Synchro Monsters",
 ]
@@ -209,7 +209,7 @@ strings = [
     "Negate the effect & destroy 1 card on the field",
     "Remove Signer Counter to attack again?",
     "Special Summon 1 Level 10 or lower Dragon Synchro Monster?",
-    "Take no damage this turn",
+    "Affected by effect of \"{CARD_NAME}\": Take no damage this turn",
 ]
 
 [shooting-stardust-dragon]
@@ -386,9 +386,8 @@ def = 1400
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 (This card is always treated as an "Stardust" card.)
-You can target 1 Dragon Synchro Monter in your GY, except "{CARD_NAME}"; \
-    Special Summon it in Defense Position, \
-    and if you do, you can declare a Level from 1 to 12, it becomes that Level, \
+If this card is Special Summon: You can target 1 Tuner in your GY; \
+    Special Summon it in Defense Position, and if you do, you can declare a Level from 1 to 8, it becomes that Level, \
     also for the rest of this turn, you cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters. \
 During your opponent's Main Phase (Quick Effect): You can Tribute this Synchro Summoned card; \
     Special Summon 1 "Stardust Dragon", or 1 Tuner Synchro Monster \
@@ -397,11 +396,11 @@ During your opponent's Main Phase (Quick Effect): You can Tribute this Synchro S
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
-    "Special Summon a Dragon Synchro Monster in GY",
-    "Cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters",
+    "Special Summon a Tuner in GY",
+    "Affected by effect of \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters",
     "Change level of the Summoned monster?",
-    "Tribute to Special Summon 1 monster from Extra Deck",
-    "Perform Synchro Summon?"
+    "Tribute to Special Summon a Synchro Monster from Extra Deck",
+    "Perform Synchro Summon?",
 ]
 
 [quickspan-warrior]
@@ -495,7 +494,9 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 A Synchro Monster that used this card as material is unaffected by your opponent's activated effects \
     during the turn it is Synchro Summoned. \
 """
-strings = ["Cannot Special Summon from the Extra Deck, except Synchro Monsters"]
+strings = [
+    "Affected by effect of \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
+]
 
 [nova-rising-dragon]
 id = 900000322
