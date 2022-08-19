@@ -41,7 +41,7 @@ function s.initial_effect(c)
 
     -- special summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetDescription(aux.Stringid(id, 1))
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e1:SetProperty(EFFECT_FLAG_DELAY)
@@ -62,6 +62,15 @@ function s.initial_effect(c)
     e2:SetCondition(s.e2con)
     e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
+
+    -- destroy at end damage step
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_DAMAGE_STEP_END)
+    e3:SetLabel(matcheck)
+    e3:SetCondition(s.e3con)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1con(e)
@@ -69,7 +78,8 @@ function s.e1con(e)
 end
 
 function s.e1filter(c, e, tp)
-    return c:IsLevelBelow(2) and c:IsType(TYPE_TUNER) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsLevelBelow(2) and c:IsRace(RACE_WARRIOR + RACE_MACHINE) and
+               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -104,4 +114,14 @@ end
 
 function s.e2val(e, c)
     return Duel.GetMatchingGroup(s.e2filter, c:GetControler(), LOCATION_MZONE, 0, c):GetSum(Card.GetAttack)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local tc = e:GetHandler():GetBattleTarget()
+    return e:GetLabelObject():GetLabel() > 0 and tc and tc:IsRelateToBattle() and e:GetOwnerPlayer() == tp
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = e:GetHandler():GetBattleTarget()
+    Duel.Destroy(tc, REASON_EFFECT)
 end
