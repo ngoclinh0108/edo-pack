@@ -160,6 +160,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.e2filter(c)
+    return c:HasLevel() and c:GetLevel() ~= 0 and c:IsSetCard(0x1017) and c:IsAbleToGraveAsCost()
+end
+
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil)
@@ -203,7 +207,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if not c:IsRelateToEffect(e) or c:IsFacedown() then
         return
     end
-    
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_UPDATE_LEVEL)
