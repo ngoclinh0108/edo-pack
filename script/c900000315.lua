@@ -50,7 +50,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                    Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_GRAVE, 0, 1, nil, e, tp)
     end
-    
+
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE)
 end
 
@@ -73,8 +73,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e1filter), tp,
-        LOCATION_GRAVE + LOCATION_HAND, 0, 1, 1, nil, e, tp):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e1filter), tp, LOCATION_GRAVE,
+        0, 1, 1, nil, e, tp):GetFirst()
     if tc and Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) ~= 0 and
         Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)

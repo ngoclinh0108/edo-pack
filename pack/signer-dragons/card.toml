@@ -489,6 +489,8 @@ atk = 2300
 def = 1300
 effect = """
 "Junk Synchron" + 1+ non-Tuner monsters
+(This card's name is also treated as "Junk Warrior")
+This Synchro Summoned card gains ATK equal to the total ATK of all Level 2 or lower monsters you control. \
 """
 strings = []
 
