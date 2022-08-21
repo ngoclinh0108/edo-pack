@@ -12,7 +12,7 @@ If a Dragon Synchro Monster(s) you control leaves the field by your card effect,
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
-    "Place 1 Level 1 Dragon monster on top of the Deck?",
+    "Add 1 Tuner to your hand?",
     "Draw 1 card",
     "Special Summon the leaved monster",
 ]
