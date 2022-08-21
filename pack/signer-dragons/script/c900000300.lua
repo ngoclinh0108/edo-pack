@@ -64,7 +64,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsLevel(1) and c:IsRace(RACE_DRAGON) and (c:IsLocation(LOCATION_DECK) or c:IsAbleToDeck())
+    return c:IsType(TYPE_TUNER) and c:IsAbleToHand()
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -73,21 +73,14 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil)
     if #g == 0 or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
         return
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local tc = g:Select(tp, 1, 1, nil):GetFirst()
-
-    if tc:IsLocation(LOCATION_DECK) then
-        Duel.ShuffleDeck(tp)
-        Duel.MoveSequence(tc, SEQ_DECKTOP)
-    else
-        Duel.SendtoDeck(tc, nil, SEQ_DECKTOP, REASON_EFFECT)
-    end
-    Duel.ConfirmDecktop(tp, 1)
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
 end
 
 function s.e4filter(c, tp)
