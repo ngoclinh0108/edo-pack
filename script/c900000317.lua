@@ -116,10 +116,6 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetLocationCountFromEx(tp, tp) <= 0 then
-        return
-    end
-
     local tc =
         Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp, c):GetFirst()
     if tc then
