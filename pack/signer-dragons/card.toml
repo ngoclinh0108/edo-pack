@@ -378,6 +378,36 @@ strings = [
     "Perform Synchro Summon?",
 ]
 
+[salvation-dragon]
+id = 900000315
+alias = 21159309
+set = "majestic"
+name = "Salvation Dragon"
+type = "monster tuner effect"
+attribute = "light"
+race = "dragon"
+level = 1
+atk = 0
+def = 0
+effect = """
+(This card's name is always treated as "Majestic Dragon".)
+"""
+strings = []
+
+[majestic-wish-dragon]
+id = 900000316
+set = "majestic"
+name = "Majestic Wills Dragon"
+type = "monster effect"
+attribute = "light"
+race = "dragon"
+level = 1
+atk = 0
+def = 0
+effect = """
+"""
+strings = []
+
 [stardust-armory-dragon]
 id = 900000317
 set = "stardust"
@@ -487,10 +517,10 @@ strings = [
     "Special Summon a Level 2 or lower Warrior or Machine monster",
 ]
 
-[shooting-star-synchron]
+[star-synchron]
 id = 900000321
 set = "synchron"
-name = "Shooting Star Synchron"
+name = "Star Synchron"
 type = "monster synchro tuner effect"
 attribute = "wind"
 race = "machine"

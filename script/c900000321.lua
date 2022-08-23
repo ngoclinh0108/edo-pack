@@ -1,4 +1,4 @@
--- Shooting Star Synchron
+-- Star Synchron
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
