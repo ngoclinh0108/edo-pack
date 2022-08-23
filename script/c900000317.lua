@@ -75,7 +75,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c)
-    return c:IsType(TYPE_SYNCHRO) and c:IsAbleToDeck()
+    return c:IsType(TYPE_SYNCHRO) and aux.IsMaterialListSetCard(c, 0x1017) and c:IsAbleToDeck()
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
