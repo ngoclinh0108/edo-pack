@@ -131,7 +131,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local ct = Duel.GetDecktopGroup(tp, 5):FilterCount(Card.IsType, nil, TYPE_TUNER)
     Duel.ShuffleDeck(tp)
 
-    if ct > 1 then
+    if ct > 0 then
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
