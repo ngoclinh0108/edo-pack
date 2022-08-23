@@ -403,22 +403,8 @@ strings = [
     "Perform Synchro Summon?",
 ]
 
-[quickspan-warrior]
-id = 900000316
-set = "warrior"
-name = "Quick-Span Warrior"
-type = "monster synchro effect"
-attribute = "earth"
-race = "warrior"
-level = 8
-atk = 2800
-def = 1700
-effect = """
-"""
-strings = []
-
 [quickdraw-warrior]
-id = 900000317
+id = 900000318
 set = "warrior"
 name = "Quickdraw Warrior"
 type = "monster synchro effect"
@@ -443,21 +429,6 @@ strings = [
     "Banish to Special Summon a Synchro Monster from Extra Deck",
     "Return 1 Synchro Monster to Special Summon this card",
 ]
-
-[steam-warrior]
-id = 900000318
-set = "warrior"
-name = "Steam Warrior"
-type = "monster synchro effect"
-attribute = "water"
-race = "warrior"
-level = 6
-atk = 2200
-def = 2000
-effect = """
-"Steam Synchron" or 1 "Synchron" Tuner + 1+ non-Tuner monsters
-"""
-strings = []
 
 [junk-accelerator]
 id = 900000319
