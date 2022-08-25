@@ -43,7 +43,7 @@ end
 
 function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return true
+        return s.e1check(tp)
     end
 
     local opt = {}
@@ -66,26 +66,8 @@ end
 
 function s.actop(e, tp, eg, ep, ev, re, r, rp)
     local op = e:GetLabel()
-
     if op == 1 then
-        local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0,
-            1, 1, nil):GetFirst()
-        if not tc then
-            return
-        end
-
-        Duel.SendtoHand(tc, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, tc)
-        Duel.ShuffleDeck(tp)
-
-        if not tc:IsLocation(LOCATION_HAND) or not tc:HasLevel() or
-            Duel.GetMatchingGroupCount(s.e1filter2, tp, LOCATION_DECK, 0, nil, tc) == 0 or not Duel.SelectYesNo(tp, 504) then
-            return
-        end
-
-        Duel.BreakEffect()
-        local sg = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter2, tp, LOCATION_DECK, 0, 1, 1, nil, tc)
-        Duel.SendtoGrave(sg, REASON_EFFECT)
+        s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
@@ -99,4 +81,25 @@ end
 
 function s.e1filter2(c, tc)
     return c:HasLevel() and c:GetLevel() < tc:GetLevel()
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
+        nil):GetFirst()
+    if not tc then
+        return
+    end
+
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, tc)
+    Duel.ShuffleDeck(tp)
+
+    if not tc:IsLocation(LOCATION_HAND) or not tc:HasLevel() or
+        Duel.GetMatchingGroupCount(s.e1filter2, tp, LOCATION_DECK, 0, nil, tc) == 0 or not Duel.SelectYesNo(tp, 504) then
+        return
+    end
+
+    Duel.BreakEffect()
+    local sg = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter2, tp, LOCATION_DECK, 0, 1, 1, nil, tc)
+    Duel.SendtoGrave(sg, REASON_EFFECT)
 end
