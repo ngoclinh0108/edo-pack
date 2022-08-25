@@ -3,6 +3,8 @@ Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
 
+s.listed_names = {900000301}
+
 function s.initial_effect(c)
     -- activate
     local e1 = Effect.CreateEffect(c)
@@ -64,7 +66,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsType(TYPE_TUNER) and c:IsAbleToHand()
+    return c:IsCode(900000301) and c:IsAbleToHand()
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -73,13 +75,13 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, nil)
     if #g == 0 or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
         return
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local tc = g:Select(tp, 1, 1, nil):GetFirst()
+    local tc = Utility.GroupSelect(HINTMSG_ATOHAND, g, tp, 1, 1, nil):GetFirst()
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
 end
 

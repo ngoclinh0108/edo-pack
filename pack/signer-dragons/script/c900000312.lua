@@ -1,4 +1,4 @@
--- Majestic Fairy Dragon
+-- Majestic Rose Dragon
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
@@ -7,36 +7,31 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    SignerDragon.AddMajesticProcedure(c, s, SignerDragon.CARD_ANCIENT_FAIRY_DRAGON)
-    SignerDragon.AddMajesticReturn(c, SignerDragon.CARD_ANCIENT_FAIRY_DRAGON)
+    SignerDragon.AddMajesticProcedure(c, s, CARD_BLACK_ROSE_DRAGON)
+    SignerDragon.AddMajesticReturn(c, CARD_BLACK_ROSE_DRAGON)
 
-    -- atk up
+    -- banish
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_UPDATE_ATTACK)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(function(e, c)
-        return math.abs(Duel.GetLP(0) - Duel.GetLP(1))
-    end)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_REMOVE)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- special summon
+    -- piercing damage
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetCountLimit(1)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_PIERCE)
     c:RegisterEffect(e2)
 
-    -- negate & recover
+    -- negate & down atk/def
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_RECOVER)
+    e3:SetCategory(CATEGORY_DISABLE + CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e3:SetRange(LOCATION_MZONE)
@@ -46,34 +41,24 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter(c, e, tp)
-    return c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 
-function s.e2con()
-    return Duel.GetCurrentPhase() == PHASE_MAIN1
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE, LOCATION_GRAVE, 1, nil,
-                e, tp)
+        return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, 1, nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, LOCATION_HAND + LOCATION_GRAVE)
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, nil)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return
-    end
-
-    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE,
-        LOCATION_GRAVE, 1, 1, nil, e, tp):GetFirst()
-    if tc then
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, nil)
+    if #g > 0 then
+        Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
     end
 end
 
@@ -90,7 +75,6 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, tc, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, tc:GetAttack())
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -114,5 +98,13 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
     Duel.AdjustInstantly(tc)
 
-    Duel.Recover(tp, tc:GetAttack(), REASON_EFFECT)
+    local ec2 = Effect.CreateEffect(e:GetHandler())
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetCode(EFFECT_SET_ATTACK_FINAL)
+    ec2:SetValue(0)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    tc:RegisterEffect(ec2)
+    local ec2b = ec2:Clone()
+    ec2b:SetCode(EFFECT_SET_DEFENSE_FINAL)
+    tc:RegisterEffect(ec2b)
 end

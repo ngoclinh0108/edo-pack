@@ -3,7 +3,7 @@ id = 900000300
 name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 effect = """
-When this card is activated: You can add 1 Tuner from your Deck to your hand. \
+When this card is activated: You can add "Mark Of The Dragon Star" from your Deck or GY to your hand. \
 Special Summons of your Dragon Synchro Monsters cannot be negated. \
 Neither player can return your Dragon Synchro Monster from the field to the Extra Deck. \
 If you Synchro Summon a Dragon Synchro Monster: You can draw 1 card. \
@@ -12,31 +12,26 @@ If a Dragon Synchro Monster(s) you control leaves the field by your card effect,
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
-    "Add 1 Tuner to your hand?",
+    "Add \"Mark Of The Dragon Star\" to your hand?",
     "Draw 1 card",
     "Special Summon the leaved monster",
 ]
 
-[ultimaya-cosmic-dragon]
+[mark-of-the-dragon-star]
 id = 900000301
 rarity = "gold"
-name = "Ultimaya Cosmic Dragon"
-type = "monster synchro effect"
-attribute = "divine"
-race = "creator-god"
-level = 13
-show-level = false
+name = "Mark Of The Dragon Star"
+type = "spell quick-play"
 effect = """
-(This card's original Level is always treated as 13.)
-[Add 6 "Ultimaya"  Signer Dragons and their "Majestic" version to your Extra Deck.]
-Cannot be Synchro Summoned. \
-Must be Special Summoned (from your Extra Deck) by sending 2 Level 7 or higher Dragon Synchro Monsters you control with the same Level to the GY (1 Tuner and 1 non-Tuner). \
-    This card's Special Summon cannot be negated. \
-Cannot be Tributed, or used as a material for an Summon. \
-Unaffected by other cards' effects. This effect cannot be negated. \
-While you control another Synchro Monster, your opponent cannot target this card for attacks or by card effects. \
+Activate 1 of these effects; \
+    You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this card.
+● Add 1 Tuner from your Deck or GY to your hand, \
+    then you can send 1 monster from your Deck to the GY, whose Level is lower than the added monster.
 """
-strings = []
+strings = [
+    "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
+    "Add Tuner to the hand",
+]
 
 [ultimaya-stardust-dragon]
 id = 900000302
@@ -173,8 +168,29 @@ strings = [
     "Change Level of other Synchro Monsters",
 ]
 
-[cosmic-quasar-dragon]
+[ultimaya-cosmic-dragon]
 id = 900000308
+rarity = "gold"
+name = "Ultimaya Cosmic Dragon"
+type = "monster synchro effect"
+attribute = "divine"
+race = "creator-god"
+level = 13
+show-level = false
+effect = """
+(This card's original Level is always treated as 13.)
+[Add 6 "Ultimaya"  Signer Dragons and their "Majestic" version to your Extra Deck.]
+Cannot be Synchro Summoned. \
+Must be Special Summoned (from your Extra Deck) by sending 2 Level 7 or higher Dragon Synchro Monsters you control with the same Level to the GY (1 Tuner and 1 non-Tuner). \
+    This card's Special Summon cannot be negated. \
+Cannot be Tributed, or used as a material for an Summon. \
+Unaffected by other cards' effects. This effect cannot be negated. \
+While you control another Synchro Monster, your opponent cannot target this card for attacks or by card effects. \
+"""
+strings = []
+
+[cosmic-quasar-dragon]
+id = 900000309
 name = "Cosmic Quasar Dragon"
 type = "monster synchro effect"
 attribute = "light"
@@ -213,7 +229,7 @@ strings = [
 ]
 
 [shooting-stardust-dragon]
-id = 900000309
+id = 900000310
 set = "stardust"
 name = "Shooting Stardust Dragon"
 type = "monster synchro effect"
@@ -246,7 +262,7 @@ strings = [
 ]
 
 [majestic-black-dragon]
-id = 900000310
+id = 900000311
 set = "majestic"
 name = "Majestic Black Dragon"
 type = "monster synchro effect"
@@ -273,7 +289,7 @@ strings = [
 ]
 
 [majestic-rose-dragon]
-id = 900000311
+id = 900000312
 set = "majestic rose-dragon"
 name = "Majestic Rose Dragon"
 type = "monster synchro effect"
@@ -297,7 +313,7 @@ strings = [
 ]
 
 [majestic-fairy-dragon]
-id = 900000312
+id = 900000313
 set = "majestic"
 name = "Majestic Fairy Dragon"
 type = "monster synchro effect"
@@ -321,7 +337,7 @@ strings = [
 ]
 
 [majestic-life-dragon]
-id = 900000313
+id = 900000314
 set = "majestic"
 name = "Majestic Life Dragon"
 type = "monster synchro tuner effect"
@@ -349,7 +365,7 @@ strings = [
 ]
 
 [converging-wills-maiden]
-id = 900000314
+id = 900000315
 set = "stardust"
 name = "Converging Wills Maiden"
 type = "monster synchro effect"
@@ -379,7 +395,7 @@ strings = [
 ]
 
 [salvation-dragon]
-id = 900000315
+id = 900000316
 alias = 21159309
 set = "majestic"
 name = "Salvation Dragon"
@@ -395,7 +411,7 @@ effect = """
 strings = []
 
 [majestic-wish-dragon]
-id = 900000316
+id = 900000317
 set = "majestic"
 name = "Majestic Wills Dragon"
 type = "monster effect"
@@ -409,7 +425,7 @@ effect = """
 strings = []
 
 [stardust-armory-dragon]
-id = 900000317
+id = 900000318
 set = "stardust"
 name = "Stardust Armory Dragon"
 type = "monster synchro effect"
@@ -434,7 +450,7 @@ If this card is destroyed by battle, or if this card in its owner's possession i
 strings = ["Negate the activation", "Negate the Special Summon"]
 
 [quickdraw-warrior]
-id = 900000318
+id = 900000319
 set = "warrior"
 name = "Quickdraw Warrior"
 type = "monster synchro effect"
@@ -461,7 +477,7 @@ strings = [
 ]
 
 [junk-accelerator]
-id = 900000319
+id = 900000320
 set = "junk"
 name = "Junk Accelerator"
 type = "monster synchro effect"
@@ -493,7 +509,7 @@ strings = [
 ]
 
 [starjunk-warrior]
-id = 900000320
+id = 900000321
 set = "junk warrior"
 name = "Starjunk Warrior"
 type = "monster synchro effect"
@@ -518,7 +534,7 @@ strings = [
 ]
 
 [star-synchron]
-id = 900000321
+id = 900000322
 set = "synchron"
 name = "Star Synchron"
 type = "monster synchro tuner effect"

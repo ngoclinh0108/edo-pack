@@ -260,53 +260,6 @@ function Utility.IsOwnAny(f, player, ...)
     end, 1, nil)
 end
 
-function Utility.RegisterMultiEffect(s, index, eff)
-    if not s.effects then
-        s.effects = {}
-    end
-    s.effects[index] = eff
-end
-
-function Utility.MultiEffectTarget(s, extg)
-    return function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then
-            for i = 1, #s.effects, 1 do
-                if not s.effects[i]:GetTarget() or s.effects[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
-                    return true
-                end
-            end
-            return false
-        end
-
-        local opt = {}
-        local sel = {}
-        for i = 1, #s.effects, 1 do
-            if not s.effects[i]:GetTarget() or s.effects[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, 0) then
-                table.insert(opt, s.effects[i]:GetDescription())
-                table.insert(sel, i)
-            end
-        end
-        local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
-
-        e:SetCategory(e:GetCategory() + s.effects[op]:GetCategory())
-        e:SetProperty(e:GetProperty() + s.effects[op]:GetProperty())
-        if s.effects[op]:GetTarget() then
-            s.effects[op]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk)
-        end
-
-        s.sel_effect = op
-        if extg then
-            extg(e, tp, eg, ep, ev, re, r, rp, chk)
-        end
-    end
-end
-
-function Utility.MultiEffectOperation(s)
-    return function(e, tp, eg, ep, ev, re, r, rp)
-        s.effects[s.sel_effect]:GetOperation()(e, tp, eg, ep, ev, re, r, rp)
-    end
-end
-
 function Utility.GainInfinityAtk(c, reset)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
