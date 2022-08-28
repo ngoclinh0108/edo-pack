@@ -65,14 +65,21 @@ function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.actop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local op = e:GetLabel()
+    if not c:IsRelateToEffect(e) or Duel.GetFlagEffect(tp, id + op * 1000) > 0 then
+        return
+    end
+
+    Duel.RegisterFlagEffect(tp, id + op * 1000, RESET_PHASE + PHASE_END, 0, 1)
     if op == 1 then
         s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
 function s.e1check(tp)
-    return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+    return Duel.GetFlagEffect(tp, id + 1 * 1000) == 0 and
+               Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
 end
 
 function s.e1filter1(c)
