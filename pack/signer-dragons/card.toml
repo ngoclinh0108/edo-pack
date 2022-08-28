@@ -32,7 +32,7 @@ Activate 1 of these effects, \
     then you can send 1 monster from your Deck to the GY, whose Level is lower than the added monster.
 ● Special Summon 1 Level 8 or lower Dragon Synchro Monster from your Extra Deck, \
     except a monster that mentions a Synchro Monster as material, \
-    but it cannot activate its effects this turn. \
+    but it cannot attack or activate its effects this turn. \
     (This Special Summon is treated as a Synchro Summon.)
 """
 strings = [

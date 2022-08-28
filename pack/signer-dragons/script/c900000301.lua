@@ -158,12 +158,16 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     if tc and Duel.SpecialSummonStep(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) > 0 then
         local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3302)
+        ec1:SetDescription(3206)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_CANNOT_TRIGGER)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         tc:RegisterEffect(ec1)
+        local ec2 = ec1:Clone()
+        ec2:SetDescription(3302)
+        ec2:SetCode(EFFECT_CANNOT_TRIGGER)
+        tc:RegisterEffect(ec2)
         tc:CompleteProcedure()
     end
     Duel.SpecialSummonComplete()
