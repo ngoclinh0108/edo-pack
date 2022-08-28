@@ -12,6 +12,17 @@ function s.initial_effect(c)
     act:SetOperation(s.actop)
     c:RegisterEffect(act)
     Duel.AddCustomActivityCounter(id, ACTIVITY_SPSUMMON, s.actcounterfilter)
+
+    -- set from GY
+    local set = Effect.CreateEffect(c)
+    set:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    set:SetProperty(EFFECT_FLAG_DELAY)
+    set:SetCode(EVENT_SPSUMMON_SUCCESS)
+    set:SetRange(LOCATION_GRAVE)
+    set:SetCondition(s.setcon)
+    set:SetTarget(s.settg)
+    set:SetOperation(s.setop)
+    c:RegisterEffect(set)
 end
 
 function s.actcounterfilter(c)
@@ -109,4 +120,31 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.BreakEffect()
     local sg = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter2, tp, LOCATION_DECK, 0, 1, 1, nil, tc)
     Duel.SendtoGrave(sg, REASON_EFFECT)
+end
+
+function s.setfilter(c, tp)
+    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsControler(tp) and
+               c:IsSummonType(SUMMON_TYPE_SYNCHRO)
+end
+
+function s.setcon(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.setfilter, 1, nil, tp)
+end
+
+function s.settg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:IsSSetable()
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, c, 1, 0, 0)
+end
+
+function s.setop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or not c:IsSSetable() then
+        return
+    end
+
+    Duel.SSet(tp, c)
 end

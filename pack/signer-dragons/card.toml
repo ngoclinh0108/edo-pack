@@ -3,7 +3,7 @@ id = 900000300
 name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 effect = """
-When this card is activated: You can add "Mark Of The Dragon Star" from your Deck or GY to your hand. \
+When this card is activated: You can add "Mark Of The Dragon Star" from your Deck to your hand. \
 Special Summons of your Dragon Synchro Monsters cannot be negated. \
 Neither player can return your Dragon Synchro Monster from the field to the Extra Deck. \
 If you Synchro Summon a Dragon Synchro Monster: You can draw 1 card. \
@@ -21,8 +21,10 @@ strings = [
 id = 900000301
 rarity = "gold"
 name = "Mark Of The Dragon Star"
-type = "spell quick-play"
+type = "spell"
 effect = """
+If a Dragon Synchro Monster is Synchro Summoned to your field: \
+    You can Set this card from your GY. \
 Activate 1 of these effects, \
     but you cannot apply that same effect of "{CARD_NAME}" again this turn. \
     You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this card.
