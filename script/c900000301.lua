@@ -54,14 +54,18 @@ end
 
 function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return s.e1check(tp)
+        return s.e1check(e, tp) and s.e2check(e, tp)
     end
 
     local opt = {}
     local sel = {}
-    if s.e1check(tp) then
+    if s.e1check(e, tp) then
         table.insert(sel, 1)
         table.insert(opt, aux.Stringid(id, 1))
+    end
+    if s.e2check(e, tp) then
+        table.insert(sel, 2)
+        table.insert(opt, aux.Stringid(id, 2))
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_EFFECT)
@@ -72,6 +76,9 @@ function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
         e:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_DECKDES)
         Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
         Duel.SetPossibleOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_DECK)
+    elseif op == 2 then
+        e:SetCategory(CATEGORY_SPECIAL_SUMMON)
+        Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
     end
 end
 
@@ -85,10 +92,12 @@ function s.actop(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterFlagEffect(tp, id + op * 1000, RESET_PHASE + PHASE_END, 0, 1)
     if op == 1 then
         s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    elseif op == 2 then
+        s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e1check(tp)
+function s.e1check(e, tp)
     return Duel.GetFlagEffect(tp, id + 1 * 1000) == 0 and
                Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
 end
@@ -120,6 +129,34 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.BreakEffect()
     local sg = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter2, tp, LOCATION_DECK, 0, 1, 1, nil, tc)
     Duel.SendtoGrave(sg, REASON_EFFECT)
+end
+
+function s.e2check(e, tp)
+    return Duel.GetFlagEffect(tp, id + 2 * 1000) == 0 and
+               Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp)
+end
+
+function s.e2filter(c, e, tp)
+    local mt = c:GetMetatable()
+    local ct = 0
+    if mt.synchro_tuner_required then
+        ct = ct + mt.synchro_tuner_required
+    end
+    if mt.synchro_nt_required then
+        ct = ct + mt.synchro_nt_required
+    end
+
+    return c:IsLevelBelow(8) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and ct == 0 and
+               Duel.GetLocationCountFromEx(tp, tp, nil, nil) > 0 and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local tc =
+        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
+    if tc and Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) > 0 then
+        tc:CompleteProcedure()
+    end
 end
 
 function s.setfilter(c, tp)
