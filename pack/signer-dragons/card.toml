@@ -24,7 +24,7 @@ name = "Mark Of The Dragon Star"
 type = "spell quick-play"
 effect = """
 Activate 1 of these effects, \
-    but you cannot apply that same effect of "*" again this turn. \
+    but you cannot apply that same effect of "{CARD_NAME}" again this turn. \
     You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this card.
 ● Add 1 Tuner from your Deck or GY to your hand, \
     then you can send 1 monster from your Deck to the GY, whose Level is lower than the added monster.
