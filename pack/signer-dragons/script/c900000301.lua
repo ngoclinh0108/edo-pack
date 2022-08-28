@@ -54,7 +54,7 @@ end
 
 function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return s.e1check(e, tp) and s.e2check(e, tp)
+        return s.e1check(e, tp) or s.e2check(e, tp)
     end
 
     local opt = {}
@@ -147,7 +147,8 @@ function s.e2filter(c, e, tp)
     end
 
     return c:IsLevelBelow(8) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and ct == 0 and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
+               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
