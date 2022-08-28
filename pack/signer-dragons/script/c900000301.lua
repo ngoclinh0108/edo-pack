@@ -147,7 +147,6 @@ function s.e2filter(c, e, tp)
     end
 
     return c:IsLevelBelow(8) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and ct == 0 and
-               Duel.GetLocationCountFromEx(tp, tp, nil, nil) > 0 and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
