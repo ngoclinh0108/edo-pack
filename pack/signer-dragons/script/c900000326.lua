@@ -78,7 +78,7 @@ function s.initial_effect(c)
     e7:SetCost(s.effcost(12))
     e7:SetTarget(s.e7tg)
     e7:SetOperation(s.e7op)
-    c:RegisterEffect(e6)
+    c:RegisterEffect(e7)
 end
 
 function s.e1filter1(c)
