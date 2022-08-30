@@ -552,11 +552,11 @@ id = 900000321
 set = "warrior"
 name = "Quick-Span Warrior"
 type = "monster synchro effect"
-attribute = "wind"
+attribute = "earth"
 race = "warrior"
 level = 8
-atk = 2600
-def = 1900
+atk = 2500
+def = 1800
 effect = """
 "Quick-Span Knight" or 1 "Synchron" Tuner + 1+ non-Tuner monsters
 """
@@ -574,8 +574,14 @@ atk = 1600
 def = 2400
 effect = """
 "Steam Synchron" + 1+ non-Tuner monsters
+If this card is Synchro Summoned: \
+    You can target up to 5 cards in your GY; \
+    shuffle them into the Deck, then draw 1 card. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+Cannot be targeted by your opponent's card effects. \
+The first time this card would be destroyed by battle each turn, it is not destroyed. \
 """
-strings = []
+strings = ["Shuffle card in GY into the Deck"]
 
 [junk-accelerator]
 id = 900000323
