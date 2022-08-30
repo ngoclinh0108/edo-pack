@@ -28,10 +28,7 @@ If a Dragon Synchro Monster is Synchro Summoned to your field: \
 Activate 1 of these effects, \
     but you cannot apply that same effect of "{CARD_NAME}" again this turn. \
     You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this card.
-● Add 1 Tuner from your Deck to your hand, \
-    then you can send 1 monster from your Deck to the GY, whose Level is lower than the added monster.
-● Shuffle 1 Tuner from your hand or GY into the Deck, \
-    then draw 1 card.
+● Shuffle 1 Tuner from your hand or GY into the Deck, then draw 1 card.
 ● Special Summon 1 Level 8 or lower Dragon Synchro Monster from your Extra Deck, \
     except a monster that mentions a Synchro Monster as material, \
     but it cannot attack or activate its effects this turn. \
@@ -43,10 +40,9 @@ Activate 1 of these effects, \
 """
 strings = [
     "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
-    "Add Tuner to the hand",
-    "Shuffle Tuner into the Deck, then draw",
-    "Quick summon a Dragon Synchro Monster",
-    "Summon a Dragon Synchro Monster by shuffle materials",
+    "Shuffle Tuner into the Deck",
+    "Direct Synchro Summon a Dragon",
+    "Synchro Summon a Dragon by shuffle materials",
 ]
 
 [ultimaya-stardust-dragon]
@@ -664,3 +660,14 @@ A Synchro Monster that used this card as material is unaffected by your opponent
 strings = [
     "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
 ]
+
+[let-rev-it-up]
+id = 900000326
+name = "Let's Rev It Up!"
+type = "spell continuous"
+effect = """
+When this card is activated: \
+    Add 1 "Synchron" Tuner from your Deck to your hand, \
+    then you can send 1 monster from your Deck to the GY, whose Level is lower than the added monster. \
+"""
+strings = []

@@ -1,6 +1,5 @@
 -- Shooting Stardust Dragon
 Duel.LoadScript("util.lua")
-Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_STARDUST_DRAGON}
