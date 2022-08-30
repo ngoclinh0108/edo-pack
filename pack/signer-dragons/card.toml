@@ -504,11 +504,20 @@ If this card is Synchro Summoned: You can target other cards on the field, \
     up to the number of non-Tuner monsters used as Synchro Material Monsters for this card, \
     destroy them, and if you do, this card gains 500 ATK for each destroyed card. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-Cannot be destroyed by card effects. \
 If this card destroys a monster by battle: \
     Inflict damage to your opponent equal to that monster's original ATK. \
+If this card is Synchro Summoned using "Junk" monster as material, it gains these effects.
+● Cannot be destroyed by card effects.
+● If this attacking card destroys an opponent's monster by battle: \
+    You can target 1 face-up Defense Position monster your opponent controls; \
+    change that target to Attack Position, then This card can attack again.
 """
-strings = ["Destroy cards on the field", "Inflict damage"]
+strings = [
+    "Synchro Summoned with \"Junk\" monster",
+    "Destroy cards on the field",
+    "Inflict damage",
+    "Change position a monster to attack again",
+]
 
 [quickdraw-warrior]
 id = 900000320
