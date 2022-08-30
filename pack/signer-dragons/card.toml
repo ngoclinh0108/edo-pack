@@ -442,8 +442,16 @@ level = 1
 atk = 0
 def = 0
 effect = """
+Once per turn, during your opponent's Main Phase, you can (Quick Effect): Immediately after this effect resolves, \
+    Synchro Summon a "Majestic" monster using this card you control. \
+A "Majestic" Synchro Monster that was Synchro Summoned using this card as material gains the following effect.
+● Cannot be returned to the Deck by card effects.
+● Cannot be targeted by your opponent's card effects.
 """
-strings = []
+strings = [
+    "Synchro Summon a \"Majestic\" Synchro Monster",
+    "Cannot be returned to the Deck by card effect",
+]
 
 [stardust-armory-dragon]
 id = 900000318
