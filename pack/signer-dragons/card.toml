@@ -556,7 +556,7 @@ attribute = "water"
 race = "warrior"
 level = 5
 atk = 1600
-def = 2200
+def = 2400
 effect = """
 "Steam Synchron" + 1+ non-Tuner monsters
 """
