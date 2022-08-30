@@ -151,10 +151,11 @@ function s.e2filter(c)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1,
+    local tc = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1,
         nil):GetFirst()
 
     if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) > 0 then
+        Duel.ShuffleDeck(tp)
         Duel.BreakEffect()
         Duel.Draw(tp, 1, REASON_EFFECT)
     end

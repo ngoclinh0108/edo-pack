@@ -41,7 +41,7 @@ strings = [
     "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
     "Add Tuner to the hand",
     "Shuffle Tuner into the Deck, then draw",
-    "Summon a Dragon Synchro Monster from Extra Deck"
+    "Summon a Dragon Synchro Monster from Extra Deck",
 ]
 
 [ultimaya-stardust-dragon]
@@ -418,8 +418,18 @@ atk = 0
 def = 0
 effect = """
 (This card's name is always treated as "Majestic Dragon".)
+Cannot be used as Synchro Material, except for the Synchro Summon of a "Majestic" monster. \
+If this card is added to your hand: You can reveal it; \
+    Special Summon it from your hand, \
+    then, if you control a Level 8 or higher Dragon Synchro Monster, \
+    you can Special Summon 1 Level 1 Dragon monster from your Deck or GY, except "{CARD_NAME}", \
+    also for the rest of this turn, you cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = [
+    "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters",
+    "Special Summon 1 Level 1 monster?",
+]
 
 [majestic-wish-dragon]
 id = 900000317
