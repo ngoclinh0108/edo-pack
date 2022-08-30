@@ -547,6 +547,21 @@ strings = [
     "Return 1 Synchro Monster to Special Summon this card",
 ]
 
+[quick-span-warrior]
+id = 900000321
+set = "warrior"
+name = "Quick-Span Warrior"
+type = "monster synchro effect"
+attribute = "wind"
+race = "warrior"
+level = 8
+atk = 2600
+def = 1900
+effect = """
+"Quick-Span Knight" or 1 "Synchron" Tuner + 1+ non-Tuner monsters
+"""
+strings = []
+
 [steam-warrior]
 id = 900000322
 set = "warrior"
