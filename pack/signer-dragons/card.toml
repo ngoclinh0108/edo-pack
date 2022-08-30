@@ -493,7 +493,7 @@ effect = """
 If this card is Synchro Summoned: You can target other cards on the field, \
     up to the number of non-Tuner monsters used as Synchro Material Monsters for this card, \
     destroy them, and if you do, this card gains 500 ATK for each destroyed card. \
-    You can only use this effect of "{CARD_NAME}" once per turn.
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 Cannot be destroyed by card effects. \
 If this card destroys a monster by battle: \
     Inflict damage to your opponent equal to that monster's original ATK. \
