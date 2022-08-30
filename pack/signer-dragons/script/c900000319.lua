@@ -142,7 +142,7 @@ end
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
-    return e:GetLabelObject():GetLabel() > 0 and bc and bc:IsStatus(STATUS_BATTLE_DESTROYED) and c:CanChainAttack(0)
+    return e:GetLabelObject():GetLabel() > 0 and bc and bc:IsStatus(STATUS_BATTLE_DESTROYED) and c:CanChainAttack()
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -163,5 +163,5 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.ChangePosition(tc, POS_FACEUP_ATTACK)
-    Duel.ChainAttack()
+    Duel.ChainAttack(tc)
 end
