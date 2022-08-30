@@ -23,16 +23,14 @@ rarity = "gold"
 name = "Mark Of The Dragon Star"
 type = "spell"
 effect = """
+This card's activation and effect cannot be negated. \
 If a Dragon Synchro Monster is Synchro Summoned to your field: \
     You can Set this card from your GY. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 Activate 1 of these effects, \
     but you cannot apply that same effect of "{CARD_NAME}" again this turn. \
     You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this card.
 ● Shuffle 1 Tuner from your hand or GY into the Deck, then draw 1 card.
-● Special Summon 1 Level 8 or lower Dragon Synchro Monster from your Extra Deck, \
-    except a monster that mentions a Synchro Monster as material, \
-    but it cannot attack or activate its effects this turn. \
-    (This Special Summon is treated as a Synchro Summon.)
 ● Shuffle into the Deck, 1 Tuner and up to 2 non-Tuner monsters, \
     that is banished, and/or in hand, field, GY, and if you do, \
     Special Summon 1 Dragon Synchro Monster from your Extra Deck whose Level equals the total Levels of those banished monsters. \
@@ -41,8 +39,7 @@ Activate 1 of these effects, \
 strings = [
     "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
     "Shuffle Tuner into the Deck",
-    "Direct Synchro Summon a Dragon",
-    "Synchro Summon a Dragon by shuffle materials",
+    "Summon a Dragon Synchro Monster",
 ]
 
 [ultimaya-stardust-dragon]
@@ -670,5 +667,6 @@ When this card is activated: \
     Add 1 "Synchron" Tuner from your Deck to your hand, \
     then you can send 1 monster from your Deck to the GY, whose Level is lower than the added monster. \
 Your opponent cannot activate cards or effects in response to the effect activations of your "Synchron" monster. \
+Each time a monster(s) is Synchro Sumoned, place 1 Signal Counter on this card. \
 """
 strings = []

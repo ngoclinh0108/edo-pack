@@ -3,8 +3,11 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_series = {0x1017}
+s.counter_list = {0x1148}
 
 function s.initial_effect(c)
+    c:EnableCounterPermit(0x1148)
+
     -- activate
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TOGRAVE)
@@ -21,6 +24,14 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_SZONE)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- add counter
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e3:SetRange(LOCATION_SZONE)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1filter1(c)
@@ -73,4 +84,10 @@ end
 
 function s.e2chainlimit(e, rp, tp)
     return tp == rp
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    if eg:IsExists(aux.FilterFaceupFunction(Card.IsSummonType, SUMMON_TYPE_SYNCHRO), 1, nil) then
+        e:GetHandler():AddCounter(0x1148, 1)
+    end
 end
