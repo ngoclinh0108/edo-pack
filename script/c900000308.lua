@@ -55,32 +55,52 @@ function s.initial_effect(c)
     c:RegisterEffect(matlimit6)
 
     -- immune
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    e1:SetCode(EFFECT_IMMUNE_EFFECT)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(function(e, te)
+    local me1 = Effect.CreateEffect(c)
+    me1:SetType(EFFECT_TYPE_SINGLE)
+    me1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
+    me1:SetCode(EFFECT_IMMUNE_EFFECT)
+    me1:SetRange(LOCATION_MZONE)
+    me1:SetValue(function(e, te)
         return te:GetOwner() ~= e:GetOwner()
     end)
-    c:RegisterEffect(e1)
+    c:RegisterEffect(me1)
 
     -- cannot be target
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCondition(function(e)
+    local me2 = Effect.CreateEffect(c)
+    me2:SetType(EFFECT_TYPE_SINGLE)
+    me2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    me2:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
+    me2:SetRange(LOCATION_MZONE)
+    me2:SetCondition(function(e)
         return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsType, TYPE_SYNCHRO), e:GetHandlerPlayer(),
             LOCATION_MZONE, 0, 1, e:GetHandler())
     end)
-    e2:SetValue(aux.imval2)
-    c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e2b:SetValue(aux.tgoval)
-    c:RegisterEffect(e2b)
+    me2:SetValue(aux.imval2)
+    c:RegisterEffect(me2)
+    local me2b = me2:Clone()
+    me2b:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    me2b:SetValue(aux.tgoval)
+    c:RegisterEffect(me2b)
+
+    -- place to pendulum zone
+    local me3 = Effect.CreateEffect(c)
+    me3:SetDescription(aux.Stringid(id, 0))
+    me3:SetType(EFFECT_TYPE_IGNITION)
+    me3:SetRange(LOCATION_MZONE)
+    me3:SetTarget(s.me3tg)
+    me3:SetOperation(s.me3op)
+    c:RegisterEffect(me3)
+
+    -- immune
+    local pe1 = Effect.CreateEffect(c)
+    pe1:SetType(EFFECT_TYPE_SINGLE)
+    pe1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
+    pe1:SetCode(EFFECT_IMMUNE_EFFECT)
+    pe1:SetRange(LOCATION_PZONE)
+    pe1:SetValue(function(e, te)
+        return te:GetOwner() ~= e:GetOwner()
+    end)
+    c:RegisterEffect(pe1)
 end
 
 function s.deck_edit(tp)
@@ -155,4 +175,20 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
 
     Duel.SendtoGrave(g, REASON_COST)
     g:DeleteGroup()
+end
+
+function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or Duel.CheckLocation(tp, LOCATION_PZONE, 1)
+    end
+end
+
+function s.me3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
+        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then
+        return
+    end
+
+    Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end

@@ -62,7 +62,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return r == REASON_SYNCHRO
+    local c = e:GetHandler()
+    local tc = c:GetReasonCard()
+    return r == REASON_SYNCHRO and tc:IsSetCard(0x3f)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
