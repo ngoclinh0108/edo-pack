@@ -156,7 +156,10 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    c:AddCounter(SignerDragon.COUNTER_SIGNER, s.max_counter(e))
+    local ct = s.max_counter(e)
+    if ct > 0 then
+        c:AddCounter(SignerDragon.COUNTER_SIGNER, ct)
+    end
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)

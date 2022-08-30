@@ -36,12 +36,17 @@ Activate 1 of these effects, \
     except a monster that mentions a Synchro Monster as material, \
     but it cannot attack or activate its effects this turn. \
     (This Special Summon is treated as a Synchro Summon.)
+● Shuffle into the Deck, 1 Tuner and up to 2 non-Tuner monsters, \
+    that is banished, and/or in hand, field, GY, and if you do, \
+    Special Summon 1 Dragon Synchro Monster from your Extra Deck whose Level equals the total Levels of those banished monsters. \
+    (This Special Summon is treated as a Synchro Summon.)
 """
 strings = [
     "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
     "Add Tuner to the hand",
     "Shuffle Tuner into the Deck, then draw",
-    "Summon a Dragon Synchro Monster from Extra Deck",
+    "Quick summon a Dragon Synchro Monster",
+    "Summon a Dragon Synchro Monster by shuffle materials",
 ]
 
 [ultimaya-stardust-dragon]

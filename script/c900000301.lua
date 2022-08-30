@@ -54,7 +54,7 @@ end
 
 function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return s.e1check(e, tp) or s.e2check(e, tp) or s.e3check(e, tp)
+        return s.e1check(e, tp) or s.e2check(e, tp) or s.e3check(e, tp) or s.e4check(e, tp)
     end
 
     local opt = {}
@@ -71,6 +71,10 @@ function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
         table.insert(sel, 3)
         table.insert(opt, aux.Stringid(id, 3))
     end
+    if s.e4check(e, tp) then
+        table.insert(sel, 4)
+        table.insert(opt, aux.Stringid(id, 4))
+    end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_EFFECT)
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
@@ -86,6 +90,11 @@ function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
         Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
     elseif op == 3 then
         e:SetCategory(CATEGORY_SPECIAL_SUMMON)
+        Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
+    elseif op == 4 then
+        e:SetCategory(CATEGORY_SPECIAL_SUMMON)
+        Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 2, tp,
+            LOCATION_HAND + LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED)
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
     end
 end
@@ -104,6 +113,8 @@ function s.actop(e, tp, eg, ep, ev, re, r, rp)
         s.e2op(e, tp, eg, ep, ev, re, r, rp)
     elseif op == 3 then
         s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    elseif op == 4 then
+        s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
@@ -201,6 +212,68 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         tc:CompleteProcedure()
     end
     Duel.SpecialSummonComplete()
+end
+
+function s.e4check(e, tp)
+    local pg = aux.GetMustBeMaterialGroup(tp, Group.CreateGroup(), tp, nil, nil, REASON_SYNCHRO)
+    return Duel.GetFlagEffect(tp, id + 4 * 1000) == 0 and #pg <= 0 and
+               Duel.IsExistingMatchingCard(s.e4filter1, tp, LOCATION_EXTRA, 0, 1, nil, e, tp)
+end
+
+function s.e4rescon(tuner, sc)
+    return function(sg, e, tp, mg)
+        sg:AddCard(tuner)
+        local res = Duel.GetLocationCountFromEx(tp, tp, sg, sc) > 0 and
+                        sg:CheckWithSumEqual(Card.GetLevel, sc:GetLevel(), #sg, #sg)
+        sg:RemoveCard(tuner)
+        return res
+    end
+end
+
+function s.e4filter1(c, e, tp)
+    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
+               Duel.IsExistingMatchingCard(s.e4filter2, tp,
+            LOCATION_HAND + LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil, e, tp, c)
+end
+
+function s.e4filter2(c, e, tp, sc)
+    local rg = Duel.GetMatchingGroup(s.e4filter3, tp,
+        LOCATION_HAND + LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED, 0, c)
+    return c:IsType(TYPE_TUNER) and c:IsAbleToDeck() and
+               aux.SelectUnselectGroup(rg, e, tp, nil, 2, s.e4rescon(c, sc), 0)
+end
+
+function s.e4filter3(c)
+    return c:HasLevel() and not c:IsType(TYPE_TUNER) and c:IsAbleToDeck()
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local pg = aux.GetMustBeMaterialGroup(tp, Group.CreateGroup(), tp, nil, nil, REASON_SYNCHRO)
+    if #pg > 0 then
+        return
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local sc = Duel.SelectMatchingCard(tp, s.e4filter1, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
+    if not sc then
+        return
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local tuner = Duel.SelectMatchingCard(tp, s.e4filter2, tp,
+        LOCATION_HAND + LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil, e, tp, sc):GetFirst()
+    local rg = Duel.GetMatchingGroup(s.e4filter3, tp,
+        LOCATION_HAND + LOCATION_ONFIELD + LOCATION_GRAVE + LOCATION_REMOVED, 0, tuner)
+    local sg = aux.SelectUnselectGroup(rg, e, tp, 1, 2, s.e4rescon(tuner, sc), 1, tp, HINTMSG_TODECK,
+        s.e4rescon(tuner, sc))
+    sg:AddCard(tuner)
+    if Duel.SendtoDeck(sg, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
+        return
+    end
+
+    Duel.SpecialSummon(sc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
+    sc:CompleteProcedure()
 end
 
 function s.setfilter(c, tp)
