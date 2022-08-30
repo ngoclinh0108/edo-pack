@@ -37,7 +37,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
         return mc > 1 and Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, nil, mc - 1, LOCATION_ONFIELD)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, mc - 1, 0, LOCATION_ONFIELD)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
