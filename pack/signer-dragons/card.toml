@@ -478,10 +478,10 @@ If this card is destroyed by battle, or if this card in its owner's possession i
 """
 strings = ["Negate the activation", "Negate the Special Summon"]
 
-[junk-dragon]
+[junk-assault-dragon]
 id = 900000319
 set = "junk"
-name = "Junk Dragon"
+name = "Junk Assault Dragon"
 type = "monster synchro effect"
 attribute = "earth"
 race = "machine"
@@ -490,11 +490,15 @@ atk = 2800
 def = 2300
 effect = """
 "Synchron" Tuner + 1+ non-Tuner monsters
-If this card is Synchro Summoned, you can destroy other cards on the field, \
+If this card is Synchro Summoned: You can target other cards on the field, \
     up to the number of non-Tuner monsters used as Synchro Material Monsters for this card, \
-    and if you do, this card gains 200 ATK for each destroyed card. \
+    destroy them, and if you do, this card gains 500 ATK for each destroyed card. \
+    You can only use this effect of "{CARD_NAME}" once per turn.
+Cannot be destroyed by card effects. \
+If this card destroys a monster by battle: \
+    Inflict damage to your opponent equal to that monster's original ATK. \
 """
-strings = ["Destroy cards on the field"]
+strings = ["Destroy cards on the field", "Inflict damage"]
 
 [quickdraw-warrior]
 id = 900000320
