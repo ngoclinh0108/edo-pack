@@ -13,6 +13,14 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- chain limit
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_CHAINING)
+    e2:SetRange(LOCATION_SZONE)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter1(c)
@@ -54,4 +62,15 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.BreakEffect()
     local sg = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter2, tp, LOCATION_DECK, 0, 1, 1, nil, tc)
     Duel.SendtoGrave(sg, REASON_EFFECT)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local rc = re:GetHandler()
+    if re:IsActiveType(TYPE_MONSTER) and rc:IsOriginalSetCard(0x1017) then
+        Duel.SetChainLimit(s.e2chainlimit)
+    end
+end
+
+function s.e2chainlimit(e, rp, tp)
+    return tp == rp
 end

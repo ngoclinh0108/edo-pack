@@ -669,5 +669,6 @@ effect = """
 When this card is activated: \
     Add 1 "Synchron" Tuner from your Deck to your hand, \
     then you can send 1 monster from your Deck to the GY, whose Level is lower than the added monster. \
+Your opponent cannot activate cards or effects in response to the effect activations of your "Synchron" monster. \
 """
 strings = []
