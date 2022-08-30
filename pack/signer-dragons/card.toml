@@ -28,8 +28,10 @@ If a Dragon Synchro Monster is Synchro Summoned to your field: \
 Activate 1 of these effects, \
     but you cannot apply that same effect of "{CARD_NAME}" again this turn. \
     You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this card.
-● Add 1 Tuner from your Deck or GY to your hand, \
+● Add 1 Tuner from your Deck to your hand, \
     then you can send 1 monster from your Deck to the GY, whose Level is lower than the added monster.
+● Shuffle 1 Tuner from your hand or GY into the Deck, \
+    then draw 1 card.
 ● Special Summon 1 Level 8 or lower Dragon Synchro Monster from your Extra Deck, \
     except a monster that mentions a Synchro Monster as material, \
     but it cannot attack or activate its effects this turn. \
@@ -38,6 +40,7 @@ Activate 1 of these effects, \
 strings = [
     "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
     "Add Tuner to the hand",
+    "Shuffle Tuner into the Deck, then draw",
     "Summon a Dragon Synchro Monster from Extra Deck"
 ]
 

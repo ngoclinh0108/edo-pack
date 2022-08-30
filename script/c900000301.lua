@@ -54,7 +54,7 @@ end
 
 function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return s.e1check(e, tp) or s.e2check(e, tp)
+        return s.e1check(e, tp) or s.e2check(e, tp) or s.e3check(e, tp)
     end
 
     local opt = {}
@@ -67,6 +67,10 @@ function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
         table.insert(sel, 2)
         table.insert(opt, aux.Stringid(id, 2))
     end
+    if s.e3check(e, tp) then
+        table.insert(sel, 3)
+        table.insert(opt, aux.Stringid(id, 3))
+    end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_EFFECT)
     local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
@@ -74,9 +78,13 @@ function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     if op == 1 then
         e:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_DECKDES)
-        Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
+        Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
         Duel.SetPossibleOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_DECK)
     elseif op == 2 then
+        e:SetCategory(CATEGORY_TODECK + CATEGORY_DRAW)
+        Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_HAND + LOCATION_GRAVE)
+        Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+    elseif op == 3 then
         e:SetCategory(CATEGORY_SPECIAL_SUMMON)
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
     end
@@ -94,12 +102,14 @@ function s.actop(e, tp, eg, ep, ev, re, r, rp)
         s.e1op(e, tp, eg, ep, ev, re, r, rp)
     elseif op == 2 then
         s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    elseif op == 3 then
+        s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
 function s.e1check(e, tp)
     return Duel.GetFlagEffect(tp, id + 1 * 1000) == 0 and
-               Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+               Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK, 0, 1, nil)
 end
 
 function s.e1filter1(c)
@@ -111,8 +121,7 @@ function s.e1filter2(c, tc)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-        nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter1, tp, LOCATION_DECK, 0, 1, 1, nil):GetFirst()
     if not tc then
         return
     end
@@ -133,10 +142,30 @@ end
 
 function s.e2check(e, tp)
     return Duel.GetFlagEffect(tp, id + 2 * 1000) == 0 and
-               Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp)
+               Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, nil) and
+               Duel.IsPlayerCanDraw(tp, 1)
 end
 
-function s.e2filter(c, e, tp)
+function s.e2filter(c)
+    return c:IsType(TYPE_TUNER) and c:IsAbleToDeck()
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1,
+        nil):GetFirst()
+
+    if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) > 0 then
+        Duel.BreakEffect()
+        Duel.Draw(tp, 1, REASON_EFFECT)
+    end
+end
+
+function s.e3check(e, tp)
+    return Duel.GetFlagEffect(tp, id + 3 * 1000) == 0 and
+               Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp)
+end
+
+function s.e3filter(c, e, tp)
     local mt = c:GetMetatable()
     local ct = 0
     if mt.synchro_tuner_required then
@@ -151,10 +180,10 @@ function s.e2filter(c, e, tp)
                Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc =
-        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
+        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e3filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
 
     if tc and Duel.SpecialSummonStep(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) then
         local ec1 = Effect.CreateEffect(c)
