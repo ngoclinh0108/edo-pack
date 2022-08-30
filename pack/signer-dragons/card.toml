@@ -547,8 +547,23 @@ strings = [
     "Return 1 Synchro Monster to Special Summon this card",
 ]
 
+[steam-warrior]
+id = 900000322
+set = "warrior"
+name = "Steam Warrior"
+type = "monster synchro effect"
+attribute = "water"
+race = "warrior"
+level = 5
+atk = 2000
+def = 1800
+effect = """
+"Steam Synchron" + 1+ non-Tuner monsters
+"""
+strings = []
+
 [junk-accelerator]
-id = 900000321
+id = 900000323
 set = "junk"
 name = "Junk Accelerator"
 type = "monster synchro effect"
@@ -580,7 +595,7 @@ strings = [
 ]
 
 [starjunk-warrior]
-id = 900000322
+id = 900000324
 set = "junk warrior"
 name = "Starjunk Warrior"
 type = "monster synchro effect"
@@ -605,7 +620,7 @@ strings = [
 ]
 
 [star-synchron]
-id = 900000323
+id = 900000325
 set = "synchron"
 name = "Star Synchron"
 type = "monster synchro tuner effect"
