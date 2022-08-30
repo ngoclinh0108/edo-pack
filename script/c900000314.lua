@@ -54,10 +54,11 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, tp, c)
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                nil, tp, c)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_EQUIP, nil, 1, 0, LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_EQUIP, nil, 1, 0, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -66,8 +67,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local g =
-        Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp, LOCATION_DECK + LOCATION_GRAVE, 0, nil, tp, c)
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp,
+        LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, nil, tp, c)
     if #g == 0 then
         return
     end

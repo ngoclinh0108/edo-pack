@@ -31,9 +31,9 @@ Activate 1 of these effects, \
     but you cannot apply that same effect of "{CARD_NAME}" again this turn. \
     You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this card.
 ● Shuffle 1 Tuner from your hand or GY into the Deck, then draw 1 card.
-● Shuffle into the Deck, 1 Tuner and up to 2 non-Tuner monsters, \
-    that is banished, and/or in hand, field, GY, and if you do, \
-    Special Summon 1 Dragon Synchro Monster from your Extra Deck whose Level equals the total Levels of those banished monsters. \
+● Special Summon 1 Level 8 or lower Dragon Synchro Monster from your Extra Deck, \
+    except a monster that mentions a Synchro Monster as material, \
+    but it cannot attack or activate its effects this turn. \
     (This Special Summon is treated as a Synchro Summon.)
 """
 strings = [
@@ -363,7 +363,7 @@ def = 3400
 effect = """
 "Majestic Dragon" + "Life Stream Dragon" + 1 non-Tuner monster
 If this card is Special Summoned: \
-    You can equip up to 3 Equip Spells with different names from your Deck and/or GY to this card, \
+    You can equip up to 3 Equip Spells with different names from your hand, Deck and/or GY to this card, \
     and if you do, your opponent cannot target those cards with card effects, \
     also they cannot be destroyed by your opponent's card effects. \
 Any effect that would inflict damage to you makes you gain that much LP, instead. \
@@ -663,10 +663,22 @@ id = 900000326
 name = "Let's Rev It Up!"
 type = "spell continuous"
 effect = """
+You can only activate 1 "{CARD_NAME}" per turn. \
 When this card is activated: \
     Add 1 "Synchron" Tuner from your Deck to your hand, \
     then you can send 1 monster from your Deck to the GY, whose Level is lower than the added monster. \
 Your opponent cannot activate cards or effects in response to the effect activations of your "Synchron" monster. \
 Each time a monster(s) is Synchro Sumoned, place 1 Signal Counter on this card. \
+You can remove any number of Signal Counters from this card; apply this effect, depending on the number of Signal Counters removed. \
+    but you cannot apply that same effect of "{CARD_NAME}" again this turn.
+● 4: Inflict 800 damage to your opponent.
+● 7: Draw 1 card.
+● 10: Destroy 1 other card on the field.
+● 12: Special Summon 1 monster in your GY.
 """
-strings = []
+strings = [
+    "4 Counters: Inflict 800 damage.",
+    "7 Counters: Draw 1 card",
+    "10 Counters: Destroy 1 card",
+    "12 Counters: Special Summon 1 monster in your GY",
+]
