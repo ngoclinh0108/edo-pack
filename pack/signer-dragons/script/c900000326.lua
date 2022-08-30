@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0x1017}
+
 function s.initial_effect(c)
     -- activate
     local e1 = Effect.CreateEffect(c)
@@ -14,7 +16,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter1(c)
-    return c:IsType(TYPE_TUNER) and c:IsAbleToHand()
+    return c:IsSetCard(0x1017) and c:IsType(TYPE_TUNER) and c:IsAbleToHand()
 end
 
 function s.e1filter2(c, tc)
