@@ -690,6 +690,28 @@ For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
 """
 strings = []
 
+[starjunk-servant]
+id = 900000327
+set = "junk"
+name = "Starjunk Servant"
+type = "monster effect"
+attribute = "wind"
+race = "warrior"
+level = 4
+atk = 1500
+def = 1000
+effect = """
+If you control a "Stardust" or "Junk" monster, you can Special Summon this card (from your hand). \
+If this card is Normal or Special Summoned: You can target 1 "Junk" monster on the field, then activate 1 of these effects;
+● Increase its Level by 1.
+● Reduce its Level by 1.
+"""
+strings = [
+    "Change level of a \"Junk\" monster",
+    "Increase its Level by 1",
+    "Reduce its Level by 1",
+]
+
 [let-rev-it-up]
 id = 900000330
 name = "Let's Rev It Up!"
