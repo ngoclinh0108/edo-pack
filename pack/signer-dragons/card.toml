@@ -671,14 +671,12 @@ Your opponent cannot activate cards or effects in response to the effect activat
 Each time a monster(s) is Synchro Sumoned, place 1 Signal Counter on this card. \
 You can remove any number of Signal Counters from this card; apply this effect, depending on the number of Signal Counters removed. \
     but you cannot apply that same effect of "{CARD_NAME}" again this turn.
-● 4: Inflict 800 damage to your opponent.
+● 4: Destroy 1 other card on the field.
 ● 7: Draw 1 card.
-● 10: Destroy 1 other card on the field.
-● 12: Special Summon 1 monster in your GY.
+● 10: Special Summon 1 monster that is banished or in your GY.
 """
 strings = [
-    "4 Counters: Inflict 800 damage.",
+    "4 Counters: Destroy 1 card",
     "7 Counters: Draw 1 card",
-    "10 Counters: Destroy 1 card",
-    "12 Counters: Special Summon 1 monster in your GY",
+    "10 Counters: Special Summon a monster",
 ]
