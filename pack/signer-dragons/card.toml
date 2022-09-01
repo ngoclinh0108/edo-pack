@@ -540,23 +540,8 @@ strings = [
     "Return 1 Synchro Monster to Special Summon this card",
 ]
 
-[quick-span-warrior]
-id = 900000321
-set = "warrior"
-name = "Quick-Span Warrior"
-type = "monster synchro effect"
-attribute = "earth"
-race = "warrior"
-level = 8
-atk = 2500
-def = 1800
-effect = """
-"Quick-Span Knight" or 1 "Synchron" Tuner + 1+ non-Tuner monsters
-"""
-strings = []
-
 [steam-warrior]
-id = 900000322
+id = 900000321
 set = "warrior"
 name = "Steam Warrior"
 type = "monster synchro effect"
@@ -577,7 +562,7 @@ The first time this card would be destroyed by battle each turn, it is not destr
 strings = ["Shuffle card in GY into the Deck"]
 
 [junk-accelerator]
-id = 900000323
+id = 900000322
 set = "junk"
 name = "Junk Accelerator"
 type = "monster synchro effect"
@@ -609,7 +594,7 @@ strings = [
 ]
 
 [starjunk-warrior]
-id = 900000324
+id = 900000323
 set = "junk warrior"
 name = "Starjunk Warrior"
 type = "monster synchro effect"
@@ -634,7 +619,7 @@ strings = [
 ]
 
 [star-synchron]
-id = 900000325
+id = 900000324
 set = "synchron"
 name = "Star Synchron"
 type = "monster synchro tuner effect"
@@ -659,7 +644,7 @@ strings = [
 ]
 
 [let-rev-it-up]
-id = 900000326
+id = 900000330
 name = "Let's Rev It Up!"
 type = "spell continuous"
 effect = """
