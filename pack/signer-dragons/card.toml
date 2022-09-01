@@ -702,7 +702,7 @@ atk = 1500
 def = 1000
 effect = """
 If you control a "Stardust" or "Junk" monster, you can Special Summon this card (from your hand). \
-If this card is Normal or Special Summoned: You can target 1 "Junk" monster on the field, then activate 1 of these effects;
+If this card is Normal or Special Summoned: You can target 1 "Stardust" or "Junk" monster on the field, then activate 1 of these effects;
 ● Increase its Level by 1.
 ● Reduce its Level by 1.
 """
