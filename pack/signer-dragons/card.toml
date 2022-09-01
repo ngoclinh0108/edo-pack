@@ -668,6 +668,27 @@ strings = [
     "Special Summon a \"Stardust\" Synchro Monster",
 ]
 
+[starjunk-synchron]
+id = 900000326
+alias = 63977008
+set = "junk synchron"
+name = "Starjunk Synchron"
+type = "monster tuner effect"
+attribute = "wind"
+race = "warrior"
+level = 3
+atk = 1300
+def = 500
+effect = """
+(This card's name is always treated as "Junk Synchron".)
+If this card is Normal or Special Summoned: \
+    You can target 1 Level 2 or lower monster in your GY; \
+    Special Summon that target in Defense Position, \
+    but but it cannot activate its effects this turn. \
+For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
+"""
+strings = []
+
 [let-rev-it-up]
 id = 900000330
 name = "Let's Rev It Up!"

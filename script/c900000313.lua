@@ -96,7 +96,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then
         return
     end
 

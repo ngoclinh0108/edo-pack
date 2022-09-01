@@ -158,7 +158,7 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() then
+    if  not tc:IsRelateToEffect(e) or tc:IsFacedown() then
         return
     end
 
