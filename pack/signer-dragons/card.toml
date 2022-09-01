@@ -643,6 +643,31 @@ strings = [
     "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
 ]
 
+[stardust-spark-synchron]
+id = 900000325
+set = "stardust synchron"
+name = "Stardust Spark Synchron"
+type = "monster tuner effect"
+attribute = "light"
+race = "machine"
+level = 4
+atk = 1500
+def = 1000
+effect = """
+(Quick Effect): You can Tribute this card from your hand or face-up field, \
+    then target 1 "Stardust" monster you control; \
+    once during this turn, it cannot be destroyed by battle or by card effects. \
+You can banish this card and up to 2 non-Tuner monster(s) from your GY; \
+    Special Summon 1 "Stardust" Synchro Monster from your Extra Deck whose Level equals the total Levels of those banished monsters, \
+    but it cannot activate its effects this turn. \
+    (This Special Summon is treated as a Synchro Summon.) \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = [
+    "Make 1 card indestructible",
+    "Special Summon a \"Stardust\" Synchro Monster",
+]
+
 [let-rev-it-up]
 id = 900000330
 name = "Let's Rev It Up!"
