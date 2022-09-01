@@ -568,7 +568,7 @@ def = 2400
 effect = """
 "Steam Synchron" + 1+ non-Tuner monsters
 If this card is Synchro Summoned: \
-    You can target up to 5 cards in your GY; \
+    You can target up to 5 face-up cards that is banished, or in your GY; \
     shuffle them into the Deck, then draw 1 card. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 Cannot be targeted by your opponent's card effects. \
