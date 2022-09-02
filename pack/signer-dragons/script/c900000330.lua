@@ -122,8 +122,9 @@ function s.e2chainlimit(e, rp, tp)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    if eg:IsExists(aux.FilterFaceupFunction(Card.IsSummonType, SUMMON_TYPE_SYNCHRO), 1, nil) then
-        e:GetHandler():AddCounter(0x1148, 1)
+    local ct = eg:FilterCount(aux.FilterFaceupFunction(Card.IsType, TYPE_SYNCHRO), nil)
+    if ct > 0 then
+        e:GetHandler():AddCounter(0x1148, ct)
     end
 end
 

@@ -32,7 +32,7 @@ function s.initial_effect(c)
     -- special summon from banished
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_TOHAND)
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e2:SetCode(EVENT_PHASE + PHASE_STANDBY)
     e2:SetRange(LOCATION_REMOVED)
@@ -90,7 +90,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, 0, LOCATION_MZONE)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_GRAVE)
+    Duel.SetPossibleOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -101,7 +101,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(Card.IsAbleToHand), tp, LOCATION_GRAVE, 0, nil)
-    if c:IsRelateToEffect(e) and Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) ~= 0 and #g > 0 then
+    if c:IsRelateToEffect(e) and Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) ~= 0 and #g > 0 and
+        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then
         Duel.BreakEffect()
         local sc = Utility.GroupSelect(HINTMSG_ATOHAND, g, tp):GetFirst()
         Duel.SendtoHand(sc, tp, REASON_EFFECT)
