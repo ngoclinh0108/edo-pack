@@ -776,8 +776,8 @@ type = "monster effect"
 attribute = "earth"
 race = "machine"
 level = 1
-atk = 300
-def = 200
+atk = 100
+def = 100
 effect = """
 """
 strings = []
