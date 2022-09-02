@@ -1,4 +1,4 @@
--- Core Warrior
+-- Sonic Lapwing
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

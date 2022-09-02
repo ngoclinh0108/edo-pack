@@ -670,29 +670,8 @@ strings = [
     "Special Summon a \"Stardust\" Synchro Monster",
 ]
 
-[starjunk-synchron]
-id = 900000326
-alias = 63977008
-set = "junk synchron"
-name = "Starjunk Synchron"
-type = "monster tuner effect"
-attribute = "wind"
-race = "warrior"
-level = 3
-atk = 1300
-def = 500
-effect = """
-(This card's name is always treated as "Junk Synchron".)
-If this card is Normal or Special Summoned: \
-    You can target 1 Level 2 or lower monster in your GY; \
-    Special Summon that target in Defense Position, \
-    but but it cannot activate its effects this turn. \
-For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
-"""
-strings = []
-
 [starjunk-servant]
-id = 900000327
+id = 900000326
 set = "junk"
 name = "Starjunk Servant"
 type = "monster effect"
@@ -713,8 +692,111 @@ strings = [
     "Reduce its Level by 1",
 ]
 
-[let-rev-it-up]
+[starjunk-synchron]
+id = 900000327
+alias = 63977008
+set = "junk synchron"
+name = "Starjunk Synchron"
+type = "monster tuner effect"
+attribute = "wind"
+race = "warrior"
+level = 3
+atk = 1300
+def = 500
+effect = """
+(This card's name is always treated as "Junk Synchron".)
+If this card is Normal or Special Summoned: \
+    You can target 1 Level 2 or lower monster in your GY; \
+    Special Summon that target in Defense Position, \
+    but but it cannot activate its effects this turn. \
+For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
+"""
+strings = []
+
+[assault-synchron]
+id = 900000328
+set = "synchron"
+name = "Assault Synchron"
+type = "monster tuner effect"
+attribute = "wind"
+race = "warrior"
+level = 2
+atk = 500
+def = 500
+effect = """
+"""
+strings = []
+
+[junk-striker]
+id = 900000329
+name = "Junk Striker"
+set = "junk"
+type = "monster effect"
+attribute = "earth"
+race = "warrior"
+level = 2
+atk = 800
+def = 200
+effect = """
+"""
+strings = []
+
+[core-warrior]
 id = 900000330
+name = "Core Warrior"
+type = "monster effect"
+attribute = "wind"
+race = "warrior"
+level = 2
+atk = 900
+def = 400
+effect = """
+"""
+strings = []
+
+[mach-synchron]
+id = 900000331
+set = "synchron"
+name = "Mach Synchron"
+type = "monster tuner effect"
+attribute = "wind"
+race = "machine"
+level = 1
+atk = 0
+def = 0
+effect = """
+"""
+strings = []
+
+[junk-bot]
+id = 900000332
+name = "Junk Bot"
+set = "junk"
+type = "monster effect"
+attribute = "earth"
+race = "machine"
+level = 1
+atk = 300
+def = 200
+effect = """
+"""
+strings = []
+
+[sonic-lapwing]
+id = 900000333
+name = "Sonic Lapwing"
+type = "monster effect"
+attribute = "earth"
+race = "winged-beast"
+level = 1
+atk = 300
+def = 300
+effect = """
+"""
+strings = []
+
+[let-rev-it-up]
+id = 900000335
 name = "Let's Rev It Up!"
 type = "spell continuous"
 effect = """
