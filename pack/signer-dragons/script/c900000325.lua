@@ -32,7 +32,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsFaceup() and c:IsSetCard(0xa3)
+    return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
