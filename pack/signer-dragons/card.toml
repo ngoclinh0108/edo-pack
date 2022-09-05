@@ -786,6 +786,10 @@ def = 100
 effect = """
 This card on the field can be treated as a Level 2 monster when used for a Synchro Summon. \
     This effect cannot be negated. \
+If this card is in your GY: You can Tribute 1 Level 2 or lower non-Tuner monster; \
+    Special Summon this card in Defense Position. \
+    You must control a Tuner to activate and to resolve this effect. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
 
