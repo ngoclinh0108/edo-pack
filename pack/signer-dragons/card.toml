@@ -751,8 +751,12 @@ level = 2
 atk = 900
 def = 400
 effect = """
+You can discard this card; add 1 "Synchron" monster from your Deck to your hand, \
+    and if you do, you can Normal Summon 1 "Synchron" monster in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = ["Normal Summon via \"{CARD_NAME}\""]
 
 [mach-synchron]
 id = 900000331
