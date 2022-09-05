@@ -189,7 +189,7 @@ scale = 10
 show-level = false
 pendulum-effect = """
 Unaffected by other cards' effects. This effect cannot be negated. \
-Once per turn, you can return 1 other card you control to the hand, \
+Once per turn, you can return 1 other card you control into the Deck, \
     and if you do, Special Summon 1 Level 7 or 8 Dragon Synchro Monster from your Extra Deck. \
     (This Special Summon is treated as a Synchro Summon.) \
 """
@@ -197,7 +197,8 @@ effect = """
 (This card's original Level is always treated as 13.)
 [Add 6 "Ultimaya"  Signer Dragons and their "Majestic" version to your Extra Deck.]
 Cannot be Synchro Summoned. \
-Must be Special Summoned (from your Extra Deck) by sending 2 Level 7 or higher Dragon Synchro Monsters you control with the same Level to the GY (1 Tuner and 1 non-Tuner). \
+Must be Special Summoned (from your Extra Deck) \
+    by sending 2 Level 7 or higher Dragon Synchro Monsters you control with the same Level to the GY (1 Tuner and 1 non-Tuner). \
     This card's Special Summon cannot be negated. \
 Cannot be Tributed, or used as a material for an Summon. \
 Unaffected by other cards' effects. This effect cannot be negated. \
@@ -245,10 +246,9 @@ strings = [
     "Affected by \"{CARD_NAME}\": Take no damage this turn",
 ]
 
-[shooting-stardust-dragon]
+[cosmic-stardust-dragon]
 id = 900000310
-set = "stardust"
-name = "Shooting Stardust Dragon"
+name = "Cosmic Star Dragon"
 type = "monster synchro effect"
 attribute = "wind"
 race = "dragon"

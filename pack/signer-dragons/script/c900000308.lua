@@ -105,10 +105,10 @@ function s.initial_effect(c)
     -- summon a dragon
     local pe2 = Effect.CreateEffect(c)
     pe2:SetDescription(aux.Stringid(id, 1))
-    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    pe2:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
     pe2:SetType(EFFECT_TYPE_IGNITION)
-    pe2:SetCountLimit(1)
     pe2:SetRange(LOCATION_PZONE)
+    pe2:SetCountLimit(1)
     pe2:SetTarget(s.pe2tg)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
@@ -205,7 +205,7 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.pe2filter1(c)
-    return c:IsAbleToHand()
+    return c:IsAbleToDeck()
 end
 
 function s.pe2filter2(c, e, tp)
@@ -222,7 +222,7 @@ function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
                    Duel.IsExistingMatchingCard(s.pe2filter2, tp, LOCATION_GRAVE + LOCATION_EXTRA, 0, 1, nil, e, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_ONFIELD)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_ONFIELD)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE + LOCATION_EXTRA)
 end
 
@@ -232,8 +232,8 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local g1 = Utility.SelectMatchingCard(HINTMSG_RTOHAND, tp, s.pe2filter1, tp, LOCATION_ONFIELD, 0, 1, 1, c)
-    if #g1 == 0 or Duel.SendtoHand(g1, nil, REASON_EFFECT) == 0 then
+    local g1 = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, s.pe2filter1, tp, LOCATION_ONFIELD, 0, 1, 1, c)
+    if #g1 == 0 or Duel.SendtoDeck(g1, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
         return
     end
 
