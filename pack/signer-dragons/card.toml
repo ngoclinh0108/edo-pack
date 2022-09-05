@@ -422,17 +422,12 @@ def = 0
 effect = """
 (This card's name is always treated as "Majestic Dragon".)
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Majestic" monster. \
-If this card is added to your hand: You can reveal it; \
-    Special Summon it from your hand, \
+If this card is added to your hand: You can Special Summon it, \
     then, if you control a Level 8 or higher Dragon Synchro Monster, \
-    you can Special Summon 1 Level 1 Dragon monster from your Deck or GY, except "{CARD_NAME}", \
-    also for the rest of this turn, you cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters. \
+    you can Special Summon 1 Level 1 Dragon monster from your Deck or GY, except "{CARD_NAME}". \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = [
-    "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Dragon Synchro Monsters",
-    "Special Summon 1 Level 1 monster?",
-]
+strings = ["Special Summon 1 Level 1 monster?"]
 
 [majestic-wish-dragon]
 id = 900000317
@@ -445,6 +440,9 @@ level = 1
 atk = 0
 def = 0
 effect = """
+If you Synchro Summon a Dragon Synchro Monster: \
+    You can Special Summon this card from your hand or GY. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 Once per turn, during your opponent's Main Phase, you can (Quick Effect): Immediately after this effect resolves, \
     Synchro Summon a "Majestic" monster using this card you control. \
 A "Majestic" Synchro Monster that was Synchro Summoned using this card as material gains the following effect.

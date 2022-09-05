@@ -26,7 +26,6 @@ function s.initial_effect(c)
     e2:SetCode(EVENT_TO_HAND)
     e2:SetRange(LOCATION_HAND)
     e2:SetCountLimit(1, id)
-    e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -39,25 +38,6 @@ end
 function s.e2filter2(c, e, tp)
     return not c:IsCode(id) and c:IsRace(RACE_DRAGON) and c:IsLevel(1) and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return not c:IsPublic()
-    end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 0))
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetTarget(function(e, c, sump, sumtype, sumpos, targetp, se)
-        return c:IsLocation(LOCATION_EXTRA) and not (c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON))
-    end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -79,10 +59,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
         Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil) and
         Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, e, tp) and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
+        Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         local g = Duel.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_ATTACK)
     end
 end
