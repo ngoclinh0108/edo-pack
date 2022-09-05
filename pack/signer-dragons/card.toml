@@ -732,9 +732,9 @@ set = "junk"
 type = "monster effect"
 attribute = "earth"
 race = "warrior"
-level = 2
-atk = 800
-def = 200
+level = 3
+atk = 1500
+def = 900
 effect = """
 """
 strings = []
