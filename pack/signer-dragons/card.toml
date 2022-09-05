@@ -784,6 +784,8 @@ level = 1
 atk = 100
 def = 100
 effect = """
+This card on the field can be treated as a Level 2 monster when used for a Synchro Summon. \
+    This effect cannot be negated. \
 """
 strings = []
 

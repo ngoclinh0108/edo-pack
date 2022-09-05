@@ -76,7 +76,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2on(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return r == REASON_SYNCHRO and e:GetHandler():IsLocation(LOCATION_GRAVE)
 end
 
