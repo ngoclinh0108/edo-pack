@@ -47,7 +47,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, LOCATION_HAND)
-    Duel.SetPossibleOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetPossibleOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -58,11 +58,12 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     if Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
         Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil) and
-        Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, e, tp) and
+        Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, e, tp) and
         Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-        local g = Duel.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP_ATTACK)
+        local g = Duel.SelectMatchingCard(tp, aux.NecroValleyFilter(s.e2filter2), tp,
+            LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
     end
 end

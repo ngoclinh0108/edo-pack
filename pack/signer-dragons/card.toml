@@ -424,7 +424,7 @@ effect = """
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Majestic" monster. \
 If this card is added to your hand: You can Special Summon it, \
     then, if you control a Level 8 or higher Dragon Synchro Monster, \
-    you can Special Summon 1 Level 1 Dragon monster from your Deck or GY, except "{CARD_NAME}". \
+    you can Special Summon 1 Level 1 Dragon monster from your hand, Deck or GY. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Special Summon 1 Level 1 monster?"]
