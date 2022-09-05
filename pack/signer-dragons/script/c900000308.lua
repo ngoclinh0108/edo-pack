@@ -101,6 +101,17 @@ function s.initial_effect(c)
         return te:GetOwner() ~= e:GetOwner()
     end)
     c:RegisterEffect(pe1)
+
+    -- summon a dragon
+    local pe2 = Effect.CreateEffect(c)
+    pe2:SetDescription(aux.Stringid(id, 1))
+    pe2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    pe2:SetType(EFFECT_TYPE_IGNITION)
+    pe2:SetCountLimit(1)
+    pe2:SetRange(LOCATION_PZONE)
+    pe2:SetTarget(s.pe2tg)
+    pe2:SetOperation(s.pe2op)
+    c:RegisterEffect(pe2)
 end
 
 function s.deck_edit(tp)
@@ -191,4 +202,42 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
+end
+
+function s.pe2filter1(c)
+    return c:IsAbleToHand()
+end
+
+function s.pe2filter2(c, e, tp)
+    return (c:IsLevel(7) or c:IsLevel(8)) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
+               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
+end
+
+function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingMatchingCard(s.pe2filter1, tp, LOCATION_ONFIELD, 0, 1, c) and
+                   Duel.IsExistingMatchingCard(s.pe2filter2, tp, LOCATION_GRAVE + LOCATION_EXTRA, 0, 1, nil, e, tp)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_ONFIELD)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE + LOCATION_EXTRA)
+end
+
+function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    local g1 = Utility.SelectMatchingCard(HINTMSG_RTOHAND, tp, s.pe2filter1, tp, LOCATION_ONFIELD, 0, 1, 1, c)
+    if #g1 == 0 or Duel.SendtoHand(g1, nil, REASON_EFFECT) == 0 then
+        return
+    end
+
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.pe2filter2, tp, LOCATION_GRAVE + LOCATION_EXTRA, 0, 1,
+        1, nil, e, tp):GetFirst()
+    Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
 end

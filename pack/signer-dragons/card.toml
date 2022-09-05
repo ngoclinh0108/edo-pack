@@ -31,7 +31,7 @@ Activate 1 of these effects, \
     but you cannot apply that same effect of "{CARD_NAME}" again this turn. \
     You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this card.
 ● Shuffle 1 Tuner from your hand or GY into the Deck, then draw 1 card.
-● Special Summon 1 Level 8 or lower Dragon Synchro Monster from your Extra Deck, \
+● Special Summon 1 Level 7 or 8 Dragon Synchro Monster from your Extra Deck, \
     except a monster that mentions a Synchro Monster as material, \
     but it cannot attack or activate its effects this turn. \
     (This Special Summon is treated as a Synchro Summon.)
@@ -189,6 +189,9 @@ scale = 10
 show-level = false
 pendulum-effect = """
 Unaffected by other cards' effects. This effect cannot be negated. \
+Once per turn, you can return 1 other card you control to the hand, \
+    and if you do, Special Summon 1 Level 7 or 8 Dragon Synchro Monster from your Extra Deck. \
+    (This Special Summon is treated as a Synchro Summon.) \
 """
 effect = """
 (This card's original Level is always treated as 13.)
@@ -201,7 +204,7 @@ Unaffected by other cards' effects. This effect cannot be negated. \
 While you control another Synchro Monster, your opponent cannot target this card for attacks or by card effects. \
 Once per turn: You can place this card in your Pendulum Zone. \
 """
-strings = ["Place to Pendulum Zone"]
+strings = ["Place to Pendulum Zone", "Special Summon a Synchro Dragon Monster"]
 
 [cosmic-quasar-dragon]
 id = 900000309
