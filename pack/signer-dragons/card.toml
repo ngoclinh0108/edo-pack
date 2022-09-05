@@ -741,20 +741,21 @@ effect = """
 """
 strings = []
 
-[synchron-warrior]
+[core-warrior]
 id = 900000330
-set = "synchron"
-name = "Synchron Warrior"
+name = "Core Warrior"
 type = "monster effect"
 attribute = "wind"
 race = "warrior"
 level = 2
-atk = 900
-def = 400
+atk = 1000
+def = 500
 effect = """
-You can discard this card; add 1 "Synchron" monster from your Deck to your hand, except "{CARD_NAME}", \
+You can discard this card; add 1 "Synchron" monster from your Deck to your hand, \
     then, immediately after this effect resolves, you can Normal Summon 1 Tuner monster. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
+If this card is sent to the GY as Synchro Material: \
+    You can Special Summon 1 "Synchron Token" (Machine/EARTH/Level 2/ATK 1000/DEF 0). \
 """
 strings = ["Normal Summon 1 Tuner monster?"]
 
