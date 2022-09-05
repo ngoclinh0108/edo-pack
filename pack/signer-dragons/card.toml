@@ -424,7 +424,7 @@ effect = """
 Cannot be used as Synchro Material, except for the Synchro Summon of a "Majestic" monster. \
 If this card is added to your hand: You can Special Summon it, \
     then, if you control a Level 8 or higher Dragon Synchro Monster, \
-    you can Special Summon 1 Level 1 Dragon monster from your hand, Deck or GY. \
+    you can Special Summon 1 Level 1 Dragon monster from your hand or Deck. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Special Summon 1 Level 1 monster?"]
@@ -440,8 +440,8 @@ level = 1
 atk = 0
 def = 0
 effect = """
-If you Synchro Summon a Dragon Synchro Monster: \
-    You can Special Summon this card from your hand or GY. \
+If you Synchro Summon a Dragon monster: \
+    You can Special Summon this card from your GY. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 Once per turn, during your opponent's Main Phase, you can (Quick Effect): Immediately after this effect resolves, \
     Synchro Summon a "Majestic" monster using this card you control. \
