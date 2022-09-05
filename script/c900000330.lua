@@ -98,5 +98,5 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     local token = Duel.CreateToken(tp, 62125439)
-    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP_ATTACK)
 end
