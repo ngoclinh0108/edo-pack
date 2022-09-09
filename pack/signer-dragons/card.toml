@@ -805,19 +805,6 @@ If this card is in your GY: \
 """
 strings = []
 
-[sonic-lapwing]
-id = 900000333
-name = "Sonic Lapwing"
-type = "monster effect"
-attribute = "earth"
-race = "winged-beast"
-level = 1
-atk = 300
-def = 300
-effect = """
-"""
-strings = []
-
 [let-rev-it-up]
 id = 900000335
 name = "Let's Rev It Up!"
