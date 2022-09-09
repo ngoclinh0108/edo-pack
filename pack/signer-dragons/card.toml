@@ -248,6 +248,7 @@ strings = [
 
 [cosmic-stardust-dragon]
 id = 900000310
+alias = 24696097
 name = "Cosmic Star Dragon"
 type = "monster synchro effect"
 attribute = "wind"
@@ -257,7 +258,7 @@ atk = 3300
 def = 2500
 effect = """
 1 Tuner Synchro Monster + 1 non-Tuner Synchro Monster
-(This card's name is also treated as "Shooting Star Dragon".)
+(This card's name is always treated as "Shooting Star Dragon".)
 Once per turn, during the Main Phase, you can (Quick Effect): Immediately after this effect resolves, \
     Synchro Summon this card from your Extra Deck using monsters you control, including "Stardust Dragon". \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
