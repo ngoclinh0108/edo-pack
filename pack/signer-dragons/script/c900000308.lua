@@ -105,7 +105,7 @@ function s.initial_effect(c)
     -- summon a dragon
     local pe2 = Effect.CreateEffect(c)
     pe2:SetDescription(aux.Stringid(id, 1))
-    pe2:SetCategory(CATEGORY_TODECK + CATEGORY_SPECIAL_SUMMON)
+    pe2:SetCategory(CATEGORY_TOGRAVE + CATEGORY_SPECIAL_SUMMON)
     pe2:SetType(EFFECT_TYPE_IGNITION)
     pe2:SetRange(LOCATION_PZONE)
     pe2:SetCountLimit(1)
@@ -205,7 +205,7 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.pe2filter1(c)
-    return c:IsAbleToDeck()
+    return c:IsAbleToGrave()
 end
 
 function s.pe2filter2(c, e, tp)
@@ -233,7 +233,7 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     local g1 = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, s.pe2filter1, tp, LOCATION_ONFIELD, 0, 1, 1, c)
-    if #g1 == 0 or Duel.SendtoDeck(g1, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
+    if #g1 == 0 or Duel.SendtoGrave(g1, REASON_EFFECT) == 0 then
         return
     end
 
