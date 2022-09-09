@@ -725,8 +725,19 @@ level = 2
 atk = 500
 def = 500
 effect = """
+After you Normal or Special Summon this card, \
+    you can Normal Summon 1 "Synchron" monster during your Main Phase this turn, in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+You can target 1 other face-up monster you control; \
+    increase or reduce its Level by 2 until the end of this turn. \
+    You can only use each effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = [
+    "Normal Summon via \"{CARD_NAME}\"",
+    "Change level of a monster",
+    "Increase its Level by 2",
+    "Reduce its Level by 2",
+]
 
 [junk-striker]
 id = 900000329
