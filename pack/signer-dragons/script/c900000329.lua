@@ -34,7 +34,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsLevelBelow(2) and c:IsAbleToHand()
+    return c:IsLevelBelow(2) and c:IsRace(RACE_WARRIOR + RACE_MACHINE) and c:IsAbleToHand()
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
