@@ -714,10 +714,10 @@ For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
 """
 strings = []
 
-[assault-synchron]
+[rush-synchron]
 id = 900000328
 set = "synchron"
-name = "Assault Synchron"
+name = "Rush Synchron"
 type = "monster tuner effect"
 attribute = "wind"
 race = "machine"
