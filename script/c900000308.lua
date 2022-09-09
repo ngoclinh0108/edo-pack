@@ -204,26 +204,19 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end
 
-function s.pe2filter1(c)
-    return c:IsAbleToGrave()
-end
-
-function s.pe2filter2(c, e, tp)
+function s.pe2filter(c, e, tp)
     return (c:IsLevel(7) or c:IsLevel(8)) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
                Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
 end
 
 function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.pe2filter1, tp, LOCATION_ONFIELD, 0, 1, c) and
-                   Duel.IsExistingMatchingCard(s.pe2filter2, tp, LOCATION_GRAVE + LOCATION_EXTRA, 0, 1, nil, e, tp)
+                   Duel.IsExistingMatchingCard(s.pe2filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_ONFIELD)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE + LOCATION_EXTRA)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
 function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
@@ -232,12 +225,10 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local g1 = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, s.pe2filter1, tp, LOCATION_ONFIELD, 0, 1, 1, c)
-    if #g1 == 0 or Duel.SendtoGrave(g1, REASON_EFFECT) == 0 then
-        return
+    local tc =
+        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.pe2filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
+    if tc then
+        Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
+        tc:CompleteProcedure()
     end
-
-    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.pe2filter2, tp, LOCATION_GRAVE + LOCATION_EXTRA, 0, 1,
-        1, nil, e, tp):GetFirst()
-    Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
 end
