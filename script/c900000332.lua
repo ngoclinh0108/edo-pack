@@ -29,7 +29,7 @@ end
 
 function s.e2filter(c, ft, tp)
     return (ft > 0 or (c:IsControler(tp) and c:GetSequence() < 5)) and (c:IsControler(tp) or c:IsFaceup()) and
-               c:IsLevelBelow(2) and not c:IsType(TYPE_TUNER)
+               c:IsLevelBelow(4) and not c:IsType(TYPE_TUNER)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
