@@ -778,7 +778,7 @@ def = 0
 effect = """
 If this card would be used as a Synchro Material, 1 monster in your hand can be used as 1 of the other materials. \
 During the End Phase, if this card is in the GY because it was sent there this turn as Synchro Material: \
-    You can target 1 other monster in your GY, that was used as material for that Synchro Summon; \
+    You can target 1 monster in your GY, except "{CARD_NAME}", that was used as Synchro Material; \
     add it to your hand, or Special Summon it. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
