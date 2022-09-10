@@ -821,8 +821,14 @@ set = "majestic"
 name = "Majestic Salvation"
 type = "spell quick-play"
 effect = """
+This card's activation and effect cannot be negated. \
+Choose 1 Level 10 or higher Dragon Synchro Monster you control that mentions a Synchro Monster as material, \
+    except monster(s) already affected by "{CARD_NAME}", it gains the following effects.
+● This card's effect activations and its activated effects cannot be negated.
+● The first time this card would be destroyed each turn, by battle or card effect, it is not destroyed.
+● Each time this card declares an attack, it gains 1000 ATK/DEF.
 """
-strings = []
+strings = ["Affected by \"{CARD_NAME}\"", "Gain 1000 ATK/DEF"]
 
 
 [let-rev-it-up]
