@@ -808,8 +808,7 @@ effect = """
 This card on the field can be treated as a Level 2 monster when used for a Synchro Summon. \
     This effect cannot be negated. \
 If this card is in your GY: \
-    You can Tribute 1 Level 4 or lower non-Tuner monster; \
-    Special Summon this card in Defense Position. \
+    You can Tribute 1 Level 4 or lower non-Tuner monster; Special Summon this card. \
     You must control a Tuner to activate and to resolve this effect. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
@@ -819,14 +818,17 @@ strings = []
 id = 900000333
 set = "majestic"
 name = "Majestic Salvation"
-type = "spell quick-play"
+type = "spell"
 effect = """
-This card's activation and effect cannot be negated. \
 Choose 1 Level 10 or higher Dragon Synchro Monster you control that mentions a Synchro Monster as material, \
     except monster(s) already affected by "{CARD_NAME}", it gains the following effects.
 ● This card's effect activations and its activated effects cannot be negated.
 ● The first time this card would be destroyed each turn, by battle or card effect, it is not destroyed.
 ● Each time this card declares an attack, it gains 1000 ATK/DEF.
+During your Main Phase, if you control a Dragon Synchro Monster: \
+    You can banish this card from your GY, then target 1 Level 1 Dragon monster in your GY; \
+    add it to your hand, or Special Summon it. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Affected by \"{CARD_NAME}\"", "Gain 1000 ATK/DEF"]
 

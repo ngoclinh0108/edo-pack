@@ -6,12 +6,22 @@ function s.initial_effect(c)
     -- activate
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetHintTiming(TIMING_DAMAGE_STEP)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- add or special summon level 1 dragon
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_SPECIAL_SUMMON)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCondition(s.e2con)
+    e2:SetCost(aux.bfgcost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter(c)
@@ -96,4 +106,44 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec3)
+end
+
+function s.e2filter1(c)
+    return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
+end
+
+function s.e2filter2(c, e, tp, ft)
+    return c:IsLevel(1) and c:IsRace(RACE_DRAGON) and
+               c:IsAbleToHand()(c:IsAbleToHand() or (c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and ft > 0))
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e2filter2, tp, LOCATION_GRAVE, 0, 1, nil, e, tp, ft)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local g = Duel.SelectTarget(tp, s.e2filter2, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, tp, ft)
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) then
+        return
+    end
+
+    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
+    aux.ToHandOrElse(tc, tp, function(c)
+        return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) and ft > 0
+    end, function(c)
+        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    end, 2)
 end

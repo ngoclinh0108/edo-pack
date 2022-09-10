@@ -49,7 +49,7 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
@@ -62,5 +62,5 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
