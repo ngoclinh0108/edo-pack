@@ -37,7 +37,7 @@ function s.initial_effect(c)
     -- 4 counters
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_DESTROY)
+    e4:SetCategory(CATEGORY_DRAW + CATEGORY_HANDES)
     e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetRange(LOCATION_SZONE)
     e4:SetCost(s.effcost(4))
@@ -143,24 +143,26 @@ end
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.GetFlagEffect(tp, id + 3 * 1000) == 0 and
-                   Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c)
+        return Duel.GetFlagEffect(tp, id + 1 * 1000) == 0 and Duel.IsPlayerCanDraw(tp, 2)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, LOCATION_ONFIELD)
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(2)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 2)
+    Duel.SetOperationInfo(0, CATEGORY_HANDES, nil, 0, tp, 1)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.RegisterFlagEffect(tp, id + 3 * 1000, RESET_PHASE + PHASE_END, 0, 1)
+    Duel.RegisterFlagEffect(tp, id + 1 * 1000, RESET_PHASE + PHASE_END, 0, 1)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then
         return
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, c):GetFirst()
-    if tc then
-        Duel.Destroy(tc, REASON_EFFECT)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
+    if Duel.Draw(p, d, REASON_EFFECT) == 2 then
+        Duel.BreakEffect()
+        Duel.DiscardHand(tp, aux.TRUE, 1, 1, REASON_EFFECT)
     end
 end
 
@@ -186,30 +188,30 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e6filter(c, e, tp)
-    return c:IsFaceup() and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.GetFlagEffect(tp, id + 4 * 1000) == 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil, e, tp)
+        return Duel.GetFlagEffect(tp, id + 3 * 1000) == 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingTarget(s.e6filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, nil, e, tp)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, LOCATION_GRAVE + LOCATION_REMOVED)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectTarget(tp, s.e6filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, 1, nil, e, tp)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
 end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.RegisterFlagEffect(tp, id + 4 * 1000, RESET_PHASE + PHASE_END, 0, 1)
+    Duel.RegisterFlagEffect(tp, id + 3 * 1000, RESET_PHASE + PHASE_END, 0, 1)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then
         return
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local tc =
-        Duel.SelectMatchingCard(tp, s.e6filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil, e, tp):GetFirst()
-    if tc then
+    local tc = Duel.GetFirstTarget()
+    if tc:IsRelateToEffect(e) then
         Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
     end
 end
