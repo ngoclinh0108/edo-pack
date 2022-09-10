@@ -114,7 +114,7 @@ end
 
 function s.e2filter2(c, e, tp, ft)
     return c:IsLevel(1) and c:IsRace(RACE_DRAGON) and
-               c:IsAbleToHand()(c:IsAbleToHand() or (c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and ft > 0))
+               (c:IsAbleToHand() or (c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and ft > 0))
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
