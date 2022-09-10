@@ -825,10 +825,6 @@ Choose 1 Level 10 or higher Dragon Synchro Monster you control that mentions a S
 ● This card's effect activations and its activated effects cannot be negated.
 ● The first time this card would be destroyed each turn, by battle or card effect, it is not destroyed.
 ● Each time this card declares an attack, it gains 1000 ATK/DEF.
-During your Main Phase, if you control a Dragon Synchro Monster: \
-    You can banish this card from your GY, then target 1 Level 1 Dragon monster in your GY; \
-    add it to your hand, or Special Summon it. \
-    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Affected by \"{CARD_NAME}\"", "Gain 1000 ATK/DEF"]
 
