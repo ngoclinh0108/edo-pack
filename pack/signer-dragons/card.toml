@@ -189,7 +189,7 @@ scale = 10
 show-level = false
 pendulum-effect = """
 Unaffected by other cards' effects. This effect cannot be negated. \
-Once per turn, you can Special Summon 1 Level 7 or 8 Dragon Synchro Monster from your Extra Deck. \
+Once per turn, you can Special Summon 1 Level 10 or lower Dragon Synchro Monster from your Extra Deck. \
     (This Special Summon is treated as a Synchro Summon.) \
 """
 effect = """
