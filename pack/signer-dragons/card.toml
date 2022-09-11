@@ -830,7 +830,7 @@ strings = ["Affected by \"{CARD_NAME}\"", "Gain 1000 ATK/DEF"]
 
 
 [let-rev-it-up]
-id = 900000335
+id = 900000334
 name = "Let's Rev It Up!"
 type = "spell continuous"
 effect = """
