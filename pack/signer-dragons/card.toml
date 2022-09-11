@@ -853,3 +853,18 @@ strings = [
     "7 Counters: Banish monster to Special Summon 1 Synchro Monster in your GY",
     "10 Counters: Special Summon 1 monster in either GY",
 ]
+
+[red-dragon-archfiend-calamity-emperor]
+id = 900000335
+set = "red-dragon-archfiend"
+name = "Red Archfiend Dragon Calamity Emperor"
+type = "monster synchro effect"
+attribute = "dark"
+race = "dragon"
+level = 12
+atk = 4000
+def = 3500
+effect = """
+3 Tuners + 1 non-Tuner DARK Dragon Synchro Monster
+"""
+strings = []
