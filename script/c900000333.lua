@@ -55,8 +55,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec1)
     local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_CANNOT_DISEFFECT)
+    ec1b:SetCode(EFFECT_CANNOT_DISABLE)
     tc:RegisterEffect(ec1b)
+    local ec1c = ec1:Clone()
+    ec1c:SetCode(EFFECT_CANNOT_DISEFFECT)
+    tc:RegisterEffect(ec1c)
 
     -- indes
     local ec2 = Effect.CreateEffect(c)
