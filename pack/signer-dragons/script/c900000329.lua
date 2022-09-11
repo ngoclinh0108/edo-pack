@@ -78,9 +78,14 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
+    if c:IsRelateToEffect(e) and Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) > 0 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3300)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
+        ec1:SetValue(LOCATION_REMOVED)
+        ec1:SetReset(RESET_EVENT + RESETS_REDIRECT)
+        c:RegisterEffect(ec1, true)
     end
-
-    Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end

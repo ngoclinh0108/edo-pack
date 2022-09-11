@@ -766,7 +766,8 @@ def = 900
 effect = """
 You can discard this card; add 1 Level 2 or lower Warrior or Machine monster from your Deck to your hand. \
 If a "Synchron" monster(s) is Normal or Special Summoned (except during the Damage Step): \
-    You can Special Summon this card from your hand or GY. \
+    You can Special Summon this card from your hand or GY in Defense Position, \
+    but banish it when it leaves the field. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
