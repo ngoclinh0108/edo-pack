@@ -546,14 +546,12 @@ During your opponent's turn (Quick Effect): \
     except "{CARD_NAME}". (This Special Summon is treated as a Synchro Summon.) \
 During your Standby Phase, while this card is banished: \
     You can return 1 Synchro Monster you control to the Extra Deck, \
-    and if you do, Special Summon this banished card, \
-    then you can add 1 card from your GY to your hand. \
+    and if you do, Special Summon this banished card. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
     "Banish to Special Summon a Synchro Monster from Extra Deck",
     "Return 1 Synchro Monster to Special Summon this card",
-    "Add 1 card from your GY to your hand?",
 ]
 
 [steam-warrior]
@@ -570,12 +568,12 @@ effect = """
 "Steam Synchron" + 1+ non-Tuner monsters
 If this card is Synchro Summoned: \
     You can target up to 5 face-up cards that is banished, or in your GY; \
-    shuffle them into the Deck, then you can draw 1 card. \
+    shuffle them into the Deck. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 Cannot be targeted by your opponent's card effects. \
 The first time this card would be destroyed by battle each turn, it is not destroyed. \
 """
-strings = ["Shuffle card in GY into the Deck", "Draw 1 card?"]
+strings = ["Shuffle card in GY into the Deck"]
 
 [junk-accelerator]
 id = 900000322
