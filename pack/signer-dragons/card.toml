@@ -929,3 +929,13 @@ During your Main Phase: You can banish this card from your GY; \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Special Summon a \"Red Dragon Archfiend\" monster"]
+
+[ruthless-inferno]
+id = 900000337
+name = "Ruthless Inferno"
+type = "trap"
+effect = """
+Target 1 Dragon Synchro you control; equip this card to it. \
+This equipped card cannot be destroyed by card effects. \
+"""
+strings = []
