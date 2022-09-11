@@ -922,10 +922,11 @@ During the Main Phase (Quick Effect): You can Tribute this Synchro Summoned card
     Special Summon 1 Level 8 or lower "Red Dragon Archfiend" Synchro Monster from your Extra Deck, \
     and if you do, it cannot be destroyed by your opponent's card effects. \
     (This Special Summon is treated as a Synchro Summon.) \
-During your Main Phase: You can banish this card from your GY; \
-    Set 1 Spell/Trap directly from your Deck or GY, \
+If this face-up card leaves the field: \
+    You can take 1 Spell/Trap from your Deck to your hand, \
     that mentions a "Red Dragon Archfiend" monster or lists "Red Dragon Archfiend" in its text, \
-    and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
+    and either add it to your hand, or Set it, \
+    and if it was a Trap, you can activate it this turn. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Special Summon a \"Red Dragon Archfiend\" monster"]
@@ -935,7 +936,11 @@ id = 900000337
 name = "Ruthless Inferno"
 type = "trap"
 effect = """
-Target 1 Dragon Synchro you control; equip this card to it. \
-This equipped card cannot be destroyed by card effects. \
+If you control a "Red Dragon Archfiend" monster, you can activate this card from your hand. \
+Target 1 Dragon Synchro you control; equip this card to it, and this equipped card cannot be destroyed by card effects. \
+Negate any card effects that target the equipped monster. \
+If a DARK Dragon Synchro Monster is Synchro Summoned to your field while this card is in your GY: \
+    You can add this card to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
