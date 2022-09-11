@@ -92,6 +92,17 @@ function s.initial_effect(c)
     me3:SetOperation(s.me3op)
     c:RegisterEffect(me3)
 
+    -- gain atk
+    local me4 = Effect.CreateEffect(c)
+    me4:SetDescription(aux.Stringid(id, 1))
+    me4:SetCategory(CATEGORY_ATKCHANGE)
+    me4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    me4:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+    me4:SetCountLimit(1)
+    me4:SetCondition(s.me4con)
+    me4:SetOperation(s.me4op)
+    c:RegisterEffect(me4)
+
     -- immune
     local pe1 = Effect.CreateEffect(c)
     pe1:SetType(EFFECT_TYPE_SINGLE)
@@ -105,7 +116,7 @@ function s.initial_effect(c)
 
     -- special summon synchro monster
     local pe2 = Effect.CreateEffect(c)
-    pe2:SetDescription(aux.Stringid(id, 1))
+    pe2:SetDescription(aux.Stringid(id, 2))
     pe2:SetCategory(CATEGORY_TOGRAVE + CATEGORY_SPECIAL_SUMMON)
     pe2:SetType(EFFECT_TYPE_IGNITION)
     pe2:SetRange(LOCATION_PZONE)
@@ -215,6 +226,26 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
+end
+
+function s.me4filter(c)
+    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:GetAttack() > 0
+end
+
+function s.me4con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetAttackTarget() == e:GetHandler()
+end
+
+function s.me4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsRelateToEffect(e) and c:IsFaceup() then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(Duel.GetMatchingGroup(s.me4filter, tp, LOCATION_GRAVE, 0, nil):GetSum(Card.GetAttack))
+        ec1:SetReset(RESET_PHASE + PHASE_DAMAGE_CAL)
+        c:RegisterEffect(ec1)
+    end
 end
 
 function s.pe2filter(c, e, tp)
