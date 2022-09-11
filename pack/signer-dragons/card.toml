@@ -894,3 +894,27 @@ strings = [
     "Banish this card until the end phase",
     "Do you want negate the attack by effect of \"{CARD_NAME}\"?",
 ]
+
+[nova-rising-dragon]
+id = 900000336
+name = "Nova Rising Dragon"
+type = "monster synchro effect"
+attribute = "dark"
+race = "dragon"
+level = 8
+atk = 2000
+def = 3000
+effect = """
+1 Tuner + 1+ non-Tuner monsters
+During the Main Phase (Quick Effect): You can Tribute this Synchro Summoned card; \
+    Special Summon 1 Level 8 or lower "Red Dragon Archfiend" Synchro Monster from your Extra Deck, \
+    but it cannot attack or activate its effects this turn. (This Special Summon is treated as a Synchro Summon.) \
+During the Main Phase, except the turn this card was sent to the GY (Quick Effect): You can banish this card from your GY; \
+    Synchro Summon 1 Dark Dragon Synchro Monster, by banishing other monsters in your GY as materials,
+    including 1 Level 8 or lower Dark Dragon Synchro Monster. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = [
+    "Special Summon a \"Red Dragon Archfiend\" monster",
+    "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except DARK Dragon Synchro Monsters",
+]
