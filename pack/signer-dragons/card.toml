@@ -31,7 +31,8 @@ Activate 1 of these effects, \
     but you cannot apply that same effect of "{CARD_NAME}" again this turn. \
     You cannot Special Summon monsters from the Extra Deck, except Synchro Monsters, the turn you activate this card.
 ● Shuffle 1 Tuner from your hand or GY into the Deck, then draw 2 cards.
-● Special Summon 1 Level 7 or 8 Dragon Synchro Monster from your Extra Deck, \
+● Special Summon 1 "Power Tool" Synchro Monster \
+    or 1 Level 7 or 8 Dragon Synchro Monster from your Extra Deck, \
     except a monster that mentions a Synchro Monster as material, \
     but it cannot attack or activate its effects this turn. \
     (This Special Summon is treated as a Synchro Summon.)
@@ -39,7 +40,7 @@ Activate 1 of these effects, \
 strings = [
     "Affected by \"{CARD_NAME}\": Cannot Special Summon from the Extra Deck, except Synchro Monsters",
     "Shuffle Tuner into the Deck",
-    "Summon a Dragon Synchro Monster",
+    "Summon a Synchro Monster",
 ]
 
 [ultimaya-stardust-dragon]
@@ -189,7 +190,8 @@ scale = 10
 show-level = false
 pendulum-effect = """
 Unaffected by other cards' effects. This effect cannot be negated. \
-Once per turn, you can Special Summon 1 Level 10 or lower Dragon Synchro Monster from your Extra Deck. \
+Once per turn, you can Special Summon 1 "Power Tool" Synchro Monster \
+    or 1 Level 10 or lower Dragon Synchro Monster from your Extra Deck. \
     (This Special Summon is treated as a Synchro Summon.) \
 """
 effect = """
@@ -915,6 +917,4 @@ During your Main Phase: You can banish this card from your GY; \
     and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
-strings = [
-    "Special Summon a \"Red Dragon Archfiend\" monster",
-]
+strings = ["Special Summon a \"Red Dragon Archfiend\" monster"]

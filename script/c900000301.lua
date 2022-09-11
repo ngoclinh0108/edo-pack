@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0xc2}
+
 function s.initial_effect(c)
     -- activate
     local act = Effect.CreateEffect(c)
@@ -136,8 +138,8 @@ function s.e2filter(c, e, tp)
         ct = ct + mt.synchro_nt_required
     end
 
-    return (c:IsLevel(7) or c:IsLevel(8)) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and ct == 0 and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
+    return (c:IsSetCard(0xc2) or ((c:GetLevel() == 7 or c:GetLevel() == 8) and c:IsRace(RACE_DRAGON))) and
+               c:IsType(TYPE_SYNCHRO) and ct == 0 and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
                Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
 end
 

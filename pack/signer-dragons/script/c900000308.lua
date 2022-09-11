@@ -205,7 +205,7 @@ function s.me3op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.pe2filter(c, e, tp)
-    return c:IsLevelBelow(10) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and
+    return (c:IsSetCard(0xc2) or (c:IsLevelBelow(10) and c:IsRace(RACE_DRAGON))) and c:IsType(TYPE_SYNCHRO) and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
                Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
 end
