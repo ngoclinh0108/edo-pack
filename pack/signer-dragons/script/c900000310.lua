@@ -1,4 +1,4 @@
--- Cosmic Stardust Dragon
+-- Cosmic Star Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
