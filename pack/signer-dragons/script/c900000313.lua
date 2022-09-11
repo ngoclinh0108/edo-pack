@@ -47,7 +47,7 @@ function s.initial_effect(c)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsLevelBelow(8) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e2con()
@@ -72,8 +72,12 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter, tp, LOCATION_HAND + LOCATION_GRAVE,
         LOCATION_GRAVE, 1, 1, nil, e, tp):GetFirst()
-    if tc then
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    if tc and Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP) > 0 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec1)
     end
 end
 
