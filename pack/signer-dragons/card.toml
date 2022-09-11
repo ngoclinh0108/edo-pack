@@ -902,7 +902,7 @@ type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
 level = 8
-atk = 2000
+atk = 0
 def = 3000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
