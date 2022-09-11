@@ -208,8 +208,8 @@ Cannot be Tributed, or used as a material for an Summon. \
 Unaffected by other cards' effects. This effect cannot be negated. \
 While you control another Synchro Monster, your opponent cannot target this card for attacks or by card effects. \
 Once per turn: You can place this card in your Pendulum Zone. \
-Once per turn, during damage calculation, if this card is attacked by your opponent's monster (Quick Effect): \
-    this card gains ATK equal to the combined ATK of all Dragon Synchro Monsters in your GY. \
+Once per turn, during damage calculation, if this card is attacked by an opponent's monster (Quick Effect): \
+    This card gains ATK equal to the combined ATK of all Dragon Synchro Monsters in your GY. \
 """
 strings = [
     "Place to Pendulum Zone",
