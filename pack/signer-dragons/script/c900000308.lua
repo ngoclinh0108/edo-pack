@@ -5,6 +5,7 @@ local s, id = GetID()
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    Pendulum.AddProcedure(c, false)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -102,7 +103,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(pe1)
 
-    -- summon a dragon
+    -- special summon synchro monster
     local pe2 = Effect.CreateEffect(c)
     pe2:SetDescription(aux.Stringid(id, 1))
     pe2:SetCategory(CATEGORY_TOGRAVE + CATEGORY_SPECIAL_SUMMON)
@@ -112,6 +113,18 @@ function s.initial_effect(c)
     pe2:SetTarget(s.pe2tg)
     pe2:SetOperation(s.pe2op)
     c:RegisterEffect(pe2)
+
+    -- special summon
+    local pe3 = Effect.CreateEffect(c)
+    pe3:SetDescription(2)
+    pe3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    pe3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    pe3:SetCode(EVENT_ATTACK_ANNOUNCE)
+    pe3:SetRange(LOCATION_PZONE)
+    pe3:SetCondition(s.pe3con)
+    pe3:SetTarget(s.pe3tg)
+    pe3:SetOperation(s.pe3op)
+    c:RegisterEffect(pe3)
 end
 
 function s.deck_edit(tp)
@@ -231,4 +244,27 @@ function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
         tc:CompleteProcedure()
     end
+end
+
+function s.pe3con(e, tp, eg, ep, ev, re, r, rp)
+    local ac = Duel.GetAttacker()
+    return ac:GetControler() ~= tp and Duel.GetAttackTarget() == nil
+end
+
+function s.pe3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+end
+
+function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
 end
