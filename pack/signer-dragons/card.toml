@@ -190,12 +190,11 @@ scale = 10
 show-level = false
 pendulum-effect = """
 Unaffected by other cards' effects. This effect cannot be negated. \
-You can Special Summon 1 "Power Tool" Synchro Monster \
+Once per turn: You can Special Summon 1 "Power Tool" Synchro Monster \
     or 1 Level 10 or lower Dragon Synchro Monster from your Extra Deck. \
     (This Special Summon is treated as a Synchro Summon.) \
 When an opponent's monster declares a direct attack: \
     You can Special Summon this card. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 effect = """
 (This card's original Level is always treated as 13.)
