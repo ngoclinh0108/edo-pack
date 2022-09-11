@@ -35,6 +35,15 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
+    -- atk up
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_DESTROYED)
+    e3:SetRange(LOCATION_SZONE)
+    e3:SetCondition(s.e3con)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+
     -- to hand
     local e4 = Effect.CreateEffect(c)
     e4:SetCategory(CATEGORY_TOHAND)
@@ -113,6 +122,21 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if g:IsContains(e:GetHandler():GetEquipTarget()) then
         Duel.NegateEffect(ev)
     end
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return (r & REASON_EFFECT) ~= 0 and re and re:GetOwner() == e:GetHandler():GetEquipTarget()
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local eqc = c:GetEquipTarget()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(#eg * 500)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    eqc:RegisterEffect(ec1)
 end
 
 function s.e4filter(c, tp)

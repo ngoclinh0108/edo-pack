@@ -909,6 +909,7 @@ strings = [
 
 [nova-rising-dragon]
 id = 900000336
+set = "red-dragon-archfiend"
 name = "Nova Rising Dragon"
 type = "monster synchro effect"
 attribute = "dark"
@@ -918,6 +919,7 @@ atk = 0
 def = 3000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
+(This card is always treated as an "Red Dragon Archfiend" card.)
 During the Main Phase (Quick Effect): You can Tribute this Synchro Summoned card; \
     Special Summon 1 Level 8 or lower "Red Dragon Archfiend" Synchro Monster from your Extra Deck, \
     and if you do, it cannot be destroyed by your opponent's card effects. \
@@ -939,6 +941,10 @@ effect = """
 If you control a "Red Dragon Archfiend" monster, you can activate this card from your hand. \
 Target 1 Dragon Synchro you control; equip this card to it, and this equipped card cannot be destroyed by card effects. \
 Negate any card effects that target the equipped monster. \
+If the equipped monster card's effect destroys a card(s) \
+    and it is a "Red Dragon Archfiend" monster, \
+    it gains 500 ATK for each destroyed card \
+    (even if this card leaves the field). \
 If a DARK Dragon Synchro Monster is Synchro Summoned to your field while this card is in your GY: \
     You can add this card to your hand. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
