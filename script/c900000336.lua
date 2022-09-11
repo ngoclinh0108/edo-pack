@@ -72,7 +72,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc =
         Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
     if tc and Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) then
-        Duel.SpecialSummonComplete()
+        tc:CompleteProcedure()
     end
 end
 
