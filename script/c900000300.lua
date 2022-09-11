@@ -86,8 +86,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4filter(c, tp)
-    return c:IsFaceup() and c:IsSummonPlayer(tp) and c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:IsType(TYPE_SYNCHRO) and
-               c:IsRace(RACE_DRAGON)
+    return c:IsFaceup() and c:IsSummonPlayer(tp) and c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)

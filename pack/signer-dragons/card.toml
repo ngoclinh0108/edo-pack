@@ -6,7 +6,7 @@ effect = """
 When this card is activated: You can add "Mark Of The Dragon Star" from your Deck to your hand. \
 Special Summons of your Dragon Synchro Monsters cannot be negated. \
 Neither player can return your Dragon Synchro Monster from the field to the Extra Deck. \
-If you Synchro Summon a Dragon Synchro Monster: You can draw 1 card. \
+If you Synchro Summon a Dragon monster: You can draw 1 card. \
 If a Dragon Synchro Monster(s) you control leaves the field by your card effect, or to activate the effect of your card: \
     You can Special Summon 1 of those monsters. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
