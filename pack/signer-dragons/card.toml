@@ -910,6 +910,9 @@ During the Main Phase (Quick Effect): You can Tribute this Synchro Summoned card
     Special Summon 1 Level 8 or lower "Red Dragon Archfiend" Synchro Monster from your Extra Deck, \
     and if you do, it cannot be destroyed by your opponent's card effects. \
     (This Special Summon is treated as a Synchro Summon.) \
+During your Main Phase: You can banish this card from your GY; \
+    Set 1 Spell/Trap directly from your Deck or GY, that specifically lists "Red Dragon Archfiend" in its text, \
+    and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
