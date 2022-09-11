@@ -69,11 +69,6 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if Duel.GetLocationCountFromEx(tp) <= 0 then
-        return
-    end
-
     local tc =
         Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
     if tc and Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) then
