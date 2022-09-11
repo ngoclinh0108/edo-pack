@@ -78,7 +78,7 @@ function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
     if op == 1 then
         e:SetCategory(CATEGORY_TODECK + CATEGORY_DRAW)
         Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_HAND + LOCATION_GRAVE)
-        Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+        Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 2)
     elseif op == 2 then
         e:SetCategory(CATEGORY_SPECIAL_SUMMON)
         Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
@@ -103,7 +103,7 @@ end
 function s.e1check(e, tp)
     return Duel.GetFlagEffect(tp, id + 1 * 1000) == 0 and
                Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, nil) and
-               Duel.IsPlayerCanDraw(tp, 1)
+               Duel.IsPlayerCanDraw(tp, 2)
 end
 
 function s.e1filter(c)
@@ -117,7 +117,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) > 0 then
         Duel.ShuffleDeck(tp)
         Duel.BreakEffect()
-        Duel.Draw(tp, 1, REASON_EFFECT)
+        Duel.Draw(tp, 2, REASON_EFFECT)
     end
 end
 
