@@ -907,8 +907,8 @@ def = 3000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 During the Main Phase (Quick Effect): You can Tribute this Synchro Summoned card; \
-    Special Summon 1 Level 8 or lower "Red Dragon Archfiend" Synchro Monster from your Extra Deck, \
-    but it cannot attack or activate its effects this turn. (This Special Summon is treated as a Synchro Summon.) \
+    Special Summon 1 Level 8 or lower "Red Dragon Archfiend" Synchro Monster from your Extra Deck. \
+    (This Special Summon is treated as a Synchro Summon.) \
 During the Main Phase, except the turn this card was sent to the GY (Quick Effect): You can banish this card from your GY; \
     Synchro Summon 1 Dragon Synchro Monster, by banishing other monsters in your GY as materials, \
     including 1 Level 8 or lower Dark Dragon Synchro Monster you control. \

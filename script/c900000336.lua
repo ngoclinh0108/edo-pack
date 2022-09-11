@@ -76,21 +76,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     local tc =
         Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
-    if tc and Duel.SpecialSummonStep(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3206)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_CANNOT_ATTACK)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        tc:RegisterEffect(ec1)
-        local ec2 = ec1:Clone()
-        ec2:SetDescription(3302)
-        ec2:SetCode(EFFECT_CANNOT_TRIGGER)
-        tc:RegisterEffect(ec2)
-        tc:CompleteProcedure()
+    if tc and Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) then
+        Duel.SpecialSummonComplete()
     end
-    Duel.SpecialSummonComplete()
 end
 
 function s.e2filter1(c, e, tp)
