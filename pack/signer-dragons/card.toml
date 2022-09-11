@@ -638,7 +638,7 @@ effect = """
 If this card is Special Summoned: You can draw 1 card. \
 If you Special Summon a Dragon Synchro Monster while this card is in your GY \
     (except during the Damage Step, or when this card is used as a Synchro Material): \
-    You can Special Summon this card in Defense Position, \
+    You can Special Summon this card in Defense Position, but banish it when it leaves the field, \
     also for the rest of this turn, you cannot Special Summon from the Extra Deck, except Synchro Monsters. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 A Synchro Monster that used this card as material is unaffected by your opponent's activated effects \
