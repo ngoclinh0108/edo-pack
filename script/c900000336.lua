@@ -55,9 +55,19 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local tc =
         Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
     if tc and Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) then
         tc:CompleteProcedure()
+
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3030)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_CANNOT_DISABLE)
+        ec1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+        ec1:SetValue(aux.indoval)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        c:RegisterEffect(ec1)
     end
 end

@@ -907,7 +907,8 @@ def = 3000
 effect = """
 1 Tuner + 1+ non-Tuner monsters
 During the Main Phase (Quick Effect): You can Tribute this Synchro Summoned card; \
-    Special Summon 1 Level 8 or lower "Red Dragon Archfiend" Synchro Monster from your Extra Deck. \
+    Special Summon 1 Level 8 or lower "Red Dragon Archfiend" Synchro Monster from your Extra Deck, \
+    and if you do, it cannot be destroyed by your opponent's card effects. \
     (This Special Summon is treated as a Synchro Summon.) \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
