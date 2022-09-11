@@ -24,20 +24,6 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-
-    -- synchro summon
-    local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetRange(LOCATION_GRAVE)
-    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
-    e2:SetCountLimit(1, {id, 2})
-    e2:SetCondition(s.e2con)
-    e2:SetCost(aux.bfgcost)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
-    c:RegisterEffect(e2)
 end
 
 function s.e1filter(c, e, tp)
@@ -74,49 +60,4 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if tc and Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) then
         tc:CompleteProcedure()
     end
-end
-
-function s.e2filter1(c, e, tp)
-    local mg = Duel.GetMatchingGroup(Card.IsCanBeSynchroMaterial, tp, LOCATION_GRAVE, 0, e:GetHandler())
-    return c:IsLevelBelow(8) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and
-               c:IsFaceup() and Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_EXTRA, 0, 1, nil, tp, c, mg)
-end
-
-function s.e2filter2(c, tp, mc, mg)
-    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsSynchroSummonable(mc, mg) and
-               Duel.GetLocationCountFromEx(tp, tp, mc, c) > 0
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsMainPhase() and aux.exccon(e, tp, eg, ep, ev, re, r, rp)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil, e, tp)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, LOCATION_EXTRA)
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 0, LOCATION_GRAVE)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_SMATERIAL, tp, s.e2filter1, tp, LOCATION_MZONE, 0, 1, 1, nil, e, tp):GetFirst()
-    if not tc then
-        return
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
-    local mg = Duel.GetMatchingGroup(Card.IsCanBeSynchroMaterial, tp, LOCATION_GRAVE, 0, c)
-    local sc = Duel.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_EXTRA, 0, 1, 1, nil, tp, tc, mg):GetFirst()
-    if not sc then
-        return
-    end
-
-    Synchro.Send = 2
-    Duel.SynchroSummon(tp, sc, tc, mg)
 end
