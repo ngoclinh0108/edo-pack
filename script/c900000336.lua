@@ -86,7 +86,7 @@ end
 
 function s.e1filter(c)
     return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsSSetable() and
-               aux.IsCodeListed(c, SignerDragon.CARD_RED_DRAGON_ARCHFIEND)
+               (aux.IsCodeListed(c, SignerDragon.CARD_RED_DRAGON_ARCHFIEND) or Utility.IsSetCardListed(c, 0x1045))
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
