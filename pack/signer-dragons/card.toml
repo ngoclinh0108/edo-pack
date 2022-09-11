@@ -843,7 +843,7 @@ Your opponent cannot activate cards or effects in response to the effect activat
 Each time a Synchro Monster(s) is Special Sumoned, place 1 Signal Counter on this card for each summoned monster. \
 During the Main Phase: You can remove any number of Signal Counters from this card; \
     apply this effect, depending on the number of Signal Counters removed, \
-    but you cannot apply that same effect of "{CARD_NAME}" again this turn. \
+    but you cannot apply that same effect of "{CARD_NAME}" again this turn.
 ● 4 (Quick Effect): Immediately after this effect resolves, Synchro Summon using monsters you control as material.
 ● 7: Draw 2 cards, then send 1 card from your hand to the GY.
 ● 10: Target 1 monster in either GY; Special Summon it.
