@@ -8,74 +8,89 @@ s.listed_names = {95286165}
 function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 2, true, true)
 
-    -- destroy
+    -- atk/def value
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 1))
-    e1:SetCategory(CATEGORY_DESTROY)
-    e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetCost(s.e1cost)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_MATERIAL_CHECK)
+    e1:SetValue(s.e1val)
     c:RegisterEffect(e1)
+    local e1sum = Effect.CreateEffect(c)
+    e1sum:SetType(EFFECT_TYPE_SINGLE)
+    e1sum:SetCode(EFFECT_SUMMON_COST)
+    e1sum:SetLabelObject(e1)
+    e1sum:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        e:GetLabelObject():SetLabel(1)
+    end)
+    c:RegisterEffect(e1sum)
 
-    -- life point transfer
+    -- destroy
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 2))
-    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2b:SetCode(EVENT_SUMMON_SUCCESS)
-    c:RegisterEffect(e2b)
-    local e2c = e2b:Clone()
-    e2c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e2c)
-    local e2d = e2b:Clone()
-    e2d:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e2d)
+
+    -- life point transfer
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 2))
+    e3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3b:SetCode(EVENT_SUMMON_SUCCESS)
+    c:RegisterEffect(e3b)
+    local e3c = e3b:Clone()
+    e3c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e3c)
+    local e3d = e3b:Clone()
+    e3d:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e3d)
 
     -- unstoppable attack
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-    e3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+    e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
         return c:IsHasEffect(id) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE)
     end)
-    c:RegisterEffect(e3)
-
-    -- tribute monsters to up atk
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 3))
-    e4:SetCategory(CATEGORY_ATKCHANGE)
-    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e4:SetCountLimit(1)
-    e4:SetCondition(s.e4con)
-    e4:SetCost(s.e4cost)
-    e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
-    -- after damage calculation
+    -- tribute monsters to up atk
     local e5 = Effect.CreateEffect(c)
-    e5:SetCategory(CATEGORY_TOGRAVE)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e5:SetCode(EVENT_BATTLED)
+    e5:SetDescription(aux.Stringid(id, 3))
+    e5:SetCategory(CATEGORY_ATKCHANGE)
+    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e5:SetCountLimit(1)
     e5:SetCondition(s.e5con)
+    e5:SetCost(s.e5cost)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
+
+    -- after damage calculation
+    local e6 = Effect.CreateEffect(c)
+    e6:SetCategory(CATEGORY_TOGRAVE)
+    e6:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e6:SetCode(EVENT_BATTLED)
+    e6:SetCondition(s.e6con)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 
     -- de-fuse
     aux.GlobalCheck(s, function()
@@ -157,7 +172,32 @@ function s.initial_effect(c)
     end)
 end
 
-function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1val(e, c)
+    local atk = 0
+    local def = 0
+    local g = c:GetMaterial()
+    for tc in aux.Next(g) do
+        atk = atk + tc:GetBaseAttack()
+        def = def + tc:GetBaseDefense()
+    end
+
+    if e:GetLabel() == 1 then
+        e:SetLabel(0)
+
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+        ec1:SetValue(atk)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
+        c:RegisterEffect(ec1)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
+        ec1b:SetValue(def)
+        c:RegisterEffect(ec1b)
+    end
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.CheckLPCost(tp, 1000)
     end
@@ -165,7 +205,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.PayLPCost(tp, 1000)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
     end
@@ -177,7 +217,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if not tc or not tc:IsRelateToEffect(e) then
         return
@@ -186,7 +226,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Destroy(tc, REASON_EFFECT)
 end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLP(tp) > 100
@@ -198,7 +238,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     e:SetLabelObject({c:GetBaseAttack() + lp, c:GetBaseDefense() + lp})
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return true
     end
@@ -206,7 +246,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetChainLimit(aux.FALSE)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then
         return
@@ -280,13 +320,13 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec3)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsHasEffect(id) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) and
                (Duel.GetAttacker() == c or (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c))
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
@@ -297,7 +337,7 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Release(g, REASON_COST)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) or not c:IsHasEffect(id) then
         return
@@ -311,14 +351,14 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 end
 
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+function s.e6con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return
         Duel.GetAttacker() == c and c:IsHasEffect(id) and c:IsHasEffect(id) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and
             c:IsPreviousLocation(LOCATION_GRAVE)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     if not c:IsHasEffect(id) or #g == 0 then
