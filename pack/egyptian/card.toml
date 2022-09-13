@@ -88,6 +88,7 @@ While this card was Special Summoned from the GY, it gains the following effects
 ● After damage calculation, if it attacked, send all monsters your opponent controls to the GY.
 """
 strings = [
+    "De-fuse from \"The Winged Dragon of Ra\"",
     "Destroy 1 monster on the field",
     "Life Point Transfer",
     "Tribute other monsters to gain ATK",

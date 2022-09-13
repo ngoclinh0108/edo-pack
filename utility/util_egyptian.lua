@@ -13,7 +13,6 @@ Divine.CARD_RA = 10000010
 Divine.CARD_RA_SPHERE = 10000080
 Divine.CARD_RA_PHOENIX = 10000090
 Divine.CARD_HOLACTIE = 10000040
-Divine.CARD_DEFUSION = 95286165
 
 -- constant: flag
 Divine.FLAG_DIVINE_EVOLUTION = 513000065
@@ -195,7 +194,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
 
         -- to grave
         local togy = Effect.CreateEffect(c)
-        togy:SetDescription(666003)
+        togy:SetDescription(666002)
         togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         togy:SetRange(LOCATION_MZONE)
         togy:SetCode(EVENT_PHASE + PHASE_END)
@@ -237,164 +236,6 @@ end
 
 function Divine.IsDivineEvolution(c)
     return c:GetFlagEffect(Divine.FLAG_DIVINE_EVOLUTION) > 0
-end
-
-function Divine.RegisterRaFuse(c, tc, reset, forced)
-    local id = c:GetOriginalCode()
-    if tc == nil then
-        tc = c
-    end
-
-    -- fusion type
-    local fus = Effect.CreateEffect(c)
-    fus:SetType(EFFECT_TYPE_SINGLE)
-    fus:SetCode(EFFECT_ADD_TYPE)
-    fus:SetCondition(function(e)
-        return e:GetHandler():IsHasEffect(id)
-    end)
-    fus:SetValue(TYPE_FUSION)
-    if reset then
-        fus:SetReset(reset)
-    end
-    c:RegisterEffect(fus, forced)
-
-    -- base atk/def
-    local atk = Effect.CreateEffect(c)
-    atk:SetType(EFFECT_TYPE_SINGLE)
-    atk:SetCode(EFFECT_SET_BASE_ATTACK)
-    atk:SetCondition(function(e)
-        return e:GetHandler():IsHasEffect(id)
-    end)
-    atk:SetValue(function(e)
-        return e:GetHandler():GetCardEffect(id):GetLabelObject()[1]
-    end)
-    if reset then
-        atk:SetReset(reset)
-    end
-    c:RegisterEffect(atk, forced)
-    local def = atk:Clone()
-    def:SetCode(EFFECT_SET_BASE_DEFENSE)
-    def:SetValue(function(e)
-        return e:GetHandler():GetCardEffect(id):GetLabelObject()[2]
-    end)
-    c:RegisterEffect(def, forced)
-
-    -- life point transfer
-    local lp = Effect.CreateEffect(c)
-    lp:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    lp:SetRange(LOCATION_MZONE)
-    lp:SetCode(EVENT_RECOVER)
-    lp:SetCondition(function(e, tp, eg, ep)
-        return ep == tp
-    end)
-    lp:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        if not c:IsLocation(LOCATION_MZONE) or c:IsFacedown() or not c:IsHasEffect(id) then
-            return
-        end
-
-        local eff = c:GetCardEffect(id)
-        local label = eff:GetLabelObject()
-        label[1] = label[1] + ev
-        label[2] = label[2] + ev
-        eff:SetLabelObject(label)
-
-        Duel.SetLP(tp, Duel.GetLP(tp) - ev, REASON_EFFECT)
-    end)
-    if reset then
-        lp:SetReset(reset)
-    end
-    c:RegisterEffect(lp, forced)
-end
-
-function Divine.RegisterRaDefuse(s, c)
-    local id = c:GetOriginalCode()
-
-    function DefuseFilter(c)
-        return c:IsCode(Divine.CARD_DEFUSION) and not c:IsHasEffect(id)
-    end
-
-    function RaDefuseFilter(c, id)
-        return c:IsFaceup() and c:IsType(TYPE_FUSION) and c:IsCode(CARD_RA) and c:IsHasEffect(id)
-    end
-
-    aux.GlobalCheck(s, function()
-        local defuse = Effect.CreateEffect(c)
-        defuse:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        defuse:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-        defuse:SetCode(EVENT_ADJUST)
-        defuse:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-            return Duel.IsExistingMatchingCard(DefuseFilter, tp, 0xff, 0xff, 1, nil)
-        end)
-        defuse:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local g = Duel.GetMatchingGroup(DefuseFilter, tp, 0xff, 0xff, nil)
-            for tc in aux.Next(g) do
-                local eff = Effect.CreateEffect(tc)
-                eff:SetType(EFFECT_TYPE_SINGLE)
-                eff:SetCode(id)
-                tc:RegisterEffect(eff)
-
-                local ec1 = Effect.CreateEffect(tc)
-                ec1:SetDescription(666001)
-                ec1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE + CATEGORY_RECOVER)
-                ec1:SetType(EFFECT_TYPE_ACTIVATE)
-                ec1:SetCode(tc:GetActivateEffect():GetCode())
-                ec1:SetProperty(tc:GetActivateEffect():GetProperty() + EFFECT_FLAG_DAMAGE_STEP +
-                                    EFFECT_FLAG_IGNORE_IMMUNE)
-                ec1:SetHintTiming(TIMING_DAMAGE_STEP, TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
-                ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-                    if chk == 0 then
-                        return Duel.IsExistingTarget(RaDefuseFilter, tp, LOCATION_MZONE, 0, 1, nil, id)
-                    end
-
-                    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
-                    local tc = Duel.SelectTarget(tp, RaDefuseFilter, tp, LOCATION_MZONE, 0, 1, 1, nil, id):GetFirst()
-
-                    Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tc:GetControler(), tc:GetAttack())
-                    Duel.SetChainLimit(aux.FALSE)
-                end)
-                ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-                    local c = e:GetHandler()
-                    local tc = Duel.GetFirstTarget()
-                    if tc:IsFacedown() or not tc:IsRelateToEffect(e) or not tc:IsHasEffect(id) then
-                        return
-                    end
-
-                    tc:RegisterFlagEffect(95286165, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 1)
-
-                    local atk = tc:GetAttack()
-                    tc:GetCardEffect(id):Reset()
-                    if tc:GetCardEffect(EFFECT_SET_BASE_ATTACK) then
-                        tc:GetCardEffect(EFFECT_SET_BASE_ATTACK):Reset()
-                    end
-                    if tc:GetCardEffect(EFFECT_SET_BASE_DEFENSE) then
-                        tc:GetCardEffect(EFFECT_SET_BASE_DEFENSE):Reset()
-                    end
-
-                    local ec1 = Effect.CreateEffect(c)
-                    ec1:SetType(EFFECT_TYPE_SINGLE)
-                    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-                    ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
-                    ec1:SetValue(0)
-                    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-                    tc:RegisterEffect(ec1)
-                    local ec1b = ec1:Clone()
-                    ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-                    tc:RegisterEffect(ec1b)
-                    Duel.AdjustInstantly(tc)
-                    Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
-
-                    local ec2 = Effect.CreateEffect(c)
-                    ec2:SetType(EFFECT_TYPE_SINGLE)
-                    ec2:SetCode(EFFECT_CANNOT_TRIGGER)
-                    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-                    tc:RegisterEffect(ec2)
-                end)
-                tc:RegisterEffect(ec1)
-            end
-        end)
-        Duel.RegisterEffect(defuse, 0)
-    end)
 end
 
 function ResetEffectFilter(e, c)
