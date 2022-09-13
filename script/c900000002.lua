@@ -56,9 +56,6 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local g = eg:Filter(s.e2filter, nil, nil, tp)
     Duel.SetTargetCard(g)
-    Duel.SetChainLimit(function(e)
-        return not eg:IsContains(e:GetHandler())
-    end)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

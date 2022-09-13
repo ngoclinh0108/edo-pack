@@ -53,8 +53,7 @@ This card's original ATK and DEF are each equal to the number of cards in your h
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
     while this card is able to attack: \
     Choose that monster(s) as Target; it loses 2000 ATK or DEF depending on its battle position, \
-    then if its ATK has been reduced to 0 as a result, destroy it, \
-    that monster(s) cannot activate its effects in response to this effect's activation. \
+    then if its ATK has been reduced to 0 as a result, destroy it. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
@@ -72,6 +71,15 @@ def = "?"
 effect = """\
 ${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
 ${EGYPTIAN_EFFECT} \
+You can pay 1000 LP, then choose 1 monster on the field as Target; destroy it. \
+Once while face-up on the field: You can pay LP so that you only have 100 left; \
+    this card become Fusion Monster and gains original ATK/DEF become equal to the amount of LP paid, \
+    also any increase in LP is changed to increase it's original ATK/DEF instead. \
+    If your "De-Fusion" targets this Fusion Monster, apply these effect instead, \
+    "that target loses its above effects, cannot activate its effects, \
+    its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK, \
+    and also send it to the GY during the End Phase, ignoring card effects". \
+    Cards and effects cannot be activated in response to the above effects' activation. \
+    You can also use this effect when this card is Summoned. \
 """
-strings = [
-]
+strings = ["Destroy 1 monster on the field", "Life Point Transfer"]

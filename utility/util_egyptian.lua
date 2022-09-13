@@ -139,18 +139,18 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     c:RegisterEffect(noleave_solving)
 
     -- immune
-    -- local immune = Effect.CreateEffect(c)
-    -- immune:SetType(EFFECT_TYPE_SINGLE)
-    -- immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    -- immune:SetRange(LOCATION_MZONE)
-    -- immune:SetCode(EFFECT_IMMUNE_EFFECT)
-    -- immune:SetValue(function(e, te)
-    --     local c = e:GetHandler()
-    --     local tc = te:GetHandler()
-    --     return tc:IsControler(1 - e:GetHandlerPlayer()) and tc:IsMonster() and Divine.GetDivineHierarchy(tc) <
-    --                Divine.GetDivineHierarchy(c)
-    -- end)
-    -- c:RegisterEffect(immune)
+    local immune = Effect.CreateEffect(c)
+    immune:SetType(EFFECT_TYPE_SINGLE)
+    immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    immune:SetRange(LOCATION_MZONE)
+    immune:SetCode(EFFECT_IMMUNE_EFFECT)
+    immune:SetValue(function(e, te)
+        local c = e:GetHandler()
+        local tc = te:GetHandler()
+        return tc:IsControler(1 - e:GetHandlerPlayer()) and tc:IsMonster() and Divine.GetDivineHierarchy(tc) <
+                   Divine.GetDivineHierarchy(c)
+    end)
+    c:RegisterEffect(immune)
 
     -- reset effect
     local reset = Effect.CreateEffect(c)
@@ -187,7 +187,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
             ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
             ec1:SetCode(EFFECT_CANNOT_ATTACK)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-            Divine.RegisterEffect(c, ec1)
+            c:RegisterEffect(ec1)
         end)
         c:RegisterEffect(atklimit)
 
@@ -255,7 +255,7 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
     if reset then
         fus:SetReset(reset)
     end
-    Divine.RegisterEffect(c, fus, forced)
+    c:RegisterEffect(fus, forced)
 
     -- base atk/def
     local atk = Effect.CreateEffect(c)
@@ -271,13 +271,13 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
     if reset then
         atk:SetReset(reset)
     end
-    Divine.RegisterEffect(c, atk, forced)
+    c:RegisterEffect(atk, forced)
     local def = atk:Clone()
     def:SetCode(EFFECT_SET_BASE_DEFENSE)
     def:SetValue(function(e)
         return e:GetHandler():GetCardEffect(id):GetLabelObject()[2]
     end)
-    Divine.RegisterEffect(c, def, forced)
+    c:RegisterEffect(def, forced)
 
     -- life point transfer
     local lp = Effect.CreateEffect(c)
@@ -305,7 +305,7 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
     if reset then
         lp:SetReset(reset)
     end
-    Divine.RegisterEffect(c, lp, forced)
+    c:RegisterEffect(lp, forced)
 end
 
 function Divine.RegisterRaDefuse(s, c)
@@ -375,13 +375,14 @@ function Divine.RegisterRaDefuse(s, c)
 
                     local ec1 = Effect.CreateEffect(c)
                     ec1:SetType(EFFECT_TYPE_SINGLE)
+                    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
                     ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
                     ec1:SetValue(0)
                     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-                    Divine.RegisterGrantEffect(tc, ec1)
+                    tc:RegisterEffect(ec1)
                     local ec1b = ec1:Clone()
                     ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-                    Divine.RegisterGrantEffect(tc, ec1b)
+                    tc:RegisterEffect(ec1b)
                     Duel.AdjustInstantly(tc)
                     Duel.Recover(tc:GetControler(), atk, REASON_EFFECT)
 
