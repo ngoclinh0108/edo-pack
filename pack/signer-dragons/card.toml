@@ -463,7 +463,7 @@ If you Synchro Summon a Dragon monster: \
 Once per turn, during your opponent's Main Phase, you can (Quick Effect): Immediately after this effect resolves, \
     Synchro Summon a "Majestic" monster using this card you control. \
 A "Majestic" Synchro Monster that was Synchro Summoned using this card as material gains the following effect.
-● Cannot be returned to the Deck by card effects.
+● Cannot be returned to the Deck.
 ● Cannot be targeted by your opponent's card effects.
 """
 strings = [

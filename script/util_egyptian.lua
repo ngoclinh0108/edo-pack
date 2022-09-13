@@ -52,14 +52,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     end)
     c:RegisterEffect(nodis2)
 
-    -- cannot switch control
-    local noswitch = Effect.CreateEffect(c)
-    noswitch:SetType(EFFECT_TYPE_SINGLE)
-    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noswitch:SetRange(LOCATION_MZONE)
-    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    c:RegisterEffect(noswitch)
-
     -- cannot be tributed, or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
@@ -67,7 +59,9 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
+    norelease:SetTarget(function(e, tc)
+        return tc == e:GetHandler()
+    end)
     c:RegisterEffect(norelease)
     local nomaterial = Effect.CreateEffect(c)
     nomaterial:SetType(EFFECT_TYPE_SINGLE)
@@ -77,152 +71,114 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     end)
     c:RegisterEffect(nomaterial)
 
-    -- -- no leave
-    -- local noleave_solving = Effect.CreateEffect(c)
-    -- noleave_solving:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    -- noleave_solving:SetRange(LOCATION_MZONE)
-    -- noleave_solving:SetCode(EVENT_CHAIN_SOLVING)
-    -- noleave_solving:SetLabelObject({})
-    -- noleave_solving:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-    --     if not re then return end
-    --     local c = e:GetHandler()
-    --     local rc = re:GetHandler()
-    --     if c == rc then return end
-    --     if rc:IsMonster() and Divine.GetDivineHierarchy(rc) >
-    --         Divine.GetDivineHierarchy(c) then return end
+    -- no change position or control
+    local nopos = Effect.CreateEffect(c)
+    nopos:SetType(EFFECT_TYPE_SINGLE)
+    nopos:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    nopos:SetRange(LOCATION_MZONE)
+    nopos:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    nopos:SetValue(1)
+    c:RegisterEffect(nopos)
+    local noswitch = Effect.CreateEffect(c)
+    noswitch:SetType(EFFECT_TYPE_SINGLE)
+    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noswitch:SetRange(LOCATION_MZONE)
+    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    c:RegisterEffect(noswitch)
 
-    --     local eff_codes = {
-    --         EFFECT_CANNOT_TO_HAND, EFFECT_CANNOT_TO_DECK,
-    --         EFFECT_CANNOT_TO_GRAVE, EFFECT_CANNOT_REMOVE
-    --     }
-    --     for _, eff_code in ipairs(eff_codes) do
-    --         local eff = Effect.CreateEffect(c)
-    --         eff:SetType(EFFECT_TYPE_SINGLE)
-    --         eff:SetRange(LOCATION_MZONE)
-    --         eff:SetCode(eff_code)
-    --         eff:SetValue(1)
-    --         eff:SetReset(RESET_CHAIN)
-    --         Divine.RegisterEffect(c, eff)
-    --         table.insert(e:GetLabelObject(), eff)
-    --     end
-    -- end)
-    -- c:RegisterEffect(noleave_solving)
-    -- local noleave_solved = noleave_solving:Clone()
-    -- noleave_solved:SetCode(EVENT_CHAIN_SOLVED)
-    -- noleave_solved:SetLabelObject(noleave_solving)
-    -- noleave_solved:SetOperation(function(e)
-    --     local effs = e:GetLabelObject():GetLabelObject()
-    --     while #effs > 0 do
-    --         local eff = table.remove(effs)
-    --         eff:Reset()
-    --     end
-    -- end)
-    -- c:RegisterEffect(noleave_solved)
-    -- local noleave_replace = Effect.CreateEffect(c)
-    -- noleave_replace:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    -- noleave_replace:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    -- noleave_replace:SetRange(LOCATION_MZONE)
-    -- noleave_replace:SetCode(EFFECT_SEND_REPLACE)
-    -- noleave_replace:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-    --     local c = e:GetHandler()
-    --     if chk == 0 then
-    --         if r & REASON_EFFECT == 0 or not c:IsReason(REASON_EFFECT) or not re or
-    --             re:GetHandler() == c then return false end
-    --         local rc = re:GetHandler()
-    --         return not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <=
-    --                    Divine.GetDivineHierarchy(c)
-    --     end
-    --     return true
-    -- end)
-    -- c:RegisterEffect(noleave_replace)
-    -- local noleave_eff_1 = Effect.CreateEffect(c)
-    -- noleave_eff_1:SetType(EFFECT_TYPE_SINGLE)
-    -- noleave_eff_1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    -- noleave_eff_1:SetRange(LOCATION_MZONE)
-    -- noleave_eff_1:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
-    -- noleave_eff_1:SetValue(1)
-    -- c:RegisterEffect(noleave_eff_1)
-    -- local noleave_eff_2 = noleave_eff_1:Clone()
-    -- noleave_eff_2:SetCode(EFFECT_UNRELEASABLE_EFFECT)
-    -- c:RegisterEffect(noleave_eff_2)
-    -- local noleave_eff_3 = noleave_eff_1:Clone()
-    -- noleave_eff_3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    -- noleave_eff_3:SetValue(function(e, te)
-    --     return te:GetHandler() ~= e:GetHandler()
-    -- end)
-    -- c:RegisterEffect(noleave_eff_3)
+    -- no leave
+    local noleave = Effect.CreateEffect(c)
+    noleave:SetType(EFFECT_TYPE_SINGLE)
+    noleave:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noleave:SetCode(EFFECT_IMMUNE_EFFECT)
+    noleave:SetRange(LOCATION_MZONE)
+    noleave:SetValue(function(e, te)
+        local tc = te:GetHandler()
+        if tc:IsType(TYPE_MONSTER) and Divine.GetDivineHierarchy(tc) > Divine.GetDivineHierarchy(c) then
+            return false
+        end
 
-    -- -- immune
-    -- local immune = Effect.CreateEffect(c)
-    -- immune:SetType(EFFECT_TYPE_SINGLE)
-    -- immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    -- immune:SetRange(LOCATION_MZONE)
-    -- immune:SetCode(EFFECT_IMMUNE_EFFECT)
-    -- immune:SetValue(function(e, te)
-    --     local c = e:GetHandler()
-    --     local tc = te:GetHandler()
-    --     local tp = e:GetHandlerPlayer()
-    --     return tc:IsControler(1 - tp) and tc:IsMonster() and
-    --                Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(c)
-    -- end)
-    -- c:RegisterEffect(immune)
+        return te:IsHasCategory(CATEGORY_RELEASE + CATEGORY_DESTROY + CATEGORY_REMOVE + CATEGORY_TOHAND +
+                                    CATEGORY_TODECK + CATEGORY_TOGRAVE)
+    end)
+    c:RegisterEffect(noleave)
+    local noleave2 = noleave:Clone()
+    noleave2:SetCode(EFFECT_UNRELEASABLE_EFFECT)
+    noleave2:SetValue(function(e, te)
+        local tc = te:GetHandler()
+        return not tc:IsMonster() or Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
+    end)
+    c:RegisterEffect(noleave2)
 
-    -- -- reset effect
-    -- local reset = Effect.CreateEffect(c)
-    -- reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    -- reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    -- reset:SetRange(LOCATION_MZONE)
-    -- reset:SetCode(EVENT_ADJUST)
-    -- reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-    --     return Duel.GetCurrentPhase() == PHASE_END and
-    --                Utility.GetListEffect(e:GetHandler(), ResetEffectFilter)
-    -- end)
-    -- reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-    --     Utility.ResetListEffect(e:GetHandler(), ResetEffectFilter)
-    -- end)
-    -- c:RegisterEffect(reset)
+    -- immune
+    local immune = Effect.CreateEffect(c)
+    immune:SetType(EFFECT_TYPE_SINGLE)
+    immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    immune:SetRange(LOCATION_MZONE)
+    immune:SetCode(EFFECT_IMMUNE_EFFECT)
+    immune:SetValue(function(e, te)
+        local c = e:GetHandler()
+        local tc = te:GetHandler()
+        return tc:IsControler(1 - e:GetHandlerPlayer()) and tc:IsMonster() and Divine.GetDivineHierarchy(tc) <
+                   Divine.GetDivineHierarchy(c)
+    end)
+    c:RegisterEffect(immune)
 
-    -- if spsummon_effect then
-    --     -- cannot attack when special summoned from the grave
-    --     local spnoattack = Effect.CreateEffect(c)
-    --     spnoattack:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    --     spnoattack:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    --     spnoattack:SetCode(EVENT_SPSUMMON_SUCCESS)
-    --     spnoattack:SetCondition(function(e)
-    --         return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
-    --     end)
-    --     spnoattack:SetOperation(function(e)
-    --         local c = e:GetHandler()
-    --         if c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) then return end
+    -- reset effect
+    local reset = Effect.CreateEffect(c)
+    reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    reset:SetRange(LOCATION_MZONE)
+    reset:SetCode(EVENT_ADJUST)
+    reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return Duel.GetCurrentPhase() == PHASE_END and Utility.GetListEffect(e:GetHandler(), ResetEffectFilter)
+    end)
+    reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Utility.ResetListEffect(e:GetHandler(), ResetEffectFilter)
+    end)
+    c:RegisterEffect(reset)
 
-    --         local ec1 = Effect.CreateEffect(c)
-    --         ec1:SetDescription(3206)
-    --         ec1:SetType(EFFECT_TYPE_SINGLE)
-    --         ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-    --         ec1:SetCode(EFFECT_CANNOT_ATTACK)
-    --         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    --         Divine.RegisterEffect(c, ec1)
-    --     end)
-    --     c:RegisterEffect(spnoattack)
+    if spsummon_effect then
+        -- cannot attack when special summoned from the grave
+        local atklimit = Effect.CreateEffect(c)
+        atklimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+        atklimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+        atklimit:SetCode(EVENT_SPSUMMON_SUCCESS)
+        atklimit:SetCondition(function(e)
+            return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
+        end)
+        atklimit:SetOperation(function(e)
+            local c = e:GetHandler()
+            if c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) then return end
 
-    --     -- to grave
-    --     local togy = Effect.CreateEffect(c)
-    --     togy:SetDescription(666003)
-    --     togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    --     togy:SetRange(LOCATION_MZONE)
-    --     togy:SetCode(EVENT_PHASE + PHASE_END)
-    --     togy:SetCountLimit(1)
-    --     togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-    --         local c = e:GetHandler()
-    --         return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-    --                    c:IsPreviousLocation(LOCATION_GRAVE) and
-    --                    c:IsAbleToGrave()
-    --     end)
-    --     togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-    --         Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
-    --     end)
-    --     c:RegisterEffect(togy)
-    -- end
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetDescription(3206)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+            ec1:SetCode(EFFECT_CANNOT_ATTACK)
+            ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+            Divine.RegisterEffect(c, ec1)
+        end)
+        c:RegisterEffect(atklimit)
+
+        -- to grave
+        local togy = Effect.CreateEffect(c)
+        togy:SetDescription(666003)
+        togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+        togy:SetRange(LOCATION_MZONE)
+        togy:SetCode(EVENT_PHASE + PHASE_END)
+        togy:SetCountLimit(1)
+        togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+            local c = e:GetHandler()
+            return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
+                       c:IsPreviousLocation(LOCATION_GRAVE) and
+                       c:IsAbleToGrave()
+        end)
+        togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+            Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
+        end)
+        c:RegisterEffect(togy)
+    end
 end
 
 function Divine.GetDivineHierarchy(c, get_base)
@@ -429,16 +385,11 @@ function Divine.RegisterRaDefuse(s, c)
     end)
 end
 
-function DisableEffectFilter(e, c)
-    local ec = e:GetOwner()
-    return ec ~= c and not ec:IsMonster() and
-               (e:GetTarget() == aux.PersistentTargetFilter or not e:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD))
-end
-
 function ResetEffectFilter(e, c)
     if e:GetOwner() == c then
         return false
     end
+
     return not e:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and e:GetCode() ~= EFFECT_SPSUMMON_PROC and
                (e:GetTarget() == aux.PersistentTargetFilter or not e:IsHasType(EFFECT_TYPE_GRANT + EFFECT_TYPE_FIELD))
 end
