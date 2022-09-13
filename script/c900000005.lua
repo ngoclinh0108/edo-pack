@@ -5,9 +5,9 @@ Duel.LoadScript("util_dimension.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_RA, 10000080}
-s.divine_hierarchy = 2
 
 function s.initial_effect(c)
+    s.divine_hierarchy = 2
     Dimension.AddProcedure(c)
 
     -- dimension change (special summon)
