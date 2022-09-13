@@ -246,7 +246,6 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
     -- fusion type
     local fus = Effect.CreateEffect(c)
     fus:SetType(EFFECT_TYPE_SINGLE)
-    fus:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     fus:SetCode(EFFECT_ADD_TYPE)
     fus:SetCondition(function(e)
         return e:GetHandler():IsHasEffect(id)
@@ -260,7 +259,6 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
     -- base atk/def
     local atk = Effect.CreateEffect(c)
     atk:SetType(EFFECT_TYPE_SINGLE)
-    atk:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     atk:SetCode(EFFECT_SET_BASE_ATTACK)
     atk:SetCondition(function(e)
         return e:GetHandler():IsHasEffect(id)
@@ -282,7 +280,6 @@ function Divine.RegisterRaFuse(c, tc, reset, forced)
     -- life point transfer
     local lp = Effect.CreateEffect(c)
     lp:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    lp:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     lp:SetRange(LOCATION_MZONE)
     lp:SetCode(EVENT_RECOVER)
     lp:SetCondition(function(e, tp, eg, ep)
@@ -336,7 +333,7 @@ function Divine.RegisterRaDefuse(s, c)
                 tc:RegisterEffect(eff)
 
                 local ec1 = Effect.CreateEffect(tc)
-                ec1:SetDescription(666005)
+                ec1:SetDescription(666001)
                 ec1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE + CATEGORY_RECOVER)
                 ec1:SetType(EFFECT_TYPE_ACTIVATE)
                 ec1:SetCode(tc:GetActivateEffect():GetCode())
@@ -361,8 +358,7 @@ function Divine.RegisterRaDefuse(s, c)
                         return
                     end
 
-                    tc:RegisterFlagEffect(95286165, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END,
-                        EFFECT_FLAG_CLIENT_HINT, 1, 0, 666006)
+                    tc:RegisterFlagEffect(95286165, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 1)
 
                     local atk = tc:GetAttack()
                     tc:GetCardEffect(id):Reset()

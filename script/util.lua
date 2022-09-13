@@ -332,7 +332,6 @@ function Utility.AvatarInfinity(root, c)
 
         local avataratk = Effect.CreateEffect(c)
         avataratk:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        avataratk:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         avataratk:SetCode(EVENT_ADJUST)
         avataratk:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
             return Duel.IsExistingMatchingCard(AvatarFilter, tp, 0xff, 0xff, 1, nil)
