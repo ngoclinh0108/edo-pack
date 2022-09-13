@@ -94,6 +94,9 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     noleave:SetRange(LOCATION_MZONE)
     noleave:SetValue(function(e, te)
         local tc = te:GetHandler()
+        if tc == e:GetHandler() then
+            return false
+        end
         if tc:IsType(TYPE_MONSTER) and Divine.GetDivineHierarchy(tc) > Divine.GetDivineHierarchy(c) then
             return false
         end
@@ -106,6 +109,10 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     noleave2:SetCode(EFFECT_UNRELEASABLE_EFFECT)
     noleave2:SetValue(function(e, te)
         local tc = te:GetHandler()
+        if tc == e:GetHandler() then
+            return false
+        end
+        
         return not tc:IsMonster() or Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
     end)
     c:RegisterEffect(noleave2)
@@ -149,7 +156,9 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
         end)
         atklimit:SetOperation(function(e)
             local c = e:GetHandler()
-            if c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) then return end
+            if c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) then
+                return
+            end
 
             local ec1 = Effect.CreateEffect(c)
             ec1:SetDescription(3206)
@@ -170,9 +179,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
         togy:SetCountLimit(1)
         togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
             local c = e:GetHandler()
-            return c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-                       c:IsPreviousLocation(LOCATION_GRAVE) and
-                       c:IsAbleToGrave()
+            return c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()
         end)
         togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
             Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)

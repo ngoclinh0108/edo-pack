@@ -29,4 +29,8 @@ Once per turn, while the total monster's Divine Hierarchy on the field are 3 or 
     once during this turn, if this card battles an opponent's monster, \
     it gains ∞ ATK during the damage calculation only. \
 """
-strings = []
+strings = [
+    "Soul Energy MAX",
+    "Destroy all monsters & inflict damage",
+    "Gain ∞ ATK for 1 attack",
+]
