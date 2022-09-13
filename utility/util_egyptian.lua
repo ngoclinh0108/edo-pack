@@ -115,7 +115,9 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
         local effs = e:GetLabelObject()
         while #effs > 0 do
             local eff = table.remove(effs)
-            eff:Reset()
+            if not eff then
+                eff:Reset()
+            end
         end
 
         local c = e:GetHandler()
@@ -387,21 +389,6 @@ function Divine.RegisterRaDefuse(s, c)
                     ec2:SetCode(EFFECT_CANNOT_TRIGGER)
                     ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
                     tc:RegisterEffect(ec2)
-
-                    local ec3 = Effect.CreateEffect(c)
-                    ec3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-                    ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-                    ec3:SetCode(EVENT_PHASE + PHASE_END)
-                    ec3:SetCountLimit(1)
-                    ec3:SetLabelObject(tc)
-                    ec3:SetCondition(function(e)
-                        return e:GetLabelObject():GetFlagEffect(95286165) ~= 0
-                    end)
-                    ec3:SetOperation(function(e)
-                        Duel.SendtoGrave(e:GetLabelObject(), REASON_EFFECT + REASON_RULE)
-                    end)
-                    ec3:SetReset(RESET_PHASE + PHASE_END)
-                    Duel.RegisterEffect(ec3, tp)
                 end)
                 tc:RegisterEffect(ec1)
             end
