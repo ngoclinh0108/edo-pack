@@ -199,8 +199,8 @@ function s.battlemode(c, tc, base_value)
             if mc:GetBaseAttack() > 0 then
                 atk = atk + mc:GetBaseAttack()
             end
-            if mc:GetBaseAttack() > 0 then
-                def = def + mc:GetBaseAttack()
+            if mc:GetBaseDefense() > 0 then
+                def = def + mc:GetBaseDefense()
             end
         end
     elseif base_value ~= nil then
