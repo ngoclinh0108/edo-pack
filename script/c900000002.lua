@@ -29,10 +29,10 @@ function s.initial_effect(c)
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
-    Divine.RegisterEffect(c, e2)
+    c:RegisterEffect(e2)
     local e2b = e2:Clone()
     e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    Divine.RegisterEffect(c, e2b)
+    c:RegisterEffect(e2b)
 end
 
 function s.e1val(e, c)
@@ -67,6 +67,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local dg = Group.CreateGroup()
 
     for tc in aux.Next(tg) do
+        local preatk = tc:GetAttack()
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(tc:IsAttackPos() and EFFECT_UPDATE_ATTACK or EFFECT_UPDATE_DEFENSE)
@@ -74,7 +75,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec1)
 
-        if tc:IsAttackPos() and tc:GetAttack() == 0 then
+        if preatk ~= 0 and tc:IsAttack(0) then
             dg:AddCard(tc)
         end
     end

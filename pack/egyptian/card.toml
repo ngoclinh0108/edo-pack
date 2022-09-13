@@ -7,6 +7,7 @@ strings = ["Mulligan?", "Place field?", "Perform Destiny Draw?"]
 [obelisk]
 id = 900000001
 alias = 10000000
+rarity = "gold"
 name = "Giant Divine Soldier of Obelisk"
 type = "monster effect"
 attribute = "divine"
@@ -36,6 +37,7 @@ strings = [
 [osiris]
 id = 900000002
 alias = 10000020
+rarity = "gold"
 name = "Sky Divine Dragon of Osiris"
 type = "monster effect"
 attribute = "divine"
@@ -51,7 +53,25 @@ This card's original ATK and DEF are each equal to the number of cards in your h
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
     while this card is able to attack: \
     Choose that monster(s) as Target; it loses 2000 ATK or DEF depending on its battle position, \
-    also, after that if its ATK is 0 as a result, destroy it, \
+    then if its ATK has been reduced to 0 as a result, destroy it, \
     that monster(s) cannot activate its effects in response to this effect's activation. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
+
+[ra]
+id = 900000003
+alias = 10000010
+rarity = "gold"
+name = "Sun Divine Dragon of Ra"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
+${EGYPTIAN_EFFECT} \
+"""
+strings = [
+]
