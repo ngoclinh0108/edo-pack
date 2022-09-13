@@ -6,13 +6,6 @@ if not Divine then
     Divine = aux.DivineProcedure
 end
 
--- constant: card names
-Divine.CARD_OBELISK = 10000000
-Divine.CARD_SLIFER = 10000020
-Divine.CARD_RA_SPHERE = 10000080
-Divine.CARD_RA_PHOENIX = 10000090
-Divine.CARD_HOLACTIE = 10000040
-
 -- constant: flag
 Divine.FLAG_DIVINE_EVOLUTION = 513000065
 

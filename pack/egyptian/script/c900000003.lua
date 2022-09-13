@@ -58,39 +58,13 @@ function s.initial_effect(c)
     e3d:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e3d)
 
-    -- unstoppable attack
+    -- gain effect
     local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_SINGLE)
-    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-    e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        return c:IsHasEffect(id) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE)
-    end)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e4:SetCondition(s.e4con)
+    e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
-
-    -- tribute monsters to up atk
-    local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 3))
-    e5:SetCategory(CATEGORY_ATKCHANGE)
-    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e5:SetRange(LOCATION_MZONE)
-    e5:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e5:SetCountLimit(1)
-    e5:SetCondition(s.e5con)
-    e5:SetCost(s.e5cost)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
-
-    -- after damage calculation
-    local e6 = Effect.CreateEffect(c)
-    e6:SetCategory(CATEGORY_TOGRAVE)
-    e6:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e6:SetCode(EVENT_BATTLED)
-    e6:SetCondition(s.e6con)
-    e6:SetOperation(s.e6op)
-    c:RegisterEffect(e6)
 
     -- de-fuse
     aux.GlobalCheck(s, function()
@@ -320,53 +294,86 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec3)
 end
 
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return c:IsHasEffect(id) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) and
-               (Duel.GetAttacker() == c or (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c))
+    return c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE)
 end
 
-function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
-    end
 
-    local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 99, false, nil, c)
-    e:SetLabel(g:GetSum(Card.GetBaseAttack))
-    Duel.Release(g, REASON_COST)
-end
-
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if c:IsFacedown() or not c:IsRelateToEffect(e) or not c:IsHasEffect(id) then
-        return
-    end
-
+    -- unstoppable attack
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(e:GetLabel())
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    ec1:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+    ec1:SetRange(LOCATION_MZONE)
+    ec1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return e:GetHandler():IsHasEffect(id)
+    end)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
-end
 
-function s.e6con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return
-        Duel.GetAttacker() == c and c:IsHasEffect(id) and c:IsHasEffect(id) and c:IsSummonType(SUMMON_TYPE_SPECIAL) and
-            c:IsPreviousLocation(LOCATION_GRAVE)
-end
+    -- tribute monsters to up atk
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 3))
+    ec2:SetCategory(CATEGORY_ATKCHANGE)
+    ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    ec2:SetRange(LOCATION_MZONE)
+    ec2:SetCode(EVENT_ATTACK_ANNOUNCE)
+    ec2:SetCountLimit(1)
+    ec2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        return (Duel.GetAttacker() == c or (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c)) and
+                   c:IsHasEffect(id)
+    end)
+    ec2:SetCost(function(e, tp, eg, ep, ev, re, r, rp, chk)
+        local c = e:GetHandler()
+        if chk == 0 then
+            return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
+        end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    if not c:IsHasEffect(id) or #g == 0 then
-        return
-    end
+        local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 99, false, nil, c)
+        e:SetLabel(g:GetSum(Card.GetBaseAttack))
+        Duel.Release(g, REASON_COST)
+    end)
+    ec2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if c:IsFacedown() or not c:IsRelateToEffect(e) or not c:IsHasEffect(id) then
+            return
+        end
 
-    Utility.HintCard(c)
-    Duel.SendtoGrave(g, REASON_EFFECT)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(e:GetLabel())
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec1)
+    end)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec2)
+
+    -- after damage calculation
+    local ec3 = Effect.CreateEffect(c)
+    ec3:SetCategory(CATEGORY_TOGRAVE)
+    ec3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    ec3:SetCode(EVENT_BATTLED)
+    ec3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        return Duel.GetAttacker() == c and c:IsHasEffect(id)
+    end)
+    ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
+        if not c:IsHasEffect(id) or #g == 0 then
+            return
+        end
+
+        Utility.HintCard(c)
+        Duel.SendtoGrave(g, REASON_EFFECT)
+    end)
+    ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec3)
 end
 
 function s.defusefilter1(c)

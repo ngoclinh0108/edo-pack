@@ -69,8 +69,8 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-${HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
-${EGYPTIAN_EFFECT} \
+{HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
+{EGYPTIAN_EFFECT} \
 This card's original ATK/DEF become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon. \
 You can pay 1000 LP, then choose 1 monster on the field as Target; destroy it. \
 Once while face-up on the field: You can pay LP so that you only have 100 left; \
@@ -108,31 +108,67 @@ atk = "?"
 def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
+While this card is in Dimension Zone: \
+    You can Normal Summon "The Winged Dragon of Ra" to your opponent's field. \
+If your "The Winged Dragon of Ra" is Normal Summoned to your field, \
+    its original ATK/DEF become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon, \
+    or your opponent's field, Dimension Change it to this card with the same Divine Hierarchy. \
+{EGYPTIAN_LITE_EFFECT} \
+Cannot attack. \
+Neither player can target it for attacks or by card effects, \
+    but does not prevent your opponent from attacking you directly. \
+Once per turn, except the turn this card is Dimension Changed: \
+    The turn player can reveal 1 "Ancient Chant" from everywhere; \
+    Dimension Change this card to the material monster with the same Divine Hierarchy in any face-up position, \
+    and if they do, its original ATK/DEF become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon, or 4000/4000. \
+    This effect's activation cannot be negated. \
+    The owner no need to reveal "Ancient Chant". \
 """
-# effect = """\
-# If your "The Winged Dragon of Ra" is Normal Summoned, \
-#     Dimension Change it to this card with the same Divine Hierarchy, \
-#     or if that monster is Summoned to your field, \
-#     its original ATK/DEF can become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field instead. \
-# ${EGYPTIAN_EFFECT} \
-# Cannot attack. \
-# Neither player can target it for attacks or by card effects, \
-#     but does not prevent your opponent from attacking you directly. \
-# While this card is in Dimension Zone: \
-#     You can Normal Summon "The Winged Dragon of Ra" to your opponent's field. \
-# Once per turn, except the turn this card is Dimension Changed: \
-#     The turn player can reveal 1 "Ancient Chant" from everywhere; \
-#     Dimension Change this card to the material monster with the same Divine Hierarchy in any face-up position, \
-#     and if they do, its original ATK/DEF become 4000, \
-#     or the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
-#     This effect's activation cannot be negated. \
-#     The owner no need to reveal "Ancient Chant". \
-# """
 strings = [
     "Summon to your field",
     "Summon to opponent's field",
+    "Change to Battle Mode",
+    "Reveal \"Ancient Chant\"?",
+]
+
+[ra-phoenix]
+id = 900000005
+alias = 10000090
+rarity = "gold"
+name = "Sun Divine Dragon of Ra - Immortal Phoenix"
+type = "monster dimension effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+(This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
+If "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
+    you can Dimension Change it to this card with the same Divine Hierarchy, \
+If "The Winged Dragon of Ra" you control would be destroyed by its own effect, \
+    Dimension Change it to this card with the same Divine Hierarchy instead, \
+    and its original ATK/DEF become the same as that monster's ATK/DEF had on the field. \
+Control of it cannot switch. \
+Cannot be Tributed, or used as a material for an Summon by your opponent. \
+Unaffected by other cards' effects, \
+    and cannot be destroyed by battle, also you take no battle damage from that battle, \
+    except for monsters with the higher Divine Hierarchy. \
+    This effect cannot be negated. \
+Cannot attack, except by its own effect. \
+Once per Chain, while this card is in Attack Position, except the End Phase (Quick Effect): \
+    You can pay 1000 LP, then choose 1 monster your opponent control as Target; \
+    this card attacks it, and perform damage calculation, \
+    after that, send the targeted monster to the GY, ignoring card effects. \
+During the End Phase, \
+    Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \
+    with the same Divine Hierarchy (transfer this card's materials to that monster), \
+    or send it to the GY. \
+"""
+strings = [
     "Select the form",
     "Battle Mode",
-    "Sphere Mode",
-    "Reveal \"Ancient Chant\"?",
+    "Phoenix Mode",
+    "Perform attack",
+    "Turn into Sphere Mode or to the GY",
 ]

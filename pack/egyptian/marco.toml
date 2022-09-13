@@ -15,3 +15,14 @@ Other cards' effects are only applied on it for 1 turn. \
 During the turn this card is Special Summoned from the GY, \
     it cannot attack, and send it to the GY during the End Phase.\
 """
+
+EGYPTIAN_LITE_EFFECT = """\
+This card's effects cannot be negated. \
+Control of this card cannot switch. \
+Cannot change battle position by card effect. \
+Cannot be Tributed, or used as a material for an Summon by your opponent. \
+Cannot leave the field by other cards' activated effects, \
+    except monsters with the higher Divine Hierarchy. \
+Unaffected by your opponent's monster effects with the lower Divine Hierarchy. \
+Other cards' effects are only applied on it for 1 turn. \
+"""
