@@ -87,35 +87,20 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     c:RegisterEffect(noswitch)
 
     -- no leave
-    local noleave = Effect.CreateEffect(c)
-    noleave:SetType(EFFECT_TYPE_SINGLE)
-    noleave:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noleave:SetCode(EFFECT_IMMUNE_EFFECT)
-    noleave:SetRange(LOCATION_MZONE)
-    noleave:SetValue(function(e, te)
+    local noleave1 = Effect.CreateEffect(c)
+    noleave1:SetType(EFFECT_TYPE_SINGLE)
+    noleave1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noleave1:SetCode(EFFECT_UNRELEASABLE_EFFECT)
+    noleave1:SetRange(LOCATION_MZONE)
+    noleave1:SetValue(function(e, te)
         local tc = te:GetHandler()
         if tc == e:GetHandler() then
-            return false
-        end
-        if tc:IsType(TYPE_MONSTER) and Divine.GetDivineHierarchy(tc) > Divine.GetDivineHierarchy(c) then
             return false
         end
 
-        return te:IsHasCategory(CATEGORY_RELEASE + CATEGORY_DESTROY + CATEGORY_REMOVE + CATEGORY_TOHAND +
-                                    CATEGORY_TODECK + CATEGORY_TOGRAVE)
-    end)
-    c:RegisterEffect(noleave)
-    local noleave2 = noleave:Clone()
-    noleave2:SetCode(EFFECT_UNRELEASABLE_EFFECT)
-    noleave2:SetValue(function(e, te)
-        local tc = te:GetHandler()
-        if tc == e:GetHandler() then
-            return false
-        end
-        
         return not tc:IsMonster() or Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
     end)
-    c:RegisterEffect(noleave2)
+    c:RegisterEffect(noleave1)
 
     -- immune
     local immune = Effect.CreateEffect(c)
