@@ -13,9 +13,9 @@ Cannot change battle position by card effect, its control cannot switch. \
 Unaffected by other cards' effects that would make it leave the field, \
     except monsters with the higher Divine Hierarchy. \
 Unaffected by your opponent's monster effects with the lower Divine Hierarchy. \
-Other cards' effects are only applied on it for 1 turn. \
+Other cards' effects are only applied on it for 1 turn.\
 """
 EGYPTIAN_SPSUMMON_EFFECT = """\
 During the turn this card is Special Summoned from the GY, \
-    it cannot attack, and send it to the GY during the End Phase. \
+    it cannot attack, and send it to the GY during the End Phase.\
 """
