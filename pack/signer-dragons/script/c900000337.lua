@@ -119,7 +119,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    if g:IsContains(e:GetHandler():GetEquipTarget()) then
+    if g:IsContains(e:GetHandler():GetEquipTarget()) and re:GetOwnerPlayer() ~= e:GetOwnerPlayer() then
         Duel.NegateEffect(ev)
     end
 end

@@ -936,7 +936,7 @@ type = "trap"
 effect = """
 If you control a "Red Dragon Archfiend" monster, you can activate this card from your hand. \
 Target 1 Dragon Synchro you control; equip this card to it, and this equipped card cannot be destroyed by card effects. \
-Negate any card effects that target the equipped monster. \
+Negate any your opponent's card effects effects that target the equipped monster. \
 If the equipped monster card's effect destroys a card(s) \
     and it is a "Red Dragon Archfiend" monster, \
     it gains 500 ATK for each destroyed card \
