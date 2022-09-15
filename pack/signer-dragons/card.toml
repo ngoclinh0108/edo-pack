@@ -878,8 +878,8 @@ level = 12
 atk = 4000
 def = 3500
 effect = """
-3 Tuners + 1 non-Tuner DARK Dragon Synchro Monster
-If this card is Synchro Summoned using a "Red Dragon Archfiend" monster as material: \
+3 Tuners + 1 non-Tuner Synchro Monster
+If this card is Synchro Summoned using a DARK Dragon Synchro monster as material: \
     You can activate this effect; for the rest of this turn, \
     your opponent cannot activate cards, also cards your opponent controls cannot activate their effects, \
     then negate the effects of all face-up monsters your opponent currently control. \
@@ -889,8 +889,6 @@ During your Main Phase 1: \
     You can destroy all cards your opponent control, and if you do, banish them, \
     also, for the rest of this turn, other monsters you control cannot attack. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-If this card destroys a monster by battle: \
-    You can inflict damage to your opponent equal to that monster's original ATK. \
 Once per turn, during your opponent's turn, \
     when your opponent activates a card or effect, or when an opponent's monster declares an attack (Quick Effect): \
     You can banish this card, and if you do, you can negate 1 attack this turn from a monster your opponent controls. \
@@ -901,7 +899,6 @@ strings = [
     "Affected by \"{CARD_NAME}\": Cannot activate cards or effects",
     "Destroy and banish all your opponent cards",
     "Affected by \"{CARD_NAME}\": Other monsters you control cannot attack",
-    "Inflict damage",
     "Banish this card until the end phase",
     "Do you want negate the attack by effect of \"{CARD_NAME}\"?",
 ]

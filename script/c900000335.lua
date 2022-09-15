@@ -3,15 +3,13 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.synchro_nt_required = 1
-s.listed_series = {0x1045}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
     Synchro.AddProcedure(c, nil, 3, 3, Synchro.NonTunerEx(function(c, val, sc, sumtype, tp)
-        return c:IsRace(RACE_DRAGON, sc, sumtype, tp) and c:IsAttribute(ATTRIBUTE_DARK, sc, sumtype, tp) and
-                   c:IsType(TYPE_SYNCHRO, sc, sumtype, tp)
+        return c:IsType(TYPE_SYNCHRO, sc, sumtype, tp)
     end), 1, 1)
 
     -- double tuner
@@ -64,50 +62,38 @@ function s.initial_effect(c)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
-    -- inflict damage
+    -- banish
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 4))
-    e5:SetCategory(CATEGORY_DAMAGE)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e5:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e5:SetCode(EVENT_BATTLE_DESTROYING)
-    e5:SetCondition(aux.bdcon)
+    e5:SetDescription(aux.Stringid(id, 5))
+    e5:SetCategory(CATEGORY_REMOVE)
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetCode(EVENT_CHAINING)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e5:SetCondition(s.e5con1)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
-
-    -- banish
-    local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 5))
-    e6:SetCategory(CATEGORY_REMOVE)
-    e6:SetType(EFFECT_TYPE_QUICK_O)
-    e6:SetCode(EVENT_CHAINING)
-    e6:SetRange(LOCATION_MZONE)
-    e6:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
-    e6:SetCondition(s.e6con1)
-    e6:SetTarget(s.e6tg)
-    e6:SetOperation(s.e6op)
-    c:RegisterEffect(e6)
-    local e6b = e6:Clone()
-    e6b:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
-    e6b:SetCode(EVENT_ATTACK_ANNOUNCE)
-    e6b:SetCondition(s.e6con2)
-    c:RegisterEffect(e6b)
-    local e6ret = Effect.CreateEffect(c)
-    e6ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e6ret:SetCode(EVENT_PHASE + PHASE_END)
-    e6ret:SetRange(LOCATION_REMOVED)
-    e6ret:SetCountLimit(1)
-    e6ret:SetCondition(s.e6retcon)
-    e6ret:SetOperation(s.e6retop)
-    c:RegisterEffect(e6ret)
+    local e5b = e5:Clone()
+    e5b:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e5b:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e5b:SetCondition(s.e5con2)
+    c:RegisterEffect(e5b)
+    local e5ret = Effect.CreateEffect(c)
+    e5ret:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e5ret:SetCode(EVENT_PHASE + PHASE_END)
+    e5ret:SetRange(LOCATION_REMOVED)
+    e5ret:SetCountLimit(1)
+    e5ret:SetCondition(s.e5retcon)
+    e5ret:SetOperation(s.e5retop)
+    c:RegisterEffect(e5ret)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:GetMaterial():IsExists(function(mc)
-        return mc:IsSetCard(0x1045)
-    end, 1, nil, c)
+        return mc:IsAttribute(ATTRIBUTE_DARK) and mc:IsRace(RACE_DRAGON) and mc:IsType(TYPE_SYNCHRO)
+    end, 1, nil)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -182,35 +168,15 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
-
-    local dmg = e:GetHandler():GetBattleTarget():GetBaseAttack()
-    if dmg < 0 then
-        dmg = 0
-    end
-
-    Duel.SetTargetPlayer(1 - tp)
-    Duel.SetTargetParam(dmg)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
-end
-
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
-    Duel.Damage(p, d, REASON_EFFECT)
-end
-
-function s.e6con1(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con1(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() ~= tp and rp == 1 - tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 
-function s.e6con2(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con2(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() ~= tp and Duel.GetAttacker():GetControler() ~= tp
 end
 
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsAbleToRemove()
@@ -219,7 +185,7 @@ function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, c, 1, 0, 0)
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or Duel.Remove(c, POS_FACEUP, REASON_EFFECT) == 0 then
         return
@@ -249,12 +215,12 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e6retcon(e, tp, eg, ep, ev, re, r, rp)
+function s.e5retcon(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:GetFlagEffect(id) > 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e6retop(e, tp, eg, ep, ev, re, r, rp)
+function s.e5retop(e, tp, eg, ep, ev, re, r, rp)
     Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP)
 end
