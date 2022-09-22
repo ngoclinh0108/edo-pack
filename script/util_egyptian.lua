@@ -95,11 +95,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
     noleave_release:SetRange(LOCATION_MZONE)
     noleave_release:SetValue(function(e, te)
         local tc = te:GetHandler()
-        if tc == e:GetHandler() or not te:IsActivated() then
-            return false
-        end
-
-        return not tc:IsMonster() or Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
+        return tc ~= e:GetHandler() and Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
     end)
     c:RegisterEffect(noleave_release)
     local noleave_destroy = noleave_release:Clone()
@@ -121,7 +117,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
 
         local c = e:GetHandler()
         local rc = re:GetHandler()
-        if c == rc or (rc:IsMonster() and Divine.GetDivineHierarchy(rc) > Divine.GetDivineHierarchy(c)) then
+        if c == rc or Divine.GetDivineHierarchy(rc) > Divine.GetDivineHierarchy(c) then
             return
         end
 
