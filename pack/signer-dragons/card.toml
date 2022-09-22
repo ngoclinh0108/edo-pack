@@ -252,7 +252,7 @@ When this face-up card leaves the field, you can Special Summon 1 Level 10 or lo
     you take no damage this turn. \
 """
 strings = [
-    "Negate the effect & destroy 1 card on the field",
+    "Negate the effect & Destroy 1 card on the field",
     "Remove Signer Counter to attack again?",
     "Special Summon 1 Level 10 or lower Dragon Synchro Monster?",
     "Affected by \"{CARD_NAME}\": Take no damage this turn",
@@ -315,7 +315,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 """
 strings = [
     "Tribute to banish your opponent cards",
-    "Negate effect & inflict damage",
+    "Negate effect & Inflict damage",
 ]
 
 [majestic-rose-dragon]
@@ -339,7 +339,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 """
 strings = [
     "Banish all cards from your opponent's GY face-down",
-    "Negate effect & make ATK/DEF become 0",
+    "Negate effect & Make ATK/DEF become 0",
 ]
 
 [majestic-fairy-dragon]
@@ -364,7 +364,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 """
 strings = [
     "Special Summon 1 Level 4 or lower monster",
-    "Negate effect & recover LP",
+    "Negate effect & Recover LP",
 ]
 
 [majestic-life-dragon]
@@ -391,7 +391,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 """
 strings = [
     "Equip Spells to this card",
-    "Negate effect & change position",
+    "Negate effect & Change position",
     "Change position?",
 ]
 

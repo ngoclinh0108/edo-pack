@@ -30,7 +30,7 @@ Once per turn, while the total monster's Divine Hierarchy on the field are 3 or 
 """
 strings = [
     "Soul Energy MAX",
-    "Destroy all monsters & inflict damage",
+    "Destroy all monsters & Inflict damage",
     "Gain ∞ ATK for 1 attack",
 ]
 
