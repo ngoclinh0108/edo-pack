@@ -15,6 +15,16 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
         s.divine_hierarchy = divine_hierarchy
     end
 
+    -- cannot special summon
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(function(e, se, sp, st)
+        return sp == e:GetOwnerPlayer()
+    end)
+    c:RegisterEffect(splimit)
+
     -- 3 tribute
     aux.AddNormalSummonProcedure(c, true, false, 3, 3)
     aux.AddNormalSetProcedure(c)
