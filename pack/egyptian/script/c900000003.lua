@@ -30,6 +30,7 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e2:SetRange(LOCATION_MZONE)
+    e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -169,6 +170,10 @@ function s.e1val(e, c)
         ec1b:SetValue(def)
         c:RegisterEffect(ec1b)
     end
+end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():CanAttack()
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
