@@ -64,7 +64,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(aux.FilterFaceupFunction(Card.IsSetCard, 0x1017), 1, nil)
+    return eg:IsExists(aux.FaceupFilter(Card.IsSetCard, 0x1017), 1, nil)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)

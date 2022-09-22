@@ -64,7 +64,7 @@ function s.initial_effect(c)
     me2:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
     me2:SetRange(LOCATION_MZONE)
     me2:SetCondition(function(e)
-        return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsType, TYPE_SYNCHRO), e:GetHandlerPlayer(),
+        return Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsType, TYPE_SYNCHRO), e:GetHandlerPlayer(),
             LOCATION_MZONE, 0, 1, e:GetHandler())
     end)
     me2:SetValue(aux.imval2)

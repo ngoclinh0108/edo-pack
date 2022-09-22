@@ -152,7 +152,7 @@ Dimension.RegisterChange = aux.FunctionWithNamedArgs(
             end)
             reg:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
                 local c = e:GetHandler()
-                local g = eg:Filter(aux.FilterFaceupFunction(filter, c, e), nil)
+                local g = eg:Filter(aux.FaceupFilter(filter, c, e), nil)
                 for tc in aux.Next(g) do
                     tc:RegisterFlagEffect(flag_id + 1000000000 * (c:GetOwner() + 1), 0, 0, 1)
                 end

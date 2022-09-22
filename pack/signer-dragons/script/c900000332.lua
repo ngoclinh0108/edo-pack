@@ -33,7 +33,7 @@ function s.e2filter(c, ft, tp)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsType, TYPE_TUNER), tp, LOCATION_MZONE, 0, 1, nil)
+    return Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsType, TYPE_TUNER), tp, LOCATION_MZONE, 0, 1, nil)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -58,7 +58,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or
-        not Duel.IsExistingMatchingCard(aux.FilterFaceupFunction(Card.IsType, TYPE_TUNER), tp, LOCATION_MZONE, 0, 1, nil) then
+        not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsType, TYPE_TUNER), tp, LOCATION_MZONE, 0, 1, nil) then
         return
     end
 

@@ -91,7 +91,7 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         end
 
         local sc = Utility.GroupSelect(HINTMSG_TOFIELD, g, tp):GetFirst()
-        aux.PlayFieldSpell(sc, e, tp, eg, ep, ev, re, r, rp)
+        Duel.ActivateFieldSpell(sc, e, tp, eg, ep, ev, re, r, rp)
         Utility.ApplyActivateEffect(sc, e, tp, false, true, false)
 
         if sc:IsPreviousLocation(LOCATION_HAND) and Duel.GetTurnCount() <= 2 and

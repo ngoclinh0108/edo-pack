@@ -135,7 +135,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     tc:CompleteProcedure()
-    local mg = Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsCanBeSynchroMaterial), tp, LOCATION_MZONE, 0, nil)
+    local mg = Duel.GetMatchingGroup(aux.FaceupFilter(Card.IsCanBeSynchroMaterial), tp, LOCATION_MZONE, 0, nil)
     local eg = Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_EXTRA, 0, nil, mg)
     if #eg > 0 and Duel.IsPlayerCanSpecialSummonCount(tp, 2) and Duel.SelectYesNo(tp, aux.Stringid(id, 4)) then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)

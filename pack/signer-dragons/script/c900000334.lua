@@ -125,7 +125,7 @@ function s.e2chainlimit(e, rp, tp)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local ct = eg:FilterCount(aux.FilterFaceupFunction(Card.IsType, TYPE_SYNCHRO), nil)
+    local ct = eg:FilterCount(aux.FaceupFilter(Card.IsType, TYPE_SYNCHRO), nil)
     if ct > 0 then
         e:GetHandler():AddCounter(0x1148, ct)
     end
