@@ -6,7 +6,7 @@ local s, id = GetID()
 s.listed_names = {95286165}
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2, true, true)
+    Divine.DivineHierarchy(s, c, 2)
 
     -- atk/def value
     local e1 = Effect.CreateEffect(c)

@@ -5,7 +5,7 @@ local s, id = GetID()
 
 function s.initial_effect(c)
     Utility.AvatarInfinity(s, c)
-    Divine.DivineHierarchy(s, c, 1, true, true)
+    Divine.DivineHierarchy(s, c, 1)
 
     -- destroy & damage
     local e1 = Effect.CreateEffect(c)

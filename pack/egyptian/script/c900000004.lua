@@ -8,7 +8,7 @@ s.listed_names = {CARD_RA, 78665705}
 
 function s.initial_effect(c)
     Dimension.AddProcedure(c)
-    Divine.DivineHierarchy(s, c, 2, false, false)
+    Divine.DivineHierarchy(s, c, 2)
 
     -- dimension change
     Dimension.RegisterChange({
@@ -71,39 +71,75 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1grant)
 
-    -- cannot attack
+    -- cannot switch control
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_CANNOT_ATTACK)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e2:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    e2:SetRange(LOCATION_MZONE)
     c:RegisterEffect(e2)
 
-    -- untargetable
+    -- cannot be Tributed, or be used as a material
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e3:SetCode(EFFECT_UNRELEASABLE_SUM)
     e3:SetRange(LOCATION_MZONE)
     e3:SetValue(1)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_IGNORE_BATTLE_TARGET)
+    e3b:SetCode(EFFECT_UNRELEASABLE_NONSUM)
+    c:RegisterEffect(e3b)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_CANNOT_BE_MATERIAL)
     c:RegisterEffect(e3b)
 
-    -- battle mode
+    -- immune
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 2))
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
-                       EFFECT_FLAG_CANNOT_INACTIVATE)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    e4:SetCode(EFFECT_IMMUNE_EFFECT)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetCondition(function(e)
+    e4:SetValue(function(e, te)
+        local c = e:GetHandler()
+        local tc = te:GetHandler()
+        return c ~= tc and Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
+    end)
+    c:RegisterEffect(e4)
+
+    -- cannot attack
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_SINGLE)
+    e5:SetCode(EFFECT_CANNOT_ATTACK)
+    c:RegisterEffect(e5)
+
+    -- untargetable
+    local e6 = Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_SINGLE)
+    e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e6:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e6:SetRange(LOCATION_MZONE)
+    e6:SetValue(1)
+    c:RegisterEffect(e6)
+    local e6b = e6:Clone()
+    e6b:SetCode(EFFECT_IGNORE_BATTLE_TARGET)
+    c:RegisterEffect(e6b)
+
+    -- battle mode
+    local e7 = Effect.CreateEffect(c)
+    e7:SetDescription(aux.Stringid(id, 2))
+    e7:SetType(EFFECT_TYPE_IGNITION)
+    e7:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
+                       EFFECT_FLAG_CANNOT_INACTIVATE)
+    e7:SetRange(LOCATION_MZONE)
+    e7:SetCountLimit(1)
+    e7:SetCondition(function(e)
         return Duel.GetTurnCount() ~= e:GetHandler():GetTurnID()
     end)
-    e4:SetCost(s.e4cost)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
+    e7:SetCost(s.e7cost)
+    e7:SetTarget(s.e7tg)
+    e7:SetOperation(s.e7op)
+    c:RegisterEffect(e7)
 end
 
 function s.e1con(e, c, minc, zone, relzone, exeff)
@@ -153,7 +189,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c, minc, zone, relzone, exeff)
     g:DeleteGroup()
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e7cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsCode, tp, LOCATION_ALL, 0, nil, 78665705)
     if chk == 0 then
@@ -167,7 +203,7 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ConfirmCards(1 - tp, g:GetFirst())
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e7tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local mc = c:GetMaterial():GetFirst()
     if chk == 0 then
@@ -176,7 +212,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = c:GetMaterial():GetFirst()
 

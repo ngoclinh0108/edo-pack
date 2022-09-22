@@ -10,23 +10,21 @@ end
 Divine.FLAG_DIVINE_EVOLUTION = 513000065
 
 -- function
-function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes, spsummon_effect)
+function Divine.DivineHierarchy(s, c, divine_hierarchy)
     if divine_hierarchy then
         s.divine_hierarchy = divine_hierarchy
     end
 
-    if summon_by_three_tributes then
-        -- 3 tribute
-        aux.AddNormalSummonProcedure(c, true, false, 3, 3)
-        aux.AddNormalSetProcedure(c)
+    -- 3 tribute
+    aux.AddNormalSummonProcedure(c, true, false, 3, 3)
+    aux.AddNormalSetProcedure(c)
 
-        -- summon cannot be negate
-        local sumsafe = Effect.CreateEffect(c)
-        sumsafe:SetType(EFFECT_TYPE_SINGLE)
-        sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
-        c:RegisterEffect(sumsafe)
-    end
+    -- summon cannot be negate
+    local sumsafe = Effect.CreateEffect(c)
+    sumsafe:SetType(EFFECT_TYPE_SINGLE)
+    sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
+    c:RegisterEffect(sumsafe)
 
     -- effect cannot be negated
     local nodis1 = Effect.CreateEffect(c)
@@ -159,47 +157,38 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, summon_by_three_tributes
     end)
     c:RegisterEffect(reset)
 
-    if spsummon_effect then
-        -- cannot attack when special summoned from the grave
-        local atklimit = Effect.CreateEffect(c)
-        atklimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-        atklimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        atklimit:SetCode(EVENT_SPSUMMON_SUCCESS)
-        atklimit:SetCondition(function(e)
-            return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
-        end)
-        atklimit:SetOperation(function(e)
-            local c = e:GetHandler()
-            if c:IsHasEffect(EFFECT_UNSTOPPABLE_ATTACK) then
-                return
-            end
+    -- cannot attack when special summoned
+    local atklimit = Effect.CreateEffect(c)
+    atklimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    atklimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    atklimit:SetCode(EVENT_SPSUMMON_SUCCESS)
+    atklimit:SetOperation(function(e)
+        local c = e:GetHandler()
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3206)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec1)
+    end)
+    c:RegisterEffect(atklimit)
 
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetDescription(3206)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-            ec1:SetCode(EFFECT_CANNOT_ATTACK)
-            ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-            c:RegisterEffect(ec1)
-        end)
-        c:RegisterEffect(atklimit)
-
-        -- to grave
-        local togy = Effect.CreateEffect(c)
-        togy:SetDescription(666002)
-        togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        togy:SetRange(LOCATION_MZONE)
-        togy:SetCode(EVENT_PHASE + PHASE_END)
-        togy:SetCountLimit(1)
-        togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetHandler()
-            return c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()
-        end)
-        togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
-        end)
-        c:RegisterEffect(togy)
-    end
+    -- to grave
+    local togy = Effect.CreateEffect(c)
+    togy:SetDescription(666002)
+    togy:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    togy:SetRange(LOCATION_MZONE)
+    togy:SetCode(EVENT_PHASE + PHASE_END)
+    togy:SetCountLimit(1)
+    togy:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        return c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()
+    end)
+    togy:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
+    end)
+    c:RegisterEffect(togy)
 end
 
 function Divine.GetDivineHierarchy(c, get_base)
