@@ -231,7 +231,7 @@ function Divine.IsDivineEvolution(c)
 end
 
 function ResetEffectFilter(e, c)
-    if e:GetOwner() == c then
+    if e:GetOwner() == c or e:GetOwner():IsCode(10000080) then
         return false
     end
 
