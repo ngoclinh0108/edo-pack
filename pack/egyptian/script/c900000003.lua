@@ -214,7 +214,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local lp = Duel.GetLP(tp) - 1
     Duel.PayLPCost(tp, lp)
 
-    e:SetLabelObject({c:GetAttack() + lp, c:GetDefense() + lp})
+    e:SetLabelObject({c:GetBaseAttack() + lp, c:GetBaseDefense() + lp})
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
