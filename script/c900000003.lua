@@ -233,9 +233,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec0:SetLabelObject(e:GetLabelObject())
     ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec0)
-    if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) then
-        Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)
-    end
 
     -- fusion type
     local ec1 = Effect.CreateEffect(c)
@@ -304,6 +301,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetRange(LOCATION_MZONE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
+    Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)
 
     -- tribute monsters to up atk
     local ec2 = Effect.CreateEffect(c)
