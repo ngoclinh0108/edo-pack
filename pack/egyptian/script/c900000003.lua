@@ -233,6 +233,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec0:SetLabelObject(e:GetLabelObject())
     ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec0)
+    if c:IsSummonType(SUMMON_TYPE_SPECIAL) then
+        Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)
+    end
 
     -- fusion type
     local ec1 = Effect.CreateEffect(c)
@@ -295,17 +298,20 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 
     -- unstoppable attack
     local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 3))
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
     ec1:SetRange(LOCATION_MZONE)
+    ec1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return e:GetHandler():IsHasEffect(id)
+    end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
-    Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)
 
     -- tribute monsters to up atk
     local ec2 = Effect.CreateEffect(c)
-    ec2:SetDescription(aux.Stringid(id, 3))
+    ec2:SetDescription(aux.Stringid(id, 4))
     ec2:SetCategory(CATEGORY_ATKCHANGE)
     ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     ec2:SetRange(LOCATION_MZONE)
@@ -313,7 +319,8 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetCountLimit(1)
     ec2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
-        return Duel.GetAttacker() == c or (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c)
+        return (Duel.GetAttacker() == c or (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c)) and
+                   c:IsHasEffect(id)
     end)
     ec2:SetCost(function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
@@ -327,7 +334,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
-        if c:IsFacedown() or not c:IsRelateToEffect(e) then
+        if c:IsFacedown() or not c:IsRelateToEffect(e) or not c:IsHasEffect(id) then
             return
         end
 
