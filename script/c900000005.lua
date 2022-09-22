@@ -186,26 +186,26 @@ function s.e4con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
-        return Duel.CheckLPCost(tp, 1000)
+        return Duel.CheckLPCost(tp, 1000) and c:GetFlagEffect(id) == 0
     end
 
     Duel.PayLPCost(tp, 1000)
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_CHAIN, 0, 1)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:GetFlagEffect(id) == 0 and Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE, 1, c)
+        return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE, 1, c)
     end
-
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_CHAIN, 0, 1)
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACK)
     local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1, 1, c)
     Duel.SetTargetCard(g)
 
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, LOCATION_MZONE)
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
@@ -243,7 +243,9 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     if tc then
         local divine_evolution = Divine.IsDivineEvolution(c)
         Dimension.Change(c, tc, c:GetMaterial())
-        if divine_evolution then Divine.DivineEvolution(tc) end
+        if divine_evolution then
+            Divine.DivineEvolution(tc)
+        end
     else
         Duel.SendtoGrave(c, REASON_EFFECT)
     end
