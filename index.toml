@@ -5,5 +5,5 @@ packs = ["./pack/egyptian", "./pack/signer-dragons"]
 
 skip_compile_packs = [
     # "./pack/egyptian",
-    # "./pack/signer-dragons",
+    "./pack/signer-dragons",
 ]
