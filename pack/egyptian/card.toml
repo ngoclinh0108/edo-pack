@@ -73,7 +73,7 @@ effect = """\
 {EGYPTIAN_EFFECT} \
 This card's original ATK/DEF become the combined original ATK/DEF of the monsters Tributed for its Tribute Summon. \
 You can pay 1000 LP, then choose 1 monster on the field as Target; destroy it. \
-Once while face-up on the field: You can pay LP so that you only have 100 left; \
+Once while face-up on the field: You can pay LP so that you only have 1 left; \
     this card become Fusion Monster and gains original ATK/DEF become equal to the amount of LP paid, \
     also any increase in LP is changed to increase it's original ATK/DEF instead. \
     If your "De-Fusion" targets this Fusion Monster, apply these effect instead, \

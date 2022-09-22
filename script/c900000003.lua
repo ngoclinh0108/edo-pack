@@ -202,10 +202,10 @@ end
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.GetLP(tp) > 100
+        return Duel.GetLP(tp) > 1
     end
 
-    local lp = Duel.GetLP(tp) - 100
+    local lp = Duel.GetLP(tp) - 1
     Duel.PayLPCost(tp, lp)
 
     e:SetLabelObject({c:GetAttack() + lp, c:GetDefense() + lp})
