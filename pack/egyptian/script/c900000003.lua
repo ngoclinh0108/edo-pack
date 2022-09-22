@@ -152,8 +152,8 @@ function s.e1val(e, c)
     local def = 0
     local g = c:GetMaterial()
     for tc in aux.Next(g) do
-        atk = atk + tc:GetBaseAttack()
-        def = def + tc:GetBaseDefense()
+        atk = atk + tc:GetAttack()
+        def = def + tc:GetDefense()
     end
 
     if e:GetLabel() == 1 then
@@ -338,7 +338,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         end
 
         local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 99, false, nil, c)
-        e:SetLabel(g:GetSum(Card.GetBaseAttack))
+        e:SetLabel(g:GetSum(Card.GetAttack))
         Duel.Release(g, REASON_COST)
     end)
     ec2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)

@@ -233,10 +233,10 @@ function s.battlemode(c, tc, base_value)
         local mg = tc:GetMaterial()
         for mc in aux.Next(mg) do
             if mc:GetBaseAttack() > 0 then
-                atk = atk + mc:GetBaseAttack()
+                atk = atk + mc:GetPreviousAttackOnField()
             end
             if mc:GetBaseDefense() > 0 then
-                def = def + mc:GetBaseDefense()
+                def = def + mc:GetPreviousDefenseOnField()
             end
         end
     elseif base_value ~= nil then
