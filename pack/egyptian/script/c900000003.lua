@@ -62,6 +62,7 @@ function s.initial_effect(c)
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e4:SetCondition(s.e4con)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
@@ -233,7 +234,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec0:SetLabelObject(e:GetLabelObject())
     ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec0)
-    if c:IsSummonType(SUMMON_TYPE_SPECIAL) then
+    if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) then
         Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)
     end
 
@@ -293,14 +294,17 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec3)
 end
 
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
+end
+
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     -- unstoppable attack
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 3))
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     ec1:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
     ec1:SetRange(LOCATION_MZONE)
     ec1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
@@ -311,7 +315,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 
     -- tribute monsters to up atk
     local ec2 = Effect.CreateEffect(c)
-    ec2:SetDescription(aux.Stringid(id, 4))
+    ec2:SetDescription(aux.Stringid(id, 3))
     ec2:SetCategory(CATEGORY_ATKCHANGE)
     ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     ec2:SetRange(LOCATION_MZONE)
