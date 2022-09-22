@@ -81,12 +81,10 @@ Once while face-up on the field: You can pay LP so that you only have 100 left; 
     its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK". \
     Cards and effects cannot be activated in response to the above effects' activation. \
     You can also use this effect when this card is Summoned. \
-While this card was Special Summoned from the GY, it gains the following effects. \
-    This card must be become Fusion Monster by its own effect to gain, to activate, and to resolve the following effects.
+This Special Summoned card gains the following effects; \
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 ● Once per turn, when an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined original ATK had on the field, until the end of this turn.
-● After damage calculation, if it attacked, send all monsters your opponent controls to the GY.
 """
 strings = [
     "De-fuse from \"The Winged Dragon of Ra\"",

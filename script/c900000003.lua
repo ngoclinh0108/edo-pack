@@ -62,7 +62,6 @@ function s.initial_effect(c)
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e4:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e4:SetCondition(s.e4con)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
@@ -209,7 +208,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local lp = Duel.GetLP(tp) - 100
     Duel.PayLPCost(tp, lp)
 
-    e:SetLabelObject({c:GetBaseAttack() + lp, c:GetBaseDefense() + lp})
+    e:SetLabelObject({c:GetAttack() + lp, c:GetDefense() + lp})
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -294,11 +293,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec3)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE)
-end
-
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
@@ -308,9 +302,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     ec1:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
     ec1:SetRange(LOCATION_MZONE)
-    ec1:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return e:GetHandler():IsHasEffect(id)
-    end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec1)
 
@@ -324,8 +315,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetCountLimit(1)
     ec2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
-        return (Duel.GetAttacker() == c or (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c)) and
-                   c:IsHasEffect(id)
+        return Duel.GetAttacker() == c or (Duel.GetAttackTarget() and Duel.GetAttackTarget() == c)
     end)
     ec2:SetCost(function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
@@ -339,7 +329,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
-        if c:IsFacedown() or not c:IsRelateToEffect(e) or not c:IsHasEffect(id) then
+        if c:IsFacedown() or not c:IsRelateToEffect(e) then
             return
         end
 
@@ -352,28 +342,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec2)
-
-    -- after damage calculation
-    local ec3 = Effect.CreateEffect(c)
-    ec3:SetCategory(CATEGORY_TOGRAVE)
-    ec3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    ec3:SetCode(EVENT_BATTLED)
-    ec3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        return Duel.GetAttacker() == c and c:IsHasEffect(id)
-    end)
-    ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-        if not c:IsHasEffect(id) or #g == 0 then
-            return
-        end
-
-        Utility.HintCard(c)
-        Duel.SendtoGrave(g, REASON_EFFECT)
-    end)
-    ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
-    c:RegisterEffect(ec3)
 end
 
 function s.defusefilter1(c)
