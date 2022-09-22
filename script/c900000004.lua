@@ -7,8 +7,8 @@ local s, id = GetID()
 s.listed_names = {CARD_RA, 78665705}
 
 function s.initial_effect(c)
+    s.divine_hierarchy = 2
     Dimension.AddProcedure(c)
-    Divine.DivineHierarchy(s, c, 2)
 
     -- dimension change
     Dimension.RegisterChange({
