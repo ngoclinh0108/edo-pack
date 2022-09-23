@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 
 local s, id = GetID()
 
-s.destiny_draw = 0
+s.owner = -1
 
 function s.initial_effect(c)
     local startup = Effect.CreateEffect(c)
@@ -16,11 +16,9 @@ function s.initial_effect(c)
 end
 
 function s.startup(e, tp, eg, ep, ev, re, r, rp)
-    if tp ~= e:GetOwnerPlayer() then
-        return
-    end
+    s.owner = e:GetOwnerPlayer()
     local c = e:GetHandler()
-
+    
     -- remove from duel
     Duel.DisableShuffleCheck(true)
     Duel.SendtoDeck(c, tp, -2, REASON_RULE)
@@ -71,8 +69,6 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
             Duel.Draw(tp, ct, REASON_RULE)
             Duel.ShuffleDeck(tp)
         end
-
-        s.destiny_draw = 1
     end)
     Duel.RegisterEffect(mulligan, tp)
 
@@ -110,26 +106,12 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
     ddraw:SetCode(EVENT_PREDRAW)
     ddraw:SetCountLimit(1)
     ddraw:SetCondition(function(e, tp)
-        return s.destiny_draw == 1 and Duel.IsTurnPlayer(tp) and Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 1 and
-                   Duel.GetTurnCount() > 1
+        return Duel.IsTurnPlayer(tp) and Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 1 and Duel.GetTurnCount() > 1
     end)
     ddraw:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         s.destinydraw(tp, Duel.GetDrawCount(tp))
     end)
     Duel.RegisterEffect(ddraw, tp)
-end
-
--- destiny draw (effect)
-local ddr = Duel.Draw
-Duel.Draw = function(...)
-    local tb = {...}
-    local tp = tb[1]
-    local count = tb[2]
-
-    if s.destiny_draw == 1 then
-        s.destinydraw(tp, count)
-    end
-    return ddr(...)
 end
 
 function s.destinydraw(tp, count)
@@ -141,4 +123,15 @@ function s.destinydraw(tp, count)
     for tc in aux.Next(g) do
         Duel.MoveSequence(tc, 0)
     end
+end
+
+local ddr = Duel.Draw
+Duel.Draw = function(...)
+    local tb = {...}
+    local tp = tb[1]
+    local count = tb[2]
+    if tp == s.owner then
+        s.destinydraw(tp, count)
+    end
+    return ddr(...)
 end
