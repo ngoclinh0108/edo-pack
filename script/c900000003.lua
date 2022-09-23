@@ -44,6 +44,7 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e3:SetLabel(0)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -213,8 +214,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
 
     local lp = Duel.GetLP(tp) - 1
     Duel.PayLPCost(tp, lp)
-
-    e:SetLabelObject({c:GetBaseAttack() + lp, c:GetBaseDefense() + lp})
+    e:SetLabel(lp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -236,7 +236,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec0:SetType(EFFECT_TYPE_SINGLE)
     ec0:SetProperty(EFFECT_FLAG_CLIENT_HINT)
     ec0:SetCode(id)
-    ec0:SetLabelObject(e:GetLabelObject())
+    ec0:SetLabel(e:GetLabel())
     ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec0)
     if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) then
@@ -257,33 +257,21 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 
     -- atk/def
-    local atk = c:GetAttack() - c:GetBaseAttack()
-    local def = c:GetDefense() - c:GetBaseDefense()
+    local lp = e:GetLabel()
     local ec2 = Effect.CreateEffect(c)
     ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetCode(EFFECT_SET_BASE_ATTACK)
+    ec2:SetCode(EFFECT_UPDATE_ATTACK)
     ec2:SetCondition(function(e)
         return e:GetHandler():IsHasEffect(id)
     end)
     ec2:SetValue(function(e)
-        return e:GetHandler():GetCardEffect(id):GetLabelObject()[1]
+        return e:GetHandler():GetCardEffect(id):GetLabel()
     end)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec2)
     local ec2b = ec2:Clone()
-    ec2b:SetCode(EFFECT_SET_BASE_DEFENSE)
-    ec2b:SetValue(function(e)
-        return e:GetHandler():GetCardEffect(id):GetLabelObject()[2]
-    end)
+    ec2b:SetCode(EFFECT_UPDATE_DEFENSE)
     c:RegisterEffect(ec2b)
-    local ec2c = ec2:Clone()
-    ec2c:SetCode(EFFECT_UPDATE_ATTACK)
-    ec2c:SetValue(atk)
-    c:RegisterEffect(ec2c)
-    local ec2d = ec2:Clone()
-    ec2d:SetCode(EFFECT_UPDATE_DEFENSE)
-    ec2d:SetValue(def)
-    c:RegisterEffect(ec2d)
 
     -- life point transfer (lp convert)
     local ec3 = Effect.CreateEffect(c)
@@ -300,10 +288,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         end
 
         local eff = c:GetCardEffect(id)
-        local label = eff:GetLabelObject()
-        label[1] = label[1] + ev
-        label[2] = label[2] + ev
-        eff:SetLabelObject(label)
+        local label = eff:GetLabel()
+        label = label + ev
+        eff:SetLabel(label)
 
         Duel.SetLP(tp, Duel.GetLP(tp) - ev, REASON_EFFECT)
     end)

@@ -74,14 +74,14 @@ effect = """\
 This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
 While this card is able to attack, you can pay 1000 LP, then choose 1 monster on the field as Target; destroy it. \
 Once while face-up on the field: You can pay LP so that you only have 1 left; \
-    this card become Fusion Monster and gains original ATK/DEF become equal to the amount of LP paid, \
-    also any increase in LP is changed to increase it's original ATK/DEF instead. \
+    this card become Fusion Monster and gains ATK/DEF become equal to the amount of LP paid, \
+    also any increase in LP is changed to increase it's ATK/DEF instead. \
     If your "De-Fusion" targets this Fusion Monster, apply these effect instead, \
     "that target loses its above effects, cannot activate its effects, \
     its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK". \
     Cards and effects cannot be activated in response to the above effects' activation. \
     You can also use this effect when this card is Summoned. \
-While this card was Special Summoned from the GY, it gains the following effects. \
+While this card was Special Summoned, it gains the following effects. \
     This card must be become Fusion Monster by its own effect to gain, to activate, and to resolve the following effects.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 ● Once per turn, when an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
