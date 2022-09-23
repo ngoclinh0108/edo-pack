@@ -140,14 +140,16 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, attack_limit_condition)
     indes:SetType(EFFECT_TYPE_SINGLE)
     indes:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     indes:SetValue(function(e, tc)
-        return Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(e:GetHandler())
+        return Divine.GetDivineHierarchy(tc) > 0 and Divine.GetDivineHierarchy(tc) <
+                   Divine.GetDivineHierarchy(e:GetHandler())
     end)
     c:RegisterEffect(indes)
     local indes2 = Effect.CreateEffect(c)
     indes2:SetType(EFFECT_TYPE_SINGLE)
     indes2:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
     indes2:SetValue(function(e, tc)
-        return tc and Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(e:GetHandler())
+        return tc and Divine.GetDivineHierarchy(tc) > 0 and Divine.GetDivineHierarchy(tc) <
+                   Divine.GetDivineHierarchy(e:GetHandler())
     end)
     c:RegisterEffect(indes2)
 
