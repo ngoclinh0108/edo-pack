@@ -70,6 +70,8 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
             Duel.Draw(tp, ct, REASON_RULE)
             Duel.ShuffleDeck(tp)
         end
+
+        s.destiny_draw = 1
     end)
     Duel.RegisterEffect(mulligan, tp)
 
@@ -114,8 +116,6 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
         s.destinydraw(tp, Duel.GetDrawCount(tp))
     end)
     Duel.RegisterEffect(ddraw, tp)
-
-    s.destiny_draw = 1
 end
 
 function s.destinydraw(tp, count)
