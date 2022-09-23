@@ -6,7 +6,10 @@ local s, id = GetID()
 s.listed_names = {95286165}
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2)
+    Divine.DivineHierarchy(s, c, 2, function(e, tp, eg, ep, ev, re, r, rp)
+        local rc = re:GetHandler()
+        return not rc or not rc:ListsCode(CARD_RA)
+    end)
 
     -- atk/def value
     local e1 = Effect.CreateEffect(c)
@@ -362,6 +365,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
         return Duel.GetAttacker() == c and bc and c:IsStatus(STATUS_OPPO_BATTLE)
     end)
     ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Utility.HintCard(e)
         local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
         Duel.SendtoGrave(g, REASON_EFFECT)
     end)

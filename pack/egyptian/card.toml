@@ -17,7 +17,7 @@ atk = 4000
 def = 4000
 effect = """\
 {HIERARCHY_ALIAS|1|Obelisk the Tormentor}
-{EGYPTIAN_EFFECT} \
+{EGYPTIAN_EFFECT}. \
 Once per turn, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; \
     destroy all monsters your opponent controls, \
@@ -47,7 +47,7 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
-{EGYPTIAN_EFFECT} \
+{EGYPTIAN_EFFECT}. \
 This card's original ATK/DEF are equal to the number of cards in your hand x X000. \
     (X is its Divine Hierarchy). \
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
@@ -70,7 +70,7 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
-{EGYPTIAN_EFFECT} \
+{EGYPTIAN_EFFECT}, except by card that mentions "The Winged Dragon of Ra". \
 This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
 While this card is able to attack, you can pay 1000 LP, then choose 1 monster on the field as Target; destroy it. \
 Once while face-up on the field: You can pay LP so that you only have 1 left; \
@@ -83,7 +83,7 @@ Once while face-up on the field: You can pay LP so that you only have 1 left; \
     You can also use this effect when this card is Summoned. \
 While this card was Special Summoned, it gains the following effects. \
     This card must be become Fusion Monster by its own effect to gain, to activate, and to resolve the following effects.
-● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 ● Once per turn, when an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined ATK had on the field, until the end of this turn.
 ● At the end of the Damage Step, when this card attacks an opponent's monster, \
