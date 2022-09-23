@@ -10,7 +10,7 @@ end
 Divine.FLAG_DIVINE_EVOLUTION = 513000065
 
 -- function
-function Divine.DivineHierarchy(s, c, divine_hierarchy, attack_limit_condition)
+function Divine.DivineHierarchy(s, c, divine_hierarchy)
     if divine_hierarchy then
         s.divine_hierarchy = divine_hierarchy
     end
@@ -167,6 +167,27 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, attack_limit_condition)
     end)
     c:RegisterEffect(reset)
 
+    -- cannot attack when special summoned
+    local atklimit = Effect.CreateEffect(c)
+    atklimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    atklimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    atklimit:SetCode(EVENT_SPSUMMON_SUCCESS)
+    atklimit:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local rc = re:GetHandler()
+        return not rc or not rc:ListsCode(c:GetCode())
+    end)
+    atklimit:SetOperation(function(e)
+        local c = e:GetHandler()
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3206)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec1)
+    end)
+    c:RegisterEffect(atklimit)
+
     -- to grave
     local togy = Effect.CreateEffect(c)
     togy:SetDescription(666002)
@@ -182,26 +203,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, attack_limit_condition)
         Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
     end)
     c:RegisterEffect(togy)
-
-    -- cannot attack when special summoned
-    local atklimit = Effect.CreateEffect(c)
-    atklimit:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    atklimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    atklimit:SetCode(EVENT_SPSUMMON_SUCCESS)
-    if attack_limit_condition ~= nil then
-        atklimit:SetCondition(attack_limit_condition)
-    end
-    atklimit:SetOperation(function(e)
-        local c = e:GetHandler()
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetDescription(3206)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-        ec1:SetCode(EFFECT_CANNOT_ATTACK)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        c:RegisterEffect(ec1)
-    end)
-    c:RegisterEffect(atklimit)
 end
 
 function Divine.GetDivineHierarchy(c, get_base)

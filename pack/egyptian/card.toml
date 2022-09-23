@@ -17,7 +17,7 @@ atk = 4000
 def = 4000
 effect = """\
 {HIERARCHY_ALIAS|1|Obelisk the Tormentor}
-{EGYPTIAN_EFFECT}. \
+{EGYPTIAN_EFFECT} \
 Once per turn, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; \
     destroy all monsters your opponent controls, \
@@ -47,7 +47,7 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
-{EGYPTIAN_EFFECT}. \
+{EGYPTIAN_EFFECT} \
 This card's original ATK/DEF are equal to the number of cards in your hand x X000. \
     (X is its Divine Hierarchy). \
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
@@ -70,7 +70,7 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
-{EGYPTIAN_EFFECT}, except by card that mentions "The Winged Dragon of Ra". \
+{EGYPTIAN_EFFECT} \
 This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
 While this card is able to attack, you can pay 1000 LP, then choose 1 monster on the field as Target; destroy it. \
 Once while face-up on the field: You can pay LP so that you only have 1 left; \

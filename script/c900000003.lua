@@ -6,10 +6,7 @@ local s, id = GetID()
 s.listed_names = {95286165}
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2, function(e, tp, eg, ep, ev, re, r, rp)
-        local rc = re:GetHandler()
-        return not rc or not rc:ListsCode(CARD_RA)
-    end)
+    Divine.DivineHierarchy(s, c, 2)
 
     -- atk/def value
     local e1 = Effect.CreateEffect(c)
