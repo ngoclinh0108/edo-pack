@@ -21,8 +21,16 @@ function s.initial_effect(c)
             local c = e:GetHandler()
 
             if mc:IsControler(tp) then
+                local atk = 0
+                local def = 0
+                local mg = mc:GetMaterial()
+                for tc in aux.Next(mg) do
+                    atk = atk + tc:GetPreviousAttackOnField()
+                    def = def + tc:GetPreviousDefenseOnField()
+                end
+
                 Utility.HintCard(c)
-                s.battlemode(c, mc)
+                s.battlemode(c, mc, atk, def)
             else
                 local divine_evolution = Divine.IsDivineEvolution(mc)
                 Dimension.Change(mc, c)
@@ -184,6 +192,19 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, c, minc, zone, relzone, exeff)
     local g = e:GetLabelObject()
+    local atk = 0
+    local def = 0
+    for tc in aux.Next(g) do
+        atk = atk + tc:GetAttack()
+        def = def + tc:GetDefense()
+    end
+
+    local ec0 = Effect.CreateEffect(c)
+    ec0:SetType(EFFECT_TYPE_SINGLE)
+    ec0:SetCode(id)
+    ec0:SetLabelObject({atk, def})
+    c:RegisterEffect(ec0)
+
     c:SetMaterial(g)
     Duel.Release(g, REASON_SUMMON + REASON_MATERIAL)
     g:DeleteGroup()
@@ -216,34 +237,28 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = c:GetMaterial():GetFirst()
 
+    local atk = 0
+    local def = 0
+    if tc:GetCardEffect(id) ~= nil then
+        local eff = tc:GetCardEffect(id)
+        atk = eff:GetLabelObject()[1]
+        def = eff:GetLabelObject()[2]
+        eff:Reset()
+    else
+        atk = 4000
+        def = 4000
+    end
+
     local divine_evolution = Divine.IsDivineEvolution(c)
     Dimension.Change(c, tc, tc:GetMaterial(), tp, tp, POS_FACEUP)
     if divine_evolution then
         Divine.DivineEvolution(tc)
     end
 
-    s.battlemode(c, tc, 4000)
+    s.battlemode(c, tc, atk, def)
 end
 
-function s.battlemode(c, tc, base_value)
-    -- calculate atk/def
-    local atk = 0
-    local def = 0
-    if tc:IsSummonType(SUMMON_TYPE_TRIBUTE) then
-        local mg = tc:GetMaterial()
-        for mc in aux.Next(mg) do
-            if mc:GetBaseAttack() > 0 then
-                atk = atk + mc:GetPreviousAttackOnField()
-            end
-            if mc:GetBaseDefense() > 0 then
-                def = def + mc:GetPreviousDefenseOnField()
-            end
-        end
-    elseif base_value ~= nil then
-        atk = base_value
-        def = base_value
-    end
-
+function s.battlemode(c, tc, atk, def)
     -- set base atk/def
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)

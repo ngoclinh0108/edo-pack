@@ -135,20 +135,6 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
     end)
     c:RegisterEffect(noleave_solving)
 
-    -- immune
-    local immune = Effect.CreateEffect(c)
-    immune:SetType(EFFECT_TYPE_SINGLE)
-    immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    immune:SetRange(LOCATION_MZONE)
-    immune:SetCode(EFFECT_IMMUNE_EFFECT)
-    immune:SetValue(function(e, te)
-        local c = e:GetHandler()
-        local tc = te:GetHandler()
-        return tc:IsControler(1 - e:GetHandlerPlayer()) and tc:IsMonster() and Divine.GetDivineHierarchy(tc) <
-                   Divine.GetDivineHierarchy(c)
-    end)
-    c:RegisterEffect(immune)
-
     -- battle indes & avoid damage
     local indes = Effect.CreateEffect(c)
     indes:SetType(EFFECT_TYPE_SINGLE)

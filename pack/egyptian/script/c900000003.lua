@@ -356,6 +356,23 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec2)
+
+    -- send to gy
+    local ec3 = Effect.CreateEffect(c)
+    ec3:SetDescription(aux.Stringid(id, 4))
+    ec3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    ec3:SetCode(EVENT_DAMAGE_STEP_END)
+    ec3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        local bc = c:GetBattleTarget()
+        return Duel.GetAttacker() == c and bc and c:IsStatus(STATUS_OPPO_BATTLE)
+    end)
+    ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
+        Duel.SendtoGrave(g, REASON_EFFECT)
+    end)
+    ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec3)
 end
 
 function s.defusefilter1(c)
