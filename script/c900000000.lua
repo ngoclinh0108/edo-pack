@@ -16,6 +16,9 @@ function s.initial_effect(c)
 end
 
 function s.startup(e, tp, eg, ep, ev, re, r, rp)
+    if tp ~= e:GetOwnerPlayer() then
+        return
+    end
     local c = e:GetHandler()
 
     -- remove from duel
