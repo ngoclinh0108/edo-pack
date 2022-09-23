@@ -256,6 +256,7 @@ function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     s.battlemode(c, tc, atk, def)
+    Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)
 end
 
 function s.battlemode(c, tc, atk, def)

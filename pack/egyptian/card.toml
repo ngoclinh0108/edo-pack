@@ -128,6 +128,7 @@ Once per turn, except the turn this card is Dimension Changed: \
     and if they do, its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, or 4000/4000. \
     This effect's activation cannot be negated. \
     The owner no need to reveal. \
+    That monster can attack during the turn it is Special Summoned. \
 """
 strings = [
     "Summon to your field",
