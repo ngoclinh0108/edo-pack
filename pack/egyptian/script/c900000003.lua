@@ -64,7 +64,6 @@ function s.initial_effect(c)
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e4:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e4:SetCondition(s.e4con)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
@@ -239,7 +238,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec0:SetLabel(e:GetLabel())
     ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec0)
-    if c:IsSummonType(SUMMON_TYPE_SPECIAL) and c:IsPreviousLocation(LOCATION_GRAVE) then
+    if c:IsSummonType(SUMMON_TYPE_SPECIAL) then
         Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)
     end
 
@@ -296,10 +295,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec3)
-end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
