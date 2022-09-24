@@ -177,17 +177,12 @@ name = "The Descent Sun God"
 type = "spell"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-Activate 1 of these effects;
-● Add 1 Spell/Trap from your Deck or GY to your hand that specifically lists the card "The Winged Dragon of Ra" in its text, \
-    except "{CARD_NAME}".
-● Tribute 3 monsters on your field, or your opponent's, and if you do, \
+Tribute 3 monsters on your field or your opponent's, and if you do, \
     Special Summon 1 "The Winged Dragon of Ra" from your hand, ignoring its Summoning conditions, \
-    and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field.
+    and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
-    "Add Spell/Trap",
-    "Special Summon \"The Winged Dragon of Ra\"",
     "Tribute your monsters",
     "Tribute your opponent's monsters",
 ]
