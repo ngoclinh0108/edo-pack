@@ -180,7 +180,6 @@ strings = [
 
 [the-descent-sun-god]
 id = 900000008
-rarity = "gold"
 name = "The Descent Sun God"
 type = "spell"
 effect = """\
