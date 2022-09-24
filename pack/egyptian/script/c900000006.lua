@@ -5,11 +5,14 @@ local s, id = GetID()
 s.listed_names = {CARD_RA}
 
 function s.initial_effect(c)
+    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
+                                                    EFFECT_FLAG_CANNOT_INACTIVATE
+
     -- activate
     local act = Effect.CreateEffect(c)
     act:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SPECIAL_SUMMON)
     act:SetType(EFFECT_TYPE_ACTIVATE)
-    act:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE)
+    act:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     act:SetCode(EVENT_FREE_CHAIN)
     act:SetCountLimit(1, {id, 1})
     act:SetTarget(s.acttg)

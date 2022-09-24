@@ -172,7 +172,7 @@ strings = [
 ]
 
 [the-descent-sun-god]
-id = 900000008
+id = 900000006
 name = "The Descent Sun God"
 type = "spell"
 effect = """\
