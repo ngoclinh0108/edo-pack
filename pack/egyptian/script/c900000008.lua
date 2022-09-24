@@ -32,7 +32,8 @@ end
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     local check1 = Duel.CheckReleaseGroup(tp, s.e1filter1, 3, nil, ft, tp)
-    local check2 = ft > 0 and Duel.CheckReleaseGroup(1 - tp, nil, 3, nil)
+    local check2 = ft > 0 and
+                       Duel.CheckReleaseGroup(tp, Card.IsControler, 3, false, 3, false, nil, tp, 0xff, true, nil, 1 - tp)
 
     if chk == 0 then
         return (check1 or check2) and Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND, 0, 1, nil, e, tp)
@@ -45,7 +46,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     local check1 = Duel.CheckReleaseGroup(tp, s.e1filter1, 3, nil, ft, tp)
-    local check2 = ft > 0 and Duel.CheckReleaseGroup(1 - tp, nil, 3, nil)
+    local check2 = ft > 0 and
+                       Duel.CheckReleaseGroup(tp, Card.IsControler, 3, false, 3, false, nil, tp, 0xff, true, nil, 1 - tp)
 
     local opt = {}
     local sel = {}
@@ -64,7 +66,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if op == 1 then
         g = Duel.SelectReleaseGroup(tp, s.e1filter1, 3, 3, nil, ft, tp)
     else
-        g = Duel.SelectReleaseGroup(1 - tp, nil, 3, 3, nil)
+        g = Duel.SelectReleaseGroup(tp, Card.IsControler, 3, 3, false, false, true, c, tp, 0xff, true, nil, 1 - tp)
     end
 
     local tc =
