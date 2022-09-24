@@ -110,8 +110,6 @@ atk = "?"
 def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
-While this card is in Dimension Zone: \
-    You can Normal Summon "The Winged Dragon of Ra" to your opponent's field. \
 If your "The Winged Dragon of Ra" is Normal Summoned to your field, \
     its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, \
     or your opponent's field, Dimension Change it to this card with the same Divine Hierarchy. \
@@ -129,12 +127,7 @@ Once per turn, except the turn this card is Dimension Changed: \
     This effect's activation cannot be negated. \
     The owner no need to reveal. \
 """
-strings = [
-    "Summon to your field",
-    "Summon to opponent's field",
-    "Change to Battle Mode",
-    "Reveal \"Ancient Chant\"?",
-]
+strings = ["Change to Battle Mode", "Reveal \"Ancient Chant\"?"]
 
 [ra-phoenix]
 id = 900000005
@@ -150,10 +143,10 @@ def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
 If "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
-    you can Dimension Change it to this card with the same Divine Hierarchy, \
+    you can Dimension Change it to this card with the same Divine Hierarchy. \
 If "The Winged Dragon of Ra" you control would be destroyed by its own effect, \
     Dimension Change it to this card with the same Divine Hierarchy instead, \
-    and its original ATK/DEF become the same as that monster's ATK/DEF had on the field. \
+    and this card's original ATK/DEF become the same as that monster's ATK/DEF had on the field. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as a material for an Summon. \
 Unaffected by other cards' effects, \
@@ -183,5 +176,15 @@ id = 900000008
 name = "The Descent Sun God"
 type = "spell"
 effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+Activate 1 of these effects;
+● Tribute 3 monsters on your field, or your opponent's, and if you do, \
+    Special Summon 1 "The Winged Dragon of Ra" from your hand, ignoring its Summoning conditions, \
+    and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field.
+You can only use each effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = [
+    "Special Summon \"The Winged Dragon of Ra\"",
+    "Tribute your monsters",
+    "Tribute your opponent's monsters",
+]
