@@ -18,6 +18,18 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- recycle
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TOHAND + CATEGORY_TODECK)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF + EFFECT_FLAG_CARD_TARGET)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, {id, 2})
+    e2:SetCondition(aux.exccon)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter1(c, e, tp)
@@ -34,10 +46,10 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetMatchingGroupCount(s.e1filter1, tp, LOCATION_HAND, 0, nil, e, tp) > 0
+        return Duel.GetMatchingGroupCount(s.e1filter1, tp, LOCATION_HAND + LOCATION_DECK, 0, nil, e, tp) > 0
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND + LOCATION_DECK)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -50,8 +62,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter1, tp, LOCATION_HAND, 0, 1, 1, nil, e, tp):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter1, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
+        nil, e, tp):GetFirst()
     local op = Duel.SelectEffect(tp, {check1, aux.Stringid(id, 0)}, {check2, aux.Stringid(id, 1)})
     local g = Group.CreateGroup()
     if op == 1 then
@@ -79,6 +91,41 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
         ec1b:SetValue(def)
         tc:RegisterEffect(ec1b)
+
+        if tc:IsPreviousLocation(LOCATION_DECK) then
+            local ec2 = Effect.CreateEffect(c)
+            ec2:SetDescription(3206)
+            ec2:SetType(EFFECT_TYPE_SINGLE)
+            ec2:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+            ec2:SetCode(EFFECT_CANNOT_ATTACK)
+            ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+            tc:RegisterEffect(ec2)
+        end
     end
     Duel.SpecialSummonComplete()
+end
+
+function s.e2filter(c)
+    return (c:IsCode(CARD_RA) or c:ListsCode(CARD_RA)) and not c:IsCode(id) and c:IsAbleToDeck()
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 1, nil) and c:IsAbleToHand()
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and Duel.SendtoHand(c, nil, REASON_EFFECT) > 0 then
+        Duel.SendtoDeck(tc, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
+    end
 end

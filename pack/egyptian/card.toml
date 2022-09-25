@@ -178,11 +178,13 @@ type = "spell"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
 Tribute 3 monsters on your field or your opponent's, and if you do, \
-    Special Summon 1 "The Winged Dragon of Ra" from your hand, ignoring its Summoning conditions, \
+    Special Summon 1 "The Winged Dragon of Ra" from your hand or Deck, ignoring its Summoning conditions, \
     and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field. \
+    If you Special Summoned from the Deck, that monster cannot attack this turn. \
+If this card is in your GY, except the turn this card was sent to the GY: \
+    You can target 1 "The Winged Dragon of Ra" or 1 card that mentions it from your GY, except "{CARD_NAME}"; \
+    add this card to your hand, and if you do, \
+    shuffle that card from the GY into the Deck. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
-strings = [
-    "Tribute your monsters",
-    "Tribute your opponent's monsters",
-]
+strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
