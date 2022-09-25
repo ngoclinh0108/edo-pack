@@ -92,7 +92,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1b:SetValue(def)
         tc:RegisterEffect(ec1b)
 
-        if tc:IsPreviousLocation(LOCATION_DECK) then
+        if op == 2 then
             local ec2 = Effect.CreateEffect(c)
             ec2:SetDescription(3206)
             ec2:SetType(EFFECT_TYPE_SINGLE)
