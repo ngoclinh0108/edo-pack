@@ -194,11 +194,9 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil):GetFirst()
-    if not tc or not tc:IsRelateToEffect(e) then
-        return
+    if tc then
+        Duel.Destroy(tc, REASON_EFFECT)
     end
-
-    Duel.Destroy(tc, REASON_EFFECT)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
