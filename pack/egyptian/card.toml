@@ -72,7 +72,7 @@ effect = """\
 {HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
 {EGYPTIAN_EFFECT} \
 This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
-While this card is able to attack, you can pay 1000 LP, then choose 1 monster on the field as Target; destroy it. \
+While this card is able to attack, you can pay 1000 LP; destroy 1 monster on the field. \
 Once while face-up on the field: You can pay LP so that you only have 1 left; \
     this card become Fusion Monster and gains ATK/DEF become equal to the amount of LP paid, \
     also any increase in LP is changed to increase it's ATK/DEF instead. \

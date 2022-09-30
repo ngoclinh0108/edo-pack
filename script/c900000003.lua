@@ -28,7 +28,6 @@ function s.initial_effect(c)
     e2:SetDescription(aux.Stringid(id, 1))
     e2:SetCategory(CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
@@ -186,18 +185,15 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
+        return Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil)
-    Duel.SetTargetCard(g)
-
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, LOCATION_MZONE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
+    local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil):GetFirst()
     if not tc or not tc:IsRelateToEffect(e) then
         return
     end
