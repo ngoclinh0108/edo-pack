@@ -26,7 +26,6 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF + EFFECT_FLAG_CARD_TARGET)
     e2:SetRange(LOCATION_GRAVE)
     e2:SetCountLimit(1, {id, 2})
-    e2:SetCondition(aux.exccon)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -106,17 +105,17 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c)
-    return (c:IsCode(CARD_RA) or c:ListsCode(CARD_RA)) and not c:IsCode(id) and c:IsAbleToDeck()
+    return c:IsFaceup() and (c:IsCode(CARD_RA) or c:ListsCode(CARD_RA)) and not c:IsCode(id) and c:IsAbleToDeck()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 1, nil) and c:IsAbleToHand()
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil) and c:IsAbleToHand()
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil)
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
