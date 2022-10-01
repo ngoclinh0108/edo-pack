@@ -27,6 +27,20 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_TRIPLE_TRIBUTE)
     e1:SetValue(1)
     c:RegisterEffect(e1)
+
+    -- limit attack & activate
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_CANNOT_ATTACK)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetTargetRange(0, LOCATION_MZONE)
+    e3:SetTarget(function(e, tc)
+        return tc:GetAttack() < e:GetHandler():GetAttack()
+    end)
+    c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EFFECT_CANNOT_TRIGGER)
+    c:RegisterEffect(e3b)
 end
 
 function s.sprfilter(c, tp, sc)
