@@ -179,7 +179,7 @@ function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
         return tp == c:GetOwner() or #g > 0
     end
 
-    if tp == c:GetOwner() and (#g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 2))) then
+    if tp == c:GetOwner() and (#g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 1))) then
         return
     end
 
