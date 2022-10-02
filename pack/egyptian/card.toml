@@ -125,7 +125,7 @@ Once per turn, except the turn this card is Dimension Changed: \
     This effect's activation cannot be negated. \
     The owner no need to reveal. \
 """
-strings = ["Change to Battle Mode", "Reveal \"Ancient Chant\"?"]
+strings = ["Change to Battle Mode"]
 
 [ra-phoenix]
 id = 900000005

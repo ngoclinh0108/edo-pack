@@ -179,11 +179,9 @@ function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
         return tp == c:GetOwner() or #g > 0
     end
 
-    if tp == c:GetOwner() and (#g == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 1))) then
-        return
+    if tp ~= c:GetOwner() and #g > 0 then
+        Duel.ConfirmCards(1 - tp, g:GetFirst())
     end
-
-    Duel.ConfirmCards(1 - tp, g:GetFirst())
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
