@@ -86,15 +86,12 @@ While this card was Special Summoned, it gains the following effects. \
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
 ● Once per turn, when an attack is declared involving this card: You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined ATK had on the field, until the end of this turn.
-● At the end of the Damage Step, when this card attacks an opponent's monster, \
-    send all monsters your opponent controls to the GY.
 """
 strings = [
     "De-fuse from \"The Winged Dragon of Ra\"",
     "Destroy 1 monster on the field",
     "Life Point Transfer",
     "Tribute other monsters to gain ATK",
-    "Send your opponent's monster to the GY",
 ]
 
 [ra-sphere]
