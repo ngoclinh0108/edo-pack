@@ -99,11 +99,9 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
         end
 
         return Divine.GetDivineHierarchy(te:GetHandler()) <= Divine.GetDivineHierarchy(c) and
-                   te:IsHasCategory(
-                CATEGORY_DESTROY + CATEGORY_REMOVE + CATEGORY_RELEASE + CATEGORY_TOHAND + CATEGORY_TODECK +
-                    CATEGORY_TOGRAVE)
+                   te:IsHasCategory(CATEGORY_REMOVE + CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE)
     end)
-    c:RegisterEffect(noleave_immune)    
+    c:RegisterEffect(noleave_immune)
     local noleave_destroy = noleave_immune:Clone()
     noleave_destroy:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     noleave_destroy:SetValue(function(e, te)
