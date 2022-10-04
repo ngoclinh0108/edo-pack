@@ -88,30 +88,49 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
     c:RegisterEffect(nomaterial)
 
     -- no leave
-    local noleave_immune = Effect.CreateEffect(c)
-    noleave_immune:SetType(EFFECT_TYPE_SINGLE)
-    noleave_immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    noleave_immune:SetCode(EFFECT_IMMUNE_EFFECT)
-    noleave_immune:SetRange(LOCATION_MZONE)
-    noleave_immune:SetValue(function(e, te)
-        if not te or te:GetHandler() == e:GetHandler() then
-            return false
-        end
-
-        return Divine.GetDivineHierarchy(te:GetHandler()) <= Divine.GetDivineHierarchy(c) and
-                   te:IsHasCategory(CATEGORY_REMOVE + CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE)
-    end)
-    c:RegisterEffect(noleave_immune)
-    local noleave_destroy = noleave_immune:Clone()
+    local noleave_destroy = Effect.CreateEffect(c)
+    noleave_destroy:SetType(EFFECT_TYPE_SINGLE)
+    noleave_destroy:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     noleave_destroy:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    noleave_destroy:SetValue(function(e, te)
-        local tc = te:GetHandler()
-        return tc ~= e:GetHandler() and Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
+    noleave_destroy:SetRange(LOCATION_MZONE)
+    noleave_destroy:SetValue(function(e, re)
+        local rc = re:GetHandler()
+        return rc ~= e:GetHandler() and Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c)
     end)
     c:RegisterEffect(noleave_destroy)
     local noleave_release = noleave_destroy:Clone()
     noleave_release:SetCode(EFFECT_UNRELEASABLE_EFFECT)
     c:RegisterEffect(noleave_release)
+    local noleave_banish = Effect.CreateEffect(c)
+    noleave_banish:SetType(EFFECT_TYPE_FIELD)
+    noleave_banish:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_PLAYER_TARGET)
+    noleave_banish:SetCode(EFFECT_CANNOT_REMOVE)
+    noleave_banish:SetRange(LOCATION_MZONE)
+    noleave_banish:SetTargetRange(1, 1)
+    noleave_banish:SetTarget(function(e, c, rp, r, re)
+        if c ~= e:GetHandler() or r ~= REASON_EFFECT or not re then
+            return false
+        end
+
+        local rc = re:GetHandler()
+        return rc ~= e:GetHandler() and Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c)
+    end)
+    c:RegisterEffect(noleave_banish)
+    local noleave_immune = Effect.CreateEffect(c)
+    noleave_immune:SetType(EFFECT_TYPE_SINGLE)
+    noleave_immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    noleave_immune:SetCode(EFFECT_IMMUNE_EFFECT)
+    noleave_immune:SetRange(LOCATION_MZONE)
+    noleave_immune:SetValue(function(e, re)
+        if not re then
+            return false
+        end
+
+        local rc = re:GetHandler()
+        return rc ~= e:GetHandler() and Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c) and
+                   re:IsHasCategory(CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE)
+    end)
+    c:RegisterEffect(noleave_immune)
 
     -- battle indes & avoid damage
     local indes = Effect.CreateEffect(c)
