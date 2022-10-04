@@ -1,4 +1,4 @@
--- Egyptian God Slime 2
+-- Egyptian God Slime 3
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -37,18 +37,22 @@ function s.initial_effect(c)
     e2:SetValue(1)
     c:RegisterEffect(e2)
 
-    -- limit attack & activate
+    -- no effect damage
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(EFFECT_CANNOT_ATTACK)
+    e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e3:SetCode(EFFECT_CHANGE_DAMAGE)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(0, LOCATION_MZONE)
-    e3:SetTarget(function(e, tc)
-        return tc:GetAttack() < e:GetHandler():GetAttack()
+    e3:SetTargetRange(1, 0)
+    e3:SetValue(function(e, re, val, r, rp, rc)
+        if (r & REASON_EFFECT) ~= 0 then
+            return 0
+        end
+        return val
     end)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
-    e3b:SetCode(EFFECT_CANNOT_TRIGGER)
+    e3b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     c:RegisterEffect(e3b)
 end
 

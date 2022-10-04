@@ -189,7 +189,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
 
 [egyptian-god-slime-2]
-id = 900000007
+id = 900000008
 name = "Egyptian God Slime 2"
 type = "monster fusion effect"
 attribute = "water"
@@ -207,7 +207,7 @@ Your opponent's monsters with less ATK than this card cannot attack, also they c
 strings = []
 
 [egyptian-god-slime-3]
-id = 900000008
+id = 900000009
 name = "Egyptian God Slime 3"
 type = "monster fusion effect"
 attribute = "water"
