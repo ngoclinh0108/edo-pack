@@ -76,9 +76,8 @@ function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.actop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
     local op = e:GetLabel()
-    if not c:IsRelateToEffect(e) or Duel.GetFlagEffect(tp, id + op * 1000) > 0 then
+    if Duel.GetFlagEffect(tp, id + op * 1000) > 0 then
         return
     end
 

@@ -48,8 +48,7 @@ def = "?"
 effect = """\
 {HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
 {EGYPTIAN_EFFECT} \
-This card's original ATK/DEF are equal to the number of cards in your hand x X000. \
-    (X is its Divine Hierarchy). \
+This card's original ATK/DEF are equal to the number of cards in your hand x 1000. \
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
     while this card is able to attack: \
     Choose that monster(s) as Target; it loses 2000 ATK or DEF depending on its battle position, \
@@ -187,6 +186,22 @@ If this card is in your GY: \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
+
+[in-the-name-of-the-pharaoh]
+id = 900000007
+name = "In the Name of the Pharaoh"
+type = "spell quick-play"
+effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+Activate 1 of these effects; you can only activate 1 "{CARD_NAME}" per turn.
+● Add 1 "Obelisk the Tormentor", "Slifer the Sky Dragon", "The Winged Dragon of Ra" \
+    or 1 card that mentions it from your Deck or GY to your hand, except "{CARD_NAME}", \
+    then, immediately after this effect resolves, you can Normal Summon 1 Divine-Beast monster.
+● All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" \
+    gain 1000 ATK/DEF, their Divine Hierarchy is increased by 1, and their effect activations cannot be negated,
+    ignoring card effects.
+"""
+strings = ["Summon a Divine-Beast?", "Add card to hand", "Divine Evolution"]
 
 [egyptian-god-slime-2]
 id = 900000008

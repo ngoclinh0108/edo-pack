@@ -140,34 +140,6 @@ function Utility.ApplyEffect(te, e, tp, rc)
     return true
 end
 
-function Utility.IsSetCard(c, ...)
-    local setcodes = {...}
-    for _, setcode in ipairs(setcodes) do
-        if c:IsSetCard(setcode) then
-            return true
-        end
-    end
-
-    return false
-end
-
-function Utility.IsSetCardListed(c, ...)
-    if not c.listed_series then
-        return false
-    end
-
-    local setcodes = {...}
-    for _, setcode in ipairs(setcodes) do
-        for _, seriecode in ipairs(c.listed_series) do
-            if setcode == seriecode then
-                return true
-            end
-        end
-    end
-
-    return false
-end
-
 function Utility.HintCard(target)
     local code = target
     if type(target) == "Card" then
