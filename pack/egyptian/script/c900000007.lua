@@ -64,16 +64,19 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
         nil)
 
-    if #g > 0 and Duel.SendtoHand(g, nil, REASON_EFFECT) > 0 and
-        Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_MZONE, 0, 1, nil) and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
-        Duel.ShuffleDeck(tp)
-        Duel.BreakEffect()
+    if #g > 0 and Duel.SendtoHand(g, nil, REASON_EFFECT) > 0 then
+        Duel.ConfirmCards(1 - tp, g)
 
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
-        local tc = Duel.SelectMatchingCard(tp, s.e1filter2, tp, LOCATION_HAND + LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
-        if tc then
-            Duel.Summon(tp, tc, true, nil)
+        if Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_MZONE, 0, 1, nil) and
+            Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+            Duel.BreakEffect()
+
+            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
+            local tc =
+                Duel.SelectMatchingCard(tp, s.e1filter2, tp, LOCATION_HAND + LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
+            if tc then
+                Duel.Summon(tp, tc, true, nil)
+            end
         end
     end
 end
@@ -106,7 +109,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
         -- prevent negation
         local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_FIELD).ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+        ec2:SetType(EFFECT_TYPE_FIELD)
+        ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         ec2:SetCode(EFFECT_CANNOT_INACTIVATE)
         ec2:SetRange(LOCATION_MZONE)
         ec2:SetTargetRange(1, 0)
