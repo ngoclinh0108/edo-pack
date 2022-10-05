@@ -113,13 +113,13 @@ function s.startup(e, tp, eg, ep, ev, re, r, rp)
                    Duel.GetTurnCount() > 1
     end)
     ddraw:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        s.destinydraw(tp, Duel.GetDrawCount(tp))
+        s.DestinySequenceDeck(tp, Duel.GetDrawCount(tp), 2)
     end)
     Duel.RegisterEffect(ddraw, tp)
 end
 
-function s.destinydraw(tp, count)
-    if count == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
+function s.DestinySequenceDeck(tp, count, string_id)
+    if count == 0 or not Duel.SelectYesNo(tp, aux.Stringid(id, string_id)) then
         return
     end
 
@@ -129,13 +129,25 @@ function s.destinydraw(tp, count)
     end
 end
 
-local ddr = Duel.Draw
+local base_draw = Duel.Draw
 Duel.Draw = function(...)
     local tb = {...}
     local tp = tb[1]
     local count = tb[2]
     if s.destiny_draw == 1 and tp == s.owner then
-        s.destinydraw(tp, count)
+        s.DestinySequenceDeck(tp, count, 2)
     end
-    return ddr(...)
+    return base_draw(...)
+end
+
+local base_confirmDecktop = Duel.ConfirmDecktop
+Duel.ConfirmDecktop = function(...)
+    local tb = {...}
+    local tp = tb[1]
+    local count = tb[2]
+
+    if tp == s.owner then
+        s.DestinySequenceDeck(tp, count, 3)
+    end
+    return base_confirmDecktop(...)
 end
