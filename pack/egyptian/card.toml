@@ -198,7 +198,7 @@ Activate 1 of these effects; you can only activate 1 "{CARD_NAME}" per turn.
     or 1 card that mentions it from your Deck or GY to your hand, except "{CARD_NAME}", \
     then, immediately after this effect resolves, you can Normal Summon 1 Divine-Beast monster.
 ● All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" \
-    gain 1000 ATK/DEF, their Divine Hierarchy is increased by 1, and their effect activations cannot be negated,
+    gain 1000 ATK/DEF, their Divine Hierarchy is increased by 1, and their effect activations cannot be negated, \
     ignoring card effects.
 """
 strings = ["Summon a Divine-Beast?", "Add card to hand", "Divine Evolution"]
