@@ -45,7 +45,7 @@ end
 
 function s.e1filter(c, e, tp, mg)
     return
-        c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and aux.IsMaterialListSetCard(c, 0x1017) and not c:IsCode(id) and
+        c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and c:ListsArchetypeAsMaterial(0x1017) and not c:IsCode(id) and
             Duel.GetLocationCountFromEx(tp, tp, mg, c) > 0 and
             c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
