@@ -468,7 +468,7 @@ A "Majestic" Synchro Monster that was Synchro Summoned using this card as materi
 """
 strings = [
     "Synchro Summon a \"Majestic\" Synchro Monster",
-    "Cannot be returned to the Deck by card effect",
+    "Cannot be returned to the Deck",
 ]
 
 [stardust-armory-dragon]
