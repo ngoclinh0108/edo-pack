@@ -184,6 +184,8 @@ effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Dreadroot}
 {EGYPTIAN_EFFECT} \
 This card's Attribute is also treated as DARK. \
+The ATK/DEF of all other monsters on the field are halved, \
+    except monsters with the higher Divine Hierarchy. \
 """
 strings = []
 
@@ -203,6 +205,7 @@ effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Eraser}
 {EGYPTIAN_EFFECT} \
 This card's Attribute is also treated as DARK. \
+This card's original ATK/DEF are equal to the number of cards in your opponent controls x 1000. \
 """
 strings = []
 
@@ -222,6 +225,7 @@ effect = """\
 {HIERARCHY_ALIAS|2|The Wicked Avatar}
 {EGYPTIAN_EFFECT} \
 This card's Attribute is also treated as DARK. \
+This card's ATK/DEF are equal to the highest ATK on the field +1, except "The Wicked Avatar". \
 """
 strings = []
 
