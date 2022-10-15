@@ -168,6 +168,25 @@ strings = [
     "Turn into Sphere Mode or to the GY",
 ]
 
+[eraser]
+id = 900000006
+alias = 57793869
+frame-path = "frame/black.png"
+rarity = "gold"
+name = "Wicked God Eraser"
+type = "monster effect"
+attribute = "divine dark"
+race = "divine-beast fiend"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY_ALIAS|1|The Wicked Eraser}
+{EGYPTIAN_EFFECT} \
+This card's Attribute is also treated as DARK. \
+"""
+strings = []
+
 [the-descent-sun-god]
 id = 900000009
 name = "The Descent Sun God"
