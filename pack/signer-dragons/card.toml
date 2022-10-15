@@ -363,7 +363,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 {MAJESTIC_RETURN|Ancient Fairy Dragon} \
 """
 strings = [
-    "Special Summon 1 Level 4 or lower monster",
+    "Special Summon 1 Level 8 or lower monster",
     "Negate effect & Recover LP",
 ]
 
