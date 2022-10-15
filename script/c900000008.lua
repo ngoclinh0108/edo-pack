@@ -29,7 +29,7 @@ function s.e1val(e)
         return tc:IsFaceup() and not tc:IsHasEffect(21208154)
     end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
     if #g == 0 then
-        return 1
+        return 100
     end
 
     local tg, val = g:GetMaxGroup(Card.GetAttack)
@@ -38,5 +38,5 @@ function s.e1val(e)
         tg, val = g:GetMaxGroup(Card.GetAttack)
     end
 
-    return val + 1
+    return val + 100
 end
