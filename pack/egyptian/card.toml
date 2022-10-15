@@ -180,7 +180,7 @@ frame-path = "frame/black.png"
 rarity = "gold"
 name = "The Wicked God Dreadroot"
 type = "monster effect"
-attribute = "divine dark"
+attribute = "dark"
 race = "divine-beast fiend"
 level = 10
 atk = 4000
@@ -188,7 +188,6 @@ def = 4000
 effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Dreadroot}
 {EGYPTIAN_EFFECT} \
-This card's Attribute is also treated as DARK. \
 The ATK/DEF of all other monsters on the field are halved, \
     except monsters with the same or higher Divine Hierarchy. \
 If you take damage from an opponent's card effect, this card gains ATK equal to the damage you took. \
@@ -202,7 +201,7 @@ frame-path = "frame/black.png"
 rarity = "gold"
 name = "The Wicked God Eraser"
 type = "monster effect"
-attribute = "divine dark"
+attribute = "dark"
 race = "divine-beast fiend"
 level = 10
 atk = "?"
@@ -210,7 +209,6 @@ def = "?"
 effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Eraser}
 {EGYPTIAN_EFFECT} \
-This card's Attribute is also treated as DARK. \
 This card's original ATK/DEF are equal to the number of cards in your opponent controls x 1000. \
 Once per turn: You can destroy this card. \
 If this face-up card is sent from the field to the GY, send all cards on the field to the GY. \
@@ -224,7 +222,7 @@ frame-path = "frame/black.png"
 rarity = "gold"
 name = "The Wicked God Avatar"
 type = "monster effect"
-attribute = "divine dark"
+attribute = "dark"
 race = "divine-beast fiend"
 level = 10
 atk = "?"
@@ -232,13 +230,12 @@ def = "?"
 effect = """\
 {HIERARCHY_ALIAS|2|The Wicked Avatar}
 {EGYPTIAN_EFFECT} \
-This card's Attribute is also treated as DARK. \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
 Monsters' destruction by battle with this card cannot be negated. \
 If this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards \
     until the end of their 2nd turn after this effect's activation. \
 """
-strings = ["Affected by \"{CARD_NAME}\": Cannot activate Spell/Trap Cards",]
+strings = ["Affected by \"{CARD_NAME}\": Cannot activate Spell/Trap Cards"]
 
 [the-descent-sun-god]
 id = 900000009
