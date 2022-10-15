@@ -237,8 +237,44 @@ If this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards 
 """
 strings = ["Affected by \"{CARD_NAME}\": Cannot activate Spell/Trap Cards"]
 
-[the-descent-sun-god]
+[egyptian-god-slime-2]
 id = 900000009
+name = "Egyptian God Slime 2"
+type = "monster fusion effect"
+attribute = "water"
+race = "aqua"
+level = 10
+atk = 2000
+def = 2000
+effect = """\
+1 Aqua monster + 1 Level 10 WATER monster
+Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
+This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
+Cannot be destroyed by battle. \
+Your opponent's monsters with less ATK than this card cannot attack, also they cannot activate their effects. \
+"""
+strings = []
+
+[egyptian-god-slime-3]
+id = 900000010
+name = "Egyptian God Slime 3"
+type = "monster fusion effect"
+attribute = "water"
+race = "aqua"
+level = 10
+atk = 3300
+def = 1800
+effect = """\
+1 Aqua monster + 1 Level 10 WATER monster
+Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
+This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
+Cannot be destroyed by battle. \
+You take no effect damage. \
+"""
+strings = []
+
+[the-descent-sun-god]
+id = 900000011
 name = "The Descent Sun God"
 type = "spell"
 effect = """\
@@ -257,7 +293,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
 
 [in-the-name-of-the-pharaoh]
-id = 900000010
+id = 900000012
 name = "In the Name of the Pharaoh"
 type = "spell quick-play"
 effect = """\
@@ -271,39 +307,3 @@ Activate 1 of these effects; you can only activate 1 "{CARD_NAME}" per turn.
     ignoring card effects.
 """
 strings = ["Summon a Divine-Beast?", "Add card to hand", "Divine Evolution"]
-
-[egyptian-god-slime-2]
-id = 900000011
-name = "Egyptian God Slime 2"
-type = "monster fusion effect"
-attribute = "water"
-race = "aqua"
-level = 10
-atk = 2000
-def = 2000
-effect = """\
-1 Aqua monster + 1 Level 10 WATER monster
-Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
-This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
-Cannot be destroyed by battle. \
-Your opponent's monsters with less ATK than this card cannot attack, also they cannot activate their effects. \
-"""
-strings = []
-
-[egyptian-god-slime-3]
-id = 900000012
-name = "Egyptian God Slime 3"
-type = "monster fusion effect"
-attribute = "water"
-race = "aqua"
-level = 10
-atk = 3300
-def = 1800
-effect = """\
-1 Aqua monster + 1 Level 10 WATER monster
-Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
-This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
-Cannot be destroyed by battle. \
-You take no effect damage. \
-"""
-strings = []
