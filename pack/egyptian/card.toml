@@ -211,7 +211,7 @@ effect = """\
 {EGYPTIAN_EFFECT} \
 This card's Attribute is also treated as DARK. \
 This card's original ATK/DEF are equal to the number of cards in your opponent controls x 1000. \
-During your Main Phase: You can destroy this card. \
+Once per turn: You can destroy this card. \
 If this face-up card is sent from the field to the GY, send all cards on the field to the GY. \
 """
 strings = ["Destroy itself"]
