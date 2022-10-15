@@ -233,8 +233,10 @@ effect = """\
 {EGYPTIAN_EFFECT} \
 This card's Attribute is also treated as DARK. \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
+If this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards \
+    until the end of their 2nd turn after this effect's activation. \
 """
-strings = []
+strings = ["Affected by \"{CARD_NAME}\": Cannot activate Spell/Trap Cards",]
 
 [the-descent-sun-god]
 id = 900000009
