@@ -87,13 +87,14 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Damage(p, c:GetAttack(), REASON_EFFECT)
 end
 
+function s.e2filter(c)
+    return c:IsFaceup() and Divine.GetDivineHierarchy(c) >= 2
+end
+
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, LOCATION_MZONE, LOCATION_MZONE, nil)
-    local total = 0
-    for tc in aux.Next(g) do
-        total = total + Divine.GetDivineHierarchy(tc)
-    end
-    return total >= 3
+    return Duel.IsExistingMatchingCard(function(tc)
+        return tc:IsFaceup() and Divine.GetDivineHierarchy(tc) >= 2
+    end, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)

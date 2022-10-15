@@ -28,7 +28,7 @@ Once per turn, while this card is able to attack (Quick Effect): \
     destroy all monsters your opponent controls, \
     also inflict damage to your opponent equal to this card's ATK. \
     This card cannot declare an attack the turn this effect is activated. \
-Once per turn, while the total monster's Divine Hierarchy on the field are 3 or more (Quick Effect): \
+Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Quick Effect): \
     You can Tribute 2 other monsters; \
     once during this turn, if this card battles an opponent's monster, \
     it gains ∞ ATK during the damage calculation only. \
@@ -190,7 +190,8 @@ effect = """\
 {EGYPTIAN_EFFECT} \
 This card's Attribute is also treated as DARK. \
 The ATK/DEF of all other monsters on the field are halved, \
-    except monsters with the higher Divine Hierarchy. \
+    except monsters with the same or higher Divine Hierarchy. \
+If you take damage from an opponent's card effect, this card gains ATK equal to the damage you took. \
 """
 strings = []
 
@@ -233,6 +234,7 @@ effect = """\
 {EGYPTIAN_EFFECT} \
 This card's Attribute is also treated as DARK. \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
+Monsters' destruction by battle with this card cannot be negated. \
 If this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards \
     until the end of their 2nd turn after this effect's activation. \
 """

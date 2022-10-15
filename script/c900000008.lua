@@ -1,4 +1,5 @@
 -- The Wicked God Avatar
+Duel.LoadScript("c419.lua")
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_egyptian.lua")
 local s, id = GetID()
@@ -22,12 +23,25 @@ function s.initial_effect(c)
     e1check:SetCode(21208154)
     c:RegisterEffect(e1check)
 
-    -- prevent activations
+    -- battle destruction
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_SUMMON_SUCCESS)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetCode(511010508)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(0, LOCATION_MZONE)
+    e2:SetTarget(function(e, tc)
+        local bc = e:GetHandler():GetBattleTarget()
+        return bc and bc == tc
+    end)
+    e2:SetValue(1)
     c:RegisterEffect(e2)
+
+    -- prevent activations
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_SUMMON_SUCCESS)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1val(e)
@@ -48,7 +62,7 @@ function s.e1val(e)
     return val + 100
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Utility.HintCard(c)
 
@@ -71,7 +85,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return Duel.GetTurnPlayer() ~= tp
     end)
-    ec2:SetOperation(s.e2turnop)
+    ec2:SetOperation(s.e3turnop)
     ec2:SetLabelObject(ec1)
     ec2:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
     Duel.RegisterEffect(ec2, tp)
@@ -86,13 +100,13 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetLabelObject(ec2)
     ec3:SetOwnerPlayer(tp)
     ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        s.e2turnop(e:GetLabelObject(), tp, eg, ep, ev, e, r, rp)
+        s.e3turnop(e:GetLabelObject(), tp, eg, ep, ev, e, r, rp)
     end)
     ec3:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
     c:RegisterEffect(ec3)
 end
 
-function s.e2turnop(e, tp, eg, ep, ev, re, r, rp)
+function s.e3turnop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ct = e:GetLabel() + 1
     c:SetTurnCounter(ct)
