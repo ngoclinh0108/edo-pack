@@ -1,4 +1,4 @@
--- The Wicked God Eraser
+-- The Wicked Deity Eraser
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_egyptian.lua")
 local s, id = GetID()

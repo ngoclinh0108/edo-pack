@@ -1,4 +1,4 @@
--- The Wicked God Avatar
+-- The Wicked Deity Avatar
 Duel.LoadScript("c419.lua")
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_egyptian.lua")
