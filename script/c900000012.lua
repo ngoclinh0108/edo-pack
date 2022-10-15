@@ -1,4 +1,4 @@
--- The Evolution of God
+-- Deity Evolution
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

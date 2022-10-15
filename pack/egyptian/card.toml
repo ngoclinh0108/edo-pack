@@ -292,9 +292,9 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
 
-[the-evolution-of-god]
+[deity-evolution]
 id = 900000012
-name = "The Evolution of God"
+name = "Deity Evolution"
 type = "spell quick-play"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
