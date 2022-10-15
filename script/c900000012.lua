@@ -1,101 +1,41 @@
--- In the Name of the Pharaoh
+-- The Evolution of God
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {10000000, 10000020, CARD_RA}
-
 function s.initial_effect(c)
     -- activate
-    local act = Effect.CreateEffect(c)
-    act:SetDescription(aux.Stringid(id, 0))
-    act:SetType(EFFECT_TYPE_ACTIVATE)
-    act:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE +
-                        EFFECT_FLAG_DAMAGE_STEP)
-    act:SetCode(EVENT_FREE_CHAIN)
-    act:SetHintTiming(TIMING_DAMAGE_STEP, TIMING_MAIN_END + TIMING_DAMAGE_STEP)
-    act:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
-    act:SetCondition(s.actcon)
-    act:SetTarget(s.acttg)
-    act:SetOperation(s.actop)
-    c:RegisterEffect(act)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE +
+                       EFFECT_FLAG_DAMAGE_STEP)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(TIMING_DAMAGE_STEP)
+    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
 end
 
-function s.actcon(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or not Duel.IsDamageCalculated()
-end
-
-function s.acttg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return s.e1check(e, tp) or s.e2check(e, tp)
-    end
-
-    local op = Duel.SelectEffect(tp, {s.e1check(e, tp), aux.Stringid(id, 1)}, {s.e2check(e, tp), aux.Stringid(id, 2)})
-    e:SetLabel(op)
-
-    if op == 1 then
-        e:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_SUMMON)
-        Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
-        Duel.SetOperationInfo(0, CATEGORY_SUMMON, nil, 1, 0, 0)
-    elseif op == 2 then
-        e:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-    end
-end
-
-function s.actop(e, tp, eg, ep, ev, re, r, rp)
-    local op = e:GetLabel()
-    if op == 1 then
-        s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    elseif op == 2 then
-        s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    end
-end
-
-function s.e1check(e, tp)
-    return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) and
-               Duel.GetCurrentPhase() ~= PHASE_DAMAGE
-end
-
-function s.e1filter1(c)
-    return (c:IsCode(10000000, 10000020, CARD_RA) or c:ListsCode(10000000, 10000020, CARD_RA)) and not c:IsCode(id) and
-               c:IsAbleToHand()
-end
-
-function s.e1filter2(c)
-    return c:IsSummonable(true, nil) and c:IsRace(RACE_DIVINE)
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter1, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-        nil)
-
-    if #g > 0 and Duel.SendtoHand(g, nil, REASON_EFFECT) > 0 then
-        Duel.ConfirmCards(1 - tp, g)
-
-        if Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_MZONE, 0, 1, nil) and
-            Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
-            Duel.BreakEffect()
-
-            Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SUMMON)
-            local tc =
-                Duel.SelectMatchingCard(tp, s.e1filter2, tp, LOCATION_HAND + LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
-            if tc then
-                Duel.Summon(tp, tc, true, nil)
-            end
-        end
-    end
-end
-
-function s.e2check(e, tp)
-    return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1, nil)
-end
-
-function s.e2filter(c)
+function s.e1filter(c)
     return c:IsFaceup() and Divine.GetDivineHierarchy(c) > 0 and not Divine.IsDivineEvolution(c)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or not Duel.IsDamageCalculated()
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
+    end
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_MZONE, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_MZONE, 0, nil)
     for tc in aux.Next(g) do
         Divine.DivineEvolution(tc)
 

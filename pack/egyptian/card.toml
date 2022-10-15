@@ -292,18 +292,15 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
 
-[in-the-name-of-the-pharaoh]
+[the-evolution-of-god]
 id = 900000012
-name = "In the Name of the Pharaoh"
+name = "The Evolution of God"
 type = "spell quick-play"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-Activate 1 of these effects; you can only activate 1 "{CARD_NAME}" per turn.
-● Add 1 "Obelisk the Tormentor", "Slifer the Sky Dragon", "The Winged Dragon of Ra" \
-    or 1 card that mentions it from your Deck or GY to your hand, except "{CARD_NAME}", \
-    then, immediately after this effect resolves, you can Normal Summon 1 Divine-Beast monster.
-● All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" \
+All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" \
     gain 1000 ATK/DEF, their Divine Hierarchy is increased by 1, and their effect activations cannot be negated, \
-    ignoring card effects.
+    ignoring card effects. \
+You can only activate 1 "{CARD_NAME}" per turn. \
 """
-strings = ["Summon a Divine-Beast?", "Add card to hand", "Divine Evolution"]
+strings = []
