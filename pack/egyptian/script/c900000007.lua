@@ -19,4 +19,48 @@ function s.initial_effect(c)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_SET_BASE_DEFENSE)
     c:RegisterEffect(e1b)
+
+    -- suicide
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetCategory(CATEGORY_TOGRAVE)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+
+    -- eraser
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_TOGRAVE)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_TO_GRAVE)
+    e3:SetCondition(s.e3con)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:IsDestructable()
+    end
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, c, 1, 0, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    Duel.Destroy(c, REASON_EFFECT)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_ONFIELD)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    Utility.HintCard(e)
+
+    local g = Duel.GetMatchingGroup(nil, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, nil)
+    Duel.SendtoGrave(g, REASON_EFFECT)
 end

@@ -2,7 +2,12 @@
 id = 900000000
 template = "artwork"
 name = "Millennium Hieroglyph"
-strings = ["Mulligan?", "Place field?", "Perform Destiny Draw?", "Perform Destiny Excavate?"]
+strings = [
+    "Mulligan?",
+    "Place field?",
+    "Perform Destiny Draw?",
+    "Perform Destiny Excavate?",
+]
 
 [obelisk]
 id = 900000001
@@ -206,8 +211,10 @@ effect = """\
 {EGYPTIAN_EFFECT} \
 This card's Attribute is also treated as DARK. \
 This card's original ATK/DEF are equal to the number of cards in your opponent controls x 1000. \
+During your Main Phase: You can destroy this card. \
+If this face-up card is sent from the field to the GY, send all cards on the field to the GY. \
 """
-strings = []
+strings = ["Destroy itself"]
 
 [avatar]
 id = 900000008
