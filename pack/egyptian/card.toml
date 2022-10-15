@@ -168,8 +168,27 @@ strings = [
     "Turn into Sphere Mode or to the GY",
 ]
 
-[eraser]
+[dreadroot]
 id = 900000006
+alias = 62180201
+frame-path = "frame/black.png"
+rarity = "gold"
+name = "The Wicked God Dreadroot"
+type = "monster effect"
+attribute = "divine dark"
+race = "divine-beast fiend"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+{HIERARCHY_ALIAS|1|The Wicked Dreadroot}
+{EGYPTIAN_EFFECT} \
+This card's Attribute is also treated as DARK. \
+"""
+strings = []
+
+[eraser]
+id = 900000007
 alias = 57793869
 frame-path = "frame/black.png"
 rarity = "gold"
@@ -182,6 +201,25 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Eraser}
+{EGYPTIAN_EFFECT} \
+This card's Attribute is also treated as DARK. \
+"""
+strings = []
+
+[avatar]
+id = 900000008
+alias = 21208154
+frame-path = "frame/black.png"
+rarity = "gold"
+name = "The Wicked God Avatar"
+type = "monster effect"
+attribute = "divine dark"
+race = "divine-beast fiend"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY_ALIAS|2|The Wicked Avatar}
 {EGYPTIAN_EFFECT} \
 This card's Attribute is also treated as DARK. \
 """

@@ -1,4 +1,4 @@
--- The Wicked God Dreadroot
+-- The Wicked God Eraser
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_egyptian.lua")
 local s, id = GetID()
