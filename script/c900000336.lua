@@ -87,7 +87,7 @@ end
 
 function s.e2filter(c)
     return c:IsType(TYPE_SPELL + TYPE_TRAP) and
-               (c:ListsCode(SignerDragon.CARD_RED_DRAGON_ARCHFIEND) or c:ListsCodeWithArchetype(0x1045)) and
+               (c:ListsCode(SignerDragon.CARD_RED_DRAGON_ARCHFIEND) or c:ListsArchetype(0x1045)) and
                (c:IsAbleToHand() or c:IsSSetable())
 end
 
