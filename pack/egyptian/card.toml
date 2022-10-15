@@ -169,7 +169,7 @@ strings = [
 ]
 
 [the-descent-sun-god]
-id = 900000006
+id = 900000009
 name = "The Descent Sun God"
 type = "spell"
 effect = """\
@@ -188,7 +188,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
 
 [in-the-name-of-the-pharaoh]
-id = 900000007
+id = 900000010
 name = "In the Name of the Pharaoh"
 type = "spell quick-play"
 effect = """\
@@ -204,7 +204,7 @@ Activate 1 of these effects; you can only activate 1 "{CARD_NAME}" per turn.
 strings = ["Summon a Divine-Beast?", "Add card to hand", "Divine Evolution"]
 
 [egyptian-god-slime-2]
-id = 900000008
+id = 900000011
 name = "Egyptian God Slime 2"
 type = "monster fusion effect"
 attribute = "water"
@@ -222,7 +222,7 @@ Your opponent's monsters with less ATK than this card cannot attack, also they c
 strings = []
 
 [egyptian-god-slime-3]
-id = 900000009
+id = 900000012
 name = "Egyptian God Slime 3"
 type = "monster fusion effect"
 attribute = "water"
