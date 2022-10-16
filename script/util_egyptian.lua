@@ -63,17 +63,16 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
     local nopos = Effect.CreateEffect(c)
     nopos:SetType(EFFECT_TYPE_SINGLE)
     nopos:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    nopos:SetRange(LOCATION_MZONE)
     nopos:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
-    nopos:SetValue(1)
+    nopos:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nopos)
 
     -- cannot be tributed, or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
     norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    norelease:SetRange(LOCATION_MZONE)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
+    norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
     norelease:SetTarget(function(e, tc)
         return tc == e:GetHandler()
@@ -95,7 +94,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
     noleave_destroy:SetRange(LOCATION_MZONE)
     noleave_destroy:SetValue(function(e, re)
         local rc = re:GetHandler()
-        return rc ~= e:GetHandler() and Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c)
+        return rc ~= e:GetHandler() and
+                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) < Divine.GetDivineHierarchy(c))
     end)
     c:RegisterEffect(noleave_destroy)
     local noleave_release = noleave_destroy:Clone()
@@ -113,7 +113,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
         end
 
         local rc = re:GetHandler()
-        return rc ~= e:GetHandler() and Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c)
+        return rc ~= e:GetHandler() and
+                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) < Divine.GetDivineHierarchy(c))
     end)
     c:RegisterEffect(noleave_banish)
     local noleave_immune = Effect.CreateEffect(c)
@@ -127,8 +128,8 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
         end
 
         local rc = re:GetHandler()
-        return rc ~= e:GetHandler() and Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c) and
-                   re:IsHasCategory(CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE)
+        return rc ~= e:GetHandler() and re:IsHasCategory(CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE) and
+                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) < Divine.GetDivineHierarchy(c))
     end)
     c:RegisterEffect(noleave_immune)
 
