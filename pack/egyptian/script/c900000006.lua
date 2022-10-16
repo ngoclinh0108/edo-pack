@@ -28,26 +28,22 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1b)
 
-    -- atk up
+    -- act limit
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_DAMAGE)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EFFECT_CANNOT_ACTIVATE)
     e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(0, 1)
     e2:SetCondition(s.e2con)
-    e2:SetOperation(s.e2op)
+    e2:SetValue(s.e2val)
     c:RegisterEffect(e2)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return ep == tp and rp ~= tp and (r & REASON_EFFECT) ~= 0
+function s.e2con(e)
+    return Duel.GetAttacker() == e:GetHandler()
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_UPDATE_ATTACK)
-    ec1:SetValue(ev)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
-    c:RegisterEffect(ec1)
+function s.e2val(e, re, tp)
+    return re:IsActiveType(TYPE_MONSTER)
 end

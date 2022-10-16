@@ -190,7 +190,7 @@ effect = """\
 {EGYPTIAN_EFFECT} \
 The ATK/DEF of all other monsters on the field are halved, \
     except monsters with the same or higher Divine Hierarchy. \
-If you take damage from an opponent's card effect, this card gains ATK equal to the damage you took. \
+If this card attacks, your opponent cannot activate monster effects until the end of the Damage Step. \
 """
 strings = []
 
