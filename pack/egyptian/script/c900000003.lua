@@ -9,77 +9,77 @@ function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 2)
 
     -- effect cannot be negated
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_CANNOT_DISABLE)
-    c:RegisterEffect(e1)
-    local e1b = Effect.CreateEffect(c)
-    e1b:SetType(EFFECT_TYPE_FIELD)
-    e1b:SetCode(EFFECT_CANNOT_DISEFFECT)
-    e1b:SetRange(LOCATION_MZONE)
-    e1b:SetValue(function(e, ct)
+    local nodis1 = Effect.CreateEffect(c)
+    nodis1:SetType(EFFECT_TYPE_SINGLE)
+    nodis1:SetCode(EFFECT_CANNOT_DISABLE)
+    c:RegisterEffect(nodis1)
+    local nodis2 = Effect.CreateEffect(c)
+    nodis2:SetType(EFFECT_TYPE_FIELD)
+    nodis2:SetCode(EFFECT_CANNOT_DISEFFECT)
+    nodis2:SetRange(LOCATION_MZONE)
+    nodis2:SetValue(function(e, ct)
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
         return te:GetHandler() == e:GetHandler()
     end)
-    c:RegisterEffect(e1b)
+    c:RegisterEffect(nodis2)
 
     -- atk/def value
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_MATERIAL_CHECK)
-    e2:SetValue(s.e2val)
-    c:RegisterEffect(e2)
-    local e2sum = Effect.CreateEffect(c)
-    e2sum:SetType(EFFECT_TYPE_SINGLE)
-    e2sum:SetCode(EFFECT_SUMMON_COST)
-    e2sum:SetLabelObject(e2)
-    e2sum:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_MATERIAL_CHECK)
+    e1:SetValue(s.e1val)
+    c:RegisterEffect(e1)
+    local e1sum = Effect.CreateEffect(c)
+    e1sum:SetType(EFFECT_TYPE_SINGLE)
+    e1sum:SetCode(EFFECT_SUMMON_COST)
+    e1sum:SetLabelObject(e1)
+    e1sum:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         e:GetLabelObject():SetLabel(1)
     end)
-    c:RegisterEffect(e2sum)
+    c:RegisterEffect(e1sum)
 
     -- destroy
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_DESTROY)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCondition(s.e2con)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
+
+    -- life point transfer
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
-    e3:SetCategory(CATEGORY_DESTROY)
+    e3:SetDescription(aux.Stringid(id, 2))
+    e3:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCondition(s.e3con)
+    e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
+    e3:SetLabel(0)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-
-    -- life point transfer
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 2))
-    e4:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
-    e4:SetLabel(0)
-    e4:SetCost(s.e4cost)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
-    local e4b = e4:Clone()
-    e4b:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e4b:SetCode(EVENT_SUMMON_SUCCESS)
-    c:RegisterEffect(e4b)
-    local e4c = e4b:Clone()
-    e4c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e4c)
-    local e4d = e4b:Clone()
-    e4d:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e4d)
+    local e3b = e3:Clone()
+    e3b:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3b:SetCode(EVENT_SUMMON_SUCCESS)
+    c:RegisterEffect(e3b)
+    local e3c = e3b:Clone()
+    e3c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e3c)
+    local e3d = e3b:Clone()
+    e3d:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e3d)
 
     -- gain effect
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e5:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e5:SetOperation(s.e5op)
-    c:RegisterEffect(e5)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 
     -- de-fuse
     aux.GlobalCheck(s, function()
@@ -161,7 +161,7 @@ function s.initial_effect(c)
     end)
 end
 
-function s.e2val(e, c)
+function s.e1val(e, c)
     local atk = 0
     local def = 0
     local g = c:GetMaterial()
@@ -186,11 +186,11 @@ function s.e2val(e, c)
     end
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():CanAttack()
 end
 
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.CheckLPCost(tp, 1000)
     end
@@ -198,7 +198,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.PayLPCost(tp, 1000)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
     end
@@ -206,7 +206,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, LOCATION_MZONE)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil):GetFirst()
     if tc then
@@ -214,7 +214,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLP(tp) > 1
@@ -225,7 +225,7 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     e:SetLabel(lp)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return true
     end
@@ -233,7 +233,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetChainLimit(aux.FALSE)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsFacedown() or not c:IsRelateToEffect(e) then
         return
@@ -306,7 +306,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec3)
 end
 
-function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     -- unstoppable attack
