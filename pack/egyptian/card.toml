@@ -302,8 +302,8 @@ type = "spell quick-play"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
 All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" \
-    gain 1000 ATK/DEF, their Divine Hierarchy is increased by 1, \
-    their effect activations and their effects cannot be negated, \
+    gain 1000 ATK/DEF, their effect activations and their effects cannot be negated, \
+    their Divine Hierarchy is increased by 1, \
     ignoring card effects. \
 During your Main Phase, if this card is in your GY and you control a original Divine-Beast monster: \
     You can discard 1 Spell; Set this card. \
