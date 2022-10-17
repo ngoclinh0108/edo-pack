@@ -22,7 +22,7 @@ atk = 4000
 def = 4000
 effect = """\
 {HIERARCHY_ALIAS|1|Obelisk the Tormentor}
-{EGYPTIAN_EFFECT} \
+{EGYPTIAN_EFFECT_1} \
 Once per turn, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; \
     destroy all monsters your opponent controls, \
@@ -53,7 +53,7 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
-{EGYPTIAN_EFFECT} \
+{EGYPTIAN_EFFECT_1} \
 This card's original ATK/DEF are equal to the number of cards in your hand x 1000. \
     This effect cannot be negated. \
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
@@ -76,8 +76,7 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
-{EGYPTIAN_EFFECT} \
-This card's effects cannot be negated. \
+{EGYPTIAN_EFFECT_2} \
 This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
 While this card is able to attack, you can pay 1000 LP; destroy 1 monster on the field. \
 Once while face-up on the field: You can pay LP so that you only have 1 left; \
@@ -190,7 +189,7 @@ atk = 4000
 def = 4000
 effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Dreadroot}
-{EGYPTIAN_EFFECT} \
+{EGYPTIAN_EFFECT_1} \
 The ATK/DEF of all other monsters on the field are halved, \
     except monsters with the same or higher Divine Hierarchy. \
 If this card attacks, your opponent cannot activate monster effects until the end of the Damage Step. \
@@ -211,7 +210,7 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Eraser}
-{EGYPTIAN_EFFECT} \
+{EGYPTIAN_EFFECT_1} \
 This card's original ATK/DEF are equal to the number of cards in your opponent controls x 1000. \
     This effect cannot be negated. \
 Once per turn: You can destroy this card. \
@@ -233,8 +232,7 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|2|The Wicked Avatar}
-{EGYPTIAN_EFFECT} \
-This card's effects cannot be negated. \
+{EGYPTIAN_EFFECT_2} \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
     This effect cannot be negated. \
 Monsters' destruction by battle with this card cannot be negated. \

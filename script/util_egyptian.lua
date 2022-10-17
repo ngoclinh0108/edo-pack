@@ -10,7 +10,7 @@ end
 Divine.FLAG_DIVINE_EVOLUTION = 513000065
 
 -- function
-function Divine.DivineHierarchy(s, c, divine_hierarchy)
+function Divine.DivineHierarchy(s, c, divine_hierarchy, cannot_be_negated)
     if divine_hierarchy then
         s.divine_hierarchy = divine_hierarchy
     end
@@ -179,6 +179,23 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy)
         Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
     end)
     c:RegisterEffect(togy)
+
+    -- effect cannot be negated
+    if cannot_be_negated then
+        local nodis1 = Effect.CreateEffect(c)
+        nodis1:SetType(EFFECT_TYPE_SINGLE)
+        nodis1:SetCode(EFFECT_CANNOT_DISABLE)
+        c:RegisterEffect(nodis1)
+        local nodis2 = Effect.CreateEffect(c)
+        nodis2:SetType(EFFECT_TYPE_FIELD)
+        nodis2:SetCode(EFFECT_CANNOT_DISEFFECT)
+        nodis2:SetRange(LOCATION_MZONE)
+        nodis2:SetValue(function(e, ct)
+            local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+            return te:GetHandler() == e:GetHandler()
+        end)
+        c:RegisterEffect(nodis2)
+    end
 end
 
 function Divine.GetDivineHierarchy(c, get_base)

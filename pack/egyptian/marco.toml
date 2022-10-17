@@ -15,6 +15,15 @@ Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
 Other card effects are only applied on it for 1 turn. \
 During the turn it is Special Summoned from the GY, \
     it cannot attack (except by cards that mentions it), \
-    also send it to the GY during the End Phase. \
+    also send it to the GY during the End Phase.\
+"""
+
+EGYPTIAN_EFFECT_1 = """\
+{EGYPTIAN_EFFECT} \
 The above effects cannot be negated.\
+"""
+
+EGYPTIAN_EFFECT_2 = """\
+{EGYPTIAN_EFFECT} \
+This card's effects cannot be negated.\
 """

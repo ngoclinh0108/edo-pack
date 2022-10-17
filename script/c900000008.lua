@@ -5,22 +5,7 @@ Duel.LoadScript("util_egyptian.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2)
-
-    -- effect cannot be negated
-    local nodis1 = Effect.CreateEffect(c)
-    nodis1:SetType(EFFECT_TYPE_SINGLE)
-    nodis1:SetCode(EFFECT_CANNOT_DISABLE)
-    c:RegisterEffect(nodis1)
-    local nodis2 = Effect.CreateEffect(c)
-    nodis2:SetType(EFFECT_TYPE_FIELD)
-    nodis2:SetCode(EFFECT_CANNOT_DISEFFECT)
-    nodis2:SetRange(LOCATION_MZONE)
-    nodis2:SetValue(function(e, ct)
-        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetHandler() == e:GetHandler()
-    end)
-    c:RegisterEffect(nodis2)
+    Divine.DivineHierarchy(s, c, 2, true)
     
     -- atk/def value
     local e1 = Effect.CreateEffect(c)
