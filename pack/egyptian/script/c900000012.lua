@@ -77,6 +77,13 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         end)
         ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec2)
+        local ec2b = ec2:Clone()
+        ec2b:SetCode(EFFECT_CANNOT_DISEFFECT)
+        tc:RegisterEffect(ec2b)
+        local ec2c = Effect.CreateEffect(c)
+        ec2c:SetType(EFFECT_TYPE_SINGLE)
+        ec2c:SetCode(EFFECT_CANNOT_DISABLE)
+        tc:RegisterEffect(ec2c)
     end
 end
 

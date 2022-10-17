@@ -85,13 +85,16 @@ function s.initial_effect(c)
         end
     })
 
-    -- cannot switch control
+    -- cannot change control or battle position
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
     e1:SetRange(LOCATION_MZONE)
     c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    c:RegisterEffect(e1b)
 
     -- cannot be Tributed, or be used as a material
     local e2 = Effect.CreateEffect(c)
