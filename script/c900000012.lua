@@ -8,7 +8,6 @@ function s.initial_effect(c)
 
     -- activate
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF + EFFECT_FLAG_DAMAGE_STEP)
@@ -33,7 +32,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsFaceup() and Divine.GetDivineHierarchy(c) > 0 and not Divine.IsDivineEvolution(c)
+    return c:IsFaceup() and Divine.GetDivineHierarchy(c) > 0 and c:GetFlagEffect(id) == 0
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -50,7 +49,12 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_MZONE, 0, nil)
     for tc in aux.Next(g) do
-        Divine.DivineEvolution(tc)
+        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
+
+        -- divine evolution
+        if not Divine.IsDivineEvolution(tc) then
+            Divine.DivineEvolution(tc)
+        end
 
         -- atk/def
         local ec1 = Effect.CreateEffect(c)

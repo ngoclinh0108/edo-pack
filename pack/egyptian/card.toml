@@ -309,4 +309,4 @@ During your Main Phase, if this card is in your GY and you control a original Di
     You can discard 1 Spell; Set this card. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = ["Affected by \"{CARD_NAME}\""]
