@@ -100,7 +100,6 @@ function s.initial_effect(c)
                     local tc = Duel.SelectTarget(tp, s.defusefilter2, tp, LOCATION_MZONE, 0, 1, 1, nil, id):GetFirst()
 
                     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tc:GetControler(), tc:GetAttack())
-                    Duel.SetChainLimit(aux.FALSE)
                 end)
                 ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
                     local c = e:GetHandler()
