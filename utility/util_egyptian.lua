@@ -230,7 +230,7 @@ function ResetEffectFilter(e, c)
     if e:GetOwner() == c or e:GetOwner():IsCode(10000080) then
         return false
     end
-
+    
     return not e:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and e:GetCode() ~= EFFECT_SPSUMMON_PROC and
                (e:GetTarget() == aux.PersistentTargetFilter or not e:IsHasType(EFFECT_TYPE_GRANT))
 end

@@ -385,7 +385,7 @@ function Utility.ResetListEffect(c, filter, ...)
 end
 
 function ResetEffect(c, e)
-    if e:IsHasType(EFFECT_TYPE_FIELD) then
+    if e:IsHasType(EFFECT_TYPE_FIELD) and not e:IsHasProperty(EFFECT_FLAG_FIELD_ONLY) then
         local reset = Effect.CreateEffect(c)
         reset:SetType(EFFECT_TYPE_SINGLE)
         reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
