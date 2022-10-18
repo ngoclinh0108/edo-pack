@@ -386,18 +386,16 @@ end
 
 function ResetEffect(c, e)
     if e:IsHasType(EFFECT_TYPE_FIELD) then
-        if not e:IsHasProperty(EFFECT_FLAG_FIELD_ONLY) then
-            local reset = Effect.CreateEffect(c)
-            reset:SetType(EFFECT_TYPE_SINGLE)
-            reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-            reset:SetCode(EFFECT_IMMUNE_EFFECT)
-            reset:SetRange(LOCATION_MZONE)
-            reset:SetLabelObject(e)
-            reset:SetValue(function(e, te)
-                return te == e:GetLabelObject()
-            end)
-            c:RegisterEffect(reset)
-        end
+        local reset = Effect.CreateEffect(c)
+        reset:SetType(EFFECT_TYPE_SINGLE)
+        reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+        reset:SetCode(EFFECT_IMMUNE_EFFECT)
+        reset:SetRange(LOCATION_MZONE)
+        reset:SetLabelObject(e)
+        reset:SetValue(function(e, te)
+            return te == e:GetLabelObject()
+        end)
+        c:RegisterEffect(reset)
     else
         e:Reset()
     end
