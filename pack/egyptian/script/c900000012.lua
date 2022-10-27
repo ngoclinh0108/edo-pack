@@ -89,6 +89,16 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec2c:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         ec2c:SetCode(EFFECT_CANNOT_DISABLE)
         tc:RegisterEffect(ec2c)
+
+        -- unstoppable attack
+        local ec3 = Effect.CreateEffect(c)
+        ec3:SetType(EFFECT_TYPE_SINGLE)
+        ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SINGLE_RANGE)
+        ec3:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+        ec3:SetRange(LOCATION_MZONE)
+        ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec3)
+        Utility.ResetListEffect(tc, nil, EFFECT_CANNOT_ATTACK)
     end
 end
 

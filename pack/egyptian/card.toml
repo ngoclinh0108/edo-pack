@@ -301,10 +301,11 @@ name = "Deity Evolution"
 type = "spell quick-play"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" \
-    gain 1000 ATK/DEF, their effect activations and their effects cannot be negated, \
-    their Divine Hierarchy is increased by 1, \
-    ignoring card effects. \
+All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" gain these effects, ignoring card effects;
+● Gain 1000 ATK/DEF.
+● Divine Hierarchy is increased by 1.
+● This card's effect activations and its effects cannot be negated.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
 During your Main Phase, if this card is in your GY and you control a original Divine-Beast monster: \
     You can discard 1 Spell; Set this card. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
