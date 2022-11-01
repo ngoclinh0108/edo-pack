@@ -195,8 +195,7 @@ def = 4000
 effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Dreadroot}
 {EGYPTIAN_EFFECT_1} \
-The ATK/DEF of all other monsters on the field are halved, \
-    except monsters with the same or higher Divine Hierarchy. \
+The ATK/DEF of all other monsters on the field are halved. \
 If this card attacks, your opponent cannot activate monster effects until the end of the Damage Step. \
 """
 strings = []
