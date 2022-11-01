@@ -395,6 +395,7 @@ function ResetEffect(c, e)
         reset:SetValue(function(e, te)
             return te == e:GetLabelObject()
         end)
+        reset:SetReset(RESET_EVENT + RESETS_STANDARD)
         c:RegisterEffect(reset)
     else
         e:Reset()
