@@ -76,7 +76,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, cannot_be_negated)
     noleave_destroy:SetValue(function(e, re)
         local rc = re:GetHandler()
         return rc ~= e:GetHandler() and
-                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) < Divine.GetDivineHierarchy(c))
+                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c))
     end)
     c:RegisterEffect(noleave_destroy)
     local noleave_release = noleave_destroy:Clone()
@@ -94,25 +94,9 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, cannot_be_negated)
 
         local rc = re:GetHandler()
         return rc ~= e:GetHandler() and re:IsHasCategory(CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE + CATEGORY_REMOVE) and
-                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) < Divine.GetDivineHierarchy(c))
+                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c))
     end)
     c:RegisterEffect(noleave_immune)
-    -- local noleave_banish = Effect.CreateEffect(c)
-    -- noleave_banish:SetType(EFFECT_TYPE_FIELD)
-    -- noleave_banish:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE)
-    -- noleave_banish:SetCode(EFFECT_CANNOT_REMOVE)
-    -- noleave_banish:SetRange(LOCATION_MZONE)
-    -- noleave_banish:SetTargetRange(1, 1)
-    -- noleave_banish:SetTarget(function(e, c, rp, r, re)
-    --     if c ~= e:GetHandler() or r ~= REASON_EFFECT or not re then
-    --         return false
-    --     end
-
-    --     local rc = re:GetHandler()
-    --     return rc ~= e:GetHandler() and
-    --                (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) < Divine.GetDivineHierarchy(c))
-    -- end)
-    -- c:RegisterEffect(noleave_banish)
 
     -- battle indes & avoid damage
     local indes = Effect.CreateEffect(c)
