@@ -281,7 +281,7 @@ You take no effect damage. \
 strings = []
 
 [the-descent-sun-god]
-id = 900000011
+id = 900000013
 name = "The Descent Sun God"
 type = "spell quick-play"
 effect = """\
@@ -301,7 +301,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
 
 [deity-evolution]
-id = 900000012
+id = 900000014
 name = "Deity Evolution"
 type = "spell quick-play"
 effect = """\
