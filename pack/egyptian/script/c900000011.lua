@@ -14,7 +14,9 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(0, TIMING_MAIN_END)
     e1:SetCountLimit(1, {id, 1})
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -41,6 +43,10 @@ end
 
 function s.e1filter2(c, ft, tp)
     return ft > 0 or (c:IsControler(tp) and c:GetSequence() < 5)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsMainPhase()
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

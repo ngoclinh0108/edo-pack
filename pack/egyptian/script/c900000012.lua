@@ -19,8 +19,9 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- set
+    -- return to hand
     local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_TOHAND)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_GRAVE)
     e2:SetCountLimit(1, {id, 2})
@@ -125,16 +126,16 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:IsSSetable()
+        return c:IsAbleToHand()
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-
-    if c:IsRelateToEffect(e) and c:IsSSetable() then
-        Duel.SSet(tp, c)
+    if c:IsRelateToEffect(e) then
+        Duel.SendtoHand(c, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, c)
     end
 end
