@@ -1,4 +1,4 @@
--- The Descent Sun God
+-- The Descent of Sun God
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
