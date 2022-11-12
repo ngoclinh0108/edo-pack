@@ -279,60 +279,8 @@ You take no effect damage. \
 """
 strings = []
 
-[the-rising-of-ruin-god]
-id = 900000011
-name = "The Rising of Ruin God"
-type = "spell quick-play"
-effect = """\
-The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-During the Main Phase: \
-If this card is banished, or in your GY: \
-    You can target 1 "Obelisk the Tormentor" or 1 card that mentions it \
-    that is banished, or in your GY, except "{CARD_NAME}"; \
-    shuffle both this card and that target into the Deck, \
-    then draw 1 card. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
-"""
-strings = []
-
-[the-protection-of-sky-god]
-id = 900000012
-name = "The Protection of Sky God"
-type = "spell quick-play"
-effect = """\
-The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-During the Main Phase: \
-If this card is banished, or in your GY: \
-    You can target 1 "Slifer the Sky Dragon" or 1 card that mentions it \
-    that is banished, or in your GY, except "{CARD_NAME}"; \
-    shuffle both this card and that target into the Deck, \
-    then draw 1 card. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
-"""
-strings = []
-
-[the-descent-of-sun-god]
-id = 900000013
-name = "The Descent of Sun God"
-type = "spell quick-play"
-effect = """\
-The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-During the Main Phase: \
-    Tribute 3 monsters on your field or your opponent's, and if you do, \
-    Special Summon 1 "The Winged Dragon of Ra" from your hand or Deck, ignoring its Summoning conditions, \
-    and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field. \
-    If you Tributed monsters on your opponent's field, it cannot attack this turn. \
-If this card is banished, or in your GY: \
-    You can target 1 "The Winged Dragon of Ra" or 1 card that mentions it \
-    that is banished, or in your GY, except "{CARD_NAME}"; \
-    shuffle both this card and that target into the Deck, \
-    then draw 1 card. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
-"""
-strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
-
 [deity-evolution]
-id = 900000014
+id = 900000011
 name = "Deity Evolution"
 type = "spell quick-play"
 effect = """\
@@ -347,3 +295,25 @@ During your Main Phase, if this card is in your GY and you control a original Di
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Affected by \"{CARD_NAME}\""]
+
+
+[sun-god-descend]
+id = 900000012
+name = "Sun God Descend"
+type = "spell quick-play"
+effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+During the Main Phase: \
+    Tribute 3 monsters on your field or your opponent's, and if you do, \
+    Special Summon 1 "The Winged Dragon of Ra" from your hand or Deck, ignoring its Summoning conditions, \
+    and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field. \
+    If you Tributed monsters on your opponent's field, it cannot attack this turn. \
+If this card is in your GY: \
+    You can target 1 "The Winged Dragon of Ra" or 1 card that mentions it \
+    that is banished, or in your GY, except "{CARD_NAME}"; \
+    shuffle both this card and that target into the Deck, \
+    then draw 1 card. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
+
