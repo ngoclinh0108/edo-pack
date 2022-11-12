@@ -118,7 +118,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil) and c:IsFaceup() and
-                   c:IsAbleToDeck()
+                   c:IsAbleToDeck() and Duel.IsPlayerCanDraw(tp, 1)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
@@ -126,7 +126,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     g:AddCard(c)
 
     Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
-    Duel.SetPossibleOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
