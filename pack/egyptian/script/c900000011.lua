@@ -1,8 +1,8 @@
--- The Protection of Sky God
+-- The Rising of Ruin God
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {10000020}
+s.listed_names = {10000000}
 
 function s.initial_effect(c)
     local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
@@ -21,7 +21,7 @@ function s.initial_effect(c)
 end
 
 function s.e2filter(c)
-    return c:IsFaceup() and (c:IsCode(10000020) or c:ListsCode(10000020)) and not c:IsCode(id) and c:IsAbleToDeck()
+    return c:IsFaceup() and (c:IsCode(10000000) or c:ListsCode(10000000)) and not c:IsCode(id) and c:IsAbleToDeck()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

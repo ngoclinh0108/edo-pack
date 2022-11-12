@@ -21,7 +21,7 @@ function s.initial_effect(c)
 end
 
 function s.e2filter(c)
-    return c:IsFaceup() and (c:IsCode(CARD_RA) or c:ListsCode(CARD_RA)) and not c:IsCode(id) and c:IsAbleToDeck()
+    return c:IsFaceup() and (c:IsCode(10000020) or c:ListsCode(10000020)) and not c:IsCode(id) and c:IsAbleToDeck()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
