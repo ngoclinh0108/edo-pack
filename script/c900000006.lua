@@ -27,22 +27,26 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e1b)
 
-    -- act limit
+    -- disable
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2:SetCode(EFFECT_CANNOT_ACTIVATE)
+    e2:SetCode(EFFECT_DISABLE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(0, 1)
+    e2:SetTargetRange(0, LOCATION_MZONE)
     e2:SetCondition(s.e2con)
-    e2:SetValue(s.e2val)
+    e2:SetTarget(s.e2tg)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_DISABLE_EFFECT)
+    c:RegisterEffect(e2b)
 end
 
 function s.e2con(e)
-    return Duel.GetAttacker() == e:GetHandler()
+    local c = e:GetHandler()
+    return Duel.GetAttacker() == c and c:GetBattleTarget() and
+               (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL)
 end
 
-function s.e2val(e, re, tp)
-    return re:IsActiveType(TYPE_MONSTER)
+function s.e2tg(e, c)
+    return c == e:GetHandler():GetBattleTarget()
 end
