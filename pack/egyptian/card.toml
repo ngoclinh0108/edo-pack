@@ -195,7 +195,7 @@ effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Dreadroot}
 {EGYPTIAN_EFFECT_1} \
 The ATK/DEF of all other monsters on the field are halved. \
-If this card attacks, your opponent cannot activate monster effects until the end of the Damage Step. \
+If this card attacks an opponent's monster, during the Damage Step only, negate the effects of that monster. \
 """
 strings = []
 
