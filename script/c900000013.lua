@@ -67,9 +67,10 @@ function s.initial_effect(c)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
-    -- set spell/trap
+    -- add or set spell/trap
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e5:SetType(EFFECT_TYPE_QUICK_O)
     e5:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e5:SetCode(EVENT_FREE_CHAIN)
@@ -163,9 +164,9 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e5filter(c, tp)
-    return c:IsSpellTrap() and c:IsSSetable() and c:ListsCode(10000000, 10000020, CARD_RA) and
+    return c:IsSpellTrap() and c:ListsCode(10000000, 10000020, CARD_RA) and
                not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode, c:GetCode()), tp,
-            LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, nil)
+            LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, nil) and (c:IsSSetable() or c:IsAbleToHand())
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -174,6 +175,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+    Duel.SetPossibleOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
@@ -182,8 +184,14 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_SET, tp, s.e5filter, tp, LOCATION_DECK, 0, 1, 1, nil, tp)
-    if #g > 0 then
-        Duel.SSet(tp, g)
+    local tc = Utility.SelectMatchingCard(HINTMSG_SET, tp, s.e5filter, tp, LOCATION_DECK, 0, 1, 1, nil, tp):GetFirst()
+    if not tc then
+        return
     end
+
+    aux.ToHandOrElse(tc, tp, function(c)
+        return tc:IsSSetable()
+    end, function(c)
+        Duel.SSet(tp, tc)
+    end, 1159)
 end
