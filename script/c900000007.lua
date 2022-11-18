@@ -54,14 +54,19 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Destroy(c, REASON_EFFECT)
 end
 
+function s.e3filter(c, sc)
+    return Divine.GetDivineHierarchy(c) <= Divine.GetDivineHierarchy(sc)
+end
+
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_ONFIELD)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     Utility.HintCard(e)
 
-    local g = Duel.GetMatchingGroup(nil, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, nil)
-    Duel.SendtoGrave(g, REASON_EFFECT)
+    local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, nil, c)
+    Duel.SendtoGrave(g, REASON_EFFECT + REASON_RULE)
 end
