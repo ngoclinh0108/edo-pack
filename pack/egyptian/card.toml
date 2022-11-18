@@ -318,9 +318,9 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
 
-[chosen-pharaoh]
+[the-chosen-pharaoh]
 id = 900000013
-name = "Chosen Pharaoh"
+name = "The Chosen Pharaoh"
 type = "trap continuous"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \

@@ -1,4 +1,4 @@
--- Chosen Pharaoh
+-- The Chosen Pharaoh
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
