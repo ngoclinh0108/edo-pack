@@ -26,8 +26,8 @@ effect = """\
 {EGYPTIAN_EFFECT_1} \
 Once per turn, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; \
-    destroy all monsters your opponent controls, \
-    also inflict damage to your opponent equal to this card's ATK. \
+    inflict damage to your opponent equal to this card's ATK, \
+    and if you do, destroy all monsters your opponent controls. \
     Cannot be activated as Chain Link 2 or higher. \
     This card cannot declare an attack the turn this effect is activated. \
 Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Quick Effect): \
