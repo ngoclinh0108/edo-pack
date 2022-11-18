@@ -58,8 +58,8 @@ effect = """\
 {EGYPTIAN_EFFECT_1} \
 This card's original ATK/DEF are equal to the number of cards in your hand x 1000. \
     This effect cannot be negated. \
-If a monster(s) is Normal or Special Summoned to your opponent's field, \
-    while this card is able to attack: \
+If a monster(s) is Normal or Special Summoned to your opponent's field \
+    OR a monster(s) is take control by your opponent, while this card is able to attack: \
     Choose that monster(s) as Target; it loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK has been reduced to 0 as a result, destroy it. \
 """

@@ -35,6 +35,9 @@ function s.initial_effect(c)
     local e2b = e2:Clone()
     e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e2b)
+    local e2c = e2:Clone()
+    e2c:SetCode(EVENT_CONTROL_CHANGED)
+    c:RegisterEffect(e2c)
 end
 
 function s.e2filter(c, e, tp)
