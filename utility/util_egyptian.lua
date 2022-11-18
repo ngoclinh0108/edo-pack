@@ -76,7 +76,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, cannot_be_negated)
     noleave_destroy:SetValue(function(e, re)
         local rc = re:GetHandler()
         return rc ~= e:GetHandler() and
-                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) < Divine.GetDivineHierarchy(c))
+                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c))
     end)
     c:RegisterEffect(noleave_destroy)
     local noleave_release = noleave_destroy:Clone()
@@ -95,7 +95,7 @@ function Divine.DivineHierarchy(s, c, divine_hierarchy, cannot_be_negated)
         local rc = re:GetHandler()
         return rc ~= e:GetHandler() and
                    re:IsHasCategory(CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE + CATEGORY_REMOVE) and
-                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) < Divine.GetDivineHierarchy(c))
+                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c))
     end)
     c:RegisterEffect(noleave_immune)
 
