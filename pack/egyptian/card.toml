@@ -324,5 +324,6 @@ name = "The Chosen Pharaoh"
 type = "trap continuous"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+If you have no Traps in your GY, you can activate this card the turn it was Set. \
 """
 strings = []
