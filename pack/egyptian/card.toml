@@ -318,13 +318,23 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
 
-[the-chosen-pharaoh]
+[chosen-pharaoh]
 id = 900000013
-name = "The Chosen Pharaoh"
+name = "Chosen Pharaoh"
 type = "trap continuous"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
 The activation and effects of "The True Name" activated on your field cannot be negated. \
 If this face-up card leaves the field: Shuffle all monsters you control into the Deck, ignoring card effects. \
+You can only use the following effect of "{CARD_NAME}" once per turn. You can activate 1 of these effects;
+● Special Summon 1 "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra" from your hand or GY.
+● Add 1 "The True Name" from your Deck or GY to your hand.
+● Set 1 Spell/Trap directly from your Deck, \
+    that mentions "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra", \
+    with a different name from the cards you control and in your GY.
 """
-strings = []
+strings = [
+    "Special Summon a Divine-Beast",
+    "Add \"The True Name\"",
+    "Set Spell/Trap",
+]

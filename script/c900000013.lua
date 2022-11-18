@@ -1,8 +1,8 @@
--- The Chosen Pharaoh
+-- Chosen Pharaoh
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {39913299}
+s.listed_names = {39913299, 10000000, 10000020, CARD_RA}
 
 function s.initial_effect(c)
     local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
@@ -38,6 +38,47 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- special summon
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetRange(LOCATION_SZONE)
+    e3:SetHintTiming(0, TIMING_END_PHASE)
+    e3:SetCountLimit(1, id)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
+
+    -- search
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e4:SetType(EFFECT_TYPE_QUICK_O)
+    e4:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
+    e4:SetCode(EVENT_FREE_CHAIN)
+    e4:SetRange(LOCATION_SZONE)
+    e4:SetHintTiming(0, TIMING_END_PHASE)
+    e4:SetCountLimit(1, id)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
+
+    -- set spell/trap
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
+    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetRange(LOCATION_SZONE)
+    e5:SetHintTiming(0, TIMING_END_PHASE)
+    e5:SetCountLimit(1, id)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.e1val(e, ct)
@@ -65,4 +106,84 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
     Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT + REASON_RULE)
+end
+
+function s.e3filter(c, e, tp)
+    return c:IsCode(10000000, 10000020, CARD_RA) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, nil, e, tp)
+    end
+
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND + LOCATION_GRAVE)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
+        return
+    end
+
+    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e3filter), tp,
+        LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+    if #g > 0 then
+        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    end
+end
+
+function s.e4filter(c)
+    return c:IsCode(39913299) and c:IsAbleToHand()
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+    end
+
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e4filter), tp, LOCATION_DECK, 0,
+        1, 1, nil)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
+
+function s.e5filter(c, tp)
+    return c:IsSpellTrap() and c:IsSSetable() and c:ListsCode(10000000, 10000020, CARD_RA) and
+               not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode, c:GetCode()), tp,
+            LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, nil)
+end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_DECK, 0, 1, nil, tp)
+    end
+
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    local g = Utility.SelectMatchingCard(HINTMSG_SET, tp, s.e5filter, tp, LOCATION_DECK, 0, 1, 1, nil, tp)
+    if #g > 0 then
+        Duel.SSet(tp, g)
+    end
 end
