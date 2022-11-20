@@ -1,0 +1,40 @@
+[palladium-oracle-mahad]
+id = 910000000
+alias = 71703785
+set = "palladium"
+name = "Sacred Palladium Oracle Mahad"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 7
+atk = 2500
+def = 2100
+effect = """\
+(This card's name is always treated as "Palladium Oracle Mahad")
+If this card is added to your hand, you can Special Summon it from your hand. \
+Each time a Spell Card is activated, place 1 Spell Counter on this card when that Spell resolves (max 5). \
+While this card has a Spell Counter, it is unaffected by your opponent's card effects. \
+If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+"""
+strings = ["Special Summon this card?"]
+
+[palladium-oracle-mana]
+id = 910000001
+alias = 42006475
+set = "palladium"
+name = "Illusory Palladium Oracle Mana"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 6
+atk = 2000
+def = 1700
+effect = """\
+(This card's name is always treated as "Palladium Oracle Mana")
+If you control "Palladium Oracle Mahad", you can Special Summon this card (from your hand). \
+Spellcaster monsters you control cannot be destroyed by card effects. \
+When your opponent targets a monster(s) you control with a card effect, \
+    while this card is in your hand or GY: You can Special Summon this card. \
+    You can only use this effects of "{CARD_NAME}" once per turn. \
+"""
+strings = []
