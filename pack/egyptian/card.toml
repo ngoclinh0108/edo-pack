@@ -27,7 +27,7 @@ effect = """\
 Once per turn, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; \
     destroy all monsters your opponent controls, \
-    and inflict damage to your opponent equal to this card's ATK. \
+    and also inflict damage to your opponent equal to this card's ATK. \
     Cannot be activated as Chain Link 2 or higher. \
     This card cannot declare an attack the turn this effect is activated. \
 Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Quick Effect): \
@@ -61,7 +61,7 @@ This card's original ATK/DEF are equal to the number of cards in your hand x 100
 If a monster(s) is Normal or Special Summoned to your opponent's field \
     OR a monster(s) is take control by your opponent, while this card is able to attack: \
     Choose that monster(s) as Target; it loses 2000 ATK or DEF depending on its battle position, \
-    then if its ATK has been reduced to 0 as a result, destroy it as battle. \
+    then if its ATK has been reduced to 0 as a result, destroy it. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
