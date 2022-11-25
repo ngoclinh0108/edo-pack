@@ -79,6 +79,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     if #dg > 0 then
         Duel.BreakEffect()
-        Duel.Destroy(dg, REASON_EFFECT)
+        Duel.Destroy(dg, REASON_BATTLE)
     end
 end
