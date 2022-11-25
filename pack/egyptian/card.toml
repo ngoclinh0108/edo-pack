@@ -217,7 +217,7 @@ effect = """\
 This card's original ATK/DEF are equal to the number of cards in your opponent controls x 1000. \
     This effect cannot be negated. \
 Once per turn: You can destroy this card. \
-If this face-up card is sent from the field to the GY, send all cards on the field to the GY, \
+If this face-up card leaves the field, send all cards on the field to the GY, \
     ignoring card effects, except monsters with higher Divine Hierarchy. \
 """
 strings = ["Destroy itself"]
