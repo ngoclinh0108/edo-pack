@@ -80,11 +80,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
-    Duel.Damage(p, c:GetAttack(), REASON_EFFECT)
-
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
     Duel.Destroy(g, REASON_EFFECT)
+
+    local p = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER)
+    Duel.Damage(p, c:GetAttack(), REASON_EFFECT)
 end
 
 function s.e2filter(c)
