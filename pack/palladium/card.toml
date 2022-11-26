@@ -197,3 +197,22 @@ The first time this card would be destroyed by battle each turn, \
     it is not destroyed, and you take no battle damage from that battle. \
 """
 strings = []
+
+[palladium-gardna-karim]
+id = 910000008
+set = "palladium"
+name = "Palladium Gardna Karim"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 100
+def = 2600
+effect = """\
+When your opponent activates a card or effect \
+    that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
+    You can negate that activation, also change this card to face-up Defense Positionm, if able. \
+    You can only use this effect of "Palladium Gardna Karim" once per turn. \
+If this Defense Position card is attacked, it loses 800 DEF. \
+"""
+strings = []
