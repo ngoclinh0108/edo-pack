@@ -53,7 +53,7 @@ effect = """\
 You can reveal this card in your hand; \
     add 1 "Blue-Eyes" monster from your Deck or GY to your hand. \
     You cannot Normal Summon monsters the turn you activate this effect. \
-You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
+You can discard this card, then target 1 "Blue-Eyes" monster you control; \
     Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
     using it as the Fusion Material. \
 You can Tribute this card; \
@@ -271,7 +271,7 @@ strings = ["Reduce damage", "Add 1 \"Palladium\" card to you hand"]
 [chaos-eyes-palladium-dragon]
 id = 910000011
 set = "chaos palladium"
-name = "Chaos Eyes Palladium Dragon"
+name = "Chaos-Eyes Palladium Dragon"
 type = "monster normal"
 attribute = "light dark"
 race = "dragon"
@@ -279,5 +279,6 @@ level = 8
 atk = 3000
 def = 2500
 effect = """\
+(This card is always treated as a "Blue-Eyes" and "Red-Eyes" card.)
 """
 strings = []
