@@ -20,7 +20,9 @@ function s.initial_effect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_POSITION)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetCode(EVENT_ATTACK_ANNOUNCE)
+    e2:SetCode(EVENT_BATTLE_CONFIRM)
+    e2:SetCountLimit(1)
+    e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -56,17 +58,22 @@ function s.e1con(e, c)
                Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsAttackAbove, 2000), tp, 0, LOCATION_MZONE, 1, nil)
 end
 
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    local _, bc = Duel.GetBattleMonster(tp)
+    return bc
+end
+
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local bc = Duel.GetAttackTarget()
+    local _, bc = Duel.GetBattleMonster(tp)
     if chk == 0 then
-        return bc and bc:IsControler(1 - tp) and bc:IsCanChangePosition()
+        return bc:IsCanChangePosition()
     end
 
     Duel.SetOperationInfo(0, CATEGORY_POSITION, bc, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local bc = Duel.GetAttackTarget()
+    local _, bc = Duel.GetBattleMonster(tp)
     if bc and bc:IsRelateToBattle() then
         Duel.ChangePosition(bc, POS_FACEUP_DEFENSE, POS_FACEDOWN_DEFENSE, POS_FACEUP_ATTACK, POS_FACEUP_ATTACK)
     end

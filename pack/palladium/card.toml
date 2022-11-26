@@ -165,7 +165,7 @@ effect = """\
 If you control no monsters, or your opponent controls a monster with 2000 or more ATK, \
     you can Special Summon this card (from your hand). \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
-When this card declares an attack on an opponent's monster: \
+Once per battle, if this card battles an opponent's monster, before damage calculation (Quick Effect): \
     You can change the battle position of that opponent's monster. \
 When you Ritual or Fusion Summon a "Palladium" monster, \
     you can banish this card from your GY as 1 of materials. \
