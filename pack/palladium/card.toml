@@ -278,7 +278,7 @@ attribute = "light dark"
 race = "dragon"
 level = 9
 atk = 3300
-def = 2800
+def = 2500
 effect = """\
 (This card is always treated as DARK monster.)
 Cannot be Normal Summoned/Set. \
