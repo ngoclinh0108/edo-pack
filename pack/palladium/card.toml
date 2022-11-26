@@ -32,15 +32,44 @@ def = 1700
 effect = """\
 (This card's name is always treated as "Palladium Oracle Mana")
 If you control "Palladium Oracle Mahad", you can Special Summon this card (from your hand). \
-Spellcaster monsters you control cannot be destroyed by card effects. \
+"Palladium" Spellcaster monsters you control cannot be destroyed by card effects. \
 When your opponent targets a monster(s) you control with a card effect, \
     while this card is in your hand or GY: You can Special Summon this card. \
     You can only use this effects of "{CARD_NAME}" once per turn. \
 """
 strings = []
 
-[palladium-oracle-aknamkanon]
+[palladium-oracle-seto]
 id = 910000002
+set = "palladium"
+name = "Azure Palladium Oracle Seto"
+type = "monster tuner effect"
+attribute = "light"
+race = "spellcaster"
+level = 1
+atk = 0
+def = 0
+effect = """\
+You can reveal this card in your hand; \
+    add 1 "Blue-Eyes" monster from your Deck or GY to your hand. \
+    You cannot Normal Summon monsters the turn you activate this effect. \
+You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
+    Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
+    using it as the Fusion Material. \
+You can Tribute this card; \
+    Special Summon up to 3 copies of "Blue-Eyes White Dragon" from your hand, Deck or GY. \
+    You cannot Special Summon other monsters the turn you activate this effect. \
+You can only use 1 "{CARD_NAME}" effect per turn, and only once that turn.
+"""
+strings = [
+    "Add 1 \"Blue-Eyes\" monster",
+    "Summon 3 \"Blue-Eyes White Dragon\"",
+    "Affected by effect \"{CARD_NAME}\": cannot Normal Summon monsters",
+    "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters",
+]
+
+[palladium-oracle-aknamkanon]
+id = 910000003
 set = "chaos palladium"
 name = "Chaos Palladium Oracle Aknamkanon"
 type = "monster ritual effect"
@@ -66,7 +95,7 @@ strings = [
 ]
 
 [black-luster-soldier-palladium]
-id = 910000003
+id = 910000004
 set = "palladium black-luster-soldier"
 name = "Black Luster Soldier - Palladium Soldier"
 type = "monster ritual effect"
@@ -95,7 +124,7 @@ strings = [
 ]
 
 [chaos-emperor-dragon-palladium]
-id = 910000004
+id = 910000005
 set = "chaos palladium"
 name = "Chaos Emperor Dragon - Envoy of the Palladium"
 type = "monster effect"
@@ -123,34 +152,6 @@ strings = [
     "Affected by effect \"{CARD_NAME}\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
 ]
 
-[palladium-oracle-seto]
-id = 910000005
-set = "palladium"
-name = "Azure Palladium Oracle Seto"
-type = "monster tuner effect"
-attribute = "light"
-race = "spellcaster"
-level = 1
-atk = 0
-def = 0
-effect = """\
-You can reveal this card in your hand; \
-    add 1 "Blue-Eyes" monster from your Deck or GY to your hand. \
-    You cannot Normal Summon monsters the turn you activate this effect. \
-You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
-    Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
-    using it as the Fusion Material. \
-You can Tribute this card; \
-    Special Summon up to 3 copies of "Blue-Eyes White Dragon" from your hand, Deck or GY. \
-    You cannot Special Summon other monsters the turn you activate this effect. \
-You can only use 1 "{CARD_NAME}" effect per turn, and only once that turn.
-"""
-strings = [
-    "Add 1 \"Blue-Eyes\" monster",
-    "Summon 3 \"Blue-Eyes White Dragon\"",
-    "Affected by effect \"{CARD_NAME}\": cannot Normal Summon monsters",
-    "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters",
-]
 
 [palladium-oracle-shimon]
 id = 910000006
@@ -158,7 +159,7 @@ set = "palladium"
 name = "Palladium Oracle Shimon"
 type = "monster effect"
 attribute = "light"
-race = "spellcaster"
+race = "fairy"
 level = 5
 atk = 1800
 def = 2200
@@ -167,9 +168,6 @@ During the Main Phase (Quick Effect): \
     You can destroy 1 "Palladium", "Exodia", or "Forbidden One" monster \
     you control or in your hand, except "{CARD_NAME}", \
     and if you do, Special Summon this card from your hand in Defense Position. \
-If this card is Normal or Special Summoned: \
-    You can Set directly from your Deck or GY, 1 "Monster Reborn" or 1 Spell/Trap Card that mentions it, \
-    and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
 During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
     You can target 5 "Palladium", "Exodia", and/or "Forbidden One" monsters \
     that is banished or in your GY, except "{CARD_NAME}"; \

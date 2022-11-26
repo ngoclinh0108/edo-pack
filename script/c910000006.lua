@@ -18,29 +18,16 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- set
+    -- shuffle & draw
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_SUMMON_SUCCESS)
+    e2:SetCategory(CATEGORY_TODECK + CATEGORY_DRAW)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_GRAVE)
     e2:SetCountLimit(1, {id, 2})
+    e2:SetCondition(aux.exccon)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e2b)
-
-    -- shuffle & draw
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TODECK + CATEGORY_DRAW)
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetCountLimit(1, {id, 3})
-    e3:SetCondition(aux.exccon)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
 end
 
 function s.e1filter(c)
@@ -75,38 +62,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c)
-    if not c:IsSSetable() then
-        return
-    end
-
-    return c:IsCode(CARD_MONSTER_REBORN) or (c:ListsCode(CARD_MONSTER_REBORN) and c:IsType(TYPE_SPELL + TYPE_TRAP))
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
-    end
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_SET, tp, s.e2filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
-    if tc and Duel.SSet(tp, tc) ~= 0 then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        if tc:IsType(TYPE_QUICKPLAY) then
-            ec1:SetCode(EFFECT_QP_ACT_IN_SET_TURN)
-        elseif tc:IsType(TYPE_TRAP) then
-            ec1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
-        end
-        ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec1)
-    end
-end
-
-function s.e3filter(c)
     if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then
         return false
     end
@@ -115,22 +70,22 @@ function s.e3filter(c)
                c:IsAbleToDeck()
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, nil)
     if chk == 0 then
         return c:IsAbleToDeck() and #g >= 5
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local tg = Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 5, 5, nil)
+    local tg = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 5, 5, nil)
     tg:AddCard(c)
 
     Duel.SetOperationInfo(0, CATEGORY_TODECK, tg, #tg, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     if not tg or not c:IsRelateToEffect(e) or tg:FilterCount(Card.IsRelateToEffect, nil, e) ~= tg:GetCount() then

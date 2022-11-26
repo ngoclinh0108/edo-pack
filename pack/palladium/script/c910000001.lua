@@ -3,6 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {71703785}
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     -- special summon
@@ -51,7 +52,7 @@ function s.e1con(e, c)
 end
 
 function s.e2tg(e, tc)
-    return tc:IsRace(RACE_SPELLCASTER)
+    return tc:IsSetCard(0x13a) and tc:IsRace(RACE_SPELLCASTER)
 end
 
 function s.e3filter(c, tp)
