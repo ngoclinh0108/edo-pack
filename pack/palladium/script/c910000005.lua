@@ -90,12 +90,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:IsDiscardable() end
-    Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
-end
-
 function s.e2filter1(c, e, tp)
     return c:IsFaceup() and c:IsCode(CARD_BLUEEYES_W_DRAGON) and
                c:IsCanBeFusionMaterial() and
@@ -106,9 +100,15 @@ end
 function s.e2filter2(c, e, tp, mc)
     if Duel.GetLocationCountFromEx(tp, tp, mc, c) <= 0 then return false end
     local mustg = aux.GetMustBeMaterialGroup(tp, nil, tp, c, nil, REASON_FUSION)
-    return c:IsType(TYPE_FUSION) and aux.IsMaterialListCode(c, mc:GetCode()) and
+    return c:IsType(TYPE_FUSION) and c:ListsCodeAsMaterial(mc:GetCode()) and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, false, false) and
                (#mustg == 0 or (#mustg == 1 and mustg:IsContains(mc)))
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsDiscardable() end
+    Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
