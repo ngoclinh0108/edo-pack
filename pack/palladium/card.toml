@@ -74,7 +74,7 @@ id = 910000003
 set = "chaos palladium"
 name = "Chaos Palladium Oracle Aknamkanon"
 type = "monster ritual effect"
-attribute = "light"
+attribute = "dark"
 race = "spellcaster"
 level = 8
 atk = 2800
@@ -382,3 +382,23 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 ● The first time this card would be destroyed by card effect each turn, it is not destroyed.
 """
 strings = ["Summoned using \"{CARD_NAME}\""]
+
+[palladium-archfiend-gilfer]
+id = 910000016
+set = "palladium archfiend"
+name = "Palladium Archfiend Gilfer"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 6
+atk = 2200
+def = 2500
+effect = """\
+You can Normal Summon this card without Tributing, but send it to the GY during the End Phase. \
+You can Special Summon this card (from your GY) by Tributing 1 "Palladium" monster. \
+    You can only Special Summon "{CARD_NAME}" once per turn this way. \
+If this card is sent to the GY: \
+    You can target 1 face-up monster on the field; equip this card to that target. \
+    That monster loses 500 ATK and has its effects negated while equipped with this card. \
+"""
+strings = ["Normal Summon without Tributing"]
