@@ -1,4 +1,4 @@
--- Sacred Eyes Chaos Dragon
+-- Chaos-Eyes Palladium Dragon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

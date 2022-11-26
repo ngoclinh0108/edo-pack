@@ -151,7 +151,6 @@ strings = [
     "Affected by effect \"{CARD_NAME}\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
 ]
 
-
 [palladium-vizier-shimon]
 id = 910000006
 set = "palladium"
@@ -267,10 +266,10 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Reduce damage", "Add 1 \"Palladium\" card to you hand"]
 
-[sacred-eyes-chaos-dragon]
+[chaos-eyes-palladium-dragon]
 id = 910000011
-set = "chaos"
-name = "Sacred-Eyes Chaos Dragon"
+set = "chaos palladium"
+name = "Chaos-Eyes Palladium Dragon"
 type = "monster effect"
 attribute = "light dark"
 race = "dragon"
