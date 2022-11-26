@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {39913299, 10000000, 10000020, CARD_RA}
+s.listed_names = {39913299, 10000000, 10000020, CARD_RA, 10000040}
 
 function s.initial_effect(c)
     local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
@@ -48,7 +48,7 @@ function s.initial_effect(c)
     e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_SZONE)
     e3:SetHintTiming(0, TIMING_END_PHASE)
-    e3:SetCountLimit(1, id)
+    e3:SetCountLimit(1, {id, 1})
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
@@ -62,7 +62,7 @@ function s.initial_effect(c)
     e4:SetCode(EVENT_FREE_CHAIN)
     e4:SetRange(LOCATION_SZONE)
     e4:SetHintTiming(0, TIMING_END_PHASE)
-    e4:SetCountLimit(1, id)
+    e4:SetCountLimit(1, {id, 1})
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -76,10 +76,25 @@ function s.initial_effect(c)
     e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetRange(LOCATION_SZONE)
     e5:SetHintTiming(0, TIMING_END_PHASE)
-    e5:SetCountLimit(1, id)
+    e5:SetCountLimit(1, {id, 1})
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
+
+    -- add holactie
+    local e6 = Effect.CreateEffect(c)
+    e6:SetCategory(CATEGORY_TOHAND)
+    e6:SetType(EFFECT_TYPE_QUICK_O)
+    e6:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
+    e6:SetCode(EVENT_FREE_CHAIN)
+    e6:SetRange(LOCATION_GRAVE)
+    e6:SetHintTiming(0, TIMING_END_PHASE)
+    e6:SetCountLimit(1, {id, 2}, EFFECT_COUNT_CODE_DUEL)
+    e6:SetCost(aux.bfgcost)
+    e6:SetCondition(s.e6con)
+    e6:SetTarget(s.e6tg)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
 function s.e1val(e, ct)
@@ -194,4 +209,28 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     end, function(c)
         Duel.SSet(tp, tc)
     end, 1159)
+end
+
+function s.e6filter1(c, code)
+    local code1, code2 = c:GetOriginalCodeRule()
+    return code1 == code or code2 == code
+end
+
+function s.e6con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000000) and
+               Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000020) and
+               Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, CARD_RA)
+end
+
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, 0)
+end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.CreateToken(tp, 10000040)
+    Duel.SendtoHand(tc, tp, REASON_EFFECT)
 end
