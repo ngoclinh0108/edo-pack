@@ -151,6 +151,27 @@ strings = [
     "Affected by effect \"{CARD_NAME}\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
 ]
 
+[palladium-knight-gaia]
+id = 910000006
+set = "palladium"
+name = "Palladium Knight Gaia"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 7
+atk = 2300
+def = 2100
+effect = """\
+If you control no monsters, or your opponent controls a monster with 2000 or more ATK, \
+    you can Special Summon this card (from your hand). \
+    You can only Special Summon "{CARD_NAME}" once per turn this way. \
+When this card declares an attack on an opponent's monster: \
+    You can change the battle position of that opponent's monster. \
+When you Ritual or Fusion Summon a "Palladium" monster, \
+    you can banish this card from your GY as 1 of materials. \
+"""
+strings = ["Change battle position of battling monster"]
+
 [palladium-guardian-shada]
 id = 910000007
 set = "palladium guardian"
@@ -268,25 +289,6 @@ Once per turn: You can target 1 card your opponent controls; \
     This card cannot attack the turn this effect is activated. \
 """
 strings = ["Destroy and banish 1 card"]
-
-[palladium-knight-gaia]
-id = 910000012
-set = "palladium"
-name = "Palladium Knight Gaia"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 7
-atk = 2300
-def = 2100
-effect = """\
-If you control no monsters, or your opponent controls a monster with 2000 or more ATK, \
-    you can Special Summon this card (from your hand). \
-    You can only Special Summon "{CARD_NAME}" once per turn this way. \
-When you Ritual or Fusion Summon a "Palladium" monster, \
-    you can banish this card from your GY as 1 of materials. \
-"""
-strings = []
 
 [palladium-knight-queen]
 id = 910000013
