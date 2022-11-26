@@ -4,7 +4,7 @@ local s, id = GetID()
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    
+
     -- special summon
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_FIELD)
@@ -40,8 +40,14 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsType(TYPE_TUNER) and not c:IsPublic()
+function s.e1filter1(c, tp)
+    return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsType(TYPE_TUNER) and not c:IsPublic() and
+               Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_ONFIELD, 0, 1, c)
+end
+
+function s.e1filter2(c)
+    return c:IsLevel(8) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsAbleToGrave() and
+               (c:IsLocation(LOCATION_HAND + LOCATION_DECK) or c:IsFaceup())
 end
 
 function s.e1con(e, c)
@@ -50,19 +56,29 @@ function s.e1con(e, c)
     end
 
     local tp = c:GetControler()
-    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e1filter1, tp, LOCATION_HAND, 0, nil, tp)
     return #g > 0 and aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 0)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND, 0, nil)
-    local sg = aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp, HINTMSG_CONFIRM, nil, nil, true)
-    if #sg > 0 then
-        sg:KeepAlive()
-        e:SetLabelObject(sg)
-        return true
+    local g = Duel.GetMatchingGroup(s.e1filter1, tp, LOCATION_HAND, 0, nil, tp)
+    local sc1 =
+        aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp, HINTMSG_CONFIRM, nil, nil, true):GetFirst()
+    if not sc1 then
+        return false
     end
-    return false
+
+    local g = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_ONFIELD, 0, nil)
+    local sc2 =
+        aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp, HINTMSG_TOGRAVE, nil, nil, true):GetFirst()
+    if not sc2 then
+        return false
+    end
+
+    local sg = Group.FromCards(sc1, sc2)
+    sg:KeepAlive()
+    e:SetLabelObject(sg)
+    return true
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
@@ -71,7 +87,16 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
         return
     end
 
-    Duel.ConfirmCards(1 - tp, g)
+    local sc1 = g:GetFirst()
+    local sc2 = g:GetNext()
+    if s.e1filter2(sc1) then
+        local t = sc1
+        sc1 = sc2
+        sc2 = t
+    end
+
+    Duel.ConfirmCards(1 - tp, sc1)
+    Duel.SendtoGrave(sc2, REASON_EFFECT)
     Duel.ShuffleHand(tp)
     g:DeleteGroup()
 end

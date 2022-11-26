@@ -136,17 +136,15 @@ atk = 3000
 def = 2500
 effect = """\
 Cannot be Normal Summoned/Set. \
-Must first be Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
+Must be Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
 You can pay 1000 LP; \
     send all cards your opponent controls to the GY, \
     then inflict 300 damage to your opponent for each card sent to the GY by this effect. \
     You cannot activate cards or effects and monsters you control cannot attack the turn you activate this effect, \
     except "{CARD_NAME}". \
-If this card is sent to the GY: \
-    You can target 1 your banished LIGHT or DARK monster; \
-    add it to your hand. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+If this card is sent to the GY, return it to the bottom of the Deck. \
 """
 strings = [
     "Send card to the GY & inflict damage",
@@ -282,7 +280,9 @@ def = 2500
 effect = """\
 (This card is always treated as DARK monster.)
 Cannot be Normal Summoned/Set. \
-You can Special Summon this card (from your hand) by revealing 1 Level 1 LIGHT Tuner in your hand. \
+Must first be Special Summoned (from your hand) \
+    by revealing 1 Level 1 LIGHT Tuner in your hand and \
+    sending 1 Level 8 DARK Dragon from your hand, Deck, or your side of the field to the GY. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
 Your opponent cannot target this card with card effects. \
 Once per turn: You can target 1 card your opponent controls; \
