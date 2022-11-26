@@ -68,7 +68,7 @@ function s.e2filter(c)
         return false
     end
 
-    return c:IsCode(71703785) or (c:ListsCode(71703785) and c:IsMonster() and not c:IsType(TYPE_RITUAL))
+    return c:IsCode(71703785) or (c:ListsCode(71703785) and not c:IsCode(id))
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
