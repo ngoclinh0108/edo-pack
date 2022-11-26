@@ -144,7 +144,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetDecktopGroup(tp, 3)
     Duel.ConfirmCards(tp, g)
     if g:IsExists(s.e3filter, 1, nil) and Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
-        local sg = Utility.GroupSelect(HINT_SELECTMSG, g, tp, 1, 1, nil, s.e3filter)
+        local sg = Utility.GroupSelect(nil, g, tp, 1, 1, nil, s.e3filter)
         Duel.DisableShuffleCheck()
         Duel.SendtoHand(sg, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, sg)
