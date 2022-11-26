@@ -14,6 +14,7 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_HAND)
     e1:SetHintTiming(0, TIMINGS_CHECK_MONSTER + TIMING_MAIN_END)
     e1:SetCountLimit(1, {id, 1})
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -33,6 +34,10 @@ end
 function s.e1filter(c)
     return not c:IsCode(id) and c:IsMonster() and (c:IsLocation(LOCATION_HAND) or c:IsFaceup()) and
                (c:IsSetCard(0x13a) or c:IsSetCard(0xde) or c:IsSetCard(0x40))
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsMainPhase()
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
