@@ -278,9 +278,9 @@ atk = 3300
 def = 2500
 effect = """\
 (This card is always treated as DARK monster.)
-Cannot be Normal Summoned/Set. \
-Must first be Special Summoned (from your hand) \
-    by revealing 1 Level 1 LIGHT Tuner in your hand and \
+To Tribute Summon this card, you must "Palladium" monster. \
+You can Special Summon this card (from your hand) by \
+    revealing 1 Level 1 LIGHT Tuner in your hand and \
     sending 1 Level 8 DARK Dragon from your hand, Deck, or your side of the field to the GY. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
 Your opponent cannot target this card with card effects. \

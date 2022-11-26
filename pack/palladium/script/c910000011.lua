@@ -2,73 +2,84 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0x13a}
+
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- special summon
+    -- tribute limit
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_SPSUMMON_PROC)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
-    e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
-    e1:SetOperation(s.e1op)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_TRIBUTE_LIMIT)
+    e1:SetValue(function(e, c)
+        return not c:IsSetCard(0x13a)
+    end)
     c:RegisterEffect(e1)
 
-    -- cannot be target
+    -- special summon
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(aux.tgoval)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    e2:SetCode(EFFECT_SPSUMMON_PROC)
+    e2:SetRange(LOCATION_HAND)
+    e2:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- destroy and banish
+    -- cannot be target
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_DESTROY + CATEGORY_REMOVE)
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
-    e3:SetCost(s.e3cost)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetValue(aux.tgoval)
     c:RegisterEffect(e3)
+
+    -- destroy and banish
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetCategory(CATEGORY_DESTROY + CATEGORY_REMOVE)
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetCountLimit(1)
+    e4:SetCost(s.e4cost)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
-function s.e1filter1(c, tp)
+function s.e2filter1(c, tp)
     return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsType(TYPE_TUNER) and not c:IsPublic() and
-               Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_ONFIELD, 0, 1, c)
+               Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_ONFIELD, 0, 1, c)
 end
 
-function s.e1filter2(c)
+function s.e2filter2(c)
     return c:IsLevel(8) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsAbleToGrave() and
                (c:IsLocation(LOCATION_HAND + LOCATION_DECK) or c:IsFaceup())
 end
 
-function s.e1con(e, c)
+function s.e2con(e, c)
     if c == nil then
         return true
     end
 
     local tp = c:GetControler()
-    local g = Duel.GetMatchingGroup(s.e1filter1, tp, LOCATION_HAND, 0, nil, tp)
+    local g = Duel.GetMatchingGroup(s.e2filter1, tp, LOCATION_HAND, 0, nil, tp)
     return #g > 0 and aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 0)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = Duel.GetMatchingGroup(s.e1filter1, tp, LOCATION_HAND, 0, nil, tp)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, c)
+    local g = Duel.GetMatchingGroup(s.e2filter1, tp, LOCATION_HAND, 0, nil, tp)
     local sc1 =
         aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp, HINTMSG_CONFIRM, nil, nil, true):GetFirst()
     if not sc1 then
         return false
     end
 
-    local g = Duel.GetMatchingGroup(s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_ONFIELD, 0, nil)
+    local g = Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_ONFIELD, 0, nil)
     local sc2 =
         aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp, HINTMSG_TOGRAVE, nil, nil, true):GetFirst()
     if not sc2 then
@@ -81,7 +92,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
     return true
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
     if not g then
         return
@@ -89,7 +100,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
 
     local sc1 = g:GetFirst()
     local sc2 = g:GetNext()
-    if s.e1filter2(sc1) then
+    if s.e2filter2(sc1) then
         local t = sc1
         sc1 = sc2
         sc2 = t
@@ -101,7 +112,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return c:GetAttackAnnouncedCount() == 0
@@ -116,7 +127,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     c:RegisterEffect(ec1)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil)
     end
@@ -128,7 +139,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, 0, 0)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if tc and tc:IsRelateToEffect(e) then
         Duel.Destroy(tc, REASON_EFFECT, LOCATION_REMOVED)
