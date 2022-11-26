@@ -38,3 +38,29 @@ When your opponent targets a monster(s) you control with a card effect, \
     You can only use this effects of "{CARD_NAME}" once per turn. \
 """
 strings = []
+
+[palladium-oracle-aknamkanon]
+id = 910000002
+set = "chaos palladium"
+name = "Chaos Palladium Oracle Aknamkanon"
+type = "monster ritual effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2800
+def = 2600
+effect = """\
+You can Ritual Summon this card with a "Palladium" card. \
+Must first be Ritual Summoned, with using at least 1 Spellcaster monster. \
+After this card was Special Summoned, your opponent cannot activate monster effects for the rest of that turn. \
+You can only use the following effect of "{CARD_NAME}" once per turn.
+● You can reveal this card in your hand; \
+    add 1 "Palladium Oracle Mahad" or 1 non-Ritual Monster that mentions it, \
+    from your Deck or GY to your hand, then place 1 card from your hand on top of the Deck.
+● If this card destroys an opponent's monster by battle: \
+    You can target 1 Spell/Trap in your GY; add it to your hand.
+"""
+strings = [
+    "Affected by effect \"{CARD_NAME}\": cannot activate monster effects",
+    "Add 1 Spell/Trap from the GY",
+]
