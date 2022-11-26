@@ -3,4 +3,8 @@ setcodes = ["./setcode.toml"]
 
 packs = ["./pack/egyptian", "./pack/palladium", "./pack/signer-dragons"]
 
-skip_compile_packs = ["./pack/egyptian", "./pack/signer-dragons"]
+skip_compile_packs = [
+    "./pack/egyptian",
+    # "./pack/palladium",
+    "./pack/signer-dragons",
+]

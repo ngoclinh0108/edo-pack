@@ -332,14 +332,14 @@ You can only use the following effect of "{CARD_NAME}" once per turn. You can ac
 ● Add to your hand or Set directly from your Deck, 1 Spell/Trap that mentions \
     "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra", \
     with a different name from the cards you control and in your GY.
-If you control 3 monsters whose original names are \
+● If you control 3 monsters whose original names are \
     "Obelisk the Tormentor", "Slifer the Sky Dragon", and "The Winged Dragon of Ra": \
-    You can banish this card from your GY; \
-    add 1 "Holactie the Creator of Light" from Outside to your hand. \
-    You can only use this effect of "{CARD_NAME}" once per Duel. \
+    Add 1 "Holactie the Creator of Light" from Outside to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per Duel.
 """
 strings = [
     "Special Summon a Divine-Beast",
     "Add \"The True Name\"",
     "Add or Set Spell/Trap",
+    "Call \"Holactie the Creator of Light\""
 ]
