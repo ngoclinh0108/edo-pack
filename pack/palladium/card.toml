@@ -151,29 +151,6 @@ strings = [
     "Affected by effect \"{CARD_NAME}\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
 ]
 
-[palladium-vizier-shimon]
-id = 910000006
-set = "palladium"
-name = "Palladium Vizier Shimon"
-type = "monster effect"
-attribute = "dark"
-race = "fairy"
-level = 5
-atk = 1800
-def = 2200
-effect = """\
-During the Main Phase (Quick Effect): \
-    You can destroy 1 "Palladium", "Exodia", or "Forbidden One" monster \
-    you control or in your hand, except "{CARD_NAME}", \
-    and if you do, Special Summon this card from your hand in Defense Position. \
-During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
-    You can target 5 "Palladium", "Exodia", and/or "Forbidden One" monsters \
-    that is banished or in your GY, except "{CARD_NAME}"; \
-    shuffle this card and all the targeted cards into the Deck, then draw 1 card. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
-"""
-strings = []
-
 [palladium-guardian-shada]
 id = 910000007
 set = "palladium guardian"
@@ -232,15 +209,13 @@ When your opponent activates a card or effect \
     negate that effect. \
 During your Main Phase: \
     You can change this card from face-up Attack Position to face-up Defense Position; \
-    Immediately after this effect resolves, Normal Summon 1 "Palladium" monster, \
-    also you cannot Special Summon monsters for the rest of this turn, \
-    except "Palladium" monsters (even if this card leaves the field). \
+    immediately after this effect resolves, look at up to 5 cards from the top of each player's Deck. \
+During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
+    You can target 5 "Palladium" monsters that is banished or in your GY, except "{CARD_NAME}"; \
+    shuffle this card and all the targeted cards into the Deck, then draw 1 card. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
-strings = [
-    "Normal Summon a \"Palladium\" monster",
-    "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters, except \"Palladium\" monsters",
-]
+strings = ["Look at Deck"]
 
 [palladium-oracle-hassan]
 id = 910000010
