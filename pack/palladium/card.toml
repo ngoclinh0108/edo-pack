@@ -511,3 +511,24 @@ strings = [
     "De-fuse a Fusion Monster",
     "Prevent Fusion Negation",
 ]
+
+[palladium-swords-revealing-light]
+id = 910000103
+set = "palladium"
+name = "Palladium Swords of Revealing Light"
+type = "spell quick-play"
+effect = """\
+This card can only be activated during Main Phase 1. \
+    After this card's activation, it remains on the field. \
+    You can only control 1 "Palladium Swords of Revealing Light". \
+When this card is activated: \
+    Place 3 Spell Counter on this card (max. 3), \
+    also, after that if your opponent controls a face-down monster, \
+    flip all monsters they control face-up. Flip Effects are not activated at this time. \
+Once per turn, during your opponent's End Phase, \
+    remove 1 Spell Counter from this card. \
+While this card is face-up on the field with a Spell Counters, \
+    your opponent's monsters cannot declare an attack. \
+You can send this card with no Spell Counter to the GY; draw 3 cards. \
+"""
+strings = []
