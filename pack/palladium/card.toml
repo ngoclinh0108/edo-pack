@@ -170,6 +170,8 @@ During the Battle Step, while you control a "Palladium" monster \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 The first time this card would be destroyed by battle each turn, \
     it is not destroyed, and you take no battle damage from that battle. \
+At the end of the Damage Step, if this card battled an opponent's monster, \
+    that monster lose 800 ATK. \
 """
 strings = []
 
@@ -188,9 +190,11 @@ When your opponent activates a card or effect \
     that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
     You can negate that activation, also change this card to face-up Defense Positionm, if able. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
+Once per turn, when an opponent's monster declares an attack on a "Palladium" monster you control: \
+    You can switch the attack target to this card. \
 If this Defense Position card is attacked, it loses 800 DEF. \
 """
-strings = []
+strings = ["Switch attack target"]
 
 [palladium-maiden-isis]
 id = 910000009

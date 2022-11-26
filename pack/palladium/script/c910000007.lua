@@ -42,6 +42,15 @@ function s.initial_effect(c)
         return e:GetHandler():GetFlagEffect(id) == 0
     end)
     c:RegisterEffect(e2b)
+
+    -- down atk
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_ATKCHANGE)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_DAMAGE_STEP_END)
+    e3:SetCondition(s.e3con)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1filter(c)
@@ -80,5 +89,23 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
             tc:RegisterEffect(ec1)
         end
+    end
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local bc = e:GetHandler():GetBattleTarget()
+    return bc and bc:IsRelateToBattle()
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local bc = e:GetHandler():GetBattleTarget()
+    if bc:IsRelateToBattle() and bc:IsFaceup() then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(-800)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        bc:RegisterEffect(ec1)
     end
 end
