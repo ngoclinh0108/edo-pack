@@ -6,7 +6,7 @@ s.listed_names = {CARD_BLUEEYES_W_DRAGON}
 s.listed_series = {0xdd}
 
 function s.initial_effect(c)
-    -- to hand
+    -- add dragon
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
@@ -45,7 +45,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsSetCard(0xdd) and c:IsMonster() and c:IsAbleToHand()
+    return c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsAttackAbove(3000) and
+               c:IsDefenseBelow(2500) and c:IsAbleToHand()
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)

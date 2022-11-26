@@ -51,7 +51,8 @@ atk = 0
 def = 0
 effect = """\
 You can reveal this card in your hand; \
-    add 1 "Blue-Eyes" monster from your Deck or GY to your hand. \
+    add from your Deck or GY to your hand, \
+    1 LIGHT or DARK Dragon monsters with 3000 or more ATK and 2500 or less DEF. \
     You cannot Normal Summon monsters the turn you activate this effect. \
 You can discard this card, then target 1 "Blue-Eyes" monster you control; \
     Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
@@ -62,7 +63,7 @@ You can Tribute this card; \
 You can only use 1 "{CARD_NAME}" effect per turn, and only once that turn.
 """
 strings = [
-    "Add 1 \"Blue-Eyes\" monster",
+    "Add a Dragon monster",
     "Summon 3 \"Blue-Eyes White Dragon\"",
     "Affected by effect \"{CARD_NAME}\": cannot Normal Summon monsters",
     "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters",
@@ -268,17 +269,24 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Reduce damage", "Add 1 \"Palladium\" card to you hand"]
 
-[chaos-eyes-palladium-dragon]
+[sacred-eyes-chaos-dragon]
 id = 910000011
-set = "chaos palladium"
-name = "Chaos-Eyes Palladium Dragon"
-type = "monster normal"
+set = "chaos"
+name = "Sacred-Eyes Chaos Dragon"
+type = "monster effect"
 attribute = "light dark"
 race = "dragon"
-level = 8
-atk = 3000
-def = 2500
+level = 9
+atk = 3300
+def = 2800
 effect = """\
-(This card is always treated as a "Blue-Eyes" and "Red-Eyes" card.)
+(This card is always treated as DARK monster.)
+Cannot be Normal Summoned/Set. \
+You can Special Summon this card (from your hand) by revealing 1 Level 1 LIGHT Tuner in your hand. \
+    You can only Special Summon "{CARD_NAME}" once per turn this way. \
+Your opponent cannot target this card with card effects. \
+Once per turn: You can target 1 card your opponent controls; \
+    destroy it, and if you do, banish it. \
+    This card cannot attack the turn this effect is activated. \
 """
-strings = []
+strings = ["Destroy and banish 1 card"]
