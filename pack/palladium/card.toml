@@ -504,7 +504,7 @@ During your Main Phase, while this card is in the GY, \
     except the turn this card was sent to the GY: \
     You add 1 other "Fusion" or "Polymerization" Spell from your Deck or GY to your hand, \
     then return this card to the bottom of the Deck. \
-    You can only use this effect of "Palladium Fusion Mastery" once per turn. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
     "Special Summon all Fusion Materials?",
@@ -520,7 +520,7 @@ type = "spell quick-play"
 effect = """\
 This card can only be activated during Main Phase 1. \
     After this card's activation, it remains on the field. \
-    You can only control 1 "Palladium Swords of Revealing Light". \
+    You can only control 1 "{CARD_NAME}". \
 When this card is activated: \
     Place 3 Spell Counter on this card (max. 3), \
     also, after that if your opponent controls a face-down monster, \
@@ -530,5 +530,37 @@ Once per turn, during your opponent's End Phase, \
 While this card is face-up on the field with a Spell Counters, \
     your opponent's monsters cannot declare an attack. \
 You can send this card with no Spell Counter to the GY; draw 3 cards. \
+"""
+strings = []
+
+[palladium-sacrophagus]
+id = 910000104
+set = "palladium"
+name = "Palladium Sacrophagus"
+type = "spell quick-play"
+effect = """\
+If you control no monsters, you can activate this card from your hand in either player's turn. \
+Banish 1 card from your Deck or in either GY, \
+    and if you do, until the end of the next turn, its effects are negated, \
+    as well as the activated effects and effects on your opponent's side of the field of cards with the same original name. \
+    You can only activate 1 "{CARD_NAME}" per turn. \
+During your Main Phase, except the turn this card was sent to the GY: \
+    You can return this card to the bottom of the Deck, \
+    and if you do, add 1 your face-up banished card to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+"""
+strings = []
+
+[palladium-reborn]
+id = 910000105
+alias = 83764718
+name = "Palladium Reborn"
+type = "spell quick-play"
+effect = """\
+(This card's name is always treated as "Monster Reborn" and it is "Palladium" card.)
+During your Main Phase or your opponent's turn: \
+    Target 1 monster in either GY; Special Summon that monster. \
+You can also Special Summon a monster that can be Normal Summoned with this effect, ignoring its Summoning conditions, \
+    but send that monster to the GY during the End Phase. \
 """
 strings = []
