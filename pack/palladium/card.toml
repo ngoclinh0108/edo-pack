@@ -153,10 +153,10 @@ strings = [
 ]
 
 
-[palladium-oracle-shimon]
+[palladium-vizier-shimon]
 id = 910000006
 set = "palladium"
-name = "Palladium Oracle Shimon"
+name = "Palladium Vizier Shimon"
 type = "monster effect"
 attribute = "light"
 race = "fairy"
@@ -173,5 +173,27 @@ During your Main Phase, while this card is in the GY, except the turn it was sen
     that is banished or in your GY, except "{CARD_NAME}"; \
     shuffle this card and all the targeted cards into the Deck, then draw 1 card. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = []
+
+[palladium-guardian-shada]
+id = 910000007
+set = "palladium guardian"
+name = "Palladium Guardian Shada"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1400
+def = 1200
+effect = """\
+During the Battle Step, while you control a "Palladium" monster \
+    other than "{CARD_NAME}" (Quick Effect): \
+    You can Special Summon this card from your hand, \
+    and if you do, until the end of this turn, \
+    "Palladium" monster you currently control cannot be destroyed by battle. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+The first time this card would be destroyed by battle each turn, \
+    it is not destroyed, and you take no battle damage from that battle. \
 """
 strings = []

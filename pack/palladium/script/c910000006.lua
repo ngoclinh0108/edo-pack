@@ -1,4 +1,4 @@
--- Palladium Oracle Shimon
+-- Palladium Vizier Shimon
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
