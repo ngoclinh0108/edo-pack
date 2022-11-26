@@ -308,3 +308,77 @@ When you Ritual or Fusion Summon a "Palladium" monster, \
     you can banish this card from your GY as 1 of materials. \
 """
 strings = []
+
+[palladium-knight-queen]
+id = 910000013
+alias = 25652259
+name = "Palladium Knight of Queen"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1500
+def = 1600
+effect = """\
+(This card's name is always treated as "Queen's Knight" and it is "Palladium" card.)
+You can Special Summon this card (from your hand) by revealing 1 other LIGHT Warrior monster in your hand. \
+    You can only Special Summon "{CARD_NAME}" once per turn this way. \
+If this card is Normal or Special Summoned: \
+    You can add 1 Level 4 LIGHT Warrior monster from your Deck or GY to your hand, except "Queen's Knight". \
+    This card cannot declare an attack the turn this effect is activated. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
+● If this card destroys an opponent's monster by battle: You can draw 1 card.
+"""
+strings = ["Summoned using \"{CARD_NAME}\""]
+
+[palladium-knight-king]
+id = 910000014
+alias = 64788463
+name = "Palladium Knight of King"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1600
+def = 1400
+effect = """\
+(This card's name is always treated as "King's Knight" and it is "Palladium" card.)
+If this card is added to your hand, except by drawing it: \
+    You can Special Summon this card from your hand, \
+    also you cannot Special Summon for the rest of this turn, except LIGHT Warrior monster. \
+If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
+    You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY. \
+    This card cannot declare an attack the turn this effect is activated. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
+● If this card attacks, your opponent cannot activate any Spell/Trap until the end of the Damage Step.
+"""
+strings = [
+    "Summoned using \"{CARD_NAME}\"",
+    "Affected by effect \"{CARD_NAME}\": cannot Special Summon, except LIGHT Warrior monster",
+]
+
+[palladium-knight-jack]
+id = 910000015
+alias = 90876561
+name = "Palladium Knight of Jack"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 5
+atk = 1900
+def = 1000
+effect = """\
+(This card's name is always treated as "Jack's Knight" and it is "Palladium" card.)
+If this card is Special Summoned: \
+    You can target face-up cards your opponent control, \
+    up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
+    This card cannot declare an attack the turn this effect is activated. \
+You can Fusion Summon 1 Fusion Monster from your Extra Deck, \
+    using monsters you control as materials, including this card. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
+● The first time this card would be destroyed by card effect each turn, it is not destroyed.
+"""
+strings = ["Summoned using \"{CARD_NAME}\""]
