@@ -267,3 +267,17 @@ If this card is destroyed by battle or card effect: \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Reduce damage", "Add 1 \"Palladium\" card to you hand"]
+
+[chaos-eyes-palladium-dragon]
+id = 910000011
+set = "chaos palladium"
+name = "Chaos Eyes Palladium Dragon"
+type = "monster normal"
+attribute = "light dark"
+race = "dragon"
+level = 8
+atk = 3000
+def = 2500
+effect = """\
+"""
+strings = []
