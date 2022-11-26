@@ -190,7 +190,7 @@ When your opponent activates a card or effect \
     that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
     You can negate that activation, also change this card to face-up Defense Positionm, if able. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-Once per turn, when an opponent's monster declares an attack on a "Palladium" monster you control: \
+When an opponent's monster declares an attack on a "Palladium" monster you control: \
     You can switch the attack target to this card. \
 If this Defense Position card is attacked, it loses 800 DEF. \
 """

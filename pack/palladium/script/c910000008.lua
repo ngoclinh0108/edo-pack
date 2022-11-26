@@ -19,14 +19,13 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- change target
+    -- change battle target
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e2:SetCode(EVENT_ATTACK_ANNOUNCE)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -70,7 +69,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     local ac = Duel.GetAttacker()
     local bc = Duel.GetAttackTarget()
-    local atg = at:GetAttackableTarget()
+    local atg = ac:GetAttackableTarget()
 
     if chk == 0 then
         return ac:GetControler() ~= tp and bc and bc ~= c and bc:IsFaceup() and bc:IsSetCard(0x13a) and
