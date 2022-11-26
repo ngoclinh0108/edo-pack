@@ -402,3 +402,43 @@ If this card is sent to the GY: \
     That monster loses 500 ATK and has its effects negated while equipped with this card. \
 """
 strings = ["Normal Summon without Tributing"]
+
+[palladium-beast-gazelle]
+id = 910000017
+set = "palladium"
+name = "Palladium Beast Gazelle"
+type = "monster effect"
+attribute = "dark"
+race = "beast"
+level = 4
+atk = 1500
+def = 1200
+effect = """\
+If this card is Normal or Special Summoned: \
+    You can send 1 Level 5 or higher "Palladium" monster from your Deck to the GY; \
+    add 1 "Fusion" or "Polymerization" Spell from your Deck or GY to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+If this card attacks a Defense Position monster, inflict piercing battle damage to your opponent. \
+If this card is used as material for a Fusion Summon: You can draw 1 card. \
+"""
+strings = []
+
+[palladium-beast-berfomet]
+id = 910000018
+set = "palladium"
+name = "Palladium Beast Berfomet"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 5
+atk = 1400
+def = 1800
+effect = """\
+You can discard this card; \
+    add 1 "Fusion" or "Polymerization" Spell, or 1 Level 4 or lower "Palladium" monster from your Deck or GY to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+When this card destroys a monster by battle: \
+    Inflict damage to your opponent equal to the ATK of the destroyed monster. \
+When you Fusion Summon a "Palladium" monster, you can banish this card from your GY as 1 of materials. \
+"""
+strings = []
