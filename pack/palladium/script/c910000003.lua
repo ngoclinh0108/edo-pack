@@ -41,7 +41,9 @@ function s.initial_effect(c)
 end
 
 function s.ritual_custom_check(e, tp, g, c)
-    return g:IsExists(Card.IsRace, 1, nil, RACE_SPELLCASTER)
+    return g:IsExists(function(tc)
+        return tc:IsRace(RACE_SPELLCASTER) and tc:IsSetCard(0x13a)
+    end, 1, nil)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
