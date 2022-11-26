@@ -39,24 +39,25 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- special summon
+    -- add holactie
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetCategory(CATEGORY_TOHAND)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_SZONE)
     e3:SetHintTiming(0, TIMING_END_PHASE)
-    e3:SetCountLimit(1, {id, 1})
+    e3:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
+    e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- search
+    -- special summon
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e4:SetType(EFFECT_TYPE_QUICK_O)
     e4:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e4:SetCode(EVENT_FREE_CHAIN)
@@ -67,7 +68,7 @@ function s.initial_effect(c)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
-    -- add or set spell/trap
+    -- search
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 2))
     e5:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
@@ -81,17 +82,16 @@ function s.initial_effect(c)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
 
-    -- add holactie
+    -- add or set spell/trap
     local e6 = Effect.CreateEffect(c)
     e6:SetDescription(aux.Stringid(id, 3))
-    e6:SetCategory(CATEGORY_TOHAND)
+    e6:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
     e6:SetType(EFFECT_TYPE_QUICK_O)
     e6:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e6:SetCode(EVENT_FREE_CHAIN)
     e6:SetRange(LOCATION_SZONE)
     e6:SetHintTiming(0, TIMING_END_PHASE)
-    e6:SetCountLimit(1, {id, 1}, EFFECT_COUNT_CODE_DUEL)
-    e6:SetCondition(s.e6con)
+    e6:SetCountLimit(1, {id, 1})
     e6:SetTarget(s.e6tg)
     e6:SetOperation(s.e6op)
     c:RegisterEffect(e6)
@@ -124,73 +124,68 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT + REASON_RULE)
 end
 
-function s.e3filter(c, e, tp)
-    return c:IsCode(10000000, 10000020, CARD_RA) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+function s.e3filter1(c, code)
+    local code1, code2 = c:GetOriginalCodeRule()
+    return code1 == code or code2 == code
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000000) and
+               Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000020) and
+               Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_MZONE, 0, 1, nil, CARD_RA)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
+        return true
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.CreateToken(tp, 10000040)
+    Duel.SendtoHand(tc, tp, REASON_EFFECT)
+end
+
+function s.e4filter(c, e, tp)
+    return c:IsCode(10000000, 10000020, CARD_RA) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, nil, e, tp)
+                   Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, nil, e, tp)
     end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND + LOCATION_GRAVE)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
         return
     end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e3filter), tp,
+    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e4filter), tp,
         LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
     end
 end
 
-function s.e4filter(c)
+function s.e5filter(c)
     return c:IsCode(39913299) and c:IsAbleToHand()
-end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
-    end
-
-    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
-end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
-
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e4filter), tp,
-        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
-    end
-end
-
-function s.e5filter(c, tp)
-    return c:IsSpellTrap() and c:ListsCode(10000000, 10000020, CARD_RA) and
-               not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode, c:GetCode()), tp,
-            LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, nil) and (c:IsSSetable() or c:IsAbleToHand())
 end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_DECK, 0, 1, nil, tp)
+        return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
     end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
-    Duel.SetPossibleOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
@@ -199,7 +194,36 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_SET, tp, s.e5filter, tp, LOCATION_DECK, 0, 1, 1, nil, tp):GetFirst()
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e5filter), tp,
+        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
+
+function s.e6filter(c, tp)
+    return c:IsSpellTrap() and c:ListsCode(10000000, 10000020, CARD_RA) and
+               not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode, c:GetCode()), tp,
+            LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, nil) and (c:IsSSetable() or c:IsAbleToHand())
+end
+
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_DECK, 0, 1, nil, tp)
+    end
+
+    Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
+    Duel.SetPossibleOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
+end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    local tc = Utility.SelectMatchingCard(HINTMSG_SET, tp, s.e6filter, tp, LOCATION_DECK, 0, 1, 1, nil, tp):GetFirst()
     if not tc then
         return
     end
@@ -209,28 +233,4 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     end, function(c)
         Duel.SSet(tp, tc)
     end, 1159)
-end
-
-function s.e6filter1(c, code)
-    local code1, code2 = c:GetOriginalCodeRule()
-    return code1 == code or code2 == code
-end
-
-function s.e6con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000000) and
-               Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000020) and
-               Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, CARD_RA)
-end
-
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, 0)
-end
-
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.CreateToken(tp, 10000040)
-    Duel.SendtoHand(tc, tp, REASON_EFFECT)
 end
