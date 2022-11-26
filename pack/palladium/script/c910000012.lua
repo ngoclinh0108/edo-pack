@@ -38,6 +38,6 @@ function s.e1con(e, c)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return false end
     return Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0) == 0 or
                Duel.IsExistingMatchingCard(
-                   aux.FilterFaceupFunction(Card.IsAttackAbove, 2000), tp, 0,
+                   aux.FaceupFilter(Card.IsAttackAbove, 2000), tp, 0,
                    LOCATION_MZONE, 1, nil)
 end
