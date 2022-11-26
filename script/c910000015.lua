@@ -1,116 +1,131 @@
--- Palladium Knight of Jack
+-- Palladium Archfiend Gilfer
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-function s.initial_effect(c)
-    c:AddSetcodesRule(0x13a)
+s.listed_series = {0x13a}
 
-    -- destroy
+function s.initial_effect(c)
+    -- summon with no tribute
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_DESTROY)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e1:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DELAY)
-    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetCountLimit(1, {id, 1})
-    e1:SetCost(s.e1cost)
-    e1:SetTarget(s.e1tg)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    e1:SetCode(EFFECT_SUMMON_PROC)
+    e1:SetCondition(s.e1con)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- fusion summon
-    local params = {nil, Fusion.OnFieldMat, nil, nil, Fusion.ForcedHandler}
+    -- special summon
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(1170)
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1, {id, 2})
-    e2:SetTarget(Fusion.SummonEffTG(table.unpack(params)))
-    e2:SetOperation(Fusion.SummonEffOP(table.unpack(params)))
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    e2:SetCode(EFFECT_SPSUMMON_PROC)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e2:SetCondition(s.e2con)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- gain effect
+    -- equip
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_BE_MATERIAL)
-    e3:SetCondition(s.e3con)
+    e3:SetCategory(CATEGORY_EQUIP)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e3:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DELAY)
+    e3:SetCode(EVENT_TO_GRAVE)
+    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_LIGHT) and
-               c:IsRace(RACE_WARRIOR)
+function s.e1con(e, c, minc)
+    if c == nil then return true end
+    return minc == 0 and c:GetLevel() > 4 and
+               Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE) > 0
 end
 
-function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
-
+function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(3206)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    ec1:SetDescription(574)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+    ec1:SetRange(LOCATION_MZONE)
+    ec1:SetCode(EVENT_PHASE + PHASE_END)
+    ec1:SetCountLimit(1)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
+    end)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
     c:RegisterEffect(ec1)
 end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2con(e, c)
+    if c == nil then return true end
+    local tp = c:GetControler()
+
+    return Duel.CheckReleaseGroup(tp, Card.IsSetCard, 1, false, 1, true, c, tp,
+                                  nil, false, nil, 0x13a)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, c)
+    local g = Duel.SelectReleaseGroup(tp, Card.IsSetCard, 1, 1, false, true,
+                                      true, c, nil, nil, false, nil, 0x13a)
+    if g then
+        g:KeepAlive()
+        e:SetLabelObject(g)
+        return true
+    end
+    return false
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
+    local g = e:GetLabelObject()
+    if not g then return end
+    Duel.Release(g, REASON_COST)
+    g:DeleteGroup()
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1,
-                                           nil) and
-                   Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_ONFIELD,
-                                         1, nil)
+        return Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
+                   Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE,
+                                         LOCATION_MZONE, 1, nil)
     end
 
-    local ct =
-        Duel.GetMatchingGroupCount(s.e1filter, tp, LOCATION_MZONE, 0, nil)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_ONFIELD, 1,
-                                ct, nil)
-    Duel.SetOperationInfo(0, HINTMSG_DESTROY, g, #g, 0, 0)
-end
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_EQUIP)
+    Duel.SelectTarget(tp, Card.IsFaceup, tp, LOCATION_MZONE, LOCATION_MZONE, 1,
+                      1, nil)
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetTargetCards(e)
-    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local rc = c:GetReasonCard()
-    return (r & REASON_FUSION) ~= 0 and rc:IsAttribute(ATTRIBUTE_LIGHT) and
-               rc:IsRace(RACE_WARRIOR)
+    Duel.SetOperationInfo(0, CATEGORY_EQUIP, c, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, c, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local rc = c:GetReasonCard()
+    local tc = Duel.GetFirstTarget()
+    if Duel.GetLocationCount(tp, LOCATION_SZONE) <= 0 or tc:IsFacedown() or
+        not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) then return end
 
-    local ec1 = Effect.CreateEffect(rc)
-    ec1:SetDescription(aux.Stringid(id, 0))
+    Duel.Equip(tp, c, tc, true)
+    local ec1 = Effect.CreateEffect(tc)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    ec1:SetCode(EFFECT_EQUIP_LIMIT)
+    ec1:SetValue(function(e, c) return e:GetOwner() == c end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    rc:RegisterEffect(ec1, true)
+    c:RegisterEffect(ec1)
 
-    if not rc:IsType(TYPE_EFFECT) then
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetCode(EFFECT_ADD_TYPE)
-        ec2:SetValue(TYPE_EFFECT)
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
-        rc:RegisterEffect(ec2, true)
-    end
-
-    local ec3 = Effect.CreateEffect(c)
-    ec3:SetType(EFFECT_TYPE_SINGLE)
-    ec3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    ec3:SetRange(LOCATION_MZONE)
-    ec3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    ec3:SetCountLimit(1)
-    ec3:SetValue(function(e, re, r) return (r & REASON_EFFECT) ~= 0 end)
-    ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
-    rc:RegisterEffect(ec3, true)
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_EQUIP)
+    ec2:SetCode(EFFECT_UPDATE_ATTACK)
+    ec2:SetValue(-500)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec2)
+    local ec3 = ec2:Clone()
+    ec3:SetCode(EFFECT_DISABLE)
+    c:RegisterEffect(ec3)
+    local ec3b = ec3:Clone()
+    ec3b:SetCode(EFFECT_DISABLE_EFFECT)
+    c:RegisterEffect(ec3b)
 end

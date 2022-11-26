@@ -291,7 +291,7 @@ Once per turn: You can target 1 card your opponent controls; \
 strings = ["Destroy and banish 1 card"]
 
 [palladium-knight-queen]
-id = 910000013
+id = 910000012
 alias = 25652259
 name = "Palladium Knight of Queen"
 type = "monster effect"
@@ -314,7 +314,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 strings = ["Summoned using \"{CARD_NAME}\""]
 
 [palladium-knight-king]
-id = 910000014
+id = 910000013
 alias = 64788463
 name = "Palladium Knight of King"
 type = "monster effect"
@@ -341,7 +341,7 @@ strings = [
 ]
 
 [palladium-knight-jack]
-id = 910000015
+id = 910000014
 alias = 90876561
 name = "Palladium Knight of Jack"
 type = "monster effect"
@@ -365,7 +365,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 strings = ["Summoned using \"{CARD_NAME}\""]
 
 [palladium-archfiend-gilfer]
-id = 910000016
+id = 910000015
 set = "palladium archfiend"
 name = "Palladium Archfiend Gilfer"
 type = "monster effect"
@@ -385,7 +385,7 @@ If this card is sent to the GY: \
 strings = ["Normal Summon without Tributing"]
 
 [palladium-beast-gazelle]
-id = 910000017
+id = 910000016
 set = "palladium"
 name = "Palladium Beast Gazelle"
 type = "monster effect"
@@ -405,7 +405,7 @@ If this card is used as material for a Fusion Summon: You can draw 1 card. \
 strings = []
 
 [palladium-beast-berfomet]
-id = 910000018
+id = 910000017
 set = "palladium"
 name = "Palladium Beast Berfomet"
 type = "monster effect"
