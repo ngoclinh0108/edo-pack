@@ -29,7 +29,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsFaceup() and c:ListsCodeWithArchetype(0xa3, 0x43)
+    return c:IsFaceup() and (c:IsSetCard(0xa3) or c:IsSetCard(0x43))
 end
 
 function s.e1con(e, c)
@@ -43,7 +43,7 @@ function s.e1con(e, c)
 end
 
 function s.e2filter(c)
-    return c:IsFaceup() and c:HasLevel() and c:ListsCodeWithArchetype(0xa3, 0x43)
+    return c:IsFaceup() and c:HasLevel() and (c:IsSetCard(0xa3) or c:IsSetCard(0x43))
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

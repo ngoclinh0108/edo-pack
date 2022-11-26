@@ -79,7 +79,7 @@ effect = """\
 You can Ritual Summon this card with a "Palladium" card. \
 Must first be either Ritual Summoned, \
     or Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
-You can only Special Summon "Black Luster Soldier - Palladium Soldier(s)" once per turn. \
+You can only Special Summon "{CARD_NAME}(s)" once per turn. \
 Your opponent cannot target or destroy this Ritual Summoned card with card effects. \
 When this card destroys an opponent's monster by battle: You can activate 1 of these effects;
 ● This card gains 1500 ATK.
@@ -107,20 +107,20 @@ def = 2500
 effect = """\
 Cannot be Normal Summoned/Set. \
 Must first be Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
-    You can only Special Summon "Chaos Emperor Dragon - Envoy of the Palladium" once per turn this way. \
+    You can only Special Summon "{CARD_NAME}" once per turn this way. \
 You can pay 1000 LP; \
     send all cards your opponent controls to the GY, \
     then inflict 300 damage to your opponent for each card sent to the GY by this effect. \
     You cannot activate cards or effects and monsters you control cannot attack the turn you activate this effect, \
-    except "Chaos Emperor Dragon - Envoy of the Palladium". \
+    except "{CARD_NAME}". \
 If this card is sent to the GY: \
     You can target 1 your banished LIGHT or DARK monster; \
     add it to your hand. \
-You can only use each effect of "Chaos Emperor Dragon - Envoy of the Palladium" once per turn. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
     "Send card to the GY & inflict damage",
-    "Affected by effect \"Chaos Emperor Dragon - Envoy of the Palladium\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
+    "Affected by effect \"{CARD_NAME}\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
 ]
 
 [palladium-oracle-seto]
@@ -143,11 +143,37 @@ You can discard this card, then target 1 "Blue-Eyes White Dragon" you control; \
 You can Tribute this card; \
     Special Summon up to 3 copies of "Blue-Eyes White Dragon" from your hand, Deck or GY. \
     You cannot Special Summon other monsters the turn you activate this effect. \
-You can only use 1 "Azure Palladium Oracle Seto" effect per turn, and only once that turn.
+You can only use 1 "{CARD_NAME}" effect per turn, and only once that turn.
 """
 strings = [
     "Add 1 \"Blue-Eyes\" monster",
     "Summon 3 \"Blue-Eyes White Dragon\"",
-    "Affected by effect \"Azure Palladium Oracle Seto\": cannot Normal Summon monsters",
-    "Affected by effect \"Azure Palladium Oracle Seto\": cannot Special Summon monsters",
+    "Affected by effect \"{CARD_NAME}\": cannot Normal Summon monsters",
+    "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters",
 ]
+
+[palladium-oracle-shimon]
+id = 910000006
+set = "palladium"
+name = "Palladium Oracle Shimon"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 5
+atk = 1800
+def = 2200
+effect = """\
+During the Main Phase (Quick Effect): \
+    You can destroy 1 "Palladium", "Exodia", or "Forbidden One" monster \
+    you control or in your hand, except "{CARD_NAME}", \
+    and if you do, Special Summon this card from your hand in Defense Position. \
+If this card is Normal or Special Summoned: \
+    You can Set directly from your Deck or GY, 1 "Monster Reborn" or 1 Spell/Trap Card that mentions it, \
+    and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
+During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
+    You can target 5 "Palladium", "Exodia", and/or "Forbidden One" monsters \
+    that is banished or in your GY, except "{CARD_NAME}"; \
+    shuffle this card and all the targeted cards into the Deck, then draw 1 card. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = []
