@@ -176,8 +176,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
                                          1, c)
     if #g == 0 or Duel.SendtoHand(g, nil, REASON_EFFECT) == 0 then return end
     Duel.ConfirmCards(1 - tp, g)
-    Duel.ShuffleDeck(tp)
-
+    
     if c:IsRelateToEffect(e) then
         Duel.BreakEffect()
         Duel.SendtoDeck(c, nil, SEQ_DECKBOTTOM, REASON_EFFECT)
