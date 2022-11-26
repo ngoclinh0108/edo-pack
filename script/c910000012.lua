@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    c:AddSetcodesRule(0x13a)
+    c:AddSetCodeRules(0x13a)
 
     -- special summon
     local e1 = Effect.CreateEffect(c)
