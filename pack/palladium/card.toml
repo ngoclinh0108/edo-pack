@@ -364,9 +364,10 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 """
 strings = ["Summoned using \"{CARD_NAME}\""]
 
-[arcana-royal-joker]
+[arcana-palladium-joker]
 id = 910000015
-name = "Arcana Royal Joker"
+set = "palladium"
+name = "Arcana Palladium Joker"
 type = "fusion monster effect"
 attribute = "light"
 race = "warrior"
