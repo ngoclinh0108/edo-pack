@@ -11,10 +11,9 @@ function s.initial_effect(c)
     act:SetType(EFFECT_TYPE_ACTIVATE)
     act:SetCode(EVENT_FREE_CHAIN)
     act:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or
-                   Duel.IsExistingMatchingCard(function(c)
-                return c:IsFaceup() and c:IsSetCard(71703785)
-            end, tp, LOCATION_ONFIELD, 0, 1, nil)
+        return (Duel.IsTurnPlayer(tp) and Duel.IsMainPhase()) or Duel.IsExistingMatchingCard(function(c)
+            return c:IsFaceup() and c:IsCode(71703785)
+        end, tp, LOCATION_ONFIELD, 0, 1, nil)
     end)
     act:SetTarget(Utility.MultiEffectTarget(s))
     act:SetOperation(Utility.MultiEffectOperation(s))
@@ -40,8 +39,7 @@ function s.initial_effect(c)
             end, tp, LOCATION_DECK, 0, nil)
             local check = function(tp, sg, fc)
                 return sg:IsExists(Card.IsSetCard, 1, nil, 0x13a) and
-                           sg:FilterCount(Card.IsLocation, nil, LOCATION_DECK) <=
-                           1
+                           sg:FilterCount(Card.IsLocation, nil, LOCATION_DECK) <= 1
             end
             return g, check
         end
