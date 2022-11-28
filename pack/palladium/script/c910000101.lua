@@ -29,7 +29,7 @@ function s.initial_effect(c)
     })
     Utility.RegisterMultiEffect(s, 1, e1)
 
-    -- ritual
+    -- fusion
     local e2 = Fusion.CreateSummonEff({
         desc = 1170,
         handler = c,
