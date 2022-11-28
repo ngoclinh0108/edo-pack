@@ -139,7 +139,7 @@ Cannot be Normal Summoned/Set. \
 Must be Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
 You can pay 1000 LP; \
-    send all cards your opponent controls to the GY, \
+    send all other cards from the field to the GY, \
     then inflict 300 damage to your opponent for each card sent to the GY by this effect. \
     You cannot activate cards or effects and monsters you control cannot attack the turn you activate this effect, \
     except "{CARD_NAME}". \
@@ -152,7 +152,7 @@ strings = [
 ]
 
 [palladium-knight-gaia]
-id = 910000006
+id = 910000007
 set = "palladium"
 name = "Palladium Knight Gaia"
 type = "monster effect"
@@ -173,7 +173,7 @@ When you Ritual or Fusion Summon a "Palladium" monster, \
 strings = ["Change battle position of battling monster"]
 
 [palladium-guardian-shada]
-id = 910000007
+id = 910000008
 set = "palladium guardian"
 name = "Palladium Guardian Shada"
 type = "monster effect"
@@ -197,7 +197,7 @@ At the end of the Damage Step, if this card battled an opponent's monster, \
 strings = []
 
 [palladium-gardna-karim]
-id = 910000008
+id = 910000009
 set = "palladium"
 name = "Palladium Gardna Karim"
 type = "monster effect"
@@ -218,7 +218,7 @@ If this Defense Position card is attacked, it loses 800 DEF. \
 strings = ["Switch attack target"]
 
 [palladium-maiden-isis]
-id = 910000009
+id = 910000010
 set = "palladium"
 name = "Palladium Maiden Isis"
 type = "monster effect"
@@ -243,7 +243,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Look at Deck"]
 
 [palladium-oracle-hassan]
-id = 910000010
+id = 910000011
 set = "palladium"
 name = "Serect Palladium Oracle Hassan"
 type = "monster effect"
@@ -267,7 +267,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Reduce damage", "Add 1 \"Palladium\" card to you hand"]
 
 [chaos-eyes-palladium-dragon]
-id = 910000011
+id = 910000012
 set = "chaos palladium"
 name = "Chaos-Eyes Palladium Dragon"
 type = "monster effect"
@@ -291,7 +291,7 @@ Once per turn: You can target 1 card your opponent controls; \
 strings = ["Destroy and banish 1 card"]
 
 [palladium-knight-queen]
-id = 910000012
+id = 910000013
 alias = 25652259
 name = "Palladium Knight of Queen"
 type = "monster effect"
@@ -314,7 +314,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 strings = ["Summoned using \"{CARD_NAME}\""]
 
 [palladium-knight-king]
-id = 910000013
+id = 910000014
 alias = 64788463
 name = "Palladium Knight of King"
 type = "monster effect"
@@ -341,7 +341,7 @@ strings = [
 ]
 
 [palladium-knight-jack]
-id = 910000014
+id = 910000015
 alias = 90876561
 name = "Palladium Knight of Jack"
 type = "monster effect"
@@ -365,7 +365,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 strings = ["Summoned using \"{CARD_NAME}\""]
 
 [arcana-palladium-joker]
-id = 910000015
+id = 910000016
 set = "palladium"
 name = "Arcana Palladium Joker"
 type = "fusion monster effect"
@@ -387,7 +387,7 @@ strings = ["Discard to negate", "Discard to destroy"]
 
 
 [palladium-archfiend-gilfer]
-id = 910000016
+id = 910000017
 set = "palladium archfiend"
 name = "Palladium Archfiend Gilfer"
 type = "monster effect"
@@ -407,7 +407,7 @@ If this card is sent to the GY: \
 strings = ["Normal Summon without Tributing"]
 
 [palladium-beast-gazelle]
-id = 910000017
+id = 910000018
 set = "palladium"
 name = "Palladium Beast Gazelle"
 type = "monster effect"
@@ -427,7 +427,7 @@ If this card is used as material for a Fusion Summon: You can draw 1 card. \
 strings = []
 
 [palladium-beast-berfomet]
-id = 910000018
+id = 910000019
 set = "palladium"
 name = "Palladium Beast Berfomet"
 type = "monster effect"
@@ -447,7 +447,7 @@ When you Fusion Summon a "Palladium" monster, you can banish this card from your
 strings = []
 
 [palladium-beast-chimera]
-id = 910000019
+id = 910000020
 set = "palladium"
 name = "Palladium Beast Chimera"
 type = "monster fusion effect"

@@ -137,18 +137,19 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(Card.IsAbleToGrave, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, c)
     if chk == 0 then
         return #g > 0
     end
 
-    local ct = g:FilterCount(Card.IsAbleToGrave, nil)
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, ct * 300)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, #g * 300)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(Card.IsAbleToGrave, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, c)
     Duel.SendtoGrave(g, REASON_EFFECT)
 
     local ct = Duel.GetOperatedGroup():FilterCount(Card.IsLocation, nil, LOCATION_GRAVE)

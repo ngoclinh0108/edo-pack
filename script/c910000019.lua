@@ -1,88 +1,94 @@
--- Palladium Beast Chimera
+-- Palladium Beast Berfomet
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.material = {910000017, 910000018}
-s.material_setcode = {0x13a}
-s.listed_names = {910000017, 910000018}
+s.listed_series = {0x13a, 0x46}
 
 function s.initial_effect(c)
-    c:EnableReviveLimit()
-
-    -- fusion summon
-    Fusion.AddProcMix(c, false, false, 910000017, 910000018)
-
-    -- gain effect
+    -- to hand
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e1:SetCondition(function(e)
-        return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION)
-    end)
-    e1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        local c = e:GetHandler()
-        local g = c:GetMaterial()
-        for mc in aux.Next(g) do
-            c:CopyEffect(mc:GetOriginalCode(), RESET_EVENT + RESETS_STANDARD, 1)
-        end
-    end)
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetRange(LOCATION_HAND)
+    e1:SetCountLimit(1, id)
+    e1:SetCost(s.e1cost)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- chain attack
+    -- damage
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCategory(CATEGORY_DAMAGE)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e2:SetCode(EVENT_BATTLE_DESTROYING)
-    e2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return aux.bdocon(e, tp, eg, ep, ev, re, r, rp) and
-                   e:GetHandler():CanChainAttack()
-    end)
-    e2:SetOperation(function() Duel.ChainAttack() end)
+    e2:SetCondition(aux.bdocon)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- special summon
+    -- extra material
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e3:SetProperty(EFFECT_FLAG_DELAY)
-    e3:SetCode(EVENT_DESTROYED)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCode(EFFECT_EXTRA_FUSION_MATERIAL)
+    e3:SetCondition(function(e)
+        return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(), 69832741)
+    end)
+    e3:SetOperation(Fusion.BanishMaterial)
+    e3:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
     c:RegisterEffect(e3)
 end
 
-function s.e3filter(c, e, tp)
-    if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
-    return c:IsCode(910000017, 910000018) and
-               (c:IsCanBeSpecialSummoned(e, 0, tp, false, false) or
-                   c:IsAbleToHand())
+function s.e1filter(c)
+    if not c:IsAbleToHand() then return false end
+    return (c:IsSetCard(0x46) and c:IsType(TYPE_SPELL)) or
+               (c:IsLevelBelow(4) and c:IsSetCard(0x13a))
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local loc = LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return e:GetHandler():IsDiscardable() end
+    Duel.SendtoGrave(e:GetHandler(), REASON_COST + REASON_DISCARD)
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
-                                               e, tp)
+        return Duel.IsExistingMatchingCard(s.e1filter, tp,
+                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                           nil)
     end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, loc)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
+                          LOCATION_DECK + LOCATION_GRAVE)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_SELECT, tp,
-                                         aux.NecroValleyFilter(s.e3filter), tp,
-                                         LOCATION_DECK + LOCATION_GRAVE +
-                                             LOCATION_REMOVED, 0, 1, 1, nil, e,
-                                         tp)
-    if #g == 0 then return end
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp,
+                                         aux.NecroValleyFilter(s.e1filter), tp,
+                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
+                                         1, nil)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
 
-    aux.ToHandOrElse(g, tp, function(tc)
-        return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end, function(g)
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
-    end, 2)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    local c = e:GetHandler()
+    local bc = c:GetBattleTarget()
+    local dmg = bc:GetAttack()
+    if dmg < 0 then dmg = 0 end
+
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(dmg)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, dmg)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
+                                   CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
 end
