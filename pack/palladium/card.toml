@@ -435,7 +435,7 @@ You can Special Summon this card (from your GY) by Tributing 1 "Palladium" monst
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
 If this card is sent to the GY: \
     You can target 1 face-up monster on the field; equip this card to that target. \
-    That monster loses 500 ATK and has its effects negated while equipped with this card. \
+    That monster loses 500 ATK and DEF while equipped with this card. \
 """
 strings = ["Normal Summon without Tributing"]
 
