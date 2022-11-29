@@ -10,8 +10,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, true, true, 71703785,
-                      aux.FilterBoolFunctionEx(Card.IsSetCard, 0x45))
+    Fusion.AddProcMix(c, true, true, 71703785, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x45))
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -19,8 +18,7 @@ function s.initial_effect(c)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     splimit:SetValue(function(e, se, sp, st)
-        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or
-                   aux.fuslimit(e, se, sp, st)
+        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or aux.fuslimit(e, se, sp, st)
     end)
     c:RegisterEffect(splimit)
 
@@ -78,13 +76,11 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE,
-                                     LOCATION_GRAVE, 1, nil)
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
-    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE,
-                                LOCATION_GRAVE, 1, 99, nil)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, 99, nil)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
 end
 
@@ -92,7 +88,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tg = Duel.GetTargetCards(e)
     local ct = Duel.Remove(tg, POS_FACEUP, REASON_EFFECT)
-    if c:IsFacedown() or not c:IsRelateToEffect(e) or ct == 0 then return end
+    if c:IsFacedown() or not c:IsRelateToEffect(e) or ct == 0 then
+        return
+    end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -105,34 +103,30 @@ end
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost, tp,
-                                           LOCATION_HAND + LOCATION_ONFIELD, 0,
-                                           1, c)
+        return Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost, tp, LOCATION_ONFIELD, 0, 1, c)
     end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp,
-                                         Card.IsAbleToGraveAsCost, tp,
-                                         LOCATION_HAND + LOCATION_ONFIELD, 0, 1,
-                                         1, c)
+    local g =
+        Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, Card.IsAbleToGraveAsCost, tp, LOCATION_ONFIELD, 0, 1, 1, c)
     Duel.SendtoGrave(g, REASON_COST)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsNegatable, tp, 0, LOCATION_ONFIELD, 1,
-                                     nil)
+        return Duel.IsExistingTarget(Card.IsNegatable, tp, 0, LOCATION_ONFIELD, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
-    local g = Duel.SelectTarget(tp, Card.IsNegatable, tp, 0, LOCATION_ONFIELD, 1,
-                                1, nil)
+    local g = Duel.SelectTarget(tp, Card.IsNegatable, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, #g, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
+    if not tc or not tc:IsRelateToEffect(e) then
+        return
+    end
 
     if (tc:IsFaceup() and not tc:IsDisabled()) or tc:IsType(TYPE_TRAPMONSTER) then
         Duel.NegateRelatedChain(tc, RESET_TURN_SET)
