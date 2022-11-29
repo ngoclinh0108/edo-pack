@@ -49,14 +49,9 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e2filter1(c, tp)
-    return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsType(TYPE_TUNER) and not c:IsPublic() and
-               Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_ONFIELD, 0, 1, c)
-end
-
-function s.e2filter2(c)
-    return c:IsLevel(8) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsAbleToGrave() and
-               (c:IsLocation(LOCATION_HAND + LOCATION_DECK) or c:IsFaceup())
+function s.e2filter(c)
+    return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsType(TYPE_TUNER) and c:IsSetCard(0x13a) and
+               not c:IsPublic()
 end
 
 function s.e2con(e, c)
@@ -65,26 +60,17 @@ function s.e2con(e, c)
     end
 
     local tp = c:GetControler()
-    local g = Duel.GetMatchingGroup(s.e2filter1, tp, LOCATION_HAND, 0, nil, tp)
+    local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_HAND, 0, nil)
     return #g > 0 and aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 0)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = Duel.GetMatchingGroup(s.e2filter1, tp, LOCATION_HAND, 0, nil, tp)
-    local sc1 =
-        aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp, HINTMSG_CONFIRM, nil, nil, true):GetFirst()
-    if not sc1 then
+    local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_HAND, 0, nil)
+    local sg = aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp, HINTMSG_CONFIRM, nil, nil, true)
+    if #sg == 0 then
         return false
     end
 
-    local g = Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_ONFIELD, 0, nil)
-    local sc2 =
-        aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp, HINTMSG_TOGRAVE, nil, nil, true):GetFirst()
-    if not sc2 then
-        return false
-    end
-
-    local sg = Group.FromCards(sc1, sc2)
     sg:KeepAlive()
     e:SetLabelObject(sg)
     return true
@@ -96,16 +82,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp, c)
         return
     end
 
-    local sc1 = g:GetFirst()
-    local sc2 = g:GetNext()
-    if s.e2filter2(sc1) then
-        local t = sc1
-        sc1 = sc2
-        sc2 = t
-    end
-
-    Duel.ConfirmCards(1 - tp, sc1)
-    Duel.SendtoGrave(sc2, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, g)
     Duel.ShuffleHand(tp)
     g:DeleteGroup()
 end

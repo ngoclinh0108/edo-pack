@@ -313,10 +313,9 @@ atk = 3300
 def = 2500
 effect = """\
 (This card's Attribute is also DARK.)
-To Tribute Summon this card, you must "Palladium" monster. \
+To Tribute Summon this card, you must Tribute "Palladium" monster. \
 You can Special Summon this card (from your hand) by \
-    revealing 1 Level 1 LIGHT Tuner in your hand and \
-    sending 1 Level 8 DARK Dragon from your hand, Deck, or your side of the field to the GY. \
+    revealing 1 Level 1 LIGHT "Palladium" Tuner in your hand. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
 Your opponent cannot target this card with card effects. \
 Once per turn: You can target 1 card your opponent controls; \
