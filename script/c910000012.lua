@@ -10,7 +10,7 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetCode(EFFECT_TRIBUTE_LIMIT)
     e1:SetValue(function(e, c)
-        return not c:IsSetCard(0x13a)
+        return not c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
     end)
     c:RegisterEffect(e1)
 
@@ -50,8 +50,7 @@ function s.initial_effect(c)
 end
 
 function s.e2filter(c)
-    return c:IsLevel(1) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsType(TYPE_TUNER) and c:IsSetCard(0x13a) and
-               not c:IsPublic()
+    return c:IsLevel(1) and c:IsSetCard(0x13a) and c:IsType(TYPE_TUNER) and not c:IsPublic()
 end
 
 function s.e2con(e, c)
