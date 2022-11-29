@@ -119,12 +119,12 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.disfilter3, tp, 0, LOCATION_ONFIELD, 1,
+        return Duel.IsExistingTarget(Card.IsNegatable, tp, 0, LOCATION_ONFIELD, 1,
                                      nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
-    local g = Duel.SelectTarget(tp, aux.disfilter3, tp, 0, LOCATION_ONFIELD, 1,
+    local g = Duel.SelectTarget(tp, Card.IsNegatable, tp, 0, LOCATION_ONFIELD, 1,
                                 1, nil)
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, g, #g, 0, 0)
 end
