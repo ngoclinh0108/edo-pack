@@ -38,7 +38,7 @@ function s.initial_effect(c)
     -- destroy and banish
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
-    e4:SetCategory(CATEGORY_DESTROY + CATEGORY_REMOVE)
+    e4:SetCategory(CATEGORY_DESTROY)
     e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetRange(LOCATION_MZONE)
@@ -110,12 +110,11 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local g = Duel.SelectTarget(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, 1, 0, 0)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if tc and tc:IsRelateToEffect(e) then
-        Duel.Destroy(tc, REASON_EFFECT, LOCATION_REMOVED)
+        Duel.Destroy(tc, REASON_EFFECT)
     end
 end

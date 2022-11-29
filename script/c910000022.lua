@@ -67,7 +67,7 @@ function s.initial_effect(c)
     -- negate
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY + CATEGORY_REMOVE)
+    e3:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY)
     e3:SetType(EFFECT_TYPE_QUICK_O)
     e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
     e3:SetRange(LOCATION_MZONE)
@@ -82,7 +82,7 @@ function s.initial_effect(c)
     -- destroy
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_DESTROY + CATEGORY_REMOVE)
+    e4:SetCategory(CATEGORY_DESTROY)
     e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetRange(LOCATION_MZONE)
     e4:SetCountLimit(1, id)
@@ -132,13 +132,12 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
     if re:GetHandler():IsRelateToEffect(re) then
         Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, 1, 0, 0)
-        Duel.SetOperationInfo(0, CATEGORY_REMOVE, eg, 1, 0, 0)
     end
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
-        Duel.Destroy(eg, REASON_EFFECT, LOCATION_REMOVED)
+        Duel.Destroy(eg, REASON_EFFECT)
     end
 end
 
@@ -156,7 +155,6 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if ct1 ~= 0 then
         local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
         Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, ct1, 0, 0)
-        Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, ct1, 0, 0)
     end
 end
 
@@ -169,16 +167,16 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     if #g1 == 0 then
-        Duel.Destroy(g2, REASON_EFFECT, LOCATION_REMOVED)
+        Duel.Destroy(g2, REASON_EFFECT)
     elseif #g2 == 0 then
-        Duel.Destroy(g1, REASON_EFFECT, LOCATION_REMOVED)
+        Duel.Destroy(g1, REASON_EFFECT)
     else
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SELECT)
         local opt = Duel.SelectOption(tp, aux.Stringid(id, 2), aux.Stringid(id, 3))
         if opt == 0 then
-            Duel.Destroy(g1, REASON_EFFECT, LOCATION_REMOVED)
+            Duel.Destroy(g1, REASON_EFFECT)
         else
-            Duel.Destroy(g2, REASON_EFFECT, LOCATION_REMOVED)
+            Duel.Destroy(g2, REASON_EFFECT)
         end
     end
 end
