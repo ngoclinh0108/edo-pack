@@ -534,13 +534,14 @@ id = 910000022
 set = "chaos palladium"
 name = "Chaos-Eyes Palladium Dragoon"
 type = "monster fusion effect"
-attribute = "light"
+attribute = "light dark"
 race = "spellcaster"
 level = 9
 atk = 3500
 def = 2500
 effect = """\
 "Palladium Oracle Mahad" + "Chaos-Eyes Palladium Dragon"
+(This card's Attribute is also DARK.)
 Must first be Fusion Summoned with the above materials. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Cannot be destroyed by card effects. Your opponent cannot target it with card effects. \
