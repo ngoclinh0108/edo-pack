@@ -28,9 +28,9 @@ function s.initial_effect(c)
     e1b:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(e1b)
 
-    -- shuffle when leaving the field
+    -- leaving the field
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_TODECK)
+    e2:SetCategory(CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e2:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e2:SetCode(EVENT_LEAVE_FIELD)
@@ -116,12 +116,12 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, g, #g, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
-    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT + REASON_RULE)
+    Duel.Destroy(g, REASON_EFFECT)
 end
 
 function s.e3filter1(c, code)

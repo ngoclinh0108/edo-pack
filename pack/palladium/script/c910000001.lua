@@ -21,7 +21,9 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(s.e2tg)
+    e2:SetTarget(function(e, tc)
+        return tc:IsSetCard(0x13a) and tc:IsRace(RACE_SPELLCASTER)
+    end)
     e2:SetValue(1)
     c:RegisterEffect(e2)
 
@@ -49,10 +51,6 @@ function s.e1con(e, c)
     local tp = c:GetControler()
     return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
-end
-
-function s.e2tg(e, tc)
-    return tc:IsSetCard(0x13a) and tc:IsRace(RACE_SPELLCASTER)
 end
 
 function s.e3filter(c, tp)

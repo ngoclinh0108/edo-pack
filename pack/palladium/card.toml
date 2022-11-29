@@ -12,9 +12,9 @@ def = 2100
 effect = """\
 (This card's name is always treated as "Palladium Oracle Mahad")
 If this card is added to your hand, you can Special Summon it from your hand. \
-Each time a Spell Card is activated, place 1 Spell Counter on this card when that Spell resolves (max 5). \
-While this card has a Spell Counter, it is unaffected by your opponent's card effects. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
+Your opponent cannot target Spells/Traps you control with card effects, \
+    also they cannot be destroyed by your opponent's card effects. \
 """
 strings = ["Special Summon this card?"]
 
@@ -309,7 +309,7 @@ type = "monster effect"
 attribute = "light dark"
 race = "dragon"
 level = 9
-atk = 3300
+atk = 3000
 def = 2500
 effect = """\
 (This card's Attribute is also DARK.)
@@ -502,6 +502,62 @@ If this card is destroyed by battle or card effect: \
     that is banished or in your Deck, GY. \
 """
 strings = ["Make a second attack in a row"]
+
+[the-palladium-oracles]
+id = 910000021
+set = "palladium"
+name = "The Palladium Oracles"
+type = "monster fusion effect"
+attribute = "light"
+race = "spellcaster"
+level = 8
+atk = 2800
+def = 2300
+effect = """\
+"Palladium Oracle Mahad" or "Palladium Oracle Mana" + 1 Spellcaster monster
+Must first be Fusion Summoned with the above materials. \
+"Palladium" Spellcaster monsters you control cannot be destroyed by card effects. \
+Your opponent cannot target Spells/Traps you control with card effects, \
+    also they cannot be destroyed by your opponent's card effects. \
+Once per turn, when a monster declares an attack or a card or effect is activated: \
+    You can draw 1 card, then if it was a Spell/Trap, \
+    you can Set it, and if it was a Trap or Quick-Play Spell, you can activate it this turn. \
+If this card is destroyed by battle or card effect: \
+    You can shuffle it into the Extra Deck; \
+    You can Special Summon both 1 "Palladium Oracle Mahad" and 1 "Palladium Oracle Mana", \
+    that are banished or are in your hand, Deck, GY. \
+"""
+strings = []
+
+[chaos-eyes-palladium-dragoon]
+id = 910000022
+set = "chaos palladium"
+name = "Chaos-Eyes Palladium Dragoon"
+type = "monster fusion effect"
+attribute = "light"
+race = "spellcaster"
+level = 9
+atk = 3500
+def = 2500
+effect = """\
+"Palladium Oracle Mahad" + "Chaos-Eyes Palladium Dragon"
+Must first be Fusion Summoned with the above materials. \
+Cannot be Tributed, or be used as a material for an Summon by your opponent. \
+Cannot be destroyed by card effects. Your opponent cannot target it with card effects. \
+If this card's effect destroys a card, this card gains 500 ATK for each destroyed card. \
+Once per turn, when another card or effect is activated (Quick Effect): \
+    You can discard 1 card; \
+    negate the activation, \
+    and if you do, destroy and banish that card. \
+You can destroy and banish all monsters your opponent controls OR all Spell/Trap they control. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+"""
+strings = [
+    "Negate activation, then destroy",
+    "Destroy all monster or Spell/Trap",
+    "Destroy all monster",
+    "Destroy all Spell/Trap",
+]
 
 [forbidden-art-palladium]
 id = 910000101
