@@ -35,7 +35,7 @@ function s.initial_effect(c)
     e3:SetValue(aux.tgoval)
     c:RegisterEffect(e3)
 
-    -- destroy and banish
+    -- destroy
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
     e4:SetCategory(CATEGORY_DESTROY)
@@ -102,12 +102,13 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil)
+        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
+    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, c)
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
 end
