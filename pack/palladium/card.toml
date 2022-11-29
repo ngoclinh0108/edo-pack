@@ -560,6 +560,80 @@ strings = [
     "Destroy all Spell/Trap",
 ]
 
+[palladium-master-chaos]
+id = 910000023
+set = "palladium chaos"
+name = "Palladium Master of Chaos"
+type = "monster fusion effect"
+attribute = "dark"
+race = "spellcaster"
+level = 8
+atk = 3000
+def = 2500
+effect = """\
+"Palladium Oracle Mahad" + 1 "Chaos" or "Black Luster Soldier" Ritual Monster
+Must first be Fusion Summoned with the above materials. \
+If this card is Fusion Summoned: \
+    You can add 1 card in your GY to your hand. \
+You can Special Summon 1 LIGHT or DARK monster that is banished or is in your GY, \
+    except "{CARD_NAME}". \
+(Quick Effect): You can Tribute 1 LIGHT and 1 DARK monster; \
+    banish all monsters your opponent controls. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = [
+    "Add 1 card to your hand",
+    "Special Summon 1 LIGHT or DARK monster",
+    "Banish monsters your opponent controls",
+]
+
+[archfiend-necromancer-palladium]
+id = 910000024
+set = "palladium archfiend"
+name = "Archfiend Necromancer of Palladium"
+type = "monster fusion effect"
+attribute = "dark"
+race = "spellcaster"
+level = 8
+atk = 2900
+def = 2400
+effect = """\
+"Palladium Oracle Mahad" + 1 "Archfiend" monster
+Must first be Fusion Summoned with the above materials. \
+This card's effect activations and its effects cannot be negated. \
+If this card is Special Summoned: \
+    You can target any number of Spells/Traps in any GY(s); \
+    banish those targets, and if you do, \
+    this card gains 100 ATK for each card banished by this effect. \
+(Quick Effect): You can send 1 other card you control or in your hand, \
+    then target 1 face-up card your opponent controls; Negate its effects. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Banish Spells/Traps to gain ATK"]
+
+[dark-flare-knight-palladium]
+id = 910000025
+set = "palladium"
+name = "Dark Flare Knight of Palladium"
+type = "monster fusion effect"
+attribute = "dark"
+race = "warrior"
+level = 6
+atk = 2200
+def = 800
+effect = """\
+1 Level 6 or higher Spellcaster monster + 1 Warrior monster
+Must first be Fusion Summoned with the above materials. \
+If this card is Special Summoned: \
+    You can target 1 card on the field; destroy it. \
+Negate the effects of face-up monsters your opponent controls \
+    with ATK less than or equal to this card's. \
+If this card is destroyed by battle or card effect: \
+    You can Special Summon 1 "Palladium" monster from your hand, Deck or GY, \
+    except "{CARD_NAME}".
+"""
+strings = []
+
 [forbidden-art-palladium]
 id = 910000101
 set = "palladium fusion"
