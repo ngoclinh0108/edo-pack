@@ -3,14 +3,14 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.material = {71703785}
-s.material_setcode = {0x13a, 0x45}
+s.material_setcode = {0x13a}
 s.listed_names = {71703785}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, true, true, 71703785, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x45))
+    Fusion.AddProcMix(c, true, true, 71703785, aux.FilterBoolFunctionEx(Card.IsRace, RACE_FIEND))
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)

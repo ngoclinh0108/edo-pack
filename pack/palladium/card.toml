@@ -596,7 +596,7 @@ level = 8
 atk = 2900
 def = 2400
 effect = """\
-"Palladium Oracle Mahad" + 1 "Archfiend" monster
+"Palladium Oracle Mahad" + 1 Fiend monster
 Must first be Fusion Summoned with the above materials. \
 This card's effect activations and its effects cannot be negated. \
 If this card is Special Summoned: \
