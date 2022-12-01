@@ -1,4 +1,4 @@
--- Archfiend Necromancer of Palladium
+-- Necromancer of Palladium
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

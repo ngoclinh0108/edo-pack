@@ -585,10 +585,10 @@ strings = [
     "Banish monsters your opponent controls",
 ]
 
-[archfiend-necromancer-palladium]
+[necromancer-palladium]
 id = 910000024
-set = "palladium archfiend"
-name = "Archfiend Necromancer of Palladium"
+set = "palladium"
+name = "Necromancer of Palladium"
 type = "monster fusion effect"
 attribute = "dark"
 race = "spellcaster"
