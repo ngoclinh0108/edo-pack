@@ -14,7 +14,6 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
     e1:SetCode(EVENT_TO_HAND)
     e1:SetRange(LOCATION_HAND)
-    e1:SetCondition(s.e1con)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
@@ -45,14 +44,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e3b)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
-
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
         Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
     end
 end

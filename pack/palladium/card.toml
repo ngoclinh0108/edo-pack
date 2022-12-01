@@ -657,6 +657,7 @@ name = "Palladium Fusion Mastery"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "De-Fusion" and it is "Palladium" card.)
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
 Activate 1 of these effects.
 ● Target 1 Fusion Monster on the field; return it to the Extra Deck, then, \
     if all the Fusion Materials that were used for its Fusion Summon are banished and/or are in your hand, Deck, GY, \

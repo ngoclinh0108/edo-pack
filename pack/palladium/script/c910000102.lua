@@ -6,10 +6,13 @@ s.listed_series = {0x46}
 
 function s.initial_effect(c)
     c:AddSetcodesRule(id, true, 0x13a)
+    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
+                                                    EFFECT_FLAG_CANNOT_INACTIVATE
 
     -- activate
     local act = Effect.CreateEffect(c)
     act:SetType(EFFECT_TYPE_ACTIVATE)
+    act:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     act:SetCode(EVENT_FREE_CHAIN)
     act:SetTarget(Utility.MultiEffectTarget(s))
     act:SetOperation(Utility.MultiEffectOperation(s))
@@ -34,6 +37,7 @@ function s.initial_effect(c)
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
     e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e3:SetRange(LOCATION_GRAVE)
     e3:SetCountLimit(1, id)
     e3:SetTarget(s.e3tg)
