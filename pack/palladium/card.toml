@@ -727,3 +727,37 @@ You can also Special Summon a monster that can be Normal Summoned with this effe
     but send that monster to the GY during the End Phase. \
 """
 strings = []
+
+[palladium-mirror-force]
+id = 910000106
+set = "palladium"
+name = "Palladium Mirror Force"
+type = "trap counter"
+effect = """\
+Activate 1 of these effects.
+● When your opponent activates a monster effect that targets a monster(s) you control: \
+    Negate that effect, and also destroy all your opponent's Attack Position monsters.
+● When an opponent's monster declares an attack: \
+    Negate that attack, and also destroy all your opponent's Attack Position monsters.
+If this Set card is destroyed by your opponent's card effect and sent to your GY: \
+    You can Set this card from your GY and 1 "Palladium" Trap Card from your hand, Deck, or GY, \
+    except "Palladium Mirror Force". They can be activated this turn. \
+"""
+strings = []
+
+[palladium-shattering-arrow]
+id = 910000107
+set = "palladium"
+name = "Palladium Shattering Arrow"
+type = "trap counter"
+effect = """\
+If you control "Palladium" monster: Activate as Chain Link 2 or higher; \
+    negate the activations of your opponent's Spell/Trap Cards and monster effects activated before this card in this Chain, \
+    and if you do, destroy the negated cards on the field, \
+    also you can apply 1 of those negated effects that targets a card(s). \
+If you control "Palladium Oracle Mahad", except the turn this card was sent to the GY: \
+    You can return this card from your GY to the bottom of the Deck, \
+    then target 1 face-up card your opponent controls; \
+    negate its effects until the end of this turn. \
+"""
+strings = ["Apply 1 of negated effects?"]
