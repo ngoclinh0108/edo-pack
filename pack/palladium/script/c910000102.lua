@@ -6,13 +6,10 @@ s.listed_series = {0x46}
 
 function s.initial_effect(c)
     c:AddSetcodesRule(id, true, 0x13a)
-    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
-                                                    EFFECT_FLAG_CANNOT_INACTIVATE
 
     -- activate
     local act = Effect.CreateEffect(c)
     act:SetType(EFFECT_TYPE_ACTIVATE)
-    act:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     act:SetCode(EVENT_FREE_CHAIN)
     act:SetTarget(Utility.MultiEffectTarget(s))
     act:SetOperation(Utility.MultiEffectOperation(s))
@@ -30,6 +27,7 @@ function s.initial_effect(c)
     -- prevent fusion negation
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 2))
+    e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     Utility.RegisterMultiEffect(s, 2, e2)
 
@@ -37,7 +35,6 @@ function s.initial_effect(c)
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
     e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e3:SetRange(LOCATION_GRAVE)
     e3:SetCountLimit(1, id)
     e3:SetTarget(s.e3tg)
@@ -83,6 +80,16 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.BreakEffect()
         Duel.SpecialSummon(mg, 0, tp, tp, false, false, POS_FACEUP)
     end
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
+
+    Duel.SetChainLimit(function(e, rp, tp)
+        return tp == rp
+    end)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -149,7 +156,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c)
-    return c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand()
+    return not c:IsCode(id) and c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand()
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)

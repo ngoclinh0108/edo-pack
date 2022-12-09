@@ -11,7 +11,7 @@ atk = 2500
 def = 2100
 effect = """\
 (This card's name is always treated as "Palladium Oracle Mahad")
-When this card is added to your hand: You can Special Summon it from your hand. \
+If this card is added to your hand: You can Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 Your opponent cannot target Spells/Traps you control with card effects, \
     also they cannot be destroyed by your opponent's card effects. \
@@ -82,13 +82,13 @@ def = 2600
 effect = """\
 You can Ritual Summon this card with a "Palladium" card. \
 Must first be Ritual Summoned, with using at least 1 "Palladium" Spellcaster monster. \
+You can reveal this card in your hand; add 1 "Palladium Oracle Mahad" or 1 card that mentions it, except "{CARD_NAME}", \
+    from your Deck or GY to your hand, then place 1 card from your hand on top of the Deck. \
 After this card was Special Summoned, your opponent cannot activate monster effects for the rest of that turn. \
-You can only use the following effect of "{CARD_NAME}" once per turn.
-● You can reveal this card in your hand; \
-    add 1 "Palladium Oracle Mahad" or 1 card that mentions it, except "{CARD_NAME}", \
-    from your Deck or GY to your hand, then place 1 card from your hand on top of the Deck.
-● If this card destroys an opponent's monster by battle: \
-    You can target 1 Spell/Trap in your GY; add it to your hand.
+Gains 100 ATK for each banished cards. \
+Banish any monster destroyed by battle with this card. \
+If this card destroys an opponent's monster by battle: You can target 1 Spell/Trap in your GY; add it to your hand. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
     "Affected by effect \"{CARD_NAME}\": cannot activate monster effects",
@@ -657,15 +657,15 @@ name = "Palladium Fusion Mastery"
 type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "De-Fusion" and it is "Palladium" card.)
-The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
 Activate 1 of these effects.
 ● Target 1 Fusion Monster on the field; return it to the Extra Deck, then, \
     if all the Fusion Materials that were used for its Fusion Summon are banished and/or are in your hand, Deck, GY, \
     you can Special Summon all of them.
 ● This turn, the activation of your cards and effects that include an effect that Fusion Summons a Fusion Monster cannot be negated, \
-    also your opponent cannot activate cards or effects when a monster is Fusion Summoned this way.
+    also your opponent cannot activate cards or effects when a monster is Fusion Summoned this way. \
+    Your opponent cannot activate cards or effects in response to this effect's activation.
 During your Main Phase, while this card is in the GY: \
-    You add 1 other "Fusion" or "Polymerization" Spell from your Deck or GY to your hand, \
+    You add 1 "Fusion" or "Polymerization" Spell from your Deck or GY to your hand, except "{CARD_NAME}", \
     then return this card to the bottom of the Deck. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
