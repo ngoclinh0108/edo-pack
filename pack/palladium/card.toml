@@ -290,9 +290,7 @@ def = 2800
 effect = """\
 When an opponent's monster declares a direct attack: \
     You can Special Summon this card from your hand or GY in Defense Position. \
-When your opponent activates a card or effect that would inflict damage, \
-    or when you would take battle damage during damage calculation (Quick Effect): \
-    You can discard this card; you take no damage from that effect or battle. \
+You take no effect damage. \
 If this card is destroyed by battle or card effect: \
     You can return this card to the bottom of the Deck; \
     look at the top 3 cards of your Deck, then you can reveal 1 "Palladium" card, and add it to your hand, \

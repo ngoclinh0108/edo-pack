@@ -18,26 +18,22 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- reduce damage
+    -- no effect damage
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
-    e2:SetRange(LOCATION_HAND)
-    e2:SetCountLimit(1, {id, 2})
-    e2:SetCondition(function(e, tp)
-        return Duel.GetBattleDamage(tp) > 0
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EFFECT_CHANGE_DAMAGE)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetTargetRange(1, 0)
+    e2:SetValue(function(e, re, val, r, rp, rc)
+        if (r & REASON_EFFECT) ~= 0 then
+            return 0
+        end
+        return val
     end)
-    e2:SetCost(s.e2cost)
-    e2:SetOperation(s.e2op1)
     c:RegisterEffect(e2)
     local e2b = e2:Clone()
-    e2b:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e2b:SetCode(EVENT_CHAINING)
-    e2b:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return ep ~= tp and aux.damcon1(e, tp, eg, ep, ev, re, r, rp)
-    end)
-    e2b:SetOperation(s.e2op2)
+    e2b:SetCode(EFFECT_NO_EFFECT_DAMAGE)
     c:RegisterEffect(e2b)
 
     -- check deck
@@ -74,44 +70,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
-end
-
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return e:GetHandler():IsDiscardable()
-    end
-
-    Duel.SendtoGrave(e:GetHandler(), REASON_COST + REASON_DISCARD)
-end
-
-function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec1:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetReset(RESET_PHASE + PHASE_DAMAGE)
-    Duel.RegisterEffect(ec1, tp)
-end
-
-function s.e2op2(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec1:SetCode(EFFECT_CHANGE_DAMAGE)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetLabel(Duel.GetChainInfo(ev, CHAININFO_CHAIN_ID))
-    ec1:SetValue(function(e, re, val, r)
-        if Duel.GetCurrentChain() == 0 or (r & REASON_EFFECT) == 0 then
-            return
-        end
-        local cid = Duel.GetChainInfo(0, CHAININFO_CHAIN_ID)
-        return cid == e:GetLabel() and 0 or val
-    end)
-    ec1:SetReset(RESET_CHAIN)
-    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e3filter(c)
