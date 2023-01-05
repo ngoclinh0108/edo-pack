@@ -168,7 +168,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
         local code = tc:GetOriginalCode()
         if not g:IsExists(function(c, code)
-            return c:IsCode(code) and c:GetFlagEffect(id) > 0
+            return c:IsOriginalCode(code) and c:GetFlagEffect(id) > 0
         end, 1, tc, code) then
             local cid = c:CopyEffect(code, RESET_EVENT + 0x1fe2000)
             local reset = Effect.CreateEffect(c)
