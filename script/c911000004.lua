@@ -175,6 +175,6 @@ function s.e2val(e, c)
         c:RegisterFlagEffect(id, RESET_EVENT | RESETS_STANDARD &
                                  ~(RESET_TOFIELD | RESET_LEAVE |
                                      RESET_TEMP_REMOVE),
-                             EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 1))
+                             EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
     end
 end
