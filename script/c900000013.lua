@@ -49,7 +49,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2)
 
-    -- additional Tribute Summon
+    -- additional tribute summon
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetType(EFFECT_TYPE_FIELD)
@@ -81,10 +81,18 @@ function s.initial_effect(c)
     e5:SetCode(EVENT_SPSUMMON_SUCCESS)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
+
+    -- effect gain
+    local e6 = Effect.CreateEffect(c)
+    e6:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e6:SetCode(EVENT_BE_PRE_MATERIAL)
+    e6:SetCondition(s.e6regcon)
+    e6:SetOperation(s.e6regop)
+    c:RegisterEffect(e6)
 end
 
 function s.e1filter(c)
-    return c:IsCode(CARD_RA) and c:IsAbleToHand()
+    return (c:IsCode(CARD_RA) or c:ListsCode(CARD_RA)) and not c:IsCode(id) and c:IsAbleToHand()
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
@@ -117,4 +125,25 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCode(EFFECT_CANNOT_ATTACK)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
+end
+
+function s.e6regcon(e, tp, eg, ep, ev, re, r, rp)
+    local rc = e:GetHandler():GetReasonCard()
+    return r == REASON_SUMMON and rc:IsFaceup() and rc:IsCode(CARD_RA)
+end
+
+function s.e6regop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local rc = c:GetReasonCard()
+
+    local eff = Effect.CreateEffect(c)
+    eff:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    eff:SetCode(EVENT_SUMMON_SUCCESS)
+    eff:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+
+        Debug.Message("OK")
+    end)
+    eff:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(eff, true)
 end

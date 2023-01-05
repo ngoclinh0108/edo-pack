@@ -299,13 +299,16 @@ atk = 2400
 effect = """\
 3 monsters, including an Normal Summoned/Set monster
 If this card is Link Summoned: \
-    You can add 1 "Obelisk the Tormentor" from your Deck or GY to your hand. \
+    You can add 1 "Obelisk the Tormentor" or 1 card that mentions it \
+    from your Deck or GY to your hand, except "{CARD_NAME}". \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster. \
     This effect cannot be negated. \
 During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monster \
     in Attack Position, in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
+If you Tribute this card for the Tribute Summon of "Obelisk the Tormentor", it gains this effect.
+● When Normal Summoned, negate the effects of all monsters your opponent currently controls. \
 """
 strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
 
@@ -321,15 +324,18 @@ atk = 2000
 effect = """\
 3 monsters, including an Normal Summoned/Set monster
 If this card is Link Summoned: \
-    You can add 1 "Slifer the Sky Dragon" from your Deck or GY to your hand. \
+    You can add 1 "Slifer the Sky Dragon" or 1 card that mentions it \
+    from your Deck or GY to your hand, except "{CARD_NAME}". \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster. \
     This effect cannot be negated. \
 During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monster \
     in Attack Position, in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
+If you Tribute this card for the Tribute Summon of "Slifer the Sky Dragon", it gains this effect.
+● When Normal Summoned, you can draw until you have 4 cards in your hand. \
 """
-strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
+strings = ["Tribute Summon (via \"{CARD_NAME}\")", "Draw until have 4 cards?"]
 
 [ra-apostle]
 id = 900000013
@@ -343,7 +349,8 @@ atk = "?"
 effect = """\
 3 monsters, including an Normal Summoned/Set monster
 If this card is Link Summoned: \
-    You can add 1 "The Winged Dragon of Ra" from your Deck or GY to your hand. \
+    You can add 1 "The Winged Dragon of Ra" or 1 card that mentions it \
+    from your Deck or GY to your hand, except "{CARD_NAME}". \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster. \
     This effect cannot be negated. \
@@ -352,6 +359,8 @@ During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monst
     (You can only gain this effect once per turn.) \
 This card's original ATK become equal to the combined original ATK of the monsters used for its Link Summon. \
 Cannot attack the turn it is Special Summoned. \
+If you Tribute this card for the Tribute Summon of "The Winged Dragon of Ra", it gains this effect.
+● When Normal Summoned, 
 """
 strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
 

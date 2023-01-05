@@ -49,7 +49,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2)
 
-    -- additional Tribute Summon
+    -- additional tribute summon
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 0))
     e3:SetType(EFFECT_TYPE_FIELD)
@@ -64,8 +64,40 @@ function s.initial_effect(c)
     end)
     e3:SetValue(1)
     c:RegisterEffect(e3)
+
+    -- effect gain
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e4:SetCode(EVENT_BE_PRE_MATERIAL)
+    e4:SetCondition(s.e4regcon)
+    e4:SetOperation(s.e4regop)
+    c:RegisterEffect(e4)
 end
 
 function s.e1filter(c)
-    return c:IsCode(10000020) and c:IsAbleToHand()
+    return (c:IsCode(10000020) or c:ListsCode(10000020)) and not c:IsCode(id) and c:IsAbleToHand()
+end
+
+function s.e4regcon(e, tp, eg, ep, ev, re, r, rp)
+    local rc = e:GetHandler():GetReasonCard()
+    return r == REASON_SUMMON and rc:IsFaceup() and rc:IsCode(10000020)
+end
+
+function s.e4regop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local rc = c:GetReasonCard()
+
+    local eff = Effect.CreateEffect(c)
+    eff:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    eff:SetCode(EVENT_SUMMON_SUCCESS)
+    eff:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+
+        local h = Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0)
+        if h < 4 and Duel.IsPlayerCanDraw(tp, 4 - h) and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
+            Duel.Draw(tp, 4 - h, REASON_EFFECT)
+        end
+    end)
+    eff:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(eff, true)
 end
