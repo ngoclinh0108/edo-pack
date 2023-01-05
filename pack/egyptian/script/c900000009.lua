@@ -152,22 +152,22 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Overlay(c, tc)
 end
 
-function s.e2filter(c)
-    return not c:IsCode(id) and c:IsType(TYPE_MONSTER) and c:GetFlagEffect(id) == 0
-end
-
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local og = c:GetOverlayGroup():Filter(s.e2filter, nil)
+    local og = c:GetOverlayGroup():Filter(function(tc)
+        return not tc:IsCode(id) and tc:IsType(TYPE_MONSTER)
+    end, nil)
     if #og <= 0 then
         return
     end
 
     for tc in aux.Next(og) do
         local code = tc:GetOriginalCode()
-        if not og:IsExists(function(c, code)
-            return c:IsOriginalCode(code) and c:GetFlagEffect(id) > 0
-        end, 1, nil, code) then
+        local isExisted = og:IsExists(function(tc, code)
+            return tc:IsOriginalCode(code) and tc:GetFlagEffect(id) > 0
+        end, 1, nil, code)
+
+        if not isExisted then
             tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe2000, 0, 0)
             local cid = c:CopyEffect(code, RESET_EVENT + 0x1fe2000)
 
