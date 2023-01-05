@@ -166,7 +166,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     for tc in aux.Next(og) do
         local code = tc:GetOriginalCode()
         if not og:IsExists(function(c, code)
-            return c:IsCode(code) and c:GetFlagEffect(id) > 0
+            return c:IsOriginalCode(code) and c:GetFlagEffect(id) > 0
         end, 1, nil, code) then
             tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe2000, 0, 0)
             local cid = c:CopyEffect(code, RESET_EVENT + 0x1fe2000)
