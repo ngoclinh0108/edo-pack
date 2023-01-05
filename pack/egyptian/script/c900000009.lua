@@ -61,6 +61,20 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(immune)
 
+    -- battle indes & avoid damage
+    local indes = Effect.CreateEffect(c)
+    indes:SetType(EFFECT_TYPE_SINGLE)
+    indes:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    indes:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    indes:SetValue(function(e, tc)
+        return tc and Divine.GetDivineHierarchy(tc) > 0 and Divine.GetDivineHierarchy(tc) <
+                   Divine.GetDivineHierarchy(e:GetHandler())
+    end)
+    c:RegisterEffect(indes)
+    local indes2 = indes:Clone()
+    indes2:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    c:RegisterEffect(indes2)
+
     -- attach
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))

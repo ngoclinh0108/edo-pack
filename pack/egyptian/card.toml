@@ -263,6 +263,8 @@ There can only be 1 face-up "{CARD_NAME}" on the field. \
 Cannot be Tributed, or used as material for an Summon. \
 Unaffected by other cards' effects, except monsters with higher Divine Hierarchy. \
     This effect cannot be negated. \
+Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
+    also you take no battle damage from that battle. \
 Once per turn: You can attach 1 other face-up monster and its materials to this card as material, \
     that is on the field or in either GY. \
 This card gains the effects of all monsters attached to it. \
