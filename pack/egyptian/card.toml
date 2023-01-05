@@ -360,9 +360,13 @@ During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monst
 This card's original ATK become equal to the combined original ATK of the monsters used for its Link Summon. \
 Cannot attack the turn it is Special Summoned. \
 If you Tribute this card for the Tribute Summon of "The Winged Dragon of Ra", it gains this effect.
-● When Normal Summoned, 
+● When Normal Summoned, for the rest of this turn, \
+    any effect that would inflict damage to you makes you gain that much LP, instead.
 """
-strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
+strings = [
+    "Tribute Summon (via \"{CARD_NAME}\")",
+    "Affected by \"{CARD_NAME}\": Any effect that would inflict damage to you makes you gain that much LP, instead",
+]
 
 [egyptian-god-slime-2]
 id = 900000014
