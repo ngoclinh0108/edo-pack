@@ -299,30 +299,8 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Reduce damage", "Add 1 \"Palladium\" card to you hand"]
 
-[chaos-eyes-palladium-dragon]
-id = 910000012
-set = "chaos palladium"
-name = "Chaos-Eyes Palladium Dragon"
-type = "monster effect"
-attribute = "light dark"
-race = "dragon"
-level = 9
-atk = 3000
-def = 2500
-effect = """\
-(This card's Attribute is also DARK.)
-To Tribute Summon this card, you must Tribute LIGHT or DARK monster. \
-You can Special Summon this card (from your hand) by \
-    revealing 1 Level 1 "Palladium" Tuner in your hand. \
-    You can only Special Summon "{CARD_NAME}" once per turn this way. \
-Your opponent cannot target this card with card effects. \
-Once per turn: You can target 1 other card on the field; destroy it. \
-    This card cannot attack the turn this effect is activated. \
-"""
-strings = ["Destroy 1 other card on the field"]
-
 [palladium-knight-queen]
-id = 910000013
+id = 910000012
 alias = 25652259
 name = "Palladium Knight of Queen"
 type = "monster effect"
@@ -345,7 +323,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 strings = ["Summoned using \"{CARD_NAME}\""]
 
 [palladium-knight-king]
-id = 910000014
+id = 910000013
 alias = 64788463
 name = "Palladium Knight of King"
 type = "monster effect"
@@ -372,7 +350,7 @@ strings = [
 ]
 
 [palladium-knight-jack]
-id = 910000015
+id = 910000014
 alias = 90876561
 name = "Palladium Knight of Jack"
 type = "monster effect"
@@ -396,7 +374,7 @@ A LIGHT Warrior monster that was Fusion Summoned using this card as material gai
 strings = ["Summoned using \"{CARD_NAME}\""]
 
 [arcana-palladium-joker]
-id = 910000016
+id = 910000015
 set = "palladium"
 name = "Arcana Palladium Joker"
 type = "fusion monster effect"
@@ -416,9 +394,8 @@ If this Fusion Summoned card is destroyed by battle or card effect: \
 """
 strings = ["Discard to negate", "Discard to destroy"]
 
-
 [palladium-archfiend-gilfer]
-id = 910000017
+id = 910000016
 set = "palladium archfiend"
 name = "Palladium Archfiend Gilfer"
 type = "monster effect"
@@ -436,6 +413,20 @@ If this card is sent to the GY: \
     That monster loses 500 ATK and DEF while equipped with this card. \
 """
 strings = ["Normal Summon without Tributing"]
+
+[palladium-kuriboh]
+id = 910000017
+set = "palladium kuriboh"
+name = "Palladium Kuriboh"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 1
+atk = 300
+def = 200
+effect = """\
+"""
+strings = []
 
 [palladium-beast-gazelle]
 id = 910000018
@@ -531,29 +522,30 @@ id = 910000022
 set = "chaos palladium"
 name = "Chaos-Eyes Palladium Dragoon"
 type = "monster fusion effect"
-attribute = "light dark"
+attribute = "light"
 race = "spellcaster"
-level = 9
-atk = 3500
+level = 8
+atk = 3000
 def = 2500
 effect = """\
-"Palladium Oracle Mahad" + "Chaos-Eyes Palladium Dragon"
-(This card's Attribute is also DARK.)
+"Palladium Oracle Mahad" + "Blue-Eyes White Dragon" or 1 LIGHT Dragon Effect Monster
 Must first be Fusion Summoned with the above materials. \
 Cannot be Tributed, or be used as a material for an Summon by your opponent. \
 Cannot be destroyed by card effects. Your opponent cannot target it with card effects. \
-If this card's effect destroys a card, this card gains 500 ATK for each destroyed card. \
 Once per turn, when another card or effect is activated (Quick Effect): \
     You can discard 1 card; \
     negate the activation, and if you do, destroy that card. \
 You can destroy all monsters your opponent controls OR all Spell/Trap they control. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
+If this card is Fusion Summoned using an Normal Monster, it gains this effect.
+● If this card's effect destroys a card, this card gains 500 ATK for each destroyed card.
 """
 strings = [
     "Negate activation, then destroy",
     "Destroy all monster or Spell/Trap",
     "Destroy all monster",
     "Destroy all Spell/Trap",
+    "Fusion Summoned with an Normal Monster"
 ]
 
 [palladium-master-chaos]
