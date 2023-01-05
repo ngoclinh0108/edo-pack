@@ -119,7 +119,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(aux.FilterFaceupFunction(Card.IsRace,
+    local g = Duel.GetMatchingGroup(aux.FaceupFilter(Card.IsRace,
                                                              RACE_DRAGON), tp,
                                     LOCATION_MZONE, 0, nil)
     for tc in aux.Next(g) do
