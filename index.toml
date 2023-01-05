@@ -10,7 +10,7 @@ packs = [
 
 skip_compile_packs = [
     "./pack/egyptian",
-    # "./pack/palladium",
-    "./pack/blue-eyes",
+    "./pack/palladium",
+    # "./pack/blue-eyes",
     "./pack/signer-dragons",
 ]

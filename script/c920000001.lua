@@ -20,7 +20,6 @@ function s.initial_effect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1)
     e2:SetCost(s.e2cost)
@@ -84,18 +83,16 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c)
+        return Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c)
     end
 
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, c)
-
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, LOCATION_ONFIELD)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if tc and tc:IsRelateToEffect(e) then
-        Duel.Destroy(tc, REASON_EFFECT)
+    local c = e:GetHandler()
+    local g = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, c)
+    if #g > 0 then
+        Duel.Destroy(g, REASON_EFFECT)
     end
 end
