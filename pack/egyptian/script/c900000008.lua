@@ -6,7 +6,7 @@ local s, id = GetID()
 
 function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 2, true)
-    
+
     -- atk/def value
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
@@ -46,20 +46,26 @@ end
 
 function s.e1val(e)
     local c = e:GetHandler()
+
+    local atk = 0
     local g = Duel.GetMatchingGroup(function(tc)
         return tc:IsFaceup() and not tc:IsHasEffect(21208154)
     end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
-    if #g == 0 then
-        return 100
+    if #g > 0 then
+        local tg, val = g:GetMaxGroup(Card.GetAttack)
+        if not tg:IsExists(aux.TRUE, 1, c) then
+            g:RemoveCard(c)
+            tg, val = g:GetMaxGroup(Card.GetAttack)
+        end
+
+        atk = val
     end
 
-    local tg, val = g:GetMaxGroup(Card.GetAttack)
-    if not tg:IsExists(aux.TRUE, 1, c) then
-        g:RemoveCard(c)
-        tg, val = g:GetMaxGroup(Card.GetAttack)
+    if atk >= c:GetBaseAttack() then
+        return atk + 100
+    else
+        return c:GetBaseAttack()
     end
-
-    return val + 100
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
