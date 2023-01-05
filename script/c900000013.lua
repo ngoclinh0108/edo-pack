@@ -64,8 +64,57 @@ function s.initial_effect(c)
     end)
     e3:SetValue(1)
     c:RegisterEffect(e3)
+
+    -- atk
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e4:SetCondition(s.e4con)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
+
+    -- cannot attack
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e5:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e5:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.e1filter(c)
     return c:IsCode(CARD_RA) and c:IsAbleToHand()
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp)
+    return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = c:GetMaterial()
+
+    local atk = 0
+    for tc in aux.Next(g) do
+        atk = atk + tc:GetBaseAttack()
+    end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+    ec1:SetValue(atk)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
+    c:RegisterEffect(ec1)
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(3206)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end

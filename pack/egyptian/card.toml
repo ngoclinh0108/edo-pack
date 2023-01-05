@@ -350,6 +350,8 @@ This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster.
 During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monster \
     in Attack Position, in addition to your Normal Summon/Set. \
     (You can only gain this effect once per turn.) \
+This card's original ATK become equal to the combined original ATK of the monsters used for its Link Summon. \
+Cannot attack the turn it is Special Summoned. \
 """
 strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
 
