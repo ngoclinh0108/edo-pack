@@ -265,7 +265,7 @@ Unaffected by other cards' effects, except monsters with higher Divine Hierarchy
     This effect cannot be negated. \
 Once per turn: You can attach 1 other face-up monster and its materials to this card as material, \
     that is on the field or in either GY. \
-This card gains the original effects of all monsters attached to it. \
+This card gains the effects of all monsters attached to it. \
 """
 strings = ["Absorb 1 monster on the field or in either GY"]
 
