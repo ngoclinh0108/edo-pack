@@ -70,18 +70,6 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_PIERCE)
     e3:SetValue(DOUBLE_DAMAGE)
     c:RegisterEffect(e3)
-
-    -- special summon
-    local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 2))
-    e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1, id)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
-    c:RegisterEffect(e4)
 end
 
 function s.spfilter1(c)
@@ -189,50 +177,4 @@ function s.e2val(e, c)
                                      RESET_TEMP_REMOVE),
                              EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 1))
     end
-end
-
-function s.e4filter(c, e, tp, zone)
-    return (c:IsFaceup() or not c:IsLocation(LOCATION_REMOVED)) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false,
-                                        POS_FACEUP_DEFENSE, tp, zone) and
-               c:IsSetCard(0xdd)
-end
-
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local zone = e:GetHandler():GetLinkedZone(tp) & 0x1f
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingTarget(s.e4filter, tp,
-                                         LOCATION_GRAVE + LOCATION_REMOVED, 0,
-                                         1, nil, e, tp, zone)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
-    local g = Duel.SelectTarget(tp, s.e4filter, tp,
-                                LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 1, nil,
-                                e, tp, zone)
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, #g, 0, 0)
-end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    local zone = c:GetLinkedZone(tp) & 0x1f
-
-    if tc and tc:IsRelateToEffect(e) and zone ~= 0 then
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE, zone)
-    end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 3))
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH +
-                        EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetTarget(function(e, c)
-        return c:IsLocation(LOCATION_EXTRA) and not c:IsSetCard(0xdd)
-    end)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
 end
