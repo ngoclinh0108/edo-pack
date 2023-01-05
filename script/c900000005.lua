@@ -228,7 +228,7 @@ function s.e4atkop(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    Duel.SendtoGrave(bc, REASON_EFFECT + REASON_RULE)
+    Duel.SendtoGrave(bc, REASON_EFFECT)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
