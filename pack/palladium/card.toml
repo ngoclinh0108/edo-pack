@@ -335,8 +335,7 @@ def = 1400
 effect = """\
 (This card's name is always treated as "King's Knight" and it is "Palladium" card.)
 If this card is added to your hand, except by drawing it: \
-    You can Special Summon this card from your hand, \
-    also you cannot Special Summon for the rest of this turn, except LIGHT Warrior monster. \
+    You can Special Summon this card from your hand. \
 If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
     You can Special Summon 1 Level 5 LIGHT Warrior monster from your hand, Deck or GY. \
     This card cannot declare an attack the turn this effect is activated. \
@@ -344,10 +343,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 A LIGHT Warrior monster that was Fusion Summoned using this card as material gains this effect.
 ● If this card attacks, your opponent cannot activate any Spell/Trap until the end of the Damage Step.
 """
-strings = [
-    "Summoned using \"{CARD_NAME}\"",
-    "Affected by effect \"{CARD_NAME}\": cannot Special Summon, except LIGHT Warrior monster",
-]
+strings = ["Summoned using \"{CARD_NAME}\""]
 
 [palladium-knight-jack]
 id = 910000014

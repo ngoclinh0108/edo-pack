@@ -244,44 +244,8 @@ If this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards 
 """
 strings = ["Affected by \"{CARD_NAME}\": Cannot activate Spell/Trap Cards"]
 
-[egyptian-god-slime-2]
-id = 900000009
-name = "Egyptian God Slime 2"
-type = "monster fusion effect"
-attribute = "water"
-race = "aqua"
-level = 10
-atk = 2000
-def = 2000
-effect = """\
-1 Aqua monster + 1 Level 10 WATER monster
-Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
-This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
-Cannot be destroyed by battle. \
-Your opponent's monsters with less ATK than this card cannot attack, also they cannot activate their effects. \
-"""
-strings = []
-
-[egyptian-god-slime-3]
-id = 900000010
-name = "Egyptian God Slime 3"
-type = "monster fusion effect"
-attribute = "water"
-race = "aqua"
-level = 10
-atk = 3300
-def = 1800
-effect = """\
-1 Aqua monster + 1 Level 10 WATER monster
-Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
-This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
-Cannot be destroyed by battle. \
-You take no effect damage. \
-"""
-strings = []
-
 [deity-evolution]
-id = 900000011
+id = 900000009
 name = "Deity Evolution"
 type = "spell quick-play"
 effect = """\
@@ -297,29 +261,8 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Affected by \"{CARD_NAME}\""]
 
-
-[sun-god-descend]
-id = 900000012
-name = "Sun God Descend"
-type = "spell quick-play"
-effect = """\
-The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-During the Main Phase: \
-    Tribute 3 monsters on your field or your opponent's, and if you do, \
-    Special Summon 1 "The Winged Dragon of Ra" from your hand or Deck, ignoring its Summoning conditions, \
-    and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field. \
-    If you Tributed monsters on your opponent's field, it cannot attack this turn. \
-If this card is in your GY: \
-    You can target 1 "The Winged Dragon of Ra" or 1 card that mentions it \
-    that is banished, or in your GY, except "{CARD_NAME}"; \
-    shuffle both this card and that target into the Deck, \
-    then draw 1 card. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
-"""
-strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
-
 [the-chosen-pharaoh]
-id = 900000013
+id = 900000010
 name = "The Chosen Pharaoh"
 type = "trap continuous"
 effect = """\
@@ -343,3 +286,125 @@ strings = [
     "Add \"The True Name\"",
     "Add or Set Spell/Trap",
 ]
+
+[obelisk-apostle]
+id = 900000011
+name = "Obelisk's Apostle"
+type = "monster link effect"
+attribute = "light"
+race = "fairy"
+link = 3
+link-arrow = "left bottom right"
+atk = 2400
+effect = """\
+3 monsters, including an Normal Summoned/Set monster
+If this card is Link Summoned: \
+    You can add 1 "Obelisk the Tormentor" from your Deck or GY to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster. \
+    This effect cannot be negated. \
+During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monster \
+    in Attack Position, in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+"""
+strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
+
+[osiris-apostle]
+id = 900000012
+name = "Osiris's Apostle"
+type = "monster link effect"
+attribute = "light"
+race = "fairy"
+link = 3
+link-arrow = "left bottom right"
+atk = 2000
+effect = """\
+3 monsters, including an Normal Summoned/Set monster
+If this card is Link Summoned: \
+    You can add 1 "Slifer the Sky Dragon" from your Deck or GY to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster. \
+    This effect cannot be negated. \
+During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monster \
+    in Attack Position, in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+"""
+strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
+
+[ra-apostle]
+id = 900000013
+name = "Ra's Apostle"
+type = "monster link effect"
+attribute = "light"
+race = "fairy"
+link = 3
+link-arrow = "left bottom right"
+atk = "?"
+effect = """\
+3 monsters, including an Normal Summoned/Set monster
+If this card is Link Summoned: \
+    You can add 1 "The Winged Dragon of Ra" from your Deck or GY to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster. \
+    This effect cannot be negated. \
+During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monster \
+    in Attack Position, in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+"""
+strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
+
+[egyptian-god-slime-2]
+id = 900000014
+name = "Egyptian God Slime 2"
+type = "monster fusion effect"
+attribute = "water"
+race = "aqua"
+level = 10
+atk = 2000
+def = 2000
+effect = """\
+1 Aqua monster + 1 Level 10 WATER monster
+Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
+This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
+Cannot be destroyed by battle. \
+Your opponent's monsters with less ATK than this card cannot attack, also they cannot activate their effects. \
+"""
+strings = []
+
+[egyptian-god-slime-3]
+id = 900000015
+name = "Egyptian God Slime 3"
+type = "monster fusion effect"
+attribute = "water"
+race = "aqua"
+level = 10
+atk = 3300
+def = 1800
+effect = """\
+1 Aqua monster + 1 Level 10 WATER monster
+Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
+This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
+Cannot be destroyed by battle. \
+You take no effect damage. \
+"""
+strings = []
+
+[sun-god-descend]
+id = 900000016
+name = "Sun God Descend"
+type = "spell quick-play"
+effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+During the Main Phase: \
+    Tribute 3 monsters on your field or your opponent's, and if you do, \
+    Special Summon 1 "The Winged Dragon of Ra" from your hand or Deck, ignoring its Summoning conditions, \
+    and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field. \
+    If you Tributed monsters on your opponent's field, it cannot attack this turn. \
+If this card is in your GY: \
+    You can target 1 "The Winged Dragon of Ra" or 1 card that mentions it \
+    that is banished, or in your GY, except "{CARD_NAME}"; \
+    shuffle both this card and that target into the Deck, \
+    then draw 1 card. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Tribute your monsters", "Tribute your opponent's monsters"]

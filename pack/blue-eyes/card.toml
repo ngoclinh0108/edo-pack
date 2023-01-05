@@ -108,7 +108,7 @@ type = "monster link effect"
 attribute = "light"
 race = "dragon"
 link = 4
-link-arrow = "top bottom-left bottom bottom-right"
+link-arrow = "left bottom-left bottom-right right"
 atk = 4000
 effect = """\
 3+ monsters, including an "Blue-Eyes" monster
