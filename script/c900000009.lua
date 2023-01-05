@@ -61,21 +61,21 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(immune)
 
-    -- gain effect
+    -- attach
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e1:SetCode(EVENT_ADJUST)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_MZONE)
+    e1:SetCountLimit(1)
+    e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- attach
+    -- gain effect
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_ADJUST)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 end
@@ -120,25 +120,57 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e1filter(c)
-    return not c:IsCode(id) and c:IsType(TYPE_MONSTER) and c:GetFlagEffect(id) == 0
+function s.e1filter(c, tp)
+    return c:IsFaceup() and not c:IsType(TYPE_TOKEN) and (c:IsControler(tp) or c:IsAbleToChangeControler())
+end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:IsType(TYPE_XYZ) and
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE,
+                LOCATION_ONFIELD + LOCATION_GRAVE, 1, c, tp)
+    end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = c:GetOverlayGroup():Filter(s.e1filter, nil)
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e1filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE,
+        LOCATION_ONFIELD + LOCATION_GRAVE, 1, 1, c, tp):GetFirst()
+    if not tc then
+        return
+    end
+
+    local og = tc:GetOverlayGroup()
+    if #og > 0 then
+        Duel.Overlay(c, og)
+    end
+    Duel.Overlay(c, tc)
+end
+
+function s.e2filter(c)
+    return not c:IsCode(id) and c:IsType(TYPE_MONSTER) and c:GetFlagEffect(id) == 0
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = c:GetOverlayGroup():Filter(s.e2filter, nil)
     if #g <= 0 then
         return
     end
 
     for tc in aux.Next(g) do
-        tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe0000, 0, 0)
+        tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe2000, 0, 0)
 
         local code = tc:GetOriginalCodeRule()
         if not g:IsExists(function(c, code)
             return c:IsCode(code) and c:GetFlagEffect(id) > 0
         end, 1, tc, code) then
-            local cid = c:CopyEffect(code, RESET_EVENT + 0x1fe0000)
+            local cid = c:CopyEffect(code, RESET_EVENT + 0x1fe2000)
             local reset = Effect.CreateEffect(c)
             reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
             reset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
@@ -158,40 +190,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
                     tc:ResetFlagEffect(id)
                 end
             end)
-            reset:SetReset(RESET_EVENT + 0x1fe0000)
+            reset:SetReset(RESET_EVENT + 0x1fe2000)
             c:RegisterEffect(reset, true)
         end
     end
-end
-
-function s.e2filter(c, tp)
-    return c:IsFaceup() and not c:IsType(TYPE_TOKEN) and (c:IsControler(tp) or c:IsAbleToChangeControler())
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsType(TYPE_XYZ) and
-                   Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE,
-                LOCATION_ONFIELD + LOCATION_GRAVE, 1, c, tp)
-    end
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
-
-    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e2filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE,
-        LOCATION_ONFIELD + LOCATION_GRAVE, 1, 1, c, tp):GetFirst()
-    if not tc then
-        return
-    end
-
-    local og = tc:GetOverlayGroup()
-    if #og > 0 then
-        Duel.Overlay(c, og)
-    end
-    Duel.Overlay(c, tc)
 end
