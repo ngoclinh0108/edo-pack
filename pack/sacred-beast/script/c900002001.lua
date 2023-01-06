@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {69890968}
+
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
@@ -14,7 +16,7 @@ function s.initial_effect(c)
     spr:SetCondition(s.sprcon)
     spr:SetOperation(s.sprop)
     c:RegisterEffect(spr)
-    
+
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
@@ -56,6 +58,34 @@ function s.initial_effect(c)
         return tc and tc:GetControler() ~= e:GetHandlerPlayer()
     end)
     c:RegisterEffect(nomaterial)
+
+    -- special summon tokens
+    local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_TOKEN)
+    e1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCondition(s.e1con)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e1b)
+    local e1c = e1:Clone()
+    e1c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e1c)
+
+    -- tribute up ATK
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetCategory(CATEGORY_ATKCHANGE)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
+    e2:SetCost(s.e2cost)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.sprfilter(c, tp)
@@ -94,4 +124,49 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     end
 
     Duel.Release(g, REASON_COST)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
+    return ep ~= tp
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or
+        not Duel.IsPlayerCanSpecialSummonMonster(tp, id + 1, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND, ATTRIBUTE_DARK) then
+        return
+    end
+
+    local token = Duel.CreateToken(tp, 69890968)
+    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    token:RegisterEffect(ec1, true)
+end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
+    end
+
+    local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 2, false, nil, c)
+    e:SetLabel(g:GetSum(Card.GetAttack))
+    Duel.Release(g, REASON_COST)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsFacedown() or not c:IsRelateToEffect(e) or not c:IsHasEffect(id) then
+        return
+    end
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_ATTACK)
+    ec1:SetValue(e:GetLabel())
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end
