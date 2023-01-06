@@ -81,8 +81,13 @@ While this card is in face-up Defense Position, \
 The above effects cannot be negated. \
 If this card destroys an opponent's monster by battle: \
     Inflict 1000 damage to your opponent. \
+If this card on the field is destroyed, \
+    You take no damage this turn. \
 """
-strings = ["Inflict 1000 damage to your opponent"]
+strings = [
+    "Inflict 1000 damage to your opponent",
+    "Affected by effect \"{CARD_NAME}\": you take no damage",
+]
 
 [armityle]
 id = 900002004
