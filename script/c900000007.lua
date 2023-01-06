@@ -44,8 +44,9 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:IsDestructable()
+        return c:IsDestructable() and c:IsSummonType(SUMMON_TYPE_NORMAL)
     end
+    
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, c, 1, 0, 0)
 end
 

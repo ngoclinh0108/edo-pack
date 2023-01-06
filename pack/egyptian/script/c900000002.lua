@@ -10,14 +10,14 @@ function s.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    e1:SetCode(EFFECT_UPDATE_ATTACK)
+    e1:SetCode(EFFECT_SET_BASE_ATTACK)
     e1:SetRange(LOCATION_MZONE)
     e1:SetValue(function(e, c)
         return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_HAND, 0) * 1000
     end)
     c:RegisterEffect(e1)
     local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_UPDATE_ATTACK)
+    e1b:SetCode(EFFECT_SET_BASE_DEFENSE)
     c:RegisterEffect(e1b)
 
     -- atk/def down
@@ -65,6 +65,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     for tc in aux.Next(tg) do
         local preatk = tc:GetAttack()
+        local predef = tc:GetDefense()
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(tc:IsAttackPos() and EFFECT_UPDATE_ATTACK or EFFECT_UPDATE_DEFENSE)
@@ -72,7 +73,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec1)
 
-        if preatk ~= 0 and tc:IsAttack(0) then
+        if (preatk ~= 0 and tc:IsAttack(0)) or (predef ~= 0 and tc:IsDefense(0)) then
             dg:AddCard(tc)
         end
     end

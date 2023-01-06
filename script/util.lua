@@ -285,20 +285,31 @@ function Utility.AvatarInfinity(root, c)
             return c:IsHasEffect(21208154) and not c:IsHasEffect(id)
         end
 
-        function AvatarVal()
-            local g = Duel.GetMatchingGroup(function(c)
-                return c:IsFaceup() and not c:IsHasEffect(21208154)
-            end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
+        function AvatarVal(e)
+            local c = e:GetHandler()
 
-            if #g == 0 then
-                return 100
-            else
-                local _, val = g:GetMaxGroup(Card.GetAttack)
-                if val >= Utility.INFINITY_ATTACK then
-                    return val
-                else
-                    return val + 100
+            local atk = 0
+            local g = Duel.GetMatchingGroup(function(tc)
+                return tc:IsFaceup() and not tc:IsHasEffect(21208154)
+            end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
+            if #g > 0 then
+                local tg, val = g:GetMaxGroup(Card.GetAttack)
+                if not tg:IsExists(aux.TRUE, 1, c) then
+                    g:RemoveCard(c)
+                    tg, val = g:GetMaxGroup(Card.GetAttack)
                 end
+
+                atk = val
+            end
+
+            if atk >= c:GetBaseAttack() then
+                if atk >= Utility.INFINITY_ATTACK then
+                    return atk
+                else
+                    return atk + 100
+                end
+            else
+                return c:GetBaseAttack()
             end
         end
 
@@ -318,16 +329,14 @@ function Utility.AvatarInfinity(root, c)
 
                 local atkteffs = {tc:GetCardEffect(EFFECT_SET_ATTACK_FINAL)}
                 for _, eff in ipairs(atkteffs) do
-                    if eff:GetOwner() == tc and
-                        eff:IsHasProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT + EFFECT_FLAG_DELAY) then
+                    if eff:GetOwner() == tc and eff:IsHasProperty(EFFECT_FLAG_REPEAT) then
                         eff:SetValue(AvatarVal)
                     end
                 end
 
                 local defteffs = {tc:GetCardEffect(EFFECT_SET_DEFENSE_FINAL)}
                 for _, eff in ipairs(defteffs) do
-                    if eff:GetOwner() == tc and
-                        eff:IsHasProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_REPEAT + EFFECT_FLAG_DELAY) then
+                    if eff:GetOwner() == tc and eff:IsHasProperty(EFFECT_FLAG_REPEAT) then
                         eff:SetValue(AvatarVal)
                     end
                 end
@@ -337,9 +346,10 @@ function Utility.AvatarInfinity(root, c)
     end)
 end
 
-
 function Utility.RegisterMultiEffect(s, index, eff)
-    if not s.effects then s.effects = {} end
+    if not s.effects then
+        s.effects = {}
+    end
     s.effects[index] = eff
 end
 
@@ -347,8 +357,7 @@ function Utility.MultiEffectTarget(s, extg)
     return function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then
             for i = 1, #s.effects, 1 do
-                if not s.effects[i]:GetTarget() or
-                    s.effects[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
+                if not s.effects[i]:GetTarget() or s.effects[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
                     return true
                 end
             end
@@ -358,8 +367,7 @@ function Utility.MultiEffectTarget(s, extg)
         local opt = {}
         local sel = {}
         for i = 1, #s.effects, 1 do
-            if not s.effects[i]:GetTarget() or
-                s.effects[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, 0) then
+            if not s.effects[i]:GetTarget() or s.effects[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, 0) then
                 table.insert(opt, s.effects[i]:GetDescription())
                 table.insert(sel, i)
             end
@@ -373,7 +381,9 @@ function Utility.MultiEffectTarget(s, extg)
         end
 
         s.sel_effect = op
-        if extg then extg(e, tp, eg, ep, ev, re, r, rp, chk) end
+        if extg then
+            extg(e, tp, eg, ep, ev, re, r, rp, chk)
+        end
     end
 end
 

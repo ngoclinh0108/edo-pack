@@ -7,68 +7,45 @@ local s, id = GetID()
 function s.initial_effect(c)
     Divine.DivineHierarchy(s, c, 2, true)
 
-    -- atk/def value
+    -- prevent activations
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_DELAY + EFFECT_FLAG_REPEAT)
-    e1:SetCode(EFFECT_SET_ATTACK_FINAL)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(s.e1val)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-    c:RegisterEffect(e1b)
-    local e1check = Effect.CreateEffect(c)
-    e1check:SetType(EFFECT_TYPE_SINGLE)
-    e1check:SetCode(21208154)
-    c:RegisterEffect(e1check)
+
+    -- atk/def value
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_DELAY + EFFECT_FLAG_REPEAT)
+    e2:SetCode(EFFECT_SET_ATTACK_FINAL)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetValue(s.e2val)
+    c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_SET_DEFENSE_FINAL)
+    c:RegisterEffect(e2b)
+    local e2check = Effect.CreateEffect(c)
+    e2check:SetType(EFFECT_TYPE_SINGLE)
+    e2check:SetCode(21208154)
+    c:RegisterEffect(e2check)
 
     -- battle destruction
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetCode(511010508)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(0, LOCATION_MZONE)
-    e2:SetTarget(function(e, tc)
-        local bc = e:GetHandler():GetBattleTarget()
-        return bc and bc == tc
-    end)
-    e2:SetValue(1)
-    c:RegisterEffect(e2)
-
-    -- prevent activations
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_SUMMON_SUCCESS)
-    e3:SetOperation(s.e3op)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(511010508)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetTargetRange(0, LOCATION_MZONE)
+    e3:SetTarget(function(e, tc)
+        local c = e:GetHandler()
+        local bc = e:GetHandler():GetBattleTarget()
+        return bc and bc == tc and Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
+    end)
+    e3:SetValue(1)
     c:RegisterEffect(e3)
 end
 
-function s.e1val(e)
-    local c = e:GetHandler()
-
-    local atk = 0
-    local g = Duel.GetMatchingGroup(function(tc)
-        return tc:IsFaceup() and not tc:IsHasEffect(21208154)
-    end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
-    if #g > 0 then
-        local tg, val = g:GetMaxGroup(Card.GetAttack)
-        if not tg:IsExists(aux.TRUE, 1, c) then
-            g:RemoveCard(c)
-            tg, val = g:GetMaxGroup(Card.GetAttack)
-        end
-
-        atk = val
-    end
-
-    if atk >= c:GetBaseAttack() then
-        return atk + 100
-    else
-        return c:GetBaseAttack()
-    end
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Utility.HintCard(c)
 
@@ -91,7 +68,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return Duel.GetTurnPlayer() ~= tp
     end)
-    ec2:SetOperation(s.e3turnop)
+    ec2:SetOperation(s.e1turnop)
     ec2:SetLabelObject(ec1)
     ec2:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
     Duel.RegisterEffect(ec2, tp)
@@ -106,13 +83,13 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetLabelObject(ec2)
     ec3:SetOwnerPlayer(tp)
     ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        s.e3turnop(e:GetLabelObject(), tp, eg, ep, ev, e, r, rp)
+        s.e1turnop(e:GetLabelObject(), tp, eg, ep, ev, e, r, rp)
     end)
     ec3:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
     c:RegisterEffect(ec3)
 end
 
-function s.e3turnop(e, tp, eg, ep, ev, re, r, rp)
+function s.e1turnop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ct = e:GetLabel() + 1
     c:SetTurnCounter(ct)
@@ -125,5 +102,29 @@ function s.e3turnop(e, tp, eg, ep, ev, re, r, rp)
         end
     else
         e:SetLabel(ct)
+    end
+end
+
+function s.e2val(e)
+    local c = e:GetHandler()
+
+    local atk = 0
+    local g = Duel.GetMatchingGroup(function(tc)
+        return tc:IsFaceup() and not tc:IsHasEffect(21208154)
+    end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
+    if #g > 0 then
+        local tg, val = g:GetMaxGroup(Card.GetAttack)
+        if not tg:IsExists(aux.TRUE, 1, c) then
+            g:RemoveCard(c)
+            tg, val = g:GetMaxGroup(Card.GetAttack)
+        end
+
+        atk = val
+    end
+
+    if atk >= c:GetBaseAttack() then
+        return atk + 100
+    else
+        return c:GetBaseAttack()
     end
 end
