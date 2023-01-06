@@ -12,12 +12,19 @@ function s.initial_effect(c)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     c:RegisterEffect(splimit)
 
+    -- special summon cannot be negated
+    local spsafe = Effect.CreateEffect(c)
+    spsafe:SetType(EFFECT_TYPE_SINGLE)
+    spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    c:RegisterEffect(spsafe)
+
     -- special summon procedure
     local spr = Effect.CreateEffect(c)
     spr:SetType(EFFECT_TYPE_FIELD)
     spr:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     spr:SetCode(EFFECT_SPSUMMON_PROC)
-    spr:SetRange(LOCATION_HAND + LOCATION_GRAVE)
+    spr:SetRange(LOCATION_HAND)
     spr:SetCondition(s.sprcon)
     spr:SetOperation(s.sprop)
     c:RegisterEffect(spr)
