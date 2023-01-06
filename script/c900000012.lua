@@ -1,4 +1,4 @@
--- Osiris's Apostle
+-- Devotee of Osiris
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

@@ -1,4 +1,4 @@
--- Ra's Apostle
+-- Devotee of Ra
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

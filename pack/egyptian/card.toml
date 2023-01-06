@@ -289,9 +289,9 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Affected by \"{CARD_NAME}\""]
 
-[obelisk-apostle]
+[devotee-of-obelisk]
 id = 900000011
-name = "Obelisk's Apostle"
+name = "Devotee of Obelisk"
 type = "monster link effect"
 attribute = "light"
 race = "fairy"
@@ -314,9 +314,9 @@ If you Tribute this card for the Tribute Summon of "Obelisk the Tormentor", it g
 """
 strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
 
-[osiris-apostle]
+[devotee-of-osiris]
 id = 900000012
-name = "Osiris's Apostle"
+name = "Devotee of Osiris"
 type = "monster link effect"
 attribute = "light"
 race = "fairy"
@@ -339,9 +339,9 @@ If you Tribute this card for the Tribute Summon of "Slifer the Sky Dragon", it g
 """
 strings = ["Tribute Summon (via \"{CARD_NAME}\")", "Draw until have 4 cards?"]
 
-[ra-apostle]
+[devotee-of-ra]
 id = 900000013
-name = "Ra's Apostle"
+name = "Devotee of Ra"
 type = "monster link effect"
 attribute = "light"
 race = "fairy"

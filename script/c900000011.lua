@@ -1,4 +1,4 @@
--- Obelisk's Apostle
+-- Devotee of Obelisk
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
