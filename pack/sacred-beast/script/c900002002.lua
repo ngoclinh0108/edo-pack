@@ -58,7 +58,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(nomaterial)
 
-    -- atk
+    -- atk up
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)

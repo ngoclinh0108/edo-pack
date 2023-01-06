@@ -17,6 +17,7 @@ Must be Special Summoned (from your hand) by Tributing 3 monsters. \
 This card's Special Summon cannot be negated. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \
+Negate the effects of your opponent's monsters destroyed by battle with this card. \
 The above effects cannot be negated. \
 Each time your opponent Normal or Special Summons a monster(s), \
     Special Summon 1 "Phantasm Token" (Fiend/DARK/Level 1/ATK 1000/DEF 1000), \
@@ -75,9 +76,13 @@ Must be Special Summoned (from your hand) by sending 3 Spells you control to the
 This card's Special Summon cannot be negated. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \
+While this card is in face-up Defense Position, \
+    monsters your opponent controls cannot target monsters for attacks, except this one. \
 The above effects cannot be negated. \
+If this card destroys an opponent's monster by battle: \
+    Inflict 1000 damage to your opponent. \
 """
-strings = []
+strings = ["Inflict 1000 damage to your opponent"]
 
 [armityle]
 id = 900002004

@@ -57,6 +57,33 @@ function s.initial_effect(c)
         return tc and tc:GetControler() ~= e:GetHandlerPlayer()
     end)
     c:RegisterEffect(nomaterial)
+
+    -- limit batlle target
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e1:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetTargetRange(0, LOCATION_MZONE)
+    e1:SetCondition(function(e)
+        return e:GetHandler():IsDefensePos()
+    end)
+    e1:SetValue(function(e, c)
+        return c ~= e:GetHandler()
+    end)
+    c:RegisterEffect(e1)
+
+    -- damage
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_DAMAGE)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EVENT_BATTLE_DESTROYING)
+    e2:SetCondition(aux.bdocon)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.sprfilter(c, tp)
@@ -96,4 +123,23 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
 
     Duel.SendtoGrave(g, REASON_COST)
     g:DeleteGroup()
+end
+
+function s.e1con(e)
+    return e:GetHandler():IsDefensePos()
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
+
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(1000)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, 1000)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
 end
