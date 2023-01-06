@@ -257,7 +257,7 @@ effect = """\
 {HIERARCHY|3}
 Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
-    by overlaying 3 original DARK Divine-Beast monsters you control with different names. \
+    by overlaying 3 Normal Summoned/Set original DARK Divine-Beast monsters you control with different names. \
     This card's Special Summon cannot be negated. \
 There can only be 1 face-up "{CARD_NAME}" on the field. \
 Cannot be Tributed, or used as material for an Summon. \

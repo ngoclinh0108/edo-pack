@@ -95,7 +95,8 @@ function s.initial_effect(c)
 end
 
 function s.sprfilter(c)
-    return c:IsOriginalAttribute(ATTRIBUTE_DARK) and c:IsOriginalRace(RACE_DIVINE)
+    return c:IsOriginalAttribute(ATTRIBUTE_DARK) and c:IsOriginalRace(RACE_DIVINE) and
+               c:IsSummonType(SUMMON_TYPE_NORMAL)
 end
 
 function s.sprescon(sg, e, tp, mg)
