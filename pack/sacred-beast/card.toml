@@ -54,6 +54,9 @@ Gains 1000 ATK/DEF for each Trap in your GY. \
 The above effects cannot be negated. \
 Once per turn: You can target 1 Set Spell/Trap your opponent controls; destroy it. \
     Neither player can activate Spell/Trap Cards in response to this effect's activation. \
+During your Main Phase, except the turn this card was sent to the GY, \
+    if this card is in the GY because it was destroyed in your Monster Zone by an opponent's card: \
+    You can discard 1 Trap; Special Summon it from the GY. \
 """
 strings = ["Destroy 1 Set Spell/Trap"]
 
@@ -81,8 +84,7 @@ While this card is in face-up Defense Position, \
 The above effects cannot be negated. \
 If this card destroys an opponent's monster by battle: \
     Inflict 1000 damage to your opponent. \
-If this card on the field is destroyed, \
-    You take no damage this turn. \
+If this card on the field is destroyed, you take no damage this turn. \
 """
 strings = [
     "Inflict 1000 damage to your opponent",

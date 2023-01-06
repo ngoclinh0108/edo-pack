@@ -83,6 +83,17 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- reborn from grave
+    local e3 = Effect.CreateEffect(c)
+    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e3:SetType(EFFECT_TYPE_IGNITION)
+    e3:SetRange(LOCATION_GRAVE)
+    e3:SetCondition(aux.exccon)
+    e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.sprfilter(c, tp)
@@ -140,9 +151,40 @@ function s.e2chainlimit(e, rp, tp)
     return not e:IsHasType(EFFECT_TYPE_ACTIVATE)
 end
 
-function s.e2op(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetFirstTarget()
-	if tc and tc:IsFacedown() and tc:IsRelateToEffect(e) then
-		Duel.Destroy(tc,REASON_EFFECT)
-	end
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if tc and tc:IsFacedown() and tc:IsRelateToEffect(e) then
+        Duel.Destroy(tc, REASON_EFFECT)
+    end
+end
+
+function s.e3costfilter(c)
+    return c:IsTrap() and c:IsDiscardable()
+end
+
+function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e3costfilter, tp, LOCATION_HAND, 0, 1, nil)
+    end
+
+    Duel.DiscardHand(tp, s.e3costfilter, 1, 1, REASON_COST + REASON_DISCARD)
+end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return c:IsReason(REASON_DESTROY) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer() ~= tp and
+                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
 end
