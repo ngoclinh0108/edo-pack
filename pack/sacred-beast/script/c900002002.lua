@@ -1,4 +1,4 @@
--- Armityle, the Chaos Phantasm Ruler
+-- Uria, Ruler of Searing Flames
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 

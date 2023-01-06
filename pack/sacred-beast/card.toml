@@ -2,7 +2,7 @@
 id = 900002000
 alias = 43378048
 rarity = "gold"
-name = "Armityle, the Chaos Phantasm Ruler"
+name = "Armityle, the Chaos Phantasm Emperor"
 type = "monster fusion effect"
 attribute = "divine"
 race = "fiend"
@@ -11,5 +11,61 @@ atk = 0
 def = 0
 effect = """\
 (This card's name is always treated as "Armityle the Chaos Phantasm".)
+"""
+strings = []
+
+[raviel]
+id = 900002001
+alias = 69890967
+rarity = "gold"
+frame-path = "frame/raviel.png"
+name = "Raviel, Ruler of Phantasms Demons"
+type = "monster effect"
+attribute = "divine"
+race = "fiend"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+(This card's name is always treated as "Raviel, Lord of Phantasms".)
+Cannot be Normal Summoned/Set. \
+Must be Special Summoned (from your hand or GY) by Tributing 3 monsters. \
+    This card's Special Summon cannot be negated. \
+"""
+strings = []
+
+[uria]
+id = 900002002
+alias = 6007213
+rarity = "gold"
+frame-path = "frame/uria.png"
+name = "Uria, Ruler of Searing Flames"
+type = "monster effect"
+attribute = "divine"
+race = "pyro"
+level = 10
+atk = 0
+def = 0
+effect = """\
+(This card's name is always treated as "Uria, Lord of Searing Flames".)
+Cannot be Normal Summoned/Set. \
+"""
+strings = []
+
+[hamon]
+id = 900002003
+alias = 	32491822
+rarity = "gold"
+frame-path = "frame/hamon.png"
+name = "Hamon, Ruler of Striking Thunder"
+type = "monster effect"
+attribute = "divine"
+race = "thunder"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+(This card's name is always treated as "Hamon, Lord of Striking Thunder".)
+Cannot be Normal Summoned/Set. \
 """
 strings = []

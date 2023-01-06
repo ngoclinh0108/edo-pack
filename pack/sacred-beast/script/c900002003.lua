@@ -1,4 +1,4 @@
--- Armityle, the Chaos Phantasm Ruler
+-- Hamon, Ruler of Striking Thunder
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
