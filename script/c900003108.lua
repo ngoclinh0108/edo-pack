@@ -7,6 +7,17 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
     Pendulum.AddProcedure(c, false)
 
+    -- special summon procedure
+    local spr = Effect.CreateEffect(c)
+    spr:SetType(EFFECT_TYPE_FIELD)
+    spr:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    spr:SetCode(EFFECT_SPSUMMON_PROC)
+    spr:SetRange(LOCATION_EXTRA)
+    spr:SetCondition(s.sprcon)
+    spr:SetTarget(s.sprtg)
+    spr:SetOperation(s.sprop)
+    c:RegisterEffect(spr)
+
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
@@ -20,17 +31,6 @@ function s.initial_effect(c)
     spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
     c:RegisterEffect(spsafe)
-
-    -- special summon procedure
-    local spr = Effect.CreateEffect(c)
-    spr:SetType(EFFECT_TYPE_FIELD)
-    spr:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    spr:SetCode(EFFECT_SPSUMMON_PROC)
-    spr:SetRange(LOCATION_EXTRA)
-    spr:SetCondition(s.sprcon)
-    spr:SetTarget(s.sprtg)
-    spr:SetOperation(s.sprop)
-    c:RegisterEffect(spr)
 
     -- cannot be release, or be material
     local matlimit = Effect.CreateEffect(c)

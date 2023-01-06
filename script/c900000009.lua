@@ -9,13 +9,6 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
     c:SetUniqueOnField(1, 1, id)
 
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    c:RegisterEffect(splimit)
-
     -- special summon procedure
     local spr = Effect.CreateEffect(c)
     spr:SetType(EFFECT_TYPE_FIELD)
@@ -26,6 +19,13 @@ function s.initial_effect(c)
     spr:SetTarget(s.sprtg)
     spr:SetOperation(s.sprop)
     c:RegisterEffect(spr)
+
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    c:RegisterEffect(splimit)
 
     -- summon cannot be negated
     local spsafe = Effect.CreateEffect(c)

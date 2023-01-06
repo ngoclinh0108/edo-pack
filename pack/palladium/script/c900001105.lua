@@ -5,14 +5,6 @@ local s, id = GetID()
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(aux.FALSE)
-    c:RegisterEffect(splimit)
-
     -- special summon procedure
     local sp = Effect.CreateEffect(c)
     sp:SetType(EFFECT_TYPE_FIELD)
@@ -24,6 +16,13 @@ function s.initial_effect(c)
     sp:SetTarget(s.sptg)
     sp:SetOperation(s.spop)
     c:RegisterEffect(sp)
+
+    -- special summon limit
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    c:RegisterEffect(splimit)
 
     -- send grave & inflict damage
     local e1 = Effect.CreateEffect(c)

@@ -30,7 +30,10 @@ effect = """\
 (This card's name is always treated as "Raviel, Lord of Phantasms".)
 Cannot be Normal Summoned/Set. \
 Must be Special Summoned (from your hand) by Tributing 3 monsters. \
-    This card's Special Summon cannot be negated. \
+This card's Special Summon cannot be negated. \
+Control of it cannot switch. \
+Cannot be Tributed, or used as material for an Summon by your opponent. \
+The above effects cannot be negated. \
 """
 strings = []
 
@@ -50,9 +53,11 @@ effect = """\
 (This card's name is always treated as "Uria, Lord of Searing Flames".)
 Cannot be Normal Summoned/Set. \
 Must be Special Summoned (from your hand) by sending 3 Traps you control to the GY. \
-    This card's Special Summon cannot be negated. \
+This card's Special Summon cannot be negated. \
+Control of it cannot switch. \
+Cannot be Tributed, or used as material for an Summon by your opponent. \
 Gains 1000 ATK/DEF for each Continuous Trap in your GY. \
-    This effect cannot be negated. \
+The above effects cannot be negated. \
 """
 strings = []
 
@@ -72,6 +77,9 @@ effect = """\
 (This card's name is always treated as "Hamon, Lord of Striking Thunder".)
 Cannot be Normal Summoned/Set. \
 Must be Special Summoned (from your hand) by sending 3 Spells you control to the GY. \
-    This card's Special Summon cannot be negated. \
+This card's Special Summon cannot be negated. \
+Control of it cannot switch. \
+Cannot be Tributed, or used as material for an Summon by your opponent. \
+The above effects cannot be negated. \
 """
 strings = []
