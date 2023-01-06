@@ -72,7 +72,7 @@ function s.e1con2(e, tp, eg, ep, ev, re, r, rp)
     return aux.damcon1(e, tp, eg, ep, ev, re, r, rp) and re:IsActiveType(TYPE_MONSTER)
 end
 
-function s.e1op2(e, tp, eg, ep, ev, re, r, rp, val, r, rc)
+function s.e1op2(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local cid = Duel.GetChainInfo(ev, CHAININFO_CHAIN_ID)
 

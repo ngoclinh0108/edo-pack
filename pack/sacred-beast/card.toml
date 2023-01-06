@@ -1,0 +1,453 @@
+[millennium-hieroglyph]
+id = 900000000
+template = "artwork"
+name = "Millennium Hieroglyph"
+strings = [
+    "Mulligan?",
+    "Place field?",
+    "Perform Destiny Draw?",
+    "Perform Destiny Excavate?",
+]
+
+[obelisk]
+id = 900000001
+alias = 10000000
+rarity = "gold"
+frame-path = "frame/obelisk.png"
+name = "Giant Divine Soldier of Obelisk"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+{HIERARCHY_ALIAS|1|Obelisk the Tormentor}
+{EGYPTIAN_EFFECT_1} \
+Once per turn, while this card is able to attack (Quick Effect): \
+    You can Tribute 2 other monsters; \
+    destroy all monsters your opponent controls, \
+    and also inflict damage to your opponent equal to this card's ATK. \
+    Cannot be activated as Chain Link 2 or higher. \
+    This card cannot declare an attack the turn this effect is activated. \
+Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Quick Effect): \
+    You can Tribute 2 other monsters; \
+    once during this turn, if this card battles an opponent's monster, \
+    it gains ∞ ATK during the damage calculation only. \
+"""
+strings = [
+    "Soul Energy MAX",
+    "Destroy all monsters & Inflict damage",
+    "Gain ∞ ATK for 1 attack",
+]
+
+[osiris]
+id = 900000002
+alias = 10000020
+frame-path = "frame/osiris.png"
+rarity = "gold"
+name = "Sky Divine Dragon of Osiris"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
+{EGYPTIAN_EFFECT_1} \
+This card's original ATK/DEF are equal to the number of cards in your hand x 1000. \
+    This effect cannot be negated. \
+If a monster(s) is Normal or Special Summoned to your opponent's field, \
+    or a monster(s) is take control by your opponent, while this card is able to attack: \
+    Choose that monster(s) as a Target; it loses 2000 ATK or DEF depending on its battle position, \
+    then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
+"""
+strings = ["Reduce the monster(s)' ATK or DEF"]
+
+[ra]
+id = 900000003
+alias = 10000010
+frame-path = "frame/ra.png"
+rarity = "gold"
+name = "Sun Divine Dragon of Ra"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY_ALIAS|2|The Winged Dragon of Ra}
+{EGYPTIAN_EFFECT_2} \
+This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
+While this card is able to attack, you can pay 1000 LP; destroy 1 monster on the field. \
+Once while face-up on the field: You can pay LP so that you only have 1 left; \
+    this card become Fusion Monster and gains ATK/DEF become equal to the amount of LP paid, \
+    any increase in LP is changed to increase it's ATK/DEF instead, \
+    unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
+    Cards and effects cannot be activated in response to this effect's activation. \
+    You can also use this effect when Summon this card. \
+If your "De-Fusion" targets this Fusion Monster, apply these effect instead: \
+    The target loses its above effects, cannot activate its effects, \
+    its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK". \
+Once per turn, when an attack is declared involving this card: \
+    You can Tribute any number of other face-up monsters; \
+    this card gains ATK equal to the Tributed monsters' combined ATK had on the field, until the end of this turn. \
+    This card must be become Fusion Monster by its own effect to activate and to resolve this effects. \
+"""
+strings = [
+    "De-fuse from \"The Winged Dragon of Ra\"",
+    "Destroy 1 monster on the field",
+    "Life Point Transfer",
+    "Tribute other monsters to gain ATK",
+]
+
+[ra-sphere]
+id = 900000004
+alias = 10000080
+frame-path = "frame/ra.png"
+rarity = "gold"
+name = "Sun Divine Dragon of Ra - Sphere Mode"
+type = "monster dimension effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+(This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
+If your "The Winged Dragon of Ra" is Normal Summoned to your field, \
+    its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, \
+    or your opponent's field, Dimension Change it to this card with the same Divine Hierarchy. \
+Control and battle position of it cannot change by card effects. \
+Cannot be Tributed, or used as material for an Summon. \
+Unaffected by other cards' effects, except for cards with the equal or higher Divine Hierarchy. \
+    This effect cannot be negated. \
+Cannot attack. \
+Neither player can target it for attacks or by card effects, \
+    but does not prevent your opponent from attacking you directly. \
+Once per turn, except the turn this card is Dimension Changed: \
+    The turn player can reveal 1 "Ancient Chant" from everywhere; \
+    Dimension Change this card to the material monster with the same Divine Hierarchy in any face-up position, \
+    and if they do, its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, or 4000. \
+    This effect's activation cannot be negated. \
+    The owner no need to reveal. \
+"""
+strings = ["Change to Battle Mode"]
+
+[ra-phoenix]
+id = 900000005
+alias = 10000090
+frame-path = "frame/ra.png"
+rarity = "gold"
+name = "Sun Divine Dragon of Ra - Immortal Phoenix"
+type = "monster dimension effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+(This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
+If "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
+    you can Dimension Change it to this card with the same Divine Hierarchy. \
+If "The Winged Dragon of Ra" you control would be destroyed by its own effect, \
+    Dimension Change it to this card with the same Divine Hierarchy instead, \
+    and this card's original ATK/DEF become the same as that monster's ATK/DEF had on the field. \
+Control and battle position of it cannot change by card effects. \
+Cannot be Tributed, or used as material for an Summon. \
+Unaffected by other cards' effects, \
+    and cannot be destroyed by battle, also you take no battle damage from that battle, \
+    except for monsters with the higher Divine Hierarchy. \
+    This effect cannot be negated. \
+Cannot attack, except by its own effect. \
+Once per Chain, while this card is in Attack Position, except the End Phase (Quick Effect): \
+    You can pay 1000 LP, then choose 1 monster your opponent control as Target; \
+    this card attacks it, and perform damage calculation, \
+    after that, send the targeted monster to the GY. \
+During the End Phase, \
+    Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \
+    with the same Divine Hierarchy (transfer this card's materials to that monster). \
+    If you cannot, send this card to the GY. \
+"""
+strings = [
+    "Select the form",
+    "Battle Mode",
+    "Phoenix Mode",
+    "Perform attack",
+    "Turn into Sphere Mode or to the GY",
+]
+
+[dreadroot]
+id = 900000006
+alias = 62180201
+frame-path = "frame/wicked.png"
+rarity = "gold"
+name = "The Wicked Deity Dreadroot"
+type = "monster effect"
+attribute = "dark"
+race = "divine-beast fiend"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+{HIERARCHY_ALIAS|1|The Wicked Dreadroot}
+{EGYPTIAN_EFFECT_1} \
+The ATK/DEF of all other monsters on the field are halved, except monsters with higher Divine Hierarchy. \
+If this card attacks an opponent's monster, during the Damage Step only, negate the effects of that monster. \
+"""
+strings = []
+
+[eraser]
+id = 900000007
+alias = 57793869
+frame-path = "frame/wicked.png"
+rarity = "gold"
+name = "The Wicked Deity Eraser"
+type = "monster effect"
+attribute = "dark"
+race = "divine-beast fiend"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY_ALIAS|1|The Wicked Eraser}
+{EGYPTIAN_EFFECT_1} \
+This card's original ATK/DEF are equal to the number of cards in your opponent controls x 1000. \
+    This effect cannot be negated. \
+Once per turn, if this card is Normal Summoned/Set: You can destroy this card. \
+If this face-up card leaves the field, send all cards on the field to the GY, \
+    ignoring card effects, except monsters with higher Divine Hierarchy. \
+"""
+strings = ["Destroy itself"]
+
+[avatar]
+id = 900000008
+alias = 21208154
+frame-path = "frame/wicked.png"
+rarity = "gold"
+name = "The Wicked Deity Avatar"
+type = "monster effect"
+attribute = "dark"
+race = "divine-beast fiend"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY_ALIAS|2|The Wicked Avatar}
+{EGYPTIAN_EFFECT_2} \
+If this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards \
+    until the end of their 2nd turn after this effect's activation. \
+This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
+Monsters' destruction by battle with this card cannot be negated, \
+    except monsters with higher Divine Hierarchy. \
+"""
+strings = ["Affected by \"{CARD_NAME}\": Cannot activate Spell/Trap Cards"]
+
+[zorc]
+id = 900000009
+rarity = "gold"
+name = "Zorc Necrophades, the Great Wicked God"
+type = "monster xyz effect"
+attribute = "dark"
+race = "creator-god"
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY|3}
+Cannot be Xyz Summoned. \
+Must be Special Summoned (from your Extra Deck) \
+    by overlaying 3 Normal Summoned/Set original DARK Divine-Beast monsters you control with different names. \
+    This card's Special Summon cannot be negated. \
+Cannot be Tributed, or used as material for an Summon. \
+Unaffected by other cards' effects, except monsters with higher Divine Hierarchy. \
+    This effect cannot be negated. \
+Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
+    also you take no battle damage from that battle. \
+Once per turn: You can attach 1 other face-up monster and its materials to this card as material, \
+    that is on the field or in either GY. \
+This card gains the effects of all monsters attached to it. \
+There can only be 1 face-up "{CARD_NAME}" on the field. \
+"""
+strings = ["Absorb 1 monster on the field or in either GY"]
+
+[deity-evolution]
+id = 900000010
+name = "Deity Evolution"
+type = "spell quick-play"
+effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" gain these effects, ignoring card effects;
+● Gain 1000 ATK/DEF.
+● Divine Hierarchy is increased by 1.
+● This card's effect activations and its effects cannot be negated.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
+During your Main Phase, if this card is in your GY and you control a original Divine-Beast monster: \
+    You can discard 1 Spell; add this card to your hand. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Affected by \"{CARD_NAME}\""]
+
+[devotee-of-obelisk]
+id = 900000011
+name = "Devotee of Obelisk"
+type = "monster link effect"
+attribute = "light"
+race = "fairy"
+link = 3
+link-arrow = "left bottom right"
+atk = 2400
+effect = """\
+3 monsters, including an Normal Summoned/Set monster
+If this card is Link Summoned: \
+    You can add 1 "Obelisk the Tormentor" or 1 card that mentions it \
+    from your Deck or GY to your hand, except "{CARD_NAME}". \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster. \
+    This effect cannot be negated. \
+During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monster \
+    in Attack Position, in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+If you Tribute this card for the Tribute Summon of "Obelisk the Tormentor", it gains this effect.
+● When Normal Summoned, negate the effects of all monsters your opponent currently controls. \
+"""
+strings = ["Tribute Summon (via \"{CARD_NAME}\")"]
+
+[devotee-of-osiris]
+id = 900000012
+name = "Devotee of Osiris"
+type = "monster link effect"
+attribute = "light"
+race = "fairy"
+link = 3
+link-arrow = "left bottom right"
+atk = 2000
+effect = """\
+3 monsters, including an Normal Summoned/Set monster
+If this card is Link Summoned: \
+    You can add 1 "Slifer the Sky Dragon" or 1 card that mentions it \
+    from your Deck or GY to your hand, except "{CARD_NAME}". \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster. \
+    This effect cannot be negated. \
+During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monster \
+    in Attack Position, in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+If you Tribute this card for the Tribute Summon of "Slifer the Sky Dragon", it gains this effect.
+● When Normal Summoned, you can draw until you have 4 cards in your hand. \
+"""
+strings = ["Tribute Summon (via \"{CARD_NAME}\")", "Draw until have 4 cards?"]
+
+[devotee-of-ra]
+id = 900000013
+name = "Devotee of Ra"
+type = "monster link effect"
+attribute = "light"
+race = "fairy"
+link = 3
+link-arrow = "left bottom right"
+atk = "?"
+effect = """\
+3 monsters, including an Normal Summoned/Set monster
+If this card is Link Summoned: \
+    You can add 1 "The Winged Dragon of Ra" or 1 card that mentions it \
+    from your Deck or GY to your hand, except "{CARD_NAME}". \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+This card can be treated as 3 Tributes for the Tribute Summon of DIVINE monster. \
+    This effect cannot be negated. \
+During your Main Phase, you can Tribute Summon 1 Level 10 or higher DIVINE monster \
+    in Attack Position, in addition to your Normal Summon/Set. \
+    (You can only gain this effect once per turn.) \
+This card's original ATK become equal to the combined original ATK of the monsters used for its Link Summon. \
+Cannot attack the turn it is Special Summoned. \
+If you Tribute this card for the Tribute Summon of "The Winged Dragon of Ra", it gains this effect.
+● When Normal Summoned, for the rest of this turn, \
+    any effect that would inflict damage to you makes you gain that much LP, instead.
+"""
+strings = [
+    "Tribute Summon (via \"{CARD_NAME}\")",
+    "Affected by \"{CARD_NAME}\": Any effect that would inflict damage to you makes you gain that much LP, instead",
+]
+
+[egyptian-god-slime-2]
+id = 900000014
+name = "Egyptian God Slime 2"
+type = "monster fusion effect"
+attribute = "water"
+race = "aqua"
+level = 10
+atk = 2000
+def = 2000
+effect = """\
+1 Aqua monster + 1 Level 10 WATER monster
+Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
+This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
+Cannot be destroyed by battle. \
+Your opponent's monsters with less ATK than this card cannot attack, also they cannot activate their effects. \
+"""
+strings = []
+
+[egyptian-god-slime-3]
+id = 900000015
+name = "Egyptian God Slime 3"
+type = "monster fusion effect"
+attribute = "water"
+race = "aqua"
+level = 10
+atk = 3300
+def = 1800
+effect = """\
+1 Aqua monster + 1 Level 10 WATER monster
+Must first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 Level 10 Aqua monster with 0 ATK. \
+This card can be treated as 1 or 3 Tributes for the Tribute Summon of a monster. \
+Cannot be destroyed by battle. \
+You take no effect damage. \
+"""
+strings = []
+
+[sun-god-descend]
+id = 900000016
+name = "Sun God Descend"
+type = "spell quick-play"
+effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+During the Main Phase: \
+    Tribute 3 monsters on your field or your opponent's, and if you do, \
+    Special Summon 1 "The Winged Dragon of Ra" from your hand or Deck, ignoring its Summoning conditions, \
+    and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field. \
+    If you Tributed monsters on your opponent's field, it cannot attack this turn. \
+If this card is in your GY: \
+    You can target 1 "The Winged Dragon of Ra" or 1 card that mentions it \
+    that is banished, or in your GY, except "{CARD_NAME}"; \
+    shuffle both this card and that target into the Deck, \
+    then draw 1 card. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
+
+[the-chosen-pharaoh]
+id = 900000017
+name = "The Chosen Pharaoh"
+type = "trap continuous"
+effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+The activation and effects of "The True Name" activated on your field cannot be negated. \
+If this face-up card leaves the field: Destroy all monsters you control. \
+If you control 3 monsters whose original names are \
+    "Obelisk the Tormentor", "Slifer the Sky Dragon", and "The Winged Dragon of Ra": \
+    Add 1 "Holactie the Creator of Light" from Outside to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per Duel. \
+You can only use the following effect of "{CARD_NAME}" once per turn. You can activate 1 of these effects;
+● Special Summon 1 "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra" from your hand or GY.
+● Add 1 "The True Name" from your Deck or GY to your hand.
+● Add to your hand or Set directly from your Deck, 1 Spell/Trap that mentions \
+    "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra", \
+    with a different name from the cards you control and in your GY.
+"""
+strings = [
+    "Call \"Holactie the Creator of Light\"",
+    "Special Summon a Divine-Beast",
+    "Add \"The True Name\"",
+    "Add or Set Spell/Trap",
+]
