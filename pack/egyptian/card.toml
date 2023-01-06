@@ -56,7 +56,7 @@ def = "?"
 effect = """\
 {HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
 {EGYPTIAN_EFFECT_1} \
-This card's original ATK/DEF are equal to the number of cards in your hand x 1000. \
+Gains 1000 ATK/DEF for each card in your hand. \
     This effect cannot be negated. \
 If a monster(s) is Normal or Special Summoned to your opponent's field \
     OR a monster(s) is take control by your opponent, while this card is able to attack: \
