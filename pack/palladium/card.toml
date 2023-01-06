@@ -10,7 +10,7 @@ level = 7
 atk = 2500
 def = 2100
 effect = """\
-(This card's name is always treated as "Palladium Oracle Mahad")
+(This card's name is always treated as "Palladium Oracle Mahad".)
 If this card is added to your hand: You can Special Summon it from your hand. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 Your opponent cannot target Spells/Traps you control with card effects, \
@@ -30,7 +30,7 @@ level = 6
 atk = 2000
 def = 1700
 effect = """\
-(This card's name is always treated as "Palladium Oracle Mana")
+(This card's name is always treated as "Palladium Oracle Mana".)
 If you control "Palladium Oracle Mahad", you can Special Summon this card (from your hand). \
 "Palladium" Spellcaster monsters you control cannot be destroyed by card effects. \
 When your opponent targets a monster(s) you control with a card effect, \

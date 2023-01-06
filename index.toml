@@ -5,12 +5,14 @@ packs = [
     "./pack/egyptian",
     "./pack/palladium",
     "./pack/blue-eyes",
+    "./pack/sacred-beast",
     "./pack/signer-dragons",
 ]
 
 skip_compile_packs = [
-    # "./pack/egyptian",
+    "./pack/egyptian",
     "./pack/palladium",
     "./pack/blue-eyes",
+    # "./pack/sacred-beast",
     "./pack/signer-dragons",
 ]
