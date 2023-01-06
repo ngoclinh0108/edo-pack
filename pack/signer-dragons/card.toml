@@ -1,5 +1,5 @@
 [mausoleum-signer-dragons]
-id = 900000300
+id = 900003100
 name = "Mausoleum of the Signer Dragons"
 type = "spell field"
 effect = """
@@ -18,7 +18,7 @@ strings = [
 ]
 
 [mark-of-the-dragon-star]
-id = 900000301
+id = 900003101
 rarity = "gold"
 name = "Mark Of The Dragon Star"
 type = "spell"
@@ -44,7 +44,7 @@ strings = [
 ]
 
 [ultimaya-stardust-dragon]
-id = 900000302
+id = 900003102
 set = "stardust"
 name = "Ultimaya Stardust Dragon"
 type = "monster synchro tuner effect"
@@ -65,7 +65,7 @@ When another card or effect is activated \
 strings = ["Negate the activation"]
 
 [ultimaya-red-archfiend-dragon]
-id = 900000303
+id = 900003103
 set = "red-dragon-archfiend"
 name = "Ultimaya Red Archfiend Dragon"
 type = "monster synchro effect"
@@ -88,7 +88,7 @@ strings = [
 ]
 
 [ultimaya-black-winged-dragon]
-id = 900000304
+id = 900003104
 name = "Ultimaya Black-Winged Dragon"
 type = "monster synchro effect"
 attribute = "dark"
@@ -111,7 +111,7 @@ Once per turn: You can target 1 face-up monster your opponent controls; \
 strings = ["Remove counter to low ATK and inflict damage"]
 
 [ultimaya-black-rose-dragon]
-id = 900000305
+id = 900003105
 set = "rose-dragon"
 name = "Ultimaya Black Rose Dragon"
 type = "monster synchro effect"
@@ -133,7 +133,7 @@ Once per turn: \
 strings = ["Destroy cards on the field", "Halve ATK/DEF of 1 monster"]
 
 [ultimaya-ancient-fairy-dragon]
-id = 900000306
+id = 900003106
 name = "Ultimaya Ancient Fairy Dragon"
 type = "monster synchro effect"
 attribute = "light"
@@ -153,7 +153,7 @@ Once per turn: You can destroy as many Field Spells on the field as possible, \
 strings = ["Destroy Field Spells", "Add 1 Field Spell to your hand?"]
 
 [ultimaya-life-stream-dragon]
-id = 900000307
+id = 900003107
 name = "Ultimaya Life Stream Dragon"
 type = "monster synchro tuner effect"
 attribute = "earth"
@@ -179,7 +179,7 @@ strings = [
 ]
 
 [ultimaya-cosmic-dragon]
-id = 900000308
+id = 900003108
 rarity = "gold"
 name = "Ultimaya Cosmic Dragon"
 type = "monster synchro pendulum effect"
@@ -219,7 +219,7 @@ strings = [
 ]
 
 [cosmic-quasar-dragon]
-id = 900000309
+id = 900003109
 rarity = "gold"
 name = "Cosmic Quasar Dragon"
 type = "monster synchro effect"
@@ -259,7 +259,7 @@ strings = [
 ]
 
 [cosmic-stardust-dragon]
-id = 900000310
+id = 900003110
 alias = 24696097
 name = "Cosmic Star Dragon"
 type = "monster synchro effect"
@@ -292,7 +292,7 @@ strings = [
 ]
 
 [majestic-black-dragon]
-id = 900000311
+id = 900003111
 set = "majestic"
 name = "Majestic Black Dragon"
 type = "monster synchro effect"
@@ -319,7 +319,7 @@ strings = [
 ]
 
 [majestic-rose-dragon]
-id = 900000312
+id = 900003112
 set = "majestic rose-dragon"
 name = "Majestic Rose Dragon"
 type = "monster synchro effect"
@@ -343,7 +343,7 @@ strings = [
 ]
 
 [majestic-fairy-dragon]
-id = 900000313
+id = 900003113
 set = "majestic"
 name = "Majestic Fairy Dragon"
 type = "monster synchro effect"
@@ -368,7 +368,7 @@ strings = [
 ]
 
 [majestic-life-dragon]
-id = 900000314
+id = 900003114
 set = "majestic"
 name = "Majestic Life Dragon"
 type = "monster synchro tuner effect"
@@ -396,7 +396,7 @@ strings = [
 ]
 
 [converging-wills-maiden]
-id = 900000315
+id = 900003115
 set = "stardust"
 name = "Converging Wills Maiden"
 type = "monster synchro effect"
@@ -426,7 +426,7 @@ strings = [
 ]
 
 [salvation-dragon]
-id = 900000316
+id = 900003116
 alias = 21159309
 set = "majestic"
 name = "Salvation Dragon"
@@ -447,7 +447,7 @@ If this card is added to your hand: You can Special Summon it, \
 strings = ["Special Summon 1 Level 1 monster?"]
 
 [majestic-wish-dragon]
-id = 900000317
+id = 900003117
 set = "majestic"
 name = "Majestic Wills Dragon"
 type = "monster effect"
@@ -472,7 +472,7 @@ strings = [
 ]
 
 [stardust-armory-dragon]
-id = 900000318
+id = 900003118
 set = "stardust"
 name = "Stardust Armory Dragon"
 type = "monster synchro effect"
@@ -497,7 +497,7 @@ If this card is destroyed by battle, or if this card in its owner's possession i
 strings = ["Negate the activation", "Negate the Special Summon"]
 
 [junk-assault-dragon]
-id = 900000319
+id = 900003119
 set = "junk"
 name = "Junk Assault Dragon"
 type = "monster synchro effect"
@@ -529,7 +529,7 @@ strings = [
 ]
 
 [quickdraw-warrior]
-id = 900000320
+id = 900003120
 set = "warrior"
 name = "Quickdraw Warrior"
 type = "monster synchro effect"
@@ -555,7 +555,7 @@ strings = [
 ]
 
 [steam-warrior]
-id = 900000321
+id = 900003121
 set = "warrior"
 name = "Steam Warrior"
 type = "monster synchro effect"
@@ -576,7 +576,7 @@ The first time this card would be destroyed by battle each turn, it is not destr
 strings = ["Shuffle card in GY into the Deck"]
 
 [junk-accelerator]
-id = 900000322
+id = 900003122
 set = "junk"
 name = "Junk Accelerator"
 type = "monster synchro effect"
@@ -608,7 +608,7 @@ strings = [
 ]
 
 [starjunk-warrior]
-id = 900000323
+id = 900003123
 alias = 60800381
 set = "junk warrior"
 name = "Starjunk Warrior"
@@ -634,7 +634,7 @@ strings = [
 ]
 
 [star-synchron]
-id = 900000324
+id = 900003124
 set = "synchron"
 name = "Star Synchron"
 type = "monster synchro tuner effect"
@@ -659,7 +659,7 @@ strings = [
 ]
 
 [stardust-spark-synchron]
-id = 900000325
+id = 900003125
 set = "stardust synchron"
 name = "Stardust Spark Synchron"
 type = "monster tuner effect"
@@ -684,7 +684,7 @@ strings = [
 ]
 
 [starjunk-servant]
-id = 900000326
+id = 900003126
 set = "junk"
 name = "Starjunk Servant"
 type = "monster effect"
@@ -706,7 +706,7 @@ strings = [
 ]
 
 [starjunk-synchron]
-id = 900000327
+id = 900003127
 alias = 63977008
 set = "junk synchron"
 name = "Starjunk Synchron"
@@ -727,7 +727,7 @@ For a Synchro Summon, you can substitute this card for any 1 "Synchron" Tuner. \
 strings = []
 
 [rush-synchron]
-id = 900000328
+id = 900003128
 set = "synchron"
 name = "Rush Synchron"
 type = "monster tuner effect"
@@ -752,7 +752,7 @@ strings = [
 ]
 
 [junk-striker]
-id = 900000329
+id = 900003129
 name = "Junk Striker"
 set = "junk"
 type = "monster effect"
@@ -771,7 +771,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = []
 
 [core-warrior]
-id = 900000330
+id = 900003130
 name = "Core Warrior"
 type = "monster effect"
 attribute = "wind"
@@ -789,7 +789,7 @@ If this card is sent to the GY as Synchro Material: \
 strings = ["Normal Summon 1 Tuner monster?"]
 
 [mach-synchron]
-id = 900000331
+id = 900003131
 set = "synchron"
 name = "Mach Synchron"
 type = "monster tuner effect"
@@ -808,7 +808,7 @@ During the End Phase, if this card is in the GY because it was sent there this t
 strings = []
 
 [junk-bot]
-id = 900000332
+id = 900003132
 name = "Junk Bot"
 set = "junk"
 type = "monster effect"
@@ -828,7 +828,7 @@ If this card is in your GY: \
 strings = []
 
 [majestic-salvation]
-id = 900000333
+id = 900003133
 set = "majestic"
 name = "Majestic Salvation"
 type = "spell"
@@ -843,7 +843,7 @@ strings = ["Affected by \"{CARD_NAME}\"", "Gain 1000 ATK/DEF"]
 
 
 [let-rev-it-up]
-id = 900000334
+id = 900003134
 name = "Let's Rev It Up!"
 type = "spell continuous"
 effect = """
@@ -867,7 +867,7 @@ strings = [
 ]
 
 [red-dragon-archfiend-calamity-emperor]
-id = 900000335
+id = 900003135
 rarity = "gold"
 set = "red-dragon-archfiend"
 name = "Red Dragon Archfiend Disaster Emperor"
@@ -904,7 +904,7 @@ strings = [
 ]
 
 [nova-rising-dragon]
-id = 900000336
+id = 900003136
 set = "red-dragon-archfiend"
 name = "Nova Rising Dragon"
 type = "monster synchro effect"
@@ -930,7 +930,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Special Summon a \"Red Dragon Archfiend\" monster"]
 
 [ruthless-inferno]
-id = 900000337
+id = 900003137
 name = "Ruthless Inferno"
 type = "trap"
 effect = """
