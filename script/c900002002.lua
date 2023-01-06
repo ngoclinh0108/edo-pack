@@ -15,7 +15,7 @@ function s.initial_effect(c)
     spr:SetTarget(s.sprtg)
     spr:SetOperation(s.sprop)
     c:RegisterEffect(spr)
-    
+
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
@@ -71,6 +71,18 @@ function s.initial_effect(c)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_UPDATE_DEFENSE)
     c:RegisterEffect(e1b)
+
+    -- destroy spell/trap
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_DESTROY)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetCountLimit(1)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.sprfilter(c, tp)
@@ -110,4 +122,27 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
 
     Duel.SendtoGrave(g, REASON_COST)
     g:DeleteGroup()
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(Card.IsFacedown, tp, 0, LOCATION_SZONE, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
+    local g = Duel.SelectTarget(tp, Card.IsFacedown, tp, 0, LOCATION_SZONE, 1, 1, nil)
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
+
+    Duel.SetChainLimit(s.e2chainlimit)
+end
+
+function s.e2chainlimit(e, rp, tp)
+    return not e:IsHasType(EFFECT_TYPE_ACTIVATE)
+end
+
+function s.e2op(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.GetFirstTarget()
+	if tc and tc:IsFacedown() and tc:IsRelateToEffect(e) then
+		Duel.Destroy(tc,REASON_EFFECT)
+	end
 end
