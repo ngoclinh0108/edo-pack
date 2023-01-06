@@ -259,7 +259,6 @@ Cannot be Xyz Summoned. \
 Must be Special Summoned (from your Extra Deck) \
     by overlaying 3 Normal Summoned/Set original DARK Divine-Beast monsters you control with different names. \
     This card's Special Summon cannot be negated. \
-There can only be 1 face-up "{CARD_NAME}" on the field. \
 Cannot be Tributed, or used as material for an Summon. \
 Unaffected by other cards' effects, except monsters with higher Divine Hierarchy. \
     This effect cannot be negated. \
@@ -268,6 +267,7 @@ Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
 Once per turn: You can attach 1 other face-up monster and its materials to this card as material, \
     that is on the field or in either GY. \
 This card gains the effects of all monsters attached to it. \
+There can only be 1 face-up "{CARD_NAME}" on the field. \
 """
 strings = ["Absorb 1 monster on the field or in either GY"]
 
