@@ -1,14 +1,15 @@
--- Devotee of Osiris
+-- Palladium Devotee of Obelisk
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {10000020}
+s.material_setcode = {0x13a}
+s.listed_names = {10000000}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- link summon
-    Link.AddProcedure(c, nil, 3, 3, function(g, lc, sumtype, tp)
+    Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x13a), 3, 3, function(g, lc, sumtype, tp)
         return g:IsExists(Card.IsSummonType, 1, nil, SUMMON_TYPE_NORMAL)
     end)
 
@@ -75,12 +76,12 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return (c:IsCode(10000020) or c:ListsCode(10000020)) and not c:IsCode(id) and c:IsAbleToHand()
+    return (c:IsCode(10000000) or c:ListsCode(10000000)) and not c:IsCode(id) and c:IsAbleToHand()
 end
 
 function s.e4regcon(e, tp, eg, ep, ev, re, r, rp)
     local rc = e:GetHandler():GetReasonCard()
-    return r == REASON_SUMMON and rc:IsFaceup() and rc:IsCode(10000020)
+    return r == REASON_SUMMON and rc:IsFaceup() and rc:IsCode(10000000)
 end
 
 function s.e4regop(e, tp, eg, ep, ev, re, r, rp)
@@ -92,12 +93,29 @@ function s.e4regop(e, tp, eg, ep, ev, re, r, rp)
     eff:SetCode(EVENT_SUMMON_SUCCESS)
     eff:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
+        local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil):Filter(s.e4disfilter, nil)
+        for tc in aux.Next(g) do
+            local ec1 = Effect.CreateEffect(c)
+            ec1:SetType(EFFECT_TYPE_SINGLE)
+            ec1:SetCode(EFFECT_DISABLE)
+            ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+            tc:RegisterEffect(ec1)
+            local ec2 = ec1:Clone()
+            ec2:SetCode(EFFECT_DISABLE_EFFECT)
+            tc:RegisterEffect(ec2)
 
-        local h = Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0)
-        if h < 4 and Duel.IsPlayerCanDraw(tp, 4 - h) and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
-            Duel.Draw(tp, 4 - h, REASON_EFFECT)
+            if tc:IsType(TYPE_TRAPMONSTER) then
+                local ec3 = ec1:Clone()
+                ec3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+                tc:RegisterEffect(ec3)
+            end
         end
     end)
     eff:SetReset(RESET_EVENT + RESETS_STANDARD)
     rc:RegisterEffect(eff, true)
+end
+
+function s.e4disfilter(c)
+    return (c:IsFaceup() or c:IsType(TYPE_TRAPMONSTER)) and
+               not (c:IsType(TYPE_NORMAL) and c:GetOriginalType() & TYPE_NORMAL > 0)
 end

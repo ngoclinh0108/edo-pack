@@ -1,14 +1,15 @@
--- Devotee of Ra
+-- Palladium Devotee of Ra
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.material_setcode = {0x13a}
 s.listed_names = {CARD_RA}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- link summon
-    Link.AddProcedure(c, nil, 3, 3, function(g, lc, sumtype, tp)
+    Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x13a), 3, 3, function(g, lc, sumtype, tp)
         return g:IsExists(Card.IsSummonType, 1, nil, SUMMON_TYPE_NORMAL)
     end)
 
