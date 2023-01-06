@@ -211,12 +211,13 @@ function Divine.IsDivineEvolution(c)
     return c:GetFlagEffect(Divine.FLAG_DIVINE_EVOLUTION) > 0
 end
 
-function ResetEffectFilter(e, c)
-    if e:GetOwner() == c or e:GetOwner():IsCode(10000080) then
+function ResetEffectFilter(te, c)
+    local tc = te:GetOwner()
+    if tc == c or tc:IsCode(10000080) or Divine.GetDivineHierarchy(tc) > Divine.GetDivineHierarchy(c) then
         return false
     end
 
-    return not e:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and e:GetCode() ~= EFFECT_SPSUMMON_PROC and
-               (e:GetTarget() == aux.PersistentTargetFilter or not e:IsHasType(EFFECT_TYPE_GRANT)) and
-               not e:IsHasProperty(EFFECT_FLAG_FIELD_ONLY)
+    return not te:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and te:GetCode() ~= EFFECT_SPSUMMON_PROC and
+               (te:GetTarget() == aux.PersistentTargetFilter or not te:IsHasType(EFFECT_TYPE_GRANT)) and
+               not te:IsHasProperty(EFFECT_FLAG_FIELD_ONLY)
 end
