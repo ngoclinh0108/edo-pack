@@ -46,44 +46,53 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(nomaterial)
 
-    -- control switched
+    -- self disable
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e1:SetProperty(EFFECT_CANNOT_DISABLE + EFFECT_FLAG_SET_AVAILABLE)
+    e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_CANNOT_DISABLE)
     e1:SetCode(EVENT_CONTROL_CHANGED)
     e1:SetCountLimit(1)
     e1:SetCondition(s.e1con)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- cannot be destroyed by battle
+    -- banish
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    e2:SetValue(1)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_CANNOT_DISABLE)
+    e2:SetCode(EVENT_CONTROL_CHANGED)
+    e2:SetCountLimit(1)
+    e2:SetOperation(s.e2regop)
     c:RegisterEffect(e2)
 
-    -- attack
+    -- cannot be destroyed by battle
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e3:SetValue(1)
     c:RegisterEffect(e3)
 
-    -- give control
+    -- attack
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_CONTROL)
+    e4:SetDescription(aux.Stringid(id, 2))
     e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetRange(LOCATION_MZONE)
     e4:SetCountLimit(1)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
+
+    -- give control
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 3))
+    e5:SetCategory(CATEGORY_CONTROL)
+    e5:SetType(EFFECT_TYPE_IGNITION)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCountLimit(1)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.splimit(e, se, sp, st)
@@ -107,47 +116,67 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    if c:IsFaceup() then
-        Duel.NegateRelatedChain(c, RESET_TURN_SET)
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_DISABLE)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-        c:RegisterEffect(ec1)
-        local ec1b = ec1:Clone()
-        ec1b:SetCode(EFFECT_DISABLE_EFFECT)
-        ec1b:SetValue(RESET_TURN_SET)
-        c:RegisterEffect(ec1)
-    end
-
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetCategory(CATEGORY_REMOVE)
-    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    ec1:SetCode(EFFECT_DISABLE)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec1)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_DISABLE_EFFECT)
+    ec1b:SetValue(RESET_TURN_SET)
+    c:RegisterEffect(ec1b)
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 0))
+    ec2:SetType(EFFECT_TYPE_SINGLE)
+    ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
+    ec2:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    ec2:SetRange(LOCATION_MZONE)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec2)
+end
+
+function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     ec1:SetCode(EVENT_PHASE + PHASE_END)
     ec1:SetRange(LOCATION_MZONE)
     ec1:SetCountLimit(1)
-    ec1:SetOperation(s.e1endop)
+    ec1:SetTarget(s.e2tg)
+    ec1:SetOperation(s.e2op)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
 end
 
-function s.e1endop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    Utility.HintCard(c)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
 
-    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, c)
-    Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-    ec1:SetCode(EFFECT_SET_CONTROL)
-    ec1:SetValue(c:GetOwner())
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD - (RESET_TOFIELD + RESET_TEMP_REMOVE + RESET_TURN_SET))
-    c:RegisterEffect(ec1)
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, nil)
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, LOCATION_ONFIELD)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, nil)
+    if Duel.Remove(g, POS_FACEUP, REASON_EFFECT) == 0 then
+        return
+    end
+
+    local p = e:GetHandler():GetOwner()
+    if c:IsCanBeSpecialSummoned(e, 0, p, true, true) and Duel.GetLocationCount(p, LOCATION_MZONE) > 0 and
+        Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
+        Duel.BreakEffect()
+        Duel.SpecialSummon(c, 0, p, p, true, true, POS_FACEUP)
+    end
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:CanAttack() and Duel.IsExistingTarget(nil, tp, 0, LOCATION_MZONE, 1, nil)
@@ -158,7 +187,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SetTargetCard(tc)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if c:IsRelateToEffect(e) and c:IsFaceup() and tc and tc:IsRelateToEffect(e) and c:CanAttack() and
@@ -173,7 +202,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return c:IsAbleToChangeControler()
@@ -182,7 +211,7 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SetOperationInfo(0, CATEGORY_CONTROL, c, 1, 0, 0)
 end
 
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if c:IsRelateToEffect(e) and c:IsFaceup() then
         Duel.GetControl(c, 1 - tp)
