@@ -121,13 +121,13 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     elseif ft > -2 then
         local ct = -ft + 1
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RELEASE)
-        g = rg:FilterSelect(tp, s.mzfilter, ct, ct, nil, tp)
+        g = rg:FilterSelect(tp, s.sprfilter, ct, ct, nil, tp)
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RELEASE)
         local g2 = rg:Select(tp, 3 - ct, 3 - ct, g)
         g:Merge(g2)
     else
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RELEASE)
-        g = rg:FilterSelect(tp, s.mzfilter, 3, 3, nil, tp)
+        g = rg:FilterSelect(tp, s.sprfilter, 3, 3, nil, tp)
     end
 
     Duel.Release(g, REASON_COST)
