@@ -169,7 +169,7 @@ function s.e2con1(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and
                (not re or (not re:IsHasType(EFFECT_TYPE_ACTIONS) or re:IsHasType(EFFECT_TYPE_CONTINUOUS))) and
                Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-               Duel.IsPlayerCanSpecialSummonMonster(tp, id + 1, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND,
+               Duel.IsPlayerCanSpecialSummonMonster(tp, 69890968, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND,
             ATTRIBUTE_DARK)
 end
 
@@ -189,12 +189,11 @@ end
 function s.e2regcon2(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and re:IsHasType(EFFECT_TYPE_ACTIONS) and
                not re:IsHasType(EFFECT_TYPE_CONTINUOUS) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-               Duel.IsPlayerCanSpecialSummonMonster(tp, id + 1, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND,
+               Duel.IsPlayerCanSpecialSummonMonster(tp, 69890968, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND,
             ATTRIBUTE_DARK)
 end
 
 function s.e2regop2(e, tp, eg, ep, ev, re, r, rp)
-    local g = eg:Filter(s.e2filter, nil, 1 - tp)
     Duel.RegisterFlagEffect(tp, id, RESET_CHAIN, 0, 1)
 end
 
