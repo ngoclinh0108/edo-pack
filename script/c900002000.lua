@@ -78,7 +78,7 @@ function s.initial_effect(c)
     local e5 = Effect.CreateEffect(c)
     e5:SetType(EFFECT_TYPE_SINGLE)
     e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e5:SetRange(LOCATIONFMZONE)
+    e5:SetRange(LOCATION_FZONE)
     e5:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e5:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return s.sbcount >= 3
