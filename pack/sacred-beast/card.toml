@@ -157,7 +157,7 @@ strings = [
 ]
 
 [seed-of-desolation]
-id = 900002006
+id = 900002005
 name = "Seed of Desolation"
 type = "monster effect"
 attribute = "dark"
