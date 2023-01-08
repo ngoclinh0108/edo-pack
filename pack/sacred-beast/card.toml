@@ -1,8 +1,7 @@
-[the-eye-of-phantasm]
+[the-eye-of-nightmare]
 id = 900002000
 alias = 27439792
-set = "phantasm"
-name = "The Eye of Phantasm"
+name = "The Eye of Nightmare"
 type = "spell field"
 effect = """
 (This card's name is always treated as "Fallen Paradise".)
