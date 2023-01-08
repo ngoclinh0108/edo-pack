@@ -156,10 +156,9 @@ strings = [
     "Give control to your opponent",
 ]
 
-[phantasms-seed]
+[seed-of-desolation]
 id = 900002006
-set = "phantasms"
-name = "Phantasms Seed"
+name = "Seed of Desolation"
 type = "monster effect"
 attribute = "dark"
 race = "plant"
