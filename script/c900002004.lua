@@ -154,7 +154,7 @@ function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsSetCard(0x145) and c:IsType(TYPE_FUSION) and c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
+    return c:IsSetCard(0x145) and c:IsType(TYPE_FUSION) and c:IsCanBeSpecialSummoned(SUMMON_TYPE_FUSION, 0, tp, true, false) and
                Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
 end
 
@@ -182,7 +182,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         if #sg > 0 and Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
             Duel.BreakEffect()
             local sc = Utility.GroupSelect(HINTMSG_SPSUMMON, sg, p, 1, 1, nil):GetFirst()
-            Duel.SpecialSummon(sc, 0, p, p, true, false, POS_FACEUP)
+            Duel.SpecialSummon(sc, SUMMON_TYPE_FUSION, p, p, true, false, POS_FACEUP)
+            sc:CompleteProcedure()
         end
     end
 end
