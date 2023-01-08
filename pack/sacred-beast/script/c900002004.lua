@@ -154,7 +154,8 @@ function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsSetCard(0x145) and c:IsType(TYPE_FUSION) and c:IsCanBeSpecialSummoned(SUMMON_TYPE_FUSION, 0, tp, true, false) and
+    return c:IsSetCard(0x145) and c:IsType(TYPE_FUSION) and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, true, false) and
                Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
 end
 
