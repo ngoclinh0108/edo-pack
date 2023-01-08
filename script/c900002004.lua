@@ -106,7 +106,7 @@ end
 
 function s.fusop(g, tp)
     Duel.ConfirmCards(1 - tp, g)
-    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST + REASON_MATERIAL)
+    Duel.Remove(g, POS_FACEUP, REASON_COST + REASON_MATERIAL)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -172,7 +172,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    
+
     local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, c)
     Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
 
