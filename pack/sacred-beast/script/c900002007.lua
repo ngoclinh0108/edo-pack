@@ -123,6 +123,13 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.IsPlayerCanSpecialSummonMonster(tp, PHANTASMAL_NIGHTMARE_TOKEN, 0, TYPES_TOKEN, atk, 0, 12, RACE_FIEND,
         ATTRIBUTE_DARK) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
         local token = Duel.CreateToken(tp, PHANTASMAL_NIGHTMARE_TOKEN)
-        Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
+        Duel.SpecialSummonStep(token, 0, tp, tp, false, false, POS_FACEUP)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_SET_ATTACK)
+        ec1:SetValue(atk)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        token:RegisterEffect(ec1)
+        Duel.SpecialSummonComplete()
     end
 end
