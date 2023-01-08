@@ -3,6 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {6007213, 32491822, 69890967, 43378048}
+s.listed_series = {0x145}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -140,7 +141,7 @@ end
 function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON)
+    ec1:SetCategory(CATEGORY_REMOVE + CATEGORY_TOEXTRA + CATEGORY_SPECIAL_SUMMON)
     ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_F)
     ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     ec1:SetCode(EVENT_PHASE + PHASE_END)
@@ -152,27 +153,36 @@ function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 end
 
+function s.e2filter(c, e, tp)
+    return c:IsSetCard(0x145) and c:IsType(TYPE_FUSION) and c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
+               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
+end
+
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
     if chk == 0 then
         return true
     end
 
-    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, nil)
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, c)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, LOCATION_ONFIELD)
+    Duel.SetOperationInfo(0, CATEGORY_TOEXTRA, c, 1, 0, 0)
+    Duel.SetPossibleOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, LOCATION_EXTRA)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, nil)
-    if Duel.Remove(g, POS_FACEUP, REASON_EFFECT) == 0 then
+    local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, c)
+    if Duel.Remove(g, POS_FACEUP, REASON_EFFECT) == 0 or Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
         return
     end
 
     local p = e:GetHandler():GetOwner()
-    if c:IsCanBeSpecialSummoned(e, 0, p, true, true) and Duel.GetLocationCount(p, LOCATION_MZONE) > 0 and
-        Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
+    local sg = Duel.GetMatchingGroup(s.e2filter, p, LOCATION_EXTRA, 0, nil, e, p)
+    if #sg > 0 and Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
         Duel.BreakEffect()
-        Duel.SpecialSummon(c, 0, p, p, true, true, POS_FACEUP)
+        local sc = Utility.GroupSelect(HINTMSG_SPSUMMON, sg, p, 1, 1, nil):GetFirst()
+        Duel.SpecialSummon(sc, 0, p, p, true, false, POS_FACEUP)
     end
 end
 
