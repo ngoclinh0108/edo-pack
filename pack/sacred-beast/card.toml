@@ -4,6 +4,7 @@ set = "phantasms"
 name = "The Eye of Phantasms"
 type = "spell field"
 effect = """
+The activation and effect of this card's effects cannot be negated. \
 """
 strings = []
 
