@@ -20,10 +20,7 @@ This card gains these effects based on the number of \
     that you control or is in your GY, except "{CARD_NAME}"; \
     attach the target to this card and if you do this card gains that card's effects.
 """
-strings = [
-    "Draw 2 card",
-    "Attach 1 Continuous Spell/Trap to this card",
-]
+strings = ["Draw 2 card", "Attach 1 Continuous Spell/Trap to this card"]
 
 [raviel]
 id = 900002001
@@ -158,3 +155,22 @@ strings = [
     "Attack a monster with 10,000 ATK",
     "Give control to your opponent",
 ]
+
+[phantasms-seed]
+id = 900002006
+set = "phantasms"
+name = "Phantasms Seed"
+type = "monster effect"
+attribute = "dark"
+race = "plant"
+level = 1
+atk = 0
+def = 0
+effect = """\
+You can reveal this card in your hand, then target 1 face-up monster you control; \
+    Destroy it, and if you do, Special Summon this card from your hand or 1 "Yubel" from your hand or Deck. \
+(Quick Effect): You can banish this card from your GY, then target 1 Fiend monster you control; \
+    Destroy it, and if you do, draw 1 card. \
+You can only use each effect of "{CARD_NAME}" once per turn.
+"""
+strings = ["Special Summon this card", "Special Summon \"Yubel\""]
