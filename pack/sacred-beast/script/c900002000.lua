@@ -54,7 +54,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_FZONE)
     e3:SetCountLimit(1, {id, 1})
     e3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return s.sbcount >= 1
+        return s.sbcount(tp) >= 1
     end)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -68,7 +68,7 @@ function s.initial_effect(c)
     e4:SetRange(LOCATION_FZONE)
     e4:SetCountLimit(1, {id, 2})
     e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return s.sbcount >= 2
+        return s.sbcount(tp) >= 2
     end)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
@@ -81,7 +81,7 @@ function s.initial_effect(c)
     e5:SetRange(LOCATION_FZONE)
     e5:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e5:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return s.sbcount >= 3
+        return s.sbcount(tp) >= 3
     end)
     e5:SetValue(aux.tgoval)
     c:RegisterEffect(e5)
@@ -99,7 +99,7 @@ function s.initial_effect(c)
     e6:SetRange(LOCATION_FZONE)
     e6:SetCountLimit(1)
     e6:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return s.sbcount >= 4
+        return s.sbcount(tp) >= 4
     end)
     e6:SetTarget(s.e6tg)
     e6:SetOperation(s.e6op)
