@@ -38,13 +38,19 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e2:SetRange(LOCATION_FZONE)
     e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(s.e2tg)
+    e2:SetTarget(s.e2tg1)
     e2:SetValue(aux.tgoval)
     c:RegisterEffect(e2)
     local e2b = e2:Clone()
     e2b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e2b:SetValue(s.e2val)
     c:RegisterEffect(e2b)
+    local e2c = e2:Clone()
+    e2c:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_PLAYER_TARGET)
+    e2c:SetCode(EFFECT_CANNOT_REMOVE)
+    e2c:SetTargetRange(1, 1)
+    e2c:SetTarget(s.e2tg2)
+    c:RegisterEffect(e2c)
 
     -- draw
     local e3 = Effect.CreateEffect(c)
@@ -61,54 +67,53 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- return spell/trap to hand
+    -- untargetable, unbanishable & indes
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetCategory(CATEGORY_TOHAND)
-    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e4:SetRange(LOCATION_FZONE)
-    e4:SetCountLimit(1, {id, 2})
+    e4:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return s.sbcount(e:GetHandlerPlayer()) >= 2
     end)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
+    e4:SetValue(aux.tgoval)
     c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e4b:SetValue(function(e, re, rp)
+        return rp ~= e:GetHandlerPlayer()
+    end)
+    c:RegisterEffect(e4b)
+    local e4c = Effect.CreateEffect(c)
+    e4c:SetType(EFFECT_TYPE_FIELD)
+    e4c:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e4c:SetCode(EFFECT_CANNOT_REMOVE)
+    e4c:SetTargetRange(1, 1)
+    e4c:SetTarget(s.e4tg)
+    c:RegisterEffect(e4c)
 
-    -- untargetable & indes
+    -- attach spell/trap
     local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE)
-    e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e5:SetDescription(aux.Stringid(id, 1))
+    e5:SetType(EFFECT_TYPE_IGNITION)
     e5:SetRange(LOCATION_FZONE)
-    e5:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e5:SetCountLimit(1)
     e5:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return s.sbcount(e:GetHandlerPlayer()) >= 3
     end)
-    e5:SetValue(aux.tgoval)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
-    local e5b = e5:Clone()
-    e5b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    e5b:SetValue(function(e, re, rp)
-        return rp ~= e:GetHandlerPlayer()
-    end)
-    c:RegisterEffect(e5b)
-
-    -- attach spell/trap
-    local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 2))
-    e6:SetType(EFFECT_TYPE_IGNITION)
-    e6:SetRange(LOCATION_FZONE)
-    e6:SetCountLimit(1)
-    e6:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return s.sbcount(e:GetHandlerPlayer()) >= 4
-    end)
-    e6:SetTarget(s.e6tg)
-    e6:SetOperation(s.e6op)
-    c:RegisterEffect(e6)
 end
 
-function s.e2tg(e, c)
-    return c:IsCode(6007213, 32491822, 69890967, 43378048)
+function s.e2tg1(e, c)
+    return c:IsFaceup() and c:IsCode(6007213, 32491822, 69890967, 43378048)
+end
+
+function s.e2tg2(e, c, rp, r, re)
+    local tp = e:GetHandlerPlayer()
+    return c:IsFaceup() and c:IsCode(6007213, 32491822, 69890967, 43378048) and c:IsControler(tp) and
+               c:IsLocation(LOCATION_MZONE) and rp == 1 - tp and r == REASON_EFFECT
 end
 
 function s.e2val(e, re, rp)
@@ -143,45 +148,25 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Draw(p, d, REASON_EFFECT)
 end
 
-function s.e4filter(c)
-    return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToHand()
+function s.e4tg(e, c, rp, r, re)
+    local tp = e:GetHandlerPlayer()
+    return c == e:GetHandler() and rp == 1 - tp and r == REASON_EFFECT
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_GRAVE, 0, 1, nil)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_GRAVE)
-end
-
-function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
-
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e4filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
-    if #g > 0 then
-        Duel.SendtoHand(g, nil, REASON_EFFECT)
-        Duel.ConfirmCards(1 - tp, g)
-    end
-end
-
-function s.e6filter(c, og)
+function s.e5filter(c, og)
     return c:IsFaceup() and c:IsType(TYPE_CONTINUOUS) and c:ListsCode(6007213, 32491822, 69890967, 43378048) and
                not og:IsExists(Card.IsCode, 1, nil, c:GetCode()) and not c:IsCode(id)
 end
 
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local og = c:GetOverlayGroup()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_ONFIELD, 0, 1, c, og)
+        return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, c, og)
     end
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then
         return
@@ -189,7 +174,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
 
     local og = c:GetOverlayGroup()
     local tc =
-        Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e6filter, tp, LOCATION_ONFIELD, 0, 1, 1, c, og):GetFirst()
+        Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e5filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, 1, c, og):GetFirst()
     if tc then
         Duel.Overlay(c, tc)
         c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD)

@@ -5,7 +5,7 @@ name = "The Eye of Phantasms"
 type = "spell field"
 effect = """
 The activation and effect of this card's effects cannot be negated. \
-Your opponent cannot target \
+Your opponent cannot banish, target \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
     or "Armityle the Chaos Phantasm" in your Monster Zones with card effects, \
     also those monsters cannot be destroyed by your opponent's card effects while you control them. \
@@ -13,12 +13,12 @@ This card gains these effects based on the number of \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
     and/or "Armityle the Chaos Phantasm" with different names you control.
 ● 1+: You can draw 2 cards. You can only use this effect of "{CARD_NAME}" once per turn.
-● 2+: You can add 1 Spell/Trap from your GY to your hand. You can only use this effect of "{CARD_NAME}" once per turn.
-● 3+: Your opponent cannot target or destroy this card with card effects.
-● 4+: Once per turn: You can attach 1 other face-up Continuous Spell/Trap you control to this card, \
+● 2+: Your opponent cannot banish, target or destroy this card with card effects.
+● 3+: Once per turn: You can attach 1 other face-up Continuous Spell/Trap to this card, \
     that mentions "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
     or "Armityle the Chaos Phantasm" with a different name from the cards attached to this card, \
-    except "{CARD_NAME}", and if you do this card gains that card's effects.
+    that you control or is in your GY, except "{CARD_NAME}", \
+    and if you do this card gains that card's effects.
 """
 strings = [
     "Draw 2 card",
