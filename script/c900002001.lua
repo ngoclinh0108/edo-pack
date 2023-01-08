@@ -75,21 +75,9 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_SUMMON_SUCCESS)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCondition(s.e2con1)
-    e2:SetOperation(s.e2op1)
+    e2:SetCondition(s.e2con)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e2b)
-    local e2c = e2b:Clone()
-    e2c:SetCondition(s.e2regcon2)
-    e2c:SetOperation(s.e2regop2)
-    c:RegisterEffect(e2c)
-    local e2d = e2:Clone()
-    e2d:SetCode(EVENT_CHAIN_SOLVED)
-    e2d:SetCondition(s.e2con2)
-    e2d:SetOperation(s.e2op2)
-    c:RegisterEffect(e2d)
 
     -- tribute atk up
     local e3 = Effect.CreateEffect(c)
@@ -165,15 +153,13 @@ function s.e2filter(c, sp)
     end
 end
 
-function s.e2con1(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and
-               (not re or (not re:IsHasType(EFFECT_TYPE_ACTIONS) or re:IsHasType(EFFECT_TYPE_CONTINUOUS))) and
-               Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                Duel.IsPlayerCanSpecialSummonMonster(tp, 69890968, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND,
             ATTRIBUTE_DARK)
 end
 
-function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Utility.HintCard(c)
 
@@ -184,26 +170,6 @@ function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     token:RegisterEffect(ec1, true)
-end
-
-function s.e2regcon2(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and re:IsHasType(EFFECT_TYPE_ACTIONS) and
-               not re:IsHasType(EFFECT_TYPE_CONTINUOUS) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-               Duel.IsPlayerCanSpecialSummonMonster(tp, 69890968, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND,
-            ATTRIBUTE_DARK)
-end
-
-function s.e2regop2(e, tp, eg, ep, ev, re, r, rp)
-    Duel.RegisterFlagEffect(tp, id, RESET_CHAIN, 0, 1)
-end
-
-function s.e2con2(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetFlagEffect(tp, id) > 0
-end
-
-function s.e2op2(e, tp, eg, ep, ev, re, r, rp)
-    Duel.ResetFlagEffect(tp, id)
-    s.e2op1(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
