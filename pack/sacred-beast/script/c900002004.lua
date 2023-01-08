@@ -172,17 +172,18 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+    
     local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, c)
-    if Duel.Remove(g, POS_FACEUP, REASON_EFFECT) == 0 or Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == 0 then
-        return
-    end
+    Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
 
-    local p = e:GetHandler():GetOwner()
-    local sg = Duel.GetMatchingGroup(s.e2filter, p, LOCATION_EXTRA, 0, nil, e, p)
-    if #sg > 0 and Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
-        Duel.BreakEffect()
-        local sc = Utility.GroupSelect(HINTMSG_SPSUMMON, sg, p, 1, 1, nil):GetFirst()
-        Duel.SpecialSummon(sc, 0, p, p, true, false, POS_FACEUP)
+    if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
+        local p = e:GetHandler():GetOwner()
+        local sg = Duel.GetMatchingGroup(s.e2filter, p, LOCATION_EXTRA, 0, nil, e, p)
+        if #sg > 0 and Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
+            Duel.BreakEffect()
+            local sc = Utility.GroupSelect(HINTMSG_SPSUMMON, sg, p, 1, 1, nil):GetFirst()
+            Duel.SpecialSummon(sc, 0, p, p, true, false, POS_FACEUP)
+        end
     end
 end
 

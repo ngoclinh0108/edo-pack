@@ -114,7 +114,8 @@ If this card's control was changed to your opponent, \
     negate the effects of this card, \
     also control of it cannot switch. \
 Once per turn, during the End Phase, if this card's control was changed this turn: \
-    Banish all other cards you control and shuffle this card into the Extra Deck, \
+    Banish all other cards you control, \
+    also shuffle this card into the Extra Deck, \
     then the owner of this card can Special Summon 1 "Phantasm" Fusion Monster from their Extra Deck, \
     ignoring its Summoning conditions and rules. \
 The above effects cannot be negated. \
@@ -126,7 +127,7 @@ Once per turn: You can give control of this card to your opponent. \
 """
 strings = [
     "Cannot switch control",
-    "Special Summon this card?",
+    "Special Summon 1 \"Phantasm\" Fusion Monster?",
     "Attack a monster with 10,000 ATK",
     "Give control to your opponent",
 ]
