@@ -112,9 +112,9 @@ function s.sprcon(e, c)
 
     local g = nil
     if Duel.IsPlayerAffectedByEffect(tp, 16317140) then
-        g = Duel.GetMatchingGroup(s.spfilter2, tp, LOCATION_ONFIELD, 0, nil)
+        g = Duel.GetMatchingGroup(s.sprfilter2, tp, LOCATION_ONFIELD, 0, nil)
     else
-        g = Duel.GetMatchingGroup(s.spfilter1, tp, LOCATION_ONFIELD, 0, nil)
+        g = Duel.GetMatchingGroup(s.sprfilter1, tp, LOCATION_ONFIELD, 0, nil)
     end
 
     return Duel.GetLocationCount(tp, LOCATION_MZONE) > -3 and #g > 2 and
@@ -124,9 +124,9 @@ end
 function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
     local g = nil
     if Duel.IsPlayerAffectedByEffect(tp, 16317140) then
-        g = Duel.GetMatchingGroup(s.spfilter2, tp, LOCATION_ONFIELD, 0, nil)
+        g = Duel.GetMatchingGroup(s.sprfilter2, tp, LOCATION_ONFIELD, 0, nil)
     else
-        g = Duel.GetMatchingGroup(s.spfilter1, tp, LOCATION_ONFIELD, 0, nil)
+        g = Duel.GetMatchingGroup(s.sprfilter1, tp, LOCATION_ONFIELD, 0, nil)
     end
 
     local sg = aux.SelectUnselectGroup(g, e, tp, 3, 3, aux.ChkfMMZ(1), 1, tp, HINTMSG_TOGRAVE, nil, nil, true)
