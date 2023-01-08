@@ -52,11 +52,58 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e3:SetRange(LOCATION_FZONE)
-    e3:SetCountLimit(1, id)
-    e3:SetCondition(s.e3con)
+    e3:SetCountLimit(1, {id, 1})
+    e3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return s.sbcount >= 1
+    end)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- return spell/trap to hand
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetCategory(CATEGORY_TOHAND)
+    e4:SetType(EFFECT_TYPE_IGNITION)
+    e4:SetRange(LOCATION_FZONE)
+    e4:SetCountLimit(1, {id, 2})
+    e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return s.sbcount >= 2
+    end)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
+
+    -- untargetable & indes
+    local e5 = Effect.CreateEffect(c)
+    e5:SetType(EFFECT_TYPE_SINGLE)
+    e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e5:SetRange(LOCATIONFMZONE)
+    e5:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e5:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return s.sbcount >= 3
+    end)
+    e5:SetValue(aux.tgoval)
+    c:RegisterEffect(e5)
+    local e5b = e5:Clone()
+    e5b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    e5b:SetValue(function(e, re, rp)
+        return rp ~= e:GetHandlerPlayer()
+    end)
+    c:RegisterEffect(e5b)
+
+    -- attach spell/trap
+    local e6 = Effect.CreateEffect(c)
+    e6:SetDescription(aux.Stringid(id, 1))
+    e6:SetType(EFFECT_TYPE_IGNITION)
+    e6:SetRange(LOCATION_FZONE)
+    e6:SetCountLimit(1)
+    e6:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return s.sbcount >= 4
+    end)
+    e6:SetTarget(s.e6tg)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
 function s.e2tg(e, c)
@@ -73,10 +120,6 @@ end
 
 function s.sbcount(tp)
     return Duel.GetMatchingGroup(s.sbfilter, tp, LOCATION_ONFIELD, 0, nil):GetClassCount(Card.GetCode)
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return s.sbcount >= 1
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -97,4 +140,54 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     Duel.Draw(p, d, REASON_EFFECT)
+end
+
+function s.e4filter(c)
+    return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToHand()
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_GRAVE, 0, 1, nil)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_GRAVE)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e4filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
+    if #g > 0 then
+        Duel.SendtoHand(g, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, g)
+    end
+end
+
+function s.e6filter(c, og)
+    return c:IsFaceup() and c:IsType(TYPE_CONTINUOUS) and c:ListsCode(6007213, 32491822, 69890967, 43378048) and
+               og:IsExists(Card.IsCode, 1, nil, c:GetCode()) and not c:IsCode(id)
+end
+
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_ONFIELD, 0, 1, c)
+    end
+end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e6filter, tp, LOCATION_ONFIELD, 0, 1, 1, c):GetFirst()
+    if tc then
+        Duel.Overlay(tc, c)
+        c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD)
+    end
 end
