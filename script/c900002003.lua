@@ -4,6 +4,8 @@ local s, id = GetID()
 
 s.listed_names = {69890968}
 
+local PHANTASM_TOKEN = 69890968
+
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
@@ -168,11 +170,11 @@ end
 
 function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.IsPlayerCanSpecialSummonMonster(tp, 69890968, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND, ATTRIBUTE_DARK) and
+    if Duel.IsPlayerCanSpecialSummonMonster(tp, PHANTASM_TOKEN, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND, ATTRIBUTE_DARK) and
         Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
         Utility.HintCard(c)
 
-        local token = Duel.CreateToken(tp, 69890968)
+        local token = Duel.CreateToken(tp, PHANTASM_TOKEN)
         Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)

@@ -2,8 +2,10 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {78371393, 43378048}
+s.listed_names = {78371393, 43378048, 900002008}
 s.material_setcode = {0x145}
+
+local PHANTASMAL_NIGHTMARE_TOKEN = 900002008
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -64,18 +66,63 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(nomaterial)
 
-    -- indes & avoid damage
+    -- indes
     local indes = Effect.CreateEffect(c)
     indes:SetType(EFFECT_TYPE_SINGLE)
     indes:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     indes:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     indes:SetValue(1)
     c:RegisterEffect(indes)
-    local nodmg = indes:Clone()
-    nodmg:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    c:RegisterEffect(nodmg)
+
+    -- reflect battle damage
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_REFLECT_BATTLE_DAMAGE)
+    e1:SetValue(1)
+    c:RegisterEffect(e1)
+
+    -- banish & special summon token
+    local e2 = Effect.CreateEffect(c)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON + CATEGORY_TOKEN)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e2:SetCountLimit(1)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.fusfilter(c, fc, sumtype, tp)
     return c:IsType(TYPE_FUSION, fc, sumtype, tp) and c:IsSetCard(0x145, fc, sumtype, tp)
+end
+
+function s.e2filter(c)
+    return c:IsFaceup() and c:IsAbleToRemove()
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e2filter, tp, 0, LOCATION_MZONE, 1, nil)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 0, LOCATION_MZONE)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, 0)
+    Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 1, tp, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
+    if not tc or Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then
+        return
+    end
+
+    local atk = tc:GetBaseAttack()
+    if Duel.IsPlayerCanSpecialSummonMonster(tp, PHANTASMAL_NIGHTMARE_TOKEN, 0, TYPES_TOKEN, atk, 0, 12, RACE_FIEND,
+        ATTRIBUTE_DARK) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
+        local token = Duel.CreateToken(tp, PHANTASMAL_NIGHTMARE_TOKEN)
+        Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
+    end
 end
