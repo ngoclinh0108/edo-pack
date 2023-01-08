@@ -247,7 +247,8 @@ atk = "?"
 def = 0
 effect = """\
 Special Summoned with the effect of "Yubel - The Ultimate Phantasmal Nightmare". \
-This Token's ATK/DEF become the original ATK/DEF of the banished monster. \
+This Token's ATK/DEF become the original ATK/DEF of the banished monster, \
+    also you take no damage from battles involving it. \
 """
 strings = []
 
