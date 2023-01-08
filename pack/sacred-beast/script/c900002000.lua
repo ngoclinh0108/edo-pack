@@ -175,8 +175,9 @@ end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
+    local og = c:GetOverlayGroup()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_ONFIELD, 0, 1, c)
+        return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_ONFIELD, 0, 1, c, og)
     end
 end
 
@@ -186,7 +187,9 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e6filter, tp, LOCATION_ONFIELD, 0, 1, 1, c):GetFirst()
+    local og = c:GetOverlayGroup()
+    local tc =
+        Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e6filter, tp, LOCATION_ONFIELD, 0, 1, 1, c, og):GetFirst()
     if tc then
         Duel.Overlay(tc, c)
         c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD)

@@ -170,30 +170,29 @@ end
 
 function s.e2con1(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and
-               (not re or (not re:IsHasType(EFFECT_TYPE_ACTIONS) or re:IsHasType(EFFECT_TYPE_CONTINUOUS))) and
-               Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-               Duel.IsPlayerCanSpecialSummonMonster(tp, 69890968, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND,
-            ATTRIBUTE_DARK)
+               (not re or (not re:IsHasType(EFFECT_TYPE_ACTIONS) or re:IsHasType(EFFECT_TYPE_CONTINUOUS)))
 end
 
 function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    Utility.HintCard(c)
 
-    local token = Duel.CreateToken(tp, 69890968)
-    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-    token:RegisterEffect(ec1, true)
+    if Duel.IsPlayerCanSpecialSummonMonster(tp, 69890968, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND, ATTRIBUTE_DARK) and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
+        Utility.HintCard(c)
+
+        local token = Duel.CreateToken(tp, 69890968)
+        Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        token:RegisterEffect(ec1, true)
+    end
 end
 
 function s.e2regcon(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and re:IsHasType(EFFECT_TYPE_ACTIONS) and
-               not re:IsHasType(EFFECT_TYPE_CONTINUOUS) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-               Duel.IsPlayerCanSpecialSummonMonster(tp, 69890968, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND,
-            ATTRIBUTE_DARK)
+               not re:IsHasType(EFFECT_TYPE_CONTINUOUS)
 end
 
 function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
