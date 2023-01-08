@@ -10,7 +10,7 @@ function s.initial_effect(c)
     spr:SetType(EFFECT_TYPE_FIELD)
     spr:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     spr:SetCode(EFFECT_SPSUMMON_PROC)
-    spr:SetRange(LOCATION_HAND)
+    spr:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     spr:SetCondition(s.sprcon)
     spr:SetTarget(s.sprtg)
     spr:SetOperation(s.sprop)
@@ -97,7 +97,7 @@ function s.initial_effect(c)
 end
 
 function s.sprfilter(c, tp)
-    return c:IsTrap() and c:IsAbleToGraveAsCost()
+    return c:IsFaceup() and c:GetType() == TYPE_TRAP + TYPE_CONTINUOUS and c:IsAbleToGraveAsCost()
 end
 
 function s.sprcon(e, c)

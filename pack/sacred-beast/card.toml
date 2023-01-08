@@ -40,13 +40,13 @@ def = 4000
 effect = """\
 (This card's name is always treated as "Raviel, Lord of Phantasms".)
 Cannot be Normal Summoned/Set. \
-Must be Special Summoned (from your hand) by Tributing 3 monsters. \
+Must be Special Summoned (from your hand or GY) by Tributing 3 Fiend monsters. \
 This card's Special Summon cannot be negated. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \
 Negate the effects of your opponent's monsters destroyed by battle with this card. \
 The above effects cannot be negated. \
-Each time your opponent Normal or Special Summons a monster(s), \
+Each time your opponent Summons a monster(s), \
     Special Summon 1 "Phantasm Token" (Fiend/DARK/Level 1/ATK 1000/DEF 1000) in face-up Defense Position, \
     but it cannot declare an attack. \
 Once per turn: You can Tribute up to 2 monsters; \
@@ -73,7 +73,7 @@ def = 0
 effect = """\
 (This card's name is always treated as "Uria, Lord of Searing Flames".)
 Cannot be Normal Summoned/Set. \
-Must be Special Summoned (from your hand) by sending 3 Traps you control to the GY. \
+Must be Special Summoned (from your hand or GY) by sending 3 face-up Continuous Traps you control to the GY. \
 This card's Special Summon cannot be negated. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \
@@ -102,7 +102,7 @@ def = 4000
 effect = """\
 (This card's name is always treated as "Hamon, Lord of Striking Thunder".)
 Cannot be Normal Summoned/Set. \
-Must be Special Summoned (from your hand) by sending 3 Spells you control to the GY. \
+Must be Special Summoned (from your hand or GY) by sending 3 face-up Continuous Spells you control to the GY. \
 This card's Special Summon cannot be negated. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \

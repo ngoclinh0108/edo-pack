@@ -12,7 +12,7 @@ function s.initial_effect(c)
     spr:SetType(EFFECT_TYPE_FIELD)
     spr:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     spr:SetCode(EFFECT_SPSUMMON_PROC)
-    spr:SetRange(LOCATION_HAND)
+    spr:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     spr:SetCondition(s.sprcon)
     spr:SetOperation(s.sprop)
     c:RegisterEffect(spr)
@@ -81,6 +81,9 @@ function s.initial_effect(c)
     local e2b = e2:Clone()
     e2b:SetCode(EVENT_SUMMON_SUCCESS)
     c:RegisterEffect(e2b)
+    local e2c = e2:Clone()
+    e2c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e2c)
     local e2reg = Effect.CreateEffect(c)
     e2reg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e2reg:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -88,11 +91,11 @@ function s.initial_effect(c)
     e2reg:SetCondition(s.e2regcon)
     e2reg:SetOperation(s.e2regop)
     c:RegisterEffect(e2reg)
-    local e2c = e2reg:Clone()
-    e2c:SetCode(EVENT_CHAIN_SOLVED)
-    e2c:SetCondition(s.e2con2)
-    e2c:SetOperation(s.e2op2)
-    c:RegisterEffect(e2c)
+    local e2sp = e2reg:Clone()
+    e2sp:SetCode(EVENT_CHAIN_SOLVED)
+    e2sp:SetCondition(s.e2con2)
+    e2sp:SetOperation(s.e2op2)
+    c:RegisterEffect(e2sp)
 
     -- tribute atk up
     local e3 = Effect.CreateEffect(c)
@@ -107,7 +110,7 @@ function s.initial_effect(c)
 end
 
 function s.sprfilter(c, tp)
-    return c:IsControler(tp) and c:GetSequence() < 5
+    return c:IsRace(RACE_FIEND) and (c:IsControler(tp) or c:IsFaceup())
 end
 
 function s.sprcon(e, c)
@@ -115,33 +118,29 @@ function s.sprcon(e, c)
         return true
     end
     local tp = c:GetControler()
-    local rg = Duel.GetReleaseGroup(tp)
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    local ct = -ft + 1
-    return ft > -3 and #rg > 2 and (ft > 0 or rg:IsExists(s.sprfilter, ct, nil, tp))
+    local rg = Duel.GetReleaseGroup(tp):Filter(s.sprfilter, nil, tp)
+    return aux.SelectUnselectGroup(rg, e, tp, 3, 3, aux.ChkfMMZ(1), 0)
+end
+
+function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
+    local rg = Duel.GetReleaseGroup(tp):Filter(s.sprfilter, nil, tp)
+    local mg = aux.SelectUnselectGroup(rg, e, tp, 3, 3, aux.ChkfMMZ(1), 1, tp, HINTMSG_RELEASE, nil, nil, true)
+    if #mg == 3 then
+        mg:KeepAlive()
+        e:SetLabelObject(mg)
+        return true
+    end
+    return false
 end
 
 function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
-    local rg = Duel.GetReleaseGroup(tp)
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    local g = nil
-
-    if ft > 0 then
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RELEASE)
-        g = rg:Select(tp, 3, 3, nil)
-    elseif ft > -2 then
-        local ct = -ft + 1
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RELEASE)
-        g = rg:FilterSelect(tp, s.sprfilter, ct, ct, nil, tp)
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RELEASE)
-        local g2 = rg:Select(tp, 3 - ct, 3 - ct, g)
-        g:Merge(g2)
-    else
-        Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RELEASE)
-        g = rg:FilterSelect(tp, s.sprfilter, 3, 3, nil, tp)
+    local g = e:GetLabelObject()
+    if not g then
+        return
     end
 
     Duel.Release(g, REASON_COST)
+    g:DeleteGroup()
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
