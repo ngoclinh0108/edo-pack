@@ -114,6 +114,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
     if not tc or Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then
         return
@@ -130,6 +131,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetValue(atk)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         token:RegisterEffect(ec1)
+        local ec2 = ec1:Clone()
+        ec2:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+        ec2:SetValue(1)
+        token:RegisterEffect(ec2)
         Duel.SpecialSummonComplete()
     end
 end

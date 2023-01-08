@@ -230,7 +230,8 @@ Your opponent takes any battle damage you would have taken from battles involvin
 Once per turn (Quick Effect): \
     You can banish 1 face-up monster your opponent controls, and if you do, \
     Special Summon 1 "Phantasmal Nightmare Token" (Fiend/DARK/Level 12/ATK ?/DEF 0). \
-    (This Token's ATK/DEF become the original ATK/DEF of that monster.) \
+    The Token's ATK/DEF become the original ATK/DEF of that monster, \
+    also you take no damage from battles involving it. \
 """
 strings = ["Banish 1 face-up monster & create token"]
 
