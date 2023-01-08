@@ -14,6 +14,7 @@ function s.initial_effect(c)
     spr:SetCode(EFFECT_SPSUMMON_PROC)
     spr:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     spr:SetCondition(s.sprcon)
+    spr:SetTarget(s.sprtg)
     spr:SetOperation(s.sprop)
     c:RegisterEffect(spr)
 
