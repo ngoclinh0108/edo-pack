@@ -16,6 +16,19 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+
+    -- destroy (grave)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_DESTROY + CATEGORY_DRAW)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetCountLimit(1, {id, 2})
+    e2:SetCost(aux.bfgcost)
+    e2:SetTarget(s.e2tg)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter1(c)
@@ -59,7 +72,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if c:IsRelateToEffect(e) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
         table.insert(opt, aux.Stringid(id, 0))
     end
-    if Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil) then
+    if Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil, e, tp) then
         table.insert(opt, aux.Stringid(id, 1))
     end
     local op = Duel.SelectOption(tp, table.unpack(opt))
@@ -67,7 +80,33 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if op == 0 then
         Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
     else
-        local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil)
+        local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1,
+            1, nil, e, tp)
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
+    end
+end
+
+function s.e2filter(c)
+    return c:IsFaceup() and c:IsRace(RACE_FIEND)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, 0, 1, nil)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
+    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
+    Duel.SetPossibleOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if tc:IsRelateToEffect(e) and Duel.Destroy(tc, REASON_EFFECT) > 0 and Duel.IsPlayerCanDraw(tp, 1) and
+        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then
+        Duel.Draw(tp, 1, REASON_EFFECT)
     end
 end
