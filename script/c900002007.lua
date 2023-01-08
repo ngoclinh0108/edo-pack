@@ -18,6 +18,60 @@ function s.initial_effect(c)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     splimit:SetValue(aux.fuslimit)
     c:RegisterEffect(splimit)
+
+    -- no change control
+    local noswitch = Effect.CreateEffect(c)
+    noswitch:SetType(EFFECT_TYPE_SINGLE)
+    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    noswitch:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(noswitch)
+
+    -- no change battle position
+    local nopos = Effect.CreateEffect(c)
+    nopos:SetType(EFFECT_TYPE_SINGLE)
+    nopos:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    nopos:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    nopos:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(nopos)
+
+    -- cannot be tributed, or be used as a material
+    local norelease = Effect.CreateEffect(c)
+    norelease:SetType(EFFECT_TYPE_FIELD)
+    norelease:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CANNOT_DISABLE)
+    norelease:SetCode(EFFECT_CANNOT_RELEASE)
+    norelease:SetRange(LOCATION_MZONE)
+    norelease:SetTargetRange(0, 1)
+    norelease:SetTarget(function(e, tc)
+        return tc == e:GetHandler()
+    end)
+    c:RegisterEffect(norelease)
+    local nomaterial = Effect.CreateEffect(c)
+    nomaterial:SetType(EFFECT_TYPE_SINGLE)
+    nomaterial:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    nomaterial:SetCode(EFFECT_CANNOT_BE_MATERIAL)
+    nomaterial:SetValue(function(e, tc)
+        return tc and tc:GetControler() ~= e:GetHandlerPlayer()
+    end)
+    c:RegisterEffect(nomaterial)
+
+    -- indes
+    local indes = Effect.CreateEffect(c)
+    indes:SetType(EFFECT_TYPE_SINGLE)
+    indes:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    indes:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    indes:SetValue(1)
+    c:RegisterEffect(indes)
+    local indes2 = indes:Clone()
+    indes:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+    c:RegisterEffect(indes2)
+
+    -- avoid damage
+    local nodmg = Effect.CreateEffect(c)
+    nodmg:SetType(EFFECT_TYPE_SINGLE)
+    nodmg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    nodmg:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    c:RegisterEffect(nodmg)
 end
 
 function s.fusfilter(c, fc, sumtype, tp)

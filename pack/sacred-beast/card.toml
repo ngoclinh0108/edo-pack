@@ -187,7 +187,6 @@ strings = ["Inflict damage & destroy 1 card on the field"]
 
 [yubel-the-ultimate-phantasmal-nightmare]
 id = 900002007
-alias = 4779091
 set = "phantasm"
 name = "Yubel - The Ultimate Phantasmal Nightmare"
 type = "monster fusion effect"
@@ -199,6 +198,10 @@ def = 0
 effect = """\
 "Yubel" + 1 "Phantasm" Fusion Monster
 Must be Fusion Summoned. \
+Control of it cannot switch, and its battle position cannot change by card effects. \
+Cannot be Tributed, or used as material for an Summon by your opponent. \
+Cannot be destroyed by battle or card effects, also you take no damage from battles involving this card. \
+The above effects cannot be negated. \
 """
 strings = []
 
