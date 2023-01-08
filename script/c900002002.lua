@@ -1,4 +1,4 @@
--- Uria, Ruler of Searing Flames
+-- Hamon, Ruler of Striking Thunder
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -51,50 +51,48 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(nomaterial)
 
-    -- atk up
+    -- limit batlle target
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    e1:SetCode(EFFECT_UPDATE_ATTACK)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e1:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
     e1:SetRange(LOCATION_MZONE)
+    e1:SetTargetRange(0, LOCATION_MZONE)
+    e1:SetCondition(function(e)
+        return e:GetHandler():IsDefensePos()
+    end)
     e1:SetValue(function(e, c)
-        return Duel.GetMatchingGroupCount(Card.IsTrap, c:GetControler(), LOCATION_GRAVE, 0, nil) * 1000
+        return c ~= e:GetHandler()
     end)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_UPDATE_DEFENSE)
-    c:RegisterEffect(e1b)
 
-    -- destroy spell/trap
+    -- damage
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_DESTROY)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
+    e2:SetCategory(CATEGORY_DAMAGE)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    e2:SetCode(EVENT_BATTLE_DESTROYING)
+    e2:SetCondition(aux.bdocon)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- reborn from grave
+    -- no damage
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetCondition(aux.exccon)
-    e3:SetCost(s.e3cost)
-    e3:SetTarget(s.e3tg)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_LEAVE_FIELD)
+    e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
 function s.sprfilter1(c)
-    return c:IsFaceup() and c:IsTrap() and c:IsAbleToGraveAsCost()
+    return c:IsFaceup() and c:GetType() == TYPE_SPELL + TYPE_CONTINUOUS and c:IsAbleToGraveAsCost()
 end
 
 function s.sprfilter2(c)
-    return c:IsTrap() and c:IsAbleToGraveAsCost()
+    return s.sprfilter1(c) or (c:IsFacedown() and c:IsSpell() and c:IsAbleToGraveAsCost())
 end
 
 function s.sprcon(e, c)
@@ -104,19 +102,19 @@ function s.sprcon(e, c)
     local tp = c:GetControler()
 
     local g = nil
-    if Duel.IsPlayerAffectedByEffect(tp, 16317140) then
+    if Duel.IsPlayerAffectedByEffect(tp, 54828837) then
         g = Duel.GetMatchingGroup(s.sprfilter2, tp, LOCATION_ONFIELD, 0, nil)
     else
         g = Duel.GetMatchingGroup(s.sprfilter1, tp, LOCATION_ONFIELD, 0, nil)
     end
 
-    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -3 and #g > 2 and
+    return Duel.GetLocationCount(tp, LOCATION_MZONE) > -3 and #g >= 3 and
                aux.SelectUnselectGroup(g, e, tp, 3, 3, aux.ChkfMMZ(1), 0)
 end
 
 function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
     local g = nil
-    if Duel.IsPlayerAffectedByEffect(tp, 16317140) then
+    if Duel.IsPlayerAffectedByEffect(tp, 54828837) then
         g = Duel.GetMatchingGroup(s.sprfilter2, tp, LOCATION_ONFIELD, 0, nil)
     else
         g = Duel.GetMatchingGroup(s.sprfilter1, tp, LOCATION_ONFIELD, 0, nil)
@@ -146,56 +144,41 @@ function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsFacedown, tp, 0, LOCATION_SZONE, 1, nil)
-    end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, Card.IsFacedown, tp, 0, LOCATION_SZONE, 1, 1, nil)
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
-
-    Duel.SetChainLimit(s.e2chainlimit)
+function s.e1con(e)
+    return e:GetHandler():IsDefensePos()
 end
 
-function s.e2chainlimit(e, rp, tp)
-    return not e:IsHasType(EFFECT_TYPE_ACTIVATE)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return true
+    end
+
+    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetParam(1000)
+    Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, 1000)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if tc and tc:IsFacedown() and tc:IsRelateToEffect(e) then
-        Duel.Destroy(tc, REASON_EFFECT)
-    end
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
+    Duel.Damage(p, d, REASON_EFFECT)
 end
 
-function s.e3costfilter(c)
-    return c:IsTrap() and c:IsDiscardable()
-end
-
-function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3costfilter, tp, LOCATION_HAND, 0, 1, nil)
-    end
-
-    Duel.DiscardHand(tp, s.e3costfilter, 1, 1, REASON_COST + REASON_DISCARD)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsReason(REASON_DESTROY) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetReasonPlayer() ~= tp and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
-    end
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
+    return c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsReason(REASON_DESTROY)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
 
-    Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
+    Utility.HintCard(c)
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 1))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(1)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
 end

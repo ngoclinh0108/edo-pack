@@ -49,6 +49,11 @@ function s.initial_effect(c)
     c:RegisterEffect(e1b)
 
     -- change position
+    local e2reg = Effect.CreateEffect(c)
+    e2reg:SetType(EFFECT_TYPE_SINGLE)
+    e2reg:SetCode(EFFECT_MATERIAL_CHECK)
+    e2reg:SetValue(s.e2regval)
+    c:RegisterEffect(e2reg)
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(528)
     e2:SetCategory(CATEGORY_POSITION + CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
@@ -58,12 +63,7 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    local e2b = Effect.CreateEffect(c)
-    e2b:SetType(EFFECT_TYPE_SINGLE)
-    e2b:SetCode(EFFECT_MATERIAL_CHECK)
-    e2b:SetValue(s.e2val)
-    c:RegisterEffect(e2b)
-
+    
     -- pierce
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
@@ -129,6 +129,16 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     g2:DeleteGroup()
 end
 
+function s.e2regval(e, c)
+    local g = c:GetMaterial()
+    if g:IsExists(Card.IsCode, 1, nil, CARD_BLUEEYES_W_DRAGON) then
+        c:RegisterFlagEffect(id, RESET_EVENT | RESETS_STANDARD &
+                                 ~(RESET_TOFIELD | RESET_LEAVE |
+                                     RESET_TEMP_REMOVE),
+                             EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
+    end
+end
+
 function s.e2con(e)
     local c = e:GetHandler()
     return c:IsSummonType(SUMMON_TYPE_LINK) and c:GetFlagEffect(id) ~= 0
@@ -166,15 +176,5 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         local ec1b = ec1:Clone()
         ec1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
         tc:RegisterEffect(ec1b)
-    end
-end
-
-function s.e2val(e, c)
-    local g = c:GetMaterial()
-    if g:IsExists(Card.IsCode, 1, nil, CARD_BLUEEYES_W_DRAGON) then
-        c:RegisterFlagEffect(id, RESET_EVENT | RESETS_STANDARD &
-                                 ~(RESET_TOFIELD | RESET_LEAVE |
-                                     RESET_TEMP_REMOVE),
-                             EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
     end
 end

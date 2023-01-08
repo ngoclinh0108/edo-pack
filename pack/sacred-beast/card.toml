@@ -24,8 +24,68 @@ This card gains these effects based on the number of \
 """
 strings = ["Draw 2 card", "Attach 1 Continuous Spell/Trap to this card"]
 
-[raviel]
+[uria]
 id = 900002001
+alias = 6007213
+rarity = "gold"
+frame-path = "frame/uria.png"
+name = "Uria, Ruler of Searing Flames"
+type = "monster effect"
+attribute = "fire"
+race = "pyro"
+level = 10
+atk = 0
+def = 0
+effect = """\
+(This card's name is always treated as "Uria, Lord of Searing Flames".)
+Cannot be Normal Summoned/Set. \
+Must first be Special Summoned (from your hand or GY) by sending 3 face-up Traps you control to the GY. \
+This card's Special Summon cannot be negated. \
+Control of it cannot switch. \
+Cannot be Tributed, or used as material for an Summon by your opponent. \
+Gains 1000 ATK/DEF for each Trap in your GY. \
+The above effects cannot be negated. \
+Once per turn: You can target 1 Set Spell/Trap your opponent controls; destroy it. \
+    Neither player can activate Spell/Trap Cards in response to this effect's activation. \
+During your Main Phase, except the turn this card was sent to the GY, \
+    if this card is in the GY because it was destroyed in your Monster Zone by an opponent's card: \
+    You can discard 1 Trap; Special Summon it from the GY. \
+"""
+strings = ["Destroy 1 Set Spell/Trap"]
+
+[hamon]
+id = 900002002
+alias = 32491822
+rarity = "gold"
+frame-path = "frame/hamon.png"
+name = "Hamon, Ruler of Striking Thunder"
+type = "monster effect"
+attribute = "light"
+race = "thunder"
+level = 10
+atk = 4000
+def = 4000
+effect = """\
+(This card's name is always treated as "Hamon, Lord of Striking Thunder".)
+Cannot be Normal Summoned/Set. \
+Must first be Special Summoned (from your hand or GY) by sending 3 face-up Continuous Spells you control to the GY. \
+This card's Special Summon cannot be negated. \
+Control of it cannot switch. \
+Cannot be Tributed, or used as material for an Summon by your opponent. \
+While this card is in face-up Defense Position, \
+    monsters your opponent controls cannot target monsters for attacks, except this one. \
+The above effects cannot be negated. \
+If this card destroys an opponent's monster by battle: \
+    Inflict 1000 damage to your opponent. \
+If this card on the field is destroyed, you take no damage this turn. \
+"""
+strings = [
+    "Inflict 1000 damage to your opponent",
+    "Affected by effect \"{CARD_NAME}\": you take no damage",
+]
+
+[raviel]
+id = 900002003
 alias = 69890967
 rarity = "gold"
 frame-path = "frame/raviel.png"
@@ -55,66 +115,6 @@ Once per turn: You can Tribute up to 2 monsters; \
 strings = [
     "Special Summon a \"Phantasm Token\"",
     "Tribute up to 2 monsters to gain ATK",
-]
-
-[uria]
-id = 900002002
-alias = 6007213
-rarity = "gold"
-frame-path = "frame/uria.png"
-name = "Uria, Ruler of Searing Flames"
-type = "monster effect"
-attribute = "fire"
-race = "pyro"
-level = 10
-atk = 0
-def = 0
-effect = """\
-(This card's name is always treated as "Uria, Lord of Searing Flames".)
-Cannot be Normal Summoned/Set. \
-Must first be Special Summoned (from your hand or GY) by sending 3 face-up Traps you control to the GY. \
-This card's Special Summon cannot be negated. \
-Control of it cannot switch. \
-Cannot be Tributed, or used as material for an Summon by your opponent. \
-Gains 1000 ATK/DEF for each Trap in your GY. \
-The above effects cannot be negated. \
-Once per turn: You can target 1 Set Spell/Trap your opponent controls; destroy it. \
-    Neither player can activate Spell/Trap Cards in response to this effect's activation. \
-During your Main Phase, except the turn this card was sent to the GY, \
-    if this card is in the GY because it was destroyed in your Monster Zone by an opponent's card: \
-    You can discard 1 Trap; Special Summon it from the GY. \
-"""
-strings = ["Destroy 1 Set Spell/Trap"]
-
-[hamon]
-id = 900002003
-alias = 32491822
-rarity = "gold"
-frame-path = "frame/hamon.png"
-name = "Hamon, Ruler of Striking Thunder"
-type = "monster effect"
-attribute = "light"
-race = "thunder"
-level = 10
-atk = 4000
-def = 4000
-effect = """\
-(This card's name is always treated as "Hamon, Lord of Striking Thunder".)
-Cannot be Normal Summoned/Set. \
-Must first be Special Summoned (from your hand or GY) by sending 3 face-up Continuous Spells you control to the GY. \
-This card's Special Summon cannot be negated. \
-Control of it cannot switch. \
-Cannot be Tributed, or used as material for an Summon by your opponent. \
-While this card is in face-up Defense Position, \
-    monsters your opponent controls cannot target monsters for attacks, except this one. \
-The above effects cannot be negated. \
-If this card destroys an opponent's monster by battle: \
-    Inflict 1000 damage to your opponent. \
-If this card on the field is destroyed, you take no damage this turn. \
-"""
-strings = [
-    "Inflict 1000 damage to your opponent",
-    "Affected by effect \"{CARD_NAME}\": you take no damage",
 ]
 
 [armityle]
@@ -171,6 +171,10 @@ effect = """\
 Must first be Special Summoned (from your Extra Deck) by banishing the above cards you control. \
     (You do not use "Polymerization".) \
 Cannot be destroyed by battle.
+This card gains these effects, depending on the materials used to Summon this card.
+● "Uria, Lord of Searing Flames": Unaffected by your opponent's Trap effects, also this card gains 1000 ATK for each Continuous Trap in your GY during your turn only.
+● "Hamon, Lord of Striking Thunder": Unaffected by your opponent's Spell effects, also this card gains 4000 ATK during your turn only.
+● "Raviel, Lord of Phantasms": Gains 4000 ATK during your turn only, also if this card attacks a Defense Position monster, inflict piercing battle damage.
 """
 strings = []
 
