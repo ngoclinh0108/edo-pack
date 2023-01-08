@@ -139,7 +139,7 @@ function s.e4sumlimit(c)
 end
 
 function s.e4filter(c, e, tp)
-    return (c:IsCode(31764700) or (c:IsType(TYPE_FUSION) and c:ListsCodeAsMaterial(31764700))) and
+    return (c:IsCode(31764700) or (c:IsType(TYPE_FUSION) and c:ListsCodeAsMaterial(78371393))) and
                c:IsCanBeSpecialSummoned(e, s.e4sumtype(c), tp, true, s.e4sumlimit(c))
 end
 
@@ -166,7 +166,8 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e4filter), tp, loc, 0, 1, 1,
         nil, e, tp):GetFirst()
-    if not tc then
+    if tc then
         Duel.SpecialSummon(tc, s.e4sumtype(tc), tp, tp, true, s.e4sumlimit(tc), POS_FACEUP)
+        tc:CompleteProcedure()
     end
 end
