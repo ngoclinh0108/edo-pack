@@ -154,7 +154,7 @@ function s.e4tg(e, c, rp, r, re)
 end
 
 function s.e5filter(c, og)
-    return c:IsFaceup() and c:IsType(TYPE_CONTINUOUS) and c:ListsCode(6007213, 32491822, 69890967, 43378048) and
+    return c:IsFaceup() and c:IsType(TYPE_CONTINUOUS) and c:ListsCode(6007213, 32491822, 69890967) and
                not og:IsExists(Card.IsCode, 1, nil, c:GetCode()) and not c:IsCode(id)
 end
 
@@ -162,21 +162,20 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local og = c:GetOverlayGroup()
     if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, c, og)
+        return Duel.IsExistingTarget(s.e5filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, c, og)
     end
+
+    local g = Duel.SelectTarget(tp, s.e5filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, 1, c, og)
+    Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, g, #g, 0, 0)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
+    local tc = Duel.GetFirstTarget()
+    if not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) then
         return
     end
 
-    local og = c:GetOverlayGroup()
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e5filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, 1, c, og):GetFirst()
-    if tc then
-        Duel.Overlay(c, tc)
-        c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD)
-    end
+    Duel.Overlay(c, tc)
+    c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD)
 end

@@ -14,15 +14,14 @@ This card gains these effects based on the number of \
     and/or "Armityle the Chaos Phantasm" with different names you control.
 ● 1+: You can draw 2 cards. You can only use this effect of "{CARD_NAME}" once per turn.
 ● 2+: Your opponent cannot banish, target or destroy this card with card effects.
-● 3+: Once per turn: You can attach 1 other face-up Continuous Spell/Trap to this card, \
-    that mentions "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
-    or "Armityle the Chaos Phantasm" with a different name from the cards attached to this card, \
-    that you control or is in your GY, except "{CARD_NAME}", \
-    and if you do this card gains that card's effects.
+● 3+: Once per turn: You can target 1 face-up Continuous Spell/Trap that mentions \
+    "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", or "Raviel, Lord of Phantasms" \
+    with a different name from the cards attached to this card, \
+    that you control or is in your GY, except "{CARD_NAME}"; \
+    attach the target to this card and if you do this card gains that card's effects.
 """
 strings = [
     "Draw 2 card",
-    "Add 1 Spell/Trap from your GY to your hand",
     "Attach 1 Continuous Spell/Trap to this card",
 ]
 
