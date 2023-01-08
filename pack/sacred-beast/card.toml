@@ -1,8 +1,8 @@
-[the-eye-of-phantasms]
+[the-eye-of-phantasm]
 id = 900002000
 alias = 27439792
-set = "phantasms"
-name = "The Eye of Phantasms"
+set = "phantasm"
+name = "The Eye of Phantasm"
 type = "spell field"
 effect = """
 (This card's name is always treated as "Fallen Paradise".)
@@ -29,9 +29,9 @@ id = 900002001
 alias = 69890967
 rarity = "gold"
 frame-path = "frame/raviel.png"
-name = "Raviel, Ruler of Phantasms Demons"
+name = "Raviel, Ruler of Phantasm Demons"
 type = "monster effect"
-attribute = "divine"
+attribute = "dark"
 race = "fiend"
 level = 10
 atk = 4000
@@ -64,7 +64,7 @@ rarity = "gold"
 frame-path = "frame/uria.png"
 name = "Uria, Ruler of Searing Flames"
 type = "monster effect"
-attribute = "divine"
+attribute = "fire"
 race = "pyro"
 level = 10
 atk = 0
@@ -93,7 +93,7 @@ rarity = "gold"
 frame-path = "frame/hamon.png"
 name = "Hamon, Ruler of Striking Thunder"
 type = "monster effect"
-attribute = "divine"
+attribute = "light"
 race = "thunder"
 level = 10
 atk = 4000
@@ -123,7 +123,7 @@ alias = 43378048
 rarity = "gold"
 name = "Armityle, the Chaos Phantasm Emperor"
 type = "monster fusion effect"
-attribute = "divine"
+attribute = "dark"
 race = "fiend"
 level = 12
 atk = 0
@@ -157,28 +157,6 @@ strings = [
     "Give control to your opponent",
 ]
 
-[seed-of-desolation]
-id = 900002005
-name = "Seed of Desolation"
-type = "monster effect"
-attribute = "dark"
-race = "plant"
-level = 1
-atk = 0
-def = 0
-effect = """\
-You can reveal this card in your hand, then target 1 face-up monster you control; \
-    Destroy it, and if you do, Special Summon this card from your hand or 1 "Yubel" from your hand or Deck. \
-(Quick Effect): You can banish this card from your GY, then target 1 Fiend monster you control; \
-    Destroy it, and if you do, you can draw 1 card. \
-You can only use each effect of "{CARD_NAME}" once per turn.
-"""
-strings = [
-    "Special Summon this card",
-    "Special Summon \"Yubel\"",
-    "Draw 1 card?",
-]
-
 [yubel-desperate-incarnate]
 id = 900002006
 alias = 4779091
@@ -206,6 +184,42 @@ If this face-up card leaves the field: \
     (This is treated as a Fusion Summon, if able.) \
 """
 strings = ["Inflict damage & destroy 1 card on the field"]
+
+[yubel-the-ultimate-phantasmal-nightmare]
+id = 900002007
+alias = 4779091
+name = "Yubel - The Ultimate Phantasmal Nightmare"
+type = "monster fusion effect"
+attribute = "dark"
+race = "fiend"
+level = 12
+atk = 0
+def = 0
+effect = """\
+"""
+strings = []
+
+[seed-of-desolation]
+id = 900002008
+name = "Seed of Desolation"
+type = "monster effect"
+attribute = "dark"
+race = "plant"
+level = 1
+atk = 0
+def = 0
+effect = """\
+You can reveal this card in your hand, then target 1 face-up monster you control; \
+    Destroy it, and if you do, Special Summon this card from your hand or 1 "Yubel" from your hand or Deck. \
+(Quick Effect): You can banish this card from your GY, then target 1 Fiend monster you control; \
+    Destroy it, and if you do, you can draw 1 card. \
+You can only use each effect of "{CARD_NAME}" once per turn.
+"""
+strings = [
+    "Special Summon this card",
+    "Special Summon \"Yubel\"",
+    "Draw 1 card?",
+]
 
 [opening-of-the-spirit-gates]
 id = 80312545

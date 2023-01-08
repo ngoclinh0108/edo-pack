@@ -1,4 +1,4 @@
--- Raviel, Ruler of Phantasms
+-- Raviel, Ruler of Phantasm
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
