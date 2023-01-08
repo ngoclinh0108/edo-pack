@@ -81,11 +81,6 @@ function s.initial_effect(c)
     local e2b = e2:Clone()
     e2b:SetCode(EVENT_SUMMON_SUCCESS)
     c:RegisterEffect(e2b)
-    local e2c = e2:Clone()
-    e2c:SetCode(EVENT_CHAIN_SOLVED)
-    e2c:SetCondition(s.e2con2)
-    e2c:SetOperation(s.e2op2)
-    c:RegisterEffect(e2c)
     local e2reg = Effect.CreateEffect(c)
     e2reg:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e2reg:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -93,6 +88,11 @@ function s.initial_effect(c)
     e2reg:SetCondition(s.e2regcon)
     e2reg:SetOperation(s.e2regop)
     c:RegisterEffect(e2reg)
+    local e2c = e2reg:Clone()
+    e2c:SetCode(EVENT_CHAIN_SOLVED)
+    e2c:SetCondition(s.e2con2)
+    e2c:SetOperation(s.e2op2)
+    c:RegisterEffect(e2c)
 
     -- tribute atk up
     local e3 = Effect.CreateEffect(c)
@@ -189,15 +189,6 @@ function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
     token:RegisterEffect(ec1, true)
 end
 
-function s.e2con2(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetFlagEffect(tp, id) > 0
-end
-
-function s.e2op2(e, tp, eg, ep, ev, re, r, rp)
-    Duel.ResetFlagEffect(tp, id)
-    s.e2op1(e, tp, eg, ep, ev, re, r, rp)
-end
-
 function s.e2regcon(e, tp, eg, ep, ev, re, r, rp)
     return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and re:IsHasType(EFFECT_TYPE_ACTIONS) and
                not re:IsHasType(EFFECT_TYPE_CONTINUOUS) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
@@ -207,6 +198,15 @@ end
 
 function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterFlagEffect(tp, id, RESET_CHAIN, 0, 1)
+end
+
+function s.e2con2(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetFlagEffect(tp, id) > 0
+end
+
+function s.e2op2(e, tp, eg, ep, ev, re, r, rp)
+    Duel.ResetFlagEffect(tp, id)
+    s.e2op1(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
