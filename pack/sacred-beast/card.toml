@@ -1,3 +1,12 @@
+[the-eye-of-phantasms]
+id = 900002000
+set = "phantasms"
+name = "The Eye of Phantasms"
+type = "spell field"
+effect = """
+"""
+strings = []
+
 [raviel]
 id = 900002001
 alias = 69890967
