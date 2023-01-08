@@ -196,6 +196,27 @@ generate-pic = false
 generate-script = false
 strings = [
     "Search card",
-    "Special Summon 1 Fiend monster with 0 ATK/DEF from GY",
-    "Return 1 Continuous Spell from GY",
+    "Special Summon Fiend monster with 0 ATK/DEF",
+    "Return 1 Continuous Spell",
+]
+
+[awakening-of-the-sacred-beasts]
+id = 53701259
+name = "Awakening of the Sacred Beasts"
+type = "trap continuous"
+effect = """
+This card gains these effects based on the number of \
+    "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", and/or "Raviel, Lord of Phantasms" \
+    with different names you control.
+● 1+: Each time your opponent Normal or Special Summons a monster(s): \
+    Gain LP equal to the ATK of that monster(s).
+● 2+: Negate the activated effects of monsters your opponent controls.
+● 3: Any monsters sent to your opponent's GY are banished instead.
+Once per your turn, if you control a Level 10 monster: \
+    You can add 1 Continuous Trap from your GY to your hand. \
+"""
+generate-pic = false
+generate-script = false
+strings = [
+    "Return 1 Continuous Trap",
 ]
