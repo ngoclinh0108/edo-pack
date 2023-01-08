@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {78371393}
+s.listed_names = {78371393, 43378048}
 s.material_setcode = {0x145}
 
 function s.initial_effect(c)
@@ -55,23 +55,24 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(nomaterial)
 
-    -- indes
-    local indes = Effect.CreateEffect(c)
-    indes:SetType(EFFECT_TYPE_SINGLE)
-    indes:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    indes:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    indes:SetValue(1)
-    c:RegisterEffect(indes)
-    local indes2 = indes:Clone()
-    indes:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    c:RegisterEffect(indes2)
+    -- add name
+    local addname = Effect.CreateEffect(c)
+    addname:SetType(EFFECT_TYPE_SINGLE)
+    addname:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    addname:SetCode(EFFECT_ADD_CODE)
+    addname:SetRange(LOCATION_MZONE)
+    addname:SetValue(43378048)
+    c:RegisterEffect(addname)
 
-    -- avoid damage
-    local nodmg = Effect.CreateEffect(c)
-    nodmg:SetType(EFFECT_TYPE_SINGLE)
-    nodmg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    nodmg:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    c:RegisterEffect(nodmg)
+    -- indes & avoid damage
+    local e1 = Effect.CreateEffect(c)
+    e1:SetType(EFFECT_TYPE_SINGLE)
+    e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e1:SetValue(1)
+    c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    c:RegisterEffect(e1b)
 end
 
 function s.fusfilter(c, fc, sumtype, tp)
