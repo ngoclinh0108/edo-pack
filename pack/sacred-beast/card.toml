@@ -227,13 +227,18 @@ Cannot be Tributed, or used as material for an Summon by your opponent. \
 Cannot be destroyed by battle. \
 The above effects cannot be negated. \
 Your opponent takes any battle damage you would have taken from battles involving this card. \
+At the end of the Damage Step, if this face-up Attack Position card battles an opponent's monster: \
+    Inflict damage to your opponent equal to that monster's ATK, also destroy that monster. \
 Once per turn (Quick Effect): \
     You can banish 1 face-up monster your opponent controls, and if you do, \
     Special Summon 1 "Phantasmal Nightmare Token" (Fiend/DARK/Level 12/ATK ?/DEF 0). \
     The Token's ATK/DEF become the original ATK/DEF of that monster, \
     also you take no damage from battles involving it. \
 """
-strings = ["Banish 1 face-up monster & create token"]
+strings = [
+    "Inflict damage & destroy battling monster",
+    "Banish 1 face-up monster & create token",
+]
 
 [phantasmal-nightmare-token]
 id = 900002008

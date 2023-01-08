@@ -81,31 +81,76 @@ function s.initial_effect(c)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
-    -- banish & special summon token
+    -- destroy
+    local e2reg = Effect.CreateEffect(c)
+    e2reg:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2reg:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e2reg:SetCode(EVENT_BATTLED)
+    e2reg:SetOperation(s.e2regop)
+    c:RegisterEffect(e2reg)
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON + CATEGORY_TOKEN)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
-    e2:SetCountLimit(1)
+    e2:SetCategory(CATEGORY_DESTROY)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e2:SetCode(EVENT_DAMAGE_STEP_END)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
+    e2:SetLabelObject(e2reg)
     c:RegisterEffect(e2)
+
+    -- banish & special summon token
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetCategory(CATEGORY_REMOVE + CATEGORY_SPECIAL_SUMMON + CATEGORY_TOKEN)
+    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCode(EVENT_FREE_CHAIN)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
+    e3:SetCountLimit(1)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.fusfilter(c, fc, sumtype, tp)
     return c:IsType(TYPE_FUSION, fc, sumtype, tp) and c:IsSetCard(0x145, fc, sumtype, tp)
 end
 
-function s.e2filter(c)
+function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local bc = c:GetBattleTarget()
+    if bc and c:IsAttackPos() then
+        e:SetLabelObject(bc)
+    else
+        e:SetLabelObject(nil)
+    end
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local bc = e:GetLabelObject():GetLabelObject()
+    if chk == 0 then
+        return bc
+    end
+
+    if bc:IsRelateToBattle() then
+        Duel.SetOperationInfo(0, CATEGORY_DESTROY, bc, 1, 0, 0)
+    end
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local bc = e:GetLabelObject():GetLabelObject()
+    if bc:IsRelateToBattle() then
+        Duel.Destroy(bc, REASON_EFFECT)
+    end
+end
+
+function s.e3filter(c)
     return c:IsFaceup() and c:IsAbleToRemove()
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, 0, LOCATION_MZONE, 1, nil)
+        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 0, LOCATION_MZONE)
@@ -113,9 +158,9 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 1, tp, 0)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
     if not tc or Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then
         return
     end

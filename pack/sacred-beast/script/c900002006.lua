@@ -115,7 +115,7 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local bc = e:GetLabelObject():GetLabelObject()
+    local bc = e:GetLabelObject():GetLabelObject()    
     Duel.Damage(1 - tp, bc:GetAttack(), REASON_EFFECT)
 
     local g = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, nil, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, c)
