@@ -170,7 +170,7 @@ end
 
 function s.e6filter(c, og)
     return c:IsFaceup() and c:IsType(TYPE_CONTINUOUS) and c:ListsCode(6007213, 32491822, 69890967, 43378048) and
-               og:IsExists(Card.IsCode, 1, nil, c:GetCode()) and not c:IsCode(id)
+               not og:IsExists(Card.IsCode, 1, nil, c:GetCode()) and not c:IsCode(id)
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -191,7 +191,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local tc =
         Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e6filter, tp, LOCATION_ONFIELD, 0, 1, 1, c, og):GetFirst()
     if tc then
-        Duel.Overlay(tc, c)
+        Duel.Overlay(c, tc)
         c:CopyEffect(tc:GetCode(), RESET_EVENT + RESETS_STANDARD)
     end
 end
