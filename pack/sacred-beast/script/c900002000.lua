@@ -48,6 +48,7 @@ function s.initial_effect(c)
 
     -- draw
     local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
     e3:SetCategory(CATEGORY_DRAW)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
@@ -62,7 +63,7 @@ function s.initial_effect(c)
 
     -- return spell/trap to hand
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 0))
+    e4:SetDescription(aux.Stringid(id, 1))
     e4:SetCategory(CATEGORY_TOHAND)
     e4:SetType(EFFECT_TYPE_IGNITION)
     e4:SetRange(LOCATION_FZONE)
@@ -94,7 +95,7 @@ function s.initial_effect(c)
 
     -- attach spell/trap
     local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 1))
+    e6:SetDescription(aux.Stringid(id, 2))
     e6:SetType(EFFECT_TYPE_IGNITION)
     e6:SetRange(LOCATION_FZONE)
     e6:SetCountLimit(1)

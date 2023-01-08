@@ -21,6 +21,7 @@ This card gains these effects based on the number of \
     except "{CARD_NAME}", and if you do this card gains that card's effects.
 """
 strings = [
+    "Draw 2 card",
     "Add 1 Spell/Trap from your GY to your hand",
     "Attach 1 Continuous Spell/Trap to this card",
 ]
