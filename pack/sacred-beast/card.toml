@@ -5,6 +5,14 @@ name = "The Eye of Phantasms"
 type = "spell field"
 effect = """
 The activation and effect of this card's effects cannot be negated. \
+Your opponent cannot target \
+    "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
+    or "Armityle the Chaos Phantasm" in your Monster Zones with card effects, \
+    also those monsters cannot be destroyed by your opponent's card effects while you control them. \
+This card gains these effects based on the number of \
+    "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
+    and/or "Armityle the Chaos Phantasm" with different names you control.
+● 1+: You can draw 2 cards. You can only use this effect of "{CARD_NAME}" once per turn.
 """
 strings = []
 
