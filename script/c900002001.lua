@@ -150,11 +150,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c, sp)
-    if c:IsLocation(LOCATION_MZONE) then
-        return c:IsFaceup() and c:IsLocation(LOCATION_MZONE) and c:GetSummonPlayer() == sp
-    else
-        return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetSummonPlayer() == sp
-    end
+    return c:GetSummonPlayer() == sp
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
