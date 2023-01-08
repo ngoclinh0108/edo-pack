@@ -164,7 +164,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Utility.HintCard(c)
 
     local token = Duel.CreateToken(tp, 69890968)
-    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP)
+    Duel.SpecialSummon(token, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
