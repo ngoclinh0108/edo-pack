@@ -187,10 +187,6 @@ function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
     token:RegisterEffect(ec1, true)
-    local ec2 = ec1:Clone()
-    ec2:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    ec2:SetValue(1)
-    token:RegisterEffect(ec2, true)
 end
 
 function s.e2con2(e, tp, eg, ep, ev, re, r, rp)
