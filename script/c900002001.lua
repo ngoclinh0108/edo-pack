@@ -74,7 +74,7 @@ function s.initial_effect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     e2:SetProperty(EFFECT_FLAG_DELAY)
-    e2:SetCode(EVENT_SUMMON_SUCCESS)
+    e2:SetCode(EVENT_SPSUMMON_SUCCESS)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCondition(s.e2con1)
     e2:SetOperation(s.e2op1)
@@ -160,22 +160,21 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2filter(c, sp)
+function s.e2filter(c, tp)
     if c:IsLocation(LOCATION_MZONE) then
-        return c:IsFaceup() and c:IsLocation(LOCATION_MZONE) and c:GetSummonPlayer() == sp
+        return c:IsFaceup() and c:GetSummonPlayer() ~= tp
     else
-        return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetSummonPlayer() == sp
+        return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_MZONE) and c:GetSummonPlayer() ~= tp
     end
 end
 
 function s.e2con1(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and
+    return eg:IsExists(s.e2filter, 1, nil, tp) and
                (not re or (not re:IsHasType(EFFECT_TYPE_ACTIONS) or re:IsHasType(EFFECT_TYPE_CONTINUOUS)))
 end
 
 function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-
     if Duel.IsPlayerCanSpecialSummonMonster(tp, 69890968, 0, TYPES_TOKEN, 1000, 1000, 1, RACE_FIEND, ATTRIBUTE_DARK) and
         Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
         Utility.HintCard(c)
@@ -191,7 +190,7 @@ function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2regcon(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e2filter, 1, nil, 1 - tp) and re:IsHasType(EFFECT_TYPE_ACTIONS) and
+    return eg:IsExists(s.e2filter, 1, nil, tp) and re:IsHasType(EFFECT_TYPE_ACTIONS) and
                not re:IsHasType(EFFECT_TYPE_CONTINUOUS)
 end
 
