@@ -188,6 +188,7 @@ strings = ["Inflict damage & destroy 1 card on the field"]
 [yubel-the-ultimate-phantasmal-nightmare]
 id = 900002007
 alias = 4779091
+set = "phantasm"
 name = "Yubel - The Ultimate Phantasmal Nightmare"
 type = "monster fusion effect"
 attribute = "dark"
@@ -196,6 +197,8 @@ level = 12
 atk = 0
 def = 0
 effect = """\
+"Yubel" + 1 "Phantasm" Fusion Monster
+Must be Fusion Summoned. \
 """
 strings = []
 
