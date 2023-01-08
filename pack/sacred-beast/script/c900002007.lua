@@ -27,6 +27,15 @@ function s.initial_effect(c)
     noswitch:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noswitch)
 
+    -- add name
+    local addname = Effect.CreateEffect(c)
+    addname:SetType(EFFECT_TYPE_SINGLE)
+    addname:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    addname:SetCode(EFFECT_ADD_CODE)
+    addname:SetRange(LOCATION_MZONE)
+    addname:SetValue(43378048)
+    c:RegisterEffect(addname)
+
     -- no change battle position
     local nopos = Effect.CreateEffect(c)
     nopos:SetType(EFFECT_TYPE_SINGLE)
@@ -55,24 +64,16 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(nomaterial)
 
-    -- add name
-    local addname = Effect.CreateEffect(c)
-    addname:SetType(EFFECT_TYPE_SINGLE)
-    addname:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    addname:SetCode(EFFECT_ADD_CODE)
-    addname:SetRange(LOCATION_MZONE)
-    addname:SetValue(43378048)
-    c:RegisterEffect(addname)
-
     -- indes & avoid damage
-    local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    e1:SetValue(1)
-    c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    c:RegisterEffect(e1b)
+    local indes = Effect.CreateEffect(c)
+    indes:SetType(EFFECT_TYPE_SINGLE)
+    indes:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    indes:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    indes:SetValue(1)
+    c:RegisterEffect(indes)
+    local nodmg = indes:Clone()
+    nodmg:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
+    c:RegisterEffect(nodmg)
 end
 
 function s.fusfilter(c, fc, sumtype, tp)

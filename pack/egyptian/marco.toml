@@ -6,7 +6,7 @@ EGYPTIAN_EFFECT = """\
 Cannot be Special Summoned, except by it's owner. \
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated. \
-Control of it cannot switch, and its battle position cannot change by card effects. \
+Control of it cannot switch, and its battle position cannot be changed by card effects. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \
 Unaffected by other card effects that would make it leave the field, \
     also other card effects are only applied on it for 1 turn, \
@@ -15,7 +15,7 @@ Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
     also you take no battle damage from that battle. \
 Cannot attack the turn it is Special Summoned from the GY, \
     except by cards that mentions it. \
-During the End Phase, if this card was Special Summoned from the GY, \
+During the End Phase, if it was Special Summoned from the GY, \
     send it to the GY.\
 """
 

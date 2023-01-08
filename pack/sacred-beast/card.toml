@@ -199,11 +199,12 @@ def = 0
 effect = """\
 "Yubel" + 1 "Phantasm" Fusion Monster
 Must be Fusion Summoned. \
-Control of it cannot switch, and its battle position cannot change by card effects. \
-Cannot be Tributed, or used as material for an Summon by your opponent. \
+Control of it cannot switch. \
 This card's name is also treated as "Armityle the Chaos Phantasm" while it is on the field. \
-The above effects cannot be negated. \
+This card's battle position cannot be changed by card effects. \
+Cannot be Tributed, or used as material for an Summon by your opponent. \
 Cannot be destroyed by battle, also you take no damage from battles involving this card. \
+The above effects cannot be negated. \
 """
 strings = []
 
