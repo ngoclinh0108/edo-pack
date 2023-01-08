@@ -74,7 +74,7 @@ def = 0
 effect = """\
 (This card's name is always treated as "Uria, Lord of Searing Flames".)
 Cannot be Normal Summoned/Set. \
-Must be Special Summoned (from your hand or GY) by sending 3 face-up Continuous Traps you control to the GY. \
+Must be Special Summoned (from your hand or GY) by sending 3 face-up Traps you control to the GY. \
 This card's Special Summon cannot be negated. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \

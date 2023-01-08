@@ -94,8 +94,12 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.sprfilter(c, tp)
+function s.sprfilter1(c)
     return c:IsFaceup() and c:GetType() == TYPE_SPELL + TYPE_CONTINUOUS and c:IsAbleToGraveAsCost()
+end
+
+function s.sprfilter2(c)
+    return s.sprfilter1(c) or (c:IsFacedown() and c:IsSpell() and c:IsAbleToGraveAsCost())
 end
 
 function s.sprcon(e, c)
@@ -103,18 +107,32 @@ function s.sprcon(e, c)
         return true
     end
     local tp = c:GetControler()
-    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_ONFIELD, 0, nil)
+
+    local g = nil
+    if Duel.IsPlayerAffectedByEffect(tp, 54828837) then
+        g = Duel.GetMatchingGroup(s.sprfilter2, tp, LOCATION_ONFIELD, 0, nil)
+    else
+        g = Duel.GetMatchingGroup(s.sprfilter1, tp, LOCATION_ONFIELD, 0, nil)
+    end
+
     return Duel.GetLocationCount(tp, LOCATION_MZONE) > -3 and #g >= 3 and
                aux.SelectUnselectGroup(g, e, tp, 3, 3, aux.ChkfMMZ(1), 0)
 end
 
 function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_ONFIELD, 0, nil)
+    local g = nil
+    if Duel.IsPlayerAffectedByEffect(tp, 54828837) then
+        g = Duel.GetMatchingGroup(s.sprfilter2, tp, LOCATION_ONFIELD, 0, nil)
+    else
+        g = Duel.GetMatchingGroup(s.sprfilter1, tp, LOCATION_ONFIELD, 0, nil)
+    end
+
     local sg = aux.SelectUnselectGroup(g, e, tp, 3, 3, aux.ChkfMMZ(1), 1, tp, HINTMSG_TOGRAVE, nil, nil, true)
     local dg = sg:Filter(Card.IsFacedown, nil)
     if #dg > 0 then
         Duel.ConfirmCards(1 - tp, dg)
     end
+
     if #sg == 3 then
         sg:KeepAlive()
         e:SetLabelObject(sg)
