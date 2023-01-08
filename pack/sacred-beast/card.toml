@@ -177,3 +177,25 @@ strings = [
     "Special Summon \"Yubel\"",
     "Draw 1 card?",
 ]
+
+[opening-of-the-spirit-gates]
+id = 80312545
+name = "Opening of the Spirit Gates"
+type = "spell continuous"
+effect = """
+When this card is activated: Add 1 "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", \
+    or "Raviel, Lord of Phantasms", OR 1 monster that specifically lists any of those cards in its text, \
+    from your Deck to your hand. \
+Once per turn: You can discard 1 card; \
+    Special Summon 1 Fiend monster with 0 ATK/DEF from your GY. \
+Once per turn, if you control a Level 10 monster: \
+    You can add 1 Continuous Spell from your GY to your hand. \
+You can only activate 1 "Opening of the Spirit Gates" per turn. \
+"""
+generate-pic = false
+generate-script = false
+strings = [
+    "Search card",
+    "Special Summon 1 Fiend monster with 0 ATK/DEF from GY",
+    "Return 1 Continuous Spell from GY",
+]
