@@ -9,7 +9,7 @@ s.destiny_draw = 0
 function s.initial_effect(c)
     local startup = Effect.CreateEffect(c)
     startup:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    startup:SetProperty(EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_CANNOT_DISABLE)
+    startup:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     startup:SetCode(EVENT_STARTUP)
     startup:SetRange(LOCATION_ALL)
     startup:SetOperation(s.startup)

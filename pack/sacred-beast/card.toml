@@ -1,9 +1,11 @@
 [the-eye-of-phantasms]
 id = 900002000
+alias = 27439792
 set = "phantasms"
 name = "The Eye of Phantasms"
 type = "spell field"
 effect = """
+(This card's name is always treated as "Fallen Paradise".)
 The activation and effect of this card's effects cannot be negated. \
 Your opponent cannot banish, target \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
@@ -138,9 +140,8 @@ If this card's control was changed to your opponent, \
     negate the effects of this card, \
     also control of it cannot switch. \
 Once per turn, during the End Phase, if this card's control was changed this turn: \
-    Banish all other cards you control, \
-    also shuffle this card into the Extra Deck, \
-    then the owner of this card can Special Summon 1 "Phantasm" Fusion Monster from their Extra Deck, \
+    Banish all other cards you control, also shuffle this card into the Extra Deck, \
+    then the owner of this card can Special Summon it from their Extra Deck, \
     ignoring its Summoning conditions. (This is treated as a Fusion Summon.) \
 The above effects cannot be negated. \
 Cannot be destroyed by battle. \
@@ -177,6 +178,34 @@ strings = [
     "Special Summon \"Yubel\"",
     "Draw 1 card?",
 ]
+
+[yubel-desperate-incarnate]
+id = 900002006
+alias = 4779091
+name = "Yubel - Desperate Incarnate"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 11
+atk = 0
+def = 0
+effect = """\
+(This card's name is always treated as "Yubel - Terror Incarnate".)
+Cannot be Normal Summoned/Set. \
+Must be Special Summoned by "Yubel". \
+You can discard this card; add 1 "Yubel", or 1 card that mentions it, \
+    from your Deck to your hand, except "{CARD_NAME}". \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+Cannot be destroyed by battle, also you take no damage from battles involving this card. \
+At the end of the Damage Step, if this face-up Attack Position card battles an opponent's monster: \
+    Inflict damage to your opponent equal to that monster's ATK, also destroy 1 other card on the field. \
+If this face-up card leaves the field: \
+    You can Special Summon 1 "Yubel - The Ultimate Nightmare", \
+    or 1 Fusion Monster that mentions it as material, \
+    from your hand, Deck, GY or Extra Deck. ignoring its Summoning conditions. \
+    (This is treated as a Fusion Summon, if able.) \
+"""
+strings = ["Inflict damage & destroy 1 card on the field"]
 
 [opening-of-the-spirit-gates]
 id = 80312545
@@ -217,6 +246,4 @@ Once per your turn, if you control a Level 10 monster: \
 """
 generate-pic = false
 generate-script = false
-strings = [
-    "Return 1 Continuous Trap",
-]
+strings = ["Return 1 Continuous Trap"]

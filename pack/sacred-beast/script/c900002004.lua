@@ -3,7 +3,6 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {6007213, 32491822, 69890967, 43378048}
-s.listed_series = {0x145}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
@@ -153,12 +152,6 @@ function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 end
 
-function s.e2filter(c, e, tp)
-    return c:IsSetCard(0x145) and c:IsType(TYPE_FUSION) and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, true, false) and
-               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
-end
-
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
@@ -179,12 +172,11 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
         local p = e:GetHandler():GetOwner()
-        local sg = Duel.GetMatchingGroup(s.e2filter, p, LOCATION_EXTRA, 0, nil, e, p)
-        if #sg > 0 and Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
+        if c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, true, false) and
+            Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
             Duel.BreakEffect()
-            local sc = Utility.GroupSelect(HINTMSG_SPSUMMON, sg, p, 1, 1, nil):GetFirst()
-            Duel.SpecialSummon(sc, SUMMON_TYPE_FUSION, p, p, true, false, POS_FACEUP)
-            sc:CompleteProcedure()
+            Duel.SpecialSummon(c, SUMMON_TYPE_FUSION, p, p, true, false, POS_FACEUP)
+            c:CompleteProcedure()
         end
     end
 end
