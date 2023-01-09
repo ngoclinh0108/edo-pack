@@ -21,9 +21,9 @@ This card gains these effects based on the number of \
     also the activation and effect of this card's effects cannot be negated.
 ● 3+: Once per turn: You can target 1 face-up Continuous Spell/Trap that mentions \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", or "Raviel, Lord of Phantasms" \
-    with a different name from the cards attached to this card, \
-    that you control or is in your GY, except "{CARD_NAME}"; \
-    attach the target to this card and if you do this card gains that card's effects.
+    with a different name from the cards attached to this card, except "{CARD_NAME}" \
+    that you control or is in your GY; \
+    attach it to this card and if you do this card gains that card's effects.
 """
 strings = [
     "Add card that mentions Sacred Beast?",

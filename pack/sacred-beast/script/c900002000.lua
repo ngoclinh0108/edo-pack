@@ -107,7 +107,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:ListsCodeAsMaterial(6007213, 32491822, 69890967) and c:IsAbleToHand()
+    return c:ListsCode(6007213, 32491822, 69890967) and c:IsAbleToHand()
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
