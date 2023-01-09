@@ -193,7 +193,7 @@ atk = 0
 def = 0
 effect = """\
 (This card's name is always treated as "Yubel - Terror Incarnate".)
-Cannot be Normal Summoned/Set. \
+Must be Fusion Summoned with the above Fusion Materials. \
 Must be Special Summoned by "Yubel". \
 You can discard this card; add 1 "Yubel", or 1 card that mentions it, \
     from your Deck to your hand, except "{CARD_NAME}". \

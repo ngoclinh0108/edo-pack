@@ -11,7 +11,9 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, true, true, 78371393, s.fusfilter)
+    Fusion.AddProcMix(c, false, false, 78371393, function(c, fc, sumtype, tp)
+        return c:IsType(TYPE_FUSION, fc, sumtype, tp) and c:IsSetCard(0x145, fc, sumtype, tp)
+    end)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -110,10 +112,6 @@ function s.initial_effect(c)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
-end
-
-function s.fusfilter(c, fc, sumtype, tp)
-    return c:IsType(TYPE_FUSION, fc, sumtype, tp) and c:IsSetCard(0x145, fc, sumtype, tp)
 end
 
 function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
