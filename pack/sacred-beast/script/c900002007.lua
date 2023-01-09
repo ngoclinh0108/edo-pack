@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {78371393, 43378048, 900002008}
+s.listed_names = {31764700, 43378048, 900002008}
 s.material_setcode = {0x145}
 
 local PHANTASMAL_NIGHTMARE_TOKEN = 900002008
@@ -11,7 +11,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, false, false, 78371393, function(c, fc, sumtype, tp)
+    Fusion.AddProcMix(c, false, false, 31764700, function(c, fc, sumtype, tp)
         return c:IsType(TYPE_FUSION, fc, sumtype, tp) and c:IsSetCard(0x145, fc, sumtype, tp)
     end)
 

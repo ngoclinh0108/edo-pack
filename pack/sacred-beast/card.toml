@@ -221,7 +221,7 @@ level = 12
 atk = 0
 def = 0
 effect = """\
-"Yubel" + 1 "Phantasm" Fusion Monster
+"Yubel - The Ultimate Nightmare" + 1 "Phantasm" Fusion Monster
 Must be Fusion Summoned with the above Fusion Materials. \
 Control of it cannot switch. \
 This card's name is also treated as "Armityle the Chaos Phantasm" while it is on the field. \
