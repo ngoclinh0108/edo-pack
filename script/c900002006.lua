@@ -139,7 +139,7 @@ function s.e4sumlimit(c)
 end
 
 function s.e4filter(c, e, tp)
-    return (c:IsCode(31764700) or (c:IsType(TYPE_FUSION) and c:ListsCodeAsMaterial(78371393))) and
+    return (c:IsCode(31764700) or (c:IsType(TYPE_FUSION) and c:ListsCodeAsMaterial(31764700))) and
                c:IsCanBeSpecialSummoned(e, s.e4sumtype(c), tp, true, s.e4sumlimit(c))
 end
 
