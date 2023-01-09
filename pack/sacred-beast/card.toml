@@ -340,5 +340,6 @@ generate-script = false
 strings = [
     "Send Trap to gain ATK",
     "Return or Special Summon 1 Sacred Beast",
+    "Select a Sacred Beast",
     "Special Summon it",
 ]
