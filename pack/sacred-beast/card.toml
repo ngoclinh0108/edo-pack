@@ -7,7 +7,7 @@ effect = """
 (This card's name is always treated as "Fallen Paradise".)
 You can only activate 1 "{CARD_NAME}" per turn. \
 When this card is activated: You can add 1 card that mentions \
-    "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", or "Raviel, Lord of Phantasms"
+    "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", or "Raviel, Lord of Phantasms", \
     from your Deck to your hand. \
 Your opponent cannot banish, target \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
