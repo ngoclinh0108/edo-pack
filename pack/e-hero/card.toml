@@ -1,0 +1,20 @@
+# [blue-eyes-legend-dragon]
+# id = 900001200
+# alias = 89631139
+# set = "blue-eyes"
+# name = "Blue-Eyes Legend Dragon"
+# type = "monster normal"
+# attribute = "light"
+# race = "dragon"
+# level = 8
+# atk = 3000
+# def = 2500
+# effect = """\
+# (This card's name is always treated as "Blue-Eyes White Dragon".)
+# You can Special Summon this card (from your hand) by \
+#     revealing 1 Level 1 LIGHT Tuner in your hand. \
+#     You can only Special Summon "{CARD_NAME}" once per turn this way. \
+# Once per turn: You can destroy 1 other face-up card on the field. \
+#     This card cannot attack the turn this effect is activated. \
+# """
+# strings = ["Destroy 1 other card on the field"]
