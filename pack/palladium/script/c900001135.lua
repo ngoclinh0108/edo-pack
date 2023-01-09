@@ -91,7 +91,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     Duel.Destroy(dg, REASON_EFFECT)
-    if #effs > 0 and Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+    if #effs > 0 and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
         local te
         local g = Group.CreateGroup()
         for _, eff in ipairs(effs) do

@@ -103,7 +103,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
 
     local tc = Duel.GetOperatedGroup():GetFirst()
     if tc:IsType(TYPE_SPELL + TYPE_TRAP) and tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
-        Duel.SelectYesNo(tp, 1601) then
+        Duel.SelectEffectYesNo(tp, c, 1601) then
         Duel.SSet(tp, tc, tp, false)
         if tc:IsType(TYPE_QUICKPLAY + TYPE_TRAP) then
             local ec1 = Effect.CreateEffect(c)

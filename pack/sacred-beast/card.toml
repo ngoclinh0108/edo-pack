@@ -5,7 +5,10 @@ name = "The Eye of Nightmare"
 type = "spell field"
 effect = """
 (This card's name is always treated as "Fallen Paradise".)
-The activation and effect of this card's effects cannot be negated. \
+You can only activate 1 "{CARD_NAME}" per turn. \
+When this card is activated: You can add 1 card that mentions \
+    "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", or "Raviel, Lord of Phantasms"
+    from your Deck to your hand. \
 Your opponent cannot banish, target \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
     or "Armityle the Chaos Phantasm" in your Monster Zones with card effects, \
@@ -13,15 +16,20 @@ Your opponent cannot banish, target \
 This card gains these effects based on the number of \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
     and/or "Armityle the Chaos Phantasm" with different names you control.
-● 1+: You can draw 2 cards. You can only use this effect of "{CARD_NAME}" once per turn.
-● 2+: Your opponent cannot banish, target or destroy this card with card effects.
+● 1+: Once per turn: You can draw 2 cards.
+● 2+: Your opponent cannot banish, target or destroy this card with card effects, \
+    also the activation and effect of this card's effects cannot be negated.
 ● 3+: Once per turn: You can target 1 face-up Continuous Spell/Trap that mentions \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", or "Raviel, Lord of Phantasms" \
     with a different name from the cards attached to this card, \
     that you control or is in your GY, except "{CARD_NAME}"; \
     attach the target to this card and if you do this card gains that card's effects.
 """
-strings = ["Draw 2 card", "Attach 1 Continuous Spell/Trap to this card"]
+strings = [
+    "Add card that mentions Sacred Beast?",
+    "Draw 2 card",
+    "Attach 1 Continuous Spell/Trap to this card",
+]
 
 [uria]
 id = 900002001

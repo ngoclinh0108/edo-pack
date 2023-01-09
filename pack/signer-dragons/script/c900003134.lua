@@ -104,7 +104,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.ShuffleDeck(tp)
 
     if not tc:IsLocation(LOCATION_HAND) or not tc:HasLevel() or
-        Duel.GetMatchingGroupCount(s.e1filter2, tp, LOCATION_DECK, 0, nil, tc) == 0 or not Duel.SelectYesNo(tp, 504) then
+        Duel.GetMatchingGroupCount(s.e1filter2, tp, LOCATION_DECK, 0, nil, tc) == 0 or not Duel.SelectEffectYesNo(tp, c, 504) then
         return
     end
 

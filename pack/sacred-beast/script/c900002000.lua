@@ -5,31 +5,13 @@ s.listed_names = {6007213, 32491822, 69890967, 43378048}
 
 function s.initial_effect(c)
     -- activate
-    local act = Effect.CreateEffect(c)
-    act:SetCategory(CATEGORY_TODECK)
-    act:SetType(EFFECT_TYPE_ACTIVATE)
-    act:SetCode(EVENT_FREE_CHAIN)
-    c:RegisterEffect(act)
-
-    -- effects cannot be negated
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e1:SetCode(EFFECT_CANNOT_DISABLE)
+    e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    local e1b = Effect.CreateEffect(c)
-    e1b:SetType(EFFECT_TYPE_FIELD)
-    e1b:SetRange(LOCATION_FZONE)
-    e1b:SetCode(EFFECT_CANNOT_INACTIVATE)
-    e1b:SetTargetRange(1, 0)
-    e1b:SetValue(function(e, ct)
-        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-        return te:GetHandler() == e:GetHandler()
-    end)
-    c:RegisterEffect(e1b)
-    local e1c = e1b:Clone()
-    e1c:SetCode(EFFECT_CANNOT_DISEFFECT)
-    c:RegisterEffect(e1c)
 
     -- protect
     local e2 = Effect.CreateEffect(c)
@@ -54,12 +36,12 @@ function s.initial_effect(c)
 
     -- draw
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_DRAW)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
     e3:SetRange(LOCATION_FZONE)
-    e3:SetCountLimit(1, {id, 1})
+    e3:SetCountLimit(1)
     e3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return s.sbcount(e:GetHandlerPlayer()) >= 1
     end)
@@ -67,7 +49,7 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- untargetable, unbanishable & indes
+    -- immune
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE)
     e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -91,10 +73,28 @@ function s.initial_effect(c)
     e4c:SetTargetRange(1, 1)
     e4c:SetTarget(s.e4tg)
     c:RegisterEffect(e4c)
+    local e4d = Effect.CreateEffect(c)
+    e4d:SetType(EFFECT_TYPE_SINGLE)
+    e4d:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    e4d:SetCode(EFFECT_CANNOT_DISABLE)
+    c:RegisterEffect(e4d)
+    local e4e = Effect.CreateEffect(c)
+    e4e:SetType(EFFECT_TYPE_FIELD)
+    e4e:SetRange(LOCATION_FZONE)
+    e4e:SetCode(EFFECT_CANNOT_INACTIVATE)
+    e4e:SetTargetRange(1, 0)
+    e4e:SetValue(function(e, ct)
+        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+        return te:GetHandler() == e:GetHandler()
+    end)
+    c:RegisterEffect(e4e)
+    local e4f = e4e:Clone()
+    e4f:SetCode(EFFECT_CANNOT_DISEFFECT)
+    c:RegisterEffect(e4f)
 
     -- attach spell/trap
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 1))
+    e5:SetDescription(aux.Stringid(id, 2))
     e5:SetType(EFFECT_TYPE_IGNITION)
     e5:SetRange(LOCATION_FZONE)
     e5:SetCountLimit(1)
@@ -104,6 +104,24 @@ function s.initial_effect(c)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
+end
+
+function s.e1filter(c)
+    return c:ListsCodeAsMaterial(6007213, 32491822, 69890967) and c:IsAbleToHand()
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then
+        return
+    end
+
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil)
+    if #g > 0 and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
+        local sg = Utility.GroupSelect(HINT_SELECTMSG, g, tp, 1, 1, nil)
+        Duel.SendtoHand(sg, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, sg)
+    end
 end
 
 function s.e2tg1(e, c)

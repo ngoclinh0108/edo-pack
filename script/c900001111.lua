@@ -84,7 +84,7 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return e:GetHandler():IsAbleToDeckAsCost()
     end
-    
+
     Duel.SendtoDeck(e:GetHandler(), nil, SEQ_DECKBOTTOM, REASON_COST)
 end
 
@@ -95,13 +95,14 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     if Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) < 3 then
         return
     end
 
     local g = Duel.GetDecktopGroup(tp, 3)
     Duel.ConfirmCards(tp, g)
-    if g:IsExists(s.e3filter, 1, nil) and Duel.SelectYesNo(tp, aux.Stringid(id, 1)) then
+    if g:IsExists(s.e3filter, 1, nil) and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
         local sg = Utility.GroupSelect(nil, g, tp, 1, 1, nil, s.e3filter)
         Duel.DisableShuffleCheck()
         Duel.SendtoHand(sg, nil, REASON_EFFECT)

@@ -63,7 +63,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 
     if Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND, 0, 1, nil) and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         Duel.ShuffleHand(tp)
 

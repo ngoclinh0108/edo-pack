@@ -65,6 +65,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c=e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if tc:IsFacedown() or not tc:IsRelateToEffect(e) then
         return
@@ -76,7 +77,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         mg:FilterCount(aux.NecroValleyFilter(s.e1filter2), nil, e, tp, tc, mg) == #mg and #mg > 0 and #mg <=
         Duel.GetLocationCount(tp, LOCATION_MZONE) and
         (#mg == 1 or not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)) and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         Duel.SpecialSummon(mg, 0, tp, tp, false, false, POS_FACEUP)
     end

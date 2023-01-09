@@ -75,7 +75,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e1filter), tp, LOCATION_GRAVE,
         0, 1, 1, nil, e, tp):GetFirst()
     if tc and Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) ~= 0 and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
+        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)
         local lv = Duel.AnnounceLevel(tp, 1, 12, tc:GetLevel())
 
@@ -128,6 +128,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local tc = Duel.SelectMatchingCard(tp, s.e2filter1, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
     if not tc or Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP_DEFENSE) == 0 then
@@ -137,7 +138,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     tc:CompleteProcedure()
     local mg = Duel.GetMatchingGroup(aux.FaceupFilter(Card.IsCanBeSynchroMaterial), tp, LOCATION_MZONE, 0, nil)
     local eg = Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_EXTRA, 0, nil, mg)
-    if #eg > 0 and Duel.IsPlayerCanSpecialSummonCount(tp, 2) and Duel.SelectYesNo(tp, aux.Stringid(id, 4)) then
+    if #eg > 0 and Duel.IsPlayerCanSpecialSummonCount(tp, 2) and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 4)) then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         local sc = eg:Select(tp, 1, 1, nil):GetFirst()
         if not sc then

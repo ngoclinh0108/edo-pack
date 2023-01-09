@@ -59,7 +59,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
         Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil) and
         Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil, e, tp) and
-        Duel.SelectYesNo(tp, aux.Stringid(id, 0)) then
+        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         local g = Duel.SelectMatchingCard(tp, s.e2filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil, e, tp)

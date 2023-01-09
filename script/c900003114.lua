@@ -135,7 +135,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
     Duel.AdjustInstantly(tc)
 
-    if Duel.SelectYesNo(tp, aux.Stringid(id, 2)) then
+    if Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then
         Duel.ChangePosition(tc, POS_FACEUP_DEFENSE, 0, POS_FACEUP_ATTACK, 0)
     end
 end
