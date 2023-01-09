@@ -175,7 +175,11 @@ This card gains these effects, depending on the materials used to Summon this ca
 ● "Hamon, Lord of Striking Thunder": Unaffected by your opponent's Spell effects, also this card gains 4000 ATK during your turn only.
 ● "Raviel, Lord of Phantasms": Gains 4000 ATK during your turn only, also if this card attacks a Defense Position monster, inflict piercing battle damage.
 """
-strings = []
+strings = [
+    "Summoned with \"Uria, Lord of Searing Flames\"",
+    "Summoned with \"Hamon, Lord of Striking Thunder\"",
+    "Summoned with \"Raviel, Lord of Phantasms\"",
+]
 
 [yubel-desperate-incarnate]
 id = 900002006
