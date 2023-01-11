@@ -124,5 +124,6 @@ def = 1600
 effect = """\
 If this card is used as Fusion Material, its name can be treated as "Elemental HERO Wildheart". \
     This effect cannot be negated. \
+Unaffected by your opponent's Trap effects. \
 """
 strings = []
