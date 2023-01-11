@@ -89,6 +89,9 @@ def = 1200
 effect = """\
 If this card is used as Fusion Material, its name can be treated as "Elemental HERO Bubbleman". \
     This effect cannot be negated. \
+If you control no monsters, you can Special Summon this card (from your hand). \
+If this card is banished: You can draw 2 cards, then discard 1 card. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
 

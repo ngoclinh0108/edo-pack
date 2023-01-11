@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {58932615}
+
 function s.initial_effect(c)
     -- fusion name
     local fusname = Effect.CreateEffect(c)
