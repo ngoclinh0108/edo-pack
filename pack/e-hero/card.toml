@@ -92,12 +92,12 @@ If this card is used as Fusion Material, its name can be treated as "Elemental H
 """
 strings = []
 
-[evil-hero-darkest-bolt]
+[evil-hero-black-bolt]
 id = 900002106
 set = "evil-hero"
-name = "Evil HERO Darkest Bolt"
+name = "Evil HERO Black Bolt"
 type = "monster effect"
-attribute = "dark"
+attribute = "light"
 race = "fiend"
 level = 4
 atk = 1600

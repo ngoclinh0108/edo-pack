@@ -1,4 +1,4 @@
--- Evil HERO Darkest Bolt
+-- Evil HERO Black Bolt
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
