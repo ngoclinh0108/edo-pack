@@ -41,7 +41,7 @@ def = 1000
 effect = """\
 (This card's name is also treated as "Elemental HERO Avian".)
 If this card is Normal or Special Summoned: \
-    You can add 1 "Evil HERO" monster from your Deck to your hand,
+    You can add 1 "Evil HERO" monster from your Deck to your hand, \
     except \"{CARD_NAME}\". \
 If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
     You can switch the original ATK/DEF of all monsters your opponent controls. \
