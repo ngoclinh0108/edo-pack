@@ -39,8 +39,7 @@ level = 3
 atk = 1000
 def = 1000
 effect = """\
-If this card is used as Fusion Material, its name can be treated as "Elemental HERO Avian". \
-    This effect cannot be negated. \
+(This card's name is also treated as "Elemental HERO Avian".)
 """
 strings = []
 
@@ -55,8 +54,7 @@ level = 3
 atk = 1200
 def = 800
 effect = """\
-If this card is used as Fusion Material, its name can be treated as "Elemental HERO Burstinatrix". \
-    This effect cannot be negated. \
+(This card's name is also treated as "Elemental HERO Burstinatrix".)
 """
 strings = []
 
@@ -71,8 +69,7 @@ level = 4
 atk = 800
 def = 2000
 effect = """\
-If this card is used as Fusion Material, its name can be treated as "Elemental HERO Clayman". \
-    This effect cannot be negated. \
+(This card's name is also treated as "Elemental HERO Clayman".)
 """
 strings = []
 
@@ -87,8 +84,7 @@ level = 4
 atk = 800
 def = 1200
 effect = """\
-If this card is used as Fusion Material, its name can be treated as "Elemental HERO Bubbleman". \
-    This effect cannot be negated. \
+(This card's name is also treated as "Elemental HERO Bubbleman".)
 If you control no monsters, you can Special Summon this card (from your hand). \
 If this card is banished: You can draw 2 cards, then discard 1 card. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
@@ -106,8 +102,7 @@ level = 4
 atk = 1600
 def = 1400
 effect = """\
-If this card is used as Fusion Material, its name can be treated as "Elemental HERO Sparkman". \
-    This effect cannot be negated. \
+(This card's name is also treated as "Elemental HERO Sparkman".)
 """
 strings = []
 
@@ -122,8 +117,7 @@ level = 4
 atk = 1500
 def = 1600
 effect = """\
-If this card is used as Fusion Material, its name can be treated as "Elemental HERO Wildheart". \
-    This effect cannot be negated. \
+(This card's name is also treated as "Elemental HERO Wildheart".)
 Unaffected by your opponent's Trap effects. \
 """
 strings = []
