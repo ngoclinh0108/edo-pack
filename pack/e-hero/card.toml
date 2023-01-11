@@ -27,3 +27,99 @@ def = 2000
 effect = """\
 """
 strings = []
+
+[evil-hero-aero-scout]
+id = 900002102
+set = "evil-hero"
+name = "Evil HERO Aero Scout"
+type = "monster effect"
+attribute = "wind"
+race = "fiend"
+level = 3
+atk = 1000
+def = 1000
+effect = """\
+If this card is used as Fusion Material, its name can be treated as "Elemental HERO Avian". \
+    This effect cannot be negated. \
+"""
+strings = []
+
+[evil-hero-blaster-minx]
+id = 900002103
+set = "evil-hero"
+name = "Evil HERO Blaster Minx"
+type = "monster effect"
+attribute = "fire"
+race = "fiend"
+level = 3
+atk = 1200
+def = 800
+effect = """\
+If this card is used as Fusion Material, its name can be treated as "Elemental HERO Burstinatrix". \
+    This effect cannot be negated. \
+"""
+strings = []
+
+[evil-hero-igneous-insurgent]
+id = 900002104
+set = "evil-hero"
+name = "Evil HERO Igneous Insurgent"
+type = "monster effect"
+attribute = "earth"
+race = "fiend"
+level = 4
+atk = 800
+def = 2000
+effect = """\
+If this card is used as Fusion Material, its name can be treated as "Elemental HERO Clayman". \
+    This effect cannot be negated. \
+"""
+strings = []
+
+[evil-hero-bubbling-anger]
+id = 900002105
+set = "evil-hero"
+name = "Evil HERO Bubbling Anger"
+type = "monster effect"
+attribute = "water"
+race = "fiend"
+level = 4
+atk = 800
+def = 1200
+effect = """\
+If this card is used as Fusion Material, its name can be treated as "Elemental HERO Bubbleman". \
+    This effect cannot be negated. \
+"""
+strings = []
+
+[evil-hero-darkest-bolt]
+id = 900002106
+set = "evil-hero"
+name = "Evil HERO Darkest Bolt"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 4
+atk = 1600
+def = 1400
+effect = """\
+If this card is used as Fusion Material, its name can be treated as "Elemental HERO Sparkman". \
+    This effect cannot be negated. \
+"""
+strings = []
+
+[evil-hero-savage-heart]
+id = 900002107
+set = "evil-hero"
+name = "Evil HERO Savage Heart"
+type = "monster effect"
+attribute = "earth"
+race = "fiend"
+level = 4
+atk = 1500
+def = 1600
+effect = """\
+If this card is used as Fusion Material, its name can be treated as "Elemental HERO Wildheart". \
+    This effect cannot be negated. \
+"""
+strings = []
