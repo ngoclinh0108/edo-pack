@@ -61,6 +61,12 @@ atk = 1200
 def = 800
 effect = """\
 (This card's name is also treated as "Elemental HERO Burstinatrix".)
+If this card is Normal or Special Summoned: \
+    You can send 1 "Evil HERO" monster from your hand or Deck to the GY. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
+    You can target 1 Fiend monster you control; \
+    it gains 1000 ATK until the end of this turn. \
 """
 strings = []
 
