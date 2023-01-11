@@ -40,6 +40,12 @@ atk = 1000
 def = 1000
 effect = """\
 (This card's name is also treated as "Elemental HERO Avian".)
+If this card is Normal or Special Summoned: \
+    You can add 1 "Evil HERO" monster from your Deck to your hand,
+    except \"{CARD_NAME}\". \
+If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
+    You can switch the original ATK/DEF of all monsters your opponent controls. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
 
@@ -86,7 +92,8 @@ def = 1200
 effect = """\
 (This card's name is also treated as "Elemental HERO Bubbleman".)
 Destroy an opponent's monster that battles this card at the end of the Damage Step. \
-If this card is banished: You can draw 2 cards, then discard 1 card. \
+If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
+    You can draw 2 cards, then discard 1 card. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Destroy the battled monster"]
