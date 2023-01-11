@@ -11,13 +11,14 @@ function s.initial_effect(c)
     addname:SetValue(79979666)
     c:RegisterEffect(addname)
 
-    -- special summon
+    -- destroy
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_SPSUMMON_PROC)
-    e1:SetRange(LOCATION_HAND)
-    e1:SetCondition(s.e1con)
+    e1:SetDescription(aux.Stringid(id, 0))
+    e1:SetCategory(CATEGORY_DESTROY)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e1:SetCode(EVENT_DAMAGE_STEP_END)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
     -- draw
@@ -32,13 +33,20 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1con(e, c)
-    if c == nil then
-        return true
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local bc = e:GetHandler():GetBattleTarget()
+    if chk == 0 then
+        return bc and bc:IsRelateToBattle()
     end
 
-    local tp = e:GetHandlerPlayer()
-    return Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0, nil) == 0 and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, bc, 1, 0, 0)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local bc = e:GetHandler():GetBattleTarget()
+    if bc and bc:IsRelateToBattle() then
+        Duel.Destroy(bc, REASON_EFFECT)
+    end
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)

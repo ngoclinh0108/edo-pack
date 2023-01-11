@@ -85,11 +85,11 @@ atk = 800
 def = 1200
 effect = """\
 (This card's name is also treated as "Elemental HERO Bubbleman".)
-If you control no monsters, you can Special Summon this card (from your hand). \
+Destroy an opponent's monster that battles this card at the end of the Damage Step. \
 If this card is banished: You can draw 2 cards, then discard 1 card. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = ["Destroy the battled monster"]
 
 [evil-hero-black-bolt]
 id = 900002106
