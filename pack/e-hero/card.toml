@@ -15,6 +15,7 @@ strings = ["Add 1 Fusion Spell?"]
 
 [the-supreme-king]
 id = 900002101
+rarity = "gold"
 set = "supreme-king"
 name = "The Supreme King of Spirit World"
 type = "monster fusion normal"
