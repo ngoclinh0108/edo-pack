@@ -69,7 +69,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)
     local tc =
-        Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
+        Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
     if tc then
         Duel.HintSelection(tc)
         Duel.Destroy(tc, REASON_EFFECT)

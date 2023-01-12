@@ -142,5 +142,8 @@ def = 1600
 effect = """\
 (This card's name is also treated as "Elemental HERO Wildheart".)
 Unaffected by your opponent's Trap effects. \
+If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
+    You can negate all your opponent's Trap effects on the field this turn. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
