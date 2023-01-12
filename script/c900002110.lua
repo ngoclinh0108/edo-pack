@@ -48,7 +48,7 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-        nil)
+        nil):GetFirst()
     if not tc or Duel.SendtoGrave(tc, REASON_EFFECT) == 0 then
         return
     end
