@@ -245,5 +245,10 @@ effect = """\
 You can Special Summon this card (from your hand or GY) \
     by banishing 1 "HERO" Fusion or Link Monster you control. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
+Once per turn, during your opponent's turn: \
+    You can Tribute this card you control and 1 other "HERO" monster you control or in your hand; \
+    Special Summon 1 Fusion monster from your Extra Deck, \
+    that lists exactly 2 monsters as material and must be Special Summoned with "Dark Fusion". \
+    (This is treated as a Fusion Summon with "Dark Fusion".) \
 """
-strings = []
+strings = ["Special Summon 1 \"Evil HERO\" Fusion monster from Extra Deck"]
