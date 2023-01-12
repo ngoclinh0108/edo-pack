@@ -269,5 +269,9 @@ level = 3
 atk = 800
 def = 1200
 effect = """\
+If this card is sent to the GY, or banished: \
+    You can target 1 "Dark Fusion", or 1 card that mentions it, in your GY;
+    add it to your hand. \
+You can only use 1 "{CARD_NAME}" effect per turn, and only once that turn. \
 """
 strings = []
