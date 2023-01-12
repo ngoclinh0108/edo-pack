@@ -242,5 +242,8 @@ level = 7
 atk = 2500
 def = 2000
 effect = """\
+You can Special Summon this card (from your hand or GY) \
+    by banishing 1 "HERO" Fusion or Link Monster you control. \
+    You can only Special Summon "{CARD_NAME}" once per turn this way. \
 """
 strings = []

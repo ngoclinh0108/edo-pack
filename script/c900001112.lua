@@ -41,14 +41,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and not c:IsPublic()
-end
+function s.e1filter(c) return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and not c:IsPublic() end
 
 function s.e1con(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
     local rg = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND, 0, e:GetHandler())
     return #rg > 0 and aux.SelectUnselectGroup(rg, e, tp, 1, 1, aux.ChkfMMZ(1), 0)
@@ -67,9 +63,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.ConfirmCards(1 - tp, g)
     Duel.ShuffleHand(tp)
@@ -83,9 +77,7 @@ end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:GetAttackAnnouncedCount() == 0
-    end
+    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(3206)
@@ -97,9 +89,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
 end
@@ -147,9 +137,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetCode(EVENT_BATTLE_DESTROYING)
     ec3:SetCondition(aux.bdocon)
     ec3:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then
-            return true
-        end
+        if chk == 0 then return true end
         Duel.SetTargetPlayer(tp)
         Duel.SetTargetParam(1)
         Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)

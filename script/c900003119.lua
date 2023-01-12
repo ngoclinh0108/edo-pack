@@ -9,9 +9,8 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    Synchro.AddProcedure(c, function(c, sc, stype, tp)
-        return c:IsSetCard(0x1017, sc, stype, tp) or c:IsHasEffect(20932152)
-    end, 1, 1, Synchro.NonTuner(nil), 1, 99)
+    Synchro.AddProcedure(c, function(c, sc, stype, tp) return c:IsSetCard(0x1017, sc, stype, tp) or c:IsHasEffect(20932152) end,
+        1, 1, Synchro.NonTuner(nil), 1, 99)
 
     -- material check
     local matcheck = Effect.CreateEffect(c)
@@ -61,9 +60,7 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e3:SetRange(LOCATION_MZONE)
     e3:SetLabelObject(matcheck)
-    e3:SetValue(function(e)
-        return e:GetLabelObject():GetLabel() > 0
-    end)
+    e3:SetValue(function(e) return e:GetLabelObject():GetLabel() > 0 end)
     c:RegisterEffect(e3)
 
     -- chain attack
@@ -80,16 +77,12 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     local ct = c:GetMaterialCount() - 1
-    if chk == 0 then
-        return ct > 0 and Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c)
-    end
+    if chk == 0 then return ct > 0 and Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, ct, c)
@@ -100,9 +93,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     local g = tg:Filter(Card.IsRelateToEffect, nil, e)
-    if #g == 0 then
-        return
-    end
+    if #g == 0 then return end
 
     local ct = Duel.Destroy(g, REASON_EFFECT)
     if ct > 0 and c:IsFaceup() and c:IsRelateToEffect(e) then
@@ -116,14 +107,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     local dmg = e:GetHandler():GetBattleTarget():GetBaseAttack()
-    if dmg < 0 then
-        dmg = 0
-    end
+    if dmg < 0 then dmg = 0 end
 
     Duel.SetTargetPlayer(1 - tp)
     Duel.SetTargetParam(dmg)
@@ -135,9 +122,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Damage(p, d, REASON_EFFECT)
 end
 
-function s.e4filter(c)
-    return c:IsFaceup() and c:IsDefensePos() and not c:IsStatus(STATUS_BATTLE_DESTROYED)
-end
+function s.e4filter(c) return c:IsFaceup() and c:IsDefensePos() and not c:IsStatus(STATUS_BATTLE_DESTROYED) end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -146,9 +131,7 @@ function s.e4con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e4filter, tp, 0, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e4filter, tp, 0, LOCATION_MZONE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_POSCHANGE)
     local g = Duel.SelectTarget(tp, s.e4filter, tp, 0, LOCATION_MZONE, 1, 1, nil)
@@ -158,9 +141,7 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
-    if  not tc:IsRelateToEffect(e) or tc:IsFacedown() then
-        return
-    end
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() then return end
 
     Duel.ChangePosition(tc, POS_FACEUP_ATTACK)
     Duel.ChainAttack(tc)

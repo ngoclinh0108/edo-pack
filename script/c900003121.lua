@@ -43,24 +43,16 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1)
-    e3:SetValue(function(e, re, r, rp)
-        return (r & REASON_BATTLE) ~= 0
-    end)
+    e3:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE) ~= 0 end)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsFaceup() and c:IsAbleToDeck()
-end
+function s.e1filter(c) return c:IsFaceup() and c:IsAbleToDeck() end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
     local g = Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 1, 5, nil)
@@ -69,12 +61,8 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    if not tg or tg:FilterCount(Card.IsRelateToEffect, nil, e) == 0 then
-        return
-    end
+    if not tg or tg:FilterCount(Card.IsRelateToEffect, nil, e) == 0 then return end
 
     Duel.SendtoDeck(tg, nil, 0, REASON_EFFECT)
-    if Duel.GetOperatedGroup():IsExists(Card.IsLocation, 1, nil, LOCATION_DECK) then
-        Duel.ShuffleDeck(tp)
-    end
+    if Duel.GetOperatedGroup():IsExists(Card.IsLocation, 1, nil, LOCATION_DECK) then Duel.ShuffleDeck(tp) end
 end

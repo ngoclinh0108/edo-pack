@@ -17,8 +17,7 @@ function s.initial_effect(c)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     splimit:SetValue(function(e, se, sp, st)
-        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or
-                   ((st & SUMMON_TYPE_XYZ) == SUMMON_TYPE_XYZ and not se)
+        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or ((st & SUMMON_TYPE_XYZ) == SUMMON_TYPE_XYZ and not se)
     end)
     c:RegisterEffect(splimit)
 
@@ -81,10 +80,7 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_UPDATE_ATTACK)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCondition(s.con1)
-    e3:SetValue(function(e, c)
-        return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_GRAVE,
-                                       LOCATION_GRAVE) * 100
-    end)
+    e3:SetValue(function(e, c) return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_GRAVE, LOCATION_GRAVE) * 100 end)
     c:RegisterEffect(e3)
 
     -- disable
@@ -95,10 +91,8 @@ function s.initial_effect(c)
     e4:SetTargetRange(0, LOCATION_MZONE)
     e4:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         return s.con1(e, tp, eg, ep, ev, re, r, rp) and
-                   (Duel.GetCurrentPhase() == PHASE_DAMAGE or
-                       Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL) and
-                   Duel.GetAttacker() == e:GetHandler() and
-                   e:GetHandler():GetBattleTarget()
+                   (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL) and Duel.GetAttacker() ==
+                   e:GetHandler() and e:GetHandler():GetBattleTarget()
     end)
     e4:SetTarget(function(e, c) return c == e:GetHandler():GetBattleTarget() end)
     c:RegisterEffect(e4)
@@ -115,8 +109,7 @@ function s.initial_effect(c)
     e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetCountLimit(1, id)
     e5:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return Duel.IsTurnPlayer(tp) and Duel.IsMainPhase() and
-                   s.con2(e, tp, eg, ep, ev, re, r, rp)
+        return Duel.IsTurnPlayer(tp) and Duel.IsMainPhase() and s.con2(e, tp, eg, ep, ev, re, r, rp)
     end)
     e5:SetCost(s.e5cost)
     e5:SetTarget(s.e5tg)
@@ -132,9 +125,8 @@ function s.con1(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.con2(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetOverlayGroup():IsExists(function(c)
-        return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON)
-    end, 1, nil)
+    return e:GetHandler():GetOverlayGroup():IsExists(
+        function(c) return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) end, 1, nil)
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -158,16 +150,14 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_HAND + LOCATION_ONFIELD)
     Duel.SendtoGrave(g, REASON_EFFECT)
 
-    local ct = Duel.GetOperatedGroup():FilterCount(Card.IsLocation, nil,
-                                                   LOCATION_GRAVE)
+    local ct = Duel.GetOperatedGroup():FilterCount(Card.IsLocation, nil, LOCATION_GRAVE)
     if ct > 0 then
         Duel.BreakEffect()
         Duel.Damage(1 - tp, ct * 500, REASON_EFFECT)
     end
 
     local ec0 = Effect.CreateEffect(c)
-    ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT +
-                        EFFECT_FLAG_OATH)
+    ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_OATH)
     ec0:SetDescription(aux.Stringid(id, 1))
     ec0:SetTargetRange(1, 0)
     ec0:SetReset(RESET_PHASE + PHASE_END)

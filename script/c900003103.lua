@@ -40,25 +40,19 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c, atk)
-    return c:IsPosition(POS_FACEUP_ATTACK) and c:IsAttackBelow(atk)
-end
+function s.e1filter(c, atk) return c:IsPosition(POS_FACEUP_ATTACK) and c:IsAttackBelow(atk) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_MZONE, LOCATION_MZONE, c, c:GetAttack())
-    if chk == 0 then
-        return #g > 0
-    end
+    if chk == 0 then return #g > 0 end
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or c:IsFacedown() then
-        return
-    end
+    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 
     local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_MZONE, LOCATION_MZONE, c, c:GetAttack())
     Duel.Destroy(g, REASON_EFFECT)
@@ -69,9 +63,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     local g = Duel.GetMatchingGroup(Card.IsDefensePos, tp, 0, LOCATION_MZONE, nil)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)

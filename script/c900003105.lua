@@ -42,9 +42,7 @@ function s.initial_effect(c)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil) end
 
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_ONFIELD)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
@@ -63,9 +61,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2filter(c)
-    return (not c:IsLocation(LOCATION_REMOVED) or c:IsFaceup()) and c:IsType(TYPE_TUNER) and c:IsAbleToDeck()
-end
+function s.e2filter(c) return (not c:IsLocation(LOCATION_REMOVED) or c:IsFaceup()) and c:IsType(TYPE_TUNER) and c:IsAbleToDeck() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
@@ -88,9 +84,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc1 = e:GetLabelObject()
     local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
     local tc2 = tg:GetFirst()
-    if tc1 == tc2 then
-        tc2 = tg:GetNext()
-    end
+    if tc1 == tc2 then tc2 = tg:GetNext() end
 
     if tc1 and tc1:IsRelateToEffect(e) and Duel.SendtoDeck(tc1, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) ~= 0 then
         if tc2 and tc2:IsRelateToEffect(e) and tc2:IsFaceup() then

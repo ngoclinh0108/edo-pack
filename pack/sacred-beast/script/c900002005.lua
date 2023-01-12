@@ -32,13 +32,9 @@ function s.initial_effect(c)
     c:RegisterEffect(e2reg)
 end
 
-function s.splimit(e, se, sp, st)
-    return not e:GetHandler():IsLocation(LOCATION_EXTRA)
-end
+function s.splimit(e, se, sp, st) return not e:GetHandler():IsLocation(LOCATION_EXTRA) end
 
-function s.fusfilter(tp)
-    return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost, tp, LOCATION_ONFIELD, 0, nil)
-end
+function s.fusfilter(tp) return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost, tp, LOCATION_ONFIELD, 0, nil) end
 
 function s.fusop(g, tp)
     Duel.ConfirmCards(1 - tp, g)
@@ -48,15 +44,9 @@ end
 function s.e2val(e, c)
     local g = c:GetMaterial()
     local flag = 0
-    if g:IsExists(Card.IsCode, 1, nil, 6007213) then
-        flag = flag + 1
-    end
-    if g:IsExists(Card.IsCode, 1, nil, 32491822) then
-        flag = flag + 2
-    end
-    if g:IsExists(Card.IsCode, 1, nil, 69890967) then
-        flag = flag + 4
-    end
+    if g:IsExists(Card.IsCode, 1, nil, 6007213) then flag = flag + 1 end
+    if g:IsExists(Card.IsCode, 1, nil, 32491822) then flag = flag + 2 end
+    if g:IsExists(Card.IsCode, 1, nil, 69890967) then flag = flag + 4 end
     e:GetLabelObject():SetLabel(flag)
 end
 
@@ -71,20 +61,15 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
         ec1:SetCode(EFFECT_IMMUNE_EFFECT)
         ec1:SetRange(LOCATION_MZONE)
-        ec1:SetValue(function(e, te)
-            return te:IsActiveType(TYPE_TRAP) and te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
-        end)
+        ec1:SetValue(function(e, te) return te:IsActiveType(TYPE_TRAP) and te:GetOwnerPlayer() ~= e:GetHandlerPlayer() end)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         c:RegisterEffect(ec1)
         local ec1b = ec1:Clone()
         ec1b:SetCode(EFFECT_UPDATE_ATTACK)
-        ec1b:SetCondition(function(e)
-            return Duel.GetTurnPlayer() == e:GetHandlerPlayer()
-        end)
+        ec1b:SetCondition(function(e) return Duel.GetTurnPlayer() == e:GetHandlerPlayer() end)
         ec1b:SetValue(function(e, c)
-            local ct = Duel.GetMatchingGroupCount(function(c)
-                return c:GetType() == TYPE_TRAP + TYPE_CONTINUOUS
-            end, c:GetControler(), LOCATION_GRAVE, 0, nil)
+            local ct = Duel.GetMatchingGroupCount(function(c) return c:GetType() == TYPE_TRAP + TYPE_CONTINUOUS end,
+                c:GetControler(), LOCATION_GRAVE, 0, nil)
             return ct * 1000
         end)
         c:RegisterEffect(ec1b)
@@ -98,16 +83,12 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
         ec2:SetCode(EFFECT_IMMUNE_EFFECT)
         ec2:SetRange(LOCATION_MZONE)
-        ec2:SetValue(function(e, te)
-            return te:IsActiveType(TYPE_SPELL) and te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
-        end)
+        ec2:SetValue(function(e, te) return te:IsActiveType(TYPE_SPELL) and te:GetOwnerPlayer() ~= e:GetHandlerPlayer() end)
         ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
         c:RegisterEffect(ec2)
         local ec2b = ec2:Clone()
         ec2b:SetCode(EFFECT_UPDATE_ATTACK)
-        ec2b:SetCondition(function(e)
-            return Duel.GetTurnPlayer() == e:GetHandlerPlayer()
-        end)
+        ec2b:SetCondition(function(e) return Duel.GetTurnPlayer() == e:GetHandlerPlayer() end)
         ec2b:SetValue(4000)
         c:RegisterEffect(ec2b)
         c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 1))
@@ -124,9 +105,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec3b:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
         ec3b:SetCode(EFFECT_UPDATE_ATTACK)
         ec3b:SetRange(LOCATION_MZONE)
-        ec3b:SetCondition(function(e)
-            return Duel.GetTurnPlayer() == e:GetHandlerPlayer()
-        end)
+        ec3b:SetCondition(function(e) return Duel.GetTurnPlayer() == e:GetHandlerPlayer() end)
         ec3b:SetValue(4000)
         c:RegisterEffect(ec3b)
         c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 2))

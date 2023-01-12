@@ -54,18 +54,14 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.ovfilter(c, tp, sc)
-    return c:IsFaceup() and c:IsSummonCode(sc, SUMMON_TYPE_XYZ, tp, CARD_BLUEEYES_W_DRAGON)
-end
+function s.ovfilter(c, tp, sc) return c:IsFaceup() and c:IsSummonCode(sc, SUMMON_TYPE_XYZ, tp, CARD_BLUEEYES_W_DRAGON) end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    local g = Utility.SelectMatchingCard(HINTMSG_XMATERIAL, tp, aux.NecroValleyFilter(Card.IsRace), tp, LOCATION_GRAVE,
-        0, 1, 1, nil, RACE_DRAGON)
-    if #g > 0 then
-        Duel.Overlay(c, g)
-    end
+    local g = Utility.SelectMatchingCard(HINTMSG_XMATERIAL, tp, aux.NecroValleyFilter(Card.IsRace), tp, LOCATION_GRAVE, 0, 1, 1,
+        nil, RACE_DRAGON)
+    if #g > 0 then Duel.Overlay(c, g) end
 
     local og = c:GetOverlayGroup()
     if #og > 0 then
@@ -85,38 +81,29 @@ function s.e2filter(c, tp)
                c:IsPreviousPosition(POS_FACEUP) and c:IsReason(REASON_BATTLE + REASON_EFFECT) and not c:IsCode(id)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e2filter, 1, nil, tp)
-end
+function s.e2con(e, tp, eg, ep, ev, re, r, rp) return eg:IsExists(s.e2filter, 1, nil, tp) end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end
+    if chk == 0 then return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or not c:IsRelateToEffect(e) then
-        return
-    end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or not c:IsRelateToEffect(e) then return end
     Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
 end
 
 function s.e3filter(c, tp)
-    return
-        c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsPosition(POS_FACEUP) and c:IsReason(REASON_EFFECT) and
-            not c:IsReason(REASON_REPLACE) and c:IsSetCard(0xdd)
+    return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsPosition(POS_FACEUP) and c:IsReason(REASON_EFFECT) and
+               not c:IsReason(REASON_REPLACE) and c:IsSetCard(0xdd)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return eg:IsExists(s.e3filter, 1, nil, tp) and c:CheckRemoveOverlayCard(tp, 1, REASON_EFFECT)
-    end
+    if chk == 0 then return eg:IsExists(s.e3filter, 1, nil, tp) and c:CheckRemoveOverlayCard(tp, 1, REASON_EFFECT) end
 
     if Duel.SelectEffectYesNo(tp, c, 96) then
         c:RemoveOverlayCard(tp, 1, 1, REASON_EFFECT)
@@ -126,9 +113,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e3val(e, c)
-    return s.e3filter(c, e:GetHandlerPlayer())
-end
+function s.e3val(e, c) return s.e3filter(c, e:GetHandlerPlayer()) end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -137,9 +122,7 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     local ct = Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0, c, RACE_DRAGON)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
@@ -151,8 +134,6 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     if Duel.Destroy(g, REASON_EFFECT) > 0 then
         local ct = Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0, c, RACE_DRAGON)
-        if ct > 0 then
-            Duel.Damage(1 - tp, ct * 600, REASON_EFFECT)
-        end
+        if ct > 0 then Duel.Damage(1 - tp, ct * 600, REASON_EFFECT) end
     end
 end

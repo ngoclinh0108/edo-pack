@@ -62,9 +62,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     return c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:GetMaterial():IsExists(Card.IsType, 1, nil, TYPE_SYNCHRO)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.SetLP(tp, 4000)
-end
+function s.e1op(e, tp, eg, ep, ev, re, r, rp) Duel.SetLP(tp, 4000) end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -95,26 +93,18 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1b, tp)
 end
 
-function s.e3filter1(c)
-    return c:IsType(TYPE_TUNER) and c:IsDiscardable()
-end
+function s.e3filter1(c) return c:IsType(TYPE_TUNER) and c:IsDiscardable() end
 
-function s.e3filter2(c)
-    return c:IsType(TYPE_EQUIP) and c:IsAbleToHand()
-end
+function s.e3filter2(c) return c:IsType(TYPE_EQUIP) and c:IsAbleToHand() end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_HAND, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_HAND, 0, 1, nil) end
 
     Duel.DiscardHand(tp, s.e3filter1, 1, 1, REASON_COST + REASON_DISCARD)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e3filter2, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
 end
@@ -128,14 +118,10 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4filter(c)
-    return c:IsFaceup() and c:IsType(TYPE_SYNCHRO)
-end
+function s.e4filter(c) return c:IsFaceup() and c:IsType(TYPE_SYNCHRO) end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_MZONE, 0, 1, e:GetHandler())
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e4filter, tp, LOCATION_MZONE, 0, 1, e:GetHandler()) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)
     e:SetLabel(Duel.AnnounceLevel(tp, 1, 12))

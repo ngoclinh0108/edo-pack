@@ -41,14 +41,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, 1, nil) end
 
     local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, nil)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
@@ -57,19 +53,13 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_GRAVE, nil)
-    if #g > 0 then
-        Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
-    end
+    if #g > 0 then Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT) end
 end
 
-function s.e3filter(c)
-    return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
-end
+function s.e3filter(c) return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled() end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
     local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
@@ -80,9 +70,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then
-        return
-    end
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -93,9 +81,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1b:SetCode(EFFECT_DISABLE_EFFECT)
     tc:RegisterEffect(ec1b)
 
-    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec1b) then
-        return
-    end
+    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec1b) then return end
     Duel.AdjustInstantly(tc)
 
     local ec2 = Effect.CreateEffect(e:GetHandler())

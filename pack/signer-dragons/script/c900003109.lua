@@ -29,9 +29,7 @@ function s.initial_effect(c)
     spsafe:SetType(EFFECT_TYPE_SINGLE)
     spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    spsafe:SetCondition(function(e)
-        return e:GetHandler():GetSummonType() == SUMMON_TYPE_SYNCHRO
-    end)
+    spsafe:SetCondition(function(e) return e:GetHandler():GetSummonType() == SUMMON_TYPE_SYNCHRO end)
     c:RegisterEffect(spsafe)
     local nodis1 = Effect.CreateEffect(c)
     nodis1:SetType(EFFECT_TYPE_SINGLE)
@@ -75,9 +73,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetCode(EFFECT_IMMUNE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(function(e, re)
-        return re:IsActiveType(TYPE_MONSTER) and re:GetOwner() ~= e:GetOwner()
-    end)
+    e2:SetValue(function(e, re) return re:IsActiveType(TYPE_MONSTER) and re:GetOwner() ~= e:GetOwner() end)
     c:RegisterEffect(e2)
 
     -- negate effect (activate)
@@ -141,16 +137,12 @@ function s.max_counter(e)
     end, nil)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ct = s.max_counter(e)
-    if ct > 0 then
-        c:AddCounter(SignerDragon.COUNTER_SIGNER, ct)
-    end
+    if ct > 0 then c:AddCounter(SignerDragon.COUNTER_SIGNER, ct) end
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -159,17 +151,13 @@ end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsCanRemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_COST)
-    end
+    if chk == 0 then return c:IsCanRemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_COST) end
 
     c:RemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_COST)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, #eg, 0, 0)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, e:GetHandler())
@@ -177,9 +165,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    if not Duel.NegateEffect(ev) then
-        return
-    end
+    if not Duel.NegateEffect(ev) then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1,
         e:GetHandler())
@@ -194,20 +180,14 @@ function s.e4con(e)
                e:GetHandler():GetBattleTarget()
 end
 
-function s.e4tg(e, c)
-    return c == e:GetHandler():GetBattleTarget()
-end
+function s.e4tg(e, c) return c == e:GetHandler():GetBattleTarget() end
 
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttacker() == e:GetHandler()
-end
+function s.e5con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetAttacker() == e:GetHandler() end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsFacedown() or not c:IsCanRemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_EFFECT) or
-        not c:CanChainAttack(0) or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
-        return
-    end
+    if c:IsFacedown() or not c:IsCanRemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_EFFECT) or not c:CanChainAttack(0) or
+        not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then return end
 
     c:RemoveCounter(tp, SignerDragon.COUNTER_SIGNER, 1, REASON_EFFECT)
     Duel.ChainAttack()
@@ -225,29 +205,24 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e7filter(c, e, tp)
-    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsLevelBelow(10) and
-               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+    return
+        c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsLevelBelow(10) and Duel.GetLocationCountFromEx(tp, tp, nil, c) >
+            0 and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
 function s.e7con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousLocation(LOCATION_ONFIELD) and
-               Duel.IsExistingMatchingCard(s.e7filter, tp, LOCATION_REMOVED + LOCATION_EXTRA + LOCATION_GRAVE, 0, 1,
-            nil, e, tp)
+               Duel.IsExistingMatchingCard(s.e7filter, tp, LOCATION_REMOVED + LOCATION_EXTRA + LOCATION_GRAVE, 0, 1, nil, e, tp)
 end
 
 function s.e7op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then
-        return
-    end
+    if not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then return end
 
     local sc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e7filter), tp,
         LOCATION_REMOVED + LOCATION_EXTRA + LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
-    if not sc then
-        return
-    end
+    if not sc then return end
 
     Utility.HintCard(c)
     if Duel.SpecialSummon(sc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) ~= 0 then

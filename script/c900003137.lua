@@ -10,9 +10,8 @@ function s.initial_effect(c)
     acthand:SetType(EFFECT_TYPE_SINGLE)
     acthand:SetCode(EFFECT_TRAP_ACT_IN_HAND)
     acthand:SetCondition(function(e)
-        return Duel.IsExistingMatchingCard(function(c)
-            return c:IsFaceup() and c:IsSetCard(0x1045)
-        end, e:GetHandlerPlayer(), LOCATION_MZONE, 0, 1, nil)
+        return Duel.IsExistingMatchingCard(function(c) return c:IsFaceup() and c:IsSetCard(0x1045) end, e:GetHandlerPlayer(),
+            LOCATION_MZONE, 0, 1, nil)
     end)
     c:RegisterEffect(acthand)
 
@@ -58,9 +57,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e1filter(c)
-    return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
-end
+function s.e1filter(c) return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
@@ -75,9 +72,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsLocation(LOCATION_SZONE) or not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then
-        return
-    end
+    if not c:IsLocation(LOCATION_SZONE) or not c:IsRelateToEffect(e) or c:IsStatus(STATUS_LEAVE_CONFIRMED) then return end
 
     local tc = Duel.GetFirstTarget()
     if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() then
@@ -99,9 +94,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
         ec1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
         ec1:SetRange(LOCATION_SZONE)
-        ec1:SetValue(function(e)
-            return e:GetHandler():GetEquipTarget()
-        end)
+        ec1:SetValue(function(e) return e:GetHandler():GetEquipTarget() end)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         c:RegisterEffect(ec1)
     else
@@ -110,18 +103,12 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
-        return
-    end
+    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
 
     local g = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    if not g or #g == 0 then
-        return
-    end
+    if not g or #g == 0 then return end
 
-    if g:IsContains(e:GetHandler():GetEquipTarget()) and re:GetOwnerPlayer() ~= e:GetOwnerPlayer() then
-        Duel.NegateEffect(ev)
-    end
+    if g:IsContains(e:GetHandler():GetEquipTarget()) and re:GetOwnerPlayer() ~= e:GetOwnerPlayer() then Duel.NegateEffect(ev) end
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -144,14 +131,10 @@ function s.e4filter(c, tp)
                c:IsSummonType(SUMMON_TYPE_SYNCHRO)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e4filter, 1, nil, tp)
-end
+function s.e4con(e, tp, eg, ep, ev, re, r, rp) return eg:IsExists(s.e4filter, 1, nil, tp) end
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsAbleToHand()
-    end
+    if chk == 0 then return c:IsAbleToHand() end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, tp, 0)
 end

@@ -33,12 +33,9 @@ function s.initial_effect(c)
     e2:SetCountLimit(1)
     e2:SetCondition(function(e, tp)
         local c = e:GetHandler()
-        return Duel.GetTurnPlayer() == 1 - tp and
-                   c:IsCanRemoveCounter(tp, COUNTER_SPELL, 1, REASON_EFFECT)
+        return Duel.GetTurnPlayer() == 1 - tp and c:IsCanRemoveCounter(tp, COUNTER_SPELL, 1, REASON_EFFECT)
     end)
-    e2:SetOperation(function(e, tp)
-        e:GetHandler():RemoveCounter(tp, COUNTER_SPELL, 1, REASON_EFFECT)
-    end)
+    e2:SetOperation(function(e, tp) e:GetHandler():RemoveCounter(tp, COUNTER_SPELL, 1, REASON_EFFECT) end)
     c:RegisterEffect(e2)
 
     -- cannot attack
@@ -47,9 +44,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_SZONE)
     e3:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     e3:SetTargetRange(0, LOCATION_MZONE)
-    e3:SetCondition(function(e)
-        return e:GetHandler():GetCounter(COUNTER_SPELL) > 0
-    end)
+    e3:SetCondition(function(e) return e:GetHandler():GetCounter(COUNTER_SPELL) > 0 end)
     c:RegisterEffect(e3)
 
     -- draw
@@ -65,9 +60,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() == PHASE_MAIN1
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetCurrentPhase() == PHASE_MAIN1 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:IsHasType(EFFECT_TYPE_ACTIVATE) end
@@ -80,15 +73,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     c:AddCounter(COUNTER_SPELL, 3)
 
     local g = Duel.GetMatchingGroup(Card.IsFacedown, tp, 0, LOCATION_MZONE, nil)
-    if #g > 0 then
-        Duel.ChangePosition(g, POS_FACEUP_ATTACK, POS_FACEUP_ATTACK,
-                            POS_FACEUP_DEFENSE, POS_FACEUP_DEFENSE, true)
-    end
+    if #g > 0 then Duel.ChangePosition(g, POS_FACEUP_ATTACK, POS_FACEUP_ATTACK, POS_FACEUP_DEFENSE, POS_FACEUP_DEFENSE, true) end
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetCounter(COUNTER_SPELL) == 0
-end
+function s.e4con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():GetCounter(COUNTER_SPELL) == 0 end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return e:GetHandler():IsAbleToGraveAsCost() end
@@ -103,7 +91,6 @@ function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     Duel.Draw(p, d, REASON_EFFECT)
 end

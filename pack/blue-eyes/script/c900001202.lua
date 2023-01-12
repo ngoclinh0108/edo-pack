@@ -9,9 +9,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    Synchro.AddProcedure(c, nil, 1, 1,
-                         aux.NOT(Synchro.NonTunerEx(Card.IsType, TYPE_EFFECT)),
-                         1, 1)
+    Synchro.AddProcedure(c, nil, 1, 1, aux.NOT(Synchro.NonTunerEx(Card.IsType, TYPE_EFFECT)), 1, 1)
 
     -- special summon
     local sp = Effect.CreateEffect(c)
@@ -40,8 +38,7 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_UPDATE_ATTACK)
     e2:SetValue(function(e, c)
         local tp = c:GetControler()
-        return Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0,
-                                          nil, RACE_DRAGON) * 300
+        return Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0, nil, RACE_DRAGON) * 300
     end)
     c:RegisterEffect(e2)
 
@@ -59,8 +56,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
     local e3b = Effect.CreateEffect(c)
     e3b:SetType(EFFECT_TYPE_SINGLE)
-    e3b:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE +
-                        EFFECT_FLAG_SINGLE_RANGE)
+    e3b:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_SINGLE_RANGE)
     e3b:SetRange(LOCATION_MZONE)
     e3b:SetCode(3682106)
     c:RegisterEffect(e3b)
@@ -77,10 +73,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.spfilter(c)
-    return c:IsFaceup() and c:IsCode(CARD_BLUEEYES_W_DRAGON) and
-               c:IsReleasable()
-end
+function s.spfilter(c) return c:IsFaceup() and c:IsCode(CARD_BLUEEYES_W_DRAGON) and c:IsReleasable() end
 
 function s.spcon(e, c)
     if not aux.exccon(e) then return false end
@@ -99,8 +92,7 @@ end
 
 function s.sptg(e, tp, eg, ep, ev, re, r, rp, c)
     local g = Duel.GetMatchingGroup(s.spfilter, tp, LOCATION_MZONE, 0, nil)
-    g = aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp,
-                                HINTMSG_RELEASE, nil, nil, true)
+    g = aux.SelectUnselectGroup(g, e, tp, 1, 1, aux.ChkfMMZ(1), 1, tp, HINTMSG_RELEASE, nil, nil, true)
     if #g > 0 then
         g:KeepAlive()
         e:SetLabelObject(g)
@@ -119,9 +111,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(aux.FaceupFilter(Card.IsRace,
-                                                             RACE_DRAGON), tp,
-                                    LOCATION_MZONE, 0, nil)
+    local g = Duel.GetMatchingGroup(aux.FaceupFilter(Card.IsRace, RACE_DRAGON), tp, LOCATION_MZONE, 0, nil)
     for tc in aux.Next(g) do
         local ec1 = Effect.CreateEffect(c)
         ec1:SetDescription(3001)
@@ -134,19 +124,13 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter(c, tp)
-    return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and
-               c:IsSetCard(0xdd)
-end
+function s.e3filter(c, tp) return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsSetCard(0xdd) end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    if rp == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
-        return false
-    end
+    if rp == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
 
     local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    return tg and tg:IsExists(s.e3filter, 1, nil, tp) and
-               Duel.IsChainDisablable(ev)
+    return tg and tg:IsExists(s.e3filter, 1, nil, tp) and Duel.IsChainDisablable(ev)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -164,10 +148,7 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_ONFIELD,
-                                           LOCATION_ONFIELD, 1, c)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c) end
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, nil, 1, 0, LOCATION_ONFIELD)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, LOCATION_ONFIELD)
@@ -176,9 +157,8 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, Card.IsFaceup, tp,
-                                          LOCATION_ONFIELD, LOCATION_ONFIELD, 1,
-                                          1, c):GetFirst()
+    local tc =
+        Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, Card.IsFaceup, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, c):GetFirst()
     if not tc then return end
     Duel.HintSelection(tc)
 

@@ -38,17 +38,13 @@ function s.initial_effect(c)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc)
-        return tc == e:GetHandler()
-    end)
+    norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
     local nomaterial = Effect.CreateEffect(c)
     nomaterial:SetType(EFFECT_TYPE_SINGLE)
     nomaterial:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     nomaterial:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    nomaterial:SetValue(function(e, tc)
-        return tc and tc:GetControler() ~= e:GetHandlerPlayer()
-    end)
+    nomaterial:SetValue(function(e, tc) return tc and tc:GetControler() ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(nomaterial)
 
     -- atk up
@@ -57,9 +53,7 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
     e1:SetCode(EFFECT_UPDATE_ATTACK)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(function(e, c)
-        return Duel.GetMatchingGroupCount(Card.IsTrap, c:GetControler(), LOCATION_GRAVE, 0, nil) * 1000
-    end)
+    e1:SetValue(function(e, c) return Duel.GetMatchingGroupCount(Card.IsTrap, c:GetControler(), LOCATION_GRAVE, 0, nil) * 1000 end)
     c:RegisterEffect(e1)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_UPDATE_DEFENSE)
@@ -89,18 +83,12 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.sprfilter1(c)
-    return c:IsFaceup() and c:IsTrap() and c:IsAbleToGraveAsCost()
-end
+function s.sprfilter1(c) return c:IsFaceup() and c:IsTrap() and c:IsAbleToGraveAsCost() end
 
-function s.sprfilter2(c)
-    return c:IsTrap() and c:IsAbleToGraveAsCost()
-end
+function s.sprfilter2(c) return c:IsTrap() and c:IsAbleToGraveAsCost() end
 
 function s.sprcon(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
 
     local g = nil
@@ -124,9 +112,7 @@ function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
 
     local sg = aux.SelectUnselectGroup(g, e, tp, 3, 3, aux.ChkfMMZ(1), 1, tp, HINTMSG_TOGRAVE, nil, nil, true)
     local dg = sg:Filter(Card.IsFacedown, nil)
-    if #dg > 0 then
-        Duel.ConfirmCards(1 - tp, dg)
-    end
+    if #dg > 0 then Duel.ConfirmCards(1 - tp, dg) end
 
     if #sg == 3 then
         sg:KeepAlive()
@@ -138,18 +124,14 @@ end
 
 function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.SendtoGrave(g, REASON_COST)
     g:DeleteGroup()
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsFacedown, tp, 0, LOCATION_SZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(Card.IsFacedown, tp, 0, LOCATION_SZONE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
     local g = Duel.SelectTarget(tp, Card.IsFacedown, tp, 0, LOCATION_SZONE, 1, 1, nil)
@@ -158,25 +140,17 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SetChainLimit(s.e2chainlimit)
 end
 
-function s.e2chainlimit(e, rp, tp)
-    return not e:IsHasType(EFFECT_TYPE_ACTIVATE)
-end
+function s.e2chainlimit(e, rp, tp) return not e:IsHasType(EFFECT_TYPE_ACTIVATE) end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
-    if tc and tc:IsFacedown() and tc:IsRelateToEffect(e) then
-        Duel.Destroy(tc, REASON_EFFECT)
-    end
+    if tc and tc:IsFacedown() and tc:IsRelateToEffect(e) then Duel.Destroy(tc, REASON_EFFECT) end
 end
 
-function s.e3costfilter(c)
-    return c:IsTrap() and c:IsDiscardable()
-end
+function s.e3costfilter(c) return c:IsTrap() and c:IsDiscardable() end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3costfilter, tp, LOCATION_HAND, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e3costfilter, tp, LOCATION_HAND, 0, 1, nil) end
 
     Duel.DiscardHand(tp, s.e3costfilter, 1, 1, REASON_COST + REASON_DISCARD)
 end
@@ -193,9 +167,7 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
 end

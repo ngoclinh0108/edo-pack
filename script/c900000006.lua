@@ -17,15 +17,11 @@ function s.initial_effect(c)
         local c = e:GetHandler()
         return tc ~= e:GetHandler() and Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
     end)
-    e1:SetValue(function(e, c)
-        return math.ceil(c:GetAttack() / 2)
-    end)
+    e1:SetValue(function(e, c) return math.ceil(c:GetAttack() / 2) end)
     c:RegisterEffect(e1)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_SET_DEFENSE_FINAL)
-    e1b:SetValue(function(e, c)
-        return math.ceil(c:GetDefense() / 2)
-    end)
+    e1b:SetValue(function(e, c) return math.ceil(c:GetDefense() / 2) end)
     c:RegisterEffect(e1b)
 
     -- disable
@@ -48,6 +44,4 @@ function s.e2con(e)
                (Duel.GetCurrentPhase() == PHASE_DAMAGE or Duel.GetCurrentPhase() == PHASE_DAMAGE_CAL)
 end
 
-function s.e2tg(e, c)
-    return c == e:GetHandler():GetBattleTarget()
-end
+function s.e2tg(e, c) return c == e:GetHandler():GetBattleTarget() end

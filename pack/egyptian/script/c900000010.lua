@@ -33,18 +33,12 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c)
-    return c:IsFaceup() and Divine.GetDivineHierarchy(c) > 0 and c:GetFlagEffect(id) == 0
-end
+function s.e1filter(c) return c:IsFaceup() and Divine.GetDivineHierarchy(c) > 0 and c:GetFlagEffect(id) == 0 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or not Duel.IsDamageCalculated()
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or not Duel.IsDamageCalculated() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil) end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -54,9 +48,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
 
         -- divine evolution
-        if not Divine.IsDivineEvolution(tc) then
-            Divine.DivineEvolution(tc)
-        end
+        if not Divine.IsDivineEvolution(tc) then Divine.DivineEvolution(tc) end
 
         -- atk/def
         local ec1 = Effect.CreateEffect(c)
@@ -104,31 +96,21 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2filter1(c)
-    return c:IsFaceup() and c:IsOriginalRace(RACE_DIVINE)
-end
+function s.e2filter1(c) return c:IsFaceup() and c:IsOriginalRace(RACE_DIVINE) end
 
-function s.e2filter2(c)
-    return c:IsSpell() and c:IsDiscardable()
-end
+function s.e2filter2(c) return c:IsSpell() and c:IsDiscardable() end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil)
-end
+function s.e2con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil) end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND, 0, 1, nil) end
 
     Duel.DiscardHand(tp, s.e2filter2, 1, 1, REASON_COST + REASON_DISCARD)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsAbleToHand()
-    end
+    if chk == 0 then return c:IsAbleToHand() end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
 end

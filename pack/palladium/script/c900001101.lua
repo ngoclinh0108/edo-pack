@@ -21,9 +21,7 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(function(e, tc)
-        return tc:IsSetCard(0x13a) and tc:IsRace(RACE_SPELLCASTER)
-    end)
+    e2:SetTarget(function(e, tc) return tc:IsSetCard(0x13a) and tc:IsRace(RACE_SPELLCASTER) end)
     e2:SetValue(1)
     c:RegisterEffect(e2)
 
@@ -40,49 +38,35 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsFaceup() and c:IsCode(71703785)
-end
+function s.e1filter(c) return c:IsFaceup() and c:IsCode(71703785) end
 
 function s.e1con(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
     return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
 end
 
-function s.e3filter(c, tp)
-    return c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsControler(tp)
-end
+function s.e3filter(c, tp) return c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsControler(tp) end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    if rp == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
-        return false
-    end
+    if rp == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
     local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    if not tg then
-        return false
-    end
+    if not tg then return false end
 
     return tg:IsExists(s.e3filter, 1, nil, tp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-    end
+    if chk == 0 then return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then
-        return
-    end
+    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end

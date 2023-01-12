@@ -15,29 +15,21 @@ end
 function s.e1filter(c)
     local mt = c:GetMetatable()
     local ct = 0
-    if mt.synchro_tuner_required then
-        ct = ct + mt.synchro_tuner_required
-    end
-    if mt.synchro_nt_required then
-        ct = ct + mt.synchro_nt_required
-    end
+    if mt.synchro_tuner_required then ct = ct + mt.synchro_tuner_required end
+    if mt.synchro_nt_required then ct = ct + mt.synchro_nt_required end
 
     return c:IsFaceup() and c:IsLevelAbove(10) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and ct > 0 and
                c:GetFlagEffect(id) == 0
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil) end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e1filter, tp, LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
-    if not tc then
-        return
-    end
+    if not tc then return end
 
     Duel.HintSelection(tc)
     tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
@@ -69,9 +61,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
     ec2:SetRange(LOCATION_MZONE)
     ec2:SetCountLimit(1)
-    ec2:SetValue(function(e, re, r, rp)
-        return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
-    end)
+    ec2:SetValue(function(e, re, r, rp) return (r & REASON_EFFECT + REASON_BATTLE) ~= 0 end)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
     tc:RegisterEffect(ec2)
 
@@ -81,9 +71,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     ec3:SetCode(EVENT_ATTACK_ANNOUNCE)
     ec3:SetRange(LOCATION_MZONE)
-    ec3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return Duel.GetAttacker() == e:GetHandler()
-    end)
+    ec3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return Duel.GetAttacker() == e:GetHandler() end)
     ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local tc = e:GetHandler()
         local ec1 = Effect.CreateEffect(c)

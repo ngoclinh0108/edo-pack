@@ -42,17 +42,13 @@ function s.initial_effect(c)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc)
-        return tc == e:GetHandler()
-    end)
+    norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
     local nomaterial = Effect.CreateEffect(c)
     nomaterial:SetType(EFFECT_TYPE_SINGLE)
     nomaterial:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     nomaterial:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    nomaterial:SetValue(function(e, tc)
-        return tc and tc:GetControler() ~= e:GetHandlerPlayer()
-    end)
+    nomaterial:SetValue(function(e, tc) return tc and tc:GetControler() ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(nomaterial)
 
     -- disable
@@ -105,14 +101,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.sprfilter(c, tp)
-    return c:IsRace(RACE_FIEND) and (c:IsControler(tp) or c:IsFaceup())
-end
+function s.sprfilter(c, tp) return c:IsRace(RACE_FIEND) and (c:IsControler(tp) or c:IsFaceup()) end
 
 function s.sprcon(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
     local rg = Duel.GetReleaseGroup(tp):Filter(s.sprfilter, nil, tp)
     return aux.SelectUnselectGroup(rg, e, tp, 3, 3, aux.ChkfMMZ(1), 0)
@@ -131,9 +123,7 @@ end
 
 function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.Release(g, REASON_COST)
     g:DeleteGroup()
@@ -142,9 +132,7 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local bc = Duel.GetAttackTarget()
-    if bc == c then
-        bc = Duel.GetAttacker()
-    end
+    if bc == c then bc = Duel.GetAttacker() end
 
     if bc and bc:IsStatus(STATUS_BATTLE_DESTROYED) and not c:IsStatus(STATUS_BATTLE_DESTROYED) then
         local ec1 = Effect.CreateEffect(c)
@@ -185,17 +173,12 @@ function s.e2op1(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2regcon(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e2filter, 1, nil, tp) and re:IsHasType(EFFECT_TYPE_ACTIONS) and
-               not re:IsHasType(EFFECT_TYPE_CONTINUOUS)
+    return eg:IsExists(s.e2filter, 1, nil, tp) and re:IsHasType(EFFECT_TYPE_ACTIONS) and not re:IsHasType(EFFECT_TYPE_CONTINUOUS)
 end
 
-function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.RegisterFlagEffect(tp, id, RESET_CHAIN, 0, 1)
-end
+function s.e2regop(e, tp, eg, ep, ev, re, r, rp) Duel.RegisterFlagEffect(tp, id, RESET_CHAIN, 0, 1) end
 
-function s.e2con2(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetFlagEffect(tp, id) > 0
-end
+function s.e2con2(e, tp, eg, ep, ev, re, r, rp) return Duel.GetFlagEffect(tp, id) > 0 end
 
 function s.e2op2(e, tp, eg, ep, ev, re, r, rp)
     Duel.ResetFlagEffect(tp, id)
@@ -204,9 +187,7 @@ end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c)
-    end
+    if chk == 0 then return Duel.CheckReleaseGroupCost(tp, Card.IsFaceup, 1, false, nil, c) end
 
     local g = Duel.SelectReleaseGroupCost(tp, Card.IsFaceup, 1, 2, false, nil, c)
     e:SetLabel(g:GetSum(Card.GetAttack))
@@ -215,9 +196,7 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsFacedown() or not c:IsRelateToEffect(e) then
-        return
-    end
+    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)

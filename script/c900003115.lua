@@ -32,17 +32,13 @@ function s.initial_effect(c)
     e2:SetHintTiming(0, TIMING_MAIN_END)
     e2:SetCountLimit(1, {id, 2})
     e2:SetCondition(s.e2con)
-    e2:SetCost(aux.CostWithReplace(s.e2cost, 84012625, function()
-        return e2:GetLabel() == 1
-    end))
+    e2:SetCost(aux.CostWithReplace(s.e2cost, 84012625, function() return e2:GetLabel() == 1 end))
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c, e, tp)
-    return c:IsType(TYPE_TUNER) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
+function s.e1filter(c, e, tp) return c:IsType(TYPE_TUNER) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
@@ -68,12 +64,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
 
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return
-    end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e1filter), tp, LOCATION_GRAVE,
-        0, 1, 1, nil, e, tp):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e1filter), tp, LOCATION_GRAVE, 0, 1, 1,
+        nil, e, tp):GetFirst()
     if tc and Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) ~= 0 and
         Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_LVRANK)
@@ -90,14 +84,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter1(c, e, tp, rc)
-    return
-        (c:IsCode(CARD_STARDUST_DRAGON) or c:IsType(TYPE_TUNER)) and Duel.GetLocationCountFromEx(tp, tp, rc, c) > 0 and
-            c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+    return (c:IsCode(CARD_STARDUST_DRAGON) or c:IsType(TYPE_TUNER)) and Duel.GetLocationCountFromEx(tp, tp, rc, c) > 0 and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
-function s.e2filter2(c, mg)
-    return c:IsSynchroSummonable(nil, mg)
-end
+function s.e2filter2(c, mg) return c:IsSynchroSummonable(nil, mg) end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return (Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2) and
@@ -131,9 +122,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
     local tc = Duel.SelectMatchingCard(tp, s.e2filter1, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
-    if not tc or Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP_DEFENSE) == 0 then
-        return
-    end
+    if not tc or Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP_DEFENSE) == 0 then return end
 
     tc:CompleteProcedure()
     local mg = Duel.GetMatchingGroup(aux.FaceupFilter(Card.IsCanBeSynchroMaterial), tp, LOCATION_MZONE, 0, nil)
@@ -141,9 +130,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     if #eg > 0 and Duel.IsPlayerCanSpecialSummonCount(tp, 2) and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 4)) then
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         local sc = eg:Select(tp, 1, 1, nil):GetFirst()
-        if not sc then
-            return
-        end
+        if not sc then return end
         Duel.SynchroSummon(tp, sc, nil, mg)
     end
 end

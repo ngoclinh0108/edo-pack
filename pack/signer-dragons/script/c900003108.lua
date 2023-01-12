@@ -52,9 +52,7 @@ function s.initial_effect(c)
     me1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
     me1:SetCode(EFFECT_IMMUNE_EFFECT)
     me1:SetRange(LOCATION_MZONE)
-    me1:SetValue(function(e, te)
-        return te:GetOwner() ~= e:GetOwner()
-    end)
+    me1:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
     c:RegisterEffect(me1)
 
     -- cannot be target
@@ -64,8 +62,8 @@ function s.initial_effect(c)
     me2:SetCode(EFFECT_CANNOT_BE_BATTLE_TARGET)
     me2:SetRange(LOCATION_MZONE)
     me2:SetCondition(function(e)
-        return Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsType, TYPE_SYNCHRO), e:GetHandlerPlayer(),
-            LOCATION_MZONE, 0, 1, e:GetHandler())
+        return Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsType, TYPE_SYNCHRO), e:GetHandlerPlayer(), LOCATION_MZONE, 0,
+            1, e:GetHandler())
     end)
     me2:SetValue(aux.imval2)
     c:RegisterEffect(me2)
@@ -101,9 +99,7 @@ function s.initial_effect(c)
     pe1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
     pe1:SetCode(EFFECT_IMMUNE_EFFECT)
     pe1:SetRange(LOCATION_PZONE)
-    pe1:SetValue(function(e, te)
-        return te:GetOwner() ~= e:GetOwner()
-    end)
+    pe1:SetValue(function(e, te) return te:GetOwner() ~= e:GetOwner() end)
     c:RegisterEffect(pe1)
 
     -- special summon synchro monster
@@ -147,8 +143,7 @@ function s.deck_edit(tp)
 end
 
 function s.sprfilter(c)
-    return c:IsFaceup() and c:IsLevelAbove(7) and c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON) and
-               c:IsAbleToGraveAsCost()
+    return c:IsFaceup() and c:IsLevelAbove(7) and c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON) and c:IsAbleToGraveAsCost()
 end
 
 function s.sprfilter1(c, tp, g, sc)
@@ -163,9 +158,7 @@ function s.sprfilter2(c, tp, mc, sc, lv)
 end
 
 function s.sprcon(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
 
     local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
@@ -175,13 +168,13 @@ end
 function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
-    local mg1 = aux.SelectUnselectGroup(g:Filter(s.sprfilter1, nil, tp, g, c), e, tp, 1, 1, nil, 1, tp, HINTMSG_TOGRAVE,
-        nil, nil, true)
+    local mg1 = aux.SelectUnselectGroup(g:Filter(s.sprfilter1, nil, tp, g, c), e, tp, 1, 1, nil, 1, tp, HINTMSG_TOGRAVE, nil, nil,
+        true)
 
     if #mg1 > 0 then
         local mc = mg1:GetFirst()
-        local mg2 = aux.SelectUnselectGroup(g:Filter(s.sprfilter2, mc, tp, mc, c, mc:GetLevel()), e, tp, 1, 1, nil, 1,
-            tp, HINTMSG_TOGRAVE, nil, nil, true)
+        local mg2 = aux.SelectUnselectGroup(g:Filter(s.sprfilter2, mc, tp, mc, c, mc:GetLevel()), e, tp, 1, 1, nil, 1, tp,
+            HINTMSG_TOGRAVE, nil, nil, true)
         mg1:Merge(mg2)
     end
 
@@ -196,37 +189,27 @@ end
 
 function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.SendtoGrave(g, REASON_COST)
     g:DeleteGroup()
 end
 
 function s.me3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or Duel.CheckLocation(tp, LOCATION_PZONE, 1)
-    end
+    if chk == 0 then return Duel.CheckLocation(tp, LOCATION_PZONE, 0) or Duel.CheckLocation(tp, LOCATION_PZONE, 1) end
 end
 
 function s.me3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or not Duel.CheckLocation(tp, LOCATION_PZONE, 0) and
-        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then
-        return
-    end
+        not Duel.CheckLocation(tp, LOCATION_PZONE, 1) then return end
 
     Duel.MoveToField(c, tp, tp, LOCATION_PZONE, POS_FACEUP, true)
 end
 
-function s.me4filter(c)
-    return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:GetAttack() > 0
-end
+function s.me4filter(c) return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:GetAttack() > 0 end
 
-function s.me4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttackTarget() == e:GetHandler()
-end
+function s.me4con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetAttackTarget() == e:GetHandler() end
 
 function s.me4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -242,8 +225,8 @@ end
 
 function s.pe2filter(c, e, tp)
     return (c:IsSetCard(0xc2) or (c:IsLevelBelow(10) and c:IsRace(RACE_DRAGON))) and c:IsType(TYPE_SYNCHRO) and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
-               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and Duel.GetLocationCountFromEx(tp, tp, nil, c) >
+               0
 end
 
 function s.pe2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -257,12 +240,9 @@ end
 
 function s.pe2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.pe2filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.pe2filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
     if tc then
         Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
         tc:CompleteProcedure()
@@ -276,18 +256,14 @@ end
 
 function s.pe3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, true, false)
-    end
+    if chk == 0 then return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, true, false) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.pe3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
 end

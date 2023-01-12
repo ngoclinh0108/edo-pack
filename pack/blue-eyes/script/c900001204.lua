@@ -9,9 +9,8 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- link summon
-    Link.AddProcedure(c, nil, 3, 4, function(g, lc, sumtype, tp)
-        return g:IsExists(Card.IsSetCard, 1, nil, 0xdd, lc, sumtype, tp)
-    end)
+    Link.AddProcedure(c, nil, 3, 4,
+        function(g, lc, sumtype, tp) return g:IsExists(Card.IsSetCard, 1, nil, 0xdd, lc, sumtype, tp) end)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -25,8 +24,7 @@ function s.initial_effect(c)
     local sp = Effect.CreateEffect(c)
     sp:SetDescription(aux.Stringid(id, 0))
     sp:SetType(EFFECT_TYPE_FIELD)
-    sp:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE +
-                       EFFECT_FLAG_IGNORE_IMMUNE)
+    sp:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_IGNORE_IMMUNE)
     sp:SetRange(LOCATION_EXTRA)
     sp:SetCode(EFFECT_SPSUMMON_PROC)
     sp:SetCondition(s.spcon)
@@ -63,7 +61,7 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-    
+
     -- pierce
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
@@ -73,13 +71,11 @@ function s.initial_effect(c)
 end
 
 function s.spfilter1(c)
-    return c:IsType(TYPE_SPELL) and c:IsType(TYPE_RITUAL) and
-               c:IsAbleToGraveAsCost() and (c:IsFacedown() or not c:IsOnField())
+    return c:IsType(TYPE_SPELL) and c:IsType(TYPE_RITUAL) and c:IsAbleToGraveAsCost() and (c:IsFacedown() or not c:IsOnField())
 end
 
 function s.spfilter2(c, sc, tp)
-    return c:IsCanBeLinkMaterial(sc, tp) and
-               Duel.GetLocationCountFromEx(tp, tp, c, sc) > 0 and
+    return c:IsCanBeLinkMaterial(sc, tp) and Duel.GetLocationCountFromEx(tp, tp, c, sc) > 0 and
                c:IsSummonCode(sc, SUMMON_TYPE_LINK, tp, CARD_BLUEEYES_W_DRAGON)
 end
 
@@ -87,25 +83,18 @@ function s.spcon(e, c)
     if c == nil then return true end
     local tp = c:GetControler()
 
-    local g1 = Duel.GetMatchingGroup(s.spfilter1, tp,
-                                     LOCATION_HAND + LOCATION_ONFIELD, 0, c)
-    local g2 = Duel.GetMatchingGroup(s.spfilter2, tp, LOCATION_MZONE, 0, nil, c,
-                                     tp)
-    return #g1 > 0 and #g2 > 0 and
-               aux.SelectUnselectGroup(g1, e, tp, 1, 1, nil, 0) and
+    local g1 = Duel.GetMatchingGroup(s.spfilter1, tp, LOCATION_HAND + LOCATION_ONFIELD, 0, c)
+    local g2 = Duel.GetMatchingGroup(s.spfilter2, tp, LOCATION_MZONE, 0, nil, c, tp)
+    return #g1 > 0 and #g2 > 0 and aux.SelectUnselectGroup(g1, e, tp, 1, 1, nil, 0) and
                aux.SelectUnselectGroup(g2, e, tp, 1, 1, nil, 0, c, tp)
 end
 
 function s.sptg(e, tp, eg, ep, ev, re, r, rp, c)
     local c = e:GetHandler()
-    local g1 = Duel.GetMatchingGroup(s.spfilter1, tp,
-                                     LOCATION_HAND + LOCATION_ONFIELD, 0, c)
-    g1 = aux.SelectUnselectGroup(g1, e, tp, 1, 1, nil, 1, tp, HINTMSG_TOGRAVE,
-                                 nil, nil, true)
-    local g2 = Duel.GetMatchingGroup(s.spfilter2, tp, LOCATION_MZONE, 0, nil, c,
-                                     tp)
-    g2 = aux.SelectUnselectGroup(g2, e, tp, 1, 1, nil, 1, tp, HINTMSG_RELEASE,
-                                 nil, nil, true)
+    local g1 = Duel.GetMatchingGroup(s.spfilter1, tp, LOCATION_HAND + LOCATION_ONFIELD, 0, c)
+    g1 = aux.SelectUnselectGroup(g1, e, tp, 1, 1, nil, 1, tp, HINTMSG_TOGRAVE, nil, nil, true)
+    local g2 = Duel.GetMatchingGroup(s.spfilter2, tp, LOCATION_MZONE, 0, nil, c, tp)
+    g2 = aux.SelectUnselectGroup(g2, e, tp, 1, 1, nil, 1, tp, HINTMSG_RELEASE, nil, nil, true)
     if #g1 > 0 and #g2 > 0 then
         g1:KeepAlive()
         g2:KeepAlive()
@@ -132,10 +121,8 @@ end
 function s.e2regval(e, c)
     local g = c:GetMaterial()
     if g:IsExists(Card.IsCode, 1, nil, CARD_BLUEEYES_W_DRAGON) then
-        c:RegisterFlagEffect(id, RESET_EVENT | RESETS_STANDARD &
-                                 ~(RESET_TOFIELD | RESET_LEAVE |
-                                     RESET_TEMP_REMOVE),
-                             EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
+        c:RegisterFlagEffect(id, RESET_EVENT | RESETS_STANDARD & ~(RESET_TOFIELD | RESET_LEAVE | RESET_TEMP_REMOVE),
+            EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
     end
 end
 
@@ -145,23 +132,16 @@ function s.e2con(e)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsCanChangePosition, tp, 0,
-                                           LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(Card.IsCanChangePosition, tp, 0, LOCATION_MZONE, 1, nil) end
 
-    local g = Duel.GetMatchingGroup(Card.IsCanChangePosition, tp, 0,
-                                    LOCATION_MZONE, nil)
+    local g = Duel.GetMatchingGroup(Card.IsCanChangePosition, tp, 0, LOCATION_MZONE, nil)
     Duel.SetOperationInfo(0, CATEGORY_POSITION, g, #g, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tg = Duel.GetMatchingGroup(Card.IsCanChangePosition, tp, 0,
-                                     LOCATION_MZONE, nil)
-    if #tg == 0 or
-        Duel.ChangePosition(tg, POS_FACEUP_DEFENSE, POS_FACEDOWN_DEFENSE,
-                            POS_FACEUP_ATTACK, POS_FACEUP_ATTACK) == 0 then
+    local tg = Duel.GetMatchingGroup(Card.IsCanChangePosition, tp, 0, LOCATION_MZONE, nil)
+    if #tg == 0 or Duel.ChangePosition(tg, POS_FACEUP_DEFENSE, POS_FACEDOWN_DEFENSE, POS_FACEUP_ATTACK, POS_FACEUP_ATTACK) == 0 then
         return
     end
 

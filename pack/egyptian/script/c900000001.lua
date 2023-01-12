@@ -37,15 +37,11 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():CanAttack() and Duel.GetCurrentChain(true) == 0
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():CanAttack() and Duel.GetCurrentChain(true) == 0 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:GetAttackAnnouncedCount() == 0 and Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c)
-    end
+    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 and Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c) end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(3206)
@@ -61,9 +57,7 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     local dmg = c:GetAttack()
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
@@ -76,9 +70,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     local g = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
     Duel.Destroy(g, REASON_EFFECT)
@@ -87,21 +79,16 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Damage(p, c:GetAttack(), REASON_EFFECT)
 end
 
-function s.e2filter(c)
-    return c:IsFaceup() and Divine.GetDivineHierarchy(c) >= 2
-end
+function s.e2filter(c) return c:IsFaceup() and Divine.GetDivineHierarchy(c) >= 2 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(function(tc)
-        return tc:IsFaceup() and Divine.GetDivineHierarchy(tc) >= 2
-    end, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
+    return Duel.IsExistingMatchingCard(function(tc) return tc:IsFaceup() and Divine.GetDivineHierarchy(tc) >= 2 end, tp,
+        LOCATION_MZONE, LOCATION_MZONE, 1, nil)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c)
-    end
+    if chk == 0 then return Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c) end
 
     local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, c)
     Duel.Release(g, REASON_COST)

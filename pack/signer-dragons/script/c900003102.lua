@@ -48,20 +48,14 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    if e == re or e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then
-        return false
-    end
+    if e == re or e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) or not Duel.IsChainNegatable(ev) then return false end
 
     if re:IsHasCategory(CATEGORY_NEGATE) and
-        Duel.GetChainInfo(ev - 1, CHAININFO_TRIGGERING_EFFECT):IsHasType(EFFECT_TYPE_ACTIVATE) then
-        return false
-    end
+        Duel.GetChainInfo(ev - 1, CHAININFO_TRIGGERING_EFFECT):IsHasType(EFFECT_TYPE_ACTIVATE) then return false end
 
     if re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then
         local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-        if tg and tg:IsExists(Card.IsOnField, 1, nil) then
-            return true
-        end
+        if tg and tg:IsExists(Card.IsOnField, 1, nil) then return true end
     end
 
     local ex, tg, tc = Duel.GetOperationInfo(ev, CATEGORY_DESTROY)
@@ -70,23 +64,17 @@ end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local rc = re:GetHandler()
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, #eg, 0, 0)
-    if rc:IsDestructable() and rc:IsRelateToEffect(re) then
-        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
-    end
+    if rc:IsDestructable() and rc:IsRelateToEffect(re) then Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0) end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
 
-    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
-        Duel.Destroy(eg, REASON_EFFECT)
-    end
+    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then Duel.Destroy(eg, REASON_EFFECT) end
 end
 
 function s.e1retcon(e, tp, eg, ep, ev, re, r, rp)
@@ -95,6 +83,4 @@ function s.e1retcon(e, tp, eg, ep, ev, re, r, rp)
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e1retop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP)
-end
+function s.e1retop(e, tp, eg, ep, ev, re, r, rp) Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP) end

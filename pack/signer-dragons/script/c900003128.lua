@@ -29,9 +29,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetFlagEffect(tp, id) ~= 0 then
-        return
-    end
+    if Duel.GetFlagEffect(tp, id) ~= 0 then return end
 
     Duel.RegisterFlagEffect(tp, id, RESET_PHASE + PHASE_END, 0, 1)
 
@@ -45,15 +43,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e2filter(c)
-    return c:IsFaceup() and c:HasLevel()
-end
+function s.e2filter(c) return c:IsFaceup() and c:HasLevel() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, 0, 1, c)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, 0, 1, c) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     local tc = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, c):GetFirst()
@@ -71,9 +65,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() then
-        return
-    end
+    if not tc or not tc:IsRelateToEffect(e) or tc:IsFacedown() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)

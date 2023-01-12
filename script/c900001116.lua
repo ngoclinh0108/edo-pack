@@ -40,8 +40,7 @@ end
 
 function s.e1con(e, c, minc)
     if c == nil then return true end
-    return minc == 0 and c:GetLevel() > 4 and
-               Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE) > 0
+    return minc == 0 and c:GetLevel() > 4 and Duel.GetLocationCount(c:GetControler(), LOCATION_MZONE) > 0
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
@@ -52,9 +51,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     ec1:SetRange(LOCATION_MZONE)
     ec1:SetCode(EVENT_PHASE + PHASE_END)
     ec1:SetCountLimit(1)
-    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT)
-    end)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp) Duel.SendtoGrave(e:GetHandler(), REASON_EFFECT) end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
     c:RegisterEffect(ec1)
 end
@@ -63,13 +60,11 @@ function s.e2con(e, c)
     if c == nil then return true end
     local tp = c:GetControler()
 
-    return Duel.CheckReleaseGroup(tp, Card.IsSetCard, 1, false, 1, true, c, tp,
-                                  nil, false, nil, 0x13a)
+    return Duel.CheckReleaseGroup(tp, Card.IsSetCard, 1, false, 1, true, c, tp, nil, false, nil, 0x13a)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = Duel.SelectReleaseGroup(tp, Card.IsSetCard, 1, 1, false, true,
-                                      true, c, nil, nil, false, nil, 0x13a)
+    local g = Duel.SelectReleaseGroup(tp, Card.IsSetCard, 1, 1, false, true, true, c, nil, nil, false, nil, 0x13a)
     if g then
         g:KeepAlive()
         e:SetLabelObject(g)
@@ -89,13 +84,11 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
-                   Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE,
-                                         LOCATION_MZONE, 1, nil)
+                   Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_EQUIP)
-    Duel.SelectTarget(tp, Card.IsFaceup, tp, LOCATION_MZONE, LOCATION_MZONE, 1,
-                      1, nil)
+    Duel.SelectTarget(tp, Card.IsFaceup, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil)
 
     Duel.SetOperationInfo(0, CATEGORY_EQUIP, c, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_LEAVE_GRAVE, c, 1, 0, 0)
@@ -104,8 +97,8 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if Duel.GetLocationCount(tp, LOCATION_SZONE) <= 0 or tc:IsFacedown() or
-        not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) then return end
+    if Duel.GetLocationCount(tp, LOCATION_SZONE) <= 0 or tc:IsFacedown() or not c:IsRelateToEffect(e) or
+        not tc:IsRelateToEffect(e) then return end
 
     Duel.Equip(tp, c, tc, true)
     local ec1 = Effect.CreateEffect(tc)
@@ -123,7 +116,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetValue(-500)
     ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
     c:RegisterEffect(ec2)
-    local ec2b=ec2:Clone()
+    local ec2b = ec2:Clone()
     ec2b:SetCode(EFFECT_UPDATE_DEFENSE)
     c:RegisterEffect(ec2b)
 end

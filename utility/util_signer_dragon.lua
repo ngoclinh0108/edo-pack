@@ -1,10 +1,6 @@
 -- init
-if not aux.SignerDragonProcedure then
-    aux.SignerDragonProcedure = {}
-end
-if not SignerDragon then
-    SignerDragon = aux.SignerDragonProcedure
-end
+if not aux.SignerDragonProcedure then aux.SignerDragonProcedure = {} end
+if not SignerDragon then SignerDragon = aux.SignerDragonProcedure end
 
 -- constant
 SignerDragon.CARD_MAJESTIC_DRAGON = 21159309
@@ -52,9 +48,7 @@ function SignerDragon.AddMajesticReturn(c, card_code)
     ret:SetRange(LOCATION_MZONE)
     ret:SetCountLimit(1)
     ret:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then
-            return true
-        end
+        if chk == 0 then return true end
 
         Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
         local g = Duel.SelectTarget(tp, majesticReturnFilter, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, tp, card_code)
@@ -73,6 +67,4 @@ function SignerDragon.AddMajesticReturn(c, card_code)
     c:RegisterEffect(ret)
 end
 
-function majesticReturnFilter(c, e, tp, card_code)
-    return c:IsCode(card_code) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
+function majesticReturnFilter(c, e, tp, card_code) return c:IsCode(card_code) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end

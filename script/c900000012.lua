@@ -43,9 +43,7 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_CANNOT_ATTACK)
     e3:SetRange(LOCATION_MZONE)
     e3:SetTargetRange(0, LOCATION_MZONE)
-    e3:SetTarget(function(e, tc)
-        return tc:GetAttack() < e:GetHandler():GetAttack()
-    end)
+    e3:SetTarget(function(e, tc) return tc:GetAttack() < e:GetHandler():GetAttack() end)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
     e3b:SetCode(EFFECT_CANNOT_TRIGGER)
@@ -53,14 +51,11 @@ function s.initial_effect(c)
 end
 
 function s.sprfilter(c, tp, sc)
-    return c:IsRace(RACE_AQUA) and c:GetLevel() == 10 and c:GetAttack() == 0 and
-               Duel.GetLocationCountFromEx(tp, tp, c, sc) > 0
+    return c:IsRace(RACE_AQUA) and c:GetLevel() == 10 and c:GetAttack() == 0 and Duel.GetLocationCountFromEx(tp, tp, c, sc) > 0
 end
 
 function s.sprcon(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
 
     local tp = c:GetControler()
     return Duel.CheckReleaseGroup(tp, s.sprfilter, 1, false, 1, true, c, tp, nil, nil, nil, tp, c)
@@ -79,9 +74,7 @@ end
 
 function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.Release(g, REASON_COST + REASON_MATERIAL)
     g:DeleteGroup()

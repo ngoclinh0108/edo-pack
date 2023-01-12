@@ -44,46 +44,32 @@ end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local ch = Duel.GetCurrentChain(true) - 1
-    if ch <= 0 then
-        return false
-    end
+    if ch <= 0 then return false end
     local cp = Duel.GetChainInfo(ch, CHAININFO_TRIGGERING_CONTROLER)
     local ceff = Duel.GetChainInfo(ch, CHAININFO_TRIGGERING_EFFECT)
-    if re:GetHandler():IsDisabled() or not Duel.IsChainDisablable(ev) then
-        return false
-    end
+    if re:GetHandler():IsDisabled() or not Duel.IsChainDisablable(ev) then return false end
 
     local cec = ceff:GetHandler()
     return ep == 1 - tp and cp == tp and cec:IsSetCard(0x13a) and cec:IsMonster()
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return e:GetHandler():IsReleasable()
-    end
+    if chk == 0 then return e:GetHandler():IsReleasable() end
     Duel.Release(e:GetHandler(), REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return not re:GetHandler():IsStatus(STATUS_DISABLED)
-    end
+    if chk == 0 then return not re:GetHandler():IsStatus(STATUS_DISABLED) end
     Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.NegateEffect(ev)
-end
+function s.e1op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateEffect(ev) end
 
-function s.e2filter(c)
-    return c:IsSetCard(0x13a) and c:IsSummonable(true, nil)
-end
+function s.e2filter(c) return c:IsSetCard(0x13a) and c:IsSummonable(true, nil) end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsPosition(POS_FACEUP_ATTACK) and c:IsCanChangePosition()
-    end
+    if chk == 0 then return c:IsPosition(POS_FACEUP_ATTACK) and c:IsCanChangePosition() end
 
     Duel.ChangePosition(c, POS_FACEUP_DEFENSE)
 end
@@ -108,9 +94,7 @@ function s.e2look(tp, p)
 end
 
 function s.e3filter(c)
-    if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then
-        return false
-    end
+    if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
 
     return c:IsSetCard(0x13a) and c:IsMonster() and not c:IsCode(id) and c:IsAbleToDeck()
 end
@@ -118,9 +102,7 @@ end
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, nil)
-    if chk == 0 then
-        return c:IsAbleToDeck() and #g >= 5
-    end
+    if chk == 0 then return c:IsAbleToDeck() and #g >= 5 end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
     local tg = Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 5, 5, nil)
@@ -133,17 +115,13 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    if not tg or not c:IsRelateToEffect(e) or tg:FilterCount(Card.IsRelateToEffect, nil, e) ~= tg:GetCount() then
-        return
-    end
+    if not tg or not c:IsRelateToEffect(e) or tg:FilterCount(Card.IsRelateToEffect, nil, e) ~= tg:GetCount() then return end
 
     local sg = tg:Clone():AddCard(c)
     Duel.SendtoDeck(sg, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
 
     local g = Duel.GetOperatedGroup()
-    if g:IsExists(Card.IsLocation, 1, nil, LOCATION_DECK) then
-        Duel.ShuffleDeck(tp)
-    end
+    if g:IsExists(Card.IsLocation, 1, nil, LOCATION_DECK) then Duel.ShuffleDeck(tp) end
 
     if g:FilterCount(Card.IsLocation, nil, LOCATION_DECK + LOCATION_EXTRA) == sg:GetCount() then
         Duel.BreakEffect()

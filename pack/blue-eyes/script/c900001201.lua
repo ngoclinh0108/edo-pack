@@ -79,13 +79,10 @@ function s.e3checkop(e, tp, eg, ep, ev, re, r, rp)
     local tc = eg:GetFirst()
     if tc:GetFlagEffect(id) > 0 then return end
     s[ep] = s[ep] + 1
-    tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE +
-                              PHASE_END, 0, 1)
+    tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 1)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttacker() == e:GetHandler()
-end
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetAttacker() == e:GetHandler() end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
@@ -123,8 +120,7 @@ function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(3206)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_OATH +
-                        EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_ATTACK)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
@@ -132,14 +128,10 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD,
-                                     LOCATION_ONFIELD, 1, C)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, C) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD,
-                                LOCATION_ONFIELD, 1, 3, c)
+    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 3, c)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 

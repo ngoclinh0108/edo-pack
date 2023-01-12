@@ -49,36 +49,27 @@ function s.e1filter(c, e, tp, mg)
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsTurnPlayer(1 - tp)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(1 - tp) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp, c)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp, c) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp, c):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp, c):GetFirst()
     if tc then
         Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
         tc:CompleteProcedure()
     end
 end
 
-function s.e2filter(c)
-    return c:IsType(TYPE_SYNCHRO) and c:IsAbleToDeck()
-end
+function s.e2filter(c) return c:IsType(TYPE_SYNCHRO) and c:IsAbleToDeck() end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp
-end
+function s.e2con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() == tp end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
@@ -94,9 +85,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
-    if not tc then
-        return
-    end
+    if not tc then return end
 
     Duel.HintSelection(tc)
     if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) > 0 and c:IsRelateToEffect(e) then

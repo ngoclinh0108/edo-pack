@@ -37,22 +37,14 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.spfilter(c, attr)
-    return c:IsAttribute(attr) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c, true)
-end
+function s.spfilter(c, attr) return c:IsAttribute(attr) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c, true) end
 
-function s.sprescon(sg, e, tp, mg)
-    return aux.ChkfMMZ(1)(sg, e, tp, mg) and sg:IsExists(s.spattrcheck, 1, nil, sg)
-end
+function s.sprescon(sg, e, tp, mg) return aux.ChkfMMZ(1)(sg, e, tp, mg) and sg:IsExists(s.spattrcheck, 1, nil, sg) end
 
-function s.spattrcheck(c, sg)
-    return c:IsAttribute(ATTRIBUTE_LIGHT) and sg:FilterCount(Card.IsAttribute, c, ATTRIBUTE_DARK) == 1
-end
+function s.spattrcheck(c, sg) return c:IsAttribute(ATTRIBUTE_LIGHT) and sg:FilterCount(Card.IsAttribute, c, ATTRIBUTE_DARK) == 1 end
 
 function s.spcon(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
     local g1 = Duel.GetMatchingGroup(s.spfilter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, nil, ATTRIBUTE_LIGHT)
     local g2 = Duel.GetMatchingGroup(s.spfilter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, nil, ATTRIBUTE_DARK)
@@ -63,8 +55,7 @@ function s.spcon(e, c)
 end
 
 function s.sptg(e, tp, eg, ep, ev, re, r, rp, c)
-    local mg = Duel.GetMatchingGroup(s.spfilter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, nil,
-        ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
+    local mg = Duel.GetMatchingGroup(s.spfilter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, nil, ATTRIBUTE_LIGHT + ATTRIBUTE_DARK)
     local g = aux.SelectUnselectGroup(mg, e, tp, 2, 2, s.sprescon, 1, tp, HINTMSG_REMOVE, nil, nil, true)
     if #g > 0 then
         g:KeepAlive()
@@ -76,17 +67,13 @@ end
 
 function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.Remove(g, POS_FACEUP, REASON_COST)
     g:DeleteGroup()
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_RITUAL)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_RITUAL) end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -102,21 +89,17 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local ec1b = ec1:Clone()
     ec1b:SetDescription(3030)
     ec1b:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
-    ec1b:SetValue(function(e, re, rp)
-        return rp ~= e:GetHandlerPlayer()
-    end)
+    ec1b:SetValue(function(e, re, rp) return rp ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(ec1b)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     local b3 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, nil)
     local b4 = Duel.IsExistingMatchingCard(Card.IsAbleToRemove, tp, 0, LOCATION_HAND, 1, nil)
-    local op = Duel.SelectEffect(tp, {true, aux.Stringid(id, 0)}, {true, aux.Stringid(id, 1)},
-        {b3, aux.Stringid(id, 2)}, {b4, aux.Stringid(id, 3)})
+    local op = Duel.SelectEffect(tp, {true, aux.Stringid(id, 0)}, {true, aux.Stringid(id, 1)}, {b3, aux.Stringid(id, 2)},
+        {b4, aux.Stringid(id, 3)})
     e:SetLabel(op)
 
     e:SetCategory(0)
@@ -148,14 +131,12 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec2:SetCode(EFFECT_EXTRA_ATTACK)
         ec2:SetValue(1)
         ec2:SetLabel(Duel.GetTurnCount())
-        ec2:SetCondition(function(e, tp)
-            return Duel.GetTurnCount() > e:GetLabel()
-        end)
+        ec2:SetCondition(function(e, tp) return Duel.GetTurnCount() > e:GetLabel() end)
         ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END + RESET_SELF_TURN, 2)
         c:RegisterEffect(ec2)
     elseif op == 3 then
-        local g = Utility.SelectMatchingCard(HINT_SELECTMSG, tp, Card.IsAbleToRemove, tp, LOCATION_ONFIELD,
-            LOCATION_ONFIELD, 1, 1, nil)
+        local g = Utility.SelectMatchingCard(HINT_SELECTMSG, tp, Card.IsAbleToRemove, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1,
+            1, nil)
         if #g > 0 then
             Duel.HintSelection(g)
             Duel.Remove(g, POS_FACEUP, REASON_EFFECT)

@@ -16,9 +16,7 @@ function s.initial_effect(c)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetCountLimit(1, {id, 1})
     e1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then
-            return Duel.IsPlayerCanDraw(tp, 1)
-        end
+        if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
 
         Duel.SetTargetPlayer(tp)
         Duel.SetTargetParam(1)
@@ -48,16 +46,12 @@ function s.initial_effect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
     e3:SetCode(EVENT_BE_MATERIAL)
-    e3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return r == REASON_SYNCHRO
-    end)
+    e3:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return r == REASON_SYNCHRO end)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter1(c, tp)
-    return c:IsRace(RACE_DRAGON) and c:IsType((TYPE_SYNCHRO)) and c:IsSummonPlayer(tp)
-end
+function s.e2filter1(c, tp) return c:IsRace(RACE_DRAGON) and c:IsType((TYPE_SYNCHRO)) and c:IsSummonPlayer(tp) end
 
 function s.e2filter2(c, tp, mc)
     return c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:IsSummonPlayer(tp) and c:GetMaterial():IsContains(mc)
@@ -69,9 +63,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-    end
+    if chk == 0 then return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
@@ -112,9 +104,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_IMMUNE_EFFECT)
     ec1:SetRange(LOCATION_MZONE)
-    ec1:SetValue(function(e, te)
-        return te:GetOwnerPlayer() ~= e:GetHandlerPlayer() and te:IsActivated()
-    end)
+    ec1:SetValue(function(e, te) return te:GetOwnerPlayer() ~= e:GetHandlerPlayer() and te:IsActivated() end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD + RESET_PHASE + PHASE_END)
     rc:RegisterEffect(ec1)
 end

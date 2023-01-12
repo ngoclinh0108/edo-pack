@@ -28,9 +28,7 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_REVERSE_DAMAGE)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(1, 0)
-    e2:SetValue(function(e, re, r, rp, rc)
-        return (r & REASON_EFFECT) ~= 0
-    end)
+    e2:SetValue(function(e, re, r, rp, rc) return (r & REASON_EFFECT) ~= 0 end)
     c:RegisterEffect(e2)
 
     -- negate & change position
@@ -46,16 +44,13 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c, tp, ec)
-    return c:IsType(TYPE_EQUIP) and c:CheckEquipTarget(ec) and c:CheckUniqueOnField(tp)
-end
+function s.e1filter(c, tp, ec) return c:IsType(TYPE_EQUIP) and c:CheckEquipTarget(ec) and c:CheckUniqueOnField(tp) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                nil, tp, c)
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, tp, c)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_EQUIP, nil, 1, 0, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
@@ -63,15 +58,11 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsFacedown() or not c:IsRelateToEffect(e) then
-        return
-    end
+    if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
-    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp,
-        LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, nil, tp, c)
-    if #g == 0 then
-        return
-    end
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, nil,
+        tp, c)
+    if #g == 0 then return end
 
     local ft = math.min(Duel.GetLocationCount(tp, LOCATION_SZONE), 3)
     local sg = Utility.GroupSelect(HINTMSG_EQUIP, g, tp, 1, ft)
@@ -98,14 +89,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3filter(c)
-    return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
-end
+function s.e3filter(c) return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled() end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
     local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
@@ -117,9 +104,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then
-        return
-    end
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -130,9 +115,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1b:SetCode(EFFECT_DISABLE_EFFECT)
     tc:RegisterEffect(ec1b)
 
-    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec1b) then
-        return
-    end
+    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec1b) then return end
     Duel.AdjustInstantly(tc)
 
     if Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then

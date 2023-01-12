@@ -36,23 +36,16 @@ end
 function s.e1filter1(c, e, tp)
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     local check1 = Duel.CheckReleaseGroup(tp, s.e1filter2, 3, nil, ft, tp)
-    local check2 = ft > 0 and
-                       Duel.CheckReleaseGroup(tp, Card.IsControler, 3, false, 3, false, nil, tp, 0xff, true, nil, 1 - tp)
+    local check2 = ft > 0 and Duel.CheckReleaseGroup(tp, Card.IsControler, 3, false, 3, false, nil, tp, 0xff, true, nil, 1 - tp)
     return c:IsCode(CARD_RA) and c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and (check1 or check2)
 end
 
-function s.e1filter2(c, ft, tp)
-    return ft > 0 or (c:IsControler(tp) and c:GetSequence() < 5)
-end
+function s.e1filter2(c, ft, tp) return ft > 0 or (c:IsControler(tp) and c:GetSequence() < 5) end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsMainPhase()
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.GetMatchingGroupCount(s.e1filter1, tp, LOCATION_HAND + LOCATION_DECK, 0, nil, e, tp) > 0
-    end
+    if chk == 0 then return Duel.GetMatchingGroupCount(s.e1filter1, tp, LOCATION_HAND + LOCATION_DECK, 0, nil, e, tp) > 0 end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND + LOCATION_DECK)
 end
@@ -61,14 +54,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
     local check1 = Duel.CheckReleaseGroup(tp, s.e1filter2, 3, nil, ft, tp)
-    local check2 = ft > 0 and
-                       Duel.CheckReleaseGroup(tp, Card.IsControler, 3, false, 3, false, nil, tp, 0xff, true, nil, 1 - tp)
-    if not check1 and not check2 then
-        return
-    end
+    local check2 = ft > 0 and Duel.CheckReleaseGroup(tp, Card.IsControler, 3, false, 3, false, nil, tp, 0xff, true, nil, 1 - tp)
+    if not check1 and not check2 then return end
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter1, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-        nil, e, tp):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter1, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil, e,
+        tp):GetFirst()
     local op = Duel.SelectEffect(tp, {check1, aux.Stringid(id, 0)}, {check2, aux.Stringid(id, 1)})
     local g = Group.CreateGroup()
     if op == 1 then
@@ -132,9 +122,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) or not tc:IsRelateToEffect(e) then return end
 
     local g = Group.FromCards(c, tc)
     if Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) == #g then

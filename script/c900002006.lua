@@ -64,23 +64,17 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e1filter(c)
-    return c:IsAbleToHand() and not c:IsCode(id) and (c:IsCode(78371393) or c:ListsCode(78371393))
-end
+function s.e1filter(c) return c:IsAbleToHand() and not c:IsCode(id) and (c:IsCode(78371393) or c:ListsCode(78371393)) end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsDiscardable()
-    end
+    if chk == 0 then return c:IsDiscardable() end
 
     Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK, 0, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
 end
@@ -105,9 +99,7 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local bc = e:GetLabelObject():GetLabelObject()
-    if chk == 0 then
-        return bc
-    end
+    if chk == 0 then return bc end
 
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, bc:GetAttack())
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, LOCATION_ONFIELD)
@@ -154,21 +146,19 @@ end
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil, e, tp)
+        return
+            Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil, e, tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return
-    end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_EXTRA
-    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e4filter), tp, loc, 0, 1, 1,
-        nil, e, tp):GetFirst()
+    local tc =
+        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e4filter), tp, loc, 0, 1, 1, nil, e, tp):GetFirst()
     if tc then
         Duel.SpecialSummon(tc, s.e4sumtype(tc), tp, tp, true, s.e4sumlimit(tc), POS_FACEUP)
         tc:CompleteProcedure()

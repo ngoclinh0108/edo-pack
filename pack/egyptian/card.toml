@@ -243,7 +243,9 @@ This card's ATK/DEF are equal to the highest ATK on the field +100, except "The 
 Monsters' destruction by battle with this card cannot be negated, \
     except monsters with higher Divine Hierarchy. \
 """
-strings = ["Affected by effect \"{CARD_NAME}\": Cannot activate Spell/Trap Cards"]
+strings = [
+    "Affected by effect \"{CARD_NAME}\": Cannot activate Spell/Trap Cards",
+]
 
 [zorc]
 id = 900000009

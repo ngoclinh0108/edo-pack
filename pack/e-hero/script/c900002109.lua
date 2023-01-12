@@ -38,8 +38,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsPlayerCanSpecialSummonMonster(tp, EVIL_TOKEN, 0, TYPES_TOKEN, 2500, 2500, 7, RACE_FIEND,
-                ATTRIBUTE_DARK)
+                   Duel.IsPlayerCanSpecialSummonMonster(tp, EVIL_TOKEN, 0, TYPES_TOKEN, 2500, 2500, 7, RACE_FIEND, ATTRIBUTE_DARK)
     end
 
     local ac = Duel.AnnounceRace(tp, 1, RACE_ALL)
@@ -79,14 +78,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2filter(c)
-    return c:IsSetCard(0x6008) and c:IsMonster() and not c:IsCode(id) and c:IsAbleToHand()
-end
+function s.e2filter(c) return c:IsSetCard(0x6008) and c:IsMonster() and not c:IsCode(id) and c:IsAbleToHand() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
 end

@@ -31,24 +31,18 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c)
-    return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
-end
+function s.e1filter(c) return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsReleasable()
-    end
+    if chk == 0 then return c:IsReleasable() end
 
     Duel.Release(c, REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_MZONE, 0, 1, c)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e1filter, tp, LOCATION_MZONE, 0, 1, c) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_MZONE, 0, 1, 1, c)
@@ -57,32 +51,26 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) or tc:IsFacedown() then
-        return
-    end
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     ec1:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
     ec1:SetCountLimit(1)
-    ec1:SetValue(function(e, re, r, rp)
-        return (r & REASON_BATTLE + REASON_EFFECT) ~= 0
-    end)
+    ec1:SetValue(function(e, re, r, rp) return (r & REASON_BATTLE + REASON_EFFECT) ~= 0 end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     tc:RegisterEffect(ec1)
 end
 
 function s.e2filter1(c, e, tp, tuner)
     local rg = Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, tuner)
-    return c:IsSetCard(0xa3) and c:IsType(TYPE_SYNCHRO) and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
+    return c:IsSetCard(0xa3) and c:IsType(TYPE_SYNCHRO) and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) and
                aux.SelectUnselectGroup(rg, e, tp, nil, 2, s.e2rescon(tuner, c), 0)
 end
 
-function s.e2filter2(c)
-    return c:HasLevel() and not c:IsType(TYPE_TUNER) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c, true)
-end
+function s.e2filter2(c) return
+    c:HasLevel() and not c:IsType(TYPE_TUNER) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c, true) end
 
 function s.e2rescon(tuner, sc)
     return function(sg, e, tp, mg)
@@ -116,17 +104,14 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = e:GetLabelObject()
-    if not tc or not tc:IsLocation(LOCATION_EXTRA) or
-        not tc:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) then
+    if not tc or not tc:IsLocation(LOCATION_EXTRA) or not tc:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false) then
         return
     end
 

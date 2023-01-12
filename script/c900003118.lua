@@ -75,13 +75,9 @@ function s.initial_effect(c)
     c:RegisterEffect(ret)
 end
 
-function s.sprfilter1(c)
-    return c:IsFaceup() and c:IsType(TYPE_TUNER) and c:IsType(TYPE_SYNCHRO) and c:IsAbleToDeckOrExtraAsCost()
-end
+function s.sprfilter1(c) return c:IsFaceup() and c:IsType(TYPE_TUNER) and c:IsType(TYPE_SYNCHRO) and c:IsAbleToDeckOrExtraAsCost() end
 
-function s.sprfilter2(c)
-    return c:IsFaceup() and c:IsCode(CARD_STARDUST_DRAGON) and c:IsAbleToDeckOrExtraAsCost()
-end
+function s.sprfilter2(c) return c:IsFaceup() and c:IsCode(CARD_STARDUST_DRAGON) and c:IsAbleToDeckOrExtraAsCost() end
 
 function s.sprescon(sg, e, tp)
     return Duel.GetLocationCountFromEx(tp, tp, sg, e:GetHandler()) > 0 and sg:FilterCount(s.sprfilter1, nil) >= 1 and
@@ -89,9 +85,7 @@ function s.sprescon(sg, e, tp)
 end
 
 function s.sprcon(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
     local g1 = Duel.GetMatchingGroup(s.sprfilter1, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, nil)
     local g2 = Duel.GetMatchingGroup(s.sprfilter2, tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0, nil)
@@ -114,18 +108,16 @@ end
 
 function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.SendtoDeck(g, nil, 0, REASON_COST)
     g:DeleteGroup()
 end
 
 function s.e1filter(c, e, tp)
-    return c:IsSetCard(0xa3) and c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and
-               Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+    return
+        c:IsSetCard(0xa3) and c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
+            c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -143,12 +135,9 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return
-    end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
     if tc then
         Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP)
         tc:CompleteProcedure()
@@ -161,33 +150,23 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local rc = re:GetHandler()
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, #eg, 0, 0)
-    if rc:IsDestructable() and rc:IsRelateToEffect(re) then
-        Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
-    end
+    if rc:IsDestructable() and rc:IsRelateToEffect(re) then Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0) end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
 
-    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then
-        Duel.Destroy(eg, REASON_EFFECT)
-    end
+    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) then Duel.Destroy(eg, REASON_EFFECT) end
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return tp ~= ep and Duel.GetCurrentChain() == 0
-end
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return tp ~= ep and Duel.GetCurrentChain() == 0 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     Duel.SetOperationInfo(0, CATEGORY_DISABLE_SUMMON, eg, #eg, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, #eg, 0, 0)
@@ -207,6 +186,4 @@ function s.retcon(e, tp, eg, ep, ev, re, r, rp)
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.retop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP)
-end
+function s.retop(e, tp, eg, ep, ev, re, r, rp) Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP) end

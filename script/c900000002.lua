@@ -12,9 +12,7 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
     e1:SetCode(EFFECT_SET_BASE_ATTACK)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetValue(function(e, c)
-        return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_HAND, 0) * 1000
-    end)
+    e1:SetValue(function(e, c) return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_HAND, 0) * 1000 end)
     c:RegisterEffect(e1)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_SET_BASE_DEFENSE)
@@ -45,14 +43,10 @@ function s.e2filter(c, e, tp)
                c:IsControler(1 - tp)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e2filter, 1, nil, nil, tp) and e:GetHandler():CanAttack()
-end
+function s.e2con(e, tp, eg, ep, ev, re, r, rp) return eg:IsExists(s.e2filter, 1, nil, nil, tp) and e:GetHandler():CanAttack() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     local g = eg:Filter(s.e2filter, nil, nil, tp)
     Duel.SetTargetCard(g)
@@ -73,9 +67,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec1)
 
-        if (preatk ~= 0 and tc:IsAttack(0)) or (predef ~= 0 and tc:IsDefense(0)) then
-            dg:AddCard(tc)
-        end
+        if (preatk ~= 0 and tc:IsAttack(0)) or (predef ~= 0 and tc:IsDefense(0)) then dg:AddCard(tc) end
     end
 
     if #dg > 0 then

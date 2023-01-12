@@ -49,9 +49,7 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e3:SetCode(EFFECT_UPDATE_ATTACK)
     e3:SetRange(LOCATION_MZONE)
-    e3:SetValue(function(e, c)
-        return c:GetCounter(COUNTER_FEATHER) * 100
-    end)
+    e3:SetValue(function(e, c) return c:GetCounter(COUNTER_FEATHER) * 100 end)
     c:RegisterEffect(e3)
 
     -- atk down
@@ -83,24 +81,16 @@ function s.e1val(e, re, val, r, rp, rc)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    if ep ~= tp then
-        return false
-    end
+    if ep ~= tp then return false end
 
     return (r & REASON_BATTLE) ~= 0 and not e:GetHandler():IsRelateToBattle()
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    e:GetHandler():AddCounter(COUNTER_FEATHER, 1)
-end
+function s.e2op(e, tp, eg, ep, ev, re, r, rp) e:GetHandler():AddCounter(COUNTER_FEATHER, 1) end
 
-function s.e4con1(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetCounter(COUNTER_FEATHER) < 4
-end
+function s.e4con1(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():GetCounter(COUNTER_FEATHER) < 4 end
 
-function s.e4con2(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetCounter(COUNTER_FEATHER) >= 4
-end
+function s.e4con2(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():GetCounter(COUNTER_FEATHER) >= 4 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
@@ -119,9 +109,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     local ct = c:GetCounter(COUNTER_FEATHER)
-    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or ct == 0 then
-        return
-    end
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or ct == 0 then return end
 
     local preatk = tc:GetAttack()
     local ec1 = Effect.CreateEffect(c)

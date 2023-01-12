@@ -36,32 +36,24 @@ function s.e1val(e, tc, sc)
 end
 
 function s.e1syncheck1(c)
-    if not c:IsHasEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK) then
-        return false
-    end
+    if not c:IsHasEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK) then return false end
 
     local te = {c:GetCardEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK)}
     for i = 1, #te do
         local e = te[i]
-        if e:GetLabel() ~= id then
-            return false
-        end
+        if e:GetLabel() ~= id then return false end
     end
 
     return true
 end
 
 function s.e1syncheck2(c)
-    if not c:IsHasEffect(EFFECT_HAND_SYNCHRO) or c:IsHasEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK) then
-        return false
-    end
+    if not c:IsHasEffect(EFFECT_HAND_SYNCHRO) or c:IsHasEffect(EFFECT_HAND_SYNCHRO + EFFECT_SYNCHRO_CHECK) then return false end
 
     local te = {c:GetCardEffect(EFFECT_HAND_SYNCHRO)}
     for i = 1, #te do
         local e = te[i]
-        if e:GetLabel() == id then
-            return true
-        end
+        if e:GetLabel() == id then return true end
     end
 
     return false
@@ -72,9 +64,7 @@ function s.e1synctg(e, c, sg, tg, ntg, tsg, ntsg)
         local res = true
         if sg:IsExists(s.e1syncheck1, 1, c) or
             (not tg:IsExists(s.e1syncheck2, 1, c) and not ntg:IsExists(s.e1syncheck2, 1, c) and
-                not sg:IsExists(s.e1syncheck2, 1, c)) then
-            return false
-        end
+                not sg:IsExists(s.e1syncheck2, 1, c)) then return false end
 
         local trg = tg:Filter(s.e1syncheck1, nil)
         local ntrg = ntg:Filter(s.e1syncheck1, nil)
@@ -85,9 +75,7 @@ function s.e1synctg(e, c, sg, tg, ntg, tsg, ntsg)
 end
 
 function s.e2regop(e, tp, eg, ep, ev, re, r, rp)
-    if r ~= REASON_SYNCHRO then
-        return
-    end
+    if r ~= REASON_SYNCHRO then return end
 
     local c = e:GetHandler()
     local ec1 = Effect.CreateEffect(c)
@@ -110,9 +98,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_GRAVE, 0, 1, nil, e, tp, ft)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_GRAVE, 0, 1, nil, e, tp, ft) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
     local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, tp, ft)
@@ -123,14 +109,9 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then
-        return
-    end
+    if not tc or not tc:IsRelateToEffect(e) then return end
 
     local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    aux.ToHandOrElse(tc, tp, function(c)
-        return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) and ft > 0
-    end, function(c)
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
-    end, 2)
+    aux.ToHandOrElse(tc, tp, function(c) return tc:IsCanBeSpecialSummoned(e, 0, tp, false, false) and ft > 0 end,
+        function(c) Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP) end, 2)
 end

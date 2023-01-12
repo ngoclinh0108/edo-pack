@@ -14,9 +14,7 @@ function s.initial_effect(c)
     Dimension.RegisterChange({
         handler = c,
         event_code = EVENT_SUMMON_SUCCESS,
-        filter = function(c, sc)
-            return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner()
-        end,
+        filter = function(c, sc) return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner() end,
         custom_op = function(e, tp, mc)
             local c = e:GetHandler()
 
@@ -34,9 +32,7 @@ function s.initial_effect(c)
             else
                 local divine_evolution = Divine.IsDivineEvolution(mc)
                 Dimension.Change(mc, c)
-                if divine_evolution then
-                    Divine.DivineEvolution(c)
-                end
+                if divine_evolution then Divine.DivineEvolution(c) end
             end
         end
     })
@@ -102,13 +98,10 @@ function s.initial_effect(c)
     local e6 = Effect.CreateEffect(c)
     e6:SetDescription(aux.Stringid(id, 0))
     e6:SetType(EFFECT_TYPE_IGNITION)
-    e6:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
-                       EFFECT_FLAG_CANNOT_INACTIVATE)
+    e6:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE)
     e6:SetRange(LOCATION_MZONE)
     e6:SetCountLimit(1)
-    e6:SetCondition(function(e)
-        return Duel.GetTurnCount() ~= e:GetHandler():GetTurnID()
-    end)
+    e6:SetCondition(function(e) return Duel.GetTurnCount() ~= e:GetHandler():GetTurnID() end)
     e6:SetCost(s.e6cost)
     e6:SetTarget(s.e6tg)
     e6:SetOperation(s.e6op)
@@ -116,16 +109,12 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, c, minc, zone, relzone, exeff)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     if exeff then
         local ret = exeff:GetValue()
         if type(ret) == "function" then
             ret = {ret(exeff, c)}
-            if #ret > 1 then
-                zone = (ret[2] >> 16) & 0x7f
-            end
+            if #ret > 1 then zone = (ret[2] >> 16) & 0x7f end
         end
     end
     local tp = c:GetControler()
@@ -139,9 +128,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, c, minc, zone, relzone, exeff
         local ret = exeff:GetValue()
         if type(ret) == "function" then
             ret = {ret(exeff, c)}
-            if #ret > 1 then
-                zone = (ret[2] >> 16) & 0x7f
-            end
+            if #ret > 1 then zone = (ret[2] >> 16) & 0x7f end
         end
     end
     local mg = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
@@ -178,13 +165,9 @@ end
 function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsCode, tp, LOCATION_ALL, 0, nil, 78665705)
-    if chk == 0 then
-        return tp == c:GetOwner() or #g > 0
-    end
+    if chk == 0 then return tp == c:GetOwner() or #g > 0 end
 
-    if tp ~= c:GetOwner() and #g > 0 then
-        Duel.ConfirmCards(1 - tp, g:GetFirst())
-    end
+    if tp ~= c:GetOwner() and #g > 0 then Duel.ConfirmCards(1 - tp, g:GetFirst()) end
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -214,9 +197,7 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
 
     local divine_evolution = Divine.IsDivineEvolution(c)
     Dimension.Change(c, tc, tc:GetMaterial(), tp, tp, POS_FACEUP)
-    if divine_evolution then
-        Divine.DivineEvolution(tc)
-    end
+    if divine_evolution then Divine.DivineEvolution(tc) end
 
     s.battlemode(c, tc, atk, def)
     Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)

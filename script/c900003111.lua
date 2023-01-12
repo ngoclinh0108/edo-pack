@@ -65,16 +65,12 @@ end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:GetCounter(COUNTER_FEATHER) >= 4 and c:IsReleasable()
-    end
+    if chk == 0 then return c:GetCounter(COUNTER_FEATHER) >= 4 and c:IsReleasable() end
     Duel.Release(c, REASON_COST)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(nil, tp, 0, LOCATION_ONFIELD, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(nil, tp, 0, LOCATION_ONFIELD, 1, nil) end
 
     local g = Duel.GetMatchingGroup(nil, tp, 0, LOCATION_ONFIELD, nil)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, 0)
@@ -85,14 +81,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
 end
 
-function s.e3filter(c)
-    return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
-end
+function s.e3filter(c) return c:IsFaceup() and c:IsType(TYPE_EFFECT) and not c:IsDisabled() end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
     local tc = Duel.SelectTarget(tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
@@ -104,9 +96,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then
-        return
-    end
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() or tc:IsDisabled() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -117,9 +107,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1b:SetCode(EFFECT_DISABLE_EFFECT)
     tc:RegisterEffect(ec1b)
 
-    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec1b) then
-        return
-    end
+    if tc:IsImmuneToEffect(ec1) or tc:IsImmuneToEffect(ec1b) then return end
     Duel.AdjustInstantly(tc)
 
     Duel.Damage(1 - tp, tc:GetAttack(), REASON_EFFECT)

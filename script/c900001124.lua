@@ -70,14 +70,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter(c)
-    return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToRemove()
-end
+function s.e2filter(c) return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToRemove() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_REMOVE)
     local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, 99, nil)
@@ -88,9 +84,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tg = Duel.GetTargetCards(e)
     local ct = Duel.Remove(tg, POS_FACEUP, REASON_EFFECT)
-    if c:IsFacedown() or not c:IsRelateToEffect(e) or ct == 0 then
-        return
-    end
+    if c:IsFacedown() or not c:IsRelateToEffect(e) or ct == 0 then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -102,19 +96,14 @@ end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost, tp, LOCATION_ONFIELD, 0, 1, c)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost, tp, LOCATION_ONFIELD, 0, 1, c) end
 
-    local g =
-        Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, Card.IsAbleToGraveAsCost, tp, LOCATION_ONFIELD, 0, 1, 1, c)
+    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, Card.IsAbleToGraveAsCost, tp, LOCATION_ONFIELD, 0, 1, 1, c)
     Duel.SendtoGrave(g, REASON_COST)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsNegatable, tp, 0, LOCATION_ONFIELD, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(Card.IsNegatable, tp, 0, LOCATION_ONFIELD, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_NEGATE)
     local g = Duel.SelectTarget(tp, Card.IsNegatable, tp, 0, LOCATION_ONFIELD, 1, 1, nil)
@@ -124,9 +113,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then
-        return
-    end
+    if not tc or not tc:IsRelateToEffect(e) then return end
 
     if (tc:IsFaceup() and not tc:IsDisabled()) or tc:IsType(TYPE_TRAPMONSTER) then
         Duel.NegateRelatedChain(tc, RESET_TURN_SET)

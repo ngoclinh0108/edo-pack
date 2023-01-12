@@ -32,14 +32,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c)
-    return c:IsSetCard(0x6008) and c:IsMonster() and c:HasLevel() and not c:IsCode(id) and c:IsAbleToGrave()
-end
+function s.e1filter(c) return c:IsSetCard(0x6008) and c:IsMonster() and c:HasLevel() and not c:IsCode(id) and c:IsAbleToGrave() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_HAND + LOCATION_DECK)
     Duel.SetOperationInfo(0, CATEGORY_DECKDES, nil, 0, 1 - tp, 1)
@@ -47,11 +43,9 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-        nil):GetFirst()
-    if not tc or Duel.SendtoGrave(tc, REASON_EFFECT) == 0 then
-        return
-    end
+    local tc =
+        Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil):GetFirst()
+    if not tc or Duel.SendtoGrave(tc, REASON_EFFECT) == 0 then return end
 
     local lv = tc:GetLevel()
     if c:IsRelateToEffect(e) then
@@ -74,27 +68,20 @@ end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, 1, c, tp)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, 1, c, tp) end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, 1, 1,
-        c, tp)
+    local g = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, 1, 1, c, tp)
     Duel.Remove(g, POS_FACEUP, REASON_COST)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-    end
+    if chk == 0 then return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsRelateToEffect(e) then
-        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
-    end
+    if c:IsRelateToEffect(e) then Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) end
 end

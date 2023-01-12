@@ -33,9 +33,7 @@ function s.initial_effect(c)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e2:SetCode(EFFECT_IMMUNE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(function(e, te)
-        return te:IsActiveType(TYPE_TRAP) and te:GetOwnerPlayer() ~= e:GetHandlerPlayer()
-    end)
+    e2:SetValue(function(e, te) return te:IsActiveType(TYPE_TRAP) and te:GetOwnerPlayer() ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(e2)
 
     -- disable trap
@@ -48,9 +46,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c, e, tp)
-    return c:IsSetCard(0x6008) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
+function s.e1filter(c, e, tp) return c:IsSetCard(0x6008) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
@@ -62,14 +58,10 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return
-    end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_HAND, 0, 1, 1, nil, e, tp)
-    if #g > 0 then
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
-    end
+    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -100,13 +92,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec1c, tp)
 end
 
-function s.e3distg(e, c)
-    return c:IsTrap()
-end
+function s.e3distg(e, c) return c:IsTrap() end
 
 function s.e3disop(e, tp, eg, ep, ev, re, r, rp)
     local loc, tgp = Duel.GetChainInfo(ev, CHAININFO_TRIGGERING_LOCATION, CHAININFO_TRIGGERING_PLAYER)
-    if tgp ~= tp and loc == LOCATION_SZONE and re:IsActiveType(TYPE_TRAP) then
-        Duel.NegateEffect(ev)
-    end
+    if tgp ~= tp and loc == LOCATION_SZONE and re:IsActiveType(TYPE_TRAP) then Duel.NegateEffect(ev) end
 end

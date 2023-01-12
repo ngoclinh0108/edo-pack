@@ -51,9 +51,7 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
 
     return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
@@ -62,18 +60,14 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local bc = e:GetHandler():GetBattleTarget()
-    if chk == 0 then
-        return bc and bc:IsRelateToBattle()
-    end
+    if chk == 0 then return bc and bc:IsRelateToBattle() end
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, bc, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local bc = e:GetHandler():GetBattleTarget()
-    if bc and bc:IsRelateToBattle() then
-        Duel.Destroy(bc, REASON_EFFECT)
-    end
+    if bc and bc:IsRelateToBattle() then Duel.Destroy(bc, REASON_EFFECT) end
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
@@ -82,9 +76,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsPlayerCanDraw(tp, 2)
-    end
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 2) end
 
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 2)
     Duel.SetOperationInfo(0, CATEGORY_HANDES, nil, 0, tp, 1)

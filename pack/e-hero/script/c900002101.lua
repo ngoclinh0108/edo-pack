@@ -2,9 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-function s.initial_effect(c)
-    c:EnableReviveLimit()
-end
+function s.initial_effect(c) c:EnableReviveLimit() end
 
 function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 86676862)

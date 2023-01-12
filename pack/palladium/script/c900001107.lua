@@ -33,12 +33,8 @@ function s.initial_effect(c)
     e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e3:SetCode(EFFECT_EXTRA_RITUAL_MATERIAL)
     e3:SetRange(LOCATION_GRAVE)
-    e3:SetCondition(function(e)
-        return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(), 69832741)
-    end)
-    e3:SetValue(function(e, c)
-        return c:IsSetCard(0x13a)
-    end)
+    e3:SetCondition(function(e) return not Duel.IsPlayerAffectedByEffect(e:GetHandlerPlayer(), 69832741) end)
+    e3:SetValue(function(e, c) return c:IsSetCard(0x13a) end)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
     e3b:SetCode(EFFECT_EXTRA_FUSION_MATERIAL)
@@ -47,13 +43,9 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return false
-    end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return false end
     return Duel.GetFieldGroupCount(tp, LOCATION_MZONE, 0) == 0 or
                Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsAttackAbove, 2000), tp, 0, LOCATION_MZONE, 1, nil)
 end
@@ -65,9 +57,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local _, bc = Duel.GetBattleMonster(tp)
-    if chk == 0 then
-        return bc:IsCanChangePosition()
-    end
+    if chk == 0 then return bc:IsCanChangePosition() end
 
     Duel.SetOperationInfo(0, CATEGORY_POSITION, bc, 1, 0, 0)
 end

@@ -35,9 +35,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c)
-    return not c:IsCode(id) and c:IsSetCard(0x6008) and c:IsMonster() and c:IsAbleToGrave()
-end
+function s.e1filter(c) return not c:IsCode(id) and c:IsSetCard(0x6008) and c:IsMonster() and c:IsAbleToGrave() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
@@ -65,8 +63,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
 
-    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-        nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil)
     if #g > 0 and Duel.SendtoGrave(g, REASON_EFFECT) > 0 and c:IsRelateToEffect(e) then
         Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
     end
@@ -78,9 +75,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil) end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)

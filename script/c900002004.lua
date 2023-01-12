@@ -33,17 +33,13 @@ function s.initial_effect(c)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc)
-        return tc == e:GetHandler()
-    end)
+    norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
     local nomaterial = Effect.CreateEffect(c)
     nomaterial:SetType(EFFECT_TYPE_SINGLE)
     nomaterial:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     nomaterial:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    nomaterial:SetValue(function(e, tc)
-        return tc and tc:GetControler() ~= e:GetHandlerPlayer()
-    end)
+    nomaterial:SetValue(function(e, tc) return tc and tc:GetControler() ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(nomaterial)
 
     -- self disable
@@ -95,13 +91,9 @@ function s.initial_effect(c)
     c:RegisterEffect(e5)
 end
 
-function s.splimit(e, se, sp, st)
-    return not e:GetHandler():IsLocation(LOCATION_EXTRA)
-end
+function s.splimit(e, se, sp, st) return not e:GetHandler():IsLocation(LOCATION_EXTRA) end
 
-function s.fusfilter(tp)
-    return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost, tp, LOCATION_ONFIELD, 0, nil)
-end
+function s.fusfilter(tp) return Duel.GetMatchingGroup(Card.IsAbleToDeckOrExtraAsCost, tp, LOCATION_ONFIELD, 0, nil) end
 
 function s.fusop(g, tp)
     Duel.ConfirmCards(1 - tp, g)
@@ -154,9 +146,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, c)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, LOCATION_ONFIELD)
@@ -172,8 +162,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
         local p = e:GetHandler():GetOwner()
-        if c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, true, false) and
-            Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
+        if c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, true, false) and Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
+            Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
             Duel.BreakEffect()
             Duel.SpecialSummon(c, SUMMON_TYPE_FUSION, p, p, true, false, POS_FACEUP)
             c:CompleteProcedure()
@@ -183,9 +173,7 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:CanAttack() and Duel.IsExistingTarget(nil, tp, 0, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return c:CanAttack() and Duel.IsExistingTarget(nil, tp, 0, LOCATION_MZONE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACK)
     local tc = Duel.SelectMatchingCard(tp, nil, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
@@ -195,8 +183,8 @@ end
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if c:IsRelateToEffect(e) and c:IsFaceup() and tc and tc:IsRelateToEffect(e) and c:CanAttack() and
-        not c:IsImmuneToEffect(e) and not tc:IsImmuneToEffect(e) then
+    if c:IsRelateToEffect(e) and c:IsFaceup() and tc and tc:IsRelateToEffect(e) and c:CanAttack() and not c:IsImmuneToEffect(e) and
+        not tc:IsImmuneToEffect(e) then
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
@@ -209,16 +197,12 @@ end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsAbleToChangeControler()
-    end
+    if chk == 0 then return c:IsAbleToChangeControler() end
 
     Duel.SetOperationInfo(0, CATEGORY_CONTROL, c, 1, 0, 0)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsRelateToEffect(e) and c:IsFaceup() then
-        Duel.GetControl(c, 1 - tp)
-    end
+    if c:IsRelateToEffect(e) and c:IsFaceup() then Duel.GetControl(c, 1 - tp) end
 end

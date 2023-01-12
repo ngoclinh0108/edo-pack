@@ -29,9 +29,7 @@ function s.initial_effect(c)
     e1:SetRange(LOCATION_MZONE)
     e1:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
     e1:SetTargetRange(LOCATION_MZONE, 0)
-    e1:SetTarget(function(e, tc)
-        return tc:IsSetCard(0x13a) and tc:IsRace(RACE_SPELLCASTER)
-    end)
+    e1:SetTarget(function(e, tc) return tc:IsSetCard(0x13a) and tc:IsRace(RACE_SPELLCASTER) end)
     e1:SetValue(1)
     c:RegisterEffect(e1)
 
@@ -81,14 +79,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e4)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
-end
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsPlayerCanDraw(tp, 1)
-    end
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
     Duel.SetTargetPlayer(tp)
     Duel.SetTargetParam(1)
     Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
@@ -97,9 +91,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
-    if Duel.Draw(p, d, REASON_EFFECT) == 0 then
-        return
-    end
+    if Duel.Draw(p, d, REASON_EFFECT) == 0 then return end
 
     local tc = Duel.GetOperatedGroup():GetFirst()
     if tc:IsType(TYPE_SPELL + TYPE_TRAP) and tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
@@ -120,25 +112,20 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4filter(c, e, tp, code)
-    return c:IsCode(code) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
+function s.e4filter(c, e, tp, code) return c:IsCode(code) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsAbleToExtraAsCost()
-    end
+    if chk == 0 then return c:IsAbleToExtraAsCost() end
     Duel.SendtoDeck(c, nil, 0, REASON_COST)
 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_REMOVED + LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
     if chk == 0 then
-        return
-            not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and Duel.GetLocationCount(tp, LOCATION_MZONE) >=
-                2 and Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil, e, tp, 71703785) and
-                Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil, e, tp, 42006475)
+        return not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) and Duel.GetLocationCount(tp, LOCATION_MZONE) >= 2 and
+                   Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil, e, tp, 71703785) and
+                   Duel.IsExistingMatchingCard(s.e4filter, tp, loc, 0, 1, nil, e, tp, 42006475)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 2, tp, loc)
@@ -146,15 +133,11 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local loc = LOCATION_REMOVED + LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
-    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 then
-        return
-    end
+    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) or Duel.GetLocationCount(tp, LOCATION_MZONE) < 2 then return end
 
     local g1 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e4filter), tp, loc, 0, nil, e, tp, 71703785)
     local g2 = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e4filter), tp, loc, 0, nil, e, tp, 42006475)
-    if #g1 == 0 or #g2 == 0 then
-        return
-    end
+    if #g1 == 0 or #g2 == 0 then return end
 
     g1 = Utility.GroupSelect(HINTMSG_SPSUMMON, g1, tp)
     g2 = Utility.GroupSelect(HINTMSG_SPSUMMON, g2, tp)

@@ -49,9 +49,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsFacedown() then
-        return
-    end
+    if c:IsFacedown() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -62,15 +60,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 end
 
-function s.e2filter(c)
-    return c:IsType(TYPE_FIELD) and c:IsAbleToHand()
-end
+function s.e2filter(c) return c:IsType(TYPE_FIELD) and c:IsAbleToHand() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetMatchingGroup(aux.TRUE, 0, LOCATION_FZONE, LOCATION_FZONE, nil)
-    if chk == 0 then
-        return #g > 0
-    end
+    if chk == 0 then return #g > 0 end
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, #g * 1000)
@@ -81,9 +75,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local dg = Duel.GetMatchingGroup(aux.TRUE, 0, LOCATION_FZONE, LOCATION_FZONE, nil)
     local ct = Duel.Destroy(dg, REASON_EFFECT)
-    if ct == 0 then
-        return
-    end
+    if ct == 0 then return end
 
     Duel.Recover(tp, ct * 1000, REASON_EFFECT)
     local sg = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, nil)

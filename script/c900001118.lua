@@ -38,41 +38,26 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter1(c)
-    return c:IsSetCard(0x13a) and c:IsLevelAbove(5) and c:IsAbleToGraveAsCost()
-end
+function s.e1filter1(c) return c:IsSetCard(0x13a) and c:IsLevelAbove(5) and c:IsAbleToGraveAsCost() end
 
-function s.e1filter2(c)
-    return c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand()
-end
+function s.e1filter2(c) return c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand() end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK, 0, 1,
-                                           nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK, 0, 1, nil) end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter1, tp,
-                                         LOCATION_DECK, 0, 1, 1, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter1, tp, LOCATION_DECK, 0, 1, 1, nil)
     Duel.SendtoGrave(g, REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter2, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                           nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp,
-                          LOCATION_DECK + LOCATION_GRAVE)
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp,
-                                         aux.NecroValleyFilter(s.e1filter2), tp,
-                                         LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                                         1, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e1filter2), tp,
+        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
@@ -90,7 +75,6 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER,
-                                   CHAININFO_TARGET_PARAM)
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     Duel.Draw(p, d, REASON_EFFECT)
 end

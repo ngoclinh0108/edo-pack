@@ -43,55 +43,41 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, tp)
-    return c:IsControler(tp) and c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON) and
-               c:IsType(TYPE_SYNCHRO)
+    return c:IsControler(tp) and c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(s.e1filter, 1, nil, tp)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return eg:IsExists(s.e1filter, 1, nil, tp) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-    end
+    if chk == 0 then return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e2filter(c, mg)
-    return c:IsSetCard(0x3f) and c:IsSynchroSummonable(mg)
-end
+function s.e2filter(c, mg) return c:IsSetCard(0x3f) and c:IsSynchroSummonable(mg) end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp and
-               (Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2)
+    return Duel.GetTurnPlayer() ~= tp and (Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_EXTRA, 0, 1, nil, c)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_EXTRA, 0, 1, nil, c) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsControler(1 - tp) or not c:IsRelateToEffect(e) or c:IsFacedown() then
-        return
-    end
+    if c:IsControler(1 - tp) or not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 
     local g = Duel.GetMatchingGroup(s.e2filter, tp, LOCATION_EXTRA, 0, nil, c)
     if #g > 0 then

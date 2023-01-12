@@ -31,27 +31,19 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter1(c)
-    return c:IsFaceup()
-end
+function s.e1filter1(c) return c:IsFaceup() end
 
-function s.e1filter2(c, e, tp)
-    return c:IsCode(78371393) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
+function s.e1filter2(c, e, tp) return c:IsCode(78371393) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
-function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return not e:GetHandler():IsPublic()
-    end
-end
+function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk) if chk == 0 then return not e:GetHandler():IsPublic() end end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     if chk == 0 then
-        return Duel.IsExistingTarget(s.e1filter1, tp, LOCATION_MZONE, 0, 1, nil) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   (c:IsCanBeSpecialSummoned(e, 0, tp, false, false) or
-                       Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil))
+        return
+            Duel.IsExistingTarget(s.e1filter1, tp, LOCATION_MZONE, 0, 1, nil) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                (c:IsCanBeSpecialSummoned(e, 0, tp, false, false) or
+                    Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil))
     end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
@@ -64,14 +56,10 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) or Duel.Destroy(tc, REASON_EFFECT) == 0 then
-        return
-    end
+    if not tc:IsRelateToEffect(e) or Duel.Destroy(tc, REASON_EFFECT) == 0 then return end
 
     local opt = {}
-    if c:IsRelateToEffect(e) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
-        table.insert(opt, aux.Stringid(id, 0))
-    end
+    if c:IsRelateToEffect(e) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then table.insert(opt, aux.Stringid(id, 0)) end
     if Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil, e, tp) then
         table.insert(opt, aux.Stringid(id, 1))
     end
@@ -80,20 +68,16 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if op == 0 then
         Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
     else
-        local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1,
-            1, nil, e, tp)
+        local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil,
+            e, tp)
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
     end
 end
 
-function s.e2filter(c)
-    return c:IsFaceup() and c:IsRace(RACE_FIEND)
-end
+function s.e2filter(c) return c:IsFaceup() and c:IsRace(RACE_FIEND) end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, 0, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, nil)
@@ -106,7 +90,5 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
     if tc:IsRelateToEffect(e) and Duel.Destroy(tc, REASON_EFFECT) > 0 and Duel.IsPlayerCanDraw(tp, 1) and
-        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then
-        Duel.Draw(tp, 1, REASON_EFFECT)
-    end
+        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then Duel.Draw(tp, 1, REASON_EFFECT) end
 end

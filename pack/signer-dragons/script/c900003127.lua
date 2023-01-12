@@ -26,9 +26,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c, e, tp)
-    return c:IsLevelBelow(2) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP_DEFENSE)
-end
+function s.e1filter(c, e, tp) return c:IsLevelBelow(2) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP_DEFENSE) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
@@ -45,9 +43,7 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) then
-        return
-    end
+    if not tc:IsRelateToEffect(e) then return end
 
     if Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) then
         local ec1 = Effect.CreateEffect(c)

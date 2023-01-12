@@ -36,17 +36,10 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter(c)
-    return c:IsAbleToRemove() and
-               (c:IsLocation(LOCATION_DECK) or aux.SpElimFilter(c, true))
-end
+function s.e2filter(c) return c:IsAbleToRemove() and (c:IsLocation(LOCATION_DECK) or aux.SpElimFilter(c, true)) end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp,
-                                           LOCATION_DECK + LOCATION_GRAVE,
-                                           LOCATION_GRAVE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK + LOCATION_GRAVE, LOCATION_GRAVE, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 0, 0)
 end
@@ -54,9 +47,8 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter, tp,
-                                          LOCATION_DECK + LOCATION_GRAVE,
-                                          LOCATION_GRAVE, 1, 1, nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter, tp, LOCATION_DECK + LOCATION_GRAVE, LOCATION_GRAVE, 1,
+        1, nil):GetFirst()
     if not tc or Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then return end
     Duel.HintSelection(tc)
 
@@ -100,11 +92,7 @@ function s.e3filter(c) return c:IsFaceup() and c:IsAbleToHand() end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsAbleToDeck() and
-                   Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_REMOVED,
-                                               0, 1, nil)
-    end
+    if chk == 0 then return c:IsAbleToDeck() and Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_REMOVED, 0, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 1, tp, LOCATION_MZONE)
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_REMOVED)

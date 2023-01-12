@@ -9,9 +9,8 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- link summon
-    Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x13a), 3, 3, function(g, lc, sumtype, tp)
-        return g:IsExists(Card.IsSummonType, 1, nil, SUMMON_TYPE_NORMAL)
-    end)
+    Link.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x13a), 3, 3,
+        function(g, lc, sumtype, tp) return g:IsExists(Card.IsSummonType, 1, nil, SUMMON_TYPE_NORMAL) end)
 
     -- add divine beast
     local e1 = Effect.CreateEffect(c)
@@ -20,13 +19,9 @@ function s.initial_effect(c)
     e1:SetProperty(EFFECT_FLAG_DELAY)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetCountLimit(1, id)
-    e1:SetCondition(function(e)
-        return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
-    end)
+    e1:SetCondition(function(e) return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) end)
     e1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-        if chk == 0 then
-            return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
-        end
+        if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) end
 
         Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
     end)
@@ -45,9 +40,7 @@ function s.initial_effect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     e2:SetCode(EFFECT_TRIPLE_TRIBUTE)
-    e2:SetValue(function(e, c)
-        return c:IsAttribute(ATTRIBUTE_DIVINE)
-    end)
+    e2:SetValue(function(e, c) return c:IsAttribute(ATTRIBUTE_DIVINE) end)
     c:RegisterEffect(e2)
 
     -- additional tribute summon
@@ -57,12 +50,8 @@ function s.initial_effect(c)
     e3:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
     e3:SetRange(LOCATION_MZONE)
     e3:SetTargetRange(LOCATION_HAND, 0)
-    e3:SetCondition(function(e)
-        return Duel.IsMainPhase()
-    end)
-    e3:SetTarget(function(e, c)
-        return c:IsLevelAbove(10) and c:IsAttribute(ATTRIBUTE_DIVINE)
-    end)
+    e3:SetCondition(function(e) return Duel.IsMainPhase() end)
+    e3:SetTarget(function(e, c) return c:IsLevelAbove(10) and c:IsAttribute(ATTRIBUTE_DIVINE) end)
     e3:SetValue(1)
     c:RegisterEffect(e3)
 
@@ -92,22 +81,16 @@ function s.initial_effect(c)
     c:RegisterEffect(e6)
 end
 
-function s.e1filter(c)
-    return (c:IsCode(CARD_RA) or c:ListsCode(CARD_RA)) and not c:IsCode(id) and c:IsAbleToHand()
-end
+function s.e1filter(c) return (c:IsCode(CARD_RA) or c:ListsCode(CARD_RA)) and not c:IsCode(id) and c:IsAbleToHand() end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK)
-end
+function s.e4con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = c:GetMaterial()
 
     local atk = 0
-    for tc in aux.Next(g) do
-        atk = atk + tc:GetBaseAttack()
-    end
+    for tc in aux.Next(g) do atk = atk + tc:GetBaseAttack() end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -156,9 +139,7 @@ function s.e6regop(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetCode(EFFECT_REVERSE_DAMAGE)
         ec1:SetRange(LOCATION_MZONE)
         ec1:SetTargetRange(1, 0)
-        ec1:SetValue(function(e, re, r, rp, rc)
-            return (r & REASON_EFFECT) ~= 0
-        end)
+        ec1:SetValue(function(e, re, r, rp, rc) return (r & REASON_EFFECT) ~= 0 end)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
         c:RegisterEffect(ec1)
     end)

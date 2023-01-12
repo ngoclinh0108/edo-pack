@@ -111,9 +111,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
@@ -136,9 +134,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, 0)
 end
@@ -148,9 +144,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.SendtoHand(tc, tp, REASON_EFFECT)
 end
 
-function s.e4filter(c, e, tp)
-    return c:IsCode(10000000, 10000020, CARD_RA) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
+function s.e4filter(c, e, tp) return c:IsCode(10000000, 10000020, CARD_RA) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
@@ -164,25 +158,17 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return
-    end
+    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e4filter), tp,
         LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
-    if #g > 0 then
-        Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
-    end
+    if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
 
-function s.e5filter(c)
-    return c:IsCode(39913299) and c:IsAbleToHand()
-end
+function s.e5filter(c) return c:IsCode(39913299) and c:IsAbleToHand() end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
@@ -190,9 +176,7 @@ end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e5filter), tp,
         LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
@@ -204,14 +188,12 @@ end
 
 function s.e6filter(c, tp)
     return c:IsSpellTrap() and c:ListsCode(10000000, 10000020, CARD_RA) and
-               not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode, c:GetCode()), tp,
-            LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, nil) and (c:IsSSetable() or c:IsAbleToHand())
+               not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode, c:GetCode()), tp, LOCATION_ONFIELD + LOCATION_GRAVE,
+            0, 1, nil) and (c:IsSSetable() or c:IsAbleToHand())
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_DECK, 0, 1, nil, tp)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e6filter, tp, LOCATION_DECK, 0, 1, nil, tp) end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
     Duel.SetPossibleOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
@@ -219,18 +201,10 @@ end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     local tc = Utility.SelectMatchingCard(HINTMSG_SET, tp, s.e6filter, tp, LOCATION_DECK, 0, 1, 1, nil, tp):GetFirst()
-    if not tc then
-        return
-    end
+    if not tc then return end
 
-    aux.ToHandOrElse(tc, tp, function(c)
-        return tc:IsSSetable()
-    end, function(c)
-        Duel.SSet(tp, tc)
-    end, 1159)
+    aux.ToHandOrElse(tc, tp, function(c) return tc:IsSSetable() end, function(c) Duel.SSet(tp, tc) end, 1159)
 end

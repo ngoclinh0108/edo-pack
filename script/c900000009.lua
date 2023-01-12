@@ -95,19 +95,15 @@ function s.initial_effect(c)
 end
 
 function s.sprfilter(c)
-    return c:IsOriginalAttribute(ATTRIBUTE_DARK) and c:IsOriginalRace(RACE_DIVINE) and
-               c:IsSummonType(SUMMON_TYPE_NORMAL)
+    return c:IsOriginalAttribute(ATTRIBUTE_DARK) and c:IsOriginalRace(RACE_DIVINE) and c:IsSummonType(SUMMON_TYPE_NORMAL)
 end
 
 function s.sprescon(sg, e, tp, mg)
-    return aux.ChkfMMZ(1)(sg, e, tp, mg) and sg:GetClassCount(Card.GetCode) == #sg,
-        sg:GetClassCount(Card.GetCode) ~= #sg
+    return aux.ChkfMMZ(1)(sg, e, tp, mg) and sg:GetClassCount(Card.GetCode) == #sg, sg:GetClassCount(Card.GetCode) ~= #sg
 end
 
 function s.sprcon(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
 
     local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
@@ -127,17 +123,13 @@ end
 
 function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.Overlay(c, g)
     g:DeleteGroup()
 end
 
-function s.e1filter(c, tp)
-    return c:IsFaceup() and not c:IsType(TYPE_TOKEN) and (c:IsControler(tp) or c:IsAbleToChangeControler())
-end
+function s.e1filter(c, tp) return c:IsFaceup() and not c:IsType(TYPE_TOKEN) and (c:IsControler(tp) or c:IsAbleToChangeControler()) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
@@ -150,38 +142,27 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e1filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE,
         LOCATION_ONFIELD + LOCATION_GRAVE, 1, 1, c, tp):GetFirst()
-    if not tc then
-        return
-    end
+    if not tc then return end
 
     Duel.HintSelection(tc)
     local og = tc:GetOverlayGroup()
-    if #og > 0 then
-        Duel.Overlay(c, og)
-    end
+    if #og > 0 then Duel.Overlay(c, og) end
     Duel.Overlay(c, tc)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local og = c:GetOverlayGroup():Filter(function(tc)
-        return not tc:IsCode(id) and tc:IsMonster()
-    end, nil)
-    if #og <= 0 then
-        return
-    end
+    local og = c:GetOverlayGroup():Filter(function(tc) return not tc:IsCode(id) and tc:IsMonster() end, nil)
+    if #og <= 0 then return end
 
     for tc in aux.Next(og) do
         local code = tc:GetOriginalCode()
-        local isExisted = og:IsExists(function(tc, code)
-            return tc:IsOriginalCode(code) and tc:GetFlagEffect(id) > 0
-        end, 1, nil, code)
+        local isExisted = og:IsExists(function(tc, code) return tc:IsOriginalCode(code) and tc:GetFlagEffect(id) > 0 end, 1, nil,
+            code)
 
         if not isExisted then
             tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe2000, 0, 0)
@@ -198,9 +179,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
                 local cid = e:GetLabel()
                 local c = e:GetHandler()
                 local tc = e:GetLabelObject()
-                local g = c:GetOverlayGroup():Filter(function(c)
-                    return c:GetFlagEffect(id) > 0
-                end, nil)
+                local g = c:GetOverlayGroup():Filter(function(c) return c:GetFlagEffect(id) > 0 end, nil)
                 if c:IsDisabled() or c:IsFacedown() or not g:IsContains(tc) then
                     c:ResetEffect(cid, RESET_COPY)
                     tc:ResetFlagEffect(id)

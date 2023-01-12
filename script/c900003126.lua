@@ -28,28 +28,20 @@ function s.initial_effect(c)
     c:RegisterEffect(e2b)
 end
 
-function s.e1filter(c)
-    return c:IsFaceup() and (c:IsSetCard(0xa3) or c:IsSetCard(0x43))
-end
+function s.e1filter(c) return c:IsFaceup() and (c:IsSetCard(0xa3) or c:IsSetCard(0x43)) end
 
 function s.e1con(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
 
     return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
                Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
 end
 
-function s.e2filter(c)
-    return c:IsFaceup() and c:HasLevel() and (c:IsSetCard(0xa3) or c:IsSetCard(0x43))
-end
+function s.e2filter(c) return c:IsFaceup() and c:HasLevel() and (c:IsSetCard(0xa3) or c:IsSetCard(0x43)) end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
     local tc = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil):GetFirst()
@@ -67,9 +59,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc:IsRelateToEffect(e) or tc:IsFacedown() then
-        return
-    end
+    if not tc:IsRelateToEffect(e) or tc:IsFacedown() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)

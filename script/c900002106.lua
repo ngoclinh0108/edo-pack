@@ -50,9 +50,7 @@ function s.initial_effect(c)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(Card.IsFaceup, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_POSCHANGE)
     local g = Duel.SelectTarget(tp, Card.IsFaceup, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil)
@@ -69,8 +67,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c, e, tp)
-    return c:IsFaceup() and c:IsSetCard(0x6008) and not c:IsCode(id) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsFaceup() and c:IsSetCard(0x6008) and not c:IsCode(id) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -87,9 +84,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return
-    end
+    if not tc or not tc:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
 end
@@ -100,14 +95,11 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil) end
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp, chk)
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
     if tc then
         Duel.HintSelection(tc)
         Duel.Destroy(tc, REASON_EFFECT)

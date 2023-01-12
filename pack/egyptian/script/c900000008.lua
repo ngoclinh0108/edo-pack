@@ -55,9 +55,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
     ec1:SetTargetRange(0, 1)
-    ec1:SetValue(function(e, re, tp)
-        return re:IsHasType(EFFECT_TYPE_ACTIVATE)
-    end)
+    ec1:SetValue(function(e, re, tp) return re:IsHasType(EFFECT_TYPE_ACTIVATE) end)
     ec1:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
     Duel.RegisterEffect(ec1, tp)
 
@@ -65,9 +63,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     ec2:SetCode(EVENT_PHASE + PHASE_END)
     ec2:SetCountLimit(1)
-    ec2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return Duel.GetTurnPlayer() ~= tp
-    end)
+    ec2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() ~= tp end)
     ec2:SetOperation(s.e1turnop)
     ec2:SetLabelObject(ec1)
     ec2:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
@@ -77,14 +73,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local ec3 = Effect.CreateEffect(c)
     ec3:SetType(EFFECT_TYPE_SINGLE)
     ec3:SetDescription(aux.Stringid(id, descnum))
-    ec3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_IGNORE_IMMUNE +
-                        EFFECT_FLAG_SET_AVAILABLE)
+    ec3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE + EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SET_AVAILABLE)
     ec3:SetCode(1082946)
     ec3:SetLabelObject(ec2)
     ec3:SetOwnerPlayer(tp)
-    ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        s.e1turnop(e:GetLabelObject(), tp, eg, ep, ev, e, r, rp)
-    end)
+    ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp) s.e1turnop(e:GetLabelObject(), tp, eg, ep, ev, e, r, rp) end)
     ec3:SetReset(RESET_PHASE + PHASE_END + RESET_OPPO_TURN, 2)
     c:RegisterEffect(ec3)
 end
@@ -97,9 +90,7 @@ function s.e1turnop(e, tp, eg, ep, ev, re, r, rp)
     if ct == 2 then
         c:SetTurnCounter(0)
         e:GetLabelObject():Reset()
-        if re then
-            re:Reset()
-        end
+        if re then re:Reset() end
     else
         e:SetLabel(ct)
     end
@@ -109,9 +100,8 @@ function s.e2val(e)
     local c = e:GetHandler()
 
     local atk = 0
-    local g = Duel.GetMatchingGroup(function(tc)
-        return tc:IsFaceup() and not tc:IsHasEffect(21208154)
-    end, 0, LOCATION_MZONE, LOCATION_MZONE, nil)
+    local g = Duel.GetMatchingGroup(function(tc) return tc:IsFaceup() and not tc:IsHasEffect(21208154) end, 0, LOCATION_MZONE,
+        LOCATION_MZONE, nil)
     if #g > 0 then
         local tg, val = g:GetMaxGroup(Card.GetAttack)
         if not tg:IsExists(aux.TRUE, 1, c) then

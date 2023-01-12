@@ -38,9 +38,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c, tp)
-    return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x13a) and c:IsMonster()
-end
+function s.e1filter(c, tp) return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x13a) and c:IsMonster() end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -53,9 +51,7 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
 end
@@ -72,25 +68,20 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local atg = ac:GetAttackableTarget()
 
     if chk == 0 then
-        return ac:GetControler() ~= tp and bc and bc ~= c and bc:IsFaceup() and bc:IsSetCard(0x13a) and
-                   atg:IsContains(c)
+        return ac:GetControler() ~= tp and bc and bc ~= c and bc:IsFaceup() and bc:IsSetCard(0x13a) and atg:IsContains(c)
     end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:IsFacedown() or not c:IsRelateToEffect(e) or Duel.GetAttacker():IsImmuneToEffect(e) then
-        return
-    end
+    if c:IsFacedown() or not c:IsRelateToEffect(e) or Duel.GetAttacker():IsImmuneToEffect(e) then return end
 
     Duel.ChangeAttackTarget(c)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToBattle() or Duel.GetAttackTarget() ~= c or not c:IsDefensePos() then
-        return
-    end
+    if not c:IsRelateToBattle() or Duel.GetAttackTarget() ~= c or not c:IsDefensePos() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)

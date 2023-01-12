@@ -38,17 +38,13 @@ function s.initial_effect(c)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc)
-        return tc == e:GetHandler()
-    end)
+    norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
     local nomaterial = Effect.CreateEffect(c)
     nomaterial:SetType(EFFECT_TYPE_SINGLE)
     nomaterial:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     nomaterial:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    nomaterial:SetValue(function(e, tc)
-        return tc and tc:GetControler() ~= e:GetHandlerPlayer()
-    end)
+    nomaterial:SetValue(function(e, tc) return tc and tc:GetControler() ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(nomaterial)
 
     -- limit batlle target
@@ -58,12 +54,8 @@ function s.initial_effect(c)
     e1:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
     e1:SetRange(LOCATION_MZONE)
     e1:SetTargetRange(0, LOCATION_MZONE)
-    e1:SetCondition(function(e)
-        return e:GetHandler():IsDefensePos()
-    end)
-    e1:SetValue(function(e, c)
-        return c ~= e:GetHandler()
-    end)
+    e1:SetCondition(function(e) return e:GetHandler():IsDefensePos() end)
+    e1:SetValue(function(e, c) return c ~= e:GetHandler() end)
     c:RegisterEffect(e1)
 
     -- damage
@@ -87,18 +79,12 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.sprfilter1(c)
-    return c:IsFaceup() and c:GetType() == TYPE_SPELL + TYPE_CONTINUOUS and c:IsAbleToGraveAsCost()
-end
+function s.sprfilter1(c) return c:IsFaceup() and c:GetType() == TYPE_SPELL + TYPE_CONTINUOUS and c:IsAbleToGraveAsCost() end
 
-function s.sprfilter2(c)
-    return s.sprfilter1(c) or (c:IsFacedown() and c:IsSpell() and c:IsAbleToGraveAsCost())
-end
+function s.sprfilter2(c) return s.sprfilter1(c) or (c:IsFacedown() and c:IsSpell() and c:IsAbleToGraveAsCost()) end
 
 function s.sprcon(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
 
     local g = nil
@@ -122,9 +108,7 @@ function s.sprtg(e, tp, eg, ep, ev, re, r, rp, c)
 
     local sg = aux.SelectUnselectGroup(g, e, tp, 3, 3, aux.ChkfMMZ(1), 1, tp, HINTMSG_TOGRAVE, nil, nil, true)
     local dg = sg:Filter(Card.IsFacedown, nil)
-    if #dg > 0 then
-        Duel.ConfirmCards(1 - tp, dg)
-    end
+    if #dg > 0 then Duel.ConfirmCards(1 - tp, dg) end
 
     if #sg == 3 then
         sg:KeepAlive()
@@ -136,22 +120,16 @@ end
 
 function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.SendtoGrave(g, REASON_COST)
     g:DeleteGroup()
 end
 
-function s.e1con(e)
-    return e:GetHandler():IsDefensePos()
-end
+function s.e1con(e) return e:GetHandler():IsDefensePos() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
     Duel.SetTargetPlayer(1 - tp)
     Duel.SetTargetParam(1000)

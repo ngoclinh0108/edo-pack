@@ -10,9 +10,8 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    Synchro.AddProcedure(c, function(c, sc, stype, tp)
-        return c:IsSetCard(0x1017, sc, stype, tp) or c:IsHasEffect(20932152)
-    end, 1, 1, Synchro.NonTuner(nil), 1, 99)
+    Synchro.AddProcedure(c, function(c, sc, stype, tp) return c:IsSetCard(0x1017, sc, stype, tp) or c:IsHasEffect(20932152) end,
+        1, 1, Synchro.NonTuner(nil), 1, 99)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -78,9 +77,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.splimitcon(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
-end
+function s.splimitcon(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) end
 
 function s.splimitop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -96,23 +93,15 @@ function s.splimitop(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e1counterfilter(c)
-    return not c:IsSummonLocation(LOCATION_EXTRA) or c:IsType(TYPE_SYNCHRO)
-end
+function s.e1counterfilter(c) return not c:IsSummonLocation(LOCATION_EXTRA) or c:IsType(TYPE_SYNCHRO) end
 
-function s.e1filter(c, e, tp)
-    return c:IsSetCard(0x1017) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP_DEFENSE)
-end
+function s.e1filter(c, e, tp) return c:IsSetCard(0x1017) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP_DEFENSE) end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetCustomActivityCount(id, tp, ACTIVITY_SPSUMMON) == 0
-    end
+    if chk == 0 then return Duel.GetCustomActivityCount(id, tp, ACTIVITY_SPSUMMON) == 0 end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(aux.Stringid(id, 2))
@@ -126,52 +115,35 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
 
-    aux.addTempLizardCheck(e:GetHandler(), tp, function(e, c)
-        return not c:IsOriginalType(TYPE_SYNCHRO)
-    end)
+    aux.addTempLizardCheck(e:GetHandler(), tp, function(e, c) return not c:IsOriginalType(TYPE_SYNCHRO) end)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         local ct = Duel.GetLocationCount(tp, LOCATION_MZONE, tp, LOCATION_REASON_TOFIELD)
         return ct > 0 and
-                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                nil, e, tp)
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, e, tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
-    if e:GetLabelObject():GetLabel() > 0 then
-        Duel.SetChainLimit(function(e, ep, tp)
-            return tp == ep
-        end)
-    end
+    if e:GetLabelObject():GetLabel() > 0 then Duel.SetChainLimit(function(e, ep, tp) return tp == ep end) end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp,
-        LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, nil, e, tp)
+    local g = Duel.GetMatchingGroup(aux.NecroValleyFilter(s.e1filter), tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, nil,
+        e, tp)
     local ct = math.min(Duel.GetLocationCount(tp, LOCATION_MZONE), g:GetClassCount(Card.GetLevel))
-    if ct <= 0 then
-        return
-    end
-    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then
-        ct = 1
-    end
+    if ct <= 0 then return end
+    if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then ct = 1 end
 
     local sg = aux.SelectUnselectGroup(g, e, tp, ct, ct, aux.dpcheck(Card.GetLevel), 1, tp, HINTMSG_SPSUMMON)
-    if #sg > 0 then
-        Duel.SpecialSummon(sg, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
-    end
+    if #sg > 0 then Duel.SpecialSummon(sg, 0, tp, tp, false, false, POS_FACEUP_DEFENSE) end
 end
 
-function s.e2filter(c)
-    return c:HasLevel() and c:GetLevel() ~= 0 and c:IsSetCard(0x1017) and c:IsAbleToGraveAsCost()
-end
+function s.e2filter(c) return c:HasLevel() and c:GetLevel() ~= 0 and c:IsSetCard(0x1017) and c:IsAbleToGraveAsCost() end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TOGRAVE)
     local tc = Duel.SelectMatchingCard(tp, s.e2filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil):GetFirst()
@@ -181,9 +153,7 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:HasLevel()
-    end
+    if chk == 0 then return c:HasLevel() end
 
     local lv = c:GetLevel()
     local opt
@@ -199,18 +169,12 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
         e:SetLabel(-e:GetLabel())
     end
 
-    if e:GetLabelObject():GetLabel() > 0 then
-        Duel.SetChainLimit(function(e, ep, tp)
-            return tp == ep
-        end)
-    end
+    if e:GetLabelObject():GetLabel() > 0 then Duel.SetChainLimit(function(e, ep, tp) return tp == ep end) end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or c:IsFacedown() then
-        return
-    end
+    if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)

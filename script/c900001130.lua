@@ -42,21 +42,16 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter1(c)
-    return c:IsFaceup() and c:IsType(TYPE_FUSION) and c:IsAbleToExtra()
-end
+function s.e1filter1(c) return c:IsFaceup() and c:IsType(TYPE_FUSION) and c:IsAbleToExtra() end
 
 function s.e1filter2(c, e, tp, fc, mg)
     return c:IsControler(tp) and (c:GetReason() & 0x40008) == 0x40008 and c:GetReasonCard() == fc and
-               fc:CheckFusionMaterial(mg, c, PLAYER_NONE | FUSPROC_NOTFUSION) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+               fc:CheckFusionMaterial(mg, c, PLAYER_NONE | FUSPROC_NOTFUSION) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
                c:IsLocation(LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE + LOCATION_REMOVED)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e1filter1, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e1filter1, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
     local g = Duel.SelectTarget(tp, s.e1filter1, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil)
@@ -65,18 +60,15 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local c=e:GetHandler()
+    local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if tc:IsFacedown() or not tc:IsRelateToEffect(e) then
-        return
-    end
+    if tc:IsFacedown() or not tc:IsRelateToEffect(e) then return end
 
     local mg = tc:GetMaterial()
     local sumtype = tc:GetSummonType()
     if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) ~= 0 and (sumtype & SUMMON_TYPE_FUSION) == SUMMON_TYPE_FUSION and
         mg:FilterCount(aux.NecroValleyFilter(s.e1filter2), nil, e, tp, tc, mg) == #mg and #mg > 0 and #mg <=
-        Duel.GetLocationCount(tp, LOCATION_MZONE) and
-        (#mg == 1 or not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)) and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) and (#mg == 1 or not Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT)) and
         Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
         Duel.BreakEffect()
         Duel.SpecialSummon(mg, 0, tp, tp, false, false, POS_FACEUP)
@@ -84,13 +76,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
-    Duel.SetChainLimit(function(e, rp, tp)
-        return tp == rp
-    end)
+    Duel.SetChainLimit(function(e, rp, tp) return tp == rp end)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -111,16 +99,12 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     ec2:SetCode(EVENT_SPSUMMON_SUCCESS)
     ec2:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return eg:IsExists(function(c, tp)
-            return c:IsSummonPlayer(tp) and c:IsSummonType(SUMMON_TYPE_FUSION)
-        end, 1, nil, tp)
+        return eg:IsExists(function(c, tp) return c:IsSummonPlayer(tp) and c:IsSummonType(SUMMON_TYPE_FUSION) end, 1, nil, tp)
     end)
     ec2:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
         if Duel.GetCurrentChain() == 0 then
-            Duel.SetChainLimitTillChainEnd(function(e, rp, tp)
-                return tp == rp
-            end)
+            Duel.SetChainLimitTillChainEnd(function(e, rp, tp) return tp == rp end)
         elseif Duel.GetCurrentChain() == 1 then
             c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 1)
             local ec1 = Effect.CreateEffect(c)
@@ -145,20 +129,14 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetCode(EVENT_CHAIN_END)
     ec3:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
-        if c:GetFlagEffect(id) ~= 0 then
-            Duel.SetChainLimitTillChainEnd(function(e, rp, tp)
-                return tp == rp
-            end)
-        end
+        if c:GetFlagEffect(id) ~= 0 then Duel.SetChainLimitTillChainEnd(function(e, rp, tp) return tp == rp end) end
         c:ResetFlagEffect(id)
     end)
     ec3:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec3, tp)
 end
 
-function s.e3filter(c)
-    return not c:IsCode(id) and c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand()
-end
+function s.e3filter(c) return not c:IsCode(id) and c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand() end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
@@ -172,15 +150,11 @@ end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1,
-        c):GetFirst()
-    if not tc or Duel.SendtoHand(tc, nil, REASON_EFFECT) == 0 then
-        return
-    end
+    local tc =
+        Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, c):GetFirst()
+    if not tc or Duel.SendtoHand(tc, nil, REASON_EFFECT) == 0 then return end
     Duel.ConfirmCards(1 - tp, tc)
-    if tc:IsPreviousLocation(LOCATION_DECK) then
-        Duel.ShuffleDeck(tp)
-    end
+    if tc:IsPreviousLocation(LOCATION_DECK) then Duel.ShuffleDeck(tp) end
 
     if c:IsRelateToEffect(e) then
         Duel.BreakEffect()

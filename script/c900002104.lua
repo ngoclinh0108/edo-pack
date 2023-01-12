@@ -47,18 +47,13 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsSetCard(0x6008) and c:IsMonster() and c:IsDiscardable()
-end
+function s.e1filter(c) return c:IsSetCard(0x6008) and c:IsMonster() and c:IsDiscardable() end
 
 function s.e1con(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
     local tp = c:GetControler()
     local rg = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_HAND, 0, c)
-    return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and #rg > 0 and
-               aux.SelectUnselectGroup(rg, e, tp, 1, 1, nil, 0)
+    return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and #rg > 0 and aux.SelectUnselectGroup(rg, e, tp, 1, 1, nil, 0)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
@@ -76,9 +71,7 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.SendtoGrave(g, REASON_COST)
     g:DeleteGroup()
@@ -89,13 +82,9 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     return d and d:IsControler(tp) and d:IsFaceup()
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.NegateAttack()
-end
+function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.NegateAttack() end
 
-function s.e3filter(c)
-    return c:IsRace(RACE_FIEND) and c:HasLevel() and c:IsFaceup()
-end
+function s.e3filter(c) return c:IsRace(RACE_FIEND) and c:HasLevel() and c:IsFaceup() end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -103,9 +92,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_MZONE, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_MZONE, 0, 1, nil) end
 
     Duel.SetTargetPlayer(1 - tp)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, 0)

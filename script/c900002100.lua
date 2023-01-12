@@ -46,15 +46,11 @@ function s.initial_effect(c)
     c:RegisterEffect(e3c)
 end
 
-function s.e1filter(c)
-    return c:IsSpell() and c:IsSetCard(0x46) and c:IsAbleToHand()
-end
+function s.e1filter(c) return c:IsSpell() and c:IsSetCard(0x46) and c:IsAbleToHand() end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil)
     if #g > 0 and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
@@ -71,9 +67,7 @@ function s.e3val(e, ct)
 end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return eg:IsExists(function(tc, tp)
-        return tc:IsSummonPlayer(tp) and tc:IsSummonType(SUMMON_TYPE_FUSION)
-    end, 1, nil, tp)
+    return eg:IsExists(function(tc, tp) return tc:IsSummonPlayer(tp) and tc:IsSummonType(SUMMON_TYPE_FUSION) end, 1, nil, tp)
 end
 
 function s.e3op1(e, tp, eg, ep, ev, re, r, rp)
@@ -96,9 +90,7 @@ end
 
 function s.e3op2(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if c:GetFlagEffect(id) ~= 0 then
-        Duel.SetChainLimitTillChainEnd(s.e3chainlimit)
-    end
+    if c:GetFlagEffect(id) ~= 0 then Duel.SetChainLimitTillChainEnd(s.e3chainlimit) end
 
     c:ResetFlagEffect(id)
 end
@@ -108,6 +100,4 @@ function s.e3resetop(e, tp, eg, ep, ev, re, r, rp)
     e:Reset()
 end
 
-function s.e3chainlimit(e, rp, tp)
-    return tp == rp
-end
+function s.e3chainlimit(e, rp, tp) return tp == rp end

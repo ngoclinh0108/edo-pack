@@ -26,9 +26,7 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(1, 0)
     e2:SetValue(function(e, re, val, r, rp, rc)
-        if (r & REASON_EFFECT) ~= 0 then
-            return 0
-        end
+        if (r & REASON_EFFECT) ~= 0 then return 0 end
         return val
     end)
     c:RegisterEffect(e2)
@@ -50,55 +48,37 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttackTarget() == nil and Duel.GetAttacker():IsControler(1 - tp)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetAttackTarget() == nil and Duel.GetAttacker():IsControler(1 - tp) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-    end
+    if chk == 0 then return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
 end
 
-function s.e3filter(c)
-    return c:IsSetCard(0x13a) and c:IsAbleToHand()
-end
+function s.e3filter(c) return c:IsSetCard(0x13a) and c:IsAbleToHand() end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return (r & REASON_EFFECT + REASON_BATTLE) ~= 0
-end
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return (r & REASON_EFFECT + REASON_BATTLE) ~= 0 end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return e:GetHandler():IsAbleToDeckAsCost()
-    end
+    if chk == 0 then return e:GetHandler():IsAbleToDeckAsCost() end
 
     Duel.SendtoDeck(e:GetHandler(), nil, SEQ_DECKBOTTOM, REASON_COST)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) >= 3
-    end
-end
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk) if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) >= 3 end end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) < 3 then
-        return
-    end
+    if Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) < 3 then return end
 
     local g = Duel.GetDecktopGroup(tp, 3)
     Duel.ConfirmCards(tp, g)

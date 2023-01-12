@@ -42,30 +42,22 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return not e:GetHandler():IsReason(REASON_DRAW)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return not e:GetHandler():IsReason(REASON_DRAW) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-    end
+    if chk == 0 then return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
 end
 
-function s.e2filter1(c)
-    return c:IsFaceup() and c:IsLevel(4) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR)
-end
+function s.e2filter1(c) return c:IsFaceup() and c:IsLevel(4) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) end
 
 function s.e2filter2(c, e, tp)
     return c:IsLevel(5) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and
@@ -78,9 +70,7 @@ end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:GetAttackAnnouncedCount() == 0
-    end
+    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(3206)
@@ -94,8 +84,7 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1,
-                nil, e, tp)
+                   Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, e, tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE)
@@ -103,15 +92,11 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then
-        return
-    end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
     local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e2filter2), tp,
         LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
-    if not tc then
-        return
-    end
+    if not tc then return end
 
     Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
 end
@@ -149,12 +134,8 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetRange(LOCATION_MZONE)
     ec3:SetCode(EFFECT_CANNOT_ACTIVATE)
     ec3:SetTargetRange(0, 1)
-    ec3:SetCondition(function(e)
-        return Duel.GetAttacker() == e:GetHandler()
-    end)
-    ec3:SetValue(function(e, re)
-        return re:IsHasType(EFFECT_TYPE_ACTIVATE)
-    end)
+    ec3:SetCondition(function(e) return Duel.GetAttacker() == e:GetHandler() end)
+    ec3:SetValue(function(e, re) return re:IsHasType(EFFECT_TYPE_ACTIVATE) end)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
     rc:RegisterEffect(ec3, true)
 end

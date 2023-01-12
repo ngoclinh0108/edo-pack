@@ -44,16 +44,12 @@ end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsDiscardable()
-    end
+    if chk == 0 then return c:IsDiscardable() end
 
     Duel.SendtoGrave(c, REASON_COST + REASON_DISCARD)
 end
 
-function s.e1con1(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetBattleDamage(tp) > 0
-end
+function s.e1con1(e, tp, eg, ep, ev, re, r, rp) return Duel.GetBattleDamage(tp) > 0 end
 
 function s.e1op1(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -61,16 +57,12 @@ function s.e1op1(e, tp, eg, ep, ev, re, r, rp)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     ec1:SetCode(EVENT_PRE_BATTLE_DAMAGE)
-    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Duel.ChangeBattleDamage(tp, 0)
-    end)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp) Duel.ChangeBattleDamage(tp, 0) end)
     ec1:SetReset(RESET_PHASE + PHASE_DAMAGE)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e1con2(e, tp, eg, ep, ev, re, r, rp)
-    return aux.damcon1(e, tp, eg, ep, ev, re, r, rp) and re:IsActiveType(TYPE_MONSTER)
-end
+function s.e1con2(e, tp, eg, ep, ev, re, r, rp) return aux.damcon1(e, tp, eg, ep, ev, re, r, rp) and re:IsActiveType(TYPE_MONSTER) end
 
 function s.e1op2(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -84,9 +76,7 @@ function s.e1op2(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetLabel(cid)
     ec1:SetValue(function(e, re, val, r, rp, rc)
         local cc = Duel.GetCurrentChain()
-        if cc == 0 or r & REASON_EFFECT == 0 then
-            return
-        end
+        if cc == 0 or r & REASON_EFFECT == 0 then return end
 
         local cid = Duel.GetChainInfo(0, CHAININFO_CHAIN_ID)
         if cid == e:GetLabel() then
@@ -118,18 +108,12 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e3filter(c)
-    return c:IsCode(CARD_MONSTER_REBORN) and c:IsAbleToHand()
-end
+function s.e3filter(c) return c:IsCode(CARD_MONSTER_REBORN) and c:IsAbleToHand() end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsPreviousLocation(LOCATION_HAND + LOCATION_ONFIELD)
-end
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsPreviousLocation(LOCATION_HAND + LOCATION_ONFIELD) end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
 end

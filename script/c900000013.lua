@@ -45,9 +45,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetTargetRange(1, 0)
     e3:SetValue(function(e, re, val, r, rp, rc)
-        if (r & REASON_EFFECT) ~= 0 then
-            return 0
-        end
+        if (r & REASON_EFFECT) ~= 0 then return 0 end
         return val
     end)
     c:RegisterEffect(e3)
@@ -57,14 +55,11 @@ function s.initial_effect(c)
 end
 
 function s.sprfilter(c, tp, sc)
-    return c:IsRace(RACE_AQUA) and c:GetLevel() == 10 and c:GetAttack() == 0 and
-               Duel.GetLocationCountFromEx(tp, tp, c, sc) > 0
+    return c:IsRace(RACE_AQUA) and c:GetLevel() == 10 and c:GetAttack() == 0 and Duel.GetLocationCountFromEx(tp, tp, c, sc) > 0
 end
 
 function s.sprcon(e, c)
-    if c == nil then
-        return true
-    end
+    if c == nil then return true end
 
     local tp = c:GetControler()
     return Duel.CheckReleaseGroup(tp, s.sprfilter, 1, false, 1, true, c, tp, nil, nil, nil, tp, c)
@@ -83,9 +78,7 @@ end
 
 function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
-    if not g then
-        return
-    end
+    if not g then return end
 
     Duel.Release(g, REASON_COST + REASON_MATERIAL)
     g:DeleteGroup()

@@ -23,15 +23,11 @@ function s.initial_effect(c)
             local c = e:GetHandler()
             Duel.Hint(HINT_SELECTMSG, tp, aux.Stringid(id, 0))
             local op = Duel.SelectOption(tp, aux.Stringid(id, 1), aux.Stringid(id, 2))
-            if op == 0 then
-                return
-            end
+            if op == 0 then return end
 
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)
-            if divine_evolution then
-                Divine.DivineEvolution(c)
-            end
+            if divine_evolution then Divine.DivineEvolution(c) end
         end
     })
 
@@ -46,17 +42,11 @@ function s.initial_effect(c)
             dms:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
                 local sc = e:GetHandler()
                 local g = eg:Filter(s.dmsfilter, nil, sc:GetOwner())
-                if chk == 0 then
-                    return #g > 0
-                end
-                for tc in aux.Next(g) do
-                    tc:RegisterFlagEffect(flag_id + 1000000000 * (tc:GetOwner() + 1), 0, 0, 1)
-                end
+                if chk == 0 then return #g > 0 end
+                for tc in aux.Next(g) do tc:RegisterFlagEffect(flag_id + 1000000000 * (tc:GetOwner() + 1), 0, 0, 1) end
                 return true
             end)
-            dms:SetValue(function(e, c)
-                return s.dmsfilter(c, e:GetHandler():GetOwner())
-            end)
+            dms:SetValue(function(e, c) return s.dmsfilter(c, e:GetHandler():GetOwner()) end)
             Duel.RegisterEffect(dms, 0)
         end,
         custom_op = function(e, tp, mc)
@@ -66,9 +56,7 @@ function s.initial_effect(c)
 
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)
-            if divine_evolution then
-                Divine.DivineEvolution(c)
-            end
+            if divine_evolution then Divine.DivineEvolution(c) end
 
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -125,9 +113,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
     e3b:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    e3b:SetValue(function(e, tc)
-        return Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(e:GetHandler())
-    end)
+    e3b:SetValue(function(e, tc) return Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(e:GetHandler()) end)
     c:RegisterEffect(e3b)
     local e3c = e3b:Clone()
     e3c:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
@@ -173,11 +159,8 @@ end
 
 function s.dmsfilter(c, tp)
     local re = c:GetReasonEffect()
-    if c:IsReason(REASON_REPLACE) then
-        return false
-    end
-    return c:IsReason(REASON_EFFECT) and re and re:GetHandler() == c and c:IsControler(tp) and c:IsFaceup() and
-               c:IsCode(CARD_RA)
+    if c:IsReason(REASON_REPLACE) then return false end
+    return c:IsReason(REASON_EFFECT) and re and re:GetHandler() == c and c:IsControler(tp) and c:IsFaceup() and c:IsCode(CARD_RA)
 end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
@@ -186,9 +169,7 @@ end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.CheckLPCost(tp, 1000) and c:GetFlagEffect(id) == 0
-    end
+    if chk == 0 then return Duel.CheckLPCost(tp, 1000) and c:GetFlagEffect(id) == 0 end
 
     Duel.PayLPCost(tp, 1000)
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_CHAIN, 0, 1)
@@ -196,9 +177,7 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE, 1, c)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE, 1, c) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACK)
     local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1, 1, c)
@@ -210,23 +189,17 @@ end
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then
-        return
-    end
+    if not tc or not tc:IsRelateToEffect(e) then return end
 
     Duel.CalculateDamage(c, tc)
 end
 
-function s.e4atkcon(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetAttacker() == e:GetHandler() and e:GetHandler():GetBattleTarget()
-end
+function s.e4atkcon(e, tp, eg, ep, ev, re, r, rp) return Duel.GetAttacker() == e:GetHandler() and e:GetHandler():GetBattleTarget() end
 
 function s.e4atkop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
-    if not c:GetFlagEffect(id) or not bc:IsRelateToBattle() then
-        return
-    end
+    if not c:GetFlagEffect(id) or not bc:IsRelateToBattle() then return end
 
     Duel.SendtoGrave(bc, REASON_EFFECT)
 end
@@ -235,16 +208,13 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.HintSelection(Group.FromCards(c))
 
-    local tc = Dimension.Zones(c:GetOwner()):Filter(function(c)
-        return c:IsCode(10000080) and c:IsType(Dimension.TYPE)
-    end, nil):GetFirst()
+    local tc = Dimension.Zones(c:GetOwner()):Filter(function(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end, nil)
+        :GetFirst()
 
     if tc then
         local divine_evolution = Divine.IsDivineEvolution(c)
         Dimension.Change(c, tc, c:GetMaterial())
-        if divine_evolution then
-            Divine.DivineEvolution(tc)
-        end
+        if divine_evolution then Divine.DivineEvolution(tc) end
     else
         Duel.SendtoGrave(c, REASON_EFFECT)
     end

@@ -8,9 +8,8 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    Synchro.AddProcedure(c, nil, 3, 3, Synchro.NonTunerEx(function(c, val, sc, sumtype, tp)
-        return c:IsType(TYPE_SYNCHRO, sc, sumtype, tp)
-    end), 1, 1)
+    Synchro.AddProcedure(c, nil, 3, 3, Synchro.NonTunerEx(
+        function(c, val, sc, sumtype, tp) return c:IsType(TYPE_SYNCHRO, sc, sumtype, tp) end), 1, 1)
 
     -- double tuner
     local doubletuner = Effect.CreateEffect(c)
@@ -97,13 +96,9 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return true
-    end
+    if chk == 0 then return true end
 
-    Duel.SetChainLimit(function(e, rp, tp)
-        return tp == rp
-    end)
+    Duel.SetChainLimit(function(e, rp, tp) return tp == rp end)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
@@ -115,9 +110,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
     ec1:SetTargetRange(0, 1)
-    ec1:SetValue(function(e, re, tp)
-        return re:GetHandler():IsOnField() or re:IsHasType(EFFECT_TYPE_ACTIVATE)
-    end)
+    ec1:SetValue(function(e, re, tp) return re:GetHandler():IsOnField() or re:IsHasType(EFFECT_TYPE_ACTIVATE) end)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
 
@@ -134,14 +127,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() == PHASE_MAIN1
-end
+function s.e4con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetCurrentPhase() == PHASE_MAIN1 end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, nil) end
 
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
@@ -151,18 +140,14 @@ end
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
-    if #g > 0 then
-        Duel.Destroy(g, REASON_EFFECT, LOCATION_REMOVED)
-    end
+    if #g > 0 then Duel.Destroy(g, REASON_EFFECT, LOCATION_REMOVED) end
 
     aux.RegisterClientHint(c, nil, tp, 1, 0, aux.Stringid(id, 3), nil)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetCode(EFFECT_CANNOT_ATTACK)
     ec1:SetTargetRange(LOCATION_MZONE, 0)
-    ec1:SetTarget(function(e, tc)
-        return e:GetLabel() ~= tc:GetFieldID()
-    end)
+    ec1:SetTarget(function(e, tc) return e:GetLabel() ~= tc:GetFieldID() end)
     ec1:SetLabel(c:GetFieldID())
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
@@ -172,28 +157,21 @@ function s.e5con1(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() ~= tp and rp == 1 - tp and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 
-function s.e5con2(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() ~= tp and Duel.GetAttacker():GetControler() ~= tp
-end
+function s.e5con2(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() ~= tp and Duel.GetAttacker():GetControler() ~= tp end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsAbleToRemove()
-    end
+    if chk == 0 then return c:IsAbleToRemove() end
 
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, c, 1, 0, 0)
 end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.Remove(c, POS_FACEUP, REASON_EFFECT) == 0 then
-        return
-    end
+    if not c:IsRelateToEffect(e) or Duel.Remove(c, POS_FACEUP, REASON_EFFECT) == 0 then return end
 
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 0)
-    if Duel.GetAttacker() and Duel.GetAttacker():GetControler() ~= tp and
-        Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 6)) then
+    if Duel.GetAttacker() and Duel.GetAttacker():GetControler() ~= tp and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 6)) then
         Duel.NegateAttack()
     else
         local ec1 = Effect.CreateEffect(c)
@@ -202,9 +180,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetRange(LOCATION_REMOVED)
         ec1:SetLabel(0)
         ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            if e:GetLabel() ~= 0 or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 6)) then
-                return
-            end
+            if e:GetLabel() ~= 0 or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 6)) then return end
 
             Utility.HintCard(e:GetHandler())
             Duel.NegateAttack()
@@ -221,6 +197,4 @@ function s.e5retcon(e, tp, eg, ep, ev, re, r, rp)
                c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
-function s.e5retop(e, tp, eg, ep, ev, re, r, rp)
-    Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP)
-end
+function s.e5retop(e, tp, eg, ep, ev, re, r, rp) Duel.SpecialSummon(e:GetHandler(), 0, tp, tp, false, false, POS_FACEUP) end

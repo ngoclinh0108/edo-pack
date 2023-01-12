@@ -38,9 +38,7 @@ function s.initial_effect(c)
     local e2b = Effect.CreateEffect(c)
     e2b:SetType(EFFECT_TYPE_SINGLE)
     e2b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    e2b:SetValue(function(e)
-        return e:GetHandler():GetFlagEffect(id) == 0
-    end)
+    e2b:SetValue(function(e) return e:GetHandler():GetFlagEffect(id) == 0 end)
     c:RegisterEffect(e2b)
 
     -- down atk
@@ -53,29 +51,22 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsFaceup() and c:IsSetCard(0x13a) and not c:IsCode(id)
-end
+function s.e1filter(c) return c:IsFaceup() and c:IsSetCard(0x13a) and not c:IsCode(id) end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() == PHASE_BATTLE_STEP and
-               Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
+    return Duel.GetCurrentPhase() == PHASE_BATTLE_STEP and Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
-    end
+    if chk == 0 then return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then
-        return
-    end
+    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
     if Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) > 0 then
         local g = Duel.GetMatchingGroup(aux.FaceupFilter(Card.IsSetCard, 0x13a), tp, LOCATION_MZONE, 0, nil)

@@ -72,18 +72,12 @@ function s.initial_effect(c)
     c:RegisterEffect(e6)
 end
 
-function s.e1filter1(c)
-    return c:IsSetCard(0x1017) and c:IsType(TYPE_TUNER) and c:IsAbleToHand()
-end
+function s.e1filter1(c) return c:IsSetCard(0x1017) and c:IsType(TYPE_TUNER) and c:IsAbleToHand() end
 
-function s.e1filter2(c, tc)
-    return c:HasLevel() and c:GetLevel() < tc:GetLevel()
-end
+function s.e1filter2(c, tc) return c:HasLevel() and c:GetLevel() < tc:GetLevel() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK, 0, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
     Duel.SetPossibleOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_DECK)
@@ -91,13 +85,9 @@ end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
     local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter1, tp, LOCATION_DECK, 0, 1, 1, nil):GetFirst()
-    if not tc then
-        return
-    end
+    if not tc then return end
 
     Duel.SendtoHand(tc, nil, REASON_EFFECT)
     Duel.ConfirmCards(1 - tp, tc)
@@ -115,37 +105,27 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local rc = re:GetHandler()
-    if re:IsActiveType(TYPE_MONSTER) and rc:IsOriginalSetCard(0x1017) then
-        Duel.SetChainLimit(s.e2chainlimit)
-    end
+    if re:IsActiveType(TYPE_MONSTER) and rc:IsOriginalSetCard(0x1017) then Duel.SetChainLimit(s.e2chainlimit) end
 end
 
-function s.e2chainlimit(e, rp, tp)
-    return tp == rp
-end
+function s.e2chainlimit(e, rp, tp) return tp == rp end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local ct = eg:FilterCount(aux.FaceupFilter(Card.IsType, TYPE_SYNCHRO), nil)
-    if ct > 0 then
-        e:GetHandler():AddCounter(0x1148, ct)
-    end
+    if ct > 0 then e:GetHandler():AddCounter(0x1148, ct) end
 end
 
 function s.effcost(ct)
     return function(e, tp, eg, ep, ev, re, r, rp, chk)
         local c = e:GetHandler()
-        if chk == 0 then
-            return c:IsCanRemoveCounter(tp, 0x1148, ct, REASON_COST)
-        end
+        if chk == 0 then return c:IsCanRemoveCounter(tp, 0x1148, ct, REASON_COST) end
 
         Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
         Duel.RemoveCounter(tp, 1, 1, 0x1148, ct, REASON_COST)
     end
 end
 
-function s.e4filter(c, mg)
-    return c:IsSynchroSummonable(nil, mg)
-end
+function s.e4filter(c, mg) return c:IsSynchroSummonable(nil, mg) end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return (Duel.GetCurrentPhase() == PHASE_MAIN1 or Duel.GetCurrentPhase() == PHASE_MAIN2)
@@ -163,10 +143,8 @@ end
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterFlagEffect(tp, id + 2 * 1000, RESET_PHASE + PHASE_END, 0, 1)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
-    
+    if not c:IsRelateToEffect(e) then return end
+
     local mg = Duel.GetMatchingGroup(Card.IsOnField, tp, LOCATION_MZONE, 0, nil)
     local eg = Duel.GetMatchingGroup(s.e4filter, tp, LOCATION_EXTRA, 0, nil, mg)
     if #eg > 0 then
@@ -178,9 +156,7 @@ end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.GetFlagEffect(tp, id + 1 * 1000) == 0 and Duel.IsPlayerCanDraw(tp, 2)
-    end
+    if chk == 0 then return Duel.GetFlagEffect(tp, id + 1 * 1000) == 0 and Duel.IsPlayerCanDraw(tp, 2) end
 
     Duel.SetTargetPlayer(tp)
     Duel.SetTargetParam(2)
@@ -191,9 +167,7 @@ end
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterFlagEffect(tp, id + 2 * 1000, RESET_PHASE + PHASE_END, 0, 1)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
     if Duel.Draw(p, d, REASON_EFFECT) == 2 then
@@ -202,9 +176,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e6filter(c, e, tp)
-    return c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
-end
+function s.e6filter(c, e, tp) return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
@@ -221,12 +193,8 @@ end
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterFlagEffect(tp, id + 3 * 1000, RESET_PHASE + PHASE_END, 0, 1)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then
-        return
-    end
+    if not c:IsRelateToEffect(e) then return end
 
     local tc = Duel.GetFirstTarget()
-    if tc:IsRelateToEffect(e) then
-        Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
-    end
+    if tc:IsRelateToEffect(e) then Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP) end
 end

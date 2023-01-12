@@ -8,9 +8,9 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- fusion summon
-    Fusion.AddProcMix(c, true, true, function(c, fc, sumtype, tp)
-        return c:IsLevelAbove(6) and c:IsRace(RACE_SPELLCASTER, fc, sumtype, tp)
-    end, aux.FilterBoolFunctionEx(Card.IsRace, RACE_WARRIOR))
+    Fusion.AddProcMix(c, true, true,
+        function(c, fc, sumtype, tp) return c:IsLevelAbove(6) and c:IsRace(RACE_SPELLCASTER, fc, sumtype, tp) end,
+        aux.FilterBoolFunctionEx(Card.IsRace, RACE_WARRIOR))
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -18,8 +18,7 @@ function s.initial_effect(c)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     splimit:SetValue(function(e, se, sp, st)
-        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or
-                   aux.fuslimit(e, se, sp, st)
+        return not e:GetHandler():IsLocation(LOCATION_EXTRA) or aux.fuslimit(e, se, sp, st)
     end)
     c:RegisterEffect(splimit)
 
@@ -39,9 +38,7 @@ function s.initial_effect(c)
     e2:SetRange(LOCATION_MZONE)
     e2:SetCode(EFFECT_DISABLE)
     e2:SetTargetRange(0, LOCATION_MZONE)
-    e2:SetTarget(function(e, c)
-        return c:IsAttackBelow(e:GetHandler():GetAttack())
-    end)
+    e2:SetTarget(function(e, c) return c:IsAttackBelow(e:GetHandler():GetAttack()) end)
     c:RegisterEffect(e2)
 
     -- special summon
@@ -56,14 +53,10 @@ function s.initial_effect(c)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD,
-                                     LOCATION_ONFIELD, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, nil) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD,
-                                LOCATION_ONFIELD, 1, 1, nil)
+    local g = Duel.SelectTarget(tp, aux.TRUE, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, nil)
 
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
@@ -76,16 +69,14 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e3filter(c, e, tp)
-    return c:IsMonster() and c:IsSetCard(0x13a) and not c:IsCode(id) and
-               c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+    return c:IsMonster() and c:IsSetCard(0x13a) and not c:IsCode(id) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
     if chk == 0 then
-        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                   Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil,
-                                               e, tp)
+        return
+            Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil, e, tp)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
@@ -94,9 +85,7 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 then return end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp,
-                                         aux.NecroValleyFilter(s.e3filter), tp,
-                                         LOCATION_HAND + LOCATION_DECK +
-                                             LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e3filter), tp,
+        LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, true, false, POS_FACEUP) end
 end

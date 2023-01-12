@@ -45,32 +45,25 @@ function s.e1filter(c, e, tp)
                Duel.GetLocationCountFromEx(tp, tp, e:GetHandler(), c) > 0
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsMainPhase() and e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO)
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() and e:GetHandler():IsSummonType(SUMMON_TYPE_SYNCHRO) end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsReleasable()
-    end
+    if chk == 0 then return c:IsReleasable() end
 
     Duel.Release(c, REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_EXTRA, 0, 1, nil, e, tp) end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp):GetFirst()
     if tc and Duel.SpecialSummon(tc, SUMMON_TYPE_SYNCHRO, tp, tp, false, false, POS_FACEUP) then
         tc:CompleteProcedure()
 
@@ -86,9 +79,9 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c)
-    return c:IsType(TYPE_SPELL + TYPE_TRAP) and
-               (c:ListsCode(SignerDragon.CARD_RED_DRAGON_ARCHFIEND) or c:ListsArchetype(0x1045)) and
-               (c:IsAbleToHand() or c:IsSSetable())
+    return
+        c:IsType(TYPE_SPELL + TYPE_TRAP) and (c:ListsCode(SignerDragon.CARD_RED_DRAGON_ARCHFIEND) or c:ListsArchetype(0x1045)) and
+            (c:IsAbleToHand() or c:IsSSetable())
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
@@ -97,9 +90,7 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_DECK, 0, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, 0, LOCATION_DECK)
 end
@@ -108,13 +99,9 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     local tc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e2filter, tp, LOCATION_DECK, 0, 1, 1, nil):GetFirst()
-    if not tc then
-        return
-    end
+    if not tc then return end
 
-    aux.ToHandOrElse(tc, tp, function(c)
-        return tc:IsSSetable()
-    end, function(c)
+    aux.ToHandOrElse(tc, tp, function(c) return tc:IsSSetable() end, function(c)
         if Duel.SSet(tp, tc) > 0 and tc:IsType(TYPE_TRAP) then
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)

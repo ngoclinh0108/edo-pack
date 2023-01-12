@@ -55,17 +55,13 @@ function s.initial_effect(c)
     norelease:SetCode(EFFECT_CANNOT_RELEASE)
     norelease:SetRange(LOCATION_MZONE)
     norelease:SetTargetRange(0, 1)
-    norelease:SetTarget(function(e, tc)
-        return tc == e:GetHandler()
-    end)
+    norelease:SetTarget(function(e, tc) return tc == e:GetHandler() end)
     c:RegisterEffect(norelease)
     local nomaterial = Effect.CreateEffect(c)
     nomaterial:SetType(EFFECT_TYPE_SINGLE)
     nomaterial:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     nomaterial:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    nomaterial:SetValue(function(e, tc)
-        return tc and tc:GetControler() ~= e:GetHandlerPlayer()
-    end)
+    nomaterial:SetValue(function(e, tc) return tc and tc:GetControler() ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(nomaterial)
 
     -- indes
@@ -126,30 +122,20 @@ end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local bc = e:GetLabelObject():GetLabelObject()
-    if chk == 0 then
-        return bc
-    end
+    if chk == 0 then return bc end
 
-    if bc:IsRelateToBattle() then
-        Duel.SetOperationInfo(0, CATEGORY_DESTROY, bc, 1, 0, 0)
-    end
+    if bc:IsRelateToBattle() then Duel.SetOperationInfo(0, CATEGORY_DESTROY, bc, 1, 0, 0) end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local bc = e:GetLabelObject():GetLabelObject()
-    if bc:IsRelateToBattle() then
-        Duel.Destroy(bc, REASON_EFFECT)
-    end
+    if bc:IsRelateToBattle() then Duel.Destroy(bc, REASON_EFFECT) end
 end
 
-function s.e3filter(c)
-    return c:IsFaceup() and c:IsAbleToRemove()
-end
+function s.e3filter(c) return c:IsFaceup() and c:IsAbleToRemove() end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then
-        return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil)
-    end
+    if chk == 0 then return Duel.IsExistingTarget(s.e3filter, tp, 0, LOCATION_MZONE, 1, nil) end
 
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, nil, 1, 0, LOCATION_MZONE)
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, 0)
@@ -159,18 +145,14 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
-    if not tc then
-        return
-    end
+    if not tc then return end
 
     Duel.HintSelection(tc)
-    if Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then
-        return
-    end
+    if Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then return end
 
     local atk = tc:GetBaseAttack()
-    if Duel.IsPlayerCanSpecialSummonMonster(tp, PHANTASMAL_NIGHTMARE_TOKEN, 0, TYPES_TOKEN, atk, 0, 12, RACE_FIEND,
-        ATTRIBUTE_DARK) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
+    if Duel.IsPlayerCanSpecialSummonMonster(tp, PHANTASMAL_NIGHTMARE_TOKEN, 0, TYPES_TOKEN, atk, 0, 12, RACE_FIEND, ATTRIBUTE_DARK) and
+        Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
         local token = Duel.CreateToken(tp, PHANTASMAL_NIGHTMARE_TOKEN)
         Duel.SpecialSummonStep(token, 0, tp, tp, false, false, POS_FACEUP)
         local ec1 = Effect.CreateEffect(c)
