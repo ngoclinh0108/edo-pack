@@ -75,7 +75,7 @@ end
 function s.e2filter1(c) return c:IsSetCard(0x8) end
 
 function s.e2filter2(c, e, tp, chk)
-    return c:IsType(TYPE_FUSION) and c.material_count == 2 and c.dark_calling and
+    return c:IsType(TYPE_FUSION) and c.min_material_count == 2 and c.max_material_count == 2 and c.dark_calling and
                (not chk or Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0) and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, true, false)
 end
