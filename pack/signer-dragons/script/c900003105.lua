@@ -53,10 +53,12 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local max = Duel.GetMatchingGroupCount(aux.TRUE, tp, 0, LOCATION_ONFIELD, nil)
     local g1 = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, aux.TRUE, tp, LOCATION_ONFIELD, 0, 1, max, nil)
+    Duel.HintSelection(g1)
     local ct = Duel.Destroy(g1, REASON_EFFECT)
 
     if ct > 0 then
         local g2 = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, aux.TRUE, tp, 0, LOCATION_ONFIELD, 1, ct, nil)
+        Duel.HintSelection(g2)
         Duel.Destroy(g2, REASON_EFFECT)
     end
 end

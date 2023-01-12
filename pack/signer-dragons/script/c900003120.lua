@@ -44,10 +44,9 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, e, tp, mg)
-    return
-        c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and c:ListsArchetypeAsMaterial(0x1017) and not c:IsCode(id) and
-            Duel.GetLocationCountFromEx(tp, tp, mg, c) > 0 and
-            c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
+    return c:IsLevelBelow(8) and c:IsType(TYPE_SYNCHRO) and c:ListsArchetypeAsMaterial(0x1017) and not c:IsCode(id) and
+               Duel.GetLocationCountFromEx(tp, tp, mg, c) > 0 and
+               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_SYNCHRO, tp, false, false)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -93,13 +92,14 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(HINTMSG_TODECK, tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
-    if not tc or Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) == 0 then
+    if not tc then
         return
     end
 
-    local c = e:GetHandler()
-    if c:IsRelateToEffect(e) then
+    Duel.HintSelection(tc)
+    if Duel.SendtoDeck(tc, nil, 0, REASON_EFFECT) > 0 and c:IsRelateToEffect(e) then
         Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
     end
 end

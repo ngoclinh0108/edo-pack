@@ -58,6 +58,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
                                           LOCATION_DECK + LOCATION_GRAVE,
                                           LOCATION_GRAVE, 1, 1, nil):GetFirst()
     if not tc or Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then return end
+    Duel.HintSelection(tc)
 
     local ec2 = Effect.CreateEffect(c)
     ec2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)

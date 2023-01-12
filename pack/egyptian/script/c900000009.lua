@@ -160,6 +160,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         return
     end
 
+    Duel.HintSelection(tc)
     local og = tc:GetOverlayGroup()
     if #og > 0 then
         Duel.Overlay(c, og)

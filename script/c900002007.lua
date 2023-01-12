@@ -159,7 +159,12 @@ end
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e3filter, tp, 0, LOCATION_MZONE, 1, 1, nil):GetFirst()
-    if not tc or Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then
+    if not tc then
+        return
+    end
+
+    Duel.HintSelection(tc)
+    if Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then
         return
     end
 

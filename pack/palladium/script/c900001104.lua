@@ -157,6 +157,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         local g = Utility.SelectMatchingCard(HINT_SELECTMSG, tp, Card.IsAbleToRemove, tp, LOCATION_ONFIELD,
             LOCATION_ONFIELD, 1, 1, nil)
         if #g > 0 then
+            Duel.HintSelection(g)
             Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
         end
     elseif op == 4 then

@@ -2,6 +2,8 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0x6008}
+
 function s.initial_effect(c)
     -- add name
     local addname = Effect.CreateEffect(c)
@@ -11,7 +13,7 @@ function s.initial_effect(c)
     addname:SetValue(86188410)
     c:RegisterEffect(addname)
 
-    -- unaffected by opponent's traps
+    -- trap immune
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)

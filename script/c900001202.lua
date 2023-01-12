@@ -180,6 +180,7 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
                                           LOCATION_ONFIELD, LOCATION_ONFIELD, 1,
                                           1, c):GetFirst()
     if not tc then return end
+    Duel.HintSelection(tc)
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)

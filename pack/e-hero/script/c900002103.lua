@@ -80,6 +80,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
     if tc then
+        Duel.HintSelection(tc)
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_UPDATE_ATTACK)

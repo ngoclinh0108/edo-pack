@@ -9,8 +9,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- xyz summon
-    Xyz.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0xdd), 8, 2,
-                     s.ovfilter, aux.Stringid(id, 0))
+    Xyz.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0xdd), 8, 2, s.ovfilter, aux.Stringid(id, 0))
 
     -- atk
     local e1 = Effect.CreateEffect(c)
@@ -56,18 +55,17 @@ function s.initial_effect(c)
 end
 
 function s.ovfilter(c, tp, sc)
-    return c:IsFaceup() and
-               c:IsSummonCode(sc, SUMMON_TYPE_XYZ, tp, CARD_BLUEEYES_W_DRAGON)
+    return c:IsFaceup() and c:IsSummonCode(sc, SUMMON_TYPE_XYZ, tp, CARD_BLUEEYES_W_DRAGON)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
-    local g = Utility.SelectMatchingCard(HINTMSG_XMATERIAL, tp,
-                                         aux.NecroValleyFilter(Card.IsRace), tp,
-                                         LOCATION_GRAVE, 0, 1, 1, nil,
-                                         RACE_DRAGON)
-    if #g > 0 then Duel.Overlay(c, g) end
+    local g = Utility.SelectMatchingCard(HINTMSG_XMATERIAL, tp, aux.NecroValleyFilter(Card.IsRace), tp, LOCATION_GRAVE,
+        0, 1, 1, nil, RACE_DRAGON)
+    if #g > 0 then
+        Duel.Overlay(c, g)
+    end
 
     local og = c:GetOverlayGroup()
     if #og > 0 then
@@ -83,10 +81,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c, tp)
-    return c:IsPreviousSetCard(0xdd) and c:IsPreviousControler(tp) and
-               c:IsPreviousLocation(LOCATION_MZONE) and
-               c:IsPreviousPosition(POS_FACEUP) and
-               c:IsReason(REASON_BATTLE + REASON_EFFECT) and not c:IsCode(id)
+    return c:IsPreviousSetCard(0xdd) and c:IsPreviousControler(tp) and c:IsPreviousLocation(LOCATION_MZONE) and
+               c:IsPreviousPosition(POS_FACEUP) and c:IsReason(REASON_BATTLE + REASON_EFFECT) and not c:IsCode(id)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
@@ -96,8 +92,7 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and
-                   Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
+        return c:IsCanBeSpecialSummoned(e, 0, tp, true, false) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
@@ -105,22 +100,22 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or
-        not c:IsRelateToEffect(e) then return end
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or not c:IsRelateToEffect(e) then
+        return
+    end
     Duel.SpecialSummon(c, 0, tp, tp, true, false, POS_FACEUP)
 end
 
 function s.e3filter(c, tp)
-    return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and
-               c:IsPosition(POS_FACEUP) and c:IsReason(REASON_EFFECT) and
-               not c:IsReason(REASON_REPLACE) and c:IsSetCard(0xdd)
+    return
+        c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsPosition(POS_FACEUP) and c:IsReason(REASON_EFFECT) and
+            not c:IsReason(REASON_REPLACE) and c:IsSetCard(0xdd)
 end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then
-        return eg:IsExists(s.e3filter, 1, nil, tp) and
-                   c:CheckRemoveOverlayCard(tp, 1, REASON_EFFECT)
+        return eg:IsExists(s.e3filter, 1, nil, tp) and c:CheckRemoveOverlayCard(tp, 1, REASON_EFFECT)
     end
 
     if Duel.SelectEffectYesNo(tp, c, 96) then
@@ -131,7 +126,9 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e3val(e, c) return s.e3filter(c, e:GetHandlerPlayer()) end
+function s.e3val(e, c)
+    return s.e3filter(c, e:GetHandlerPlayer())
+end
 
 function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -140,10 +137,11 @@ end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return true end
+    if chk == 0 then
+        return true
+    end
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
-    local ct = Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0, c,
-                                     RACE_DRAGON)
+    local ct = Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0, c, RACE_DRAGON)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, nil, 0, 1 - tp, ct * 600)
 end
@@ -152,8 +150,9 @@ function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, 0, LOCATION_MZONE, nil)
     if Duel.Destroy(g, REASON_EFFECT) > 0 then
-        local ct = Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0, c,
-                                         RACE_DRAGON)
-        if ct > 0 then Duel.Damage(1 - tp, ct * 600, REASON_EFFECT) end
+        local ct = Duel.GetMatchingGroupCount(Card.IsRace, tp, LOCATION_GRAVE, 0, c, RACE_DRAGON)
+        if ct > 0 then
+            Duel.Damage(1 - tp, ct * 600, REASON_EFFECT)
+        end
     end
 end

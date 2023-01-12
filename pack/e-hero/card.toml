@@ -43,9 +43,9 @@ effect = """\
 If this card is Normal or Special Summoned: \
     You can add 1 "Evil HERO" monster from your Deck to your hand, \
     except \"{CARD_NAME}\". \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
     You can switch the original ATK/DEF of all monsters your opponent controls. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
 
@@ -81,8 +81,13 @@ atk = 800
 def = 2000
 effect = """\
 (This card's name is also treated as "Elemental HERO Clayman".)
+You can Special Summon this card (from your hand) by discarding 1 \"Evil HERO\" monster. \
+Once per turn, when your monster is targeted for an attack: You can negate the attack. \
+If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
+    You can inflict damage to your opponent equal to original Level of 1 Fiend monster you control x 200. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = ["Negate the attack"]
 
 [evil-hero-bubbling-anger]
 id = 900002105
@@ -96,7 +101,9 @@ atk = 800
 def = 1200
 effect = """\
 (This card's name is also treated as "Elemental HERO Bubbleman".)
-Destroy an opponent's monster that battles this card at the end of the Damage Step. \
+If you control a "Evil HERO" monster, you can Special Summon this card (from your hand). \
+You take no damage from battles involving this card, \
+    also destroy an opponent's monster that battles this card at the end of the Damage Step. \
 If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
     You can draw 2 cards, then discard 1 card. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
