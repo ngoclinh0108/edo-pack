@@ -1,112 +1,87 @@
--- Evil HERO Cosmos
+-- Evil HERO Executor
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_DARK_FUSION}
-s.listed_series = {0x8}
+s.listed_series = {0x6008}
 
 function s.initial_effect(c)
-    -- special summon itself
+    -- send grave
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_FIELD)
-    e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-    e1:SetCode(EFFECT_SPSUMMON_PROC)
-    e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
-    e1:SetCountLimit(1, id)
-    e1:SetCondition(s.e1con)
+    e1:SetDescription(aux.Stringid(id, 1))
+    e1:SetCategory(CATEGORY_TOGRAVE + CATEGORY_ATKCHANGE + CATEGORY_DECKDES)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
+    e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetCountLimit(1, {id, 1})
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e1b)
 
-    -- special Summon "evil HERO" fusion monster
+    -- special summon
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetCode(EVENT_FREE_CHAIN)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetHintTiming(0, TIMING_MAIN_END + TIMINGS_CHECK_MONSTER)
-    e2:SetCondition(s.e2con)
+    e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetRange(LOCATION_HAND + LOCATION_GRAVE)
+    e2:SetCountLimit(1, {id, 2})
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c, tp)
-    return c:IsSetCard(0x8) and c:IsType(TYPE_FUSION + TYPE_LINK) and c:IsAbleToRemoveAsCost() and
-               (Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 or c:GetSequence() < 5)
+function s.e1filter(c) return c:IsSetCard(0x6008) and c:IsMonster() and c:HasLevel() and not c:IsCode(id) and c:IsAbleToGrave() end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil) end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_HAND + LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_DECKDES, nil, 0, 1 - tp, 1)
 end
 
-function s.e1con(e, c)
-    if c == nil then return true end
-    local tp = e:GetHandlerPlayer()
-    local eff = {c:GetCardEffect(EFFECT_NECRO_VALLEY)}
-    for _, te in ipairs(eff) do
-        local op = te:GetOperation()
-        if not op or op(e, c) then return false end
-    end
-
-    local rg = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_MZONE, 0, nil, tp)
-    local ft = Duel.GetLocationCount(tp, LOCATION_MZONE)
-    return ft > -1 and #rg > 0 and aux.SelectUnselectGroup(rg, e, tp, 1, 1, nil, 0)
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, c)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local g = nil
-    local rg = Duel.GetMatchingGroup(s.s1filter, tp, LOCATION_MZONE, 0, nil, tp)
-    local g = aux.SelectUnselectGroup(rg, e, tp, 1, 1, nil, 1, tp, HINTMSG_REMOVE, nil, nil, true)
-    if #g > 0 then
-        g:KeepAlive()
-        e:SetLabelObject(g)
-        return true
+    local tc =
+        Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil):GetFirst()
+    if not tc or Duel.SendtoGrave(tc, REASON_EFFECT) == 0 then return end
+
+    local lv = tc:GetLevel()
+    if c:IsRelateToEffect(e) then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(lv * 100)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        c:RegisterEffect(ec1)
     end
-    return false
+
+    Duel.DiscardDeck(1 - tp, lv, REASON_EFFECT)
 end
 
-function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = e:GetLabelObject()
-    if not g then return end
-    Duel.Remove(g, POS_FACEUP, REASON_COST)
-    g:DeleteGroup()
+function s.e2filter(c, tp)
+    return c:IsSetCard(0x6008) and c:IsMonster() and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c, true) and
+               (Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 or (c:IsLocation(LOCATION_MZONE) and c:GetSequence() < 5)) and
+               not c:IsCode(id)
 end
-
-function s.e2filter1(c) return c:IsSetCard(0x8) end
-
-function s.e2filter2(c, e, tp, chk)
-    return c:IsType(TYPE_FUSION) and c.min_material_count == 2 and c.max_material_count == 2 and c.dark_calling and
-               (not chk or Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0) and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, true, false)
-end
-
-function s.e2excheck(sg, tp, exg, ssg, c)
-    return ssg:IsExists(function(c, sg, tp, oc)
-        local sg = sg + oc
-        return Duel.GetLocationCountFromEx(tp, tp, sg, c) > 0
-    end, 1, nil, sg, tp, c)
-end
-
-function s.e2con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() ~= tp end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local mg = Duel.GetMatchingGroup(s.e2filter2, tp, LOCATION_EXTRA, 0, nil, e, tp)
-    if chk == 0 then return Duel.CheckReleaseGroupCost(tp, s.e2filter1, 1, false, s.e2excheck, c, mg, c) end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, 1, c, tp) end
 
-    local g = Duel.SelectReleaseGroupCost(tp, s.e2filter1, 1, 1, false, s.e2excheck, c, mg, c)
-    g:AddCard(c)
-    Duel.Release(g, REASON_COST)
+    local g = Utility.SelectMatchingCard(HINTMSG_REMOVE, tp, s.e2filter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, 1, 1, c, tp)
+    Duel.Remove(g, POS_FACEUP, REASON_COST)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
 
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_EXTRA)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e2filter2, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp, true):GetFirst()
-    if tc and Duel.SpecialSummon(tc, SUMMON_TYPE_FUSION, tp, tp, true, false, POS_FACEUP) > 0 then tc:CompleteProcedure() end
+    local c = e:GetHandler()
+    if c:IsRelateToEffect(e) then Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) end
 end

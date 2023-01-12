@@ -1,4 +1,4 @@
--- Evil HERO Blaster Minx
+-- Evil HERO Aero Scout
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
@@ -10,23 +10,22 @@ function s.initial_effect(c)
     addname:SetType(EFFECT_TYPE_SINGLE)
     addname:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     addname:SetCode(EFFECT_ADD_CODE)
-    addname:SetValue(58932615)
+    addname:SetValue(21844576)
     c:RegisterEffect(addname)
 
-    -- send 1 Evil HERO to the GY
+    -- special summon
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_TOGRAVE)
+    e1:SetCategory(CATEGORY_TOGRAVE + CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetRange(LOCATION_MZONE)
+    e1:SetRange(LOCATION_HAND)
     e1:SetCountLimit(1, id)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- atk up
+    -- switch atk/def
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_ATKCHANGE)
+    e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e2:SetProperty(EFFECT_FLAG_DELAY)
     e2:SetCode(EVENT_BE_MATERIAL)
@@ -36,19 +35,24 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c) return c:IsSetCard(0x6008) and c:IsMonster() and c:HasLevel() and not c:IsCode(id) and c:IsAbleToGrave() end
+function s.e1filter(c) return not c:IsCode(id) and c:IsSetCard(0x6008) and c:IsMonster() and c:IsAbleToGrave() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil) end
+    local c = e:GetHandler()
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and
+                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil)
+    end
 
-    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, tp, LOCATION_HAND + LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, nil, 1, 0, LOCATION_HAND + LOCATION_DECK)
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
 
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 1))
+    ec1:SetDescription(aux.Stringid(id, 0))
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
@@ -59,33 +63,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
 
-    local tc =
-        Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil):GetFirst()
-    if tc and Duel.SendtoGrave(tc, REASON_EFFECT) > 0 and c:IsRelateToEffect(e) then
-        local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_SINGLE)
-        ec2:SetProperty(EFFECT_FLAG_COPY_INHERIT)
-        ec2:SetCode(EFFECT_CHANGE_ATTRIBUTE)
-        ec2:SetValue(tc:GetAttribute())
-        ec2:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END, 2)
-        c:RegisterEffect(ec2)
-        local ec2b = ec2:Clone()
-        ec2b:SetCode(EFFECT_CHANGE_LEVEL_FINAL)
-        ec2b:SetValue(tc:GetLevel())
-        c:RegisterEffect(ec2b)
-        local ec2c = ec2:Clone()
-        ec2c:SetCode(EFFECT_SET_ATTACK_FINAL)
-        ec2c:SetValue(tc:GetAttack())
-        c:RegisterEffect(ec2c)
-        local ec2d = ec2:Clone()
-        ec2d:SetCode(EFFECT_SET_DEFENSE_FINAL)
-        ec2d:SetValue(tc:GetDefense())
-        c:RegisterEffect(ec2d)
+    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil)
+    if #g > 0 and Duel.SendtoGrave(g, REASON_EFFECT) > 0 and c:IsRelateToEffect(e) then
+        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
     end
-
 end
-
-function s.e2filter(c) return c:IsRace(RACE_FIEND) and c:IsFaceup() end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
@@ -93,21 +75,25 @@ function s.e2con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_MZONE, 0, 1, nil) end
-
-    Duel.SetOperationInfo(0, CATEGORY_ATKCHANGE, nil, 1, 0, 0)
+    if chk == 0 then return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil) end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e2filter, tp, LOCATION_MZONE, 0, 1, 1, nil):GetFirst()
-    if tc then
-        Duel.HintSelection(tc)
+    local g = Duel.GetMatchingGroup(Card.IsFaceup, tp, 0, LOCATION_MZONE, nil)
+    for tc in aux.Next(g) do
+        local atk = tc:GetBaseAttack()
+        local def = tc:GetBaseDefense()
+
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_UPDATE_ATTACK)
-        ec1:SetValue(1000)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 2)
+        ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+        ec1:SetValue(def)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec1)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
+        ec1b:SetValue(atk)
+        tc:RegisterEffect(ec1b)
     end
 end

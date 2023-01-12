@@ -28,8 +28,30 @@ effect = """\
 """
 strings = []
 
-[evil-hero-aero-scout]
+[evil-hero-cosmos]
 id = 900002102
+set = "evil-hero"
+name = "Evil HERO Cosmos"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+You can Special Summon this card (from your hand or GY) \
+    by banishing 1 "HERO" Fusion or Link Monster you control. \
+    You can only Special Summon "{CARD_NAME}" once per turn this way. \
+Once per turn, during your opponent's turn: \
+    You can Tribute this card you control and 1 other "HERO" monster you control or in your hand; \
+    Special Summon 1 Fusion monster from your Extra Deck, \
+    that lists exactly 2 monsters as material and must be Special Summoned with "Dark Fusion". \
+    (This is treated as a Fusion Summon with "Dark Fusion".) \
+"""
+strings = ["Special Summon 1 \"Evil HERO\" Fusion monster from Extra Deck"]
+
+[evil-hero-aero-scout]
+id = 900002103
 set = "evil-hero"
 name = "Evil HERO Aero Scout"
 type = "monster effect"
@@ -53,7 +75,7 @@ strings = [
 ]
 
 [evil-hero-blaster-minx]
-id = 900002103
+id = 900002104
 set = "evil-hero"
 name = "Evil HERO Blaster Minx"
 type = "monster effect"
@@ -77,7 +99,7 @@ strings = [
 ]
 
 [evil-hero-igneous-insurgent]
-id = 900002104
+id = 900002105
 set = "evil-hero"
 name = "Evil HERO Igneous Insurgent"
 type = "monster effect"
@@ -97,7 +119,7 @@ If this card is used as material for a Fusion Summon, and sent to the GY or bani
 strings = ["Negate the attack"]
 
 [evil-hero-bubbling-anger]
-id = 900002105
+id = 900002106
 set = "evil-hero"
 name = "Evil HERO Bubbling Anger"
 type = "monster effect"
@@ -118,7 +140,7 @@ If this card is used as material for a Fusion Summon, and sent to the GY or bani
 strings = ["Destroy the battled monster"]
 
 [evil-hero-black-bolt]
-id = 900002106
+id = 900002107
 set = "evil-hero"
 name = "Evil HERO Black Bolt"
 type = "monster effect"
@@ -140,7 +162,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Change position of 1 face-up monster"]
 
 [evil-hero-savage-heart]
-id = 900002107
+id = 900002108
 set = "evil-hero"
 name = "Evil HERO Savage Heart"
 type = "monster effect"
@@ -161,7 +183,7 @@ If this card is used as material for a Fusion Summon, and sent to the GY or bani
 strings = []
 
 [evil-hero-revenge-smog]
-id = 900002108
+id = 900002109
 set = "evil-hero"
 name = "Evil HERO Revenge Smog"
 type = "monster effect"
@@ -187,7 +209,7 @@ strings = [
 ]
 
 [evil-hero-cursed-shadow]
-id = 900002109
+id = 900002110
 set = "evil-hero"
 name = "Evil HERO Cursed Shadow"
 type = "monster effect"
@@ -210,7 +232,7 @@ strings = [
 ]
 
 [evil-hero-executor]
-id = 900002110
+id = 900002111
 set = "evil-hero"
 name = "Evil HERO Executor"
 type = "monster effect"
@@ -231,24 +253,16 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
 
-[evil-hero-cosmos]
-id = 900002111
+[evil-hero-infernal-scepter]
+id = 900002112
 set = "evil-hero"
-name = "Evil HERO Cosmos"
+name = "Evil HERO Infernal Scepter"
 type = "monster effect"
 attribute = "dark"
 race = "fiend"
-level = 7
-atk = 2500
-def = 2000
+level = 3
+atk = 0
+def = 0
 effect = """\
-You can Special Summon this card (from your hand or GY) \
-    by banishing 1 "HERO" Fusion or Link Monster you control. \
-    You can only Special Summon "{CARD_NAME}" once per turn this way. \
-Once per turn, during your opponent's turn: \
-    You can Tribute this card you control and 1 other "HERO" monster you control or in your hand; \
-    Special Summon 1 Fusion monster from your Extra Deck, \
-    that lists exactly 2 monsters as material and must be Special Summoned with "Dark Fusion". \
-    (This is treated as a Fusion Summon with "Dark Fusion".) \
 """
-strings = ["Special Summon 1 \"Evil HERO\" Fusion monster from Extra Deck"]
+strings = []
