@@ -2,8 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_DARK_FUSION}
-s.listed_series = {0x6008}
+s.listed_series = {0x6008, 0xf8}
 
 function s.initial_effect(c)
     -- effect
@@ -20,12 +19,11 @@ function s.initial_effect(c)
     e1b:SetCode(EVENT_SPSUMMON_SUCCESS)
     c:RegisterEffect(e1b)
 
-    -- return dark fusion
+    -- activate field
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 3))
-    e2:SetCategory(CATEGORY_TOHAND)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetDescription(aux.Stringid(id, 1))
+    e2:SetType(EFFECT_TYPE_QUICK_O)
+    e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_MZONE + LOCATION_GRAVE)
     e2:SetCountLimit(1, {id, 2})
     e2:SetCost(aux.bfgcost)
@@ -93,24 +91,20 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e2filter(c)
-    if not c:IsAbleToHand() then return false end
-
-    return c:IsCode(CARD_DARK_FUSION) or (c:IsType(TYPE_SPELL + TYPE_TRAP) and c:ListsCode(CARD_DARK_FUSION))
+function s.e2filter(c, tp)
+    return c:IsSetCard(0xf8) and c:IsType(TYPE_FIELD) and c:GetActivateEffect() and
+               c:GetActivateEffect():IsActivatable(tp, true, true)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, 0, 1, nil) end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
-    local g = Duel.SelectTarget(tp, s.e2filter, tp, LOCATION_GRAVE, 0, 1, 1, nil)
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, 0, 0)
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e2filter, tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, tp)
+    end
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
-
-    Duel.SendtoHand(tc, nil, REASON_EFFECT)
-    Duel.ConfirmCards(1 - tp, tc)
+    local tc = Utility.SelectMatchingCard(HINTMSG_TOFIELD, tp, aux.NecroValleyFilter(s.e2filter), tp,
+        LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, tp):GetFirst()
+    Duel.ActivateFieldSpell(tc, e, tp, eg, ep, ev, re, r, rp)
 end
+
