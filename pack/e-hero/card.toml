@@ -147,3 +147,29 @@ If this card is used as material for a Fusion Summon, and sent to the GY or bani
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
+
+[evil-hero-revenge-smog]
+id = 900002108
+set = "evil-hero"
+name = "Evil HERO Revenge Smog"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 4
+atk = 1800
+def = 300
+effect = """\
+If this card is Normal or Special Summoned: You can activate 1 of these effects.
+● Inflict 300 damage to your opponent for each "Evil HERO" monster in your GY.
+● Target 1 "Evil HERO" monster in your GY; add it to your hand or Special Summon it.
+You can banish this card you control or from your GY, \
+    then target 1 "Dark Fusion", or 1 Spell/Trap that mentions it, in your GY"; \
+    add it to your hand. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = [
+    "Inflict damage or Special summon",
+    "Inflict 300 damage to your opponent for each \"Evil HERO\"",
+    "Return or Special Summon 1 \"Evil HERO\" in GY",
+    "Return 1 \"Dark Fusion\" or Spell/Trap that mentions it",
+]
