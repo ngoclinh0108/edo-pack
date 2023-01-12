@@ -46,7 +46,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, tp)
-    return c:IsSetCard(0x8) and c:IsType(TYPE_FUSION + TYPE_LINK) and c:IsAbleToRemoveAsCost() and
+    return c:IsSetCard(0x8) and c:IsType(TYPE_FUSION + TYPE_LINK) and c:IsAbleToExtraAsCost() and
                (Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 or c:GetSequence() < 5)
 end
 
@@ -80,7 +80,7 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     local g = e:GetLabelObject()
     if not g then return end
-    Duel.Remove(g, POS_FACEUP, REASON_COST)
+    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
     g:DeleteGroup()
 end
 

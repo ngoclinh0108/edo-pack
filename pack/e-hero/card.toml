@@ -40,7 +40,7 @@ atk = 2500
 def = 2000
 effect = """\
 You can Special Summon this card (from your hand or GY) \
-    by banishing 1 "HERO" Fusion or Link Monster you control. \
+    by shuffling 1 "HERO" Fusion or Link Monster you control into the Extra Deck. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
 If this card destroys an opponent's monster by battle: \
     It can make a second attack. \
