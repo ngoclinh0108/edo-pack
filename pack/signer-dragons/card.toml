@@ -38,7 +38,7 @@ Activate 1 of these effects, \
     (This Special Summon is treated as a Synchro Summon.)
 """
 strings = [
-    "Affected by \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except Synchro Monsters",
+    "Affected by effect \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except Synchro Monsters",
     "Shuffle Tuner into the Deck",
     "Summon a Synchro Monster",
 ]
@@ -173,7 +173,7 @@ Once per turn: You can declare a Level from 1 to 12; \
 """
 strings = [
     "Make your LP become 4000",
-    "Affected by \"{CARD_NAME}\": take no effect damage",
+    "Affected by effect \"{CARD_NAME}\": take no effect damage",
     "Add 1 Equip Spell to your hand",
     "Change Level of other Synchro Monsters",
 ]
@@ -255,7 +255,7 @@ strings = [
     "Negate the effect & Destroy 1 card on the field",
     "Remove Signer Counter to attack again?",
     "Special Summon 1 Level 10 or lower Dragon Synchro Monster?",
-    "Affected by \"{CARD_NAME}\": take no damage",
+    "Affected by effect \"{CARD_NAME}\": take no damage",
 ]
 
 [cosmic-stardust-dragon]
@@ -419,7 +419,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = [
     "Special Summon a Tuner in GY",
-    "Affected by \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except Synchro Monsters",
+    "Affected by effect \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except Synchro Monsters",
     "Change level of the Summoned monster?",
     "Tribute to Special Summon a Synchro Monster from Extra Deck",
     "Perform Synchro Summon?",
@@ -601,7 +601,7 @@ Once per turn: You can send 1 "Synchron" monster from your hand or Deck to the G
 strings = [
     "Synchro Summoned with \"Junk Synchron\"",
     "Special Summon \"Synchron\" monsters",
-    "Affected by \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except Synchro Monsters",
+    "Affected by effect \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except Synchro Monsters",
     "Change level by \"Synchro\" monster",
     "Increase Level",
     "Reduce Level",
@@ -655,7 +655,7 @@ A Synchro Monster that used this card as material is unaffected by your opponent
     during the turn it is Synchro Summoned. \
 """
 strings = [
-    "Affected by \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except Synchro Monsters",
+    "Affected by effect \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except Synchro Monsters",
 ]
 
 [stardust-spark-synchron]
@@ -896,9 +896,9 @@ Once per turn, during your opponent's turn, \
 """
 strings = [
     "Negate the effect and block card activation",
-    "Affected by \"{CARD_NAME}\": cannot activate cards or effects",
+    "Affected by effect \"{CARD_NAME}\": cannot activate cards or effects",
     "Destroy and banish all your opponent cards",
-    "Affected by \"{CARD_NAME}\": other monsters you control cannot attack",
+    "Affected by effect \"{CARD_NAME}\": other monsters you control cannot attack",
     "Banish this card until the end phase",
     "Do you want negate the attack by effect of \"{CARD_NAME}\"?",
 ]

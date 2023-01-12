@@ -706,7 +706,7 @@ If you Tribute this card for the Tribute Summon of "The Winged Dragon of Ra", it
 """
 strings = [
     "Tribute Summon (via \"{CARD_NAME}\")",
-    "Affected by \"{CARD_NAME}\": any effect that would inflict damage to you makes you gain that much LP, instead",
+    "Affected by effect \"{CARD_NAME}\": any effect that would inflict damage to you makes you gain that much LP, instead",
 ]
 
 [forbidden-art-palladium]
