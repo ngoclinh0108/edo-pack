@@ -230,3 +230,17 @@ If this card is in your hand or GY: \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
+
+[evil-hero-cosmos]
+id = 900002111
+set = "evil-hero"
+name = "Evil HERO Cosmos"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 7
+atk = 2500
+def = 2000
+effect = """\
+"""
+strings = []
