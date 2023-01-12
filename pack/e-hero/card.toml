@@ -47,6 +47,7 @@ Once per turn, during your opponent's turn: \
     Special Summon 1 Fusion monster from your Extra Deck, \
     that lists exactly 2 monsters as material and must be Special Summoned with "Dark Fusion". \
     (This is treated as a Fusion Summon with "Dark Fusion".) \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Special Summon 1 \"Evil HERO\" Fusion monster from Extra Deck"]
 
