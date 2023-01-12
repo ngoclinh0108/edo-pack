@@ -208,3 +208,25 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = [
     "Affected by effect \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except \"HERO\" monsters",
 ]
+
+[evil-hero-executor]
+id = 900002110
+set = "evil-hero"
+name = "Evil HERO Executor"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 6
+atk = 1900
+def = 0
+effect = """\
+If this card is Normal or Special Summoned: \
+    You can send 1 "Evil HERO" monster from your hand or Deck to the GY, except "{CARD_NAME}"; \
+    this card gains ATK equal to the Level of the sent monster x 100. \
+    also your opponent sends cards from the top of their Deck to the GY equal to the Level of the sent monster. \
+If this card is in your hand or GY: \
+    You can banish 1 "Evil HERO" monster from your field or GY, except "{CARD_NAME}"; \
+    Special Summon this card. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = []

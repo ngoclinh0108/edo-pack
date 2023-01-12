@@ -52,16 +52,29 @@ end
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local race = e:GetLabel()
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 0))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetTarget(function(e, tc, sump, sumtype, sumpos, targetp, se)
+        return tc:IsLocation(LOCATION_EXTRA) and not tc:IsSetCard(0x8)
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+
     if Duel.IsPlayerCanSpecialSummonMonster(tp, EVIL_TOKEN, 0, TYPES_TOKEN, 2500, 2500, 7, race, ATTRIBUTE_DARK) and
         Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 then
         local token = Duel.CreateToken(tp, EVIL_TOKEN)
         Duel.SpecialSummonStep(token, 0, tp, tp, false, false, POS_FACEUP_DEFENSE)
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_CHANGE_RACE)
-        ec1:SetValue(race)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        token:RegisterEffect(ec1)
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetCode(EFFECT_CHANGE_RACE)
+        ec2:SetValue(race)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+        token:RegisterEffect(ec2)
         Duel.SpecialSummonComplete()
     end
 end

@@ -39,7 +39,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, tp)
-    return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x13a) and c:IsType(TYPE_MONSTER)
+    return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x13a) and c:IsMonster()
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)

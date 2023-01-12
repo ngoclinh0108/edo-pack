@@ -35,11 +35,11 @@ function s.initial_effect(c)
 end
 
 function s.e1dmgfilter(c)
-    return c:IsSetCard(0x6008) and c:IsType(TYPE_MONSTER)
+    return c:IsSetCard(0x6008) and c:IsMonster()
 end
 
 function s.e1spfilter(c, e, tp)
-    return c:IsSetCard(0x6008) and c:IsType(TYPE_MONSTER) and
+    return c:IsSetCard(0x6008) and c:IsMonster() and
                (c:IsAbleToHand() or c:IsCanBeSpecialSummoned(e, 0, tp, false, false))
 end
 

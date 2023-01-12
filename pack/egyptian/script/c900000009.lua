@@ -171,7 +171,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local og = c:GetOverlayGroup():Filter(function(tc)
-        return not tc:IsCode(id) and tc:IsType(TYPE_MONSTER)
+        return not tc:IsCode(id) and tc:IsMonster()
     end, nil)
     if #og <= 0 then
         return

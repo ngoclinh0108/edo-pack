@@ -36,7 +36,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return not c:IsCode(id) and c:IsSetCard(0x6008) and c:IsType(TYPE_MONSTER) and c:IsAbleToGrave()
+    return not c:IsCode(id) and c:IsSetCard(0x6008) and c:IsMonster() and c:IsAbleToGrave()
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)

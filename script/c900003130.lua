@@ -29,7 +29,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter1(c)
-    return c:IsSetCard(0x1017) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+    return c:IsSetCard(0x1017) and c:IsMonster() and c:IsAbleToHand()
 end
 
 function s.e1filter2(c)
