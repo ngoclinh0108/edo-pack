@@ -43,13 +43,13 @@ effect = """\
 If this card is in your hand: \
     You can send 1 "Evil HERO" monster from your hand or Deck to the GY, except "{CARD_NAME}", \
     and if you do, Special Summon this card from your hand. \
-    You cannot Special Summon monsters from the Extra Deck, except Fiend Fusion Monsters, the turn you activate this effect. \
+    You cannot Special Summon monsters from the Extra Deck, except "HERO" Monsters, the turn you activate this effect. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
     You can switch the original ATK/DEF of all monsters your opponent currently controls. \
 """
 strings = [
-    "Affected by effect \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except Fiend Fusion Monsters",
+    "Affected by effect \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except \"HERO\" Monsters",
 ]
 
 [evil-hero-blaster-minx]
@@ -66,13 +66,14 @@ effect = """\
 (This card's name is also treated as "Elemental HERO Burstinatrix".)
 You can send 1 "Evil HERO" monster from your hand or Deck to the GY, except "{CARD_NAME}", and if you do, \
     this card's Attribute, Level and ATK/DEF become the same as that monster, until the end of next turn. \
-    You cannot Special Summon monsters from the Extra Deck, except Fiend Fusion Monsters, the turn you activate this effect. \
+    You cannot Special Summon monsters from the Extra Deck, except "HERO" Monsters, the turn you activate this effect. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
     You can make 1 Fiend monster you control gains 1000 ATK until the end of next turn. \
 """
 strings = [
     "Send 1 \"Evil HERO\" to the GY to copy its Attribute, Level, ATK/DEF",
+    "Affected by effect \"{CARD_NAME}\": cannot Special Summon from the Extra Deck, except \"HERO\" Monsters",
 ]
 
 [evil-hero-igneous-insurgent]
