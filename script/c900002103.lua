@@ -13,19 +13,16 @@ function s.initial_effect(c)
     addname:SetValue(58932615)
     c:RegisterEffect(addname)
 
-    -- to grave
+    -- send 1 Evil HERO to the GY
     local e1 = Effect.CreateEffect(c)
+    e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_TOGRAVE)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e1:SetProperty(EFFECT_FLAG_DELAY)
-    e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetType(EFFECT_TYPE_IGNITION)
+    e1:SetRange(LOCATION_MZONE)
     e1:SetCountLimit(1, id)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e1b)
 
     -- atk up
     local e2 = Effect.CreateEffect(c)
@@ -40,7 +37,7 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c)
-    return c:IsSetCard(0x6008) and c:IsMonster() and c:IsAbleToGrave()
+    return c:IsSetCard(0x6008) and c:IsMonster() and c:HasLevel() and not c:IsCode(id) and c:IsAbleToGrave()
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -52,11 +49,44 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
-        nil)
-    if #g > 0 then
-        Duel.SendtoGrave(g, REASON_EFFECT)
+    local c = e:GetHandler()
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 0))
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetTarget(function(e, tc, sump, sumtype, sumpos, targetp, se)
+        return tc:IsLocation(LOCATION_EXTRA) and not (tc:IsType(TYPE_FUSION) and tc:IsRace(RACE_FIEND))
+    end)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+
+    local tc = Utility.SelectMatchingCard(HINTMSG_TOGRAVE, tp, s.e1filter, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1,
+        nil):GetFirst()
+    if tc and Duel.SendtoGrave(tc, REASON_EFFECT) > 0 and c:IsRelateToEffect(e) then
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetProperty(EFFECT_FLAG_COPY_INHERIT)
+        ec2:SetCode(EFFECT_CHANGE_ATTRIBUTE)
+        ec2:SetValue(tc:GetAttribute())
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE + RESET_PHASE + PHASE_END, 2)
+        c:RegisterEffect(ec2)
+        local ec2b = ec2:Clone()
+        ec2b:SetCode(EFFECT_CHANGE_LEVEL_FINAL)
+        ec2b:SetValue(tc:GetLevel())
+        c:RegisterEffect(ec2b)
+        local ec2c = ec2:Clone()
+        ec2c:SetCode(EFFECT_SET_ATTACK_FINAL)
+        ec2c:SetValue(tc:GetAttack())
+        c:RegisterEffect(ec2c)
+        local ec2d = ec2:Clone()
+        ec2d:SetCode(EFFECT_SET_DEFENSE_FINAL)
+        ec2d:SetValue(tc:GetDefense())
+        c:RegisterEffect(ec2d)
     end
+
 end
 
 function s.e2filter(c)
