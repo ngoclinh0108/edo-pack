@@ -122,8 +122,12 @@ atk = 1600
 def = 1400
 effect = """\
 (This card's name is also treated as "Elemental HERO Sparkman".)
+You can target 1 face-up monster on the field; change its battle position. \
+If this card is used as material for a Fusion Summon, and sent to the GY or banished: \
+    You can destroy 1 monster your opponent controls. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
 """
-strings = []
+strings = ["Change position of 1 face-up monster"]
 
 [evil-hero-savage-heart]
 id = 900002107
