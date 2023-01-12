@@ -60,7 +60,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetCode(EFFECT_UPDATE_ATTACK)
         ec1:SetValue(lv * 100)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec1)
+        c:RegisterEffect(ec1)
     end
 
     Duel.DiscardDeck(1 - tp, lv, REASON_EFFECT)
