@@ -173,3 +173,17 @@ strings = [
     "Return or Special Summon 1 \"Evil HERO\" in GY",
     "Return 1 \"Dark Fusion\" or Spell/Trap that mentions it",
 ]
+
+[evil-hero-cursed-shadow]
+id = 900002109
+set = "evil-hero"
+name = "Evil HERO Cursed Shadow"
+type = "monster effect"
+attribute = "dark"
+race = "fiend"
+level = 4
+atk = 1300
+def = 1500
+effect = """\
+"""
+strings = []
