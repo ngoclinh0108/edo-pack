@@ -2,10 +2,10 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {75524092}
+s.listed_names = {75524093}
 s.listed_series = {0x8, 0x6008}
 
-local EVIL_TOKEN = 75524092
+local EVIL_TOKEN = 75524093
 
 function s.initial_effect(c)
     -- token
@@ -42,8 +42,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
                 ATTRIBUTE_DARK)
     end
 
-    local ac=Duel.AnnounceRace(tp,1,RACE_ALL)
-	e:SetLabel(ac)
+    local ac = Duel.AnnounceRace(tp, 1, RACE_ALL)
+    e:SetLabel(ac)
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_TOKEN, nil, 1, 0, 0)
@@ -62,6 +62,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1:SetValue(race)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
         token:RegisterEffect(ec1)
+        Duel.SpecialSummonComplete()
     end
 end
 
