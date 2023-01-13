@@ -277,3 +277,19 @@ If this card is sent to the GY, or banished: \
 You can only use 1 "{CARD_NAME}" effect per turn, and only once that turn. \
 """
 strings = []
+
+[evil-hero-crimson-fury]
+id = 900002113
+set = "evil-hero"
+name = "Evil HERO Crimson Fury"
+type = "monster fusion effect"
+attribute = "earth"
+race = "fiend"
+level = 6
+atk = 1900
+def = 3000
+effect = """\
+"Elemental HERO Bubbleman" + "Elemental HERO Clayman"
+Must be Special Summoned with "Dark Fusion". \
+"""
+strings = []
