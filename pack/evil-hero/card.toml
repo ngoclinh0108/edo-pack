@@ -333,5 +333,13 @@ def = 1000
 effect = """\
 "Elemental HERO Burstinatrix" + "Elemental HERO Bubbleman"
 Must be Special Summoned with "Dark Fusion". \
+Once per turn: You can banish 1 monster from your GY, then target 1 face-up on the field; \
+    The targeted monster lose ATK equal to the banished monster's original ATK, \
+    until the end of this turn. \
+If this card destroys an opponent's monster by battle: \
+    You gain LP equal to that monster's original ATK. \
 """
-strings = []
+strings = [
+    "Banish to down ATK of 1 face-up monster",
+    "Gain LP equal to destroyed monster's original ATK",
+]
