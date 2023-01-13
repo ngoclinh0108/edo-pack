@@ -63,6 +63,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.GetLocationCount(tp, LOCATION_SZONE) <= 0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
 
     local tc = Utility.SelectMatchingCard(HINTMSG_EQUIP, tp, aux.NecroValleyFilter(s.e1filter), tp,
-        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, c):GetFirst()
+        LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, c):GetFirst()
     if tc then Duel.Equip(tp, tc, c) end
 end
