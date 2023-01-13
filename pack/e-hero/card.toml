@@ -291,5 +291,8 @@ def = 3000
 effect = """\
 "Elemental HERO Bubbleman" + "Elemental HERO Clayman"
 Must be Special Summoned with "Dark Fusion". \
+If this card is Fusion Summoned: \
+    Target 1 face-up monster your opponent controls; its ATK is halved. \
+Cannot be destroyed by battle. \
 """
 strings = []

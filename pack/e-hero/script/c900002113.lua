@@ -29,4 +29,47 @@ function s.initial_effect(c)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
     splimit:SetValue(aux.EvilHeroLimit)
     c:RegisterEffect(splimit)
+
+    -- halve atk
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_ATKCHANGE)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
+    c:RegisterEffect(e1)
+
+    -- indes
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+    e2:SetValue(1)
+    c:RegisterEffect(e2)
+end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION) end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then return true end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_FACEUP)
+    local g = Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_ATKCHANGE, g, #g, 0, 0)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local tc = Duel.GetFirstTarget()
+    if tc and tc:IsRelateToEffect(e) and tc:IsFaceup() and not tc:IsImmuneToEffect(e) then
+        local atk = tc:GetAttack()
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetCode(EFFECT_SET_ATTACK_FINAL)
+        ec1:SetValue(atk / 2)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1)
+    end
 end
