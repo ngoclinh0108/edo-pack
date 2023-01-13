@@ -358,6 +358,7 @@ effect = """\
 "Evil HERO" monster + Level 4 or lower monster
 Must be Special Summoned with "Dark Fusion". \
 If this card is Fusion Summoned: You can equip 1 "Vicious Claw" from your hand, Deck or GY to this card. \
-If this card destroys an opponent's monster by battle: You can draw 1 card. \
+If this card attacks a Defense Position monster, inflict piercing battle damage. \
+If this card inflicts battle damage to your opponent: Discard 1 random card from your opponent's hand. \
 """
-strings = ["Draw 1 card"]
+strings = ["Discard 1 random card from your opponent's hand"]

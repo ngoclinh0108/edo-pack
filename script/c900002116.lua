@@ -43,17 +43,22 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- draw
+    -- pierce
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_DRAW)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2:SetCode(EVENT_BATTLE_DESTROYING)
-    e2:SetCondition(aux.bdocon)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_PIERCE)
     c:RegisterEffect(e2)
+
+    -- handes
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_HANDES)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e3:SetCode(EVENT_BATTLE_DAMAGE)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1filter(c, ec) return c:IsCode(75524092) and c:CheckEquipTarget(ec) end
@@ -79,15 +84,18 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if tc then Duel.Equip(tp, tc, c) end
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return ep ~= tp end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
-    
-    Duel.SetTargetPlayer(tp)
-    Duel.SetTargetParam(1)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+
+    Duel.SetOperationInfo(0, CATEGORY_HANDES, 0, 0, 1 - tp, 1)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
-    Duel.Draw(p, d, REASON_EFFECT)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetFieldGroup(ep, LOCATION_HAND, 0, nil)
+    if #g == 0 then return end
+
+    local sg = g:RandomSelect(1 - tp, 1)
+    Duel.SendtoGrave(sg, REASON_DISCARD + REASON_EFFECT)
 end
