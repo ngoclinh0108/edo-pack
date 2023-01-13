@@ -319,3 +319,19 @@ If this card leaves the field: Target 1 card your opponent controls; \
     destroy it. \
 """
 strings = []
+
+[evil-hero-wicked-neptucius]
+id = 900002115
+set = "evil-hero"
+name = "Evil HERO Wicked Neptucius"
+type = "monster fusion effect"
+attribute = "water"
+race = "fiend"
+level = 5
+atk = 1800
+def = 1000
+effect = """\
+"Elemental HERO Burstinatrix" + "Elemental HERO Bubbleman"
+Must be Special Summoned with "Dark Fusion". \
+"""
+strings = []
