@@ -343,3 +343,20 @@ strings = [
     "Banish to down ATK of 1 face-up monster",
     "Gain LP equal to destroyed monster's original ATK",
 ]
+
+[evil-hero-vicious-ccraper]
+id = 900002116
+set = "evil-hero"
+name = "Evil HERO Vicious Scraper"
+type = "monster fusion effect"
+attribute = "dark"
+race = "fiend"
+level = 6
+atk = 2000
+def = 1800
+effect = """\
+"Evil HERO" monster + Level 4 or lower monster
+Must be Special Summoned with "Dark Fusion". \
+If this card is Fusion Summoned: You can equip 1 "Vicious Claw" from your hand, Deck or GY to this card. \
+"""
+strings = []
