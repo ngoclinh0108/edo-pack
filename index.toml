@@ -6,7 +6,7 @@ packs = [
     "./pack/palladium",
     "./pack/blue-eyes",
     "./pack/sacred-beast",
-    "./pack/e-hero",
+    "./pack/evil-hero",
     "./pack/signer-dragons",
 ]
 
@@ -15,6 +15,6 @@ skip_compile_packs = [
     "./pack/palladium",
     "./pack/blue-eyes",
     "./pack/sacred-beast",
-    # "./pack/e-hero",
+    # "./pack/evil-hero",
     "./pack/signer-dragons",
 ]
