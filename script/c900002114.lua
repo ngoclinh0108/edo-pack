@@ -54,18 +54,36 @@ function s.initial_effect(c)
     e2:SetValue(DOUBLE_DAMAGE)
     c:RegisterEffect(e2)
 
-    -- destroy
+    -- to defense
     local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_DESTROY)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
-    e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e3:SetCode(EVENT_LEAVE_FIELD)
-    e3:SetTarget(s.e3tg)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_DAMAGE_STEP_END)
+    e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+
+    -- destroy
+    local e4 = Effect.CreateEffect(c)
+    e4:SetCategory(CATEGORY_DESTROY)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e4:SetCode(EVENT_LEAVE_FIELD)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    return Duel.GetAttacker() == c and c:IsRelateToBattle()
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if c:IsAttackPos() then Duel.ChangePosition(c, POS_FACEUP_DEFENSE) end
+end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then return true end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
@@ -74,7 +92,7 @@ function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if tc and tc:IsRelateToEffect(e) then Duel.Destroy(tc, REASON_EFFECT) end
 end
