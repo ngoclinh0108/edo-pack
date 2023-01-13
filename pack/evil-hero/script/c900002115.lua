@@ -94,7 +94,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local bc = e:GetHandler():GetBattleTarget()
     local lp = bc:GetBaseAttack()
 
-    Duel.SetTargetPlayer(1 - tp)
+    Duel.SetTargetPlayer(tp)
     Duel.SetTargetParam(lp)
     Duel.SetOperationInfo(0, CATEGORY_RECOVER, nil, 0, tp, lp)
 end
