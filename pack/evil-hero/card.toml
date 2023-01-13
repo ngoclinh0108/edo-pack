@@ -296,3 +296,25 @@ If this card is Fusion Summoned: \
 Cannot be destroyed by battle. \
 """
 strings = []
+
+[evil-hero-voltic-predator]
+id = 900002114
+set = "evil-hero"
+name = "Evil HERO Voltic Predator"
+type = "monster fusion effect"
+attribute = "dark"
+race = "fiend"
+level = 6
+atk = 2000
+def = 1000
+effect = """\
+"Elemental HERO Sparkman" + DARK monster
+Must be Special Summoned with "Dark Fusion". \
+If this card attacks a Defense Position monster, inflict double piercing battle damage. \
+If this card attacks an opponent's monster, during the Damage Step only, \
+    negate the effects of that monster while it is face-up on the field \
+    (but its effects can still be activated). \
+If this card leaves the field: Target 1 card your opponent controls; \
+    destroy it. \
+"""
+strings = []
