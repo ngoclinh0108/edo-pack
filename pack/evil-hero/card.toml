@@ -471,7 +471,7 @@ effect = """
 Fusion Summon 1 Fiend Fusion Monster from your Extra Deck, \
     using monsters from your hand or field as Fusion Material, \
     you can use 1 "Evil HERO" monster from your Deck as material. \
-    Your opponent cannot target it with card effects until the end of next turn. \
+    Your opponent cannot target it with card effects, until the end of your next turn. \
 """
 strings = []
 
