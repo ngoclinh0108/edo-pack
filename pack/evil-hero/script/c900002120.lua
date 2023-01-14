@@ -29,10 +29,11 @@ function s.initial_effect(c)
     e2:SetCategory(CATEGORY_REMOVE)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e2:SetRange(LOCATION_MZONE)
     e2:SetCountLimit(1, {id, 2})
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
-    c:RegisterEffect(e1)
+    c:RegisterEffect(e2)
 end
 
 function s.e1filter(c) return c:IsFaceup() and c:IsSetCard(0x6008) and c:IsLevelBelow(4) and c:IsAbleToHand() end
@@ -53,8 +54,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c)
-    if not c:IsAbleToRemove() or not c:CheckActivateEffect(true, true, false) ~= nil then return false end
-    return c:IsCode(CARD_DARK_FUSION) or (c:IsSpellTrap() and c:ListsCode(CARD_DARK_FUSION))
+    return (c:IsCode(CARD_DARK_FUSION) or (c:IsSpellTrap() and c:ListsCode(CARD_DARK_FUSION))) and c:IsAbleToRemove() and
+               c:CheckActivateEffect(true, true, false) ~= nil
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
@@ -75,7 +76,7 @@ end
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = e:GetLabelObject()
     if not tc:IsRelateToEffect(e) or Duel.Remove(tc, POS_FACEUP, REASON_EFFECT) == 0 then return end
-    
+
     local te = tc:CheckActivateEffect(true, true, false)
     local op = te:GetOperation()
     if op then op(e, tp, eg, ep, ev, re, r, rp) end
