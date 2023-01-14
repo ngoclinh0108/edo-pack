@@ -12,8 +12,9 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetHintTiming(0, TIMING_END_PHASE)
+    e1:SetHintTiming(0, TIMING_MAIN_END)
     e1:SetCountLimit(1, {id, 1})
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -31,6 +32,8 @@ function s.initial_effect(c)
 end
 
 function s.e1filter(c, e, tp) return c:IsSetCard(0x6008) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) end
+
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
