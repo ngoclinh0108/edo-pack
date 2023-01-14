@@ -8,7 +8,7 @@ s.dark_calling = true
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-    
+
     -- fusion summon
     Fusion.AddProcMix(c, true, true, 79979666, 84327329)
 
@@ -42,11 +42,10 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- indes
+    -- defense attack
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    e2:SetValue(1)
+    e2:SetCode(EFFECT_DEFENSE_ATTACK)
     c:RegisterEffect(e2)
 end
 

@@ -22,9 +22,10 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_ATKCHANGE)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_MZONE)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
     e2:SetCountLimit(1, {id, 2})
+    e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -83,6 +84,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_COST)
     g:DeleteGroup()
 end
+
+function s.e2con(e) return e:GetHandler() == Duel.GetAttacker() end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.CheckReleaseGroupCost(tp, Card.IsSetCard, 1, false, nil, e:GetHandler(), 0x8) end

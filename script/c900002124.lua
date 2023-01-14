@@ -12,9 +12,8 @@ function s.initial_effect(c)
     e1:SetType(EFFECT_TYPE_ACTIVATE)
     e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e1:SetCode(EVENT_FREE_CHAIN)
-    e1:SetHintTiming(0, TIMING_MAIN_END)
+    e1:SetHintTiming(0, TIMING_END_PHASE)
     e1:SetCountLimit(1, {id, 1})
-    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
@@ -33,8 +32,6 @@ end
 
 function s.e1filter(c, e, tp) return c:IsSetCard(0x6008) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
-
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     if chk == 0 then
         return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
@@ -48,10 +45,18 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
     local tc = Duel.GetFirstTarget()
-    if not tc or not tc:IsRelateToEffect(e) then return end
-
-    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+    if tc and tc:IsRelateToEffect(e) and Duel.SpecialSummonStep(tc, 0, tp, tp, false, false, POS_FACEUP) > 0 then
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3207)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        tc:RegisterEffect(ec1)
+    end
+    Duel.SpecialSummonComplete()
 end
 
 function s.e2filter(c, tp)

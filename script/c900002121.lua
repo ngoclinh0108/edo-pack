@@ -32,11 +32,7 @@ function s.e1op(e, tc, tp, sg, chk)
         ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_CLIENT_HINT)
         ec1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
         ec1:SetValue(aux.tgoval)
-        if Duel.GetTurnPlayer() == tp then
-            ec1:SetReset(RESET_PHASE + PHASE_END + RESET_SELF_TURN, 2)
-        else
-            ec1:SetReset(RESET_PHASE + PHASE_END + RESET_SELF_TURN)
-        end
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 2)
         tc:RegisterEffect(ec1)
     end
 end

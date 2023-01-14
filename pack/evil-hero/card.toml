@@ -42,7 +42,8 @@ effect = """\
 You can Special Summon this card (from your hand or GY) \
     by shuffling 1 "HERO" Fusion or Link Monster you control into the Extra Deck. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
-You can Tribute 1 face-up "HERO" monster; \
+If this card attacks, during damage calculation: \
+    You can Tribute 1 face-up "HERO" monster; \
     this card gains ATK equal to the Tributed monster's ATK, until the End Phase. \
 Once per turn, during your Main Phase or your opponent's turn: \
     You can Tribute this card you control and 1 other "HERO" monster you control or in your hand; \
@@ -293,7 +294,8 @@ effect = """\
 Must be Special Summoned with "Dark Fusion". \
 If this card is Fusion Summoned: \
     Target 1 face-up monster your opponent controls; its ATK is halved. \
-Cannot be destroyed by battle. \
+This card can attack while in face-up Defense Position. \
+    If it does, apply its ATK for damage calculation. \
 """
 strings = []
 
@@ -311,12 +313,10 @@ effect = """\
 "Elemental HERO Sparkman" + DARK monster
 Must be Special Summoned with "Dark Fusion". \
 If this card attacks a Defense Position monster, inflict double piercing battle damage. \
-If this card attacks an opponent's monster, during the Damage Step only, \
-    negate the effects of that monster while it is face-up on the field \
-    (but its effects can still be activated). \
 If this card attacks, change it to Defense Position at the end of the Damage Step. \
 If this card leaves the field: \
-    Target 1 card your opponent controls; destroy it. \
+    Target 1 card your opponent controls; \
+    destroy the targeted, and if you do, banish it. \
 """
 strings = []
 
@@ -383,7 +383,6 @@ effect = """\
 1 "Evil HERO" monster + 1 Level 4 or lower monster
 Must be Special Summoned with "Dark Fusion". \
 If this card is Fusion Summoned: You can equip 1 "Vicious Claw" from your hand, Deck or GY to this card. \
-If this card attacks a Defense Position monster, inflict piercing battle damage. \
 If this card inflicts battle damage to your opponent: Discard 1 random card from your opponent's hand. \
 """
 strings = ["Discard 1 random card from your opponent's hand"]
@@ -402,7 +401,6 @@ effect = """\
 2 "Evil HERO" non-Fusion Monsters
 Must be Special Summoned with "Dark Fusion". \
 This card's original ATK become the combined original Levels of the materials used for its Fusion Summon x 400. \
-If this card destroys an opponent's monster by battle: It can make a second attack. \
 If this Fusion Summoned card is destroyed by battle or card effect: \
     You can target 1 "Polymerization" Spell Card or "Fusion" Spell Card in your GY; \
     add it to your hand. \
@@ -471,7 +469,7 @@ effect = """
 Fusion Summon 1 Fiend Fusion Monster from your Extra Deck, \
     using monsters from your hand or field as Fusion Material. \
     If you control a "Supreme King" card, you can use 1 "Evil HERO" monster from your Deck as material. \
-    Your opponent cannot target the Summoned monster with card effects, until the end of your next turn. \
+    Your opponent cannot target the Summoned monster with card effects until the end of next turn. \
 """
 strings = []
 
@@ -508,8 +506,8 @@ id = 900002124
 name = "Evil Soul"
 type = "spell quick-play"
 effect = """
-During the Main Phase: Target 1 "Evil HERO" monster in your GY; \
-    Special Summon it. \
+Target 1 "Evil HERO" monster in your GY; \
+    Special Summon it, but it cannot attack directly this turn. \
 If a "Evil HERO" monster(s) or a monster(s) that must be Special Summoned with "Dark Fusion" you control \
     would be destroyed by battle or card effect, \
     you can banish this card from your GY instead. \
