@@ -458,3 +458,43 @@ You can banish 1 Fiend monster from your GY, \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Apply the effect of 1 \"Dark Fusion\" or 1 Spell/Trap that mentions it"]
+
+[fusion-of-dark]
+id = 900002121
+alias = 94820406
+name = "Fusion of Dark"
+type = "spell"
+effect = """
+(This card's name is always treated as "Dark Fusion".)
+Fusion Summon 1 Fiend Fusion Monster from your Extra Deck, \
+    using monsters from your hand or field as Fusion Material, \
+    you can use 1 "Evil HERO" monster from your Deck as material. \
+Your opponent cannot target it with card effects until the end of next turn. \
+"""
+strings = []
+
+[vicious-fusion]
+id = 900002122
+set = "fusion"
+name = "Vicious Fusion"
+type = "spell"
+effect = """
+Fusion Summon 1 Fusion Monster from your Extra Deck, \
+    that must be Special Summoned with "Dark Fusion", \
+    by banishing the Fusion Materials mentioned on it from your hand, field or GY. \
+    (This is treated as a Fusion Summon with "Dark Fusion".) \
+"""
+strings = []
+
+[sinister-calling]
+id = 900002123
+name = "Sinister Calling"
+type = "spell"
+effect = """
+Add 1 "Evil HERO" monster from your Deck to your hand, \
+    if you control no face-up monster, you can Special Summon it instead. \
+You can banish this card from your GY: \
+    Destroy Spell/Trap Cards up to the number of "Evil HERO" monsters you control. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = []
