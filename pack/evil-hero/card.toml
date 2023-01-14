@@ -503,22 +503,8 @@ If you control no cards, except "Supreme King" cards, you can activate this card
 """
 strings = []
 
-[sinister-calling]
-id = 900002124
-name = "Sinister Calling"
-type = "spell"
-effect = """
-Add 1 "Evil HERO" monster from your Deck to your hand, \
-    if you control no face-up monster, you can Special Summon it instead. \
-    If you Special Summoned a Level 5 or higher monster by this effect, halve your LP. \
-You can banish this card from your GY: \
-    Destroy Spell/Trap Cards up to the number of "Evil HERO" monsters you control. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
-"""
-strings = []
-
 [evil-soul]
-id = 900002125
+id = 900002124
 name = "Evil Soul"
 type = "spell quick-play"
 effect = """
@@ -527,6 +513,20 @@ During the Main Phase: Target 1 "Evil HERO" monster in your GY; \
 If a "Evil HERO" monster(s) or a monster(s) that must be Special Summoned with "Dark Fusion" you control \
     would be destroyed by battle or card effect, \
     you can banish this card from your GY instead. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = []
+
+[sinister-call]
+id = 900002125
+name = "Sinister Call"
+type = "spell"
+effect = """
+Add 1 "Evil HERO" monster from your Deck to your hand, \
+    if you control no face-up monster, you can Special Summon it instead. \
+    If you Special Summoned a Level 5 or higher monster by this effect, halve your LP. \
+You can banish this card from your GY: \
+    Destroy Spell/Trap Cards up to the number of "Evil HERO" monsters you control. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
