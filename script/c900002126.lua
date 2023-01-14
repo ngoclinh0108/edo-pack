@@ -35,7 +35,7 @@ end
 function s.e1filter(c) return c:IsFaceup() and c:IsSetCard(0x6008) and c:IsAbleToRemoveAsCost() end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return (re:IsActiveType(TYPE_MONSTER) or re:IsHasType(EFFECT_TYPE_ACTIVATE)) and Duel.IsChainNegatable(ev)
+    return ep ~= tp and (re:IsActiveType(TYPE_MONSTER) or re:IsHasType(EFFECT_TYPE_ACTIVATE)) and Duel.IsChainNegatable(ev)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)

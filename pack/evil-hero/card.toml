@@ -534,7 +534,7 @@ id = 900002126
 name = "Sinister Flame"
 type = "trap counter"
 effect = """
-When a Spell/Trap Card, or monster effect, is activated: \
+When your opponent activates a Spell/Trap Card, or monster effect: \
     Banish 1 face-up "Evil HERO" monster you control until the End Phase; \
     negate the activation, and if you do, banish that card. \
 During your Main Phase, except the turn this card was sent to the GY: \
