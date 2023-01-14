@@ -369,8 +369,27 @@ strings = [
     "Inflict damage to your opponent equal to the original ATK/DEF of destroyed monster",
 ]
 
-[evil-hero-crimson-gainer]
+[evil-hero-vicious-scraper]
 id = 900002117
+set = "evil-hero"
+name = "Evil HERO Vicious Scraper"
+type = "monster fusion effect"
+attribute = "dark"
+race = "fiend"
+level = 6
+atk = 2100
+def = 1800
+effect = """\
+1 "Evil HERO" monster + 1 Level 4 or lower monster
+Must be Special Summoned with "Dark Fusion". \
+If this card is Fusion Summoned: You can equip 1 "Vicious Claw" from your hand, Deck or GY to this card. \
+If this card attacks a Defense Position monster, inflict piercing battle damage. \
+If this card inflicts battle damage to your opponent: Discard 1 random card from your opponent's hand. \
+"""
+strings = ["Discard 1 random card from your opponent's hand"]
+
+[evil-hero-crimson-gainer]
+id = 900002118
 set = "evil-hero"
 name = "Evil HERO Crimson Gainer"
 type = "monster fusion effect"
@@ -391,21 +410,19 @@ If this Fusion Summoned card is destroyed by battle or card effect: \
 """
 strings = ["Make second attack"]
 
-[evil-hero-vicious-scraper]
-id = 900002118
+[evil-hero-faustian-slayer]
+id = 900002119
 set = "evil-hero"
-name = "Evil HERO Vicious Scraper"
+name = "Evil HERO Faustian Slayer"
 type = "monster fusion effect"
 attribute = "dark"
 race = "fiend"
-level = 6
-atk = 2100
-def = 1800
+level = 8
+atk = 3200
+def = 0
 effect = """\
-1 "Evil HERO" monster + 1 Level 4 or lower monster
+1 "Evil HERO" monster + 1+ monsters that were Special Summoned from the Extra Deck
 Must be Special Summoned with "Dark Fusion". \
-If this card is Fusion Summoned: You can equip 1 "Vicious Claw" from your hand, Deck or GY to this card. \
-If this card attacks a Defense Position monster, inflict piercing battle damage. \
-If this card inflicts battle damage to your opponent: Discard 1 random card from your opponent's hand. \
+Gains 200 ATK x the number of Fusion Materials used for this card's Fusion Summon. \
 """
-strings = ["Discard 1 random card from your opponent's hand"]
+strings = []
