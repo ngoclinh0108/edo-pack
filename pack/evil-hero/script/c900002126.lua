@@ -94,7 +94,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     local g = Duel.GetMatchingGroup(s.e2filter2, tp, 0, LOCATION_MZONE, nil, tc)
     if #g > 0 and Duel.Destroy(g, REASON_EFFECT) > 0 then
-        local og = Duel.GetOperatedGroup():Filter(Card.IsLocation, nil, LOCATION_GRAVE)
+        local og = Duel.GetOperatedGroup()
         if #og > 0 then
             local _, dmg = og:GetMaxGroup(Card.GetBaseAttack)
             Duel.Damage(1 - tp, dmg, REASON_EFFECT)
