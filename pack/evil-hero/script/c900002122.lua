@@ -11,8 +11,7 @@ function s.initial_effect(c)
         fusfilter = function(c) return c.dark_calling end,
         matfilter = Fusion.InHandMat(Card.IsAbleToRemove),
         extrafil = function(e, tp, mg)
-            return Duel.GetMatchingGroup(Fusion.IsMonsterFilter(Card.IsAbleToRemove), tp,
-                LOCATION_HAND + LOCATION_MZONE + LOCATION_GRAVE, 0, nil)
+            return Duel.GetMatchingGroup(Fusion.IsMonsterFilter(Card.IsAbleToRemove), tp, LOCATION_MZONE + LOCATION_GRAVE, 0, nil)
         end,
         extraop = Fusion.BanishMaterial,
         extratg = function(e, tp, eg, ep, ev, re, r, rp, chk)
