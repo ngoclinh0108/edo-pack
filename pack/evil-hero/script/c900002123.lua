@@ -30,7 +30,7 @@ end
 function s.e1extracheck(tp) return not Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_MZONE, 0, 1, nil) end
 
 function s.e1filter(c, e, tp)
-    return c:IsSetCard(0x6008) and c:IsMonster() and
+    return c:IsSetCard(0x6008) and c:IsLevelBelow(4) and
                (c:IsAbleToHand() or (s.e1extracheck(tp) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)))
 end
 
@@ -41,19 +41,22 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp, LOCATION_DECK, 0, 1, 1, nil, e, tp)
-    if #g > 0 then
-        if s.e1extracheck(tp) then
-            aux.ToHandOrElse(g, tp, function(tc)
-                return
-                    Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
-                        tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)
-            end, function(g) Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end, 2)
-        else
-            Duel.SendtoHand(g, nil, REASON_EFFECT)
-            Duel.ConfirmCards(1 - tp, g)
-        end
+    local tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp, LOCATION_DECK, 0, 1, 1, nil, e, tp):GetFirst()
+    if not tc then return end
+
+    if not s.e1extracheck(tp) then
+        Duel.SendtoHand(tc, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, tc)
+        return
     end
+
+    aux.ToHandOrElse(tc, tp, function(tc)
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and tc:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP)
+    end, function(tc)
+        if tc:IsLevelAbove(5) and Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP) > 0 then
+            Duel.SetLP(tp, math.ceil(Duel.GetLP(tp) / 2))
+        end
+    end, 2)
 end
 
 function s.e2filter1(c) return c:IsFaceup() and c:IsSetCard(0x6008) end

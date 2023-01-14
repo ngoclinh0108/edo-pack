@@ -36,7 +36,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c) return c:IsFaceup() and c:IsSetCard(0x6008) and c:IsLevelBelow(4) and c:IsAbleToHand() end
+function s.e1filter(c) return c:IsFaceup() and c:IsSetCard(0x6008) and c:IsAbleToHand() end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) end
 
