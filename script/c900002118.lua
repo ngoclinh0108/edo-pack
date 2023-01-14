@@ -1,19 +1,18 @@
--- Evil HERO Crimson Gainer
+-- Evil HERO Vicious Scraper
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_DARK_FUSION}
+s.listed_names = {CARD_DARK_FUSION, 75524092}
 s.listed_series = {0x8, 0x6008}
 s.material_setcode = {0x8, 0x6008}
 s.dark_calling = true
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
-
+    
     -- fusion summon
-    Fusion.AddProcMixN(c, true, true, function(c, fc, sumtype, tp)
-        return not c:IsType(TYPE_FUSION, fc, sumtype, tp) and c:IsSetCard(0x6008, fc, sumtype, tp)
-    end, 2)
+    Fusion.AddProcMix(c, true, true, aux.FilterBoolFunctionEx(Card.IsSetCard, 0x6008),
+        aux.FilterBoolFunctionEx(Card.IsLevelBelow, 4))
 
     -- lizard check
     local lizcheck = Effect.CreateEffect(c)
@@ -34,57 +33,70 @@ function s.initial_effect(c)
     splimit:SetValue(aux.EvilHeroLimit)
     c:RegisterEffect(splimit)
 
-    -- atk
-    local e1reg = Effect.CreateEffect(c)
-    e1reg:SetType(EFFECT_TYPE_SINGLE)
-    e1reg:SetCode(EFFECT_MATERIAL_CHECK)
-    e1reg:SetValue(s.e1regval)
-    c:RegisterEffect(e1reg)
+    -- equip vicious claw
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e1:SetCategory(CATEGORY_EQUIP)
+    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e1:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_DAMAGE_STEP)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
     e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
-    e1:SetLabelObject(e1reg)
     c:RegisterEffect(e1)
 
-    -- chain attack
+    -- pierce
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2:SetCode(EVENT_BATTLE_DESTROYING)
-    e2:SetCondition(aux.bdocon)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetCode(EFFECT_PIERCE)
     c:RegisterEffect(e2)
+
+    -- handes
+    local e3 = Effect.CreateEffect(c)
+    e3:SetDescription(aux.Stringid(id, 0))
+    e3:SetCategory(CATEGORY_HANDES)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e3:SetCode(EVENT_BATTLE_DAMAGE)
+    e3:SetCondition(s.e3con)
+    e3:SetTarget(s.e3tg)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
-function s.e1regval(e, c)
-    local g = c:GetMaterial()
-    local lv = 0
-    for tc in aux.Next(g) do lv = lv + tc:GetOriginalLevel() end
-    e:SetLabel(lv)
-end
+function s.e1filter(c, ec) return c:IsCode(75524092) and c:CheckEquipTarget(ec) end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_FUSION) end
 
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
+    if chk == 0 then
+        return Duel.IsExistingMatchingCard(s.e1filter, tp, loc, 0, 1, nil, c) and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_EQUIP, nil, 1, tp, loc)
+end
+
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local atk = e:GetLabelObject():GetLabel() * 400
-    if atk > 0 then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_SET_BASE_ATTACK)
-        ec1:SetValue(atk)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
-        c:RegisterEffect(ec1)
-    end
+    if Duel.GetLocationCount(tp, LOCATION_SZONE) <= 0 or c:IsFacedown() or not c:IsRelateToEffect(e) then return end
+
+    local tc = Utility.SelectMatchingCard(HINTMSG_EQUIP, tp, aux.NecroValleyFilter(s.e1filter), tp,
+        LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, c):GetFirst()
+    if tc then Duel.Equip(tp, tc, c) end
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return c:CanChainAttack() end
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return ep ~= tp end
+
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    Duel.SetOperationInfo(0, CATEGORY_HANDES, 0, 0, 1 - tp, 1)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.ChainAttack() end
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local g = Duel.GetFieldGroup(ep, LOCATION_HAND, 0, nil)
+    if #g == 0 then return end
+
+    local sg = g:RandomSelect(1 - tp, 1)
+    Duel.SendtoGrave(sg, REASON_DISCARD + REASON_EFFECT)
+end

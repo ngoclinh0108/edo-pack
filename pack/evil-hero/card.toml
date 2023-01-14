@@ -42,14 +42,19 @@ effect = """\
 You can Special Summon this card (from your hand or GY) \
     by shuffling 1 "HERO" Fusion or Link Monster you control into the Extra Deck. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
-Once per turn, during your opponent's turn: \
+You can Tribute 1 face-up "HERO" monster; \
+    this card gains ATK equal to the Tributed monster's ATK, until the End Phase. \
+Once per turn, during your Main Phase or your opponent's turn: \
     You can Tribute this card you control and 1 other "HERO" monster you control or in your hand; \
     Special Summon 1 Fusion monster from your Extra Deck, \
     that lists exactly 2 monsters as material and must be Special Summoned with "Dark Fusion". \
     (This is treated as a Fusion Summon with "Dark Fusion".) \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
-strings = ["Special Summon 1 \"Evil HERO\" Fusion monster from Extra Deck"]
+strings = [
+    "Tribute 1 \"HERO\" to gain ATK",
+    "Special Summon 1 \"Evil HERO\" Fusion monster from Extra Deck",
+]
 
 [evil-hero-aero-scout]
 id = 900002103
@@ -310,8 +315,8 @@ If this card attacks an opponent's monster, during the Damage Step only, \
     negate the effects of that monster while it is face-up on the field \
     (but its effects can still be activated). \
 If this card attacks, change it to Defense Position at the end of the Damage Step. \
-If this card leaves the field: Target 1 card your opponent controls; \
-    destroy it. \
+If this card leaves the field: \
+    Target 1 card your opponent controls; destroy it. \
 """
 strings = []
 
@@ -364,8 +369,30 @@ strings = [
     "Inflict damage to your opponent equal to the original ATK/DEF of destroyed monster",
 ]
 
-[evil-hero-vicious-scraper]
+[evil-hero-crimson-gainer]
 id = 900002117
+set = "evil-hero"
+name = "Evil HERO Crimson Gainer"
+type = "monster fusion effect"
+attribute = "dark"
+race = "fiend"
+level = 6
+atk = "?"
+def = 0
+effect = """\
+2 "Evil HERO" non-Fusion Monsters
+Must be Special Summoned with "Dark Fusion". \
+This card's original ATK become the combined original Levels of the materials used for its Fusion Summon x 400. \
+If this card destroys an opponent's monster by battle: It can make a second attack. \
+If this Fusion Summoned card is destroyed by battle or card effect: \
+    You can target 1 "Polymerization" Spell Card or "Fusion" Spell Card in your GY; \
+    add it to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Make second attack"]
+
+[evil-hero-vicious-scraper]
+id = 900002118
 set = "evil-hero"
 name = "Evil HERO Vicious Scraper"
 type = "monster fusion effect"
@@ -382,21 +409,3 @@ If this card attacks a Defense Position monster, inflict piercing battle damage.
 If this card inflicts battle damage to your opponent: Discard 1 random card from your opponent's hand. \
 """
 strings = ["Discard 1 random card from your opponent's hand"]
-
-[evil-hero-crimson-gainer]
-id = 900002118
-set = "evil-hero"
-name = "Evil HERO Crimson Gainer"
-type = "monster fusion effect"
-attribute = "dark"
-race = "fiend"
-level = 8
-atk = "?"
-def = 0
-effect = """\
-2 "Evil HERO" non-Fusion Monsters
-Must be Special Summoned with "Dark Fusion". \
-This card's original ATK become the combined original Levels of the materials used for its Fusion Summon x 400. \
-If this card destroys an opponent's monster by battle: It can make a second attack. \
-"""
-strings = ["Make second attack"]
