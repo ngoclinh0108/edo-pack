@@ -111,7 +111,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e5filter(c) return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToHand() end
+function s.e5filter(c) return c:IsSpellTrap() and c:IsAbleToHand() end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsExistingTarget(s.e5filter, tp, LOCATION_GRAVE, 0, 1, nil) end

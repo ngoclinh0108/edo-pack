@@ -79,9 +79,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e2filter(c)
-    return
-        c:IsType(TYPE_SPELL + TYPE_TRAP) and (c:ListsCode(SignerDragon.CARD_RED_DRAGON_ARCHFIEND) or c:ListsArchetype(0x1045)) and
-            (c:IsAbleToHand() or c:IsSSetable())
+    return c:IsSpellTrap() and (c:ListsCode(SignerDragon.CARD_RED_DRAGON_ARCHFIEND) or c:ListsArchetype(0x1045)) and
+               (c:IsAbleToHand() or c:IsSSetable())
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)

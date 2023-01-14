@@ -69,7 +69,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e2filter(c) return c:IsType(TYPE_SPELL + TYPE_TRAP) and c:IsAbleToRemove() end
+function s.e2filter(c) return c:IsSpellTrap() and c:IsAbleToRemove() end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsExistingTarget(s.e2filter, tp, LOCATION_GRAVE, LOCATION_GRAVE, 1, nil) end

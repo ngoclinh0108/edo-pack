@@ -93,7 +93,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.Draw(p, d, REASON_EFFECT) == 0 then return end
 
     local tc = Duel.GetOperatedGroup():GetFirst()
-    if tc:IsType(TYPE_SPELL + TYPE_TRAP) and tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
+    if tc:IsSpellTrap() and tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
         Duel.SelectEffectYesNo(tp, c, 1601) then
         Duel.SSet(tp, tc, tp, false)
         if tc:IsType(TYPE_QUICKPLAY + TYPE_TRAP) then
