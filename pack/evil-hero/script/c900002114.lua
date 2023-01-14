@@ -8,6 +8,7 @@ s.dark_calling = true
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    
     -- fusion summon
     Fusion.AddProcMix(c, true, true, 20721928, aux.FilterBoolFunctionEx(Card.IsAttribute, ATTRIBUTE_DARK))
 

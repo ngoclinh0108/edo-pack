@@ -16,4 +16,5 @@ function s.deck_edit(tp)
     Utility.DeckEditAddCardToDeck(tp, 900002114)
     Utility.DeckEditAddCardToDeck(tp, 900002115)
     Utility.DeckEditAddCardToDeck(tp, 900002116)
+    Utility.DeckEditAddCardToDeck(tp, 900002117)
 end

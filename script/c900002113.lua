@@ -8,6 +8,7 @@ s.dark_calling = true
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
+    
     -- fusion summon
     Fusion.AddProcMix(c, true, true, 79979666, 84327329)
 
