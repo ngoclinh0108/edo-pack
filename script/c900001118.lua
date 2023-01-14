@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0x13a, 0x46}
+s.listed_series = {0x13a, SET_FUSION}
 
 function s.initial_effect(c)
     -- search
@@ -40,7 +40,7 @@ end
 
 function s.e1filter1(c) return c:IsSetCard(0x13a) and c:IsLevelAbove(5) and c:IsAbleToGraveAsCost() end
 
-function s.e1filter2(c) return c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand() end
+function s.e1filter2(c) return c:IsSetCard(SET_FUSION) and c:IsType(TYPE_SPELL) and c:IsAbleToHand() end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter1, tp, LOCATION_DECK, 0, 1, nil) end

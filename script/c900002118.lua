@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_DARK_FUSION}
-s.listed_series = {0x8, 0x6008, 0x46}
+s.listed_series = {0x8, 0x6008, SET_FUSION}
 s.material_setcode = {0x8, 0x6008}
 s.dark_calling = true
 
@@ -101,7 +101,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.ChainAttack() end
 
-function s.e3filter(c) return c:IsSetCard(0x46) and c:IsSpell() and c:IsAbleToHand() end
+function s.e3filter(c) return c:IsSetCard(SET_FUSION) and c:IsSpell() and c:IsAbleToHand() end
 
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()

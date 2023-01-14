@@ -96,13 +96,13 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if tc:IsSpellTrap() and tc:IsSSetable() and Duel.GetLocationCount(tp, LOCATION_SZONE) > 0 and
         Duel.SelectEffectYesNo(tp, c, 1601) then
         Duel.SSet(tp, tc, tp, false)
-        if tc:IsType(TYPE_QUICKPLAY + TYPE_TRAP) then
+        if tc:IsQuickPlaySpell() or tc:IsTrap() then
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
             ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-            if tc:IsType(TYPE_QUICKPLAY) then
+            if tc:IsQuickPlaySpell() then
                 ec1:SetCode(EFFECT_QP_ACT_IN_SET_TURN)
-            elseif tc:IsType(TYPE_TRAP) then
+            elseif tc:IsTrap() then
                 ec1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
             end
             ec1:SetReset(RESET_EVENT + RESETS_STANDARD)

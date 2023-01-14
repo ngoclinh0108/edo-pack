@@ -437,3 +437,24 @@ strings = [
     "Destroy 1 card your opponent controls",
     "Take control of 1 your opponent's monster",
 ]
+
+[xtra-hero-infernal-caller]
+id = 900002120
+set = "hero"
+name = "Xtra HERO Infernal Caller"
+type = "monster link effect"
+attribute = "dark"
+race = "fiend"
+link = 2
+link-arrow = "bottom-left bottom-right"
+atk = 1300
+effect = """\
+2 Fiend monsters
+If this card is Link Summoned: \
+    You add 1 of your banished Level 4 or lower "Evil HERO" monsters to your hand. \
+You can banish 1 Fiend monster from your GY, \
+    then target 1 "Dark Fusion" or 1 Spell/Trap that mentions it in your GY; \
+    banish it, and if you do, apply that target's effect. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Apply the effect of 1 \"Dark Fusion\" or 1 Spell/Trap that mentions it"]

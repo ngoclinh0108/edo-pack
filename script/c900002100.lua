@@ -3,7 +3,7 @@ Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_DARK_FUSION}
-s.listed_series = {0x46}
+s.listed_series = {SET_FUSION}
 
 function s.initial_effect(c)
     -- activate
@@ -46,7 +46,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3c)
 end
 
-function s.e1filter(c) return c:IsSpell() and c:IsSetCard(0x46) and c:IsAbleToHand() end
+function s.e1filter(c) return c:IsSpell() and c:IsSetCard(SET_FUSION) and c:IsAbleToHand() end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()

@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0x13a, 0x46}
+s.listed_series = {0x13a, SET_FUSION}
 
 function s.initial_effect(c)
     -- to hand
@@ -41,7 +41,7 @@ end
 
 function s.e1filter(c)
     if not c:IsAbleToHand() then return false end
-    return (c:IsSetCard(0x46) and c:IsType(TYPE_SPELL)) or (c:IsLevelBelow(4) and c:IsSetCard(0x13a))
+    return (c:IsSetCard(SET_FUSION) and c:IsType(TYPE_SPELL)) or (c:IsLevelBelow(4) and c:IsSetCard(0x13a))
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
