@@ -1,38 +1,71 @@
--- Dark Requiem
+-- Evil Soul
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_names = {CARD_DARK_FUSION}
-s.listed_series = {0xf8}
+s.listed_series = {0x6008}
 
 function s.initial_effect(c)
-    -- fusion summon
-    local e1 = Fusion.CreateSummonEff({
-        handler = c,
-        fusfilter = function(c) return c.dark_calling end,
-        matfilter = Card.IsAbleToDeck,
-        extrafil = function(e, tp, mg)
-            return Duel.GetMatchingGroup(Fusion.IsMonsterFilter(Card.IsFaceup, Card.IsAbleToDeck), tp,
-                LOCATION_GRAVE + LOCATION_REMOVED, 0, nil)
-        end,
-        extraop = Fusion.ShuffleMaterial,
-        extratg = function(e, tp, eg, ep, ev, re, r, rp, chk)
-            if chk == 0 then return true end
-            Duel.SetOperationInfo(0, CATEGORY_TODECK, nil, 0, tp, LOCATION_PUBLIC)
-        end,
-        chkf = FUSPROC_NOLIMIT
-    })
-    e1:SetCountLimit(1, id, EFFECT_COUNT_CODE_OATH)
+    -- activate
+    local e1 = Effect.CreateEffect(c)
+    e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(0, TIMING_MAIN_END)
+    e1:SetCountLimit(1, {id, 1})
+    e1:SetCondition(s.e1con)
+    e1:SetTarget(s.e1tg)
+    e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- act in hand
+    -- destroy replace
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetCode(EFFECT_TRAP_ACT_IN_HAND)
-    e2:SetCondition(s.e2con)
+    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EFFECT_DESTROY_REPLACE)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, {id, 2})
+    e2:SetTarget(s.e2tg)
+    e2:SetValue(s.e2val)
+    e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 end
 
-function s.e2filter(c) return c:IsFaceup() and not c:IsSetCard(0xf8) end
+function s.e1filter(c, e, tp) return c:IsSetCard(0x6008) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false, POS_FACEUP) end
 
-function s.e2con(e) return not Duel.IsExistingMatchingCard(s.e2filter, e:GetHandlerPlayer(), LOCATION_ONFIELD, 0, 1, nil) end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
+
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
+    if chk == 0 then
+        return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and
+                   Duel.IsExistingTarget(s.e1filter, tp, LOCATION_GRAVE, 0, 1, nil, e, tp)
+    end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local g = Duel.SelectTarget(tp, s.e1filter, tp, LOCATION_GRAVE, 0, 1, 1, nil, e, tp)
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, g, 1, 0, LOCATION_GRAVE)
+end
+
+function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.GetFirstTarget()
+    if not tc or not tc:IsRelateToEffect(e) then return end
+
+    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
+end
+
+function s.e2filter(c, tp)
+    return c:IsFaceup() and c:IsLocation(LOCATION_MZONE) and c:IsControler(tp) and not c:IsReason(REASON_REPLACE) and
+               (c:IsReason(REASON_BATTLE) or (c:IsReason(REASON_EFFECT) and c:GetReasonPlayer() == 1 - tp)) and
+               (c:IsSetCard(0x6008) or c.dark_calling)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsAbleToRemove() and eg:IsExists(s.e2filter, 1, nil, tp) end
+    return Duel.SelectEffectYesNo(tp, c, 96)
+end
+
+function s.e2val(e, c) return s.e2filter(c, e:GetHandlerPlayer()) end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp) Duel.Remove(e:GetHandler(), POS_FACEUP, REASON_EFFECT) end
