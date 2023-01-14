@@ -89,19 +89,23 @@ function s.e2filter2(c) return c:IsControlerCanBeChanged() or c:IsSummonType(SUM
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local opt = {}
+    local sel = {}
     local ct = Duel.GetMatchingGroup(s.e2countfilter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, nil):GetClassCount(Card.GetCode)
     if ct >= 2 and Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_DECK, 0, 1, nil) then
         table.insert(opt, aux.Stringid(id, 1))
+        table.insert(sel, 1)
     end
     if ct >= 4 and Duel.IsExistingMatchingCard(nil, tp, 0, LOCATION_ONFIELD, 1, nil) then
         table.insert(opt, aux.Stringid(id, 2))
+        table.insert(sel, 2)
     end
     if ct >= 6 and Duel.IsExistingMatchingCard(s.e2filter2, tp, 0, LOCATION_MZONE, 1, nil) then
         table.insert(opt, aux.Stringid(id, 3))
+        table.insert(sel, 3)
     end
 
     if chk == 0 then return #opt > 0 end
-    local op = Duel.SelectOption(tp, table.unpack(opt)) + 1
+    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
     e:SetLabel(op)
 
     e:SetCategory(0)

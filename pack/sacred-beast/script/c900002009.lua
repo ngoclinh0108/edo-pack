@@ -59,15 +59,20 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     if not tc:IsRelateToEffect(e) or Duel.Destroy(tc, REASON_EFFECT) == 0 then return end
 
     local opt = {}
-    if c:IsRelateToEffect(e) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then table.insert(opt, aux.Stringid(id, 0)) end
+    local sel = {}
+    if c:IsRelateToEffect(e) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) then
+        table.insert(opt, aux.Stringid(id, 0))
+        table.insert(sel, 1)
+    end
     if Duel.IsExistingMatchingCard(s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, nil, e, tp) then
         table.insert(opt, aux.Stringid(id, 1))
+        table.insert(sel, 2)
     end
-    local op = Duel.SelectOption(tp, table.unpack(opt))
+    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
 
-    if op == 0 then
+    if op == 1 then
         Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP)
-    else
+    elseif op == 2 then
         local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e1filter2, tp, LOCATION_HAND + LOCATION_DECK, 0, 1, 1, nil,
             e, tp)
         Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP)
