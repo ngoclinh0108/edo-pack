@@ -530,3 +530,20 @@ If a "Evil HERO" monster(s) or a monster(s) that must be Special Summoned with "
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
+
+[sinister-flame]
+id = 900002126
+name = "Sinister Flame"
+type = "trap counter"
+effect = """
+When a Spell/Trap Card, or monster effect, is activated: \
+    Banish 1 face-up "Evil HERO" monster you control until the End Phase; \
+    negate the activation, and if you do, banish that card. \
+During your Main Phase, except the turn this card was sent to the GY: \
+    You can banish this card from your GY, then target 1 "Evil HERO" Fusion Monster you control; \
+    Destroy as many monsters your opponent controls as possible, with ATK higher than that monster's, \
+    then inflict damage to your opponent equal to the highest original ATK among those destroyed monsters. \
+    (your choice, if tied). \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = []
