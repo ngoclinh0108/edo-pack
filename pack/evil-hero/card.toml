@@ -48,7 +48,7 @@ If this card attacks, during damage calculation: \
 Once per turn, during your Main Phase or your opponent's turn: \
     You can Tribute this card you control and 1 other "HERO" monster you control or in your hand; \
     Special Summon 1 Fusion monster from your Extra Deck, \
-    that mentions a "Evil HERO" monster as material. \
+    that mentions a "Evil HERO" monster as material and must be Special Summoned with "Dark Fusion". \
     (This is treated as a Fusion Summon with "Dark Fusion".) \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """

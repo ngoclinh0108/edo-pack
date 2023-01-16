@@ -2,6 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_names = {CARD_DARK_FUSION}
 s.listed_series = {0x8, 0x3008}
 
 function s.initial_effect(c)
@@ -107,7 +108,7 @@ end
 function s.e3filter1(c) return c:IsSetCard(0x8) end
 
 function s.e3filter2(c, e, tp, chk)
-    return c:IsType(TYPE_FUSION) and c:ListsArchetypeAsMaterial(0x3008) and
+    return c:IsType(TYPE_FUSION) and c:ListsArchetypeAsMaterial(0x3008) and c.dark_calling and
                (not chk or Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0) and
                c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, true, false)
 end
