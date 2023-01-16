@@ -126,22 +126,6 @@ function s.initial_effect(c)
     c:RegisterEffect(pe3)
 end
 
-function s.deck_edit(tp)
-    Utility.DeckEditAddCardToDeck(tp, 900003102)
-    Utility.DeckEditAddCardToDeck(tp, 900003103)
-    Utility.DeckEditAddCardToDeck(tp, 900003104)
-    Utility.DeckEditAddCardToDeck(tp, 900003105)
-    Utility.DeckEditAddCardToDeck(tp, 900003106)
-    Utility.DeckEditAddCardToDeck(tp, 900003107)
-    Utility.DeckEditAddCardToDeck(tp, 7841112, CARD_STARDUST_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 67030233, SignerDragon.CARD_RED_DRAGON_ARCHFIEND, true)
-    Utility.DeckEditAddCardToDeck(tp, 900003111, CARD_BLACK_WINGED_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 900003112, CARD_BLACK_ROSE_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 900003113, SignerDragon.CARD_ANCIENT_FAIRY_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 900003114, SignerDragon.CARD_LIFE_STREAM_DRAGON, true)
-    Utility.DeckEditAddCardToDeck(tp, 40939228, SignerDragon.CARD_SHOOTING_STAR_DRAGON, true)
-end
-
 function s.sprfilter(c)
     return c:IsFaceup() and c:IsLevelAbove(7) and c:IsType(TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON) and c:IsAbleToGraveAsCost()
 end
