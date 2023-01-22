@@ -30,7 +30,7 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- special Summon "evil HERO" fusion monster
+    -- special summon "evil HERO" fusion monster
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(aux.Stringid(id, 1))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON + CATEGORY_FUSION_SUMMON)
@@ -38,7 +38,7 @@ function s.initial_effect(c)
     e3:SetCode(EVENT_FREE_CHAIN)
     e3:SetRange(LOCATION_MZONE)
     e3:SetHintTiming(0, TIMING_MAIN_END + TIMINGS_CHECK_MONSTER)
-    e1:SetCountLimit(1, {id, 3})
+    e3:SetCountLimit(1, {id, 3})
     e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
