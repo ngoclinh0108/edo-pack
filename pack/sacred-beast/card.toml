@@ -46,7 +46,7 @@ def = 0
 effect = """\
 (This card's name is always treated as "Uria, Lord of Searing Flames".)
 Cannot be Normal Summoned/Set. \
-Must first be Special Summoned (from your hand or GY) by sending 3 face-up Traps you control to the GY. \
+Must first be Special Summoned (from your hand) by sending 3 face-up Traps you control to the GY. \
 This card's Special Summon cannot be negated. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \
@@ -75,7 +75,7 @@ def = 4000
 effect = """\
 (This card's name is always treated as "Hamon, Lord of Striking Thunder".)
 Cannot be Normal Summoned/Set. \
-Must first be Special Summoned (from your hand or GY) by sending 3 face-up Continuous Spells you control to the GY. \
+Must first be Special Summoned (from your hand) by sending 3 face-up Continuous Spells you control to the GY. \
 This card's Special Summon cannot be negated. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \
@@ -106,7 +106,7 @@ def = 4000
 effect = """\
 (This card's name is always treated as "Raviel, Lord of Phantasms".)
 Cannot be Normal Summoned/Set. \
-Must first be Special Summoned (from your hand or GY) by Tributing 3 Fiend monsters. \
+Must first be Special Summoned (from your hand) by Tributing 3 Fiend monsters. \
 This card's Special Summon cannot be negated. \
 Control of it cannot switch. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \
