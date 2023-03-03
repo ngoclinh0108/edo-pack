@@ -106,7 +106,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil)
     if #g > 0 and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then
-        local sg = Utility.GroupSelect(HINT_SELECTMSG, g, tp, 1, 1, nil)
+        local sg = Utility.GroupSelect(HINTMSG_SELECT, g, tp, 1, 1, nil)
         Duel.SendtoHand(sg, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, sg)
     end
