@@ -292,6 +292,7 @@ strings = [
 
 [opening-of-the-spirit-gates]
 id = 80312545
+card-limit = "ocg tcg"
 name = "Opening of the Spirit Gates"
 type = "spell continuous"
 effect = """
@@ -314,6 +315,7 @@ strings = [
 
 [awakening-of-the-sacred-beasts]
 id = 53701259
+card-limit = "ocg tcg"
 name = "Awakening of the Sacred Beasts"
 type = "trap continuous"
 effect = """
@@ -333,6 +335,7 @@ strings = ["Return 1 Continuous Trap"]
 
 [hyper-blaze]
 id = 16317140
+card-limit = "ocg tcg"
 name = "Hyper Blaze"
 type = "trap continuous"
 effect = """
