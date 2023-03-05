@@ -12,13 +12,15 @@ When this card is activated: You can add 1 card that mentions \
 Your opponent cannot banish, target \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
     or "Armityle the Chaos Phantasm" in your Monster Zones with card effects, \
-    also those monsters cannot be destroyed by your opponent's card effects while you control them. \
+    those monsters cannot be destroyed by your opponent's card effects while you control them. \
 This card gains these effects based on the number of \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", "Raviel, Lord of Phantasms", \
     and/or "Armityle the Chaos Phantasm" with different names you control.
-● 1+: Once per turn: You can draw 2 cards.
-● 2+: Your opponent cannot banish, target or destroy this card with card effects, \
-    also the activation and effect of this card's effects cannot be negated.
+● 1+: Your opponent cannot banish, target or destroy this card with card effects, \
+    also the activation and effect of this card's effects cannot be negated. \
+    Once per turn: You can draw 2 cards.
+● 2+: You can activate a Continuous Trap from your hand or the turn it was Set. \
+    You can only use this effect of "{CARD_NAME}" once per turn.
 ● 3+: Once per turn: You can target 1 face-up Continuous Spell/Trap that mentions \
     "Uria, Lord of Searing Flames", "Hamon, Lord of Striking Thunder", or "Raviel, Lord of Phantasms" \
     with a different name from the cards attached to this card, except "{CARD_NAME}" \
