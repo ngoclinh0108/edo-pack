@@ -67,14 +67,14 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         g = Duel.SelectReleaseGroup(tp, Card.IsControler, 3, 3, false, false, false, nil, tp, 0xff, true, nil, 1 - tp)
     end
 
-    if tc and Duel.Release(g, REASON_EFFECT) == 3 and Duel.SpecialSummonStep(tc, 0, tp, tp, true, false, POS_FACEUP) then
-        local atk = 0
-        local def = 0
-        for mc in aux.Next(g) do
-            atk = atk + mc:GetAttack()
-            def = def + mc:GetDefense()
-        end
+    local atk = 0
+    local def = 0
+    for mc in aux.Next(g) do
+        atk = atk + mc:GetAttack()
+        def = def + mc:GetDefense()
+    end
 
+    if tc and Duel.Release(g, REASON_EFFECT) == 3 and Duel.SpecialSummonStep(tc, 0, tp, tp, true, false, POS_FACEUP) then
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_SET_BASE_ATTACK)
