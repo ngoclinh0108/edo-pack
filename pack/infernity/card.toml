@@ -9,5 +9,6 @@ level = 8
 atk = 3000
 def = 3000
 effect = """\
+1 DARK Tuner + 1+ non-Tuner Fiend monsters
 """
 strings = [""]
