@@ -159,7 +159,6 @@ Once per turn: You can give control of this card to your opponent. \
 strings = [
     "Cannot switch control",
     "Special Summon it?",
-    "Attack a monster with 10,000 ATK",
     "Give control to your opponent",
 ]
 

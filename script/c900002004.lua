@@ -80,7 +80,7 @@ function s.initial_effect(c)
 
     -- give control
     local e5 = Effect.CreateEffect(c)
-    e5:SetDescription(aux.Stringid(id, 3))
+    e5:SetDescription(aux.Stringid(id, 2))
     e5:SetCategory(CATEGORY_CONTROL)
     e5:SetType(EFFECT_TYPE_IGNITION)
     e5:SetRange(LOCATION_MZONE)
