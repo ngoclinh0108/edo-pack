@@ -103,6 +103,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.RegisterEffect(ec1, tp)
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE + LOCATION_EXTRA)
+    Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
