@@ -1,18 +1,29 @@
-[void-eyes-Ogre-dragon]
+[void-eyes-zero-dragon]
 id = 900003100
 set = "void"
-name = "Void-Eyes Ogre Dragon"
+name = "Void-Eyes Zero Dragon"
 type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
-level = 8
-atk = 3000
-def = 3000
+level = 10
+atk = 4000
+def = 4000
 effect = """\
 1 DARK Tuner + 1+ non-Tuner Fiend monsters
-Cannot be Tributed, or used as material for an Summon. \
-Control and battle position of this card cannot change by card effects. \
-The above effects cannot be negated. \
 While this card is face-up on the field, it gains the effects of all "Infernity" monsters in your GY. \
+If your LP becomes 0 while you have no cards in your hand: \
+    You can Special Summon this card (from your Extra Deck or GY), and if you do, \
+    it gains these effects.
+● You cannot lose the Duel. If this card leaves the field, you lose the Duel.
+● Cannot be Tributed, or used as material for an Summon. \
+    Control and battle position of this card cannot change by card effects. \
+    The above effects cannot be negated.
+● Once per turn, when your opponent activates a card or effect while you have no cards in your hand (Quick Effect): \
+    You can negate the activation, and if you do, destroy it, \
+    and if you do, this card gains 500 ATK.
 """
-strings = []
+strings = [
+    "Open the Zero Gate of the Void",
+    "Summoned by Zero Gate of the Void",
+    "Negate the activation & gain 500 ATK",
+]
