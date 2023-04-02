@@ -5,9 +5,9 @@ name = "Void-Eyes Zero Dragon"
 type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
-level = 10
-atk = 4000
-def = 4000
+level = 8
+atk = 3000
+def = 3000
 effect = """\
 1 DARK Tuner + 1+ non-Tuner Fiend monsters
 While this card is face-up on the field, it gains the effects of all "Infernity" monsters in your GY. \
