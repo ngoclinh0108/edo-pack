@@ -59,9 +59,9 @@ function s.initial_effect(c)
     local e2b = e2:Clone()
     e2b:SetCode(EFFECT_UNRELEASABLE_NONSUM)
     c:RegisterEffect(e2b)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    c:RegisterEffect(e2b)
+    local e2c = e2:Clone()
+    e2c:SetCode(EFFECT_CANNOT_BE_MATERIAL)
+    c:RegisterEffect(e2c)
 
     -- immune
     local e3 = Effect.CreateEffect(c)

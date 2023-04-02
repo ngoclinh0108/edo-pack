@@ -1,7 +1,7 @@
-[void-eyes-infernity-dragon]
+[void-eyes-Ogre-dragon]
 id = 900003100
-set = "void infernity"
-name = "Void-Eyes Infernity Dragon"
+set = "void"
+name = "Void-Eyes Ogre Dragon"
 type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
@@ -10,5 +10,9 @@ atk = 3000
 def = 3000
 effect = """\
 1 DARK Tuner + 1+ non-Tuner Fiend monsters
+Cannot be Tributed, or used as material for an Summon. \
+Control and battle position of this card cannot change by card effects. \
+The above effects cannot be negated. \
+While this card is face-up on the field, it gains the effects of all "Infernity" monsters in your GY. \
 """
-strings = [""]
+strings = []
