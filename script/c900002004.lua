@@ -68,15 +68,14 @@ function s.initial_effect(c)
     e3:SetValue(1)
     c:RegisterEffect(e3)
 
-    -- attack
+    -- increase ATK
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 2))
-    e4:SetType(EFFECT_TYPE_IGNITION)
-    e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e4:SetCode(EFFECT_UPDATE_ATTACK)
     e4:SetRange(LOCATION_MZONE)
-    e4:SetCountLimit(1)
-    e4:SetTarget(s.e4tg)
-    e4:SetOperation(s.e4op)
+    e4:SetCondition(function(e) return Duel.GetTurnPlayer() == e:GetHandlerPlayer() end)
+    e4:SetValue(10000)
     c:RegisterEffect(e4)
 
     -- give control
@@ -197,7 +196,7 @@ end
 
 function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
-    if chk == 0 then return c:IsAbleToChangeControler() end
+    if chk == 0 then return c:IsAbleToChangeControler() and Duel.GetLocationCount(1 - tp, LOCATION_MZONE) > 0 end
 
     Duel.SetOperationInfo(0, CATEGORY_CONTROL, c, 1, 0, 0)
 end

@@ -153,9 +153,7 @@ Once per turn, during the End Phase, if this card's control was changed this tur
     ignoring its Summoning conditions. (This is treated as a Fusion Summon.) \
 The above effects cannot be negated. \
 Cannot be destroyed by battle. \
-Once per turn: You can choose 1 monster your opponent controls as a Target; \
-    make this face-up Attack Position card you control attack that monster, \
-    and perform damage calculation, also use 10,000 as this card's ATK. \
+Gains 10,000 ATK during your turn only. \
 Once per turn: You can give control of this card to your opponent. \
 """
 strings = [
