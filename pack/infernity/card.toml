@@ -13,7 +13,7 @@ effect = """\
 While this card is face-up on the field, it gains the effects of all "Infernity" monsters in your GY, \
     except "{CARD_NAME}". \
 If your LP becomes 0 while you have no cards in your hand: \
-    You can Special Summon this card (from your Extra Deck or GY), and if you do, it gains these effects. \
+    You can Special Summon this card (from your Extra Deck or GY), and if you do, gains these effects. \
     Your opponent cannot activate cards or effects in response to this effect's activation.
 ● You cannot lose the Duel. If this card leaves the field, you lose the Duel.
 ● Cannot be Tributed, or used as material for an Summon. \
