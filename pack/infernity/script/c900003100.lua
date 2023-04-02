@@ -161,33 +161,33 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1d)
 
     -- negate activation
-    local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 2))
-    e3:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY + CATEGORY_ATKCHANGE)
-    e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
-    e3:SetCode(EVENT_CHAINING)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetCountLimit(1)
-    e3:SetCondition(s.e3con)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetDescription(aux.Stringid(id, 2))
+    ec2:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY + CATEGORY_ATKCHANGE)
+    ec2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    ec2:SetType(EFFECT_TYPE_QUICK_O)
+    ec2:SetCode(EVENT_CHAINING)
+    ec2:SetRange(LOCATION_MZONE)
+    ec2:SetCountLimit(1)
+    ec2:SetCondition(s.e3negcon)
+    ec2:SetTarget(s.e3negtg)
+    ec2:SetOperation(s.e3negop)
+    c:RegisterEffect(ec2)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e3negcon(e, tp, eg, ep, ev, re, r, rp)
     return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and ep == 1 - tp and Duel.IsChainNegatable(ev) and
                Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) == 0
 end
 
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3negtg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
     Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
     if re:GetHandler():IsRelateToEffect(re) then Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, 1, 0, 0) end
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3negop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) and Duel.Destroy(eg, REASON_EFFECT) ~= 0 and
         c:IsRelateToEffect(e) and c:IsFaceup() then
