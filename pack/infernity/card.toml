@@ -1,7 +1,7 @@
-[void-eyes-zero-dragon]
+[void-eyes-infernity-dragon]
 id = 900003100
 set = "void"
-name = "Void-Eyes Zero Dragon"
+name = "Void-Eyes Infernity Dragon"
 type = "monster synchro effect"
 attribute = "dark"
 race = "dragon"
@@ -10,7 +10,8 @@ atk = 3000
 def = 3000
 effect = """\
 1 DARK Tuner + 1+ non-Tuner Fiend monsters
-While this card is face-up on the field, it gains the effects of all "Infernity" monsters in your GY. \
+While this card is face-up on the field, it gains the effects of all "Infernity" monsters in your GY, \
+    except "{CARD_NAME}". \
 If your LP becomes 0 while you have no cards in your hand: \
     You can Special Summon this card (from your Extra Deck or GY), and if you do, \
     it gains these effects.

@@ -1,4 +1,4 @@
--- Void-Eyes Zero Dragon
+-- Void-Eyes Infernity Dragon
 Duel.LoadScript("util.lua")
 Duel.LoadScript("c419.lua")
 local s, id = GetID()
@@ -44,7 +44,7 @@ function s.initial_effect(c)
     Duel.RegisterEffect(e2c, 1)
 end
 
-function s.e1filter1(c) return c:IsSetCard(0xb) and c:IsMonster() end
+function s.e1filter1(c) return c:IsSetCard(0xb) and c:IsMonster() and not c:IsCode(id) end
 
 function s.e1filter2(c, code) return c:IsOriginalCode(code) and c:IsSetCard(0xb) end
 

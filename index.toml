@@ -17,6 +17,6 @@ skip_compile_packs = [
     "./pack/blue-eyes",
     "./pack/sacred-beast",
     "./pack/evil-hero",
-    "./pack/infernity",
+    # "./pack/infernity",
     "./pack/signer-dragons",
 ]
