@@ -10,7 +10,6 @@ atk = 3000
 def = 3000
 effect = """\
 1 DARK Tuner + 1+ non-Tuner Fiend monsters
-Cannot be Tributed, or used as material for an Summon. \
 While face-up on the field, this card gains the effects of all "Infernity" monsters in your GY, \
     except "{CARD_NAME}". \
 If your LP becomes 0 while you have no cards in your hand: \
@@ -18,6 +17,9 @@ If your LP becomes 0 while you have no cards in your hand: \
     Your opponent cannot activate cards or effects in response to this effect's activation. \
 If this card is Special Summoned this way, gain these effects;
 ● You cannot lose the Duel. If this card leaves the field, you lose the Duel.
+● Cannot be Tributed, or used as material for an Summon. \
+    Control and battle position of this card cannot change by card effects. \
+    The above effects cannot be negated.
 ● Once per turn, when your opponent activates a card or effect while you have no cards in your hand (Quick Effect): \
     You can negate the activation, and if you do, destroy it, \
     and if you do, this card gains 500 ATK.
