@@ -27,5 +27,4 @@ If this card is Special Summoned this way, gain these effects;
 strings = [
     "Negate the activation & gain 500 ATK",
     "Open the Zero Gate of the Void",
-    "Summoned by Zero Gate of the Void",
 ]
