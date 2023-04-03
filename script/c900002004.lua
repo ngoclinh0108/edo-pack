@@ -150,7 +150,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, LOCATION_ONFIELD, 0, c)
     Duel.SetOperationInfo(0, CATEGORY_REMOVE, g, #g, 0, LOCATION_ONFIELD)
     Duel.SetOperationInfo(0, CATEGORY_TOEXTRA, c, 1, 0, 0)
-    Duel.SetPossibleOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, 0, LOCATION_EXTRA)
+    Duel.SetPossibleOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
@@ -161,7 +161,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
 
     if Duel.SendtoDeck(c, nil, SEQ_DECKSHUFFLE, REASON_EFFECT) > 0 then
         local p = e:GetHandler():GetOwner()
-        if c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, true, false) and Duel.GetLocationCountFromEx(tp, tp, nil, c) > 0 and
+        if c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, p, true, false) and Duel.GetLocationCountFromEx(p, p, nil, c) > 0 and
             Duel.SelectEffectYesNo(p, c, aux.Stringid(id, 1)) then
             Duel.BreakEffect()
             Duel.SpecialSummon(c, SUMMON_TYPE_FUSION, p, p, true, false, POS_FACEUP)
