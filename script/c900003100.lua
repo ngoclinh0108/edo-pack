@@ -1,210 +1,132 @@
--- Void-Eyes Infernity Dragon
+-- Mausoleum of the Signer Dragons
 Duel.LoadScript("util.lua")
-Duel.LoadScript("c419.lua")
+Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
 
-s.listed_series = {0xb}
+s.listed_names = {900003101}
 
 function s.initial_effect(c)
-    c:EnableReviveLimit()
-
-    -- synchro summon
-    Synchro.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsAttribute, ATTRIBUTE_DARK), 1, 1,
-        Synchro.NonTunerEx(Card.IsRace, RACE_FIEND), 1, 99)
-
-    -- negate activation
+    -- activate
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetCategory(CATEGORY_NEGATE + CATEGORY_DESTROY + CATEGORY_ATKCHANGE)
-    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
-    e1:SetType(EFFECT_TYPE_QUICK_O)
-    e1:SetCode(EVENT_CHAINING)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetCountLimit(1)
-    e1:SetCondition(s.e1con)
-    e1:SetTarget(s.e1tg)
+    e1:SetCategory(CATEGORY_TODECK)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- zero gate of the void
+    -- cannot disable summon
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetType(EFFECT_TYPE_QUICK_O)
-    e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL + EFFECT_FLAG_DELAY)
-    e2:SetCode(511002521)
-    e2:SetRange(LOCATION_EXTRA + LOCATION_GRAVE)
-    e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
-    e2:SetOperation(s.e2op)
+    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetProperty(EFFECT_FLAG_IGNORE_RANGE + EFFECT_FLAG_SET_AVAILABLE)
+    e2:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
+    e2:SetRange(LOCATION_FZONE)
+    e2:SetTarget(
+        function(e, c) return c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsControler(e:GetHandlerPlayer()) end)
     c:RegisterEffect(e2)
-    local e2b = Effect.CreateEffect(c)
-    e2b:SetType(EFFECT_TYPE_FIELD)
-    e2b:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    e2b:SetTargetRange(1, 0)
-    e2b:SetCode(511000793)
-    e2b:SetLabel(0)
-    e2b:SetLabelObject(e2)
-    Duel.RegisterEffect(e2b, 0)
-    local e2c = e2b:Clone()
-    e2c:SetLabel(1)
-    Duel.RegisterEffect(e2c, 1)
+
+    -- cannot to extra
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_FIELD)
+    e3:SetCode(EFFECT_CANNOT_TO_DECK)
+    e3:SetRange(LOCATION_FZONE)
+    e3:SetTargetRange(LOCATION_ONFIELD, LOCATION_ONFIELD)
+    e3:SetTarget(function(e, c)
+        return c:IsFaceup() and c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO) and c:IsControler(e:GetHandlerPlayer())
+    end)
+    e3:SetValue(1)
+    c:RegisterEffect(e3)
+
+    -- draw
+    local e4 = Effect.CreateEffect(c)
+    e4:SetDescription(aux.Stringid(id, 1))
+    e4:SetCategory(CATEGORY_DRAW)
+    e4:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e4:SetProperty(EFFECT_FLAG_DELAY + EFFECT_FLAG_PLAYER_TARGET)
+    e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e4:SetRange(LOCATION_FZONE)
+    e4:SetCondition(s.e4con)
+    e4:SetTarget(s.e4tg)
+    e4:SetOperation(s.e4op)
+    c:RegisterEffect(e4)
+
+    -- special summon
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 2))
+    e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e5:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_TRIGGER_O)
+    e5:SetProperty(EFFECT_FLAG_DELAY)
+    e5:SetCode(EVENT_LEAVE_FIELD)
+    e5:SetRange(LOCATION_FZONE)
+    e5:SetCountLimit(1, id)
+    e5:SetCondition(s.e5con)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and ep == 1 - tp and Duel.IsChainNegatable(ev) and
-               Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) == 0
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-
-    Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
-    if re:GetHandler():IsRelateToEffect(re) then Duel.SetOperationInfo(0, CATEGORY_DESTROY, eg, 1, 0, 0) end
-end
+function s.e1filter(c) return c:IsCode(900003101) and c:IsAbleToHand() end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Duel.NegateActivation(ev) and re:GetHandler():IsRelateToEffect(re) and Duel.Destroy(eg, REASON_EFFECT) ~= 0 and
-        c:IsRelateToEffect(e) and c:IsFaceup() then
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetCode(EFFECT_UPDATE_ATTACK)
-        ec1:SetValue(500)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
-        c:RegisterEffect(ec1)
+    if not c:IsRelateToEffect(e) then return end
+
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_DECK, 0, nil)
+    if #g == 0 or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 0)) then return end
+
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATOHAND)
+    local tc = Utility.GroupSelect(HINTMSG_ATOHAND, g, tp, 1, 1, nil):GetFirst()
+    Duel.SendtoHand(tc, nil, REASON_EFFECT)
+    Duel.ConfirmCards(1 - tp, tc)
+end
+
+function s.e4filter(c, tp)
+    return c:IsFaceup() and c:IsSummonPlayer(tp) and c:IsSummonType(SUMMON_TYPE_SYNCHRO) and c:IsRace(RACE_DRAGON)
+end
+
+function s.e4con(e, tp, eg, ep, ev, re, r, rp) return eg:IsExists(s.e4filter, 1, e:GetHandler(), tp) end
+
+function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.IsPlayerCanDraw(tp, 1) end
+
+    Duel.SetTargetPlayer(tp)
+    Duel.SetTargetParam(1)
+    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
+end
+
+function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) then return end
+
+    local p, d = Duel.GetChainInfo(0, CHAININFO_TARGET_PLAYER, CHAININFO_TARGET_PARAM)
+    Duel.Draw(p, d, REASON_EFFECT)
+end
+
+function s.e5filter1(c, r, rp, tp)
+    return
+        c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousControler(tp) and (c:IsRace(RACE_DRAGON) and c:IsType(TYPE_SYNCHRO)) and
+            rp == tp and ((r & REASON_EFFECT) == REASON_EFFECT or (r & REASON_COST) == REASON_COST)
+end
+
+function s.e5filter2(c, e, tp)
+    return c:IsFaceup() and c:IsLocation(LOCATION_GRAVE + LOCATION_REMOVED) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false)
+end
+
+function s.e5con(e, tp, eg, ep, ev, re, r, rp) return eg:IsExists(s.e5filter1, 1, nil, r, rp, tp) end
+
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE + LOCATION_REMOVED)
+end
+
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
+    local lg = eg:Filter(s.e5filter1, nil, r, rp, tp)
+    local c = e:GetHandler()
+    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) == 0 or not lg:IsExists(s.e5filter2, 1, nil, e, tp) then
+        return
     end
-end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetFieldGroupCount(tp, LOCATION_HAND, 0) <= 0 end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec1:SetCode(EFFECT_CANNOT_LOSE_LP)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetReset(RESET_CHAIN)
-    Duel.RegisterEffect(ec1, tp)
-
-    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_GRAVE + LOCATION_EXTRA)
-    Duel.SetChainLimit(function(e, ep, tp) return tp == ep end)
-end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 or
-        Duel.SpecialSummon(c, 0, tp, tp, false, false, POS_FACEUP) == 0 then return end
-
-    -- hint
-    local ec0 = Effect.CreateEffect(c)
-    ec0:SetDescription(aux.Stringid(id, 1))
-    ec0:SetType(EFFECT_TYPE_SINGLE)
-    ec0:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-    ec0:SetCode(id)
-    ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
-    c:RegisterEffect(ec0)
-
-    -- cannot lose
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-    ec1:SetCode(EFFECT_CANNOT_LOSE_DECK)
-    ec1:SetTargetRange(1, 0)
-    Duel.RegisterEffect(ec1, tp)
-    local ec1b = ec1:Clone()
-    ec1b:SetCode(EFFECT_CANNOT_LOSE_LP)
-    Duel.RegisterEffect(ec1b, tp)
-    local ec1c = ec1:Clone()
-    ec1c:SetCode(EFFECT_CANNOT_LOSE_EFFECT)
-    Duel.RegisterEffect(ec1c, tp)
-    local ec1d = Effect.CreateEffect(c)
-    ec1d:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    ec1d:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_SET_AVAILABLE)
-    ec1d:SetCode(EVENT_LEAVE_FIELD)
-    ec1d:SetLabel(1 - tp)
-    ec1d:SetLabelObject(ec1c)
-    ec1d:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        e:GetLabelObject():Reset()
-        Duel.Win(e:GetLabel(), WIN_REASON_ZERO_GATE)
-    end)
-    c:RegisterEffect(ec1d)
-
-    -- cannot change control and battle position, be Tributed, or be used as a material
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetType(EFFECT_TYPE_SINGLE)
-    ec2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    ec2:SetCode(EFFECT_UNRELEASABLE_SUM)
-    ec2:SetRange(LOCATION_MZONE)
-    ec2:SetValue(1)
-    c:RegisterEffect(ec2)
-    local ec2b = ec2:Clone()
-    ec2b:SetCode(EFFECT_UNRELEASABLE_NONSUM)
-    c:RegisterEffect(ec2b)
-    local ec2c = ec2:Clone()
-    ec2c:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    c:RegisterEffect(ec2c)
-    local ec2d = Effect.CreateEffect(c)
-    ec2d:SetType(EFFECT_TYPE_SINGLE)
-    ec2d:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    ec2d:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    ec2d:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(ec2d)
-    local ec2e = ec2d:Clone()
-    ec2e:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
-    c:RegisterEffect(ec2e)
-    
-    -- gain effect
-    local ec3 = Effect.CreateEffect(c)
-    ec3:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    ec3:SetCode(EVENT_ADJUST)
-    ec3:SetRange(LOCATION_MZONE)
-    ec3:SetOperation(s.e2effop)
-    c:RegisterEffect(ec3)
-end
-
-function s.e2efffilter1(c) return c:IsSetCard(0xb) and c:IsMonster() and not c:IsCode(id) end
-
-function s.e2efffilter2(c, code) return c:IsOriginalCode(code) and c:IsSetCard(0xb) end
-
-function s.e2effop(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(s.e2efffilter1, tp, LOCATION_GRAVE, 0, nil)
-    g:Remove(function(c, sc) return sc:GetFlagEffect(c:GetOriginalCode()) > 0 end, nil, c)
-    if c:IsFacedown() or #g <= 0 then return end
-
-    repeat
-        local tc = g:GetFirst()
-        local code = tc:GetOriginalCode()
-        local cid = c:CopyEffect(code, RESET_EVENT + RESETS_STANDARD, 1)
-        c:RegisterFlagEffect(code, RESET_EVENT + RESETS_STANDARD, 0, 0)
-
-        local ec0 = Effect.CreateEffect(c)
-        ec0:SetCode(id)
-        ec0:SetLabel(code)
-        ec0:SetReset(RESET_EVENT + RESETS_STANDARD)
-        c:RegisterEffect(ec0, true)
-
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        ec1:SetCode(EVENT_ADJUST)
-        ec1:SetRange(LOCATION_MZONE)
-        ec1:SetLabel(cid)
-        ec1:SetLabelObject(ec0)
-        ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetHandler()
-            local g = Duel.GetMatchingGroup(s.e2efffilter1, tp, LOCATION_GRAVE, 0, nil)
-            if not g:IsExists(s.e2efffilter2, 1, nil, e:GetLabelObject():GetLabel()) or c:IsDisabled() then
-                c:ResetEffect(e:GetLabel(), RESET_COPY)
-                c:ResetFlagEffect(e:GetLabelObject():GetLabel())
-            end
-        end)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-        c:RegisterEffect(ec1, true)
-
-        g:Remove(s.e2efffilter2, nil, code)
-    until #g <= 0
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_SPSUMMON)
+    local tc = lg:FilterSelect(tp, s.e5filter2, 1, 1, nil, e, tp)
+    Duel.SpecialSummon(tc, 0, tp, tp, false, false, POS_FACEUP)
 end
