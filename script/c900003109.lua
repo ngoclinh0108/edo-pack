@@ -1,4 +1,4 @@
--- Cosmic Quasar Dragon
+-- Cosmic Majestic Quasar Dragon
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_signer_dragon.lua")
 local s, id = GetID()
