@@ -218,7 +218,7 @@ strings = [
     "Special Summon a Synchro Monster",
 ]
 
-[majestic-quasar-dragon]
+[cosmic-majestic-quasar-dragon]
 id = 900003109
 rarity = "gold"
 set = "majestic"
