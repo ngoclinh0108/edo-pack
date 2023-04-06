@@ -3,20 +3,20 @@ setcodes = ["./setcode.toml"]
 
 packs = [
     "./pack/egyptian",
-    "./pack/palladium",
-    "./pack/blue-eyes",
-    "./pack/sacred-beast",
-    "./pack/evil-hero",
-    "./pack/infernity",
-    "./pack/signer-dragons",
+    # "./pack/palladium",
+    # "./pack/blue-eyes",
+    # "./pack/sacred-beast",
+    # "./pack/evil-hero",
+    # "./pack/infernity",
+    # "./pack/signer-dragons",
 ]
 
 skip_compile_packs = [
-    "./pack/egyptian",
-    "./pack/palladium",
-    "./pack/blue-eyes",
-    "./pack/sacred-beast",
-    "./pack/evil-hero",
-    "./pack/infernity",
+    # "./pack/egyptian",
+    # "./pack/palladium",
+    # "./pack/blue-eyes",
+    # "./pack/sacred-beast",
+    # "./pack/evil-hero",
+    # "./pack/infernity",
     # "./pack/signer-dragons",
 ]

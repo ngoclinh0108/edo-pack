@@ -247,35 +247,8 @@ strings = [
     "Affected by effect \"{CARD_NAME}\": Cannot activate Spell/Trap Cards",
 ]
 
-[zorc]
-id = 900000009
-rarity = "gold"
-name = "Zorc Necrophades, the Great Wicked God"
-type = "monster xyz effect"
-attribute = "dark"
-race = "creator-god"
-atk = "?"
-def = "?"
-effect = """\
-{HIERARCHY|3}
-Cannot be Xyz Summoned. \
-Must be Special Summoned (from your Extra Deck) \
-    by overlaying 3 Normal Summoned/Set original DARK Divine-Beast monsters you control with different names. \
-This card's Special Summon cannot be negated. \
-Cannot be Tributed, or used as material for an Summon. \
-Unaffected by other cards' effects, except monsters with higher Divine Hierarchy. \
-    This effect cannot be negated. \
-Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
-    also you take no battle damage from that battle. \
-Once per turn: You can attach 1 other face-up monster and its materials to this card as material, \
-    that is on the field or in either GY. \
-This card gains the effects of all monsters attached to it. \
-There can only be 1 face-up "{CARD_NAME}" on the field. \
-"""
-strings = ["Absorb 1 monster on the field or in either GY"]
-
 [deity-evolution]
-id = 900000010
+id = 900000009
 name = "Deity Evolution"
 type = "spell quick-play"
 effect = """\
@@ -292,7 +265,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Affected by \"{CARD_NAME}\""]
 
 [sun-god-descend]
-id = 900000011
+id = 900000010
 name = "Sun God Descend"
 type = "spell quick-play"
 effect = """\

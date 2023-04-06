@@ -1,192 +1,124 @@
--- Zorc Necrophades, the Great Wicked God
+-- Deity Evolution
 Duel.LoadScript("util.lua")
-Duel.LoadScript("util_egyptian.lua")
 local s, id = GetID()
 
-s.divine_hierarchy = 3
-
 function s.initial_effect(c)
-    c:EnableReviveLimit()
-    c:SetUniqueOnField(1, 1, id)
+    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
+                                                    EFFECT_FLAG_CANNOT_INACTIVATE
 
-    -- special summon procedure
-    local spr = Effect.CreateEffect(c)
-    spr:SetType(EFFECT_TYPE_FIELD)
-    spr:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    spr:SetCode(EFFECT_SPSUMMON_PROC)
-    spr:SetRange(LOCATION_EXTRA)
-    spr:SetCondition(s.sprcon)
-    spr:SetTarget(s.sprtg)
-    spr:SetOperation(s.sprop)
-    c:RegisterEffect(spr)
-
-    -- special summon limit
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    c:RegisterEffect(splimit)
-
-    -- summon cannot be negated
-    local spsafe = Effect.CreateEffect(c)
-    spsafe:SetType(EFFECT_TYPE_SINGLE)
-    spsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    spsafe:SetCode(EFFECT_CANNOT_DISABLE_SPSUMMON)
-    c:RegisterEffect(spsafe)
-
-    -- cannot be release, or be material
-    local matlimit = Effect.CreateEffect(c)
-    matlimit:SetType(EFFECT_TYPE_SINGLE)
-    matlimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    matlimit:SetCode(EFFECT_UNRELEASABLE_SUM)
-    matlimit:SetValue(1)
-    c:RegisterEffect(matlimit)
-    local matlimit2 = matlimit:Clone()
-    matlimit2:SetCode(EFFECT_UNRELEASABLE_NONSUM)
-    c:RegisterEffect(matlimit2)
-    local matlimit3 = matlimit:Clone()
-    matlimit3:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    c:RegisterEffect(matlimit3)
-
-    -- immune
-    local immune = Effect.CreateEffect(c)
-    immune:SetType(EFFECT_TYPE_SINGLE)
-    immune:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
-    immune:SetCode(EFFECT_IMMUNE_EFFECT)
-    immune:SetRange(LOCATION_MZONE)
-    immune:SetValue(function(e, te)
-        local c = e:GetHandler()
-        local tc = te:GetHandler()
-        return te:GetOwner() ~= e:GetOwner() and Divine.GetDivineHierarchy(c) >= Divine.GetDivineHierarchy(tc)
-    end)
-    c:RegisterEffect(immune)
-
-    -- battle indes & avoid damage
-    local indes = Effect.CreateEffect(c)
-    indes:SetType(EFFECT_TYPE_SINGLE)
-    indes:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    indes:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-    indes:SetValue(function(e, tc)
-        return tc and Divine.GetDivineHierarchy(tc) > 0 and Divine.GetDivineHierarchy(tc) <
-                   Divine.GetDivineHierarchy(e:GetHandler())
-    end)
-    c:RegisterEffect(indes)
-    local indes2 = indes:Clone()
-    indes2:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    c:RegisterEffect(indes2)
-
-    -- attach
+    -- activate
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 0))
-    e1:SetType(EFFECT_TYPE_IGNITION)
-    e1:SetRange(LOCATION_MZONE)
-    e1:SetCountLimit(1)
+    e1:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)
+    e1:SetType(EFFECT_TYPE_ACTIVATE)
+    e1:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF + EFFECT_FLAG_DAMAGE_STEP)
+    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetHintTiming(TIMING_DAMAGE_STEP)
+    e1:SetCountLimit(1, {id, 1})
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- gain effect
+    -- return to hand
     local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    e2:SetCode(EVENT_ADJUST)
-    e2:SetRange(LOCATION_MZONE)
+    e2:SetCategory(CATEGORY_TOHAND)
+    e2:SetType(EFFECT_TYPE_IGNITION)
+    e2:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
+    e2:SetRange(LOCATION_GRAVE)
+    e2:SetCountLimit(1, {id, 2})
+    e2:SetCondition(s.e2con)
+    e2:SetCost(s.e2cost)
+    e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 end
 
-function s.sprfilter(c)
-    return c:IsOriginalAttribute(ATTRIBUTE_DARK) and c:IsOriginalRace(RACE_DIVINE) and c:IsSummonType(SUMMON_TYPE_NORMAL)
-end
+function s.e1filter(c) return c:IsFaceup() and Divine.GetDivineHierarchy(c) > 0 and c:GetFlagEffect(id) == 0 end
 
-function s.sprescon(sg, e, tp, mg)
-    return aux.ChkfMMZ(1)(sg, e, tp, mg) and sg:GetClassCount(Card.GetCode) == #sg, sg:GetClassCount(Card.GetCode) ~= #sg
-end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetCurrentPhase() ~= PHASE_DAMAGE or not Duel.IsDamageCalculated() end
 
-function s.sprcon(e, c)
-    if c == nil then return true end
-    local tp = c:GetControler()
-
-    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
-    return aux.SelectUnselectGroup(g, e, tp, 3, 3, s.sprescon, 0)
-end
-
-function s.sprtg(e, tp, eg, ep, ev, re, r, rp, chk, c)
-    local g = Duel.GetMatchingGroup(s.sprfilter, tp, LOCATION_MZONE, 0, nil)
-    local sg = aux.SelectUnselectGroup(g, e, tp, 3, 3, s.sprescon, 1, tp, HINTMSG_XMATERIAL, nil, nil, true)
-    if #sg > 0 then
-        sg:KeepAlive()
-        e:SetLabelObject(sg)
-        return true
-    end
-    return false
-end
-
-function s.sprop(e, tp, eg, ep, ev, re, r, rp, c)
-    local g = e:GetLabelObject()
-    if not g then return end
-
-    Duel.Overlay(c, g)
-    g:DeleteGroup()
-end
-
-function s.e1filter(c, tp) return c:IsFaceup() and not c:IsType(TYPE_TOKEN) and (c:IsControler(tp) or c:IsAbleToChangeControler()) end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
-    if chk == 0 then
-        return c:IsType(TYPE_XYZ) and
-                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE,
-                LOCATION_ONFIELD + LOCATION_GRAVE, 1, c, tp)
-    end
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil) end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if not c:IsRelateToEffect(e) then return end
+    local g = Duel.GetMatchingGroup(s.e1filter, tp, LOCATION_MZONE, 0, nil)
+    for tc in aux.Next(g) do
+        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_FACEUP, tp, s.e1filter, tp, LOCATION_ONFIELD + LOCATION_GRAVE,
-        LOCATION_ONFIELD + LOCATION_GRAVE, 1, 1, c, tp):GetFirst()
-    if not tc then return end
+        -- divine evolution
+        if not Divine.IsDivineEvolution(tc) then Divine.DivineEvolution(tc) end
 
-    Duel.HintSelection(tc)
-    local og = tc:GetOverlayGroup()
-    if #og > 0 then Duel.Overlay(c, og) end
-    Duel.Overlay(c, tc)
+        -- atk/def
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+        ec1:SetCode(EFFECT_UPDATE_ATTACK)
+        ec1:SetValue(1000)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec1)
+        local ec1b = ec1:Clone()
+        ec1b:SetCode(EFFECT_UPDATE_DEFENSE)
+        tc:RegisterEffect(ec1b)
+
+        -- prevent negation
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_FIELD)
+        ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+        ec2:SetCode(EFFECT_CANNOT_INACTIVATE)
+        ec2:SetRange(LOCATION_MZONE)
+        ec2:SetTargetRange(1, 0)
+        ec2:SetValue(function(e, ct)
+            local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+            return te:GetHandler() == e:GetHandler()
+        end)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec2)
+        local ec2b = ec2:Clone()
+        ec2b:SetCode(EFFECT_CANNOT_DISEFFECT)
+        tc:RegisterEffect(ec2b)
+        local ec2c = Effect.CreateEffect(c)
+        ec2c:SetType(EFFECT_TYPE_SINGLE)
+        ec2c:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+        ec2c:SetCode(EFFECT_CANNOT_DISABLE)
+        tc:RegisterEffect(ec2c)
+
+        -- unstoppable attack
+        local ec3 = Effect.CreateEffect(c)
+        ec3:SetType(EFFECT_TYPE_SINGLE)
+        ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SINGLE_RANGE)
+        ec3:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+        ec3:SetRange(LOCATION_MZONE)
+        ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
+        tc:RegisterEffect(ec3)
+        Utility.ResetListEffect(tc, nil, EFFECT_CANNOT_ATTACK)
+    end
+end
+
+function s.e2filter1(c) return c:IsFaceup() and c:IsOriginalRace(RACE_DIVINE) end
+
+function s.e2filter2(c) return c:IsSpell() and c:IsDiscardable() end
+
+function s.e2con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil) end
+
+function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e2filter2, tp, LOCATION_HAND, 0, 1, nil) end
+
+    Duel.DiscardHand(tp, s.e2filter2, 1, 1, REASON_COST + REASON_DISCARD)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    if chk == 0 then return c:IsAbleToHand() end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, c, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local og = c:GetOverlayGroup():Filter(function(tc) return not tc:IsCode(id) and tc:IsMonster() end, nil)
-    if #og <= 0 then return end
-
-    for tc in aux.Next(og) do
-        local code = tc:GetOriginalCode()
-        local isExisted = og:IsExists(function(tc, code) return tc:IsOriginalCode(code) and tc:GetFlagEffect(id) > 0 end, 1, nil,
-            code)
-
-        if not isExisted then
-            tc:RegisterFlagEffect(id, RESET_EVENT + 0x1fe2000, 0, 0)
-            local cid = c:CopyEffect(code, RESET_EVENT + 0x1fe2000)
-
-            local reset = Effect.CreateEffect(c)
-            reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-            reset:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-            reset:SetCode(EVENT_ADJUST)
-            reset:SetRange(LOCATION_MZONE)
-            reset:SetLabel(cid)
-            reset:SetLabelObject(tc)
-            reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-                local cid = e:GetLabel()
-                local c = e:GetHandler()
-                local tc = e:GetLabelObject()
-                local g = c:GetOverlayGroup():Filter(function(c) return c:GetFlagEffect(id) > 0 end, nil)
-                if c:IsDisabled() or c:IsFacedown() or not g:IsContains(tc) then
-                    c:ResetEffect(cid, RESET_COPY)
-                    tc:ResetFlagEffect(id)
-                end
-            end)
-            reset:SetReset(RESET_EVENT + 0x1fe2000)
-            c:RegisterEffect(reset, true)
-        end
+    if c:IsRelateToEffect(e) then
+        Duel.SendtoHand(c, nil, REASON_EFFECT)
+        Duel.ConfirmCards(1 - tp, c)
     end
 end
