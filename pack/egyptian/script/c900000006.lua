@@ -24,18 +24,15 @@ function s.initial_effect(c)
     e1b:SetValue(function(e, c) return math.ceil(c:GetDefense() / 2) end)
     c:RegisterEffect(e1b)
 
-    -- disable
+    -- activate limit
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
-    e2:SetCode(EFFECT_DISABLE)
+    e2:SetCode(EFFECT_CANNOT_TRIGGER)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(0, LOCATION_MZONE)
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_DISABLE_EFFECT)
-    c:RegisterEffect(e2b)
 end
 
 function s.e2con(e)
