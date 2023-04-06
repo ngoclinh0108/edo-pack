@@ -264,8 +264,34 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Affected by \"{CARD_NAME}\""]
 
-[sun-god-descend]
+[the-chosen-pharaoh]
 id = 900000010
+name = "The Chosen Pharaoh"
+type = "trap continuous"
+effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+The activation and effects of "The True Name" activated on your field cannot be negated. \
+If this face-up card leaves the field: Destroy all monsters you control. \
+If you control 3 monsters whose original names are \
+    "Obelisk the Tormentor", "Slifer the Sky Dragon", and "The Winged Dragon of Ra": \
+    Add 1 "Holactie the Creator of Light" from Outside to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per Duel. \
+You can only use the following effect of "{CARD_NAME}" once per turn. You can activate 1 of these effects;
+● Special Summon 1 "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra" from your hand or GY.
+● Add 1 "The True Name" from your Deck or GY to your hand.
+● Add to your hand or Set directly from your Deck, 1 Spell/Trap that mentions \
+    "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra", \
+    with a different name from the cards you control and in your GY.
+"""
+strings = [
+    "Call \"Holactie the Creator of Light\"",
+    "Special Summon a Divine-Beast",
+    "Add \"The True Name\"",
+    "Add or Set Spell/Trap",
+]
+
+[sun-god-descend]
+id = 900000011
 name = "Sun God Descend"
 type = "spell quick-play"
 effect = """\
