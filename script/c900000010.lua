@@ -27,34 +27,34 @@ function s.initial_effect(c)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(e1b)
-
-    -- leaving the field
+    
+    -- call holactie
     local e2 = Effect.CreateEffect(c)
-    e2:SetCategory(CATEGORY_DESTROY)
-    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e2:SetDescription(aux.Stringid(id, 0))
+    e2:SetCategory(CATEGORY_TOHAND)
+    e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
-    e2:SetCode(EVENT_LEAVE_FIELD)
+    e2:SetCode(EVENT_FREE_CHAIN)
+    e2:SetRange(LOCATION_SZONE)
+    e2:SetHintTiming(0, TIMING_END_PHASE)
+    e2:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
     e2:SetCondition(s.e2con)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- add holactie
+    -- leaving the field
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 0))
-    e3:SetCategory(CATEGORY_TOHAND)
-    e3:SetType(EFFECT_TYPE_QUICK_O)
+    e3:SetCategory(CATEGORY_DESTROY)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
     e3:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
-    e3:SetCode(EVENT_FREE_CHAIN)
-    e3:SetRange(LOCATION_SZONE)
-    e3:SetHintTiming(0, TIMING_END_PHASE)
-    e3:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
+    e3:SetCode(EVENT_LEAVE_FIELD)
     e3:SetCondition(s.e3con)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- special summon
+    -- special summon "egyptian god"
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 1))
     e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
@@ -68,7 +68,7 @@ function s.initial_effect(c)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
-    -- search
+    -- search "the true name"
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 2))
     e5:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
@@ -82,7 +82,7 @@ function s.initial_effect(c)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
 
-    -- add or set spell/trap
+    -- add or set "egyptian god" spell/trap
     local e6 = Effect.CreateEffect(c)
     e6:SetDescription(aux.Stringid(id, 3))
     e6:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH)
@@ -105,43 +105,43 @@ function s.e1val(e, ct)
     return p == tp and tc:IsCode(39913299) and (loc & LOCATION_ONFIELD) ~= 0
 end
 
+function s.e2filter1(c, code)
+    local code1, code3 = c:GetOriginalCodeRule()
+    return code1 == code or code3 == code
+end
+
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000000) and
+               Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000020) and
+               Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil, CARD_RA)
+end
+
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+
+    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, 0)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.CreateToken(tp, 10000040)
+    Duel.SendtoHand(tc, tp, REASON_EFFECT)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return c:IsPreviousPosition(POS_FACEUP) and not c:IsLocation(LOCATION_DECK)
 end
 
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
 
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
     Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
     Duel.Destroy(g, REASON_EFFECT)
-end
-
-function s.e3filter1(c, code)
-    local code1, code2 = c:GetOriginalCodeRule()
-    return code1 == code or code2 == code
-end
-
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000000) and
-               Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000020) and
-               Duel.IsExistingMatchingCard(s.e3filter1, tp, LOCATION_MZONE, 0, 1, nil, CARD_RA)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, 0)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local tc = Duel.CreateToken(tp, 10000040)
-    Duel.SendtoHand(tc, tp, REASON_EFFECT)
 end
 
 function s.e4filter(c, e, tp) return c:IsCode(10000000, 10000020, CARD_RA) and c:IsCanBeSpecialSummoned(e, 0, tp, false, false) end

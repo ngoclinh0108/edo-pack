@@ -271,11 +271,11 @@ type = "trap continuous"
 effect = """\
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
 The activation and effects of "The True Name" activated on your field cannot be negated. \
-If this face-up card leaves the field: Destroy all monsters you control. \
-If you control 3 monsters whose original names are \
+During your turn, if you control 3 monsters whose original names are \
     "Obelisk the Tormentor", "Slifer the Sky Dragon", and "The Winged Dragon of Ra": \
     Add 1 "Holactie the Creator of Light" from Outside to your hand. \
     You can only use this effect of "{CARD_NAME}" once per Duel. \
+If this face-up card leaves the field: Destroy all monsters you control. \
 You can only use the following effect of "{CARD_NAME}" once per turn. You can activate 1 of these effects;
 ● Special Summon 1 "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra" from your hand or GY.
 ● Add 1 "The True Name" from your Deck or GY to your hand.
