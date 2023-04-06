@@ -27,7 +27,7 @@ function s.initial_effect(c)
     local e1b = e1:Clone()
     e1b:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(e1b)
-    
+
     -- call holactie
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
@@ -111,7 +111,7 @@ function s.e2filter1(c, code)
 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000000) and
+    return Duel.IsTurnPlayer(tp) and Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000000) and
                Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000020) and
                Duel.IsExistingMatchingCard(s.e2filter1, tp, LOCATION_MZONE, 0, 1, nil, CARD_RA)
 end
