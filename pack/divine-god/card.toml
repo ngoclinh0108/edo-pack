@@ -65,7 +65,7 @@ If a monster(s) is Normal or Special Summoned to your opponent's field, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
 If this card is Summoned in face-up Defense position during your opponent's turn, \
     for the rest of this turn, your opponent cannot target your monsters with card effect, except this one, \
-    also change the target of your opponent's cards and effects activated in Chain to this card, \
+    also change the target of your opponent's cards and effects activated in current Chain to this card, \
     that targets a monster(s) you control. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
