@@ -1,10 +1,11 @@
 -- Sky Divine Dragon of Osiris
 Duel.LoadScript("util.lua")
-Duel.LoadScript("util_egyptian.lua")
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 1, false)
+    Divine.DivineHierarchy(s, 1)
+    Divine.EgyptianGod(s, c, RACE_DRAGON, true, true)
 
     -- atk/def value
     local e1 = Effect.CreateEffect(c)
@@ -36,6 +37,14 @@ function s.initial_effect(c)
     local e2c = e2:Clone()
     e2c:SetCode(EVENT_CONTROL_CHANGED)
     c:RegisterEffect(e2c)
+
+    -- effect redirect
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e3:SetCondition(s.e3con)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e2filter(c, e, tp)
@@ -74,4 +83,22 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         Duel.BreakEffect()
         Duel.Destroy(dg, REASON_EFFECT)
     end
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() == 1 - tp and e:GetHandler():IsPosition(POS_FACEUP_DEFENSE)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SET_AVAILABLE)
+    ec1:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    ec1:SetRange(LOCATION_MZONE)
+    ec1:SetTargetRange(LOCATION_MZONE, 0)
+    ec1:SetTarget(function(e, c) return c:GetCode() ~= id end)
+    ec1:SetValue(aux.tgoval)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
 end

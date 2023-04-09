@@ -1,18 +1,12 @@
 -- The Wicked Deity Avatar
 Duel.LoadScript("c419.lua")
 Duel.LoadScript("util.lua")
-Duel.LoadScript("util_egyptian.lua")
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2)
-
-    -- cannot special summon
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    c:RegisterEffect(splimit)
+    Divine.DivineHierarchy(s, 2)
+    Divine.WickedGod(s, c)
 
     -- atk/def value
     local e1 = Effect.CreateEffect(c)

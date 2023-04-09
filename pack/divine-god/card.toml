@@ -23,9 +23,8 @@ atk = 4000
 def = 4000
 effect = """\
 {HIERARCHY_ALIAS|1|Obelisk the Tormentor}
-Cannot be Special Summoned, except by it's owner. \
-{EGYPTIAN_EFFECT} \
-Once per turn (Quick Effect): \
+{EGYPTIAN_GOD_EFFECT|Warrior} \
+Once per turn, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters; \
     destroy all monsters your opponent controls, \
     and also inflict damage to your opponent equal to this card's ATK. \
@@ -37,14 +36,38 @@ Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Qui
     it gains ∞ ATK during the damage calculation only. \
 If this card is Special Summoned in face-up Defense position during your opponent's turn, \
     for the rest of this turn, your opponent cannot target monsters for attacks, except this one. \
-During the End Phase, if this card was Special Summoned from the GY or Banished Zone, \
-    send it to the GY. \
 """
 strings = [
     "Soul Energy MAX",
     "Destroy all monsters & inflict damage",
     "Gain ∞ ATK for 1 attack",
 ]
+
+[osiris]
+id = 900000002
+alias = 10000020
+frame-path = "artwork/frame/osiris.png"
+rarity = "gold"
+name = "Sky Divine Dragon of Osiris"
+type = "monster effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY_ALIAS|1|Slifer the Sky Dragon}
+{EGYPTIAN_GOD_EFFECT|Dragon} \
+This card's original ATK/DEF are equal to the number of cards in your hand x 1000. \
+    This effect cannot be negated. \
+If a monster(s) is Normal or Special Summoned to your opponent's field, \
+    or a monster(s) is take control by your opponent, while this card is able to attack: \
+    Choose that monster(s) as a Target; it loses 2000 ATK or DEF depending on its battle position, \
+    then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
+If this card is Special Summoned in face-up Defense position during your opponent's turn, \
+    for the rest of this turn, your opponent cannot target your monsters with card effect, except this one. \
+"""
+strings = ["Reduce the monster(s)' ATK or DEF"]
 
 [dreadroot]
 id = 900000006
@@ -60,8 +83,7 @@ atk = 4000
 def = 4000
 effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Dreadroot}
-Cannot be Special Summoned. \
-{EGYPTIAN_EFFECT} \
+{WICKED_GOD_EFFECT} \
 The ATK/DEF of all other monsters on the field are halved, except monsters with higher Divine Hierarchy. \
 If this card attacks an opponent's monster, during the Damage Step only, that monster cannot activate its effect. \
 """
@@ -81,8 +103,7 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Eraser}
-Cannot be Special Summoned. \
-{EGYPTIAN_EFFECT} \
+{WICKED_GOD_EFFECT} \
 This card's original ATK/DEF are equal to the number of cards in your opponent controls x 1000. \
     This effect cannot be negated. \
 Once per turn, if this card is Normal Summoned/Set: You can destroy this card. \
@@ -105,11 +126,10 @@ atk = "?"
 def = "?"
 effect = """\
 {HIERARCHY_ALIAS|2|The Wicked Avatar}
-Cannot be Special Summoned. \
-{EGYPTIAN_EFFECT} \
+{WICKED_GOD_EFFECT} \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
     This effect cannot be negated. \
-Monsters' destruction by battle with this card cannot be negated, \
+Destruction by battle with this card cannot be negated, \
     except monsters with higher Divine Hierarchy. \
 After this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards \
     until the end of their 2nd turn after this effect's activation. \

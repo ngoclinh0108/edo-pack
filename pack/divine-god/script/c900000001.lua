@@ -1,19 +1,12 @@
 -- Giant Divine Soldier of Obelisk
 Duel.LoadScript("util.lua")
-Duel.LoadScript("util_egyptian.lua")
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
+    Divine.DivineHierarchy(s, 1)
+    Divine.EgyptianGod(s, c, RACE_WARRIOR, true, true)
     Utility.AvatarInfinity(s, c)
-    Divine.DivineHierarchy(s, c, 1)
-
-    -- cannot special summon, except owner 
-    local splimit = Effect.CreateEffect(c)
-    splimit:SetType(EFFECT_TYPE_SINGLE)
-    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-    splimit:SetValue(function(e, se, sp, st) return sp == e:GetOwnerPlayer() end)
-    c:RegisterEffect(splimit)
 
     -- damage & destroy
     local e1 = Effect.CreateEffect(c)
@@ -53,7 +46,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetCurrentChain(true) == 0 end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetCurrentChain(true) == 0 and e:GetHandler():CanAttack() end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
