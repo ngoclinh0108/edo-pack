@@ -1,12 +1,13 @@
 -- Sun Divine Dragon of Ra
 Duel.LoadScript("util.lua")
-Duel.LoadScript("util_egyptian.lua")
+Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 s.listed_names = {95286165}
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2, true)
+    Divine.DivineHierarchy(s, 1)
+    Divine.EgyptianGod(s, c, RACE_MACHINE, true, true)
 
     -- atk/def value
     local e1 = Effect.CreateEffect(c)
