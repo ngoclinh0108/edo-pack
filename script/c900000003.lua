@@ -6,8 +6,7 @@ local s, id = GetID()
 s.listed_names = {95286165}
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, 1)
-    Divine.EgyptianGod(s, c, RACE_MACHINE, true, true)
+    Divine.EgyptianGod(s, c, RACE_MACHINE, 2)
 
     -- atk/def value
     local e1 = Effect.CreateEffect(c)

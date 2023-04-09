@@ -4,10 +4,8 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, 1)
-    Divine.EgyptianGod(s, c, RACE_WARRIOR, true, true)
-    Utility.AvatarInfinity(s, c)
-
+    Divine.EgyptianGod(s, c, RACE_WARRIOR, 1)
+    
     -- damage & destroy
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 1))
@@ -36,6 +34,7 @@ function s.initial_effect(c)
     e2:SetCost(s.e2cost)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+    Utility.AvatarInfinity(s, c)
 
     -- attack redirect
     local e3 = Effect.CreateEffect(c)

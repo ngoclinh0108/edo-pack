@@ -4,8 +4,7 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, 1)
-    Divine.WickedGod(s, c)
+    Divine.WickedGod(s, c, 1)
     
     -- half atk/def
     local e1 = Effect.CreateEffect(c)

@@ -25,19 +25,28 @@ function Divine.GetDivineHierarchy(c, get_base)
     return divine_hierarchy
 end
 
-function Divine.EgyptianGod(s, c, extra_race, triple_tribute_summon, can_be_special_summon_by_owner)
-    if triple_tribute_summon then
-        -- 3 tribute
-        aux.AddNormalSummonProcedure(c, true, false, 3, 3)
-        aux.AddNormalSetProcedure(c)
+function Divine.EgyptianGod(s, c, extra_race, divine_hierarchy)
+    Divine.DivineHierarchy(s, divine_hierarchy)
 
-        -- summon cannot be negate
-        local sumsafe = Effect.CreateEffect(c)
-        sumsafe:SetType(EFFECT_TYPE_SINGLE)
-        sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
-        c:RegisterEffect(sumsafe)
-    end
+    -- cannot special summon, except owner 
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(function(e, se, sp, st) return sp == e:GetOwnerPlayer() end)
+    c:RegisterEffect(splimit)
+
+
+    -- 3 tribute
+    aux.AddNormalSummonProcedure(c, true, false, 3, 3)
+    aux.AddNormalSetProcedure(c)
+
+    -- summon cannot be negate
+    local sumsafe = Effect.CreateEffect(c)
+    sumsafe:SetType(EFFECT_TYPE_SINGLE)
+    sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
+    c:RegisterEffect(sumsafe)
 
     -- extra race
     if extra_race then
@@ -129,49 +138,50 @@ function Divine.EgyptianGod(s, c, extra_race, triple_tribute_summon, can_be_spec
     reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp) Utility.ResetListEffect(e:GetHandler(), ResetEffectFilter) end)
     c:RegisterEffect(reset)
 
-    if can_be_special_summon_by_owner then
-        -- cannot special summon, except owner 
-        local splimit = Effect.CreateEffect(c)
-        splimit:SetType(EFFECT_TYPE_SINGLE)
-        splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-        splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-        splimit:SetValue(function(e, se, sp, st) return sp == e:GetOwnerPlayer() end)
-        c:RegisterEffect(splimit)
+    -- return to where it was special summon
+    local spreturn = Effect.CreateEffect(c)
+    spreturn:SetDescription(666002)
+    spreturn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    spreturn:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    spreturn:SetRange(LOCATION_MZONE)
+    spreturn:SetCode(EVENT_PHASE + PHASE_END)
+    spreturn:SetCountLimit(1)
+    spreturn:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if not c:IsSummonType(SUMMON_TYPE_SPECIAL) then return false end
+        return (c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()) or
+                   (c:IsPreviousLocation(LOCATION_REMOVED) and c:IsAbleToRemove())
+    end)
+    spreturn:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        if c:IsPreviousLocation(LOCATION_GRAVE) then
+            Duel.SendtoGrave(c, REASON_EFFECT)
+        elseif c:IsPreviousLocation(LOCATION_REMOVED) then
+            Duel.Remove(c, c:GetPreviousPosition(), REASON_EFFECT)
+        end
+    end)
+    c:RegisterEffect(spreturn)
 
-        -- return to where it was special summon
-        local spreturn = Effect.CreateEffect(c)
-        spreturn:SetDescription(666002)
-        spreturn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-        spreturn:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-        spreturn:SetRange(LOCATION_MZONE)
-        spreturn:SetCode(EVENT_PHASE + PHASE_END)
-        spreturn:SetCountLimit(1)
-        spreturn:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetHandler()
-            if not c:IsSummonType(SUMMON_TYPE_SPECIAL) then return false end
-            return (c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()) or
-                       (c:IsPreviousLocation(LOCATION_REMOVED) and c:IsAbleToRemove())
+    if divine_hierarchy >= 2 then
+        local nodis1 = Effect.CreateEffect(c)
+        nodis1:SetType(EFFECT_TYPE_SINGLE)
+        nodis1:SetCode(EFFECT_CANNOT_DISABLE)
+        c:RegisterEffect(nodis1)
+        local nodis2 = Effect.CreateEffect(c)
+        nodis2:SetType(EFFECT_TYPE_FIELD)
+        nodis2:SetCode(EFFECT_CANNOT_DISEFFECT)
+        nodis2:SetRange(LOCATION_MZONE)
+        nodis2:SetValue(function(e, ct)
+            local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+            return te:GetHandler() == e:GetHandler()
         end)
-        spreturn:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-            local c = e:GetHandler()
-            if c:IsPreviousLocation(LOCATION_GRAVE) then
-                Duel.SendtoGrave(c, REASON_EFFECT)
-            elseif c:IsPreviousLocation(LOCATION_REMOVED) then
-                Duel.Remove(c, c:GetPreviousPosition(), REASON_EFFECT)
-            end
-        end)
-        c:RegisterEffect(spreturn)
-    else
-        -- cannot special summon
-        local splimit = Effect.CreateEffect(c)
-        splimit:SetType(EFFECT_TYPE_SINGLE)
-        splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
-        splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
-        c:RegisterEffect(splimit)
+        c:RegisterEffect(nodis2)
     end
 end
 
-function Divine.WickedGod(s, c)
+function Divine.WickedGod(s, c, divine_hierarchy)
+    Divine.DivineHierarchy(s, divine_hierarchy)
+
     -- cannot special summon
     local splimit = Effect.CreateEffect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
@@ -268,6 +278,22 @@ function Divine.WickedGod(s, c)
     end)
     reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp) Utility.ResetListEffect(e:GetHandler(), ResetEffectFilter) end)
     c:RegisterEffect(reset)
+
+    if divine_hierarchy >= 2 then
+        local nodis1 = Effect.CreateEffect(c)
+        nodis1:SetType(EFFECT_TYPE_SINGLE)
+        nodis1:SetCode(EFFECT_CANNOT_DISABLE)
+        c:RegisterEffect(nodis1)
+        local nodis2 = Effect.CreateEffect(c)
+        nodis2:SetType(EFFECT_TYPE_FIELD)
+        nodis2:SetCode(EFFECT_CANNOT_DISEFFECT)
+        nodis2:SetRange(LOCATION_MZONE)
+        nodis2:SetValue(function(e, ct)
+            local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+            return te:GetHandler() == e:GetHandler()
+        end)
+        c:RegisterEffect(nodis2)
+    end
 end
 
 function ResetEffectFilter(te, c)
