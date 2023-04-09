@@ -45,7 +45,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():CanAttack() and Duel.GetCurrentChain(true) == 0 end
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetCurrentChain(true) == 0 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
