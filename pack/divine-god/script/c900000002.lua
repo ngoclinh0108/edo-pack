@@ -40,10 +40,16 @@ function s.initial_effect(c)
     -- effect redirect
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e3:SetCode(EVENT_SUMMON_SUCCESS)
     e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e3b)
+    local e3c = e3:Clone()
+    e3c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e3c)
 end
 
 function s.e2filter(c, e, tp)
@@ -100,4 +106,6 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetValue(aux.tgoval)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
+
+    Debug.Message("OK")
 end

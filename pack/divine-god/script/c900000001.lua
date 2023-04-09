@@ -39,10 +39,16 @@ function s.initial_effect(c)
     -- attack redirect
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e3:SetCode(EVENT_SUMMON_SUCCESS)
     e3:SetCondition(s.e3con)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
+    local e3b = e3:Clone()
+    e3b:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(e3b)
+    local e3c = e3:Clone()
+    e3c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(e3c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetCurrentChain(true) == 0 and e:GetHandler():CanAttack() end
@@ -139,5 +145,5 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     c:RegisterEffect(ec1)
 
     local ac = Duel.GetAttacker()
-    if ac ~= nil and ac:CanAttack() and not ac:IsImmuneToEffect(e) then Duel.CalculateDamage(ac, c) end
+    if ac and ac:IsControler(1 - tp) and ac:CanAttack() and not ac:IsImmuneToEffect(e) then Duel.CalculateDamage(ac, c) end
 end

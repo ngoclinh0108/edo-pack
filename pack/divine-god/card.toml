@@ -33,9 +33,9 @@ Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Qui
     You can Tribute 2 other monsters; \
     once during this turn, if this card battles an opponent's monster, \
     it gains ∞ ATK during the damage calculation only. \
-If this card is Special Summoned in face-up Defense position during your opponent's turn, \
+If this card is Summoned in face-up Defense position during your opponent's turn, \
     for the rest of this turn, your opponent cannot target monsters for attacks, except this one, \
-    also change the attack target to it and perform damage calculation, if any. \
+    also change the attack target of your opponent's monster to this card, if any. \
 """
 strings = [
     "Soul Energy MAX",
@@ -63,8 +63,10 @@ If a monster(s) is Normal or Special Summoned to your opponent's field, \
     or a monster(s) is take control by your opponent, while this card is able to attack: \
     Choose that monster(s) as a Target; it loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
-If this card is Special Summoned in face-up Defense position during your opponent's turn, \
-    for the rest of this turn, your opponent cannot target your monsters with card effect, except this one. \
+If this card is Summoned in face-up Defense position during your opponent's turn, \
+    for the rest of this turn, your opponent cannot target your monsters with card effect, except this one, \
+    also change the effect target of your opponent's card and effects activated in Chain to this card, \
+    that targets a monster(s) you control. \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
