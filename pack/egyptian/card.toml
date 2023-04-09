@@ -29,11 +29,16 @@ Once per turn (Quick Effect): \
     You can Tribute 2 other monsters; \
     destroy all monsters your opponent controls, \
     and also inflict damage to your opponent equal to this card's ATK. \
-    Cannot be activated as Chain Link 2 or higher, also this card cannot declare an attack the turn this effect is activated. \
+    This card cannot declare an attack the turn this effect is activated. \
+    Cannot be activated as Chain Link 2 or higher. \
 Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Quick Effect): \
     You can Tribute 2 other monsters; \
     once during this turn, if this card battles an opponent's monster, \
     it gains ∞ ATK during the damage calculation only. \
+If this card is Special Summoned in face-up Defense position during your opponent's turn, \
+    for the rest of this turn, your opponent cannot target monsters for attacks, except this one. \
+During the End Phase, if this card was Special Summoned from the GY or Banished Zone, \
+    send it to the GY. \
 """
 strings = [
     "Soul Energy MAX",

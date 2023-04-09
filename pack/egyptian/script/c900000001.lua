@@ -43,6 +43,14 @@ function s.initial_effect(c)
     e2:SetCost(s.e2cost)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
+
+    -- attack redirect
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e3:SetCondition(s.e3con)
+    e3:SetOperation(s.e3op)
+    c:RegisterEffect(e3)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetCurrentChain(true) == 0 end
@@ -119,6 +127,22 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         Utility.GainInfinityAtk(e:GetHandler(), RESET_PHASE + PHASE_DAMAGE_CAL)
     end)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec1)
+end
+
+function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() == 1 - tp and e:GetHandler():IsPosition(POS_FACEUP_DEFENSE)
+end
+
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+    local c = e:GetHandler()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
+    ec1:SetRange(LOCATION_MZONE)
+    ec1:SetTargetRange(0, LOCATION_MZONE)
+    ec1:SetValue(function(e, c) return c ~= e:GetHandler() end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
 end
