@@ -25,7 +25,7 @@ function Divine.GetDivineHierarchy(c, get_base)
     return divine_hierarchy
 end
 
-function Divine.EgyptianGod(s, c, extra_race, divine_hierarchy)
+function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     Divine.DivineHierarchy(s, divine_hierarchy)
 
     -- cannot special summon, except owner 

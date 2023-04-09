@@ -2,7 +2,6 @@ EGYPTIAN_GOD_EFFECT = """\
 Cannot be Special Summoned, except by owner. \
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated. \
-While face-up on the field, this card is also {0}-Type. \
 Control and battle position cannot be changed by card effects. \
 Cannot be Tributed, or used as material for an Summon by your opponent. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
@@ -18,12 +17,14 @@ During the End Phase, if it was Special Summoned from the GY or Banished Zone, \
 EGYPTIAN_GOD_HIERARCHY_1 = """\
 (This card's base Divine Hierarchy is 1, and is always treated as "{0}".)
 {EGYPTIAN_GOD_EFFECT} \
+While face-up on the field, this card is also {1}-Type. \
 The above effects cannot be negated.\
 """
 
 EGYPTIAN_GOD_HIERARCHY_2 = """\
 (This card's base Divine Hierarchy is 2, and is always treated as "{0}".)
 {EGYPTIAN_GOD_EFFECT} \
+While face-up on the field, this card is also {1}-Type. \
 This card's effects cannot be negated.\
 """
 
