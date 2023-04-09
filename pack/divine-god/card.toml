@@ -198,6 +198,7 @@ atk = 4000
 def = 4000
 effect = """\
 {WICKED_GOD_HIERARCHY_1|The Wicked Dreadroot} \
+When Normal Summoned, cards and effects cannot be activated. \
 Neither player can target this card with card effects. \
 The ATK/DEF of all other monsters on the field are halved, except monsters with higher Divine Hierarchy. \
 """
