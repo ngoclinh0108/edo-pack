@@ -93,12 +93,12 @@ effect = """\
 {HIERARCHY_ALIAS|2|The Wicked Avatar}
 Cannot be Special Summoned. \
 {EGYPTIAN_EFFECT} \
-After this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards \
-    until the end of their 2nd turn after this effect's activation. \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
     This effect cannot be negated. \
 Monsters' destruction by battle with this card cannot be negated, \
     except monsters with higher Divine Hierarchy. \
+After this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards \
+    until the end of their 2nd turn after this effect's activation. \
 """
 strings = [
     "Affected by effect \"{CARD_NAME}\": Cannot activate Spell/Trap Cards",
