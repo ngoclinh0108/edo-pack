@@ -97,11 +97,12 @@ function s.initial_effect(c)
     -- battle mode
     local e6 = Effect.CreateEffect(c)
     e6:SetDescription(aux.Stringid(id, 0))
-    e6:SetType(EFFECT_TYPE_IGNITION)
+    e6:SetType(EFFECT_TYPE_QUICK_O)
     e6:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE)
+    e6:SetCode(EVENT_FREE_CHAIN)
     e6:SetRange(LOCATION_MZONE)
     e6:SetCountLimit(1)
-    e6:SetCondition(function(e) return Duel.GetTurnCount() ~= e:GetHandler():GetTurnID() end)
+    e6:SetCondition(s.e6con)
     e6:SetCost(s.e6cost)
     e6:SetTarget(s.e6tg)
     e6:SetOperation(s.e6op)
@@ -160,6 +161,10 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c, minc, zone, relzone, exeff)
     c:SetMaterial(g)
     Duel.Release(g, REASON_SUMMON + REASON_MATERIAL)
     g:DeleteGroup()
+end
+
+function s.e6con(e, tp, eg, ep, ev, re, r, rp)
+    return Duel.GetTurnPlayer() == tp and Duel.GetTurnCount() ~= e:GetHandler():GetTurnID()
 end
 
 function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
