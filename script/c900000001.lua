@@ -5,7 +5,7 @@ local s, id = GetID()
 
 function s.initial_effect(c)
     Divine.EgyptianGod(s, c, 1, RACE_WARRIOR)
-    
+
     -- damage & destroy
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 1))
@@ -137,4 +137,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetValue(function(e, c) return c ~= e:GetHandler() end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
+
+    local ac = Duel.GetAttacker()
+    if ac ~= nil and ac:CanAttack() and not ac:IsImmuneToEffect(e) then Duel.CalculateDamage(ac, c) end
 end

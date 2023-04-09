@@ -34,7 +34,8 @@ Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Qui
     once during this turn, if this card battles an opponent's monster, \
     it gains ∞ ATK during the damage calculation only. \
 If this card is Special Summoned in face-up Defense position during your opponent's turn, \
-    for the rest of this turn, your opponent cannot target monsters for attacks, except this one. \
+    for the rest of this turn, your opponent cannot target monsters for attacks, except this one, \
+    also change the attack target to it and perform damage calculation, if any. \
 """
 strings = [
     "Soul Energy MAX",
