@@ -198,8 +198,8 @@ atk = 4000
 def = 4000
 effect = """\
 {WICKED_GOD_HIERARCHY_1|The Wicked Dreadroot} \
+Neither player can target this card with card effects. \
 The ATK/DEF of all other monsters on the field are halved, except monsters with higher Divine Hierarchy. \
-If this card attacks an opponent's monster, during the Damage Step only, that monster cannot activate its effect. \
 """
 strings = []
 
