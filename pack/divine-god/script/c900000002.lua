@@ -90,6 +90,8 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
+function s.e3filter(c, tp) return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) end
+
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == 1 - tp and e:GetHandler():IsPosition(POS_FACEUP_DEFENSE)
 end
@@ -107,5 +109,14 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
 
-    Debug.Message("OK")
+    local can_switch = false
+    for i = 1, Duel.GetCurrentChain() do
+        local tgp, tg = Duel.GetChainInfo(i, CHAININFO_TRIGGERING_PLAYER, CHAININFO_TARGET_CARDS)
+        if tgp ~= tp and tg and tg:IsExists(s.e3filter, #tg, nil, tp) then
+            Duel.ChangeTargetCard(i, Group.FromCards(c))
+            can_switch = true
+        end
+    end
+
+    if can_switch then Duel.HintSelection(Group.FromCards(c)) end
 end
