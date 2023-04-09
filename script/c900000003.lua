@@ -27,7 +27,6 @@ function s.initial_effect(c)
     e2:SetCategory(CATEGORY_DESTROY)
     e2:SetType(EFFECT_TYPE_IGNITION)
     e2:SetRange(LOCATION_MZONE)
-    e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
@@ -42,6 +41,7 @@ function s.initial_effect(c)
     e3:SetRange(LOCATION_MZONE)
     e3:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
     e3:SetLabel(0)
+    e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
     e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
@@ -49,6 +49,7 @@ function s.initial_effect(c)
     local e3b = e3:Clone()
     e3b:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
     e3b:SetCode(EVENT_SUMMON_SUCCESS)
+    e3b:SetCondition(aux.TRUE)
     c:RegisterEffect(e3b)
     local e3c = e3b:Clone()
     e3c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
@@ -169,25 +170,26 @@ function s.e1val(e, c)
     end
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():CanAttack() end
-
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.CheckLPCost(tp, 1000) end
-
     Duel.PayLPCost(tp, 1000)
 end
 
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsExistingMatchingCard(aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, nil) end
 
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, LOCATION_MZONE)
+    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
+    local g = Duel.SelectTarget(tp, nil, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil)
+
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_DESTROY)
-    local tc = Duel.SelectMatchingCard(tp, aux.TRUE, tp, LOCATION_MZONE, LOCATION_MZONE, 1, 1, nil):GetFirst()
-    if tc then Duel.Destroy(tc, REASON_EFFECT) end
+    local tc = Duel.GetFirstTarget()
+    if tc:IsRelateToEffect(e) then Duel.Destroy(tc, REASON_EFFECT) end
 end
+
+function s.e3con(e) return e:GetHandler():IsSummonType(SUMMON_TYPE_NORMAL) end
 
 function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()

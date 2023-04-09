@@ -82,9 +82,9 @@ def = "?"
 effect = """\
 {EGYPTIAN_GOD_HIERARCHY_2|The Winged Dragon of Ra|Machine} \
 This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
-While this card is able to attack, you can pay 1000 LP; destroy 1 monster on the field. \
-Once while face-up on the field: You can pay LP so that you only have 1 left; \
-    this card become Fusion Monster and gains ATK/DEF become equal to the amount of LP paid, \
+You can pay 1000 LP, then target 1 monster on the field; destroy it. \
+Once while this Normal Summoned card is face-up on the field: You can pay LP so that you only have 1 left; \
+    this card gains ATK/DEF become equal that amount and become Fusion Monster, \
     any increase in LP is changed to increase it's ATK/DEF instead, \
     unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
     Cards and effects cannot be activated in response to this effect's activation. \
@@ -95,7 +95,7 @@ If your "De-Fusion" targets this Fusion Monster, apply these effect instead: \
 Once per turn, when an attack is declared involving this card: \
     You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined ATK had on the field, until the end of this turn. \
-    This card must be become Fusion Monster by its own effect to activate and to resolve this effects. \
+    This card must be become Fusion Monster by its own effect to activate and resolve this effects. \
 """
 strings = [
     "De-fuse from \"The Winged Dragon of Ra\"",
@@ -103,6 +103,39 @@ strings = [
     "Life Point Transfer",
     "Tribute other monsters to gain ATK",
 ]
+
+[ra-sphere]
+id = 900000004
+alias = 10000080
+frame-path = "artwork/frame/ra.png"
+rarity = "gold"
+name = "Sun Divine Dragon of Ra - Sphere Mode"
+type = "monster dimension effect"
+attribute = "divine"
+race = "divine-beast"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+(This card's name is always treated as "The Winged Dragon of Ra - Sphere Mode".)
+If your "The Winged Dragon of Ra" is Normal Summoned to your field, \
+    its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, \
+    or your opponent's field, Dimension Change it to this card with the same Divine Hierarchy. \
+Control and battle position of it cannot change by card effects. \
+Cannot be Tributed, or used as material for an Summon. \
+Unaffected by other cards' effects, except for cards with the equal or higher Divine Hierarchy. \
+    This effect cannot be negated. \
+Cannot attack. \
+Neither player can target it for attacks or by card effects, \
+    but does not prevent your opponent from attacking you directly. \
+Once per turn, except the turn this card is Dimension Changed: \
+    The turn player can reveal 1 "Ancient Chant" from everywhere; \
+    Dimension Change this card to the material monster with the same Divine Hierarchy in any face-up position, \
+    and if they do, its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, or 4000. \
+    This effect's activation cannot be negated. \
+    The owner no need to reveal. \
+"""
+strings = ["Change to Battle Mode"]
 
 [ra-phoenix]
 id = 900000005
