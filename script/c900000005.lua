@@ -17,7 +17,7 @@ function s.initial_effect(c)
         event_code = EVENT_SPSUMMON_SUCCESS,
         filter = function(c, sc)
             return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner() and c:IsPreviousLocation(LOCATION_GRAVE) and
-                       c:IsControler(c:GetOwner())
+                       c:IsControler(c:GetOwner()) and Duel.CheckLPCost(c:GetOwner(), 1000)
         end,
         custom_op = function(e, tp, mc)
             local c = e:GetHandler()
@@ -25,6 +25,7 @@ function s.initial_effect(c)
             local op = Duel.SelectOption(tp, aux.Stringid(id, 1), aux.Stringid(id, 2))
             if op == 0 then return end
 
+            Duel.PayLPCost(tp, 1000)
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)
             if divine_evolution then Divine.DivineEvolution(c) end
@@ -129,7 +130,6 @@ function s.initial_effect(c)
     e4:SetRange(LOCATION_MZONE)
     e4:SetHintTiming(TIMING_MAIN_END + TIMINGS_CHECK_MONSTER)
     e4:SetCondition(s.e4con)
-    e4:SetCost(s.e4cost)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -167,23 +167,16 @@ function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return e:GetHandler():IsAttackPos() and Duel.GetCurrentPhase() < PHASE_END and not Duel.GetAttacker()
 end
 
-function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return Duel.CheckLPCost(tp, 1000) and c:GetFlagEffect(id) == 0 end
-
-    Duel.PayLPCost(tp, 1000)
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_CHAIN, 0, 1)
-end
-
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE, 1, c) end
+    if chk == 0 then return c:GetFlagEffect(id) == 0 and Duel.IsExistingMatchingCard(aux.TRUE, tp, 0, LOCATION_MZONE, 1, c) end
 
     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_ATTACK)
     local g = Duel.SelectMatchingCard(tp, aux.TRUE, tp, 0, LOCATION_MZONE, 1, 1, c)
     Duel.SetTargetCard(g)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_CHAIN, 0, 1)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
