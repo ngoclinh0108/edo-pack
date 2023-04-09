@@ -37,76 +37,65 @@ function s.initial_effect(c)
         end
     })
 
-    -- cannot change control or battle position
+    -- cannot be Tributed, or be used as a material
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e1:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    e1:SetCode(EFFECT_UNRELEASABLE_SUM)
     e1:SetRange(LOCATION_MZONE)
+    e1:SetValue(1)
     c:RegisterEffect(e1)
     local e1b = e1:Clone()
-    e1b:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    e1b:SetCode(EFFECT_UNRELEASABLE_NONSUM)
     c:RegisterEffect(e1b)
-
-    -- cannot be Tributed, or be used as a material
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_UNRELEASABLE_SUM)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetValue(1)
-    c:RegisterEffect(e2)
-    local e2b = e2:Clone()
-    e2b:SetCode(EFFECT_UNRELEASABLE_NONSUM)
-    c:RegisterEffect(e2b)
-    local e2c = e2:Clone()
-    e2c:SetCode(EFFECT_CANNOT_BE_MATERIAL)
-    c:RegisterEffect(e2c)
+    local e1c = e1:Clone()
+    e1c:SetCode(EFFECT_CANNOT_BE_MATERIAL)
+    c:RegisterEffect(e1c)
 
     -- immune
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
-    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    e3:SetCode(EFFECT_IMMUNE_EFFECT)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetValue(function(e, te)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetType(EFFECT_TYPE_SINGLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    e2:SetCode(EFFECT_IMMUNE_EFFECT)
+    e2:SetRange(LOCATION_MZONE)
+    e2:SetValue(function(e, te)
         local c = e:GetHandler()
         local tc = te:GetHandler()
         return c ~= tc and Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(c)
     end)
-    c:RegisterEffect(e3)
+    c:RegisterEffect(e2)
 
     -- cannot attack
-    local e4 = Effect.CreateEffect(c)
-    e4:SetType(EFFECT_TYPE_SINGLE)
-    e4:SetCode(EFFECT_CANNOT_ATTACK)
-    c:RegisterEffect(e4)
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetCode(EFFECT_CANNOT_ATTACK)
+    c:RegisterEffect(e3)
 
     -- untargetable
-    local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE)
-    e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e5:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
-    e5:SetRange(LOCATION_MZONE)
-    e5:SetValue(1)
-    c:RegisterEffect(e5)
-    local e5b = e5:Clone()
-    e5b:SetCode(EFFECT_IGNORE_BATTLE_TARGET)
-    c:RegisterEffect(e5b)
+    local e4 = Effect.CreateEffect(c)
+    e4:SetType(EFFECT_TYPE_SINGLE)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e4:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    e4:SetRange(LOCATION_MZONE)
+    e4:SetValue(1)
+    c:RegisterEffect(e4)
+    local e4b = e4:Clone()
+    e4b:SetCode(EFFECT_IGNORE_BATTLE_TARGET)
+    c:RegisterEffect(e4b)
 
     -- battle mode
-    local e6 = Effect.CreateEffect(c)
-    e6:SetDescription(aux.Stringid(id, 0))
-    e6:SetType(EFFECT_TYPE_QUICK_O)
-    e6:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE)
-    e6:SetCode(EVENT_FREE_CHAIN)
-    e6:SetRange(LOCATION_MZONE)
-    e6:SetCountLimit(1)
-    e6:SetCondition(s.e6con)
-    e6:SetCost(s.e6cost)
-    e6:SetTarget(s.e6tg)
-    e6:SetOperation(s.e6op)
-    c:RegisterEffect(e6)
+    local e5 = Effect.CreateEffect(c)
+    e5:SetDescription(aux.Stringid(id, 0))
+    e5:SetType(EFFECT_TYPE_QUICK_O)
+    e5:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE)
+    e5:SetCode(EVENT_FREE_CHAIN)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetCountLimit(1)
+    e5:SetCondition(s.e5con)
+    e5:SetCost(s.e5cost)
+    e5:SetTarget(s.e5tg)
+    e5:SetOperation(s.e5op)
+    c:RegisterEffect(e5)
 end
 
 function s.e1con(e, c, minc, zone, relzone, exeff)
@@ -163,11 +152,11 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c, minc, zone, relzone, exeff)
     g:DeleteGroup()
 end
 
-function s.e6con(e, tp, eg, ep, ev, re, r, rp)
+function s.e5con(e, tp, eg, ep, ev, re, r, rp)
     return Duel.GetTurnPlayer() == tp and Duel.GetTurnCount() ~= e:GetHandler():GetTurnID()
 end
 
-function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local g = Duel.GetMatchingGroup(Card.IsCode, tp, LOCATION_ALL, 0, nil, 78665705)
     if chk == 0 then return tp == c:GetOwner() or #g > 0 end
@@ -175,7 +164,7 @@ function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if tp ~= c:GetOwner() and #g > 0 then Duel.ConfirmCards(1 - tp, g:GetFirst()) end
 end
 
-function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local mc = c:GetMaterial():GetFirst()
     if chk == 0 then
@@ -184,7 +173,7 @@ function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
     end
 end
 
-function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = c:GetMaterial():GetFirst()
 

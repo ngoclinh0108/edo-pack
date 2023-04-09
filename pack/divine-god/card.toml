@@ -124,20 +124,19 @@ effect = """\
 If your "The Winged Dragon of Ra" is Normal Summoned to your field, \
     its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field, \
     or your opponent's field, Dimension Change it to this card with the same Divine Hierarchy. \
-Control and battle position of it cannot change by card effects. \
 Cannot be Tributed, or used as material for an Summon. \
 Unaffected by other cards' effects, except for cards with the equal or higher Divine Hierarchy. \
     This effect cannot be negated. \
 Cannot attack. \
 Neither player can target it for attacks or by card effects, \
     but does not prevent your opponent from attacking you directly. \
-Once per turn, except the turn this card is Dimension Changed (Quick Effect): \
+Once per turn, except the turn it is Dimension Changed (Quick Effect): \
     The turn player can reveal 1 "Ancient Chant" from everywhere; \
     Dimension Change this card to the material monster with the same Divine Hierarchy in any face-up position, \
     and if they do, its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Tribute Summon had on the field. \
-    If this card is not Tribute Summoned, its original ATK/DEF become 4000/4000 instead. \
-    This effect's activation cannot be negated. \
-    The owner no need to reveal. \
+    If this card is not Tribute Summoned, its original ATK/DEF become 4000. \
+    The activation of this effect cannot be negated. \
+    This card's owner no need to reveal "Ancient Chant" to activate and resolve this effect. \
 """
 strings = ["Change to Battle Mode"]
 
@@ -160,10 +159,8 @@ If "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
 If "The Winged Dragon of Ra" you control would be destroyed by its own effect, \
     Dimension Change it to this card with the same Divine Hierarchy instead, \
     and this card's original ATK/DEF become the same as that monster's ATK/DEF had on the field. \
-Control and battle position cannot be changed by card effects. \
 Cannot be Tributed, or used as material for an Summon. \
-Unaffected by other cards' effects, \
-    cannot be destroyed by battle, also you take no battle damage from that battle, \
+Unaffected by other cards' effects, cannot be destroyed by battle, also you take no battle damage from that battle, \
     except for monsters with the higher Divine Hierarchy. \
     This effect cannot be negated. \
 Cannot attack, except by its own effect. \
