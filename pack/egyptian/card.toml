@@ -13,7 +13,7 @@ strings = [
 id = 900000001
 alias = 10000000
 rarity = "gold"
-frame-path = "frame/obelisk.png"
+frame-path = "artwork/frame/obelisk.png"
 name = "Giant Divine Soldier of Obelisk"
 type = "monster effect"
 attribute = "divine"
@@ -44,7 +44,7 @@ strings = [
 [osiris]
 id = 900000002
 alias = 10000020
-frame-path = "frame/osiris.png"
+frame-path = "artwork/frame/osiris.png"
 rarity = "gold"
 name = "Sky Divine Dragon of Osiris"
 type = "monster effect"
@@ -68,7 +68,7 @@ strings = ["Reduce the monster(s)' ATK or DEF"]
 [ra]
 id = 900000003
 alias = 10000010
-frame-path = "frame/ra.png"
+frame-path = "artwork/frame/ra.png"
 rarity = "gold"
 name = "Sun Divine Dragon of Ra"
 type = "monster effect"
@@ -106,7 +106,7 @@ strings = [
 [ra-sphere]
 id = 900000004
 alias = 10000080
-frame-path = "frame/ra.png"
+frame-path = "artwork/frame/ra.png"
 rarity = "gold"
 name = "Sun Divine Dragon of Ra - Sphere Mode"
 type = "monster dimension effect"
@@ -139,7 +139,7 @@ strings = ["Change to Battle Mode"]
 [ra-phoenix]
 id = 900000005
 alias = 10000090
-frame-path = "frame/ra.png"
+frame-path = "artwork/frame/ra.png"
 rarity = "gold"
 name = "Sun Divine Dragon of Ra - Immortal Phoenix"
 type = "monster dimension effect"
@@ -182,7 +182,7 @@ strings = [
 [dreadroot]
 id = 900000006
 alias = 62180201
-frame-path = "frame/wicked.png"
+frame-path = "artwork/frame/wicked.png"
 rarity = "gold"
 name = "The Wicked Deity Dreadroot"
 type = "monster effect"
@@ -202,7 +202,7 @@ strings = []
 [eraser]
 id = 900000007
 alias = 57793869
-frame-path = "frame/wicked.png"
+frame-path = "artwork/frame/wicked.png"
 rarity = "gold"
 name = "The Wicked Deity Eraser"
 type = "monster effect"
@@ -225,7 +225,7 @@ strings = ["Destroy itself"]
 [avatar]
 id = 900000008
 alias = 21208154
-frame-path = "frame/wicked.png"
+frame-path = "artwork/frame/wicked.png"
 rarity = "gold"
 name = "The Wicked Deity Avatar"
 type = "monster effect"
