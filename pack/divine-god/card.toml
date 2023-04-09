@@ -97,7 +97,7 @@ If your "De-Fusion" targets this Fusion Monster, apply these effect instead: \
     its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK". \
 Once per turn, when an attack is declared involving this card: \
     You can Tribute any number of other face-up monsters; \
-    this card gains ATK equal to the Tributed monsters' combined ATK had on the field, until the end of this turn. \
+    this card gains ATK equal to the Tributed monsters' combined ATK had on the field, until this turn. \
     This card must be become Fusion Monster by its own effect to activate and resolve this effects. \
 """
 strings = [
