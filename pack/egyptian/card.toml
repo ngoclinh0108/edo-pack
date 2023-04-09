@@ -103,3 +103,40 @@ After this card is Normal Summoned, your opponent cannot activate Spell/Trap Car
 strings = [
     "Affected by effect \"{CARD_NAME}\": Cannot activate Spell/Trap Cards",
 ]
+
+[deity-evolution]
+id = 900000010
+name = "Deity Evolution"
+type = "spell quick-play"
+effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" gain these effects, ignoring card effects;
+● Gain 1000 ATK/DEF.
+● Divine Hierarchy is increased by 1.
+● The activation and effect of this card's effects cannot be negated.
+● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
+During your Main Phase, if this card is in your GY and you control a original Divine-Beast monster: \
+    You can discard 1 Spell; add this card to your hand. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Affected by \"{CARD_NAME}\""]
+
+[sun-god-descend]
+id = 900000011
+name = "Sun God Descend"
+type = "spell quick-play"
+effect = """\
+The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
+During the Main Phase: \
+    Tribute 3 monsters on your field or your opponent's, and if you do, \
+    Special Summon 1 "The Winged Dragon of Ra" from your hand or Deck, ignoring its Summoning conditions, \
+    and its original ATK/DEF become the combined ATK/DEF of the monsters Tributed had on the field. \
+    If you Tributed monsters on your opponent's field, it cannot attack this turn. \
+If this card is in your GY: \
+    You can target 1 "The Winged Dragon of Ra" or 1 card that mentions it \
+    that is banished, or in your GY, except "{CARD_NAME}"; \
+    shuffle both this card and that target into the Deck, \
+    then draw 1 card. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Tribute your monsters", "Tribute your opponent's monsters"]
