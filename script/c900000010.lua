@@ -48,7 +48,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
 
         -- divine evolution
-        if not Divine.IsDivineEvolution(tc) then Divine.DivineEvolution(tc) end
+        if not Divine.IsDivineEvolution(tc) then Divine.RegisterDivineEvolution(tc) end
 
         -- atk/def
         local ec1 = Effect.CreateEffect(c)
