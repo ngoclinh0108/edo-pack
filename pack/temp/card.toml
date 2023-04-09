@@ -1,14 +1,3 @@
-[millennium-hieroglyph]
-id = 900000000
-template = "artwork"
-name = "Millennium Hieroglyph"
-strings = [
-    "Mulligan?",
-    "Place field?",
-    "Perform Destiny Draw?",
-    "Perform Destiny Excavate?",
-]
-
 [obelisk]
 id = 900000001
 alias = 10000000
@@ -177,31 +166,4 @@ strings = [
     "Phoenix Mode",
     "Perform attack",
     "Turn into Sphere Mode or to the GY",
-]
-
-[the-chosen-pharaoh]
-id = 900000009
-rarity = "gold"
-name = "The Chosen Pharaoh"
-type = "trap continuous"
-effect = """\
-The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-The activation and effects of "The True Name" activated on your field cannot be negated. \
-During your turn, if you control 3 monsters whose original names are \
-    "Obelisk the Tormentor", "Slifer the Sky Dragon", and "The Winged Dragon of Ra": \
-    Add 1 "Holactie the Creator of Light" from Outside to your hand. \
-    You can only use this effect of "{CARD_NAME}" once per Duel. \
-If this face-up card leaves the field: Destroy all monsters you control. \
-You can only use the following effect of "{CARD_NAME}" once per turn. You can activate 1 of these effects;
-● Add 1 "The True Name" from your Deck or GY to your hand.
-● Special Summon 1 "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra" from your hand or GY.
-● Add to your hand or Set directly from your Deck, 1 Spell/Trap that mentions \
-    "Obelisk the Tormentor", "Slifer the Sky Dragon", or "The Winged Dragon of Ra", \
-    with a different name from the cards you control and in your GY.
-"""
-strings = [
-    "Call \"Holactie the Creator of Light\"",
-    "Add \"The True Name\"",
-    "Special Summon a Divine-Beast",
-    "Add or Set Spell/Trap that mentions Divine-Beast",
 ]
