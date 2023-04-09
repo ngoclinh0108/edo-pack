@@ -109,14 +109,10 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
 
-    local can_switch = false
     for i = 1, Duel.GetCurrentChain() do
         local tgp, tg = Duel.GetChainInfo(i, CHAININFO_TRIGGERING_PLAYER, CHAININFO_TARGET_CARDS)
         if tgp ~= tp and tg and tg:IsExists(s.e3filter, #tg, nil, tp) then
             Duel.ChangeTargetCard(i, Group.FromCards(c))
-            can_switch = true
         end
     end
-
-    if can_switch then Duel.HintSelection(Group.FromCards(c)) end
 end
