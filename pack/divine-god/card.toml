@@ -172,7 +172,7 @@ Once per Chain, while this card is in Attack Position, except the End Phase (Qui
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \
     with the same Divine Hierarchy (transfer this card's materials to that monster). \
-    If you cannot, send this card to the GY. \
+    If you cannot, send it to the GY. \
 """
 strings = [
     "Select the form",
