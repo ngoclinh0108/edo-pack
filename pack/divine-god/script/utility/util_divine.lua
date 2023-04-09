@@ -6,8 +6,6 @@ if not Divine then Divine = aux.DivineProcedure end
 Divine.FLAG_DIVINE_EVOLUTION = 513000065
 
 -- function
-function Divine.DivineHierarchy(s, divine_hierarchy) s.divine_hierarchy = divine_hierarchy end
-
 function Divine.IsDivineEvolution(c) return c:GetFlagEffect(Divine.FLAG_DIVINE_EVOLUTION) > 0 end
 
 function Divine.RegisterDivineEvolution(c)
@@ -26,7 +24,7 @@ function Divine.GetDivineHierarchy(c, get_base)
 end
 
 function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
-    Divine.DivineHierarchy(s, divine_hierarchy)
+    s.divine_hierarchy = divine_hierarchy
 
     -- cannot special summon, except owner 
     local splimit = Effect.CreateEffect(c)
@@ -180,7 +178,7 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
 end
 
 function Divine.WickedGod(s, c, divine_hierarchy)
-    Divine.DivineHierarchy(s, divine_hierarchy)
+    s.divine_hierarchy = divine_hierarchy
 
     -- cannot special summon
     local splimit = Effect.CreateEffect(c)
