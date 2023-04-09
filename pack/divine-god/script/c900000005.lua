@@ -70,6 +70,8 @@ function s.initial_effect(c)
             ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
             ec1b:SetValue(def)
             c:RegisterEffect(ec1b)
+
+            c:RegisterFlagEffect(id + 200000, 0, 0, 1)
         end
     })
 
@@ -169,9 +171,13 @@ end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return Duel.CheckLPCost(tp, 1000) and c:GetFlagEffect(id) == 0 end
+    if chk == 0 then return c:GetFlagEffect(id) == 0 and (Duel.CheckLPCost(tp, 1000) or c:GetFlagEffect(id + 200000) > 0) end
 
-    Duel.PayLPCost(tp, 1000)
+    if c:GetFlagEffect(id + 200000) == 0 then
+        Duel.PayLPCost(tp, 1000)
+    else
+        c:ResetFlagEffect(id + 200000)
+    end
     c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_CHAIN, 0, 1)
 end
 
