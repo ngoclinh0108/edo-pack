@@ -1,35 +1,3 @@
-[obelisk]
-id = 900000001
-alias = 10000000
-rarity = "gold"
-frame-path = "artwork/frame/obelisk.png"
-name = "Giant Divine Soldier of Obelisk"
-type = "monster effect"
-attribute = "divine"
-race = "divine-beast"
-level = 10
-atk = 4000
-def = 4000
-effect = """\
-{HIERARCHY_ALIAS|1|Obelisk the Tormentor}
-{EGYPTIAN_EFFECT_1} \
-Once per turn, while this card is able to attack (Quick Effect): \
-    You can Tribute 2 other monsters; \
-    destroy all monsters your opponent controls, \
-    and also inflict damage to your opponent equal to this card's ATK. \
-    Cannot be activated as Chain Link 2 or higher. \
-    This card cannot declare an attack the turn this effect is activated. \
-Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Quick Effect): \
-    You can Tribute 2 other monsters; \
-    once during this turn, if this card battles an opponent's monster, \
-    it gains ∞ ATK during the damage calculation only. \
-"""
-strings = [
-    "Soul Energy MAX",
-    "Destroy all monsters & Inflict damage",
-    "Gain ∞ ATK for 1 attack",
-]
-
 [osiris]
 id = 900000002
 alias = 10000020
