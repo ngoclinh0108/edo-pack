@@ -5,7 +5,14 @@ Duel.LoadScript("util_egyptian.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.DivineHierarchy(s, c, 2, true)
+    Divine.DivineHierarchy(s, c, 2)
+
+    -- cannot special summon
+    local splimit = Effect.CreateEffect(c)
+    splimit:SetType(EFFECT_TYPE_SINGLE)
+    splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
+    splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    c:RegisterEffect(splimit)
 
     -- prevent activations
     local e1 = Effect.CreateEffect(c)
@@ -17,7 +24,7 @@ function s.initial_effect(c)
     -- atk/def value
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_DELAY + EFFECT_FLAG_REPEAT)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_DELAY + EFFECT_FLAG_REPEAT + EFFECT_CANNOT_DISABLE)
     e2:SetCode(EFFECT_SET_ATTACK_FINAL)
     e2:SetRange(LOCATION_MZONE)
     e2:SetValue(s.e2val)

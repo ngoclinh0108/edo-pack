@@ -48,5 +48,58 @@ effect = """\
 {HIERARCHY_ALIAS|1|The Wicked Dreadroot}
 Cannot be Special Summoned. \
 {EGYPTIAN_EFFECT} \
+The ATK/DEF of all other monsters on the field are halved, except monsters with higher Divine Hierarchy. \
+If this card attacks an opponent's monster, during the Damage Step only, that monster cannot activate its effect. \
 """
 strings = []
+
+[eraser]
+id = 900000007
+alias = 57793869
+frame-path = "artwork/frame/wicked.png"
+rarity = "gold"
+name = "The Wicked Deity Eraser"
+type = "monster effect"
+attribute = "dark"
+race = "divine-beast fiend"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY_ALIAS|1|The Wicked Eraser}
+Cannot be Special Summoned. \
+{EGYPTIAN_EFFECT} \
+This card's original ATK/DEF are equal to the number of cards in your opponent controls x 1000. \
+    This effect cannot be negated. \
+Once per turn, if this card is Normal Summoned/Set: You can destroy this card. \
+If this face-up card leaves the field, send all cards on the field to the GY, \
+    ignoring card effects, except monsters with higher Divine Hierarchy. \
+"""
+strings = ["Destroy itself"]
+
+[avatar]
+id = 900000008
+alias = 21208154
+frame-path = "artwork/frame/wicked.png"
+rarity = "gold"
+name = "The Wicked Deity Avatar"
+type = "monster effect"
+attribute = "dark"
+race = "divine-beast fiend"
+level = 10
+atk = "?"
+def = "?"
+effect = """\
+{HIERARCHY_ALIAS|2|The Wicked Avatar}
+Cannot be Special Summoned. \
+{EGYPTIAN_EFFECT} \
+After this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards \
+    until the end of their 2nd turn after this effect's activation. \
+This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
+    This effect cannot be negated. \
+Monsters' destruction by battle with this card cannot be negated, \
+    except monsters with higher Divine Hierarchy. \
+"""
+strings = [
+    "Affected by effect \"{CARD_NAME}\": Cannot activate Spell/Trap Cards",
+]
