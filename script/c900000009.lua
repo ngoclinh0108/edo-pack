@@ -175,6 +175,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
     if #g > 0 and Duel.SendtoHand(g, nil, REASON_EFFECT) > 0 then
         Duel.ConfirmCards(1 - tp, g)
+        Duel.ShuffleHand(tp)
+        Duel.ShuffleDeck(tp)
+
         local ct = math.min(5, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
         if ct ~= 0 and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
             Duel.BreakEffect()
