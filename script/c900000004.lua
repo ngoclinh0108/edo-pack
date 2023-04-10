@@ -22,8 +22,8 @@ function s.initial_effect(c)
                 local def = 0
                 local mg = mc:GetMaterial()
                 for tc in aux.Next(mg) do
-                    atk = atk + tc:GetBaseAttack()
-                    def = def + tc:GetBaseDefense()
+                    atk = atk + tc:GetPreviousAttackOnField()
+                    def = def + tc:GetPreviousDefenseOnField()
                 end
 
                 Utility.HintCard(c)
@@ -37,8 +37,8 @@ function s.initial_effect(c)
                 local def = 0
                 local mg = mc:GetMaterial()
                 for tc in aux.Next(mg) do
-                    atk = atk + tc:GetBaseAttack()
-                    def = def + tc:GetBaseDefense()
+                    atk = atk + tc:GetPreviousAttackOnField()
+                    def = def + tc:GetPreviousDefenseOnField()
                 end
 
                 local eff = Effect.CreateEffect(c)

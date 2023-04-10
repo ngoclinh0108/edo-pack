@@ -152,12 +152,34 @@ end
 function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
-    local eff = Effect.CreateEffect(c)
-    eff:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    eff:SetCode(EVENT_SUMMON_SUCCESS)
-    eff:SetOperation(s.e5op)
-    eff:SetReset(RESET_EVENT + RESETS_STANDARD)
-    rc:RegisterEffect(eff, true)
+
+    local atk = 0
+    local def = 0
+    local mg = rc:GetMaterial()
+    for tc in aux.Next(mg) do
+        atk = atk + tc:GetBaseAttack()
+        def = def + tc:GetBaseDefense()
+    end
+
+    Debug.Message(atk)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_SET_BASE_ATTACK)
+    ec1:SetValue(atk)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
+    c:RegisterEffect(ec1, true)
+    local ec1b = ec1:Clone()
+    ec1b:SetCode(EFFECT_SET_BASE_DEFENSE)
+    ec1b:SetValue(def)
+    c:RegisterEffect(ec1b, true)
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    ec2:SetCode(EVENT_SUMMON_SUCCESS)
+    ec2:SetOperation(s.e5op)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
+    rc:RegisterEffect(ec2, true)
 end
 
 function s.e5filter(c) return c:IsCode(4059313) and c:IsAbleToHand() end
