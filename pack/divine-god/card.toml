@@ -300,7 +300,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Affected by \"{CARD_NAME}\""]
 
 [sun-god-descend]
-id = 900000011
+id = 900000014
 name = "Sun God Descend"
 type = "spell quick-play"
 effect = """\
