@@ -1,6 +1,6 @@
 -- Sun Divine Dragon of Ra - Sphere Mode
 Duel.LoadScript("util.lua")
-Duel.LoadScript("util_egyptian.lua")
+Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("util_dimension.lua")
 local s, id = GetID()
 
@@ -17,35 +17,28 @@ function s.initial_effect(c)
         filter = function(c, sc) return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner() end,
         custom_op = function(e, tp, mc)
             local c = e:GetHandler()
-            if mc:IsControler(tp) then
-                local atk = 0
-                local def = 0
-                local mg = mc:GetMaterial()
-                for tc in aux.Next(mg) do
-                    atk = atk + tc:GetPreviousAttackOnField()
-                    def = def + tc:GetPreviousDefenseOnField()
-                end
 
+            local atk = 0
+            local def = 0
+            local mg = mc:GetMaterial()
+            for tc in aux.Next(mg) do
+                atk = atk + tc:GetPreviousAttackOnField()
+                def = def + tc:GetPreviousDefenseOnField()
+            end
+
+            if mc:IsControler(tp) then
                 Utility.HintCard(c)
                 s.battlemode(c, mc, atk, def)
             else
-                local divine_evolution = Divine.IsDivineEvolution(mc)
-                Dimension.Change(mc, c)
-                if divine_evolution then Divine.RegisterDivineEvolution(c) end
-
-                local atk = 0
-                local def = 0
-                local mg = mc:GetMaterial()
-                for tc in aux.Next(mg) do
-                    atk = atk + tc:GetPreviousAttackOnField()
-                    def = def + tc:GetPreviousDefenseOnField()
-                end
-
                 local eff = Effect.CreateEffect(c)
                 eff:SetType(EFFECT_TYPE_SINGLE)
                 eff:SetCode(id)
                 eff:SetLabelObject({atk, def})
                 mc:RegisterEffect(eff)
+
+                local divine_evolution = Divine.IsDivineEvolution(mc)
+                Dimension.Change(mc, c)
+                if divine_evolution then Divine.RegisterDivineEvolution(c) end
             end
         end
     })

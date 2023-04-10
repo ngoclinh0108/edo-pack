@@ -46,7 +46,6 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsMainPhase() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.GetMatchingGroupCount(s.e1filter1, tp, LOCATION_HAND + LOCATION_DECK, 0, nil, e, tp) > 0 end
-
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, LOCATION_HAND + LOCATION_DECK)
 end
 
@@ -70,8 +69,8 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local atk = 0
     local def = 0
     for mc in aux.Next(g) do
-        atk = atk + mc:GetBaseAttack()
-        def = def + mc:GetBaseDefense()
+        atk = atk + mc:GetAttack()
+        def = def + mc:GetDefense()
     end
 
     if tc and Duel.Release(g, REASON_EFFECT) == 3 and Duel.SpecialSummonStep(tc, 0, tp, tp, true, false, POS_FACEUP) then
