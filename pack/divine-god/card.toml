@@ -398,7 +398,7 @@ strings = [
 
 [wicked-apostle]
 id = 900000014
-name = "Wicked's Apostle"
+name = "The Wicked Apostle"
 type = "monster link effect"
 attribute = "dark"
 race = "fiend"

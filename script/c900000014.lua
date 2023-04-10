@@ -1,4 +1,4 @@
--- Wicked's Apostle
+-- The Wicked Apostle
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
