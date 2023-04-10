@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_names = {CARD_RA, 4059313}
+s.listed_names = {CARD_RA, 4059313, 77432167}
 
 function s.initial_effect(c)
     c:SetSPSummonOnce(id)
@@ -180,20 +180,35 @@ function s.e5regop(e, tp, eg, ep, ev, re, r, rp)
     rc:RegisterEffect(ec2, true)
 end
 
-function s.e5filter(c) return c:IsCode(4059313) and c:IsAbleToHand() end
+function s.e5filter(c, code) return c:IsCode(code) and c:IsAbleToHand() end
 
 function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Utility.IsOwnAny(Card.IsCode, tp, 4059313) and
-        not Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) then return end
-    if not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then return end
+    local b1 = not Utility.IsOwnAny(Card.IsCode, tp, 4059313) or
+                   Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, 4059313)
+    local b2 = not Utility.IsOwnAny(Card.IsCode, tp, 77432167) or
+                   Duel.IsExistingMatchingCard(s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil, 77432167)
 
+    local opt = {}
+    local sel = {}
+    if b1 then
+        table.insert(opt, aux.Stringid(id, 3))
+        table.insert(sel, 1)
+    end
+    if b2 then
+        table.insert(opt, aux.Stringid(id, 4))
+        table.insert(sel, 2)
+    end
+    if #opt == 0 or not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 2)) then return end
+
+    local op = sel[Duel.SelectOption(tp, table.unpack(opt)) + 1]
+    local code = op == 1 and 4059313 or 77432167
     local tc = nil
-    if Utility.IsOwnAny(Card.IsCode, tp, 4059313) then
-        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
+    if Utility.IsOwnAny(Card.IsCode, tp, code) then
+        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, code)
         tc = tc:GetFirst()
     else
-        tc = Duel.CreateToken(tp, 4059313)
+        tc = Duel.CreateToken(tp, code)
     end
 
     Duel.SendtoHand(tc, nil, REASON_EFFECT)

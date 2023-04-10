@@ -1,6 +1,6 @@
 -- Sun Divine Dragon of Ra - Immortal Phoenix
 Duel.LoadScript("util.lua")
-Duel.LoadScript("util_egyptian.lua")
+Duel.LoadScript("util_divine.lua")
 Duel.LoadScript("util_dimension.lua")
 local s, id = GetID()
 

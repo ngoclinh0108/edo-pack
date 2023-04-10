@@ -380,13 +380,15 @@ This card's original ATK become equal to the combined ATK of the monsters used f
 Cannot attack the turn it is Special Summoned. \
 If you Tribute this card for the Tribute Summon of "The Winged Dragon of Ra", it gains this effect.
 ● This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Summon had on the field.
-● After Normal Summoned, you can add to your hand 1 "Blaze Cannon", \
+● After Normal Summoned, you can add to your hand 1 "Blaze Cannon" or 1 "Sun God Unification", \
     from your Deck, GY or Outside (if you dont have any copies).
 """
 strings = [
     "Tribute Summon (via \"{CARD_NAME}\")",
     "Affected by effect \"{CARD_NAME}\": cannot Summon monsters for the rest of this turn, except Divine-Beast monsters",
-    "Add \"Blaze Cannon\" to your hand?",
+    "Add card to your hand?",
+    "Add \"Blaze Cannon\"",
+    "Add \"Sun God Unification\"",
 ]
 
 [sun-god-descend]
