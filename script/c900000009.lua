@@ -5,8 +5,7 @@ local s, id = GetID()
 s.listed_names = {39913299, 10000000, 10000020, CARD_RA, 10000040}
 
 function s.initial_effect(c)
-    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
-                                                    EFFECT_FLAG_CANNOT_INACTIVATE
+    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE
 
     -- activate
     local act = Effect.CreateEffect(c)
@@ -115,8 +114,7 @@ end
 
 function s.e1val(e, ct)
     local p = e:GetHandler():GetControler()
-    local te, tp, loc = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT, CHAININFO_TRIGGERING_PLAYER,
-        CHAININFO_TRIGGERING_LOCATION)
+    local te, tp, loc = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT, CHAININFO_TRIGGERING_PLAYER, CHAININFO_TRIGGERING_LOCATION)
     local tc = te:GetHandler()
     return p == tp and tc:IsCode(39913299) and (loc & LOCATION_ONFIELD) ~= 0
 end
@@ -174,8 +172,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
     if _replace_count > _replace_max or not c:IsRelateToEffect(e) then return end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp,
-        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
     if #g > 0 and Duel.SendtoHand(g, nil, REASON_EFFECT) > 0 then
         Duel.ConfirmCards(1 - tp, g)
         local ct = math.min(5, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
@@ -220,11 +217,9 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e5filter, tp,
-        LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e5filter, tp, LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
     if tc and Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP) > 0 and tc:IsPreviousLocation(LOCATION_GRAVE) then
-        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
-            aux.Stringid(id, 3))
+        tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 3))
 
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -240,17 +235,16 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e6filter1(c, tp)
-    return c:IsFaceup() and c:IsOriginalRace(RACE_DIVINE) and
-               Duel.IsExistingMatchingCard(s.e6filter2, tp, LOCATION_DECK, 0, 1, nil, tp, c)
+    return c:IsFaceup() and c:IsOriginalRace(RACE_DIVINE) and Duel.IsExistingMatchingCard(s.e6filter2, tp, LOCATION_DECK, 0, 1, nil, tp, c)
 end
 
 function s.e6filter2(c, tp, sc)
-    return not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode, c:GetCode()), tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0,
-        1, nil) and c:ListsCode(sc:GetCode()) and c:IsSpellTrap() and (c:IsSSetable() or c:IsAbleToHand())
+    return not Duel.IsExistingMatchingCard(aux.FaceupFilter(Card.IsCode, c:GetCode()), tp, LOCATION_ONFIELD + LOCATION_GRAVE, 0, 1, nil) and
+               c:ListsCode(sc:GetCode()) and c:IsSpellTrap() and (c:IsSSetable() or c:IsAbleToHand())
 end
 
 function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, tp) end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, 1, nil, tp) end
 
     Duel.Hint(HINT_OPSELECTED, 1 - tp, e:GetDescription())
     Duel.SetPossibleOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK)
@@ -260,8 +254,9 @@ function s.e6op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) then return end
 
-    local sc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e6filter1, tp, LOCATION_MZONE, 0, 1, 1, nil, tp):GetFirst()
+    local sc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e6filter1, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, 1, 1, nil, tp):GetFirst()
     if not sc then return end
+    Duel.HintSelection(Group.FromCards(sc))
 
     local tc = Utility.SelectMatchingCard(HINTMSG_SELECT, tp, s.e6filter2, tp, LOCATION_DECK, 0, 1, 1, nil, tp, sc):GetFirst()
     aux.ToHandOrElse(tc, tp, function(c) return tc:IsSSetable() end, function(c) Duel.SSet(tp, tc) end, 1159)
@@ -317,8 +312,7 @@ end
 
 function s.e7tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return Duel.IsPlayerCanSpecialSummonMonster(tp, 10000040, 0, TYPE_MONSTER + TYPE_EFFECT, 0, 0, 12, RACE_CREATORGOD,
-            ATTRIBUTE_DIVINE)
+        return Duel.IsPlayerCanSpecialSummonMonster(tp, 10000040, 0, TYPE_MONSTER + TYPE_EFFECT, 0, 0, 12, RACE_CREATORGOD, ATTRIBUTE_DIVINE)
     end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, 0)

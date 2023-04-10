@@ -8,8 +8,7 @@ function s.initial_effect(c)
     c:SetSPSummonOnce(id)
     c:EnableReviveLimit()
 
-    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
-                                                    EFFECT_FLAG_CANNOT_INACTIVATE
+    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE
 
     -- link summon
     Link.AddProcedure(c, nil, 3, 3)
@@ -63,8 +62,8 @@ function s.e1filter(c) return c:IsCode(CARD_RA) and c:IsAbleToHand() end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then
-        return not Utility.IsOwnAny(Card.IsCode, tp, CARD_RA) or
-                   Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
+        return
+            not Utility.IsOwnAny(Card.IsCode, tp, CARD_RA) or Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil)
     end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
 end
@@ -73,8 +72,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tc = nil
     if Utility.IsOwnAny(Card.IsCode, tp, CARD_RA) then
-        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
-        tc = tc:GetFirst()
+        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
     else
         tc = Duel.CreateToken(tp, CARD_RA)
     end
@@ -205,8 +203,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local code = op == 1 and 4059313 or 77432167
     local tc = nil
     if Utility.IsOwnAny(Card.IsCode, tp, code) then
-        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, code)
-        tc = tc:GetFirst()
+        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e5filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, code):GetFirst()
     else
         tc = Duel.CreateToken(tp, code)
     end

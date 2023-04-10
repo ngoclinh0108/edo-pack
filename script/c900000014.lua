@@ -9,8 +9,7 @@ function s.initial_effect(c)
     c:SetSPSummonOnce(id)
     c:EnableReviveLimit()
 
-    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE +
-                                                    EFFECT_FLAG_CANNOT_INACTIVATE
+    local EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF = EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE
 
     -- link summon
     Link.AddProcedure(c, nil, 3, 3)
@@ -94,8 +93,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 
     local tc = nil
     if Utility.IsOwnAny(Card.IsCode, tp, code) then
-        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, code)
-        tc = tc:GetFirst()
+        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e1filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil, code):GetFirst()
     else
         tc = Duel.CreateToken(tp, code)
     end
@@ -157,14 +155,14 @@ function s.e3filter(c) return c:IsCode(7373632) and c:IsAbleToHand() end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    if Utility.IsOwnAny(Card.IsCode, tp, 7373632) and
-        not Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) then return end
+    if Utility.IsOwnAny(Card.IsCode, tp, 7373632) and not Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) then
+        return
+    end
     if not Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 5)) then return end
 
     local tc = nil
     if Utility.IsOwnAny(Card.IsCode, tp, 7373632) then
-        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
-        tc = tc:GetFirst()
+        tc = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil):GetFirst()
     else
         tc = Duel.CreateToken(tp, 7373632)
     end
