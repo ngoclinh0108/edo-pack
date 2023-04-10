@@ -106,7 +106,6 @@ function s.initial_effect(c)
     e7:SetRange(LOCATION_SZONE + LOCATION_GRAVE)
     e7:SetHintTiming(0, TIMING_END_PHASE)
     e7:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
-    e7:SetCondition(s.e7con)
     e7:SetCost(s.e7cost)
     e7:SetTarget(s.e7tg)
     e7:SetOperation(s.e7op)
@@ -120,6 +119,8 @@ function s.e1val(e, ct)
     local tc = te:GetHandler()
     return p == tp and tc:IsCode(39913299) and (loc & LOCATION_ONFIELD) ~= 0
 end
+
+function s.e2filter(c, re) return c:IsRelateToEffect(re) and c:IsOriginalRace(RACE_DIVINE) end
 
 function s.e2tg(e, c, tp, r, re) return c:IsOriginalRace(RACE_DIVINE) end
 
@@ -140,8 +141,7 @@ end
 function s.e2discheck(ev, category, re)
     local ex, tg, ct, p, v = Duel.GetOperationInfo(ev, category)
     if not ex then return false end
-    if (category == CATEGORY_LEAVE_GRAVE or v == LOCATION_GRAVE) and ct > 0 and not tg then return true end
-    if tg and #tg > 0 then return tg:IsExists(Card.IsRelateToEffect, 1, nil, re) end
+    if tg and #tg > 0 then return tg:IsExists(s.e2filter, 1, nil, re) end
     return false
 end
 
@@ -177,13 +177,11 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
     if #g > 0 and Duel.SendtoHand(g, nil, REASON_EFFECT) > 0 then
         Duel.ConfirmCards(1 - tp, g)
-
-        if Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
-            local ct = math.min(5, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
-            if ct ~= 0 then
-                local ac = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
-                Duel.SortDecktop(tp, tp, ac)
-            end
+        local ct = math.min(5, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
+        if ct ~= 0 and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
+            Duel.BreakEffect()
+            local ac = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
+            Duel.SortDecktop(tp, tp, ac)
         end
     end
 end
@@ -292,8 +290,6 @@ function s.e7chk(c, sg, g, code, ...)
     end
     return res
 end
-
-function s.e7con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end
 
 function s.e7cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
