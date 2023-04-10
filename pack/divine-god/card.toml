@@ -249,7 +249,7 @@ strings = [
 ]
 
 [the-chosen-pharaoh]
-id = 900000100
+id = 900000009
 rarity = "gold"
 name = "The Chosen Pharaoh"
 type = "trap continuous"
@@ -283,7 +283,7 @@ strings = [
 ]
 
 [deity-evolution]
-id = 900000101
+id = 900000010
 name = "Deity Evolution"
 type = "spell quick-play"
 effect = """\
@@ -300,7 +300,7 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 strings = ["Affected by \"{CARD_NAME}\""]
 
 [sun-god-descend]
-id = 900000102
+id = 900000015
 name = "Sun God Descend"
 type = "spell quick-play"
 effect = """\
