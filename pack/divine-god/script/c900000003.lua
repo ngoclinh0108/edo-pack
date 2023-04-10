@@ -150,8 +150,8 @@ function s.e1val(e, c)
     local def = 0
     local g = c:GetMaterial()
     for tc in aux.Next(g) do
-        atk = atk + tc:GetAttack()
-        def = def + tc:GetDefense()
+        atk = atk + tc:GetBaseAttack()
+        def = def + tc:GetBaseDefense()
     end
 
     if e:GetLabel() == 1 then

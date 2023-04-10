@@ -17,14 +17,13 @@ function s.initial_effect(c)
         filter = function(c, sc) return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner() end,
         custom_op = function(e, tp, mc)
             local c = e:GetHandler()
-
             if mc:IsControler(tp) then
                 local atk = 0
                 local def = 0
                 local mg = mc:GetMaterial()
                 for tc in aux.Next(mg) do
-                    atk = atk + tc:GetPreviousAttackOnField()
-                    def = def + tc:GetPreviousDefenseOnField()
+                    atk = atk + tc:GetBaseAttack()
+                    def = def + tc:GetBaseDefense()
                 end
 
                 Utility.HintCard(c)
@@ -96,60 +95,6 @@ function s.initial_effect(c)
     e5:SetTarget(s.e5tg)
     e5:SetOperation(s.e5op)
     c:RegisterEffect(e5)
-end
-
-function s.e1con(e, c, minc, zone, relzone, exeff)
-    if c == nil then return true end
-    if exeff then
-        local ret = exeff:GetValue()
-        if type(ret) == "function" then
-            ret = {ret(exeff, c)}
-            if #ret > 1 then zone = (ret[2] >> 16) & 0x7f end
-        end
-    end
-    local tp = c:GetControler()
-    local mg = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
-    mg = mg:Filter(Auxiliary.IsZone, nil, relzone, tp)
-    return minc <= 3 and Duel.CheckTribute(c, 3, 3, mg, 1 - tp, zone)
-end
-
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk, c, minc, zone, relzone, exeff)
-    if exeff then
-        local ret = exeff:GetValue()
-        if type(ret) == "function" then
-            ret = {ret(exeff, c)}
-            if #ret > 1 then zone = (ret[2] >> 16) & 0x7f end
-        end
-    end
-    local mg = Duel.GetFieldGroup(tp, 0, LOCATION_MZONE)
-    mg = mg:Filter(Auxiliary.IsZone, nil, relzone, tp)
-    local g = Duel.SelectTribute(tp, c, 3, 3, mg, 1 - tp, zone, true)
-    if g and #g > 0 then
-        g:KeepAlive()
-        e:SetLabelObject(g)
-        return true
-    end
-    return false
-end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp, c, minc, zone, relzone, exeff)
-    local g = e:GetLabelObject()
-    local atk = 0
-    local def = 0
-    for tc in aux.Next(g) do
-        atk = atk + tc:GetAttack()
-        def = def + tc:GetDefense()
-    end
-
-    local ec0 = Effect.CreateEffect(c)
-    ec0:SetType(EFFECT_TYPE_SINGLE)
-    ec0:SetCode(id)
-    ec0:SetLabelObject({atk, def})
-    c:RegisterEffect(ec0)
-
-    c:SetMaterial(g)
-    Duel.Release(g, REASON_SUMMON + REASON_MATERIAL)
-    g:DeleteGroup()
 end
 
 function s.e5con(e, tp, eg, ep, ev, re, r, rp)
