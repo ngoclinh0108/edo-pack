@@ -422,7 +422,7 @@ If you Tribute this card for the Tribute Summon of a Level 10 \"Wicked\" monster
     from your Deck, GY or Outside (if you dont have any copies).
 """
 strings = [
-    "Affected by effect \"{CARD_NAME}\": cannot Summon monsters for the rest of this turn, except \"Wicked\" monsters",
+    "Affected by effect \"{CARD_NAME}\": cannot Summon monsters for the rest of this turn, except Level 10 \"Wicked\" monsters",
     "Tribute Summon (via \"{CARD_NAME}\")",
     "Add \"The Wicked Dreadroot\"",
     "Add \"The Wicked Eraser\"",
