@@ -386,7 +386,7 @@ If you Tribute this card for the Tribute Summon of "The Winged Dragon of Ra", it
 strings = [
     "Tribute Summon (via \"{CARD_NAME}\")",
     "Affected by effect \"{CARD_NAME}\": cannot Summon monsters for the rest of this turn, except Divine-Beast monsters",
-    "Add card to your hand?",
+    "Add specific card to your hand?",
     "Add \"Blaze Cannon\"",
     "Add \"Sun God Unification\"",
 ]
