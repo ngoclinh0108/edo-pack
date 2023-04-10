@@ -233,8 +233,8 @@ function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
 
     if chk == 0 then
         return c:IsAbleToRemoveAsCost() and Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_HAND, 0, 1, nil) and
-                   Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c) and Duel.GetLocationCount(tp, LOCATION_MZONE) > -3 and
-                   #g1 > 0 and #g2 > 0 and #g3 > 0 and aux.SelectUnselectGroup(mg, e, tp, 3, 3, s.e6rescon, 0)
+                   Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c) and #g1 > 0 and #g2 > 0 and #g3 > 0 and
+                   aux.SelectUnselectGroup(mg, e, tp, 3, 3, s.e6rescon, 0)
     end
 
     Duel.Remove(c, POS_FACEUP, REASON_COST)
@@ -253,6 +253,8 @@ function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    if Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
+
     local tc = Duel.CreateToken(tp, 10000040)
-    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP_ATTACK)
+    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP)
 end
