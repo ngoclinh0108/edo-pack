@@ -174,7 +174,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
     if _replace_count > _replace_max or not c:IsRelateToEffect(e) then return end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e3filter), tp,
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, s.e3filter, tp,
         LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
     if #g > 0 and Duel.SendtoHand(g, nil, REASON_EFFECT) > 0 then
         Duel.ConfirmCards(1 - tp, g)
@@ -220,7 +220,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     if not c:IsRelateToEffect(e) or Duel.GetLocationCount(tp, LOCATION_MZONE) <= 0 then return end
 
-    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e5filter), tp,
+    local tc = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, s.e5filter, tp,
         LOCATION_HAND + LOCATION_GRAVE, 0, 1, 1, nil, e, tp):GetFirst()
     if tc and Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP) > 0 and tc:IsPreviousLocation(LOCATION_GRAVE) then
         tc:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
