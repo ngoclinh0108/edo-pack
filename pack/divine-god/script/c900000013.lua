@@ -32,33 +32,42 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- cannot attack
+    -- triple tribute
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e3:SetType(EFFECT_TYPE_SINGLE)
     e3:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
-    e3:SetCode(EVENT_SPSUMMON_SUCCESS)
-    e3:SetOperation(s.e3op)
+    e3:SetCode(EFFECT_TRIPLE_TRIBUTE)
+    e3:SetValue(function(e, c) return c:IsAttribute(ATTRIBUTE_DIVINE) end)
     c:RegisterEffect(e3)
 
-    -- additional tribute summon
+    -- cannot attack
     local e4 = Effect.CreateEffect(c)
-    e4:SetDescription(aux.Stringid(id, 1))
-    e4:SetType(EFFECT_TYPE_FIELD)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e4:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
-    e4:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
-    e4:SetRange(LOCATION_MZONE)
-    e4:SetTargetRange(LOCATION_HAND, 0)
-    e4:SetCondition(function(e) return Duel.IsMainPhase() and e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) end)
-    e4:SetTarget(aux.TargetBoolFunction(Card.IsRace, RACE_DIVINE))
-    e4:SetValue(1)
+    e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e4:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetDescription(3206)
+        ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
+        ec1:SetCode(EFFECT_CANNOT_ATTACK)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec1)
+    end)
     c:RegisterEffect(e4)
 
-    -- triple tribute
+    -- additional tribute summon
     local e5 = Effect.CreateEffect(c)
-    e5:SetType(EFFECT_TYPE_SINGLE)
+    e5:SetDescription(aux.Stringid(id, 1))
+    e5:SetType(EFFECT_TYPE_FIELD)
     e5:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
-    e5:SetCode(EFFECT_TRIPLE_TRIBUTE)
-    e5:SetValue(function(e, c) return c:IsAttribute(ATTRIBUTE_DIVINE) end)
+    e5:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+    e5:SetRange(LOCATION_MZONE)
+    e5:SetTargetRange(LOCATION_HAND, 0)
+    e5:SetCondition(function(e) return Duel.IsMainPhase() and e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) end)
+    e5:SetTarget(aux.TargetBoolFunction(Card.IsRace, RACE_DIVINE))
+    e5:SetValue(1)
     c:RegisterEffect(e5)
 
     -- effect gain
@@ -124,17 +133,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetCode(EFFECT_SET_BASE_ATTACK)
     ec1:SetValue(atk)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD_DISABLE)
-    c:RegisterEffect(ec1)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(3206)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
 end
 

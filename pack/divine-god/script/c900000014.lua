@@ -24,25 +24,25 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- additional tribute summon
+    -- triple tribute
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 1))
-    e2:SetType(EFFECT_TYPE_FIELD)
+    e2:SetType(EFFECT_TYPE_SINGLE)
     e2:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
-    e2:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetTargetRange(LOCATION_HAND, 0)
-    e2:SetCondition(function(e) return Duel.IsMainPhase() and e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) end)
-    e2:SetTarget(function(e, c) return c:IsLevel(10) and c:IsCode(wicked_monsters) end)
-    e2:SetValue(1)
+    e2:SetCode(EFFECT_TRIPLE_TRIBUTE)
+    e2:SetValue(function(e, c) return c:IsLevel(10) and c:IsCode(wicked_monsters) end)
     c:RegisterEffect(e2)
 
-    -- triple tribute
+    -- additional tribute summon
     local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetType(EFFECT_TYPE_FIELD)
     e3:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
-    e3:SetCode(EFFECT_TRIPLE_TRIBUTE)
-    e3:SetValue(function(e, c) return c:IsLevel(10) and c:IsCode(wicked_monsters) end)
+    e3:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+    e3:SetRange(LOCATION_MZONE)
+    e3:SetTargetRange(LOCATION_HAND, 0)
+    e3:SetCondition(function(e) return Duel.IsMainPhase() and e:GetHandler():IsSummonType(SUMMON_TYPE_LINK) end)
+    e3:SetTarget(function(e, c) return c:IsLevel(10) and c:IsCode(wicked_monsters) end)
+    e3:SetValue(1)
     c:RegisterEffect(e3)
 
     -- effect gain
