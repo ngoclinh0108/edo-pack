@@ -82,19 +82,20 @@ function s.initial_effect(c)
     c:RegisterEffect(e5)
 
     -- call holactie
-    -- local e6 = Effect.CreateEffect(c)
-    -- e6:SetDescription(aux.Stringid(id, 3))
-    -- e6:SetCategory(CATEGORY_TOHAND)
-    -- e6:SetType(EFFECT_TYPE_QUICK_O)
-    -- e6:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
-    -- e6:SetCode(EVENT_FREE_CHAIN)
-    -- e6:SetRange(LOCATION_SZONE)
-    -- e6:SetHintTiming(0, TIMING_END_PHASE)
-    -- e6:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
-    -- e6:SetCondition(s.e6con)
-    -- e6:SetTarget(s.e6tg)
-    -- e6:SetOperation(s.e6op)
-    -- c:RegisterEffect(e6)
+    local e6 = Effect.CreateEffect(c)
+    e6:SetDescription(aux.Stringid(id, 3))
+    e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
+    e6:SetType(EFFECT_TYPE_QUICK_O)
+    e6:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
+    e6:SetCode(EVENT_FREE_CHAIN)
+    e6:SetRange(LOCATION_SZONE + LOCATION_GRAVE)
+    e6:SetHintTiming(0, TIMING_END_PHASE)
+    e6:SetCountLimit(1, id, EFFECT_COUNT_CODE_DUEL)
+    e6:SetCondition(s.e6con)
+    e6:SetCost(s.e6cost)
+    e6:SetTarget(s.e6tg)
+    e6:SetOperation(s.e6op)
+    c:RegisterEffect(e6)
 end
 
 function s.e1val(e, ct)
@@ -192,24 +193,66 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     aux.ToHandOrElse(tc, tp, function(c) return tc:IsSSetable() end, function(c) Duel.SSet(tp, tc) end, 1159)
 end
 
--- function s.e6filter1(c, code)
---     local code1, code2 = c:GetOriginalCodeRule()
---     return code1 == code or code2 == code
--- end
+function s.e6filter1(c) return c:IsCode(39913299) and c:IsDiscardable() end
 
--- function s.e6con(e, tp, eg, ep, ev, re, r, rp)
---     return Duel.IsTurnPlayer(tp) and Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000000) and
---                Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, 10000020) and
---                Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_MZONE, 0, 1, nil, CARD_RA)
--- end
+function s.e6filter2(c, code)
+    local code1, code2 = c:GetOriginalCodeRule()
+    return code1 == code or code2 == code
+end
 
--- function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
---     if chk == 0 then return true end
+function s.e6rescon(sg, e, tp, mg)
+    return aux.ChkfMMZ(1)(sg, e, tp, mg) and sg:IsExists(s.e6chk, 1, nil, sg, Group.CreateGroup(), 10000000, 10000020, CARD_RA)
+end
 
---     Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, 0)
--- end
+function s.e6chk(c, sg, g, code, ...)
+    local code1, code2 = c:GetOriginalCodeRule()
+    if code ~= code1 and code ~= code2 then return false end
+    local res
+    if ... then
+        g:AddCard(c)
+        res = sg:IsExists(s.e6chk, 1, g, sg, g, ...)
+        g:RemoveCard(c)
+    else
+        res = true
+    end
+    return res
+end
 
--- function s.e6op(e, tp, eg, ep, ev, re, r, rp)
---     local tc = Duel.CreateToken(tp, 10000040)
---     Duel.SendtoHand(tc, tp, REASON_EFFECT)
--- end
+function s.e6con(e, tp, eg, ep, ev, re, r, rp) return Duel.IsTurnPlayer(tp) end
+
+function s.e6cost(e, tp, eg, ep, ev, re, r, rp, chk)
+    local c = e:GetHandler()
+    local rg = Duel.GetReleaseGroup(tp)
+    local g1 = rg:Filter(s.e6filter2, nil, 10000000)
+    local g2 = rg:Filter(s.e6filter2, nil, 10000020)
+    local g3 = rg:Filter(s.e6filter2, nil, CARD_RA)
+    local mg = Group.CreateGroup()
+    mg:Merge(g1)
+    mg:Merge(g2)
+    mg:Merge(g3)
+
+    if chk == 0 then
+        return c:IsAbleToRemoveAsCost() and Duel.IsExistingMatchingCard(s.e6filter1, tp, LOCATION_HAND, 0, 1, nil) and
+                   Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c) and Duel.GetLocationCount(tp, LOCATION_MZONE) > -3 and
+                   #g1 > 0 and #g2 > 0 and #g3 > 0 and aux.SelectUnselectGroup(mg, e, tp, 3, 3, s.e6rescon, 0)
+    end
+
+    Duel.Remove(c, POS_FACEUP, REASON_COST)
+    Duel.DiscardHand(tp, s.e6filter1, 1, 1, REASON_COST + REASON_DISCARD)
+    local sg = aux.SelectUnselectGroup(mg, e, tp, 3, 3, s.e6rescon, 1, tp, HINTMSG_RELEASE, s.e6rescon, nil, true)
+    Duel.Release(sg, REASON_COST)
+end
+
+function s.e6tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then
+        return Duel.IsPlayerCanSpecialSummonMonster(tp, 10000040, 0, TYPE_MONSTER + TYPE_EFFECT, 0, 0, 12, RACE_CREATORGOD,
+            ATTRIBUTE_DIVINE)
+    end
+
+    Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, 0)
+end
+
+function s.e6op(e, tp, eg, ep, ev, re, r, rp)
+    local tc = Duel.CreateToken(tp, 10000040)
+    Duel.SpecialSummon(tc, 0, tp, tp, true, false, POS_FACEUP_ATTACK)
+end
