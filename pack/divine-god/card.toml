@@ -275,7 +275,7 @@ You can banish this card from your GY or your face-up Spell & Trap Zone, discard
 """
 strings = [
     "Add \"The True Name\" to your hand",
-    "Look and order Deck?",
+    "Reorder top Deck?",
     "Special Summon a Divine-Beast",
     "Summoned by \"{CARD_NAME}\"",
     "Add or Set Spell/Trap that mentions Divine-Beast",
