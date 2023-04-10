@@ -27,7 +27,7 @@ function s.initial_effect(c)
 
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)
-            if divine_evolution then Divine.DivineEvolution(c) end
+            if divine_evolution then Divine.RegisterDivineEvolution(c) end
         end
     })
 
@@ -56,7 +56,7 @@ function s.initial_effect(c)
 
             local divine_evolution = Divine.IsDivineEvolution(mc)
             Dimension.Change(mc, c)
-            if divine_evolution then Divine.DivineEvolution(c) end
+            if divine_evolution then Divine.RegisterDivineEvolution(c) end
 
             local ec1 = Effect.CreateEffect(c)
             ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -211,7 +211,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     if tc then
         local divine_evolution = Divine.IsDivineEvolution(c)
         Dimension.Change(c, tc, c:GetMaterial())
-        if divine_evolution then Divine.DivineEvolution(tc) end
+        if divine_evolution then Divine.RegisterDivineEvolution(tc) end
     else
         Duel.SendtoGrave(c, REASON_EFFECT)
     end

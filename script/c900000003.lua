@@ -156,7 +156,6 @@ function s.e1val(e, c)
 
     if e:GetLabel() == 1 then
         e:SetLabel(0)
-
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(EFFECT_SET_BASE_ATTACK)

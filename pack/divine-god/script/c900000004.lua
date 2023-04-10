@@ -31,7 +31,21 @@ function s.initial_effect(c)
             else
                 local divine_evolution = Divine.IsDivineEvolution(mc)
                 Dimension.Change(mc, c)
-                if divine_evolution then Divine.DivineEvolution(c) end
+                if divine_evolution then Divine.RegisterDivineEvolution(c) end
+
+                local atk = 0
+                local def = 0
+                local mg = mc:GetMaterial()
+                for tc in aux.Next(mg) do
+                    atk = atk + tc:GetBaseAttack()
+                    def = def + tc:GetBaseDefense()
+                end
+
+                local eff = Effect.CreateEffect(c)
+                eff:SetType(EFFECT_TYPE_SINGLE)
+                eff:SetCode(id)
+                eff:SetLabelObject({atk, def})
+                mc:RegisterEffect(eff)
             end
         end
     })
@@ -136,14 +150,13 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
 
     local divine_evolution = Divine.IsDivineEvolution(c)
     Dimension.Change(c, tc, tc:GetMaterial(), tp, tp, POS_FACEUP)
-    if divine_evolution then Divine.DivineEvolution(tc) end
+    if divine_evolution then Divine.RegisterDivineEvolution(tc) end
 
     s.battlemode(c, tc, atk, def)
     Utility.ResetListEffect(c, nil, EFFECT_CANNOT_ATTACK)
 end
 
 function s.battlemode(c, tc, atk, def)
-    -- set base atk/def
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE)
     ec1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
