@@ -41,3 +41,27 @@ During damage calculation, if your other "Palladium" Spellcaster monster battles
     that monster you control gains ATK equal to this card's original ATK during that damage calculation only. \
 """
 strings = ["Send this card to GY to up ATK"]
+
+[palladium-oracle-aknamkanon]
+id = 900000102
+set = "chaos palladium"
+name = "Chaos Palladium Oracle Aknamkanon"
+type = "monster ritual effect"
+attribute = "dark"
+race = "spellcaster"
+level = 8
+atk = 2800
+def = 2600
+effect = """\
+You can Ritual Summon this card with a "Palladium" card. \
+After this card was Special Summoned, your opponent cannot activate monster effects for the rest of that turn. \
+"Palladium" Spellcaster monsters you control gains 100 ATK for each banished cards. \
+Banish any monster destroyed by battle with this card. \
+If this Ritual Summoned card destroys an opponent's monster by battle: \
+    You can target 1 Spell/Trap in your GY; add it to your hand. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+"""
+strings = [
+    "Affected by effect \"{CARD_NAME}\": cannot activate monster effects",
+    "Return 1 Spell/Trap from the GY",
+]

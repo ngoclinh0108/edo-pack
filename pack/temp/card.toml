@@ -28,32 +28,6 @@ strings = [
     "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters",
 ]
 
-[palladium-oracle-aknamkanon]
-id = 900001103
-set = "chaos palladium"
-name = "Chaos Palladium Oracle Aknamkanon"
-type = "monster ritual effect"
-attribute = "dark"
-race = "spellcaster"
-level = 8
-atk = 2800
-def = 2600
-effect = """\
-You can Ritual Summon this card with a "Palladium" card. \
-Must first be Ritual Summoned, with using at least 1 "Palladium" Spellcaster monster. \
-You can reveal this card in your hand; add 1 "Palladium Oracle Mahad" or 1 card that mentions it, except "{CARD_NAME}", \
-    from your Deck or GY to your hand, then place 1 card from your hand on top of the Deck. \
-After this card was Special Summoned, your opponent cannot activate monster effects for the rest of that turn. \
-Gains 100 ATK for each banished cards. \
-Banish any monster destroyed by battle with this card. \
-If this card destroys an opponent's monster by battle: You can target 1 Spell/Trap in your GY; add it to your hand. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
-"""
-strings = [
-    "Affected by effect \"{CARD_NAME}\": cannot activate monster effects",
-    "Add 1 Spell/Trap from the GY",
-]
-
 [black-luster-soldier-palladium]
 id = 900001104
 set = "palladium black-luster-soldier"
