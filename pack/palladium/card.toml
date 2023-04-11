@@ -17,4 +17,26 @@ You can reveal this card in your hand; add 1 Spell/Trap that mentions it, \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 If this card battles a DARK monster, its ATK is doubled during the Damage Step only. \
 """
-strings = ["Special Summon this card?"]
+strings = []
+
+[palladium-oracle-mana]
+id = 900000101
+alias = 42006475
+set = "palladium"
+name = "Illusory Palladium Oracle Mana"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 6
+atk = 2000
+def = 1700
+effect = """\
+(This card's name is always treated as "Palladium Oracle Mana".)
+"""
+strings = []
+
+# If you control "Palladium Oracle Mahad", you can Special Summon this card (from your hand). \
+# "Palladium" Spellcaster monsters you control cannot be destroyed by card effects. \
+# When your opponent targets a monster(s) you control with a card effect, \
+#     while this card is in your hand or GY: You can Special Summon this card. \
+#     You can only use this effects of "{CARD_NAME}" once per turn. \
