@@ -14,10 +14,10 @@ effect = """\
 You can Special Summon this card (from your hand) by \
     revealing 1 Level 1 LIGHT Tuner in your hand. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
-Once per turn: You can destroy 1 other face-up card on the field. \
-    This card cannot attack the turn this effect is activated. \
+Once per turn, if this card attacks a monster your opponent controls, before damage calculation: \
+    You can destroy that monster. \
 """
-strings = ["Destroy 1 other card on the field"]
+strings = ["Destroy battling monster"]
 
 [blue-eyes-divine-dragon]
 id = 900000201
