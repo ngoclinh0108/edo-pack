@@ -19,10 +19,8 @@ function s.initial_effect(c)
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_DESTROY)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetCost(s.e2cost)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
+    e2:SetCode(EVENT_BATTLE_CONFIRM)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
@@ -57,29 +55,14 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
-function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
-    if chk == 0 then return c:GetAttackAnnouncedCount() == 0 end
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(3206)
-    ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_ATTACK)
-    ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
-    c:RegisterEffect(ec1)
-end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    local c = e:GetHandler()
-    if chk == 0 then return Duel.IsExistingMatchingCard(Card.IsFaceup, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, c) end
-
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, nil, 1, 0, LOCATION_ONFIELD)
+    local bc = Duel.GetAttackTarget()
+    if chk == 0 then return Duel.GetAttacker() == c and bc and bc:IsRelateToBattle() end
+    Duel.SetOperationInfo(0, CATEGORY_DESTROY, bc, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local g = Utility.SelectMatchingCard(HINTMSG_DESTROY, tp, Card.IsFaceup, tp, LOCATION_ONFIELD, LOCATION_ONFIELD, 1, 1, c)
-    Duel.HintSelection(g)
-    if #g > 0 then Duel.Destroy(g, REASON_EFFECT) end
+    local bc = Duel.GetAttackTarget()
+    if bc and bc:IsRelateToBattle() then Duel.Destroy(bc, REASON_EFFECT) end
 end
