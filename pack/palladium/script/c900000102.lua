@@ -26,7 +26,7 @@ function s.initial_effect(c)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- atk up
+    -- atk/def up
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_FIELD)
     e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -36,6 +36,9 @@ function s.initial_effect(c)
     e2:SetTarget(function(e, c) return c:IsRace(RACE_SPELLCASTER) end)
     e2:SetValue(function(e, c) return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_REMOVED, LOCATION_REMOVED) * 100 end)
     c:RegisterEffect(e2)
+    local e2b = e2:Clone()
+    e2b:SetCode(EFFECT_UPDATE_DEFENSE)
+    c:RegisterEffect(e2b)
 
     -- battle banish
     local e3 = Effect.CreateEffect(c)
