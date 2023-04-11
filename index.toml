@@ -4,7 +4,7 @@ setcodes = ["./setcode.toml"]
 packs = [
     "./pack/divine-god",
     "./pack/palladium",
-    # "./pack/blue-eyes",
+    "./pack/blue-eyes",
     # "./pack/sacred-beast",
     # "./pack/evil-hero",
     # "./pack/infernity",
@@ -14,7 +14,7 @@ packs = [
 skip_compile_packs = [
     "./pack/divine-god",
     # "./pack/palladium",
-    # "./pack/blue-eyes",
+    "./pack/blue-eyes",
     # "./pack/sacred-beast",
     # "./pack/evil-hero",
     # "./pack/infernity",
