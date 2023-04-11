@@ -73,7 +73,7 @@ end
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
-    return (r & REASON_FUSION) ~= 0 and rc:IsAttribute(ATTRIBUTE_LIGHT) and rc:IsRace(RACE_WARRIOR)
+    return (r & REASON_FUSION + REASON_LINK) ~= 0 and rc:IsAttribute(ATTRIBUTE_LIGHT) and rc:IsRace(RACE_WARRIOR)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
@@ -102,7 +102,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec3:SetRange(LOCATION_MZONE)
     ec3:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
     ec3:SetCountLimit(1)
-    ec3:SetValue(function(e, re, r) return (r & REASON_EFFECT) ~= 0 end)
+    ec3:SetValue(function(e, re, r) return (r & REASON_BATTLE + REASON_EFFECT) ~= 0 end)
     ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
     rc:RegisterEffect(ec3, true)
 end

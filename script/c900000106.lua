@@ -71,8 +71,7 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp, c)
 end
 
 function s.e2filter(c)
-    return c:IsLevel(4) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and not c:IsCode(25652259) and
-               c:IsAbleToHand()
+    return c:IsLevel(4) and c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and not c:IsCode(25652259) and c:IsAbleToHand()
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -95,8 +94,7 @@ function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e2filter), tp,
-        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e2filter), tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
@@ -106,7 +104,7 @@ end
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
-    return (r & REASON_FUSION) ~= 0 and rc:IsAttribute(ATTRIBUTE_LIGHT) and rc:IsRace(RACE_WARRIOR)
+    return (r & REASON_FUSION + REASON_LINK) ~= 0 and rc:IsAttribute(ATTRIBUTE_LIGHT) and rc:IsRace(RACE_WARRIOR)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)

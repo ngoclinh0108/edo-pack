@@ -104,7 +104,7 @@ end
 function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
-    return (r & REASON_FUSION) ~= 0 and rc:IsAttribute(ATTRIBUTE_LIGHT) and rc:IsRace(RACE_WARRIOR)
+    return (r & REASON_FUSION + REASON_LINK) ~= 0 and rc:IsAttribute(ATTRIBUTE_LIGHT) and rc:IsRace(RACE_WARRIOR)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
