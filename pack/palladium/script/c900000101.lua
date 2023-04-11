@@ -9,6 +9,7 @@ function s.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
     e1:SetCode(EVENT_CHAINING)
     e1:SetRange(LOCATION_HAND + LOCATION_GRAVE)
     e1:SetCountLimit(1, id)
@@ -40,12 +41,12 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
+function s.e1filter(c, tp) return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsRace(RACE_SPELLCASTER) end
+
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    if rp == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
+    if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
     local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
-    if not tg then return false end
-    return tg:IsExists(function(c) return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsRace(RACE_SPELLCASTER) end, 1,
-        nil)
+    return tg and tg:IsExists(s.e1filter, 1, nil, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
