@@ -36,7 +36,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
     Utility.AvatarInfinity(s, c)
 
-    -- attack redirect
+    -- attack & effect redirect
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e3:SetCode(EVENT_SUMMON_SUCCESS)
@@ -96,8 +96,8 @@ end
 function s.e2filter(c) return c:IsFaceup() and Divine.GetDivineHierarchy(c) >= 2 end
 
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.IsExistingMatchingCard(function(tc) return tc:IsFaceup() and Divine.GetDivineHierarchy(tc) >= 2 end, tp,
-        LOCATION_MZONE, LOCATION_MZONE, 1, nil)
+    return Duel.IsExistingMatchingCard(function(tc) return tc:IsFaceup() and Divine.GetDivineHierarchy(tc) >= 2 end, tp, LOCATION_MZONE,
+        LOCATION_MZONE, 1, nil)
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -110,8 +110,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0,
-        aux.Stringid(id, 0))
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
@@ -122,19 +121,16 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
         local bc = c:GetBattleTarget()
         return bc and bc:IsControler(1 - tp) and c:GetFlagEffect(id) ~= 0
     end)
-    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
-        Utility.GainInfinityAtk(e:GetHandler(), RESET_PHASE + PHASE_DAMAGE_CAL)
-    end)
+    ec1:SetOperation(function(e, tp, eg, ep, ev, re, r, rp) Utility.GainInfinityAtk(e:GetHandler(), RESET_PHASE + PHASE_DAMAGE_CAL) end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == 1 - tp and e:GetHandler():IsPosition(POS_FACEUP_DEFENSE)
-end
+function s.e3con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() == 1 - tp and e:GetHandler():IsPosition(POS_FACEUP_DEFENSE) end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
@@ -143,6 +139,25 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     ec1:SetValue(function(e, c) return c ~= e:GetHandler() end)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_FIELD)
+    ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SET_AVAILABLE)
+    ec2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+    ec2:SetRange(LOCATION_MZONE)
+    ec2:SetTargetRange(LOCATION_MZONE, 0)
+    ec2:SetTarget(function(e, tc) return tc ~= c end)
+    ec2:SetValue(aux.tgoval)
+    ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+    c:RegisterEffect(ec2)
+
+    for i = 1, Duel.GetCurrentChain() do
+        local tgp, tg = Duel.GetChainInfo(i, CHAININFO_TRIGGERING_PLAYER, CHAININFO_TARGET_CARDS)
+        if tgp ~= tp and tg and tg:IsExists(function(c, tp) return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) end, 1, nil, tp) then
+            local g = Group.FromCards(c):Merge(tg:Filter(function(c, tp) return c:IsControler(tp) and not c:IsLocation(LOCATION_MZONE) end, nil, tp))
+            Duel.ChangeTargetCard(i, g)
+        end
+    end
 
     local ac = Duel.GetAttacker()
     if ac and ac:IsControler(1 - tp) and ac:CanAttack() and not ac:IsImmuneToEffect(e) then Duel.CalculateDamage(ac, c) end
