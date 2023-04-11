@@ -2,7 +2,10 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
+s.listed_series = {0x13a}
+
 function s.initial_effect(c)
+    c:SetSPSummonOnce(id)
     c:EnableReviveLimit()
 
     -- special summon procedure
@@ -11,7 +14,6 @@ function s.initial_effect(c)
     sp:SetProperty(EFFECT_FLAG_UNCOPYABLE)
     sp:SetCode(EFFECT_SPSUMMON_PROC)
     sp:SetRange(LOCATION_HAND)
-    sp:SetCountLimit(1, {id, 1}, EFFECT_COUNT_CODE_OATH)
     sp:SetCondition(s.spcon)
     sp:SetTarget(s.sptg)
     sp:SetOperation(s.spop)
@@ -30,21 +32,12 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_TOGRAVE + CATEGORY_DAMAGE)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCountLimit(1, {id, 2})
+    e1:SetCountLimit(1, id)
     e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
     Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, function(re) return re:GetHandler():IsCode(id) end)
-
-    -- to deck when leave field
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e2:SetCode(EFFECT_LEAVE_FIELD_REDIRECT)
-    e2:SetCondition(function(e) return e:GetHandler():IsFaceup() end)
-    e2:SetValue(LOCATION_DECKBOT)
-    c:RegisterEffect(e2)
 end
 
 function s.spfilter(c, attr) return c:IsAttribute(attr) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c, true) end
@@ -133,11 +126,4 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.BreakEffect()
         Duel.Damage(1 - tp, ct * 300, REASON_EFFECT)
     end
-end
-
-function s.e2filter(c) return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and c:IsAbleToHand() end
-
-function s.e2op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    Duel.SendtoDeck(c, nil, SEQ_DECKBOTTOM, REASON_EFFECT)
 end
