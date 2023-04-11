@@ -22,6 +22,7 @@ function s.initial_effect(c)
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+    e1:SetCondition(s.e1con)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
@@ -53,7 +54,7 @@ function s.initial_effect(c)
     e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
     e4:SetCode(EVENT_BATTLE_DESTROYING)
     e4:SetCountLimit(1, id)
-    e4:SetCondition(s.e4con)
+    e4:SetCondition(aux.bdocon)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
@@ -84,6 +85,8 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
     g:DeleteGroup()
 end
 
+function s.e1con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_RITUAL) end
+
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Utility.HintCard(c)
@@ -100,8 +103,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4filter(c) return c:IsSpellTrap() and c:IsAbleToHand() end
-
-function s.e4con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsSummonType(SUMMON_TYPE_RITUAL) and aux.bdocon(e, tp, eg, ep, ev, re, r, rp) end
 
 function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.IsExistingTarget(s.e4filter, tp, LOCATION_GRAVE, 0, 1, nil) end
