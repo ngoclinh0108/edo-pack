@@ -28,41 +28,6 @@ strings = [
     "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters",
 ]
 
-[chaos-end-ruler]
-id = 900001106
-set = "chaos"
-name = "Chaos End Ruler - Ruler of the Beginning and the End"
-type = "monster xyz effect"
-attribute = "light dark"
-race = "fiend"
-rank = 8
-atk = 3500
-def = 2000
-effect = """\
-2 Level 8 "Chaos" or "Black Luster Soldier" monsters
-(This card's Attribute is also DARK.)
-Must first be Xyz Summoned. \
-The activation and effect of this card's effects cannot be negated. \
-Cannot be Tributed, or be used as a material for an Summon by your opponent. \
-This card gains the following effect(s), based on the material attached on it.
-● LIGHT Warrior monster: \
-    Cannot be destroyed by card effects. \
-    Your opponent cannot target it with card effects. \
-    Gains 100 ATK for each cards in either GY. \
-    If this card attacks an opponent's monster, during the Damage Step only, \
-        negate the effects of that monster while it is face-up on the field (but its effects can still be activated).
-● DARK Dragon monster, during your Main Phase (Quick Effect): \
-    You can detach 1 material from this card; \
-    send all cards in your opponent's hands and on their side of the field to the GY, \
-    then inflict 500 damage to your opponent for each card sent to the GY by this effect, \
-    also other monsters you control cannot attack for the rest of this turn. \
-    You can only use this effect of "Chaos End Ruler - Ruler of the Beginning and the End" once per turn. \
-"""
-strings = [
-    "Send card to GY & inflict damage",
-    "Affected by effect \"Chaos End Ruler - Ruler of the Beginning and the End\": other monsters cannot attack",
-]
-
 [palladium-knight-gaia]
 id = 900001107
 set = "palladium"

@@ -9,7 +9,7 @@ function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- xyz summon
-    Xyz.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0xcf), 8, 2)
+    Xyz.AddProcedure(c, s.xyzfilter, 8, 2)
 
     -- special summon limit
     local splimit = Effect.CreateEffect(c)
@@ -23,22 +23,21 @@ function s.initial_effect(c)
 
     -- activation and effects cannot be negated
     local e1 = Effect.CreateEffect(c)
-    e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-    e1:SetCode(EFFECT_CANNOT_DISABLE)
-    c:RegisterEffect(e1)
-    local e1b = Effect.CreateEffect(c)
-    e1b:SetType(EFFECT_TYPE_FIELD)
-    e1b:SetRange(LOCATION_MZONE)
-    e1b:SetCode(EFFECT_CANNOT_INACTIVATE)
-    e1b:SetTargetRange(1, 0)
-    e1b:SetValue(function(e, ct)
+    e1:SetType(EFFECT_TYPE_FIELD)
+    e1:SetRange(LOCATION_MZONE)
+    e1:SetCode(EFFECT_CANNOT_INACTIVATE)
+    e1:SetTargetRange(1, 0)
+    e1:SetValue(function(e, ct)
         local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
         return te:GetHandler() == e:GetHandler()
     end)
+    c:RegisterEffect(e1)
+    local e1b = e1:Clone()
+    e1b:SetCode(EFFECT_CANNOT_DISEFFECT)
     c:RegisterEffect(e1b)
-    local e1c = e1b:Clone()
-    e1c:SetCode(EFFECT_CANNOT_DISEFFECT)
+    local e1c = Effect.CreateEffect(c)
+    e1c:SetType(EFFECT_TYPE_SINGLE)
+    e1c:SetCode(EFFECT_CANNOT_DISABLE)
     c:RegisterEffect(e1c)
 
     -- immune
@@ -118,15 +117,14 @@ function s.initial_effect(c)
     c:RegisterEffect(e5, false, REGISTER_FLAG_DETACH_XMAT)
 end
 
+function s.xyzfilter(c, sc, sumtype, tp) return c:IsSetCard(0xcf, sc, sumtype, tp) and c:IsType(TYPE_RITUAL) end
+
 function s.con1(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetOverlayGroup():IsExists(function(c)
-        return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR)
-    end, 1, nil)
+    return e:GetHandler():GetOverlayGroup():IsExists(function(c) return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) end, 1, nil)
 end
 
 function s.con2(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():GetOverlayGroup():IsExists(
-        function(c) return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) end, 1, nil)
+    return e:GetHandler():GetOverlayGroup():IsExists(function(c) return c:IsAttribute(ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) end, 1, nil)
 end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
