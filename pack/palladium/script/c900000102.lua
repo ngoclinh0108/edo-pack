@@ -33,7 +33,7 @@ function s.initial_effect(c)
     e2:SetCode(EFFECT_UPDATE_ATTACK)
     e2:SetRange(LOCATION_MZONE)
     e2:SetTargetRange(LOCATION_MZONE, 0)
-    e2:SetTarget(function(e, c) return c:IsSetCard(0x13a) and c:IsRace(RACE_SPELLCASTER) end)
+    e2:SetTarget(function(e, c) return c:IsRace(RACE_SPELLCASTER) end)
     e2:SetValue(function(e, c) return Duel.GetFieldGroupCount(c:GetControler(), LOCATION_REMOVED, LOCATION_REMOVED) * 100 end)
     c:RegisterEffect(e2)
 
