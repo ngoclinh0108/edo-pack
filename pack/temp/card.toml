@@ -1,33 +1,3 @@
-[palladium-oracle-seto]
-id = 900001102
-set = "palladium"
-name = "Azure Palladium Oracle Seto"
-type = "monster tuner effect"
-attribute = "light"
-race = "spellcaster"
-level = 1
-atk = 0
-def = 0
-effect = """\
-You can reveal this card in your hand; \
-    add from your Deck or GY to your hand, \
-    1 LIGHT or DARK Dragon monsters with 3000 or more ATK and 2500 or less DEF. \
-    You cannot Normal Summon monsters the turn you activate this effect. \
-You can discard this card, then target 1 "Blue-Eyes" monster you control; \
-    Fusion Summon 1 Fusion Monster from your Extra Deck that lists that monster on the field as Fusion Material, \
-    using it as the Fusion Material. \
-You can Tribute this card; \
-    Special Summon up to 3 copies of "Blue-Eyes White Dragon" from your hand, Deck or GY. \
-    You cannot Special Summon other monsters the turn you activate this effect. \
-You can only use 1 "{CARD_NAME}" effect per turn, and only once that turn.
-"""
-strings = [
-    "Add a Dragon monster",
-    "Summon 3 \"Blue-Eyes White Dragon\"",
-    "Affected by effect \"{CARD_NAME}\": cannot Normal Summon monsters",
-    "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters",
-]
-
 [palladium-knight-gaia]
 id = 900001107
 set = "palladium"

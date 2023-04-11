@@ -6,7 +6,7 @@ s.listed_names = {CARD_BLUEEYES_W_DRAGON}
 s.listed_series = {0xdd}
 
 function s.initial_effect(c)
-    -- add dragon
+    -- search dragon
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_TOHAND + CATEGORY_SEARCH + CATEGORY_TODECK)
@@ -33,7 +33,7 @@ function s.initial_effect(c)
 
     -- special summon
     local e3 = Effect.CreateEffect(c)
-    e3:SetDescription(aux.Stringid(id, 1))
+    e3:SetDescription(aux.Stringid(id, 2))
     e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e3:SetType(EFFECT_TYPE_IGNITION)
     e3:SetRange(LOCATION_MZONE)
@@ -44,10 +44,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e3)
 end
 
-function s.e1filter(c)
-    return c:IsAttribute(ATTRIBUTE_LIGHT + ATTRIBUTE_DARK) and c:IsRace(RACE_DRAGON) and c:IsAttackAbove(3000) and
-               c:IsDefenseBelow(2500) and c:IsAbleToHand()
-end
+function s.e1filter(c) return c:IsRace(RACE_DRAGON) and c:IsAttackAbove(3000) and c:IsDefenseBelow(2500) and c:IsAbleToHand() end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
@@ -56,7 +53,7 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.ConfirmCards(1 - tp, c)
 
     local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 2))
+    ec1:SetDescription(aux.Stringid(id, 1))
     ec1:SetType(EFFECT_TYPE_FIELD)
     ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_SUMMON)
@@ -72,8 +69,7 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e1filter), tp,
-        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e1filter), tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)
@@ -88,8 +84,7 @@ end
 function s.e2filter2(c, e, tp, mc)
     if Duel.GetLocationCountFromEx(tp, tp, mc, c) <= 0 then return false end
     local mustg = aux.GetMustBeMaterialGroup(tp, nil, tp, c, nil, REASON_FUSION)
-    return c:IsType(TYPE_FUSION) and c:ListsCodeAsMaterial(mc:GetCode()) and
-               c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, false, false) and
+    return c:IsType(TYPE_FUSION) and c:ListsCodeAsMaterial(mc:GetCode()) and c:IsCanBeSpecialSummoned(e, SUMMON_TYPE_FUSION, tp, false, false) and
                (#mustg == 0 or (#mustg == 1 and mustg:IsContains(mc)))
 end
 
@@ -112,8 +107,7 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local tc = Duel.GetFirstTarget()
     if tc:IsFacedown() or not tc:IsRelateToEffect(e) or not tc:IsCanBeFusionMaterial() or tc:IsImmuneToEffect(e) then return end
 
-    local sc =
-        Utility.SelectMatchingCard(HINTMSG_FMATERIAL, tp, s.e2filter2, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp, tc):GetFirst()
+    local sc = Utility.SelectMatchingCard(HINTMSG_FMATERIAL, tp, s.e2filter2, tp, LOCATION_EXTRA, 0, 1, 1, nil, e, tp, tc):GetFirst()
     if sc then
         sc:SetMaterial(Group.FromCards(tc))
         Duel.SendtoGrave(tc, REASON_EFFECT + REASON_MATERIAL + REASON_FUSION)
@@ -146,10 +140,7 @@ end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local loc = LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE
-    if chk == 0 then
-        return Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil, e, tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) >
-                   -1
-    end
+    if chk == 0 then return Duel.IsExistingMatchingCard(s.e3filter, tp, loc, 0, 1, nil, e, tp) and Duel.GetLocationCount(tp, LOCATION_MZONE) > -1 end
 
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, nil, 1, tp, loc)
 end
@@ -160,7 +151,7 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     if Duel.IsPlayerAffectedByEffect(tp, CARD_BLUEEYES_SPIRIT) then ft = 1 end
     if ft <= 0 then return end
 
-    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e3filter), tp,
-        LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE, 0, 1, ft, nil, e, tp)
+    local g = Utility.SelectMatchingCard(HINTMSG_SPSUMMON, tp, aux.NecroValleyFilter(s.e3filter), tp, LOCATION_HAND + LOCATION_DECK + LOCATION_GRAVE,
+        0, 1, ft, nil, e, tp)
     if #g > 0 then Duel.SpecialSummon(g, 0, tp, tp, false, false, POS_FACEUP) end
 end
