@@ -32,11 +32,9 @@ atk = 2000
 def = 1700
 effect = """\
 (This card's name is always treated as "Palladium Oracle Mana".)
+If your opponent activates a card or effect that targets 1 Spellcaster monster you control, \
+    while this card is in your hand or GY (Quick Effect): You can Special Summon this card. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+"Palladium" Spellcaster monsters you control cannot be destroyed by card effects. \
 """
 strings = []
-
-# If you control "Palladium Oracle Mahad", you can Special Summon this card (from your hand). \
-# "Palladium" Spellcaster monsters you control cannot be destroyed by card effects. \
-# When your opponent targets a monster(s) you control with a card effect, \
-#     while this card is in your hand or GY: You can Special Summon this card. \
-#     You can only use this effects of "{CARD_NAME}" once per turn. \
