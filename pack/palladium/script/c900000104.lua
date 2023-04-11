@@ -24,6 +24,7 @@ function s.initial_effect(c)
     splimit:SetType(EFFECT_TYPE_SINGLE)
     splimit:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     splimit:SetCode(EFFECT_SPSUMMON_CONDITION)
+    splimit:SetValue(aux.ritlimit)
     c:RegisterEffect(splimit)
 
     -- send grave & inflict damage
@@ -37,7 +38,6 @@ function s.initial_effect(c)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, aux.FALSE)
 end
 
 function s.spfilter(c, attr) return c:IsAttribute(attr) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c, true) end
@@ -76,19 +76,8 @@ function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    if chk == 0 then return Duel.CheckLPCost(tp, 1000) and Duel.GetCustomActivityCount(id, tp, ACTIVITY_CHAIN) == 0 end
+    if chk == 0 then return Duel.CheckLPCost(tp, 1000) end
     Duel.PayLPCost(tp, 1000)
-
-    local ec1 = Effect.CreateEffect(c)
-    ec1:SetDescription(aux.Stringid(id, 1))
-    ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
-    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
-    ec1:SetTargetRange(1, 0)
-    ec1:SetValue(aux.TRUE)
-    ec1:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec1, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -112,4 +101,29 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         Duel.BreakEffect()
         Duel.Damage(1 - tp, ct * 300, REASON_EFFECT)
     end
+
+    local ec0 = Effect.CreateEffect(c)
+    ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT)
+    ec0:SetDescription(aux.Stringid(id, 1))
+    ec0:SetTargetRange(1, 0)
+    ec0:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec0, tp)
+
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+    ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
+    ec1:SetTargetRange(1, 0)
+    ec1:SetValue(aux.TRUE)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+
+    local ec2 = Effect.CreateEffect(c)
+    ec2:SetType(EFFECT_TYPE_FIELD)
+    ec2:SetCode(EFFECT_CANNOT_ATTACK)
+    ec2:SetTargetRange(LOCATION_MZONE, 0)
+    ec2:SetLabel(c:GetFieldID())
+    ec2:SetTarget(function(e, c) return e:GetLabel() ~= c:GetFieldID() end)
+    ec2:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec2, tp)
 end

@@ -114,10 +114,11 @@ You can only Special Summon "{CARD_NAME}(s)" once per turn. \
 Your opponent cannot activate cards or effects in response to this Ritual Summoned card's effect activations. \
 Once per turn, you can pay 1000 LP; \
     send all other cards from the field to the GY, \
-    then inflict 300 damage to your opponent for each card sent to the GY by this effect. \
-    You cannot activate other cards or effects during the turn you activate this card's effect. \
+    then inflict 300 damage to your opponent for each card sent to the GY by this effect, \
+    also for the rest of this turn, you cannot activate other cards or effects, \
+    and other monsters you control cannot attack. \
 """
 strings = [
     "Send card to the GY & inflict damage",
-    "Affected by effect \"{CARD_NAME}\": cannot activate other cards or effects during the turn you activate this card's effect",
+    "Affected by effect \"{CARD_NAME}\": cannot activate other cards or effects, and other monsters you control cannot attack",
 ]
