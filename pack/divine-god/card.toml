@@ -239,7 +239,7 @@ atk = "?"
 def = "?"
 effect = """\
 {WICKED_GOD_HIERARCHY_2|The Wicked Avatar} \
-After this card is Normal Summoned, your opponent cannot activate Spell/Trap Cards \
+After this card was Normal Summoned, your opponent cannot activate Spell/Trap Cards \
     until the end of their 2nd turn after this effect's activation. \
 This card's ATK/DEF are equal to the highest ATK on the field +100, except "The Wicked Avatar". \
 Monster's destruction by battle with this card cannot be negated, \
