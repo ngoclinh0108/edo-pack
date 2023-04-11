@@ -7,6 +7,17 @@ s.listed_series = {0x13a}
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
+    -- special summon
+    local sp = Effect.CreateEffect(c)
+    sp:SetType(EFFECT_TYPE_FIELD)
+    sp:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+    sp:SetCode(EFFECT_SPSUMMON_PROC)
+    sp:SetRange(LOCATION_HAND)
+    sp:SetCondition(s.spcon)
+    sp:SetTarget(s.sptg)
+    sp:SetOperation(s.spop)
+    c:RegisterEffect(sp)
+
     -- summon success
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
@@ -46,6 +57,31 @@ function s.initial_effect(c)
     e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
+end
+
+function s.spfilter(c) return c:IsLevelAbove(7) and c:IsSetCard(0x13a) and c:IsRace(RACE_SPELLCASTER) end
+
+function s.spcon(e, c)
+    if c == nil then return true end
+    local tp = c:GetControler()
+    return Duel.CheckReleaseGroup(tp, s.spfilter, 1, false, 1, true, c, tp, nil, false, nil)
+end
+
+function s.sptg(e, tp, eg, ep, ev, re, r, rp, c)
+    local g = Duel.SelectReleaseGroup(tp, s.spfilter, 1, 1, false, true, true, c, nil, nil, false, nil)
+    if g then
+        g:KeepAlive()
+        e:SetLabelObject(g)
+        return true
+    end
+    return false
+end
+
+function s.spop(e, tp, eg, ep, ev, re, r, rp, c)
+    local g = e:GetLabelObject()
+    if not g then return end
+    Duel.Release(g, REASON_COST)
+    g:DeleteGroup()
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
