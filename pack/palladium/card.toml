@@ -35,7 +35,7 @@ effect = """\
 When a card or effect is activated that targets a Spellcaster monster(s) you control, \
     while this card is in your hand or GY (Quick Effect): You can Special Summon this card. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-"Palladium" Spellcaster monsters you control cannot be destroyed by card effects. \
+"Palladium" Spellcaster monsters and Level 7 or higher Spellcaster monsters you control cannot be destroyed by card effects. \
 During damage calculation, if your other "Palladium" Spellcaster monster battles an opponent's monster (Quick Effect): \
     You can send this card from your hand or face-up field to the GY; \
     that monster you control gains ATK equal to this card's original ATK during that damage calculation only. \
