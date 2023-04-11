@@ -169,7 +169,6 @@ atk = 1500
 def = 1600
 effect = """\
 (This card's name is always treated as "Queen's Knight" and it is "Palladium" card.)
-This card is treated as a Normal Monster while in the hand or GY. \
 You can Special Summon this card (from your hand) by revealing 1 other LIGHT Warrior monster in your hand. \
     You can only Special Summon "{CARD_NAME}" once per turn this way. \
 If this card is Normal or Special Summoned: \
@@ -193,7 +192,6 @@ atk = 1600
 def = 1400
 effect = """\
 (This card's name is always treated as "King's Knight" and it is "Palladium" card.)
-This card is treated as a Normal Monster while in the hand or GY. \
 If this card is added to your hand, except by drawing it: \
     You can Special Summon this card from your hand. \
 If this card is Normal or Special Summoned while you control another Level 4 LIGHT Warrior monster: \
@@ -217,7 +215,6 @@ atk = 1900
 def = 1000
 effect = """\
 (This card's name is always treated as "Jack's Knight" and it is "Palladium" card.)
-This card is treated as a Normal Monster while in the hand or GY. \
 If this card is Special Summoned: \
     You can target face-up cards your opponent control, \
     up to the number of LIGHT Warrior monsters you control with different names; destroy them. \
