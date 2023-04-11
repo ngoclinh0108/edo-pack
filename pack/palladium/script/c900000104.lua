@@ -32,12 +32,12 @@ function s.initial_effect(c)
     e1:SetCategory(CATEGORY_TOGRAVE + CATEGORY_DAMAGE)
     e1:SetType(EFFECT_TYPE_IGNITION)
     e1:SetRange(LOCATION_MZONE)
-    e1:SetCountLimit(1, id)
+    e1:SetCountLimit(1)
     e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, function(re) return re:GetHandler():IsCode(id) end)
+    Duel.AddCustomActivityCounter(id, ACTIVITY_CHAIN, aux.FALSE)
 end
 
 function s.spfilter(c, attr) return c:IsAttribute(attr) and c:IsAbleToRemoveAsCost() and aux.SpElimFilter(c, true) end
@@ -53,8 +53,7 @@ function s.spcon(e, c)
     local g2 = Duel.GetMatchingGroup(s.spfilter, tp, LOCATION_MZONE + LOCATION_GRAVE, 0, c, ATTRIBUTE_DARK)
 
     local g = g1:Clone():Merge(g2)
-    return #g1 > 0 and #g2 > 0 and aux.SelectUnselectGroup(g, e, tp, 2, 2, s.sprescon, 0) and
-               Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
+    return #g1 > 0 and #g2 > 0 and aux.SelectUnselectGroup(g, e, tp, 2, 2, s.sprescon, 0) and Duel.GetLocationCount(tp, LOCATION_MZONE) > -2
 end
 
 function s.sptg(e, tp, eg, ep, ev, re, r, rp, c)
@@ -81,30 +80,15 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return Duel.CheckLPCost(tp, 1000) and Duel.GetCustomActivityCount(id, tp, ACTIVITY_CHAIN) == 0 end
     Duel.PayLPCost(tp, 1000)
 
-    local ec0 = Effect.CreateEffect(c)
-    ec0:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_CLIENT_HINT + EFFECT_FLAG_OATH)
-    ec0:SetDescription(aux.Stringid(id, 1))
-    ec0:SetTargetRange(1, 0)
-    ec0:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec0, tp)
-
     local ec1 = Effect.CreateEffect(c)
+    ec1:SetDescription(aux.Stringid(id, 1))
     ec1:SetType(EFFECT_TYPE_FIELD)
-    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH)
+    ec1:SetProperty(EFFECT_FLAG_PLAYER_TARGET + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_ACTIVATE)
     ec1:SetTargetRange(1, 0)
-    ec1:SetValue(function(e, re) return not re:GetHandler():IsCode(id) end)
+    ec1:SetValue(aux.TRUE)
     ec1:SetReset(RESET_PHASE + PHASE_END)
     Duel.RegisterEffect(ec1, tp)
-
-    local ec2 = Effect.CreateEffect(c)
-    ec2:SetType(EFFECT_TYPE_FIELD)
-    ec2:SetProperty(EFFECT_FLAG_OATH)
-    ec2:SetCode(EFFECT_CANNOT_ATTACK)
-    ec2:SetTargetRange(LOCATION_MZONE, 0)
-    ec2:SetTarget(function(e, c) return not c:IsCode(id) end)
-    ec2:SetReset(RESET_PHASE + PHASE_END)
-    Duel.RegisterEffect(ec2, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -114,6 +98,8 @@ function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
 
     Duel.SetOperationInfo(0, CATEGORY_TOGRAVE, g, #g, 0, 0)
     Duel.SetOperationInfo(0, CATEGORY_DAMAGE, 0, 0, 1 - tp, #g * 300)
+
+    if c:IsSummonType(SUMMON_TYPE_RITUAL) then Duel.SetChainLimit(function(e, ep, tp) return tp == ep end) end
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)

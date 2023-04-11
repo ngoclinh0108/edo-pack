@@ -111,14 +111,13 @@ You can Ritual Summon this card with a "Palladium" card. \
 Must be either Ritual Summoned, \
     or Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. \
 You can only Special Summon "{CARD_NAME}(s)" once per turn. \
-You can pay 1000 LP; \
+Your opponent cannot activate cards or effects in response to this Ritual Summoned card's effect activations. \
+Once per turn, you can pay 1000 LP; \
     send all other cards from the field to the GY, \
     then inflict 300 damage to your opponent for each card sent to the GY by this effect. \
-    You cannot activate cards or effects and monsters you control cannot attack the turn you activate this effect, \
-    except "{CARD_NAME}". \
-    You can only use this effect of "{CARD_NAME}" once per turn. \
+    You cannot activate other cards or effects during the turn you activate this card's effect. \
 """
 strings = [
     "Send card to the GY & inflict damage",
-    "Affected by effect \"{CARD_NAME}\": cannot activate cards or effects and monsters cannot attack, except \"Chaos Emperor Dragon - Envoy of the Palladium\"",
+    "Affected by effect \"{CARD_NAME}\": cannot activate other cards or effects during the turn you activate this card's effect",
 ]
