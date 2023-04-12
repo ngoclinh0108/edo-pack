@@ -1,5 +1,4 @@
 -- The Wicked Deity Avatar
-Duel.LoadScript("c419.lua")
 Duel.LoadScript("util.lua")
 Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
@@ -29,20 +28,6 @@ function s.initial_effect(c)
     e2check:SetType(EFFECT_TYPE_SINGLE)
     e2check:SetCode(21208154)
     c:RegisterEffect(e2check)
-
-    -- battle destruction
-    local e3 = Effect.CreateEffect(c)
-    e3:SetType(EFFECT_TYPE_FIELD)
-    e3:SetCode(511010508)
-    e3:SetRange(LOCATION_MZONE)
-    e3:SetTargetRange(0, LOCATION_MZONE)
-    e3:SetTarget(function(e, tc)
-        local c = e:GetHandler()
-        local bc = e:GetHandler():GetBattleTarget()
-        return bc and bc == tc and Divine.GetDivineHierarchy(tc) <= Divine.GetDivineHierarchy(c)
-    end)
-    e3:SetValue(1)
-    c:RegisterEffect(e3)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)
