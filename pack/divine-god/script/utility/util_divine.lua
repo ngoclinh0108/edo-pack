@@ -115,6 +115,18 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     noleave_release:SetCode(EFFECT_UNRELEASABLE_EFFECT)
     c:RegisterEffect(noleave_release)
 
+    -- effects applied for 1 turn
+    local reset = Effect.CreateEffect(c)
+    reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    reset:SetRange(LOCATION_MZONE)
+    reset:SetCode(EVENT_ADJUST)
+    reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return Duel.GetCurrentPhase() == PHASE_END and Utility.GetListEffect(e:GetHandler(), ResetEffectFilter)
+    end)
+    reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp) Utility.ResetListEffect(e:GetHandler(), ResetEffectFilter) end)
+    c:RegisterEffect(reset)
+
     -- redirect attack & effect target
     local redirect = Effect.CreateEffect(c)
     redirect:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
@@ -167,18 +179,6 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     local redirect3 = redirect:Clone()
     redirect3:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
     c:RegisterEffect(redirect3)
-
-    -- effects applied for 1 turn
-    local reset = Effect.CreateEffect(c)
-    reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
-    reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    reset:SetRange(LOCATION_MZONE)
-    reset:SetCode(EVENT_ADJUST)
-    reset:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-        return Duel.GetCurrentPhase() == PHASE_END and Utility.GetListEffect(e:GetHandler(), ResetEffectFilter)
-    end)
-    reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp) Utility.ResetListEffect(e:GetHandler(), ResetEffectFilter) end)
-    c:RegisterEffect(reset)
 
     -- return to where it was special summon
     local spreturn = Effect.CreateEffect(c)
