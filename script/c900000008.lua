@@ -16,7 +16,7 @@ function s.initial_effect(c)
     -- atk/def value
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_DELAY + EFFECT_FLAG_REPEAT + EFFECT_FLAG_CANNOT_DISABLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_DELAY + EFFECT_FLAG_REPEAT)
     e2:SetCode(EFFECT_SET_ATTACK_FINAL)
     e2:SetRange(LOCATION_MZONE)
     e2:SetValue(s.e2val)
@@ -28,6 +28,14 @@ function s.initial_effect(c)
     e2check:SetType(EFFECT_TYPE_SINGLE)
     e2check:SetCode(21208154)
     c:RegisterEffect(e2check)
+
+    -- unstoppable attack
+    local e3 = Effect.CreateEffect(c)
+    e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e3:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
+    e3:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(e3)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp)

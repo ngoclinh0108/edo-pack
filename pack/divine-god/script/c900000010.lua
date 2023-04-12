@@ -79,11 +79,6 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         local ec2b = ec2:Clone()
         ec2b:SetCode(EFFECT_CANNOT_DISEFFECT)
         tc:RegisterEffect(ec2b)
-        local ec2c = Effect.CreateEffect(c)
-        ec2c:SetType(EFFECT_TYPE_SINGLE)
-        ec2c:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-        ec2c:SetCode(EFFECT_CANNOT_DISABLE)
-        tc:RegisterEffect(ec2c)
 
         -- unstoppable attack
         local ec3 = Effect.CreateEffect(c)
