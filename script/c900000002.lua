@@ -18,7 +18,7 @@ function s.initial_effect(c)
     e1b:SetCode(EFFECT_SET_BASE_DEFENSE)
     c:RegisterEffect(e1b)
 
-    -- atk/def down
+    -- down atk/def & destroy
     local e2 = Effect.CreateEffect(c)
     e2:SetDescription(aux.Stringid(id, 0))
     e2:SetCategory(CATEGORY_ATKCHANGE + CATEGORY_DEFCHANGE)

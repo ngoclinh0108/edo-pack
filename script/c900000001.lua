@@ -8,13 +8,13 @@ function s.initial_effect(c)
 
     -- damage & destroy
     local e1 = Effect.CreateEffect(c)
-    e1:SetDescription(aux.Stringid(id, 1))
+    e1:SetDescription(aux.Stringid(id, 0))
     e1:SetCategory(CATEGORY_DESTROY + CATEGORY_DAMAGE)
     e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetCode(EVENT_FREE_CHAIN)
     e1:SetRange(LOCATION_MZONE)
     e1:SetHintTiming(0, TIMINGS_CHECK_MONSTER)
-    e1:SetCountLimit(1)
+    e1:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
     e1:SetCondition(s.e1con)
     e1:SetCost(s.e1cost)
     e1:SetTarget(s.e1tg)
@@ -23,13 +23,13 @@ function s.initial_effect(c)
 
     -- soul energy MAX
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 2))
+    e2:SetDescription(aux.Stringid(id, 1))
     e2:SetType(EFFECT_TYPE_QUICK_O)
     e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
     e2:SetCode(EVENT_FREE_CHAIN)
     e2:SetRange(LOCATION_MZONE)
     e2:SetHintTiming(0, TIMING_DAMAGE_STEP)
-    e2:SetCountLimit(1)
+    e2:SetCountLimit(1, 0, EFFECT_COUNT_CODE_SINGLE)
     e2:SetCondition(s.e2con)
     e2:SetCost(s.e2cost)
     e2:SetOperation(s.e2op)
@@ -43,6 +43,9 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:GetAttackAnnouncedCount() == 0 and Duel.CheckReleaseGroupCost(tp, nil, 2, false, nil, c) end
 
+    local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, c)
+    Duel.Release(g, REASON_COST)
+
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(3206)
     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -50,9 +53,6 @@ function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
     ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
-
-    local g = Duel.SelectReleaseGroupCost(tp, nil, 2, 2, false, nil, c)
-    Duel.Release(g, REASON_COST)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -96,7 +96,7 @@ end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 0))
+    c:RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, EFFECT_FLAG_CLIENT_HINT, 1, 0, aux.Stringid(id, 2))
 
     local ec1 = Effect.CreateEffect(c)
     ec1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
