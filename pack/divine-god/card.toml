@@ -31,7 +31,7 @@ Once per turn, while this card is able to attack (Quick Effect): \
     Cannot be activated as Chain Link 2 or higher. \
     This card cannot declare an attack the turn this effect is activated.
 ● During damage calculation, if this card battles an opponent's monster, \
-    while a monster with Divine Hierarchy 2 or more on the field: \
+    while there are any monster with Divine Hierarchy 2 or more on the field: \
     This card's ATK become ∞ during that damage calculation only. \
 """
 strings = [
