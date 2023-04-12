@@ -13,10 +13,11 @@ Other card effects are only applied on it for 1 turn, \
     except effects of cards that mentions it. \
 If this card is Summoned in face-up Defense Position during your opponent's turn, \
     for the rest of this turn, your opponent cannot target monsters for attacks or with card effect, except this one, \
-    also if there are any attack of your opponent monster, or cards and effects activated in current Chain that targets a monster(s) you control, \
-    change the target to this card.
+    also if there are any attack of your opponent's monster, \
+    or your opponent's card effects activated in current Chain that targets a monster(s) you control, \
+    change the target to this card. \
 During the End Phase, if this card was Special Summoned from the GY or Banished Zone, \
-    send it to the previous location.\
+    send it to the location it was.\
 """
 
 EGYPTIAN_GOD_HIERARCHY_1 = """\
@@ -29,7 +30,7 @@ The above effects cannot be negated.\
 EGYPTIAN_GOD_HIERARCHY_2 = """\
 (This card's base Divine Hierarchy is 2, and is always treated as "{0}".)
 {EGYPTIAN_GOD_EFFECT} \
-This card is also {1}-Type while. \
+This face-up card is also {1}-Type. \
 This card's effects cannot be negated.\
 """
 
