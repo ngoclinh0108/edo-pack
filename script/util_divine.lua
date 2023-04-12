@@ -34,7 +34,6 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     splimit:SetValue(function(e, se, sp, st) return sp == e:GetOwnerPlayer() end)
     c:RegisterEffect(splimit)
 
-
     -- 3 tribute
     aux.AddNormalSummonProcedure(c, true, false, 3, 3)
     aux.AddNormalSetProcedure(c)
@@ -90,8 +89,7 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     indes:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     indes:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     indes:SetValue(function(e, tc)
-        return tc and Divine.GetDivineHierarchy(tc) > 0 and Divine.GetDivineHierarchy(tc) <
-                   Divine.GetDivineHierarchy(e:GetHandler())
+        return tc and Divine.GetDivineHierarchy(tc) > 0 and Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(e:GetHandler())
     end)
     c:RegisterEffect(indes)
     local nodmg = indes:Clone()
@@ -108,9 +106,8 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
         if not re then return false end
 
         local rc = re:GetHandler()
-        return
-            rc ~= e:GetHandler() and re:IsHasCategory(CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE + CATEGORY_REMOVE) and
-                (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c))
+        return rc ~= e:GetHandler() and re:IsHasCategory(CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE + CATEGORY_REMOVE) and
+                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c))
     end)
     c:RegisterEffect(noleave)
     local noleave_destroy = noleave:Clone()
@@ -147,8 +144,7 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     spreturn:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
         if not c:IsSummonType(SUMMON_TYPE_SPECIAL) then return false end
-        return (c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()) or
-                   (c:IsPreviousLocation(LOCATION_REMOVED) and c:IsAbleToRemove())
+        return (c:IsPreviousLocation(LOCATION_GRAVE) and c:IsAbleToGrave()) or (c:IsPreviousLocation(LOCATION_REMOVED) and c:IsAbleToRemove())
     end)
     spreturn:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
         local c = e:GetHandler()
@@ -198,15 +194,20 @@ function Divine.WickedGod(s, c, divine_hierarchy)
     sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
     c:RegisterEffect(sumsafe)
 
-    -- no change control and battle position
+    -- no switch control
     local noswitch = Effect.CreateEffect(c)
     noswitch:SetType(EFFECT_TYPE_SINGLE)
     noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
     noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
     noswitch:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noswitch)
-    local nopos = noswitch:Clone()
+
+    -- no change battle position with effect
+    local nopos = Effect.CreateEffect(c)
+    nopos:SetType(EFFECT_TYPE_SINGLE)
+    nopos:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
     nopos:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    nopos:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nopos)
 
     -- cannot be tributed, or be used as a material
@@ -231,15 +232,14 @@ function Divine.WickedGod(s, c, divine_hierarchy)
     indes:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     indes:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
     indes:SetValue(function(e, tc)
-        return tc and Divine.GetDivineHierarchy(tc) > 0 and Divine.GetDivineHierarchy(tc) <
-                   Divine.GetDivineHierarchy(e:GetHandler())
+        return tc and Divine.GetDivineHierarchy(tc) > 0 and Divine.GetDivineHierarchy(tc) < Divine.GetDivineHierarchy(e:GetHandler())
     end)
     c:RegisterEffect(indes)
     local nodmg = indes:Clone()
     nodmg:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
     c:RegisterEffect(nodmg)
 
-    -- no leave
+    -- no leave with effect
     local noleave = Effect.CreateEffect(c)
     noleave:SetType(EFFECT_TYPE_SINGLE)
     noleave:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
@@ -249,9 +249,8 @@ function Divine.WickedGod(s, c, divine_hierarchy)
         if not re then return false end
 
         local rc = re:GetHandler()
-        return
-            rc ~= e:GetHandler() and re:IsHasCategory(CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE + CATEGORY_REMOVE) and
-                (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c))
+        return rc ~= e:GetHandler() and re:IsHasCategory(CATEGORY_TOHAND + CATEGORY_TODECK + CATEGORY_TOGRAVE + CATEGORY_REMOVE) and
+                   (not rc:IsMonster() or Divine.GetDivineHierarchy(rc) <= Divine.GetDivineHierarchy(c))
     end)
     c:RegisterEffect(noleave)
     local noleave_destroy = noleave:Clone()
@@ -265,7 +264,7 @@ function Divine.WickedGod(s, c, divine_hierarchy)
     noleave_release:SetCode(EFFECT_UNRELEASABLE_EFFECT)
     c:RegisterEffect(noleave_release)
 
-    -- reset effect
+    -- effects applied for 1 turn
     local reset = Effect.CreateEffect(c)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
@@ -277,7 +276,8 @@ function Divine.WickedGod(s, c, divine_hierarchy)
     reset:SetOperation(function(e, tp, eg, ep, ev, re, r, rp) Utility.ResetListEffect(e:GetHandler(), ResetEffectFilter) end)
     c:RegisterEffect(reset)
 
-    if divine_hierarchy >= 2 then
+    if (divine_hierarchy >= 2) then
+        -- effect cannot be negate
         local nodis1 = Effect.CreateEffect(c)
         nodis1:SetType(EFFECT_TYPE_SINGLE)
         nodis1:SetCode(EFFECT_CANNOT_DISABLE)
@@ -298,6 +298,5 @@ function ResetEffectFilter(te, c)
     local tc = te:GetOwner()
     if tc == c or tc:ListsCode(c:GetCode()) then return false end
     return not te:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and te:GetCode() ~= EFFECT_SPSUMMON_PROC and
-               (te:GetTarget() == aux.PersistentTargetFilter or not te:IsHasType(EFFECT_TYPE_GRANT)) and
-               not te:IsHasProperty(EFFECT_FLAG_FIELD_ONLY)
+               (te:GetTarget() == aux.PersistentTargetFilter or not te:IsHasType(EFFECT_TYPE_GRANT)) and not te:IsHasProperty(EFFECT_FLAG_FIELD_ONLY)
 end
