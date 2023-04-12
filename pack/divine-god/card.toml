@@ -25,7 +25,7 @@ effect = """\
 {EGYPTIAN_GOD_HIERARCHY_1|Obelisk the Tormentor|Warrior} \
 Once per turn, while this card is able to attack (Quick Effect): \
     You can Tribute 2 other monsters, activate 1 of these effects. \
-    The activation and effect of this effect cannot be negated.
+    This effect's activation and effect cannot be negated.
 ● Destroy all monsters your opponent controls, \
     and also inflict damage to your opponent equal to this card's ATK. \
     Cannot be activated as Chain Link 2 or higher. \
@@ -122,12 +122,12 @@ Unaffected by other card effects, except effects of monsters with the equal or h
 Cannot attack. \
 Neither player can target it for attacks or with card effects, \
     but does not prevent your opponent from attacking you directly. \
-Once per turn, except the turn this card was Dimension Changed (Quick Effect): \
+Once per turn, except the turn it was Dimension Changed (Quick Effect): \
     The turn player can reveal 1 "Ancient Chant" from everywhere; \
     Dimension Change this card to the material monster with the same Divine Hierarchy in any face-up position, \
     and if they do, that monster's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Summon had on the field. \
     If it is not Tribute Summoned, its original ATK/DEF become 4000. \
-    This effect and its activation cannot be negated. \
+    This effect's activation and effect cannot be negated. \
     This card's owner no need to reveal "Ancient Chant" to activate and resolve this effect. \
 """
 strings = ["Change to Battle Mode"]
