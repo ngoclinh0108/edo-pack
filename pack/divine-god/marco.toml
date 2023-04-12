@@ -12,7 +12,11 @@ Unaffected by other card effects that would make it leave the field, \
 Other card effects are only applied on it for 1 turn, \
     except effects of cards that mentions it. \
 During the End Phase, if this card was Special Summoned from the GY or Banished Zone, \
-    send it to the previous location.\
+    send it to the previous location. \
+If this card is Summoned in face-up Defense Position during your opponent's turn, \
+    for the rest of this turn, your opponent cannot target monsters for attacks or with card effect, except this one, \
+    also if there are any attack of your opponent monster, or cards and effects activated in current Chain that targets a monster(s) you control, \
+    change the target to this card.\
 """
 
 EGYPTIAN_GOD_HIERARCHY_1 = """\

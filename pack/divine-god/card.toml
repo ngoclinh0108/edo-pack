@@ -33,10 +33,6 @@ Once per turn, while a monster with Divine Hierarchy 2 or more on the field (Qui
     You can Tribute 2 other monsters; \
     once during this turn, if this card battles an opponent's monster, \
     it gains ∞ ATK during the damage calculation only. \
-If this card is Summoned in face-up Defense position during your opponent's turn, \
-    for the rest of this turn, your opponent cannot target monsters for attacks or with card effect, except this one, \
-    also, change the attack target and target of your opponent's cards and effects activated in current Chain to this card, \
-    that targets a monster(s) you control (if any). \
 """
 strings = [
     "Soul Energy MAX",
@@ -64,10 +60,6 @@ If a monster(s) is Normal or Special Summoned to your opponent's field, \
     or a monster(s) is take control by your opponent, while this card is able to attack: \
     Choose that monster(s) as a Target; it loses 2000 ATK or DEF depending on its battle position, \
     then if its ATK or DEF has been reduced to 0 as a result, destroy it. \
-If this card is Summoned in face-up Defense position during your opponent's turn, \
-    for the rest of this turn, your opponent cannot target monsters for attacks or with card effect, except this one, \
-    also, change the attack target and target of your opponent's cards and effects activated in current Chain to this card, \
-    that targets a monster(s) you control (if any). \
 """
 strings = ["Reduce the monster(s)' ATK or DEF"]
 
@@ -126,17 +118,17 @@ If your "The Winged Dragon of Ra" is Normal Summoned to your field, \
     its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Summon had on the field, \
     or your opponent's field, Dimension Change it to this card with the same Divine Hierarchy. \
 Cannot be Tributed, or used as material for an Summon. \
-Unaffected by other cards' effects, except for cards with the equal or higher Divine Hierarchy. \
+Unaffected by other card effects, except effects of monsters with the equal or higher Divine Hierarchy. \
     This effect cannot be negated. \
 Cannot attack. \
-Neither player can target it for attacks or by card effects, \
+Neither player can target it for attacks or with card effects, \
     but does not prevent your opponent from attacking you directly. \
-Once per turn, except the turn it is Dimension Changed (Quick Effect): \
+Once per turn, except the turn this card was Dimension Changed (Quick Effect): \
     The turn player can reveal 1 "Ancient Chant" from everywhere; \
     Dimension Change this card to the material monster with the same Divine Hierarchy in any face-up position, \
-    and if they do, its original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Summon had on the field. \
-    If this card is not Tribute Summoned, its original ATK/DEF become 4000. \
-    The activation of this effect cannot be negated. \
+    and if they do, that monster's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Summon had on the field. \
+    If it is not Tribute Summoned, its original ATK/DEF become 4000. \
+    This effect and its activation cannot be negated. \
     This card's owner no need to reveal "Ancient Chant" to activate and resolve this effect. \
 """
 strings = ["Change to Battle Mode"]
@@ -155,20 +147,20 @@ atk = "?"
 def = "?"
 effect = """\
 (This card's name is always treated as "The Winged Dragon of Ra - Immortal Phoenix".)
-If "The Winged Dragon of Ra" is Special Summoned from the GY to your field, \
+If "The Winged Dragon of Ra" is Special Summoned from the GY to your field in face-up Attack Position, \
     you can Dimension Change it to this card with the same Divine Hierarchy. \
 If "The Winged Dragon of Ra" you control would be destroyed by its own effect, \
     Dimension Change it to this card with the same Divine Hierarchy instead, \
     and this card's original ATK/DEF become the same as that monster's ATK/DEF had on the field. \
 Cannot be Tributed, or used as material for an Summon. \
-Unaffected by other cards' effects, cannot be destroyed by battle, also you take no battle damage from that battle, \
-    except for monsters with the higher Divine Hierarchy. \
+Unaffected by other card effects, cannot be destroyed by battle, also you take no battle damage from that battle, \
+    except with monster with the higher Divine Hierarchy. \
     This effect cannot be negated. \
 Cannot attack, except by its own effect. \
 Once per Chain, while this card is in Attack Position, except the End Phase (Quick Effect): \
     You can pay 1000 LP, then choose 1 monster your opponent control as Target; \
-    this card attacks that target, and perform damage calculation, \
-    after that, send the targeted monster to the GY. \
+    this card attacks it, and perform damage calculation, \
+    after that, send that monster to the GY. \
     If this card is Dimension Changed in second way, you do not pay LP to activate this effect for the first time. \
 During the End Phase, \
     Dimension Change this card to 1 "The Winged Dragon of Ra - Sphere Mode" \

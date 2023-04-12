@@ -115,6 +115,59 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     noleave_release:SetCode(EFFECT_UNRELEASABLE_EFFECT)
     c:RegisterEffect(noleave_release)
 
+    -- redirect attack & effect target
+    local redirect = Effect.CreateEffect(c)
+    redirect:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    redirect:SetCode(EVENT_SUMMON_SUCCESS)
+    redirect:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
+        return Duel.GetTurnPlayer() == 1 - tp and e:GetHandler():IsPosition(POS_FACEUP_DEFENSE)
+    end)
+    redirect:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
+        local c = e:GetHandler()
+
+        local ec1 = Effect.CreateEffect(c)
+        ec1:SetType(EFFECT_TYPE_FIELD)
+        ec1:SetCode(EFFECT_CANNOT_SELECT_BATTLE_TARGET)
+        ec1:SetRange(LOCATION_MZONE)
+        ec1:SetTargetRange(0, LOCATION_MZONE)
+        ec1:SetValue(function(e, c) return c ~= e:GetHandler() end)
+        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec1)
+
+        local ec2 = Effect.CreateEffect(c)
+        ec2:SetType(EFFECT_TYPE_FIELD)
+        ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SET_AVAILABLE)
+        ec2:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
+        ec2:SetRange(LOCATION_MZONE)
+        ec2:SetTargetRange(LOCATION_MZONE, 0)
+        ec2:SetTarget(function(e, tc) return tc ~= c end)
+        ec2:SetValue(aux.tgoval)
+        ec2:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
+        c:RegisterEffect(ec2)
+
+        for i = 1, Duel.GetCurrentChain() do
+            local tgp, tg = Duel.GetChainInfo(i, CHAININFO_TRIGGERING_PLAYER, CHAININFO_TARGET_CARDS)
+            if tgp ~= tp and tg and tg:IsExists(function(c, tp) return c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) end, 1, nil, tp) then
+                local g = Group.FromCards(c):Merge(tg:Filter(function(c, tp)
+                    return c:IsControler(tp) and not c:IsLocation(LOCATION_MZONE)
+                end, nil, tp))
+                Duel.ChangeTargetCard(i, g)
+            end
+        end
+
+        local ac = Duel.GetAttacker()
+        if ac and ac:IsControler(1 - tp) and ac:CanAttack() and ac:IsRelateToBattle() and not ac:IsImmuneToEffect(e) then
+            Duel.CalculateDamage(ac, c)
+        end
+    end)
+    c:RegisterEffect(redirect)
+    local redirect2 = redirect:Clone()
+    redirect2:SetCode(EVENT_SPSUMMON_SUCCESS)
+    c:RegisterEffect(redirect2)
+    local redirect3 = redirect:Clone()
+    redirect3:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+    c:RegisterEffect(redirect3)
+
     -- effects applied for 1 turn
     local reset = Effect.CreateEffect(c)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
