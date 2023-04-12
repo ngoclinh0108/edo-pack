@@ -188,7 +188,7 @@ atk = 4000
 def = 4000
 effect = """\
 {WICKED_GOD_HIERARCHY_1|The Wicked Dreadroot} \
-The ATK/DEF of all other monsters on the field are halved, except monsters with higher Divine Hierarchy. \
+Halve the ATK/DEF of all other face-up monsters, except monsters with higher Divine Hierarchy. \
 """
 strings = []
 
