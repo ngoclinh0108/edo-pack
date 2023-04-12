@@ -45,26 +45,20 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
     c:RegisterEffect(sumsafe)
 
-    -- extra race
-    if extra_race then
-        local extrarace = Effect.CreateEffect(c)
-        extrarace:SetType(EFFECT_TYPE_SINGLE)
-        extrarace:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-        extrarace:SetCode(EFFECT_ADD_RACE)
-        extrarace:SetRange(LOCATION_MZONE)
-        extrarace:SetValue(extra_race)
-        c:RegisterEffect(extrarace)
-    end
-
-    -- no change control and battle position
+    -- no switch control
     local noswitch = Effect.CreateEffect(c)
     noswitch:SetType(EFFECT_TYPE_SINGLE)
     noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
     noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
     noswitch:SetRange(LOCATION_MZONE)
     c:RegisterEffect(noswitch)
-    local nopos = noswitch:Clone()
+
+    -- no change battle position with effect
+    local nopos = Effect.CreateEffect(c)
+    nopos:SetType(EFFECT_TYPE_SINGLE)
+    nopos:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
     nopos:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    nopos:SetRange(LOCATION_MZONE)
     c:RegisterEffect(nopos)
 
     -- cannot be tributed, or be used as a material
@@ -96,7 +90,7 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     nodmg:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
     c:RegisterEffect(nodmg)
 
-    -- no leave
+    -- no leave with effect
     local noleave = Effect.CreateEffect(c)
     noleave:SetType(EFFECT_TYPE_SINGLE)
     noleave:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
@@ -121,7 +115,7 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     noleave_release:SetCode(EFFECT_UNRELEASABLE_EFFECT)
     c:RegisterEffect(noleave_release)
 
-    -- reset effect
+    -- effects applied for 1 turn
     local reset = Effect.CreateEffect(c)
     reset:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
     reset:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
@@ -156,7 +150,19 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     end)
     c:RegisterEffect(spreturn)
 
-    if divine_hierarchy >= 2 then
+    -- extra race
+    if extra_race then
+        local extrarace = Effect.CreateEffect(c)
+        extrarace:SetType(EFFECT_TYPE_SINGLE)
+        extrarace:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+        extrarace:SetCode(EFFECT_ADD_RACE)
+        extrarace:SetRange(LOCATION_MZONE)
+        extrarace:SetValue(extra_race)
+        c:RegisterEffect(extrarace)
+    end
+
+    if (divine_hierarchy >= 2) then
+        -- effect cannot be negate
         local nodis1 = Effect.CreateEffect(c)
         nodis1:SetType(EFFECT_TYPE_SINGLE)
         nodis1:SetCode(EFFECT_CANNOT_DISABLE)
@@ -194,22 +200,6 @@ function Divine.WickedGod(s, c, divine_hierarchy)
     sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
     c:RegisterEffect(sumsafe)
 
-    -- no switch control
-    local noswitch = Effect.CreateEffect(c)
-    noswitch:SetType(EFFECT_TYPE_SINGLE)
-    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
-    noswitch:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(noswitch)
-
-    -- no change battle position with effect
-    local nopos = Effect.CreateEffect(c)
-    nopos:SetType(EFFECT_TYPE_SINGLE)
-    nopos:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-    nopos:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
-    nopos:SetRange(LOCATION_MZONE)
-    c:RegisterEffect(nopos)
-
     -- cannot be tributed, or be used as a material
     local norelease = Effect.CreateEffect(c)
     norelease:SetType(EFFECT_TYPE_FIELD)
@@ -225,6 +215,22 @@ function Divine.WickedGod(s, c, divine_hierarchy)
     nomaterial:SetCode(EFFECT_CANNOT_BE_MATERIAL)
     nomaterial:SetValue(function(e, tc) return tc and tc:GetControler() ~= e:GetHandlerPlayer() end)
     c:RegisterEffect(nomaterial)
+
+    -- no switch control
+    local noswitch = Effect.CreateEffect(c)
+    noswitch:SetType(EFFECT_TYPE_SINGLE)
+    noswitch:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    noswitch:SetCode(EFFECT_CANNOT_CHANGE_CONTROL)
+    noswitch:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(noswitch)
+
+    -- no change battle position with effect
+    local nopos = Effect.CreateEffect(c)
+    nopos:SetType(EFFECT_TYPE_SINGLE)
+    nopos:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    nopos:SetCode(EFFECT_CANNOT_CHANGE_POS_E)
+    nopos:SetRange(LOCATION_MZONE)
+    c:RegisterEffect(nopos)
 
     -- battle indes & avoid damage
     local indes = Effect.CreateEffect(c)

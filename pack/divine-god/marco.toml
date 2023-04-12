@@ -2,14 +2,15 @@ EGYPTIAN_GOD_EFFECT = """\
 Cannot be Special Summoned, except by owner. \
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated. \
-Control and battle position cannot be changed by card effects. \
-Cannot be Tributed, or used as material for an Summon by your opponent. \
-Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
-    also you take no battle damage from that battle. \
+Control of this face-up card cannot switch. \
+Cannot change battle position with card effects. \
+Cannot be Tributed or used as material for an Summon, by your opponent. \
+Cannot be destroyed by battle with a monster, with lower Divine Hierarchy, \
+    also you take no damage from that battle. \
 Unaffected by other card effects that would make it leave the field, \
-    except monster effects with higher Divine Hierarchy. \
-Other card effects are only applied on it for 1 turn, \
-    except cards that mentions it. \
+    except effects of monsters with higher Divine Hierarchy. \
+Other card's effects are only applied on this card for 1 turn, \
+    except effects of cards that mentions it.\
 During the End Phase, if it was Special Summoned from the GY or Banished Zone, \
     send it to previous location.\
 """
@@ -32,14 +33,14 @@ WICKED_GOD_EFFECT = """\
 Cannot be Special Summoned. \
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated. \
-Control of this face-up card cannot switch. \
-Cannot change battle position with card effects. \
-Cannot be Tributed or used as material for an Summon, by your opponent. \
-Cannot be destroyed by battle with a monster, with lower Divine Hierarchy, \
-    also you take no damage from that battle. \
+Your opponent cannot Tribute or use it as material for an Summon. \
+Control of it cannot switch. \
+Battle position cannot be changed by card effects. \
+Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
+    you take no damage from that battle. \
 Unaffected by other card effects that would make it leave the field, \
     except effects of monsters with higher Divine Hierarchy. \
-Other card's effects are only applied on this card for 1 turn, \
+Other card effects are only applied on it for 1 turn, \
     except effects of cards that mentions it.\
 """
 
