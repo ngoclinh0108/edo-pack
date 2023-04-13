@@ -2,7 +2,7 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = { }
+s.listed_series = {0x13a}
 
 function s.initial_effect(c)
     -- special summon
@@ -28,12 +28,12 @@ function s.initial_effect(c)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    local ac=Duel.GetAttacker()
-	local bc=Duel.GetAttackTarget()
-	if not ac or not bc then return false end
-	if ac:IsControler(1-tp) then ac,bc=bc,ac end
-	
-	return ac:IsRelateToBattle() and bc:IsRelateToBattle() and ac:IsSetCard(0x13a)
+    local ac = Duel.GetAttacker()
+    local bc = Duel.GetAttackTarget()
+    if not ac or not bc then return false end
+    if ac:IsControler(1 - tp) then ac, bc = bc, ac end
+
+    return ac:IsRelateToBattle() and bc:IsRelateToBattle() and ac:IsSetCard(0x13a)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
