@@ -19,6 +19,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e1b)
     local e1check = Effect.CreateEffect(c)
     e1check:SetType(EFFECT_TYPE_SINGLE)
+    e1check:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     e1check:SetCode(21208154)
     c:RegisterEffect(e1check)
 

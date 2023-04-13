@@ -33,7 +33,7 @@ Once per turn, while this card is able to attack (Quick Effect): \
     while there are any monster with Divine Hierarchy 2 or more on the field: \
     This card's ATK become ∞ during that damage calculation only. \
 """
-strings = ["Destroy all monsters & inflict damage", "Gain ∞ ATK for 1 attack"]
+strings = ["Destroy all monsters & inflict damage", "Gain ∞ ATK"]
 
 [osiris]
 id = 900000002

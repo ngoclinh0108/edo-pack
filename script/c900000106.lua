@@ -81,7 +81,7 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local ec1 = Effect.CreateEffect(c)
     ec1:SetDescription(3206)
     ec1:SetType(EFFECT_TYPE_SINGLE)
-    ec1:SetProperty(EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
+    ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_OATH + EFFECT_FLAG_CLIENT_HINT)
     ec1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
     ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END)
     c:RegisterEffect(ec1)
@@ -107,7 +107,7 @@ function s.e3con(e, tp, eg, ep, ev, re, r, rp)
     return (r & REASON_FUSION + REASON_LINK) ~= 0 and rc:IsAttribute(ATTRIBUTE_LIGHT) and rc:IsRace(RACE_WARRIOR)
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)    
+function s.e3op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local rc = c:GetReasonCard()
 

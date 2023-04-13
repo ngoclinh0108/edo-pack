@@ -16,12 +16,8 @@ end
 function Utility.DeckEditAddCardToDeck(tp, code, condition_code, count_alias)
     if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1, nil, code) then return end
     if condition_code ~= nil then
-        if not count_alias and not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then
-            return
-        end
-        if count_alias and not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then
-            return
-        end
+        if not count_alias and not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then return end
+        if count_alias and not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then return end
     end
 
     Duel.SendtoDeck(Duel.CreateToken(tp, code), tp, SEQ_DECKBOTTOM, REASON_RULE)
@@ -30,12 +26,8 @@ end
 function Utility.DeckEditAddCardToExtraFaceup(tp, code, condition_code, count_alias)
     if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1, nil, code) then return end
     if condition_code ~= nil then
-        if not count_alias and not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then
-            return
-        end
-        if count_alias and not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then
-            return
-        end
+        if not count_alias and not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then return end
+        if count_alias and not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then return end
     end
 
     Duel.SendtoExtraP(Duel.CreateToken(tp, code), tp, REASON_RULE)
@@ -44,12 +36,8 @@ end
 function Utility.DeckEditAddCardToDimension(tp, code, condition_code, count_alias)
     if Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1, nil, code) then return end
     if condition_code ~= nil then
-        if not count_alias and not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then
-            return
-        end
-        if count_alias and not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then
-            return
-        end
+        if not count_alias and not Duel.IsExistingMatchingCard(Card.IsOriginalCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then return end
+        if count_alias and not Duel.IsExistingMatchingCard(Card.IsCode, tp, LOCATION_ALL, 0, 1, nil, condition_code) then return end
     end
 
     local c = Duel.CreateToken(tp, code)
@@ -216,8 +204,8 @@ function Utility.AvatarInfinity(root, c)
             local c = e:GetHandler()
 
             local atk = 0
-            local g = Duel.GetMatchingGroup(function(tc) return tc:IsFaceup() and not tc:IsHasEffect(21208154) end, 0,
-                LOCATION_MZONE, LOCATION_MZONE, nil)
+            local g = Duel.GetMatchingGroup(function(tc) return tc:IsFaceup() and not tc:IsHasEffect(21208154) end, 0, LOCATION_MZONE, LOCATION_MZONE,
+                nil)
             if #g > 0 then
                 local tg, val = g:GetMaxGroup(Card.GetAttack)
                 if not tg:IsExists(aux.TRUE, 1, c) then
@@ -242,9 +230,7 @@ function Utility.AvatarInfinity(root, c)
         local avataratk = Effect.CreateEffect(c)
         avataratk:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         avataratk:SetCode(EVENT_ADJUST)
-        avataratk:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-            return Duel.IsExistingMatchingCard(AvatarFilter, tp, 0xff, 0xff, 1, nil)
-        end)
+        avataratk:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return Duel.IsExistingMatchingCard(AvatarFilter, tp, 0xff, 0xff, 1, nil) end)
         avataratk:SetOperation(function(e, tp, eg, ev, ep, re, r, rp)
             local g = Duel.GetMatchingGroup(AvatarFilter, tp, 0xff, 0xff, nil)
             for tc in aux.Next(g) do
@@ -255,16 +241,12 @@ function Utility.AvatarInfinity(root, c)
 
                 local atkteffs = {tc:GetCardEffect(EFFECT_SET_ATTACK_FINAL)}
                 for _, eff in ipairs(atkteffs) do
-                    if eff:GetOwner() == tc and eff:IsHasProperty(EFFECT_FLAG_REPEAT) then
-                        eff:SetValue(AvatarVal)
-                    end
+                    if eff:GetOwner() == tc and eff:IsHasProperty(EFFECT_FLAG_REPEAT) then eff:SetValue(AvatarVal) end
                 end
 
                 local defteffs = {tc:GetCardEffect(EFFECT_SET_DEFENSE_FINAL)}
                 for _, eff in ipairs(defteffs) do
-                    if eff:GetOwner() == tc and eff:IsHasProperty(EFFECT_FLAG_REPEAT) then
-                        eff:SetValue(AvatarVal)
-                    end
+                    if eff:GetOwner() == tc and eff:IsHasProperty(EFFECT_FLAG_REPEAT) then eff:SetValue(AvatarVal) end
                 end
             end
         end)
@@ -281,9 +263,7 @@ function Utility.MultiEffectTarget(s, extg)
     return function(e, tp, eg, ep, ev, re, r, rp, chk)
         if chk == 0 then
             for i = 1, #s.effects, 1 do
-                if not s.effects[i]:GetTarget() or s.effects[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then
-                    return true
-                end
+                if not s.effects[i]:GetTarget() or s.effects[i]:GetTarget()(e, tp, eg, ep, ev, re, r, rp, chk) then return true end
             end
             return false
         end
