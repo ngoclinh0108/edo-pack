@@ -34,7 +34,7 @@ function s.initial_effect(c)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
 
-    -- negate
+    -- negate effect target
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(1116)
     e4:SetCategory(CATEGORY_DISABLE)
