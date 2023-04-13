@@ -27,7 +27,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c, tp) return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x13a) and c:IsMonster() end
+function s.e1filter(c, tp) return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x13a) end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()

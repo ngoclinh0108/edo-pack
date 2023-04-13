@@ -30,10 +30,7 @@ end
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local ac = Duel.GetAttacker()
     local bc = Duel.GetAttackTarget()
-    if not ac or not bc then return false end
-    if ac:IsControler(1 - tp) then ac, bc = bc, ac end
-
-    return ac:IsRelateToBattle() and bc:IsRelateToBattle() and ac:IsSetCard(0x13a)
+    return ac and bc and ac:IsRelateToBattle() and bc:IsRelateToBattle()
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
