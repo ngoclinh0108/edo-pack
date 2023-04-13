@@ -39,7 +39,8 @@ end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    return Duel.GetCurrentChain(true) == 0 and c:CanAttack()
+    local tn = Duel.GetTurnPlayer()
+    return Duel.GetCurrentChain(true) == 0 and (tn == tp and Duel.IsMainPhase()) or (tn ~= tp and Duel.IsBattlePhase()) and c:CanAttack()
 end
 
 function s.e1cost(e, tp, eg, ep, ev, re, r, rp, chk)
@@ -87,7 +88,7 @@ function s.e2filter(c) return c:IsFaceup() and Divine.GetDivineHierarchy(c) >= 2
 function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     return Duel.IsExistingMatchingCard(function(tc) return tc:IsFaceup() and Divine.GetDivineHierarchy(tc) >= 2 end, tp, LOCATION_MZONE,
-        LOCATION_MZONE, 1, nil) and c:CanAttack() and c:GetBattleTarget() ~= nil
+        LOCATION_MZONE, 1, nil) and c:GetBattleTarget() ~= nil and c:CanAttack()
 end
 
 function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
