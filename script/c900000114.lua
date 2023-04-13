@@ -29,17 +29,6 @@ function s.initial_effect(c)
     e2:SetTarget(s.e2tg)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
-
-    -- shuffle & draw
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_TODECK + CATEGORY_DRAW)
-    e3:SetType(EFFECT_TYPE_IGNITION)
-    e3:SetRange(LOCATION_GRAVE)
-    e3:SetCountLimit(1, {id, 3})
-    e3:SetCondition(aux.exccon)
-    e3:SetTarget(s.e3tg)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
 end
 
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
@@ -90,41 +79,5 @@ function s.e2look(tp, p)
     if gc > 0 then
         local ac = gc == 1 and gc or Duel.AnnounceNumberRange(tp, 1, gc)
         Duel.ConfirmCards(tp, Duel.GetDecktopGroup(p, ac))
-    end
-end
-
-function s.e3filter(c)
-    if c:IsLocation(LOCATION_REMOVED) and c:IsFacedown() then return false end
-
-    return c:IsSetCard(0x13a) and c:IsMonster() and not c:IsCode(id) and c:IsAbleToDeck()
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    local g = Duel.GetMatchingGroup(s.e3filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, nil)
-    if chk == 0 then return c:IsAbleToDeck() and #g >= 5 end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TODECK)
-    local tg = Duel.SelectTarget(tp, s.e3filter, tp, LOCATION_GRAVE + LOCATION_REMOVED, 0, 5, 5, nil)
-    tg:AddCard(c)
-
-    Duel.SetOperationInfo(0, CATEGORY_TODECK, tg, #tg, 0, 0)
-    Duel.SetOperationInfo(0, CATEGORY_DRAW, nil, 0, tp, 1)
-end
-
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local c = e:GetHandler()
-    local tg = Duel.GetChainInfo(0, CHAININFO_TARGET_CARDS)
-    if not tg or not c:IsRelateToEffect(e) or tg:FilterCount(Card.IsRelateToEffect, nil, e) ~= tg:GetCount() then return end
-
-    local sg = tg:Clone():AddCard(c)
-    Duel.SendtoDeck(sg, nil, SEQ_DECKSHUFFLE, REASON_EFFECT)
-
-    local g = Duel.GetOperatedGroup()
-    if g:IsExists(Card.IsLocation, 1, nil, LOCATION_DECK) then Duel.ShuffleDeck(tp) end
-
-    if g:FilterCount(Card.IsLocation, nil, LOCATION_DECK + LOCATION_EXTRA) == sg:GetCount() then
-        Duel.BreakEffect()
-        Duel.Draw(tp, 1, REASON_EFFECT)
     end
 end

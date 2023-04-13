@@ -8,7 +8,7 @@ function s.initial_effect(c)
     -- negate
     local e1 = Effect.CreateEffect(c)
     e1:SetDescription(1116)
-    e1:SetCategory(CATEGORY_NEGATE)
+    e1:SetCategory(CATEGORY_DISABLE)
     e1:SetType(EFFECT_TYPE_QUICK_O)
     e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
     e1:SetCode(EVENT_CHAINING)
@@ -33,19 +33,19 @@ function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
     if c:IsStatus(STATUS_BATTLE_DESTROYED) or ep == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) or not tg then return false end
+    if re:GetHandler():IsDisabled() or not Duel.IsChainDisablable(ev) then return false end
 
-    return Duel.IsChainNegatable(ev) and (tg:IsContains(c) or tg:IsExists(s.e1filter, 1, c, tp))
+    return tg:IsContains(c) or tg:IsExists(s.e1filter, 1, c, tp)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     if chk == 0 then return true end
-    Duel.SetOperationInfo(0, CATEGORY_NEGATE, eg, 1, 0, 0)
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
 end
 
 function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
-    local c = e:GetHandler()
-    Duel.NegateActivation(ev)
-    Duel.ChangePosition(c, POS_FACEUP_DEFENSE)
+    Duel.NegateEffect(ev)
+    Duel.ChangePosition(e:GetHandler(), POS_FACEUP_DEFENSE)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp)

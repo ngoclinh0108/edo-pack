@@ -337,8 +337,30 @@ def = 2600
 effect = """\
 When your opponent activates a card or effect \
     that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
-    You can negate that activation, also change this card to face-up Defense Position, if able. \
+    You can negate that effect, also change this card to face-up Defense Position, if able. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 If this Defense Position card is attacked, it loses 800 DEF. \
 """
 strings = []
+
+[palladium-maiden-isis]
+id = 900000114
+set = "palladium"
+name = "Palladium Maiden Isis"
+type = "monster effect"
+attribute = "light"
+race = "spellcaster"
+level = 4
+atk = 800
+def = 2000
+effect = """\
+When your opponent activates a card or effect \
+    in response to your "Palladium" monster's effect activation (Quick Effect): \
+    You can Tribute this card from your hand or face-up field; \
+    negate that effect. \
+During your Main Phase: \
+    You can change this card from face-up Attack Position to face-up Defense Position; \
+    immediately after this effect resolves, look at up to 5 cards from the top of each player's Deck. \
+You can only use each effect of "{CARD_NAME}" once per turn. \
+"""
+strings = ["Look at Deck"]

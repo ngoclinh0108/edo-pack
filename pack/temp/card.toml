@@ -19,31 +19,6 @@ When you Ritual or Fusion Summon a "Palladium" monster, \
 """
 strings = ["Change battle position of battling monster"]
 
-[palladium-maiden-isis]
-id = 900001110
-set = "palladium"
-name = "Palladium Maiden Isis"
-type = "monster effect"
-attribute = "light"
-race = "fairy"
-level = 4
-atk = 800
-def = 2000
-effect = """\
-When your opponent activates a card or effect \
-    in response to your "Palladium" monster's effect activation (Quick Effect): \
-    You can Tribute this card from your hand or face-up field; \
-    negate that effect. \
-During your Main Phase: \
-    You can change this card from face-up Attack Position to face-up Defense Position; \
-    immediately after this effect resolves, look at up to 5 cards from the top of each player's Deck. \
-During your Main Phase, while this card is in the GY, except the turn it was sent to the GY: \
-    You can target 5 "Palladium" monsters that is banished or in your GY, except "{CARD_NAME}"; \
-    shuffle this card and all the targeted cards into the Deck, then draw 1 card. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
-"""
-strings = ["Look at Deck"]
-
 [palladium-archfiend-gilfer]
 id = 900001116
 set = "palladium archfiend"
