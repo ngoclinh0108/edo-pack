@@ -283,3 +283,24 @@ strings = [
     "Summon 3 \"Blue-Eyes White Dragon\"",
     "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters",
 ]
+
+
+[palladium-protector-hasan]
+id = 900000111
+set = "palladium"
+name = "Palladium Protector Hasan"
+type = "monster effect"
+attribute = "dark"
+race = "spellcaster"
+level = 8
+atk = 2300
+def = 2800
+effect = """\
+When an opponent's monster declares a direct attack, if its ATK is greater than or equal to your LP: \
+    You can Special Summon this card from your hand or GY, \
+    and if you do, change the attack target to it and perform damage calculation. \
+    You can only use this effect of "{CARD_NAME}" thrice per Duel. \
+You take no battle damage from attacks involving this card. \
+If this card leaves the field, return it to the bottom of the Deck. \
+"""
+strings = []

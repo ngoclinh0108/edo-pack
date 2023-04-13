@@ -89,28 +89,6 @@ You can only use each effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Look at Deck"]
 
-[palladium-oracle-hassan]
-id = 900001111
-set = "palladium"
-name = "Serect Palladium Oracle Hassan"
-type = "monster effect"
-attribute = "dark"
-race = "spellcaster"
-level = 8
-atk = 2300
-def = 2800
-effect = """\
-When an opponent's monster declares a direct attack: \
-    You can Special Summon this card from your hand or GY in Defense Position. \
-You take no effect damage. \
-If this card is destroyed by battle or card effect: \
-    You can return this card to the bottom of the Deck; \
-    look at the top 3 cards of your Deck, then you can reveal 1 "Palladium" card, and add it to your hand, \
-    also place the remaining cards on top of your Deck in any order. \
-You can only use each effect of "{CARD_NAME}" once per turn. \
-"""
-strings = ["Reduce damage", "Add 1 \"Palladium\" card to you hand"]
-
 [palladium-archfiend-gilfer]
 id = 900001116
 set = "palladium archfiend"
