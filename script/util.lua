@@ -157,7 +157,7 @@ function Utility.IsOwnAny(f, player, ...)
     return g:IsExists(function(c) return c:GetOwner() == player end, 1, nil)
 end
 
-function Utility.GainInfinityAtk(c, effect_handler, reset)
+function Utility.GainInfinityAtk(c, reset, effect_handler)
     if not effect_handler then effect_handler = c end
 
     local e1 = Effect.CreateEffect(effect_handler)

@@ -98,5 +98,5 @@ function s.e2cost(e, tp, eg, ep, ev, re, r, rp, chk)
     Duel.Release(g, REASON_COST)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp) Utility.GainInfinityAtk(e:GetHandler(), nil, RESET_PHASE + PHASE_DAMAGE_CAL) end
+function s.e2op(e, tp, eg, ep, ev, re, r, rp) Utility.GainInfinityAtk(e:GetHandler(), RESET_PHASE + PHASE_DAMAGE_CAL) end
 
