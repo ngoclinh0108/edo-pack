@@ -178,11 +178,9 @@ function s.e3op(e, tp, eg, ep, ev, re, r, rp)
         Duel.ShuffleHand(tp)
         Duel.ShuffleDeck(tp)
 
-        local ct = math.min(5, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
-        if ct ~= 0 and Duel.SelectEffectYesNo(tp, c, aux.Stringid(id, 1)) then
+        if Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 then
             Duel.BreakEffect()
-            local ac = ct == 1 and ct or Duel.AnnounceNumberRange(tp, 1, ct)
-            Duel.SortDecktop(tp, tp, ac)
+            Duel.ConfirmCards(tp, Duel.GetDecktopGroup(tp, 1))
         end
     end
 end
