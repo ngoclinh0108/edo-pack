@@ -22,10 +22,9 @@ level = 10
 atk = 4000
 def = 4000
 effect = """\
-{EGYPTIAN_GOD_HIERARCHY_1|Obelisk the Tormentor|Warrior} \
+{EGYPTIAN_GOD_EFFECT|1|Obelisk the Tormentor} \
 Once per turn, while this card is able to attack (Quick Effect): \
-    You can Tribute 2 other monsters, activate 1 of these effects. \
-    This effect's activation and effect cannot be negated.
+    You can Tribute 2 other monsters, activate 1 of these effects.
 ● Destroy all monsters your opponent controls, \
     and also inflict damage to your opponent equal to this card's ATK. \
     Cannot be activated as Chain Link 2 or higher. \
@@ -49,7 +48,7 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-{EGYPTIAN_GOD_HIERARCHY_1|Slifer the Sky Dragon|Dragon} \
+{EGYPTIAN_GOD_EFFECT|1|Slifer the Sky Dragon} \
 This card's original ATK/DEF are equal to the number of cards in your hand x 1000. \
     This effect cannot be negated. \
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
@@ -72,10 +71,11 @@ level = 10
 atk = "?"
 def = "?"
 effect = """\
-{EGYPTIAN_GOD_HIERARCHY_2|The Winged Dragon of Ra|Machine} \
+{EGYPTIAN_GOD_EFFECT|2|The Winged Dragon of Ra} \
 This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Summon had on the field. \
 You can pay 1000 LP, then choose 1 monster on the field as Target; destroy it. \
-Once while this Normal Summoned card is face-up on the field: You can pay LP so that you only have 1 left; \
+Once while this Normal Summoned card is face-up on the field: \
+    You can pay LP so that you only have 1 left; \
     this card gains ATK/DEF become equal that amount and become Fusion Monster, \
     any increase in LP is changed to increase it's ATK/DEF instead, \
     unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
@@ -137,7 +137,7 @@ rarity = "gold"
 name = "Sun Divine Dragon of Ra - Immortal Phoenix"
 type = "monster dimension effect"
 attribute = "divine"
-race = "divine-beast pyro"
+race = "divine-beast"
 level = 10
 atk = "?"
 def = "?"

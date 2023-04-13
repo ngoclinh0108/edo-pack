@@ -23,7 +23,7 @@ function Divine.GetDivineHierarchy(c, get_base)
     return divine_hierarchy
 end
 
-function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
+function Divine.EgyptianGod(s, c, divine_hierarchy)
     s.divine_hierarchy = divine_hierarchy
 
     -- cannot special summon, except owner 
@@ -44,6 +44,22 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     sumsafe:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     sumsafe:SetCode(EFFECT_CANNOT_DISABLE_SUMMON)
     c:RegisterEffect(sumsafe)
+
+    -- effect activation and effect activated cannot be negate
+    local nonegate = Effect.CreateEffect(c)
+    nonegate:SetType(EFFECT_TYPE_FIELD)
+    nonegate:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
+    nonegate:SetCode(EFFECT_CANNOT_INACTIVATE)
+    nonegate:SetRange(LOCATION_MZONE)
+    nonegate:SetTargetRange(1, 0)
+    nonegate:SetValue(function(e, ct)
+        local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
+        return te:GetHandler() == e:GetHandler()
+    end)
+    c:RegisterEffect(nonegate)
+    local nodiseff = nonegate:Clone()
+    nodiseff:SetCode(EFFECT_CANNOT_DISEFFECT)
+    c:RegisterEffect(nodiseff)
 
     -- cannot be tributed, or be used as a material
     local norelease = Effect.CreateEffect(c)
@@ -182,7 +198,7 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
     redirect3:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
     c:RegisterEffect(redirect3)
 
-    -- return to where it was special summon
+    -- return to where was special summon
     local spreturn = Effect.CreateEffect(c)
     spreturn:SetDescription(666002)
     spreturn:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
@@ -204,34 +220,6 @@ function Divine.EgyptianGod(s, c, divine_hierarchy, extra_race)
         end
     end)
     c:RegisterEffect(spreturn)
-
-    -- extra race
-    if extra_race then
-        local extrarace = Effect.CreateEffect(c)
-        extrarace:SetType(EFFECT_TYPE_SINGLE)
-        extrarace:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
-        extrarace:SetCode(EFFECT_ADD_RACE)
-        extrarace:SetRange(LOCATION_MZONE)
-        extrarace:SetValue(extra_race)
-        c:RegisterEffect(extrarace)
-    end
-
-    if (divine_hierarchy >= 2) then
-        -- effect cannot be negate
-        local nodis1 = Effect.CreateEffect(c)
-        nodis1:SetType(EFFECT_TYPE_SINGLE)
-        nodis1:SetCode(EFFECT_CANNOT_DISABLE)
-        c:RegisterEffect(nodis1)
-        local nodis2 = Effect.CreateEffect(c)
-        nodis2:SetType(EFFECT_TYPE_FIELD)
-        nodis2:SetCode(EFFECT_CANNOT_DISEFFECT)
-        nodis2:SetRange(LOCATION_MZONE)
-        nodis2:SetValue(function(e, ct)
-            local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-            return te:GetHandler() == e:GetHandler()
-        end)
-        c:RegisterEffect(nodis2)
-    end
 end
 
 function Divine.WickedGod(s, c, divine_hierarchy)

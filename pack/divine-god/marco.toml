@@ -1,37 +1,25 @@
 EGYPTIAN_GOD_EFFECT = """\
+(This card's base Divine Hierarchy is {0}, and is always treated as "{1}".)
 Cannot be Special Summoned, except by owner. \
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
-This card's Normal Summon cannot be negated. \
-Your opponent cannot Tribute or use it as material for an Summon. \
+This card's Normal Summon, effect activations, and activated effects cannot be negated. \
 Control of it cannot switch. \
+Your opponent cannot Tribute it, or use it as material for an Summon. \
 Battle position cannot be changed by card effects. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
-    you take no damage from that battle. \
+    also you take no damage from that battle. \
 Unaffected by other card effects that would make it leave the field, \
     except effects of monsters with higher Divine Hierarchy. \
 Other card effects are only applied on it for 1 turn, \
     except effects of cards that mentions it. \
 If this card is Summoned in face-up Defense Position during your opponent's turn, \
-    for the rest of this turn, your opponent cannot target monsters for attacks or with card effect, except this one, \
+    for the rest of this turn, your opponent cannot target monsters for attacks or with card effect, except it, \
     also if there are any attack of your opponent's monster, \
-    or your opponent's card effects activated in current Chain that targets a monster(s) you control, \
+    or your opponent's card effects activated in current Chain that targets other monster(s) you control, \
     change the target to this card. \
-During the End Phase, if this card was Special Summoned from the GY or Banished Zone, \
-    send it to the location it was.\
-"""
-
-EGYPTIAN_GOD_HIERARCHY_1 = """\
-(This card's base Divine Hierarchy is 1, and is always treated as "{0}".)
-{EGYPTIAN_GOD_EFFECT} \
-This face-up card is also {1}-Type. \
+During the End Phase, if it was Special Summoned from the GY or Banished Zone, \
+    send it to the location it was. \
 The above effects cannot be negated.\
-"""
-
-EGYPTIAN_GOD_HIERARCHY_2 = """\
-(This card's base Divine Hierarchy is 2, and is always treated as "{0}".)
-{EGYPTIAN_GOD_EFFECT} \
-This face-up card is also {1}-Type. \
-This card's effects cannot be negated.\
 """
 
 WICKED_GOD_EFFECT = """\
