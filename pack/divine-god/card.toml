@@ -50,7 +50,6 @@ def = "?"
 effect = """\
 {EGYPTIAN_GOD_EFFECT|1|Slifer the Sky Dragon} \
 This card's original ATK/DEF are equal to the number of cards in your hand x 1000. \
-    This effect cannot be negated. \
 If a monster(s) is Normal or Special Summoned to your opponent's field, \
     or a monster(s) is take control by your opponent, while this card is able to attack: \
     Choose that monster(s) as a Target; it loses 2000 ATK or DEF depending on its battle position, \
@@ -73,7 +72,6 @@ def = "?"
 effect = """\
 {EGYPTIAN_GOD_EFFECT|2|The Winged Dragon of Ra} \
 This card's original ATK/DEF become the combined ATK/DEF of the monsters Tributed for its Summon had on the field. \
-    This effect cannot be negated. \
 You can pay 1000 LP, then choose 1 monster on the field as Target; destroy it. \
 Once while this Normal Summoned card is face-up on the field: \
     You can pay LP so that you only have 1 left; \
@@ -81,11 +79,11 @@ Once while this Normal Summoned card is face-up on the field: \
     any increase in LP is changed to increase it's ATK/DEF instead, \
     unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
     You can also use this effect when Summon this card. \
-    Cards and effects cannot be activated in response to this effect's activation, also this effect cannot be negated. \
+    Cards and effects cannot be activated in response to this effect's activation. \
     If your "De-Fusion" targets this Fusion Monster, apply these effect instead: \
     The target loses its above effects, cannot attack or activate its effects during this turn, \
     its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK". \
-Once per turn, when an attack is declared involving this card: \
+Once per turn, when an attack is declared involving it: \
     You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined ATK had on the field, until this turn. \
 """

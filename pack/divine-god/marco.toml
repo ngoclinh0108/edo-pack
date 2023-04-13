@@ -2,7 +2,7 @@ EGYPTIAN_GOD_EFFECT = """\
 (This card's base Divine Hierarchy is {0}, and is always treated as "{1}".)
 Cannot be Special Summoned, except by owner. \
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
-This card's Normal Summon, effect activations, and activated effects cannot be negated. \
+The Normal Summon of this card, or its effect activations and card effects cannot be negated. \
 Control of it cannot switch. \
 Your opponent cannot Tribute it, or use it as material for an Summon. \
 Battle position cannot be changed by card effects. \
@@ -19,7 +19,7 @@ If this card is Summoned in face-up Defense Position during your opponent's turn
     change the target to this card. \
 During the End Phase, if it was Special Summoned from the GY or Banished Zone, \
     send it to the location it was. \
-The above effects cannot be negated.\
+The above effects cannot be copied.\
 """
 
 WICKED_GOD_EFFECT = """\
@@ -28,14 +28,14 @@ Cannot be Special Summoned. \
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated. \
 Its effect activations and its activated effects cannot be negated. \
-Control of this face-up card cannot switch. \
+Control of it cannot switch. \
 Your opponent cannot Tribute it, or use it as material for an Summon. \
 Battle position cannot be changed by card effects. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
     also you take no damage from that battle. \
 Unaffected by other card effects that would make it leave the field, \
     except effects of monsters with higher Divine Hierarchy. \
-Other card effects are only applied on it for 1 turn, \
+Other card effects are only applied on this card for 1 turn, \
     except effects of cards that mentions it. \
-The above effects cannot be negated.\
+The above effects cannot be negated or copied.\
 """
