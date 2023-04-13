@@ -380,12 +380,12 @@ If this card is Summoned: \
     then you can reveal 1 "Palladium" Spell/Trap or 1 Continuous Trap among them, and Set it, \
     it can be activated this turn, also place the remaining cards on top of your Deck in any order. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
-You can target 1 face-up monster your opponent controls; \
-    this card's battle position cannot be changed until the end of your next turn, \
-    also change this card you control from face-up Attack Position to face-up Defense Position, \
-    and if you do, return that target to the hand. \
+Before damage calculation, if this card battles an opponent's monster: \
+    You can change this card you control from face-up Attack Position to face-up Defense Position, \
+    and if you do, return that opponent's monster to the hand, \
+    also this card's battle position cannot be changed until the end of your next turn. \
 """
-strings = ["Return 1 Special Summoned to hand"]
+strings = ["Return battling monster to the hand"]
 
 [palladium-spirit-kuriboh]
 id = 900000116
