@@ -190,6 +190,7 @@ function s.e4con(e, tp, eg, ep, ev, re, r, rp)
 end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
+    Utility.HintCard(e)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
     Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT + REASON_RULE)
 end
