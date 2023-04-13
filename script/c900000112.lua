@@ -2,65 +2,43 @@
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
-s.listed_series = {0x13a}
+s.listed_series = { }
 
 function s.initial_effect(c)
     -- special summon
     local e1 = Effect.CreateEffect(c)
     e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
     e1:SetType(EFFECT_TYPE_QUICK_O)
-    e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
-    e1:SetCode(EVENT_FREE_CHAIN)
+    e1:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
     e1:SetRange(LOCATION_HAND)
-    e1:SetHintTiming(0, TIMING_BATTLE_STEP_END)
     e1:SetCountLimit(1, id)
     e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
 
-    -- indes & no damage
-    local e2 = Effect.CreateEffect(c)
-    e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-    e2:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCountLimit(1)
-    e2:SetValue(function(e, re, r, rp)
-        if (r & REASON_BATTLE) ~= 0 then
-            e:GetHandler():RegisterFlagEffect(id, RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END, 0, 1)
-            return true
-        else
-            return false
-        end
-    end)
-    c:RegisterEffect(e2)
-    local e2b = Effect.CreateEffect(c)
-    e2b:SetType(EFFECT_TYPE_SINGLE)
-    e2b:SetCode(EFFECT_AVOID_BATTLE_DAMAGE)
-    e2b:SetValue(function(e) return e:GetHandler():GetFlagEffect(id) == 0 end)
-    c:RegisterEffect(e2b)
-
     -- down atk
-    local e3 = Effect.CreateEffect(c)
-    e3:SetCategory(CATEGORY_ATKCHANGE)
-    e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
-    e3:SetCode(EVENT_DAMAGE_STEP_END)
-    e3:SetCondition(s.e3con)
-    e3:SetOperation(s.e3op)
-    c:RegisterEffect(e3)
+    local e2 = Effect.CreateEffect(c)
+    e2:SetCategory(CATEGORY_ATKCHANGE)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_DAMAGE_STEP_END)
+    e2:SetCondition(s.e2con)
+    e2:SetOperation(s.e2op)
+    c:RegisterEffect(e2)
 end
 
-function s.e1filter(c) return c:IsFaceup() and c:IsSetCard(0x13a) and not c:IsCode(id) end
-
 function s.e1con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetCurrentPhase() == PHASE_BATTLE_STEP and Duel.IsExistingMatchingCard(s.e1filter, tp, LOCATION_MZONE, 0, 1, nil)
+    local ac=Duel.GetAttacker()
+	local bc=Duel.GetAttackTarget()
+	if not ac or not bc then return false end
+	if ac:IsControler(1-tp) then ac,bc=bc,ac end
+	
+	return ac:IsRelateToBattle() and bc:IsRelateToBattle() and ac:IsSetCard(0x13a)
 end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     if chk == 0 then return c:IsCanBeSpecialSummoned(e, 0, tp, false, false) and Duel.GetLocationCount(tp, LOCATION_MZONE) > 0 end
-
     Duel.SetOperationInfo(0, CATEGORY_SPECIAL_SUMMON, c, 1, 0, 0)
 end
 
@@ -83,12 +61,12 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
     end
 end
 
-function s.e3con(e, tp, eg, ep, ev, re, r, rp)
+function s.e2con(e, tp, eg, ep, ev, re, r, rp)
     local bc = e:GetHandler():GetBattleTarget()
     return bc and bc:IsRelateToBattle()
 end
 
-function s.e3op(e, tp, eg, ep, ev, re, r, rp)
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     local bc = e:GetHandler():GetBattleTarget()
     if bc:IsRelateToBattle() and bc:IsFaceup() then

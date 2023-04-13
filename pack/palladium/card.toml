@@ -284,7 +284,6 @@ strings = [
     "Affected by effect \"{CARD_NAME}\": cannot Special Summon monsters",
 ]
 
-
 [palladium-protector-hasan]
 id = 900000111
 set = "palladium"
@@ -302,5 +301,44 @@ When an opponent's monster declares a direct attack, if its ATK is greater than 
     You can only use this effect of "{CARD_NAME}" thrice per Duel. \
 You take no battle damage from attacks involving this card. \
 If this card leaves the field, return it to the bottom of the Deck. \
+"""
+strings = []
+
+[palladium-guardian-shada]
+id = 900000112
+set = "palladium guardian"
+name = "Palladium Guardian Shada"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 1400
+def = 1200
+effect = """\
+During damage calculation, if a "Palladium" monster battles a monster (Quick Effect): \
+    You can Special Summon this card from your hand, \
+    and if you do, "Palladium" monster you currently control cannot be destroyed by battle, until the end of this turn. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+At the end of the Damage Step, if this card battled an opponent's monster, \
+    that monster lose 800 ATK. \
+"""
+strings = []
+
+[palladium-gardna-karim]
+id = 900000113
+set = "palladium"
+name = "Palladium Gardna Karim"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 4
+atk = 100
+def = 2600
+effect = """\
+When your opponent activates a card or effect \
+    that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
+    You can negate that activation, also change this card to face-up Defense Position, if able. \
+    You can only use this effect of "{CARD_NAME}" once per turn. \
+If this Defense Position card is attacked, it loses 800 DEF. \
 """
 strings = []

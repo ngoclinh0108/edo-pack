@@ -19,51 +19,6 @@ When you Ritual or Fusion Summon a "Palladium" monster, \
 """
 strings = ["Change battle position of battling monster"]
 
-[palladium-guardian-shada]
-id = 900001108
-set = "palladium guardian"
-name = "Palladium Guardian Shada"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 1400
-def = 1200
-effect = """\
-During the Battle Step, while you control a "Palladium" monster \
-    other than "{CARD_NAME}" (Quick Effect): \
-    You can Special Summon this card from your hand, \
-    and if you do, until the end of this turn, \
-    "Palladium" monster you currently control cannot be destroyed by battle. \
-    You can only use this effect of "{CARD_NAME}" once per turn. \
-The first time this card would be destroyed by battle each turn, \
-    it is not destroyed, and you take no battle damage from that battle. \
-At the end of the Damage Step, if this card battled an opponent's monster, \
-    that monster lose 800 ATK. \
-"""
-strings = []
-
-[palladium-gardna-karim]
-id = 900001109
-set = "palladium"
-name = "Palladium Gardna Karim"
-type = "monster effect"
-attribute = "light"
-race = "warrior"
-level = 4
-atk = 100
-def = 2600
-effect = """\
-When your opponent activates a card or effect \
-    that targets this card (face-up or face-down) or "Palladium" monster you control (Quick Effect): \
-    You can negate that activation, also change this card to face-up Defense Positionm, if able. \
-    You can only use this effect of "{CARD_NAME}" once per turn. \
-When an opponent's monster declares an attack on a "Palladium" monster you control: \
-    You can switch the attack target to this card. \
-If this Defense Position card is attacked, it loses 800 DEF. \
-"""
-strings = ["Switch attack target"]
-
 [palladium-maiden-isis]
 id = 900001110
 set = "palladium"
