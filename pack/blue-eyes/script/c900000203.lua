@@ -12,7 +12,7 @@ function s.initial_effect(c)
     -- xyz summon
     Xyz.AddProcedure(c, aux.FilterBoolFunctionEx(Card.IsSetCard, 0xdd), 8, 2, s.ovfilter, aux.Stringid(id, 0))
 
-    -- atk
+    -- atk up
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE)
@@ -43,7 +43,7 @@ function s.initial_effect(c)
     e3:SetValue(s.e3val)
     c:RegisterEffect(e3)
 
-    -- destroy
+    -- destroy & damage
     local e4 = Effect.CreateEffect(c)
     e4:SetCategory(CATEGORY_DESTROY + CATEGORY_DAMAGE)
     e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)

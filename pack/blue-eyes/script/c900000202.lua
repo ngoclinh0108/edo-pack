@@ -4,12 +4,13 @@ local s, id = GetID()
 
 s.listed_names = {CARD_BLUEEYES_W_DRAGON}
 s.listed_series = {0xdd}
+s.material_setcode = {0xdd}
 
 function s.initial_effect(c)
     c:EnableReviveLimit()
 
     -- synchro summon
-    Synchro.AddProcedure(c, nil, 1, 1, aux.NOT(Synchro.NonTunerEx(Card.IsType, TYPE_EFFECT)), 1, 1)
+    Synchro.AddProcedure(c, nil, 1, 1, aux.NOT(Synchro.NonTunerEx(Card.IsSetCard, 0xdd)), 1, 1)
 
     -- special summon
     local sp = Effect.CreateEffect(c)
@@ -42,7 +43,7 @@ function s.initial_effect(c)
     end)
     c:RegisterEffect(e2)
 
-    -- disable
+    -- negate target
     local e3 = Effect.CreateEffect(c)
     e3:SetDescription(1117)
     e3:SetCategory(CATEGORY_DISABLE)
@@ -61,7 +62,7 @@ function s.initial_effect(c)
     e3b:SetCode(3682106)
     c:RegisterEffect(e3b)
 
-    -- disable & destroy
+    -- negate & destroy
     local e4 = Effect.CreateEffect(c)
     e4:SetDescription(aux.Stringid(id, 0))
     e4:SetCategory(CATEGORY_DISABLE + CATEGORY_DESTROY)
