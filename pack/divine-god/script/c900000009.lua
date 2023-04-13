@@ -64,7 +64,6 @@ function s.initial_effect(c)
     e4:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e4:SetCode(EVENT_LEAVE_FIELD)
     e4:SetCondition(s.e4con)
-    e4:SetTarget(s.e4tg)
     e4:SetOperation(s.e4op)
     c:RegisterEffect(e4)
 
@@ -192,7 +191,7 @@ end
 
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
-    Duel.Destroy(g, REASON_EFFECT + REASON_RULE)
+    Duel.SendtoDeck(g, nil, SEQ_DECKSHUFFLE, REASON_EFFECT + REASON_RULE)
 end
 
 function s.e5filter(c, e, tp) return c:IsOriginalRace(RACE_DIVINE) and c:IsCanBeSpecialSummoned(e, 0, tp, true, false) end
