@@ -44,7 +44,6 @@ function s.initial_effect(c)
     e3:SetLabel(0)
     e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
-    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
@@ -63,9 +62,7 @@ function s.initial_effect(c)
         defuse:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
         defuse:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
         defuse:SetCode(EVENT_ADJUST)
-        defuse:SetCondition(function(e, tp, eg, ep, ev, re, r, rp)
-            return Duel.IsExistingMatchingCard(s.defusefilter1, tp, 0xff, 0xff, 1, nil)
-        end)
+        defuse:SetCondition(function(e, tp, eg, ep, ev, re, r, rp) return Duel.IsExistingMatchingCard(s.defusefilter1, tp, 0xff, 0xff, 1, nil) end)
         defuse:SetOperation(function(e, tp, eg, ep, ev, re, r, rp)
             local g = Duel.GetMatchingGroup(s.defusefilter1, tp, 0xff, 0xff, nil)
             for tc in aux.Next(g) do
@@ -82,9 +79,7 @@ function s.initial_effect(c)
                 ec1:SetProperty(tc:GetActivateEffect():GetProperty() + EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_IGNORE_IMMUNE)
                 ec1:SetHintTiming(TIMING_DAMAGE_STEP, TIMING_DAMAGE_STEP + TIMINGS_CHECK_MONSTER)
                 ec1:SetTarget(function(e, tp, eg, ep, ev, re, r, rp, chk)
-                    if chk == 0 then
-                        return Duel.IsExistingTarget(s.defusefilter2, tp, LOCATION_MZONE, 0, 1, nil, id)
-                    end
+                    if chk == 0 then return Duel.IsExistingTarget(s.defusefilter2, tp, LOCATION_MZONE, 0, 1, nil, id) end
 
                     Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_TARGET)
                     local tc = Duel.SelectTarget(tp, s.defusefilter2, tp, LOCATION_MZONE, 0, 1, 1, nil, id):GetFirst()
@@ -100,12 +95,8 @@ function s.initial_effect(c)
 
                     local atk = tc:GetAttack()
                     tc:GetCardEffect(id):Reset()
-                    if tc:GetCardEffect(EFFECT_SET_BASE_ATTACK) then
-                        tc:GetCardEffect(EFFECT_SET_BASE_ATTACK):Reset()
-                    end
-                    if tc:GetCardEffect(EFFECT_SET_BASE_DEFENSE) then
-                        tc:GetCardEffect(EFFECT_SET_BASE_DEFENSE):Reset()
-                    end
+                    if tc:GetCardEffect(EFFECT_SET_BASE_ATTACK) then tc:GetCardEffect(EFFECT_SET_BASE_ATTACK):Reset() end
+                    if tc:GetCardEffect(EFFECT_SET_BASE_DEFENSE) then tc:GetCardEffect(EFFECT_SET_BASE_DEFENSE):Reset() end
 
                     local ec1 = Effect.CreateEffect(c)
                     ec1:SetType(EFFECT_TYPE_SINGLE)
@@ -159,6 +150,7 @@ function s.e1val(e, c)
         e:SetLabel(0)
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
+        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
         ec1:SetCode(EFFECT_SET_BASE_ATTACK)
         ec1:SetValue(atk)
         ec1:SetReset(RESET_EVENT + RESETS_STANDARD - RESET_TOFIELD)
@@ -199,12 +191,6 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local lp = Duel.GetLP(tp) - 1
     Duel.PayLPCost(tp, lp)
     e:SetLabel(lp)
-end
-
-function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-
-    Duel.SetChainLimit(aux.FALSE)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
