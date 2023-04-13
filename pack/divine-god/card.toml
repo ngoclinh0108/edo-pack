@@ -34,10 +34,7 @@ Once per turn, while this card is able to attack (Quick Effect): \
     while there are any monster with Divine Hierarchy 2 or more on the field: \
     This card's ATK become ∞ during that damage calculation only. \
 """
-strings = [
-    "Destroy all monsters & inflict damage",
-    "Gain ∞ ATK for 1 attack",
-]
+strings = ["Destroy all monsters & inflict damage", "Gain ∞ ATK for 1 attack"]
 
 [osiris]
 id = 900000002
@@ -282,16 +279,23 @@ type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "Divine Evolution".)
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-Choose 1 face-up monster with Divine Hierarchy you control, except a monster(s) already affected by "{CARD_NAME}", \
-it gain these effects, ignoring card effects;
+Choose 1 monster you control whose original Type is Divine-Beast \
+    or whose original name is "The Wicked Avatar", "The Wicked Dreadroot", or "The Wicked Eraser" \
+    except a monster(s) already affected by "Divine Evolution", \
+it gains the following effect, ignoring card effects;
 ● Gain 1000 ATK/DEF.
-● Divine Hierarchy is increased by 1.
+● Its Divine Hierarchy become it's base Divine Hierarchy + 1.
+● Its effect activations and its activated effects cannot be negated.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
+● When this card declares an attack: You can make your opponent send 1 monster they control to the GY (their choice)
 During your Main Phase, if this card is in your GY and you control a original Divine-Beast monster: \
     You can discard 1 Spell; add this card to your hand. \
 You can only use each effect of "{CARD_NAME}" once per turn. \
 """
-strings = ["Affected by \"{CARD_NAME}\""]
+strings = [
+    "Affected by \"{CARD_NAME}\"",
+    "Make your opponent send 1 monster to the GY",
+]
 
 [obelisk-apostle]
 id = 900000011

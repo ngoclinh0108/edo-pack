@@ -357,6 +357,6 @@ end
 function ResetEffectFilter(te, c)
     local tc = te:GetOwner()
     if tc == c or tc:ListsCode(c:GetCode()) then return false end
-    return not te:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE) and te:GetCode() ~= EFFECT_SPSUMMON_PROC and
-               (te:GetTarget() == aux.PersistentTargetFilter or not te:IsHasType(EFFECT_TYPE_GRANT)) and not te:IsHasProperty(EFFECT_FLAG_FIELD_ONLY)
+    return not te:IsHasProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_FIELD_ONLY) and
+               (te:GetTarget() == aux.PersistentTargetFilter or not te:IsHasType(EFFECT_TYPE_GRANT)) and te:GetCode() ~= EFFECT_SPSUMMON_PROC
 end
