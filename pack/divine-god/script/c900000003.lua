@@ -44,6 +44,7 @@ function s.initial_effect(c)
     e3:SetLabel(0)
     e3:SetCondition(s.e3con)
     e3:SetCost(s.e3cost)
+    e3:SetTarget(s.e3tg)
     e3:SetOperation(s.e3op)
     c:RegisterEffect(e3)
     local e3b = e3:Clone()
@@ -136,7 +137,11 @@ function s.e3cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local lp = Duel.GetLP(tp) - 1
     Duel.PayLPCost(tp, lp)
     e:SetLabel(lp)
+end
 
+function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetChainLimit(aux.FALSE)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
