@@ -1,97 +1,61 @@
--- Palladium Maiden Isis
+-- Palladium Gardna Karim
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
 s.listed_series = {0x13a}
 
 function s.initial_effect(c)
-    -- look deck & set
+    -- negate
     local e1 = Effect.CreateEffect(c)
-    e1:SetCategory(CATEGORY_SEARCH)
-    e1:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_O)
-    e1:SetProperty(EFFECT_FLAG_CARD_TARGET + EFFECT_FLAG_DELAY)
-    e1:SetCode(EVENT_SUMMON_SUCCESS)
+    e1:SetDescription(1116)
+    e1:SetCategory(CATEGORY_DISABLE)
+    e1:SetType(EFFECT_TYPE_QUICK_O)
+    e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE + EFFECT_FLAG_DAMAGE_STEP + EFFECT_FLAG_DAMAGE_CAL)
+    e1:SetCode(EVENT_CHAINING)
+    e1:SetRange(LOCATION_MZONE)
     e1:SetCountLimit(1, id)
+    e1:SetCondition(s.e1con)
     e1:SetTarget(s.e1tg)
     e1:SetOperation(s.e1op)
     c:RegisterEffect(e1)
-    local e1b = e1:Clone()
-    e1b:SetCode(EVENT_SPSUMMON_SUCCESS)
-    c:RegisterEffect(e1b)
-    local e1c = e1:Clone()
-    e1c:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
-    c:RegisterEffect(e1c)
 
-    -- return to hand
+    -- def down
     local e2 = Effect.CreateEffect(c)
-    e2:SetDescription(aux.Stringid(id, 0))
-    e2:SetCategory(CATEGORY_TOHAND)
-    e2:SetType(EFFECT_TYPE_IGNITION)
-    e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-    e2:SetRange(LOCATION_MZONE)
-    e2:SetCondition(s.e2con)
-    e2:SetTarget(s.e2tg)
+    e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
+    e2:SetCode(EVENT_DAMAGE_STEP_END)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c)
-    if not c:IsSSetable() then return false end
-    return (c:IsSetCard(0x13a) and c:IsSpellTrap()) or c:IsContinuousTrap()
-end
+function s.e1filter(c, tp) return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x13a) end
 
-function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk) if chk == 0 then return Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0) > 0 end end
-
-function s.e1op(e, tp, eg, ep, ev, re, r, rp)
+function s.e1con(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local max = math.min(5, Duel.GetFieldGroupCount(tp, LOCATION_DECK, 0))
-    if max == 0 then return end
+    local tg = Duel.GetChainInfo(ev, CHAININFO_TARGET_CARDS)
+    if c:IsStatus(STATUS_BATTLE_DESTROYED) or ep == tp or not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) or not tg then return false end
+    if re:GetHandler():IsDisabled() or not Duel.IsChainDisablable(ev) then return false end
 
-    local ac = max == 1 and max or Duel.AnnounceNumberRange(tp, 1, max)
-    local g = Duel.GetDecktopGroup(tp, ac)
-    Duel.ConfirmCards(tp, g)
-
-    if g:IsExists(s.e1filter, 1, nil) and Duel.SelectYesNo(tp, 510) then
-        local tc = Utility.GroupSelect(HINTMSG_SET, g, tp, 1, 1, nil, s.e1filter):GetFirst()
-        Duel.DisableShuffleCheck()
-        if Duel.SSet(tp, tc) > 0 and (tc:IsTrap() or tc:IsQuickPlaySpell()) then
-            local ec1 = Effect.CreateEffect(c)
-            ec1:SetType(EFFECT_TYPE_SINGLE)
-            ec1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-            ec1:SetCode(tc:IsTrap() and EFFECT_TRAP_ACT_IN_SET_TURN or EFFECT_QP_ACT_IN_SET_TURN)
-            ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
-            tc:RegisterEffect(ec1)
-        end
-
-        Duel.SortDecktop(tp, tp, ac - 1)
-    else
-        Duel.SortDecktop(tp, tp, ac)
-    end
+    return tg:IsContains(c) or tg:IsExists(s.e1filter, 1, c, tp)
 end
 
-function s.e2con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsPosition(POS_FACEUP_ATTACK) end
-
-function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
-    if chk == 0 then return Duel.IsExistingTarget(Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, nil) end
-
-    Duel.Hint(HINT_SELECTMSG, tp, HINTMSG_RTOHAND)
-    local g = Duel.SelectTarget(tp, Card.IsFaceup, tp, 0, LOCATION_MZONE, 1, 1, nil)
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, g, 1, 0, 0)
+function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
+    if chk == 0 then return true end
+    Duel.SetOperationInfo(0, CATEGORY_DISABLE, eg, 1, 0, 0)
 end
 
-function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)
+function s.e1op(e, tp, eg, ep, ev, re, r, rp, chk)
+    Duel.NegateEffect(ev)
+    Duel.ChangePosition(e:GetHandler(), POS_FACEUP_DEFENSE)
+end
+
+function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
-    local tc = Duel.GetFirstTarget()
-    if c:IsRelateToEffect(e) and c:IsPosition(POS_FACEUP_ATTACK) then
-        Duel.ChangePosition(c, POS_FACEUP_DEFENSE)
-        if tc:IsRelateToEffect(e) then Duel.SendtoHand(tc, nil, REASON_EFFECT) end
+    if not c:IsRelateToBattle() or Duel.GetAttackTarget() ~= c or not c:IsDefensePos() then return end
 
-        local ec1 = Effect.CreateEffect(c)
-        ec1:SetType(EFFECT_TYPE_SINGLE)
-        ec1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_COPY_INHERIT)
-        ec1:SetCode(EFFECT_CANNOT_CHANGE_POSITION)
-        ec1:SetReset(RESET_EVENT + RESETS_STANDARD + RESET_PHASE + PHASE_END + RESET_SELF_TURN, 2)
-        c:RegisterEffect(ec1)
-    end
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_SINGLE)
+    ec1:SetCode(EFFECT_UPDATE_DEFENSE)
+    ec1:SetValue(-800)
+    ec1:SetReset(RESET_EVENT + RESETS_STANDARD)
+    c:RegisterEffect(ec1)
 end

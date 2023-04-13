@@ -304,8 +304,29 @@ If this card leaves the field, return it to the bottom of the Deck. \
 """
 strings = []
 
-[palladium-guardian-shada]
+[palladium-paladin-gaia]
 id = 900000112
+set = "palladium"
+name = "Palladium Paladin Gaia"
+type = "monster effect"
+attribute = "light"
+race = "warrior"
+level = 7
+atk = 2300
+def = 2100
+effect = """\
+If you control no monsters, or your opponent controls a monster with 2000 or more ATK, \
+    you can Special Summon this card (from your hand). \
+    You can only Special Summon "{CARD_NAME}" once per turn this way. \
+Once per battle, if this card battles an opponent's monster, before damage calculation (Quick Effect): \
+    You can change the battle position of that opponent's monster. \
+When you Ritual or Fusion Summon a "Palladium" monster, \
+    you can banish this card from your GY as 1 of materials. \
+"""
+strings = ["Change battle position of battling monster"]
+
+[palladium-guardian-shada]
+id = 900000113
 set = "palladium guardian"
 name = "Palladium Guardian Shada"
 type = "monster effect"
@@ -325,7 +346,7 @@ At the end of the Damage Step, if this card battled an opponent's monster, \
 strings = []
 
 [palladium-gardna-karim]
-id = 900000113
+id = 900000114
 set = "palladium"
 name = "Palladium Gardna Karim"
 type = "monster effect"
@@ -344,7 +365,7 @@ If this Defense Position card is attacked, it loses 800 DEF. \
 strings = []
 
 [palladium-maiden-isis]
-id = 900000114
+id = 900000115
 set = "palladium"
 name = "Palladium Maiden Isis"
 type = "monster effect"

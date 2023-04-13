@@ -1,4 +1,4 @@
--- Serect Palladium Oracle Hasan
+-- Palladium Protector Hasan
 Duel.LoadScript("util.lua")
 local s, id = GetID()
 
