@@ -282,7 +282,8 @@ type = "spell quick-play"
 effect = """\
 (This card's name is always treated as "Divine Evolution".)
 The activation of this card, or its effects, cannot be negated, nor can its effects be negated. \
-All face-up monsters with Divine Hierarchy you control that not affected by "{CARD_NAME}" gain these effects, ignoring card effects;
+Choose 1 face-up monster with Divine Hierarchy you control, except a monster(s) already affected by "{CARD_NAME}", \
+it gain these effects, ignoring card effects;
 ● Gain 1000 ATK/DEF.
 ● Divine Hierarchy is increased by 1.
 ● Unaffected by card effects that prevent it from attacking, also its attacks cannot be negated.
