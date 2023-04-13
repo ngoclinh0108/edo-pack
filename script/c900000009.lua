@@ -60,7 +60,7 @@ function s.initial_effect(c)
     -- leaving the field
     local e4 = Effect.CreateEffect(c)
     e4:SetCategory(CATEGORY_DESTROY)
-    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_TRIGGER_F)
+    e4:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e4:SetProperty(EFFECT_FLAG_CANNOT_NEGATE_ACTIV_EFF)
     e4:SetCode(EVENT_LEAVE_FIELD)
     e4:SetCondition(s.e4con)
@@ -190,16 +190,9 @@ function s.e4con(e, tp, eg, ep, ev, re, r, rp)
     return c:IsPreviousPosition(POS_FACEUP) and not c:IsLocation(LOCATION_DECK)
 end
 
-function s.e4tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return true end
-
-    local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
-    Duel.SetOperationInfo(0, CATEGORY_DESTROY, g, #g, 0, 0)
-end
-
 function s.e4op(e, tp, eg, ep, ev, re, r, rp)
     local g = Duel.GetMatchingGroup(aux.TRUE, tp, LOCATION_MZONE, 0, nil)
-    Duel.Destroy(g, REASON_EFFECT)
+    Duel.Destroy(g, REASON_EFFECT + REASON_RULE)
 end
 
 function s.e5filter(c, e, tp) return c:IsOriginalRace(RACE_DIVINE) and c:IsCanBeSpecialSummoned(e, 0, tp, true, false) end

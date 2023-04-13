@@ -249,7 +249,7 @@ Original Divine-Beast monster in your GY cannot be banished, \
 During your Draw Phase, before you draw: You can give up your normal draw this turn, \
     and if you do, add 1 "The True Name" from your Deck or GY to your hand, \
     then look at the top card of your Deck. \
-If this face-up card leaves the field: Destroy all monsters you control. \
+If this face-up card leaves the field, return all monster you control into the Deck, ignoring card effects. \
 You can only use the following effect of "{CARD_NAME}" once per turn. You can activate 1 of these effects;
 ● Special Summon 1 original Divine-Beast monster from your hand or GY, ignoring its Summoning conditions, \
     but if you Special Summoned from the GY, send that monster to the GY during the End Phase.

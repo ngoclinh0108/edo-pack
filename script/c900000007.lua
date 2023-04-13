@@ -29,7 +29,7 @@ function s.initial_effect(c)
     e2:SetOperation(s.e2op)
     c:RegisterEffect(e2)
 
-    -- eraser
+    -- erase field
     local e3 = Effect.CreateEffect(c)
     e3:SetCategory(CATEGORY_TOGRAVE)
     e3:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
