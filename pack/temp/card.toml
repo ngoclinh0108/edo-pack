@@ -18,27 +18,6 @@ If this card is sent to the GY: \
 """
 strings = ["Normal Summon without Tributing"]
 
-[palladium-kuriboh]
-id = 900001117
-set = "palladium kuriboh"
-name = "Palladium Kuriboh"
-type = "monster effect"
-attribute = "dark"
-race = "fiend"
-level = 1
-atk = 300
-def = 200
-effect = """\
-When you would take damage from a monster (by battle or effect): \
-    You can discard this card; You take no damage. \
-If this card on the field is destroyed and sent to the GY: \
-    For the rest of this turn, you take no battle damage. \
-If this card is sent from the hand or field to the GY: \
-    You can add 1 "Monster Reborn" from your Deck or GY to your hand. \
-    You can only use this effect of "{CARD_NAME}" once per turn. \
-"""
-strings = ["Affected by effect \"{CARD_NAME}\": take no battle damage"]
-
 [palladium-beast-gazelle]
 id = 900001118
 set = "palladium"
