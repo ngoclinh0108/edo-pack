@@ -38,25 +38,25 @@ WICKED_GOD_EFFECT = """\
 Cannot be Special Summoned. \
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated. \
-Your opponent cannot Tribute or use it as material for an Summon. \
-Control of it cannot switch. \
+Its effect activations and its activated effects cannot be negated. \
+Control of this face-up card cannot switch. \
+Your opponent cannot Tribute it, or use it as material for an Summon. \
 Battle position cannot be changed by card effects. \
 Cannot be destroyed by battle with a monster with lower Divine Hierarchy, \
-    you take no damage from that battle. \
+    also you take no damage from that battle. \
 Unaffected by other card effects that would make it leave the field, \
     except effects of monsters with higher Divine Hierarchy. \
 Other card effects are only applied on it for 1 turn, \
-    except effects of cards that mentions it.\
+    except effects of cards that mentions it. \
+The above effects cannot be negated.\
 """
 
 WICKED_GOD_HIERARCHY_1 = """\
 (This card's base Divine Hierarchy is 1, and is always treated as "{0}".)
-{WICKED_GOD_EFFECT} \
-The above effects cannot be negated.\
+{WICKED_GOD_EFFECT}\
 """
 
 WICKED_GOD_HIERARCHY_2 = """\
 (This card's base Divine Hierarchy is 2, and is always treated as "{0}".)
-{WICKED_GOD_EFFECT} \
-This card's effects cannot be negated.\
+{WICKED_GOD_EFFECT}\
 """
