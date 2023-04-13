@@ -16,8 +16,8 @@ function s.initial_effect(c)
         flag_id = id + 100000,
         event_code = EVENT_SPSUMMON_SUCCESS,
         filter = function(c, sc)
-            return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner() and c:IsPreviousLocation(LOCATION_GRAVE) and
-                       c:IsControler(c:GetOwner()) and c:IsPosition(POS_FACEUP_ATTACK)
+            return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner() and c:IsPreviousLocation(LOCATION_GRAVE) and c:IsControler(c:GetOwner()) and
+                       c:IsPosition(POS_FACEUP_ATTACK)
         end,
         custom_op = function(e, tp, mc)
             local c = e:GetHandler()
@@ -93,7 +93,7 @@ function s.initial_effect(c)
     -- immune & indes & no battle damage
     local e2 = Effect.CreateEffect(c)
     e2:SetType(EFFECT_TYPE_SINGLE)
-    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE)
+    e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e2:SetCode(EFFECT_IMMUNE_EFFECT)
     e2:SetRange(LOCATION_MZONE)
     e2:SetValue(function(e, te)
@@ -156,9 +156,7 @@ function s.dmsfilter(c, tp)
     return c:IsReason(REASON_EFFECT) and re and re:GetHandler() == c and c:IsControler(tp) and c:IsFaceup() and c:IsCode(CARD_RA)
 end
 
-function s.e4con(e, tp, eg, ep, ev, re, r, rp)
-    return e:GetHandler():IsAttackPos() and Duel.GetCurrentPhase() < PHASE_END and not Duel.GetAttacker()
-end
+function s.e4con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsAttackPos() and Duel.GetCurrentPhase() < PHASE_END and not Duel.GetAttacker() end
 
 function s.e4cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
@@ -205,8 +203,7 @@ function s.e5op(e, tp, eg, ep, ev, re, r, rp)
     local c = e:GetHandler()
     Duel.HintSelection(Group.FromCards(c))
 
-    local tc = Dimension.Zones(c:GetOwner()):Filter(function(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end, nil)
-        :GetFirst()
+    local tc = Dimension.Zones(c:GetOwner()):Filter(function(c) return c:IsCode(10000080) and c:IsType(Dimension.TYPE) end, nil):GetFirst()
 
     if tc then
         local divine_evolution = Divine.IsDivineEvolution(c)
