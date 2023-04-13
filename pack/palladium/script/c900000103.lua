@@ -142,10 +142,10 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
             Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
         end
     elseif op == 4 then
-        local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_HAND, nil, tp, POS_FACEDOWN)
+        local g = Duel.GetMatchingGroup(Card.IsAbleToRemove, tp, 0, LOCATION_HAND, nil, tp)
         if #g > 0 then
             g = g:RandomSelect(tp, 1)
-            Duel.Remove(g, POS_FACEDOWN, REASON_EFFECT)
+            Duel.Remove(g, POS_FACEUP, REASON_EFFECT)
         end
     end
 end
