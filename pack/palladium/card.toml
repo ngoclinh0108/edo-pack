@@ -358,14 +358,15 @@ def = 2600
 effect = """\
 If this card is Normal or Flip Summoned, change it to Defense Position. \
     This effect cannot be negated. \
-When your opponent activates a card or effect \
+If this Defense Position card is attacked, it loses 800 DEF. \
+You can only use 1 of these effects of "{CARD_NAME}" per turn, and only once that turn.
+● When another "Palladium" monster you control is targeted for an attack: \
+    You can change the attack target to this card, and perform damage calculation.
+● When your opponent activates a card or effect \
     that targets this card or "Palladium" card you control (Quick Effect): \
-    You can make this card loses exactly 800 DEF and that effect is negated. \
-When another "Palladium" monster you control is targeted for an attack: \
-    You can change the attack target to this card.
-You can only use this effect of "{CARD_NAME}" once per turn. \
+    You can make this card loses exactly 800 DEF and that effect is negated.
 """
-strings = []
+strings = ["Change attack target to this card"]
 
 [palladium-maiden-isis]
 id = 900000115
