@@ -108,19 +108,32 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     Duel.RegisterEffect(ec1, tp)
 end
 
-function s.e3filter(c) return c:IsCode(CARD_MONSTER_REBORN) and c:IsAbleToHand() end
-
 function s.e3con(e, tp, eg, ep, ev, re, r, rp) return e:GetHandler():IsPreviousLocation(LOCATION_HAND + LOCATION_ONFIELD) end
 
 function s.e3tg(e, tp, eg, ep, ev, re, r, rp, chk)
-    if chk == 0 then return Duel.IsExistingMatchingCard(s.e3filter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) end
-
-    Duel.SetOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
+    if chk == 0 then return true end
+    Duel.SetPossibleOperationInfo(0, CATEGORY_TOHAND, nil, 1, tp, LOCATION_DECK + LOCATION_GRAVE)
 end
 
 function s.e3op(e, tp, eg, ep, ev, re, r, rp)
-    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e3filter), tp,
-        LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
+    local c = e:GetHandler()
+    local ec1 = Effect.CreateEffect(c)
+    ec1:SetType(EFFECT_TYPE_FIELD + EFFECT_TYPE_CONTINUOUS)
+    ec1:SetCode(EVENT_PHASE + PHASE_END)
+    ec1:SetCountLimit(1)
+    ec1:SetCondition(s.e3thcon)
+    ec1:SetOperation(s.e3thop)
+    ec1:SetReset(RESET_PHASE + PHASE_END)
+    Duel.RegisterEffect(ec1, tp)
+end
+
+function s.e3thfilter(c) return c:IsCode(CARD_MONSTER_REBORN) and c:IsAbleToHand() end
+
+function s.e3thcon(e, tp, eg, ep, ev, re, r, rp) return Duel.IsExistingMatchingCard(s.e3thfilter, tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, nil) end
+
+function s.e3thop(e, tp, eg, ep, ev, re, r, rp)
+    Utility.HintCard(e)
+    local g = Utility.SelectMatchingCard(HINTMSG_ATOHAND, tp, aux.NecroValleyFilter(s.e3thfilter), tp, LOCATION_DECK + LOCATION_GRAVE, 0, 1, 1, nil)
     if #g > 0 then
         Duel.SendtoHand(g, nil, REASON_EFFECT)
         Duel.ConfirmCards(1 - tp, g)

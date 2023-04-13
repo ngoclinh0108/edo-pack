@@ -403,7 +403,7 @@ When you would take damage from a monster (by battle or effect): \
 If this card on the field is destroyed and sent to the GY: \
     For the rest of this turn, you take no battle damage. \
 If this card is sent from the hand or field to the GY: \
-    You can add 1 "Monster Reborn" from your Deck or GY to your hand. \
+    You can add 1 "Monster Reborn" from your Deck or GY to your hand during the End Phase of this turn. \
     You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = ["Affected by effect \"{CARD_NAME}\": take no battle damage"]
