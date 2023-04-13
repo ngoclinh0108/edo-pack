@@ -35,6 +35,7 @@ This card's effects cannot be negated.\
 """
 
 WICKED_GOD_EFFECT = """\
+(This card's base Divine Hierarchy is {0}, and is always treated as "{1}".)
 Cannot be Special Summoned. \
 Requires 3 Tributes to Normal Summon (cannot be Normal Set). \
 This card's Normal Summon cannot be negated. \
@@ -49,14 +50,4 @@ Unaffected by other card effects that would make it leave the field, \
 Other card effects are only applied on it for 1 turn, \
     except effects of cards that mentions it. \
 The above effects cannot be negated.\
-"""
-
-WICKED_GOD_HIERARCHY_1 = """\
-(This card's base Divine Hierarchy is 1, and is always treated as "{0}".)
-{WICKED_GOD_EFFECT}\
-"""
-
-WICKED_GOD_HIERARCHY_2 = """\
-(This card's base Divine Hierarchy is 2, and is always treated as "{0}".)
-{WICKED_GOD_EFFECT}\
 """

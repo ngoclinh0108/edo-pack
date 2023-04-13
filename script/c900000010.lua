@@ -63,31 +63,14 @@ function s.e1op(e, tp, eg, ep, ev, re, r, rp)
         ec1b:SetCode(EFFECT_UPDATE_DEFENSE)
         tc:RegisterEffect(ec1b)
 
-        -- prevent negation
+        -- unstoppable attack
         local ec2 = Effect.CreateEffect(c)
-        ec2:SetType(EFFECT_TYPE_FIELD)
-        ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-        ec2:SetCode(EFFECT_CANNOT_INACTIVATE)
+        ec2:SetType(EFFECT_TYPE_SINGLE)
+        ec2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SINGLE_RANGE)
+        ec2:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
         ec2:SetRange(LOCATION_MZONE)
-        ec2:SetTargetRange(1, 0)
-        ec2:SetValue(function(e, ct)
-            local te = Duel.GetChainInfo(ct, CHAININFO_TRIGGERING_EFFECT)
-            return te:GetHandler() == e:GetHandler()
-        end)
         ec2:SetReset(RESET_EVENT + RESETS_STANDARD)
         tc:RegisterEffect(ec2)
-        local ec2b = ec2:Clone()
-        ec2b:SetCode(EFFECT_CANNOT_DISEFFECT)
-        tc:RegisterEffect(ec2b)
-
-        -- unstoppable attack
-        local ec3 = Effect.CreateEffect(c)
-        ec3:SetType(EFFECT_TYPE_SINGLE)
-        ec3:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE + EFFECT_FLAG_SINGLE_RANGE)
-        ec3:SetCode(EFFECT_UNSTOPPABLE_ATTACK)
-        ec3:SetRange(LOCATION_MZONE)
-        ec3:SetReset(RESET_EVENT + RESETS_STANDARD)
-        tc:RegisterEffect(ec3)
         Utility.ResetListEffect(tc, nil, EFFECT_CANNOT_ATTACK)
     end
 end
