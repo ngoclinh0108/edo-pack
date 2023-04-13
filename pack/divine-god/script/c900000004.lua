@@ -46,7 +46,7 @@ function s.initial_effect(c)
     -- cannot be Tributed, or be used as a material
     local e1 = Effect.CreateEffect(c)
     e1:SetType(EFFECT_TYPE_SINGLE)
-    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e1:SetCode(EFFECT_UNRELEASABLE_SUM)
     e1:SetRange(LOCATION_MZONE)
     e1:SetValue(1)
@@ -74,13 +74,14 @@ function s.initial_effect(c)
     -- cannot attack
     local e3 = Effect.CreateEffect(c)
     e3:SetType(EFFECT_TYPE_SINGLE)
+    e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e3:SetCode(EFFECT_CANNOT_ATTACK)
     c:RegisterEffect(e3)
 
     -- untargetable
     local e4 = Effect.CreateEffect(c)
     e4:SetType(EFFECT_TYPE_SINGLE)
-    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+    e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_UNCOPYABLE)
     e4:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
     e4:SetRange(LOCATION_MZONE)
     e4:SetValue(1)
@@ -93,7 +94,8 @@ function s.initial_effect(c)
     local e5 = Effect.CreateEffect(c)
     e5:SetDescription(aux.Stringid(id, 0))
     e5:SetType(EFFECT_TYPE_QUICK_O)
-    e5:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE)
+    e5:SetProperty(EFFECT_FLAG_BOTH_SIDE + EFFECT_FLAG_CANNOT_DISABLE + EFFECT_FLAG_CANNOT_NEGATE + EFFECT_FLAG_CANNOT_INACTIVATE +
+                       EFFECT_FLAG_UNCOPYABLE)
     e5:SetCode(EVENT_FREE_CHAIN)
     e5:SetRange(LOCATION_MZONE)
     e5:SetCountLimit(1)
@@ -104,9 +106,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e5)
 end
 
-function s.e5con(e, tp, eg, ep, ev, re, r, rp)
-    return Duel.GetTurnPlayer() == tp and Duel.GetTurnCount() ~= e:GetHandler():GetTurnID()
-end
+function s.e5con(e, tp, eg, ep, ev, re, r, rp) return Duel.GetTurnPlayer() == tp and Duel.GetTurnCount() ~= e:GetHandler():GetTurnID() end
 
 function s.e5cost(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
@@ -120,8 +120,7 @@ function s.e5tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local mc = c:GetMaterial():GetFirst()
     if chk == 0 then
-        return mc and Dimension.CanBeDimensionChanged(mc) and
-                   (c:GetControler() == tp or Duel.GetLocationCount(tp, LOCATION_MZONE) > 0)
+        return mc and Dimension.CanBeDimensionChanged(mc) and (c:GetControler() == tp or Duel.GetLocationCount(tp, LOCATION_MZONE) > 0)
     end
 end
 
