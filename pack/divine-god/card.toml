@@ -81,13 +81,12 @@ Once while this Normal Summoned card is face-up on the field: \
     any increase in LP is changed to increase it's ATK/DEF instead, \
     unaffected by card effects that prevent it from attacking, also its attacks cannot be negated. \
     You can also use this effect when Summon this card. \
-If your "De-Fusion" targets this Fusion Monster, apply these effect instead: \
-    The target loses its above effects, cannot activate its effects, \
+    If your "De-Fusion" targets this Fusion Monster, apply these effect instead: \
+    The target loses its above effects, cannot attack or activate its effects during this turn, \
     its ATK/DEF become 0, and if it do, its controller gains LP equal to that lost ATK". \
 Once per turn, when an attack is declared involving this card: \
     You can Tribute any number of other face-up monsters; \
     this card gains ATK equal to the Tributed monsters' combined ATK had on the field, until this turn. \
-    This card must be become Fusion Monster by its own effect to activate and resolve this effects. \
 """
 strings = [
     "De-fuse from \"The Winged Dragon of Ra\"",

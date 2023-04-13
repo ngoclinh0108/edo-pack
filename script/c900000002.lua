@@ -4,7 +4,7 @@ Duel.LoadScript("util_divine.lua")
 local s, id = GetID()
 
 function s.initial_effect(c)
-    Divine.EgyptianGod(s, c, 1, RACE_DRAGON)
+    Divine.EgyptianGod(s, c, 1)
 
     -- atk/def value
     local e1 = Effect.CreateEffect(c)
