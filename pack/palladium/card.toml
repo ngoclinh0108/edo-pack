@@ -356,11 +356,14 @@ level = 4
 atk = 100
 def = 2600
 effect = """\
+If this card is Normal or Flip Summoned, change it to Defense Position. \
+    This effect cannot be negated. \
 When your opponent activates a card or effect \
-    that targets this card (face-up or face-down) or "Palladium" card you control (Quick Effect): \
-    You can negate that effect, also change this card to face-up Defense Position, if able. \
-    You can only use this effect of "{CARD_NAME}" once per turn. \
-If this Defense Position card is attacked, it loses 800 DEF. \
+    that targets this card or "Palladium" card you control (Quick Effect): \
+    You can make this card loses exactly 800 DEF and that effect is negated. \
+When another "Palladium" monster you control is targeted for an attack: \
+    You can change the attack target to this card.
+You can only use this effect of "{CARD_NAME}" once per turn. \
 """
 strings = []
 

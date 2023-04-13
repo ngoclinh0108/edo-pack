@@ -77,14 +77,14 @@ end
 function s.e2tg(e, tp, eg, ep, ev, re, r, rp, chk, chkc)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
-    if chk == 0 then return c:IsPosition(POS_FACEUP_ATTACK) and c:IsCanChangePosition() and bc:IsAbleToHand() end
+    if chk == 0 then return c:IsAttackPos() and c:IsCanChangePosition() and bc:IsAbleToHand() end
     Duel.SetOperationInfo(0, CATEGORY_TOHAND, bc, 1, 0, 0)
 end
 
 function s.e2op(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
     local bc = c:GetBattleTarget()
-    if c:IsFaceup() and c:IsRelateToBattle() and bc:IsFaceup() and bc:IsRelateToBattle() and c:IsPosition(POS_FACEUP_ATTACK) and
+    if c:IsFaceup() and c:IsRelateToBattle() and bc:IsFaceup() and bc:IsRelateToBattle() and c:IsAttackPos() and
         Duel.ChangePosition(c, POS_FACEUP_DEFENSE) > 0 then
         Duel.SendtoHand(bc, nil, REASON_EFFECT)
         local ec1 = Effect.CreateEffect(c)

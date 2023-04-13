@@ -17,7 +17,7 @@ function s.initial_effect(c)
         event_code = EVENT_SPSUMMON_SUCCESS,
         filter = function(c, sc)
             return c:IsCode(CARD_RA) and c:GetOwner() == sc:GetOwner() and c:IsPreviousLocation(LOCATION_GRAVE) and c:IsControler(c:GetOwner()) and
-                       c:IsPosition(POS_FACEUP_ATTACK)
+                       c:IsAttackPos()
         end,
         custom_op = function(e, tp, mc)
             local c = e:GetHandler()

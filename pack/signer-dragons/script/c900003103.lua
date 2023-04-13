@@ -40,7 +40,7 @@ function s.initial_effect(c)
     c:RegisterEffect(e2)
 end
 
-function s.e1filter(c, atk) return c:IsPosition(POS_FACEUP_ATTACK) and c:IsAttackBelow(atk) end
+function s.e1filter(c, atk) return c:IsAttackPos() and c:IsAttackBelow(atk) end
 
 function s.e1tg(e, tp, eg, ep, ev, re, r, rp, chk)
     local c = e:GetHandler()
