@@ -36,7 +36,6 @@ function s.initial_effect(c)
     local e2c = e2:Clone()
     e2c:SetCode(EVENT_CONTROL_CHANGED)
     c:RegisterEffect(e2c)
-    Utility.AvatarInfinity(s, c)
 end
 
 function s.e2filter(c, e, tp)
@@ -61,7 +60,6 @@ function s.e2op(e, tp, eg, ep, ev, re, r, rp)
     for tc in aux.Next(tg) do
         local preatk = tc:GetAttack()
         local predef = tc:GetDefense()
-        -- Utility.GainInfinityAtk(tc, RESET_EVENT + RESETS_STANDARD)
         local ec1 = Effect.CreateEffect(c)
         ec1:SetType(EFFECT_TYPE_SINGLE)
         ec1:SetCode(tc:IsAttackPos() and EFFECT_UPDATE_ATTACK or EFFECT_UPDATE_DEFENSE)

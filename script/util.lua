@@ -157,8 +157,10 @@ function Utility.IsOwnAny(f, player, ...)
     return g:IsExists(function(c) return c:GetOwner() == player end, 1, nil)
 end
 
-function Utility.GainInfinityAtk(c, reset)
-    local e1 = Effect.CreateEffect(c)
+function Utility.GainInfinityAtk(c, effect_handler, reset)
+    if not effect_handler then effect_handler = c end
+
+    local e1 = Effect.CreateEffect(effect_handler)
     e1:SetType(EFFECT_TYPE_SINGLE)
     e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
     e1:SetRange(LOCATION_MZONE)
@@ -180,7 +182,7 @@ function Utility.GainInfinityAtk(c, reset)
     if reset then e1:SetReset(reset) end
     c:RegisterEffect(e1)
 
-    local e2 = Effect.CreateEffect(c)
+    local e2 = Effect.CreateEffect(effect_handler)
     e2:SetType(EFFECT_TYPE_SINGLE + EFFECT_TYPE_CONTINUOUS)
     e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
     e2:SetCode(EVENT_PRE_BATTLE_DAMAGE)
